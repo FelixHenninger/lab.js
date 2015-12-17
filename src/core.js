@@ -102,6 +102,8 @@ export class BaseElement extends EventHandler {
   }
 
   // Data collection --------------------------------------
+  // (the commit method is called automatically if the
+  // datacommit option is true, which it is by default)
   commit() {
     // If a data store is defined
     if (this.datastore) {
