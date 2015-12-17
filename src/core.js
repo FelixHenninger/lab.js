@@ -1,5 +1,5 @@
 // Generic building block for experiment
-export class Element extends EventHandler {
+export class BaseElement extends EventHandler {
   constructor(options={}) {
     super(options)
 
@@ -125,7 +125,7 @@ export class Element extends EventHandler {
 // Simple elements ----------------------------------------
 // A DummyElement does nothing and ends
 // immediately as soon as it is called
-export class DummyElement extends Element {
+export class DummyElement extends BaseElement {
   constructor(options={}) {
     options.timeout = options.timeout || 0;
     super(options)
@@ -135,7 +135,7 @@ export class DummyElement extends Element {
 // Sequences and loops ------------------------------------
 // A sequence combines an array of other
 // elements and runs them sequentially
-export class Sequence extends Element {
+export class Sequence extends BaseElement {
   constructor(content, options={}) {
     super(options)
 
@@ -264,7 +264,7 @@ export class Loop extends Sequence {
 
 // Full-featured elements ---------------------------------
 // View elements display HTML when run
-export class HTMLScreen extends Element {
+export class HTMLScreen extends BaseElement {
   constructor(content, options={}) {
     super(options)
     this.content = content
