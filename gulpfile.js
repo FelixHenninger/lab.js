@@ -13,12 +13,12 @@ const banner = [
 gulp.task('transpile', function() {
   return gulp.src(['src/base.js', 'src/core.js', 'src/data.js'])
   	.pipe(sourcemaps.init())
-    .pipe(concat('jslab.js'))
+    .pipe(concat('lab.js'))
     .pipe(babel({
       comments: false,
       sourceMaps: true,
       moduleIds: true,
-      moduleId: 'jslab'
+      moduleId: 'lab.js'
     }))
     .pipe(header(banner))
   	.pipe(sourcemaps.write('.'))
