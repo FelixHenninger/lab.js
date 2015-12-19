@@ -124,6 +124,12 @@ export class BaseElement extends EventHandler {
 
 }
 
+// Default options ----------------------------------------
+export let hand_me_downs = [
+  'datastore',
+  'el'
+]
+
 // Simple elements ----------------------------------------
 // A DummyElement does nothing and ends
 // immediately as soon as it is called
@@ -155,10 +161,7 @@ export class Sequence extends BaseElement {
 
     // Attributes to pass on to nested items
     // (as names)
-    this.hand_me_downs = options.hand_me_downs || [
-      'datastore',
-      'el'
-    ]
+    this.hand_me_downs = options.hand_me_downs || hand_me_downs
   }
 
   prepare() {
