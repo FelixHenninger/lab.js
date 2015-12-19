@@ -205,19 +205,20 @@ class EventHandler {
 
   // DOM event handling -----------
   addDOMListeners() {
-    // TODO: Test whether this works
+    // If no containing element is specified, search
+    // for the specified element in the entire document
     let parent = this.el || document
 
     // If DOM event handlers are specified,
     // hook up the associated event handlers
     if (this.events) {
+      
       // For each of the specified events and their
       // respective handlers ...
-
       Object.keys(this.events).forEach(
         (specifier) => {
           // ... loop over all elements matching the
-          // selector, attaching a listener to each.
+          // selector, attaching a listener to each
 
           // Split event string into constituent components
           let [eventName, options, selector] = splitEventString(specifier)
@@ -230,14 +231,17 @@ class EventHandler {
 
           // Apply listeners
           if (selector !== '') {
-            // Apply listener to descendants
+            // If the event is constrainted to a certain element
+            // or a set of elements, search for these within the
+            // specified element, and add the handler to each
             for (let child of parent.querySelectorAll(selector)) {
               child.addEventListener(
                 eventName, handler
               )
             }
           } else {
-            // Apply listener to parent element
+            // If no selector is supplied, the listener is
+            // added to the document itself
             document.addEventListener(
               eventName, handler
             )
@@ -254,7 +258,8 @@ class EventHandler {
   }
 
   removeDOMListeners() {
-    // TODO: Test whether this works
+    // Search in the entire document
+    // if the element scope is not defined
     let parent = this.el || document
 
     Object.keys(this._domHandlers).forEach(
@@ -266,14 +271,14 @@ class EventHandler {
         let handler = this._domHandlers[specifier]
 
         if (selector !== '') {
-          // Remove listener from descendants
+          // Remove listener from specified elements
           for (let child of parent.querySelectorAll(selector)) {
             child.removeEventListener(
               eventName, handler
             )
           }
         } else {
-          // Remove listener from parent element
+          // Remove global listeners
           document.removeEventListener(
             eventName, handler
           )
