@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const sourcemaps = require('gulp-sourcemaps');
 const concat = require('gulp-concat');
 const babel = require('gulp-babel');
+const iife = require("gulp-iife");
 const header = require('gulp-header');
 
 const banner = [
@@ -19,6 +20,9 @@ gulp.task('transpile', function() {
       sourceMaps: true,
       moduleIds: true,
       moduleId: 'lab.js'
+    }))
+    .pipe(iife({
+      useStrict: false // already added by babel
     }))
     .pipe(header(banner))
   	.pipe(sourcemaps.write('.'))
