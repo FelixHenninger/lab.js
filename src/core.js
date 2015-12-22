@@ -16,6 +16,11 @@ export class BaseElement extends EventHandler {
     // Setup responses
     this.responses = options.responses || {}
 
+    // Setup data handling
+    this.data = options.data || {}
+    this.datastore = options.datastore || null
+    this.datacommit = options.datacommit || null
+
     // Set a timeout, if a useful value is provided
     // (this somewhat convoluted query is necessary
     // because a zero value evaluates to false in JS)
@@ -23,12 +28,17 @@ export class BaseElement extends EventHandler {
       options.timeout : null
 
     if (this.timeout !== null) {
+      // By default, the timeout is not met
+      this.data.timed_out = false
       // Add a timeout to end the element
       // automatically after the specified
       // duration.
       this.on('run', () => {
-        window.setTimeout(
-          () => this.end(),
+        this.timeoutTimer = window.setTimeout(
+          () => {
+            this.data.timed_out = true
+            this.end()
+          },
           this.timeout
         )
       })
@@ -38,11 +48,6 @@ export class BaseElement extends EventHandler {
     // when the element is run
     this.on('before:run', () => console.group(this.element_type))
     this.on('after:end', () => console.groupEnd())
-
-    // Setup data handling
-    this.data = options.data || {}
-    this.datastore = options.datastore || null
-    this.datacommit = options.datacommit || null
   }
 
   // Actions ----------------------------------------------
@@ -91,6 +96,11 @@ export class BaseElement extends EventHandler {
   end() {
     // Note the time
     this.data.time_end = performance.now()
+
+    // Cancel the timeout timer
+    if (this.timeout !== null) {
+      window.clearTimeout(this.timeoutTimer)
+    }
 
     // Complete an element's run and cleanup
     this.triggerMethod('end')
