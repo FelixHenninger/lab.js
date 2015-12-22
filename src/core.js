@@ -135,6 +135,7 @@ export class BaseElement extends EventHandler {
 }
 
 // Default options ----------------------------------------
+// Attributes to pass on to nested items (as names)
 export let hand_me_downs = [
   'datastore',
   'el'
@@ -169,8 +170,8 @@ export class Sequence extends BaseElement {
     // Shuffle items, if so desired
     this.shuffle = options.shuffle || false
 
-    // Attributes to pass on to nested items
-    // (as names)
+    // Use default hand-me-downs
+    // unless directed otherwise
     this.hand_me_downs = options.hand_me_downs || hand_me_downs
   }
 
@@ -286,6 +287,7 @@ export class HTMLScreen extends BaseElement {
   }
   run() {
     super.run()
+    // Insert specified content into element
     this.el.innerHTML = this.content
   }
 }

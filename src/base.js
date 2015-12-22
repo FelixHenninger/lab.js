@@ -212,7 +212,6 @@ class EventHandler {
     // If DOM event handlers are specified,
     // hook up the associated event handlers
     if (this.events) {
-      
       // For each of the specified events and their
       // respective handlers ...
       Object.keys(this.events).forEach(
