@@ -3,7 +3,7 @@
   "description": "Building blocks for web-based behavioral experiments",
   "version": "2015b.1",
   "author": "Felix Henninger <mailbox@felixhenninger.com>",
-  "dependencies": {
+  "devDependencies": {
     "gulp": ">=3.9.0",
     "babel": ">=5.8.0",
     "gulp-header": ">=1.7.1",
