@@ -22,7 +22,9 @@ gulp.task('transpile', function() {
       moduleId: 'lab.js'
     }))
     .pipe(iife({
-      useStrict: false // already added by babel
+      useStrict: false, // already added by babel
+      params: ['exports'],
+      args: ["typeof exports === 'undefined' ? this['lab'] = {} : exports"]
     }))
     .pipe(header(banner))
   	.pipe(sourcemaps.write('.'))
