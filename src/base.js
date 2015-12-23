@@ -1,4 +1,5 @@
-// JQuery-Emulation
+
+// JQuery emulation
 let domSelect = function(selector, parent=document) {
   // If the selection occurs by id,
   // use getElementById, or querySelectorAll otherwise
