@@ -1,3 +1,6 @@
+// Version
+export const version = '2015b.1'
+
 // Generic building block for experiment
 export class BaseElement extends EventHandler {
   constructor(options={}) {
