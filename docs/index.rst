@@ -1,8 +1,13 @@
+
 Welcome to the **lab.js** documentation!
 ========================================
 
 About
 -----
+
+.. image:: ci/flask_s.png
+    :align: right
+
 **lab.js is a toolkit of blocks for constructing client-side online experiments
 in Javascript.** Its goal is to provide an intuitive and approachable means of
 proramming experiments for researchers familiar with ``HTML`` and ``CSS``,
