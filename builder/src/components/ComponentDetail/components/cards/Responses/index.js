@@ -9,11 +9,13 @@ const gridCell = (cellData, rowIndex, colIndex, colName) => {
   if (colIndex === 1) {
     return <Control.select
       model={ `.rows[${ rowIndex }][${ colIndex }]` }
-      className="form-control"
+      className="form-control custom-select"
       style={{
         fontFamily: 'Fira Mono',
+        color: cellData === '' ? '#999' : 'inherit',
       }}
     >
+      <option value="">undefined</option>
       <option value="keypress">keypress</option>
       <option value="click">click</option>
     </Control.select>
