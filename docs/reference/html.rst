@@ -1,12 +1,17 @@
+HTML-based displays
+===================
+
+The following elements use ``HTML`` for showing content.
+
 HTMLScreen
-==========
+----------
 
 The ``HTMLScreen`` is an element of the experiment that changes the content
 of an element on the page when it is run. Otherwise, it behaves exactly as a
 ``BaseElement`` does.
 
 Usage
------
+^^^^^
 
 When a ``HTMLScreen`` is constructed, it needs two options. The first is the
 *content*, which is the string of text inserted into the HTML document. It can
@@ -23,8 +28,12 @@ could be inserted into a document as follows::
   screen.prepare()
   screen.run()
 
+When this code is run, a single screen is shown, that is, the content string
+supplied is inserted into the the element specified in the options. In this
+case, the element with the id 'experiment' is used to display the content.
+
 Options
--------
+^^^^^^^
 
 The options available for an ``HTMLScreen`` are identical to those of the
 ``BaseElement``. For example, one might capture responses as in the following

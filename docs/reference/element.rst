@@ -1,5 +1,5 @@
-BaseElement
-===========
+Elements
+========
 
 The ``BaseElement`` class is the most basic class provided by lab.js . It is the
 foundation for all other components, which extend and slightly modify this

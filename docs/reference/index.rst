@@ -8,5 +8,6 @@ Keep this under your pillow!
    :maxdepth: 2
 
    conceptual.rst
-   BaseElement.rst
-   HTMLScreen.rst
+   element.rst
+   flow.rst
+   html.rst
