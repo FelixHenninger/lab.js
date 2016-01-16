@@ -104,10 +104,12 @@ let wrapHandler = function(handler, eventName, options=null, context=null) {
 // allows for custom events on an object, and handles
 // DOM event binding and unbinding.
 class EventHandler {
-  constructor() {
+  constructor(options={}) {
     this._callbacks = {}
     this._domHandlers = {}
     this.events = {}
+
+    this.debug = options.debug || false
 
     this.on('run', this.addDOMListeners)
     this.on('end', this.removeDOMListeners)
@@ -168,12 +170,14 @@ class EventHandler {
   }
 
   triggerMethod(event, ...args) {
-    // Tell the world what we're up to
-    console.info(
-      `Event %c${ event }%c → arguments [${ args }]`,
-      'font-weight: bold', // Event name
-      'font-weight: normal; opacity: 0.5' // Remaining text
-    )
+    if (this.debug) {
+      // Tell the world what we're up to
+      console.info(
+        `Event %c${ event }%c → arguments [${ args }]`,
+        'font-weight: bold', // Event name
+        'font-weight: normal; opacity: 0.5' // Remaining text
+      )
+    }
 
     // Regex to split the event name by colons
     let splitter = /(^|:)(\w)/gi

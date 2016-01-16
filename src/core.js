@@ -49,8 +49,10 @@ export class BaseElement extends EventHandler {
 
     // Setup console output grouping
     // when the element is run
-    this.on('before:run', () => console.group(this.element_type))
-    this.on('after:end', () => console.groupEnd())
+    if (this.debug) {
+      this.on('before:run', () => console.group(this.element_type))
+      this.on('after:end', () => console.groupEnd())
+    }
   }
 
   // Actions ----------------------------------------------
@@ -140,6 +142,7 @@ export class BaseElement extends EventHandler {
 // Default options ----------------------------------------
 // Attributes to pass on to nested items (as names)
 export let hand_me_downs = [
+  'debug',
   'datastore',
   'el'
 ]
