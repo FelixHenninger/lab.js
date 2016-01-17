@@ -1,7 +1,7 @@
 {
   "name": "lab.js",
   "description": "Building blocks for web-based behavioral experiments",
-  "version": "2015b.1",
+  "version": "2015.1.0",
   "author": "Felix Henninger <mailbox@felixhenninger.com>",
   "devDependencies": {
     "gulp": ">=3.9.0",
