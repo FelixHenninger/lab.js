@@ -55,6 +55,28 @@ export class DataStore {
     return keys
   }
 
+  // Extract a single column for the data,
+  // also filtering by row title, if desired
+  extract(column, title_re=RegExp('.*')) {
+    // If a string is provided, assume that
+    // the user is performing an exact search.
+    // Convert the string into the corresponding
+    // regular expression.
+    if (typeof title_re === 'string') {
+      title_re = RegExp('^' + title_re + '$')
+    }
+
+    // Filter the data using the title column,
+    // and then extract the column in question
+    return this.data
+      .filter(
+        (e) => title_re.test(e.title)
+      )
+      .map(
+        (e) => e[column]
+      )
+  }
+
   // Export data in various formats -----------------------
   export_json() {
     // Export data a JSON string
