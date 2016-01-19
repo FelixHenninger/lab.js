@@ -18,6 +18,7 @@ export class BaseElement extends EventHandler {
 
     // Setup responses
     this.responses = options.responses || {}
+    this.response_correct = options.response_correct || null
 
     // Setup data handling
     this.data = options.data || {}
@@ -65,7 +66,17 @@ export class BaseElement extends EventHandler {
     Object.keys(this.responses).forEach(
       (eventString) => {
         this.events[eventString] = function(e) {
+          // Save response
           this.data.response = this.responses[eventString]
+
+          // Save ideal response and response veracity
+          if (this.response_correct !== null) {
+            this.data.response_correct = this.response_correct
+            this.data.correct =
+              this.data.response === this.response_correct
+          }
+
+          // End screen
           this.end()
         }
       }
