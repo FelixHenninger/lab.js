@@ -197,7 +197,7 @@ export class Sequence extends BaseElement {
       // For each child, use this element's id
       // and append a counter
       if (this.id == null) {
-        c.id = i
+        c.id = String(i)
       } else {
         c.id = [this.id, i].join('_')
       }
