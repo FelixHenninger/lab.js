@@ -56,21 +56,21 @@ export class DataStore {
   }
 
   // Extract a single column for the data,
-  // also filtering by row title, if desired
-  extract(column, title_re=RegExp('.*')) {
+  // also filtering by sender, if desired
+  extract(column, sender_re=RegExp('.*')) {
     // If a string is provided, assume that
     // the user is performing an exact search.
     // Convert the string into the corresponding
     // regular expression.
-    if (typeof title_re === 'string') {
-      title_re = RegExp('^' + title_re + '$')
+    if (typeof sender_re === 'string') {
+      sender_re = RegExp('^' + sender_re + '$')
     }
 
-    // Filter the data using the title column,
+    // Filter the data using the sender column,
     // and then extract the column in question
     return this.data
       .filter(
-        (e) => title_re.test(e.title)
+        (e) => sender_re.test(e.sender)
       )
       .map(
         (e) => e[column]
