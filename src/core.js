@@ -31,23 +31,6 @@ export class BaseElement extends EventHandler {
     this.timeout = options.timeout || options.timeout === 0 ?
       options.timeout : null
 
-    if (this.timeout !== null) {
-      // By default, the timeout is not met
-      this.data.timed_out = false
-      // Add a timeout to end the element
-      // automatically after the specified
-      // duration.
-      this.on('run', () => {
-        this.timeoutTimer = window.setTimeout(
-          () => {
-            this.data.timed_out = true
-            this.end()
-          },
-          this.timeout
-        )
-      })
-    }
-
     // Setup console output grouping
     // when the element is run
     if (this.debug) {
@@ -81,6 +64,24 @@ export class BaseElement extends EventHandler {
         }
       }
     )
+
+    // Prepare timeout
+    if (this.timeout !== null) {
+      // By default, the timeout is not met
+      this.data.timed_out = false
+      // Add a timeout to end the element
+      // automatically after the specified
+      // duration.
+      this.on('run', () => {
+        this.timeoutTimer = window.setTimeout(
+          () => {
+            this.data.timed_out = true
+            this.end()
+          },
+          this.timeout
+        )
+      })
+    }
 
     // Setup data storage
     // (unless it has been explicitly disabled)
