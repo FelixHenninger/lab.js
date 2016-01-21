@@ -60,7 +60,7 @@ export class BaseElement extends EventHandler {
           }
 
           // End screen
-          this.end()
+          this.end('response')
         }
       }
     )
@@ -75,8 +75,7 @@ export class BaseElement extends EventHandler {
       this.on('run', () => {
         this.timeoutTimer = window.setTimeout(
           () => {
-            this.data.timed_out = true
-            this.end()
+            this.end('timeout')
           },
           this.timeout
         )
@@ -110,9 +109,10 @@ export class BaseElement extends EventHandler {
     })
   }
 
-  end() {
-    // Note the time
+  end(reason=null) {
+    // Note the time of and reason for ending
     this.data.time_end = performance.now()
+    this.data.ended_on = reason
 
     // Cancel the timeout timer
     if (this.timeout !== null) {
@@ -234,7 +234,7 @@ export class Sequence extends BaseElement {
     this.step()
   }
 
-  end() {
+  end(reason) {
     // End prematurely, if necessary
     if (this.currentPosition !== this.content.length) {
       let currentElement = this.content[this.currentPosition]
@@ -243,9 +243,9 @@ export class Sequence extends BaseElement {
       // FIXME: This should only remove
       // the stepper function, but no others
       currentElement.off('after:end')
-      currentElement.end()
+      currentElement.end('aborted by sequence')
     }
-    super.end()
+    super.end(reason)
   }
 
   step(increment=+1, keep_going=true) {
@@ -272,7 +272,7 @@ export class Sequence extends BaseElement {
       this.currentElement.run()
     } else {
       this.currentElement = null
-      this.end()
+      this.end('complete')
     }
   }
 }
