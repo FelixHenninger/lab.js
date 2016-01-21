@@ -6,10 +6,19 @@
   "devDependencies": {
     "gulp": ">=3.9.0",
     "babel": ">=5.8.0",
+    "babel-eslint": ">=5.0.0-beta6",
     "gulp-header": ">=1.7.1",
     "gulp-sourcemaps": ">=1.6.0",
     "gulp-babel": ">=5.2.0",
     "gulp-concat": ">=2.6.0",
     "gulp-iife": "^0.2.4"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "env": {
+      "browser": true,
+      "es6": true,
+      "node": true
+    }
   }
 }
