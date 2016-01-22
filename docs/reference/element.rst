@@ -80,7 +80,7 @@ Options
   and these map onto the categories *left* and *right*, the response map would
   look as follows::
 
-    responses:  {
+    'responses':  {
       'keypress(s)': 'left',
       'keypress(l)': 'right'
     }
@@ -90,7 +90,7 @@ Options
   <http://www.w3.org/TR/DOM-Level-3-Events/>`_, so that any browser event may be
   caught. Additional (contrived) examples might be::
 
-    responses: {
+    'responses': {
       'keypress(s)': 'The s key was pressed',
       'click': 'A mouse click was recorded',
       'click button.option_1': 'Participant clicked on option 1'

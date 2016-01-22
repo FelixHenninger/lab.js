@@ -1,4 +1,4 @@
-Conceptual Overview
+Conceptual overview
 ===================
 
 The core idea of **lab.js** is that experiments can be broken down into
