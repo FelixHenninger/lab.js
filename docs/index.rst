@@ -26,14 +26,14 @@ experience. The structure of the library has been chosen to expose the features
 of the underlying Javascript programming language, and to be extensible using
 the same.
 
-**Thank you for checking out lab.js!** If you are new around here, you
-might want to go through the :ref:`tutorial` to get started. There are also
-plenty of :ref:`examples` if you are searching for code, or looking to extend
-an existing experiment. If you are interested in our approach, we have tried
-to summarize the :ref:`philosophy` we came up with post-hoc to justify why
-we did this in the first place. Of course, you are more than welcome to
-:ref:`contribute` if you see room for improvement -- help and suggestions are
-very much appreciated!
+**Thank you for checking out lab.js!** If you are new around here, you might
+want to go through the :ref:`tutorial <tutorial>` to get started. There are also
+plenty of :ref:`examples <examples>` if you are searching for code, or looking
+to extend an existing experiment. If you are interested in our approach, we have
+tried to summarize the :ref:`philosophy <philosophy>` we came up with post-hoc
+to justify why we did this in the first place. Of course, you are more than
+welcome to :ref:`contribute <contribute>` if you see room for improvement --
+help and suggestions are very much appreciated!
 
 Contributors
 ------------

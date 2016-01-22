@@ -3,6 +3,8 @@ HTML-based displays
 
 The following elements use ``HTML`` for showing content.
 
+.. _reference/html/HTMLScreen:
+
 HTMLScreen
 ----------
 
