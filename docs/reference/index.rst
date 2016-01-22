@@ -10,4 +10,5 @@ Keep this under your pillow!
    conceptual.rst
    element.rst
    flow.rst
+   data.rst
    html.rst
