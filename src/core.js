@@ -230,8 +230,9 @@ export class Sequence extends BaseElement {
   run() {
     // Run the sequence by stepping through the
     // content elements
-    super.run()
+    let promise = super.run()
     this.step()
+    return promise
   }
 
   end(reason) {
@@ -303,9 +304,12 @@ export class HTMLScreen extends BaseElement {
     super(options)
     this.content = content
   }
+
   run() {
-    super.run()
     // Insert specified content into element
     this.el.innerHTML = this.content
+
+    // Return promise from ancestor
+    return super.run()
   }
 }
