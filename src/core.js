@@ -4,6 +4,7 @@ export const version = '2015'
 // Generic building block for experiment
 export class BaseElement extends EventHandler {
   constructor(options={}) {
+    // Construct the EventHandler first
     super(options)
 
     // Setup a document node within which
@@ -298,7 +299,7 @@ export class Loop extends Sequence {
 }
 
 // Full-featured elements ---------------------------------
-// View elements display HTML when run
+// HTMLScreens display HTML when run
 export class HTMLScreen extends BaseElement {
   constructor(content, options={}) {
     super(options)
