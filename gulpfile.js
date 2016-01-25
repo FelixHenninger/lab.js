@@ -16,6 +16,7 @@ gulp.task('transpile', function() {
   	.pipe(sourcemaps.init())
     .pipe(concat('lab.js'))
     .pipe(babel({
+      presets: ['es2015'],
       comments: false,
       sourceMaps: true,
       moduleIds: true,
