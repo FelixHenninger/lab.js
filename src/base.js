@@ -1,3 +1,5 @@
+// Polyfill for iterating NodeLists
+NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
 
 // JQuery emulation
 let domSelect = function(selector, parent=document) {
