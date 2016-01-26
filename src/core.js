@@ -231,7 +231,7 @@ export class Sequence extends BaseElement {
   run() {
     // Run the sequence by stepping through the
     // content elements
-    let promise = super.run()
+    const promise = super.run()
     this.step()
     return promise
   }
@@ -239,7 +239,7 @@ export class Sequence extends BaseElement {
   end(reason) {
     // End prematurely, if necessary
     if (this.currentPosition !== this.content.length) {
-      let currentElement = this.content[this.currentPosition]
+      const currentElement = this.content[this.currentPosition]
 
       // Don't continue stepping through content
       // FIXME: This should only remove
@@ -354,10 +354,10 @@ export class FormScreen extends HTMLScreen {
 
   serialize() {
     // Search for forms within the element
-    let forms = domSelect('form', this.el)
+    const forms = domSelect('form', this.el)
 
     // Prepare an empty output object
-    let output = {}
+    const output = {}
 
     // Iterate over forms ...
     // (not that this slightly cumbersome detour

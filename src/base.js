@@ -2,10 +2,10 @@
 NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
 
 // JQuery emulation
-let domSelect = function(selector, parent=document) {
+const domSelect = function(selector, parent=document) {
   // If the selection occurs by id,
   // use getElementById, or querySelectorAll otherwise
-  let selectorType = selector.indexOf('#') === 0 ?
+  const selectorType = selector.indexOf('#') === 0 ?
     'getElementById' : 'querySelectorAll'
 
   // If we are using getElementById, remove
@@ -20,12 +20,12 @@ let domSelect = function(selector, parent=document) {
 };
 
 // Split an event specifier into event name, options and selector
-let splitEventString = function(eventString) {
+const splitEventString = function(eventString) {
   // Split the specifier ('click(0) div > button')
   // into selector ('div > button'), event type ('click')
   // and additional options ('0')
-  let re_handler_direct = /^(\w+)\s*([^()]*)$/
-  let re_handler_wrapped = /^(\w+)\(([\w,]+)\)\s*(.*)$/
+  const re_handler_direct = /^(\w+)\s*([^()]*)$/
+  const re_handler_wrapped = /^(\w+)\(([\w,]+)\)\s*(.*)$/
 
   let eventName = null
   let options = null
@@ -46,7 +46,7 @@ let splitEventString = function(eventString) {
 // Provide basic automatic wrapping for event handlers
 // based on simple options, e.g. automatically filter
 // events based on keyboard and mouse buttons.
-let wrapHandler = function(handler, eventName, options=null, context=null) {
+const wrapHandler = function(handler, eventName, options=null, context=null) {
   // Add context if desired
   if (context !== null) {
     handler = handler.bind(context)
@@ -63,7 +63,7 @@ let wrapHandler = function(handler, eventName, options=null, context=null) {
     switch (eventName) {
       case 'keypress':
         // Options filter defined keys
-        let keycodes_lookup = {
+        const keycodes_lookup = {
           'space': 32,
           'enter': 13,
           'tab': 19,
@@ -71,7 +71,7 @@ let wrapHandler = function(handler, eventName, options=null, context=null) {
         }
 
         // Look up keycode for each key
-        let keycodes = options.map(
+        const keycodes = options.map(
           key => keycodes_lookup[key] || key.charCodeAt(0)
         )
 
@@ -85,7 +85,7 @@ let wrapHandler = function(handler, eventName, options=null, context=null) {
 
       case 'click':
         // Filter clicks on a certain button
-        let buttons = options.map(
+        const buttons = options.map(
           button => parseInt(button)
         )
 
@@ -164,7 +164,7 @@ class EventHandler {
   // (though I do not catch as many special cases, probably to my peril)
   trigger(event, ...args) {
     // Trigger all callbacks for a specific event
-    let callbacks = this._callbacks['$' + event]
+    const callbacks = this._callbacks['$' + event]
     if (callbacks)
       callbacks.forEach(c => c.apply(this, args))
 
@@ -182,7 +182,7 @@ class EventHandler {
     }
 
     // Regex to split the event name by colons
-    let splitter = /(^|:)(\w)/gi
+    const splitter = /(^|:)(\w)/gi
 
     // Transform an event name by splitting it
     // and capitalizing the consitutent parts,
@@ -192,11 +192,11 @@ class EventHandler {
     function getEventName(match, prefix, eventName) {
       return eventName.toUpperCase()
     }
-    let methodName = 'on' + event.replace(splitter, getEventName)
+    const methodName = 'on' + event.replace(splitter, getEventName)
 
     // If there is a method called methodName,
     // run it and save the results
-    let method = this[methodName]
+    const method = this[methodName]
     let result
     if (_.isFunction(method)) {
       result = method.apply(this, args)
@@ -214,7 +214,7 @@ class EventHandler {
   addDOMListeners() {
     // If no containing element is specified, search
     // for the specified element in the entire document
-    let parent = this.el || document
+    const parent = this.el || document
 
     // If DOM event handlers are specified,
     // hook up the associated event handlers
@@ -227,11 +227,11 @@ class EventHandler {
           // selector, attaching a listener to each
 
           // Split event string into constituent components
-          let [eventName, options, selector] = splitEventString(specifier)
+          const [eventName, options, selector] = splitEventString(specifier)
 
           // Apply the wrapHandler function to the handler,
           // so that any additional filters etc. are added
-          let handler = wrapHandler(
+          const handler = wrapHandler(
             this.events[specifier], eventName, options, this
           )
 
@@ -266,15 +266,15 @@ class EventHandler {
   removeDOMListeners() {
     // Search in the entire document
     // if the element scope is not defined
-    let parent = this.el || document
+    const parent = this.el || document
 
     Object.keys(this._domHandlers).forEach(
       specifier => {
         // Split event string into constituent components
-        let [eventName, , selector] = splitEventString(specifier)
+        const [eventName, , selector] = splitEventString(specifier)
 
         // Retrieve handler
-        let handler = this._domHandlers[specifier]
+        const handler = this._domHandlers[specifier]
 
         if (selector !== '') {
           // Remove listener from specified elements
