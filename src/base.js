@@ -136,7 +136,7 @@ class EventHandler {
       // If a specific handler is given, search for
       // it and remove just this one handler
       this._callbacks['$' + event] =
-        this._callbacks['$' + event].filter((cb) => cb !== fn)
+        this._callbacks['$' + event].filter(cb => cb !== fn)
     }
     return this
   }
@@ -222,7 +222,7 @@ class EventHandler {
       // For each of the specified events and their
       // respective handlers ...
       Object.keys(this.events).forEach(
-        (specifier) => {
+        specifier => {
           // ... loop over all elements matching the
           // selector, attaching a listener to each
 
@@ -269,7 +269,7 @@ class EventHandler {
     let parent = this.el || document
 
     Object.keys(this._domHandlers).forEach(
-      (specifier) => {
+      specifier => {
         // Split event string into constituent components
         let [eventName, , selector] = splitEventString(specifier)
 

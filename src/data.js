@@ -35,7 +35,7 @@ export class DataStore {
   keys(leaders=['sender', 'sender_type', 'sender_id', 'timestamp']) {
     // Extract all keys from the data collected
     let keys = this.data.map(
-      (e) => Object.keys(e)
+      e => Object.keys(e)
       )
 
     // Flatten the nested array
@@ -70,10 +70,10 @@ export class DataStore {
     // and then extract the column in question
     return this.data
       .filter(
-        (e) => sender_re.test(e.sender)
+        e => sender_re.test(e.sender)
       )
       .map(
-        (e) => e[column]
+        e => e[column]
       )
   }
 
@@ -89,8 +89,8 @@ export class DataStore {
     let keys = this.keys()
 
     // Extract the data from each entry
-    let csv_rows = this.data.map((e) => {
-      let row_cells = keys.map((k) => {
+    let csv_rows = this.data.map(e => {
+      let row_cells = keys.map(k => {
         if (e.hasOwnProperty(k)) {
           return e[k]
         } else {

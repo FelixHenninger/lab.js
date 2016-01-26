@@ -48,7 +48,7 @@ export class BaseElement extends EventHandler {
 
     // Setup automatic event handling for responses
     Object.keys(this.responses).forEach(
-      (eventString) => {
+      eventString => {
         this.events[eventString] = function(e) {
           // Save response
           this.data.response = this.responses[eventString]
@@ -363,9 +363,9 @@ export class FormScreen extends HTMLScreen {
     // (not that this slightly cumbersome detour
     // is necessary because NodeLists, unlike arrays,
     // do not support the forDach method)
-    Array.prototype.forEach.call(forms, (form) => {
+    Array.prototype.forEach.call(forms, form => {
       // ... and elements within them
-      Array.prototype.forEach.call(form.elements, (element) => {
+      Array.prototype.forEach.call(form.elements, element => {
         // Handle the element differently depending
         // on the tag type
         switch (element.nodeName.toLowerCase()) {
@@ -400,8 +400,8 @@ export class FormScreen extends HTMLScreen {
                 // Again, working around limitations of NodeLists
                 output[element.name] =
                   Array.prototype.slice.call(element.options)
-                  .filter((option) => option.selected)
-                  .map((option) => option.value)
+                  .filter(option => option.selected)
+                  .map(option => option.value)
                 break
             }
             break
