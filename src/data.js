@@ -47,8 +47,8 @@ export class DataStore {
     keys.sort() // apparently need to be sorted again
 
     // Bring certain columns to the front
-    let leaders_present = _.intersection(leaders, keys)
-    let remaining_keys = _.difference(keys, leaders_present)
+    const leaders_present = _.intersection(leaders, keys)
+    const remaining_keys = _.difference(keys, leaders_present)
 
     keys = leaders_present.concat(remaining_keys)
 
@@ -86,11 +86,11 @@ export class DataStore {
   export_csv(separator=',') {
     // Export data as csv string
 
-    let keys = this.keys()
+    const keys = this.keys()
 
     // Extract the data from each entry
-    let csv_rows = this.data.map(e => {
-      let row_cells = keys.map(k => {
+    const csv_rows = this.data.map(e => {
+      const row_cells = keys.map(k => {
         if (e.hasOwnProperty(k)) {
           return e[k]
         } else {
@@ -120,7 +120,7 @@ export class DataStore {
     }
 
     // Convert the so encoded data to a blob object
-    let blob = new Blob(
+    const blob = new Blob(
       [text], {type: "octet/stream"}
     )
 
@@ -129,14 +129,14 @@ export class DataStore {
 
   // Download data in a given format ----------------------
   download(filetype='csv', filename='data.csv') {
-    let blob = this.export_blob(filetype)
+    const blob = this.export_blob(filetype)
 
     // Convert this blob, in turn, to a url
-    let url = window.URL.createObjectURL(blob)
+    const url = window.URL.createObjectURL(blob)
 
     // Create a link containing the url
     // just computed, and add it to the document
-    let a = document.createElement('a')
+    const a = document.createElement('a')
     a.style = 'display: none'
     a.href = url
     a.download = filename
