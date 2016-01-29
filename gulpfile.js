@@ -4,6 +4,7 @@ const concat = require('gulp-concat');
 const babel = require('gulp-babel');
 const iife = require("gulp-iife");
 const header = require('gulp-header');
+const strip_comments = require('gulp-strip-comments')
 
 const banner = [
   '// lab.js -- Building blocks for online experiments',
@@ -11,9 +12,21 @@ const banner = [
   '\n'
   ].join('\n');
 
-gulp.task('transpile', function() {
+const combine = function() {
   return gulp.src(['src/base.js', 'src/core.js', 'src/data.js'])
   	.pipe(sourcemaps.init())
+}
+
+gulp.task('bundle', function() {
+  return combine()
+    .pipe(concat('lab.es6.js'))
+    .pipe(strip_comments())
+    .pipe(header(banner))
+    .pipe(gulp.dest('dist'));
+})
+
+gulp.task('transpile', function() {
+  return combine()
     .pipe(concat('lab.js'))
     .pipe(babel({
       presets: ['es2015'],
@@ -33,7 +46,7 @@ gulp.task('transpile', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('src/*.js', ['transpile']);
+  gulp.watch('src/*.js', ['bundle', 'transpile']);
 });
 
-gulp.task('default', ['transpile', 'watch']);
+gulp.task('default', ['bundle', 'transpile', 'watch']);

@@ -9,6 +9,7 @@
     "babel-preset-es2015": ">=6.3.0",
     "babel-eslint": ">=5.0.0-beta6",
     "gulp-header": ">=1.7.1",
+    "gulp-strip-comments": ">=2.2.1",
     "gulp-sourcemaps": ">=1.6.0",
     "gulp-babel": ">=6.1.0",
     "gulp-concat": ">=2.6.0",
