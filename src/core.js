@@ -1,6 +1,14 @@
 // Version
 export const version = '2015'
 
+// Define status codes
+const status = Object.freeze({
+  initialized:  0,
+  prepared:     1,
+  running:      2,
+  done:         3
+})
+
 // Generic building block for experiment
 export class BaseElement extends EventHandler {
   constructor(options={}) {
@@ -16,6 +24,9 @@ export class BaseElement extends EventHandler {
     this.title = options.title || null
     this.element_type = this.constructor.name
     this.id = options.id || null
+
+    // Save element status
+    this.status = status.initialized
 
     // Setup responses
     this.responses = options.responses || {}
@@ -92,10 +103,16 @@ export class BaseElement extends EventHandler {
 
     // Trigger related methods
     this.triggerMethod('prepare')
+
+    // Update status
+    this.status = status.prepared
   }
 
   run() {
     this.triggerMethod('before:run')
+
+    // Update status
+    this.status = status.running
 
     // Note the time
     this.data.time_run = performance.now()
@@ -114,6 +131,9 @@ export class BaseElement extends EventHandler {
     // Note the time of and reason for ending
     this.data.time_end = performance.now()
     this.data.ended_on = reason
+
+    // Update status
+    this.status = status.done
 
     // Cancel the timeout timer
     if (this.timeout !== null) {
