@@ -191,6 +191,34 @@ export class DummyElement extends BaseElement {
 }
 
 // Sequences and loops ------------------------------------
+
+// Helper function to handle nested elements
+let prepare_nested = function(nested, parent) {
+  // Setup parent links on nested items
+  nested.forEach(c => c.parent = parent)
+
+  // Set ids on nested items
+  nested.forEach((c, i) => {
+    // For each child, use this element's id
+    // and append a counter
+    if (parent.id == null) {
+      c.id = String(i)
+    } else {
+      c.id = [parent.id, i].join('_')
+    }
+  })
+
+  // Pass on specified attributes
+  nested.forEach(c => {
+    parent.hand_me_downs.forEach(k => {
+      c[k] = c[k] || parent[k]
+    })
+  })
+
+  // Trigger prepare on all nested elements
+  nested.forEach(c => c.prepare())
+}
+
 // A sequence combines an array of other
 // elements and runs them sequentially
 export class Sequence extends BaseElement {
@@ -217,35 +245,12 @@ export class Sequence extends BaseElement {
   prepare() {
     super.prepare()
 
-    // Setup parent links on nested items
-    this.content.forEach(c => c.parent = this)
-
     // Shuffle content, if requested
     if (this.shuffle) {
       this.content = _.shuffle(this.content)
     }
 
-    // Set ids on nested items
-    this.content.forEach((c, i) => {
-      // For each child, use this element's id
-      // and append a counter
-      if (this.id == null) {
-        c.id = String(i)
-      } else {
-        c.id = [this.id, i].join('_')
-      }
-    })
-
-    // Pass on specified attributes
-    this.content.forEach(c => {
-      this.hand_me_downs.forEach(k => {
-        c[k] = c[k] || this[k]
-      })
-    })
-
-    // A sequence is prepared by preparing all
-    // the nested elements
-    this.content.forEach(c => c.prepare())
+    prepare_nested(this.content, this)
   }
 
   run() {
