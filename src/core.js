@@ -323,6 +323,52 @@ export class Loop extends Sequence {
   }
 }
 
+// A parallel element executes multiple
+// other elements simultaneously
+export class Parallel extends BaseElement {
+  constructor(content, options={}) {
+    super(options)
+
+    // The content, in this case,
+    // consists of an array of elements
+    // that are run in parallel.
+    this.content = content
+
+    // Save options
+    this.mode = options.mode || 'race'
+    this.hand_me_downs = options.hand_me_downs || hand_me_downs
+  }
+
+  prepare() {
+    super.prepare()
+    prepare_nested(this.content, this)
+  }
+
+  run() {
+    let promise = super.run()
+
+    // Run all nested elements simultaneously
+    this.promises = this.content.map(c => c.run())
+
+    // End this element when all nested elements,
+    // or a single element, have ended
+    Promise[this.mode](this.promises)
+      .then(() => this.end())
+
+    return promise
+  }
+
+  end(reason) {
+    // Cancel remaining running nested elements
+    this.content.forEach(c => {
+      if (c.status < status.done)
+        c.end('Aborted by parallel')
+    })
+
+    super.end(reason)
+  }
+}
+
 // Full-featured elements ---------------------------------
 // HTMLScreens display HTML when run
 export class HTMLScreen extends BaseElement {
