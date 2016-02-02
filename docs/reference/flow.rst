@@ -73,6 +73,31 @@ sequence accepts two additional options:
   elements share the same data storage and output element, so these are passed
   on by default.
 
+----
+
+Parallel
+--------
+
+A ``Parallel`` element runs other elements concurrently, in that they are
+started together. Browser engines do not support literally parallel processing,
+but an effort has been made to approximate parallel processing as closely as
+possible.
+
+By default, a ``Parallel`` element ends as soon as one of the nested elements
+ends. All other nested elements are then ended automatically. Alternatively,
+the ``Parallel`` parent keeps running until all nested elements are complete.
+
+Options
+^^^^^^^
+
+``mode`` · How to react to nested elements ending (``race``)
+  If this option is set to ``race``, the entire ``parallel`` item ends as soon
+  as the first nested item ends. In this case, any remaining elements are shut
+  down automatically (by calling ``end``). If the mode is set to ``all``, it
+  waits until all nested items have ended.
+
+``hand_me_downs`` · Options passed to nested elements
+  Exactly analogous to the correspondent option for sequences.
 
 ----
 
