@@ -32,20 +32,19 @@ plans given the limited time frame, but was, upon reflection, still impressed by
 the progress the students made given their very limited exposure to programming
 prior to the course.
 
-Still, because the library was built for teaching, we maintain that it provides
-some unique features that make it particularly suited for use in class relative
-if pure Javascript experiments are the focus. First, it introduces much of
-Javascript's syntax in a natural way, and exposes users to different data types,
-variables, collections of data (lists and objects), and object-oriented
-programming style (rather than some arbitrary declarative syntax). It also lends
-itself to functional programming, using maps to translate lists of stimuli
-into screen elements, however this should be taught only if the time or prior
-experience of students permit discussion of these advanced topics.
-While the library exposes users to a wider range of Javascript concepts, it
-strongly encapsulates and therefore hides browser-specific parts of Javascript,
-in particular any manipulation of the Document Object Model (DOM). This allows
-the focus to remain on the general concepts used while programming instead of
-the (verbose) DOM API.
+Because the library was built for teaching, we believe that it provides some
+unique features that make it particularly suited for use in class if pure
+Javascript experiments are the focus. First, it introduces much of Javascript's
+syntax in a natural way, and exposes users to different data types, variables,
+collections of data (lists and objects), and object-oriented programming style
+(rather than some arbitrary declarative syntax). It also lends itself to
+functional programming, using maps to translate lists of stimuli into screen
+elements, however this should be taught only if the time or prior experience of
+students permit discussion of these advanced topics. While the library exposes
+users to a wider range of Javascript concepts, it strongly encapsulates and
+therefore hides browser-specific parts of Javascript, in particular any
+manipulation of the Document Object Model (DOM). This allows the focus to remain
+on the general concepts used while programming instead of the (verbose) DOM API.
 
 Generalizability of knowledge
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
