@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Lab.js tests</title>
+  <!-- Mocha stylesheet -->
+  <link rel="stylesheet" media="all" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.3.4/mocha.css">
+</head>
+<body>
+  <div id="mocha"><p><a href=".">Index</a></p></div>
+  <div id="messages"></div>
+  <div id="fixtures"></div>
+  <!-- Load libraries for testing: Mocha, Chai & Sinon -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.3.4/mocha.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.4.1/chai.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.15.4/sinon.min.js"></script>
+  <!-- Optional coverage testing via blanket.js, needs local server (e.g. python -m http.server)
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blanket.js/1.1.4/blanket.min.js" data-cover-adapter="https://raw.githubusercontent.com/alex-seville/blanket/master/src/adapters/mocha-blanket.js"></script>
+  -->
+  <script src="../dist/lab.js" data-cover></script>
+  <script>
+    // Setup mocha in BDD mode
+    mocha.setup('bdd')
+    // Use assert-style tests
+    var assert = chai.assert
+  </script>
+  <script>
+    // ... and action!
+    mocha.run()
+  </script>
+  <!-- Add a div in which to test DOM behavior -->
+  <div id="experiment"></div>
+</body>
+</html>
