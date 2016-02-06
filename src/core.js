@@ -442,13 +442,6 @@ export class FormScreen extends HTMLScreen {
         switch (element.nodeName.toLowerCase()) {
           case 'input':
             switch (element.type) {
-              case 'text':
-              case 'hidden':
-              case 'button':
-              case 'reset':
-              case 'submit':
-                output[element.name] = element.value
-                break
               case 'checkbox':
                 output[element.name] = element.checked
                 break
@@ -456,6 +449,11 @@ export class FormScreen extends HTMLScreen {
                 if (element.checked) {
                   output[element.name] = element.value
                 }
+                break
+              // All other input types (e.g. text, hidden,
+              // number, url, ... button, submit, reset)
+              default:
+                output[element.name] = element.value
                 break
             }
             break
