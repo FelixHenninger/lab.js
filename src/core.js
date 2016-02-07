@@ -270,7 +270,7 @@ export class Sequence extends BaseElement {
       // FIXME: This should only remove
       // the stepper function, but no others
       currentElement.off('after:end')
-      currentElement.end('aborted by sequence')
+      currentElement.end('abort by sequence')
     }
     super.end(reason)
   }
@@ -362,7 +362,7 @@ export class Parallel extends BaseElement {
     // Cancel remaining running nested elements
     this.content.forEach(c => {
       if (c.status < status.done)
-        c.end('Aborted by parallel')
+        c.end('abort by parallel')
     })
 
     super.end(reason)
@@ -416,7 +416,7 @@ export class FormScreen extends HTMLScreen {
       )
 
       // Bye!
-      this.end()
+      this.end('form submission')
     }
 
     // Prevent default form behavior
