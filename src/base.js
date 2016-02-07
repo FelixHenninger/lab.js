@@ -78,7 +78,7 @@ const wrapHandler = function(handler, eventName, options=null, context=null) {
         // Wrap the handler to fire only
         // when one of the codes is seen
         return function(e) {
-          if (_.contains(keycodes, e.which)) {
+          if (keycodes.includes(e.which)) {
             return handler(e)
           }
         }
@@ -91,7 +91,7 @@ const wrapHandler = function(handler, eventName, options=null, context=null) {
 
         // Wrap the handler accordingly
         return function(e) {
-          if (_.contains(buttons, e.button)) {
+          if (buttons.includes(e.button)) {
             return handler(e)
           }
         }
