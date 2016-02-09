@@ -37,6 +37,11 @@ export class BaseElement extends EventHandler {
     this.datastore = options.datastore || null
     this.datacommit = options.datacommit || null
 
+    // Setup media handling
+    this.media = options.media || {}
+    this.media.images = this.media.images || []
+    this.media.audio = this.media.audio || []
+
     // Set a timeout, if a useful value is provided
     // (this somewhat convoluted query is necessary
     // because a zero value evaluates to false in JS)
@@ -100,6 +105,13 @@ export class BaseElement extends EventHandler {
       this.datacommit = true
       this.on('after:end', this.commit)
     }
+
+    // Preload media
+    // FIXME: This is asynchronous at present,
+    // meaning that the experiment will not wait until
+    // all media are fully loaded.
+    Promise.all( this.media.images.map(preload_image) )
+    Promise.all( this.media.audio.map(preload_audio) )
 
     // Trigger related methods
     this.triggerMethod('prepare')

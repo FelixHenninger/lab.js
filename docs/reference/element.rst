@@ -139,6 +139,35 @@ Options
   If you would prefer to handle data manually, unset this option to prevent
   data from being commit when the element ends.
 
+**Preloading media**
+
+``media`` · Media files to preload
+  Images and audio files can be preloaded in the background, to reduce load
+  times later during the experiment. To achieve this, supply an object
+  containing the urls of the files in question, split into images and audio
+  files as follows::
+
+      'media': {
+        'images': [
+          'https://mydomain.example/experiment/stimulus.png'
+        ],
+        'audio': [
+          'https://mydomain.example/experiment/sound.mp3'
+        ]
+      }
+
+  Both image and audio arrays are optional, and empty by default.
+
+  Please note that this method has some limitations. First, the files are loaded
+  asynchronously in the background, starting during the prepare phase. The
+  experiment does not wait until the files have completed loading. Second, the
+  preloading mechanism is dependent upon the browser's file cache, which cannot
+  be fully controlled. The media file might have been removed from the cache by
+  the time it is needed. Thus, this is a somewhat brittle mechanism which can
+  improve load times, but is, for technical reasons, not fail-safe. In our
+  experience, testing across several browsers reliably indicates whether
+  preloading is dependable for a given experiment.
+
 **Advanced options**
 
 ``events`` · Map of additional event handlers ({})
