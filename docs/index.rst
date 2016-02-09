@@ -48,6 +48,7 @@ Contents
 
    tutorial/index.rst
    reference/index.rst
+   examples/index.rst
    meta/index.rst
 
 Indices and tables
