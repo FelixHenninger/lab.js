@@ -13,7 +13,13 @@ const banner = [
   ].join('\n');
 
 const combine = function() {
-  return gulp.src(['src/base.js', 'src/core.js', 'src/data.js'])
+  return gulp.src([
+      'src/base.js',
+      'src/core.js',
+      'src/core-flow.js',
+      'src/core-display-html.js',
+      'src/data.js'
+    ])
   	.pipe(sourcemaps.init())
 }
 
