@@ -98,9 +98,9 @@ export class FormScreen extends HTMLScreen {
               case 'select-multiple':
                 // Again, working around limitations of NodeLists
                 output[element.name] =
-                  Array.prototype.slice.call(element.options)
-                  .filter(option => option.selected)
-                  .map(option => option.value)
+                  Array.from(element.options)
+                    .filter(option => option.selected)
+                    .map(option => option.value)
                 break
             }
             break

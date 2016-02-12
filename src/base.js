@@ -1,6 +1,3 @@
-// Polyfill for iterating NodeLists
-NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
-
 // JQuery emulation
 const domSelect = function(selector, parent=document) {
   // If the selection occurs by id,
@@ -275,7 +272,7 @@ class EventHandler {
             // If the event is constrainted to a certain element
             // or a set of elements, search for these within the
             // specified element, and add the handler to each
-            for (let child of parent.querySelectorAll(selector)) {
+            for (let child of Array.from(parent.querySelectorAll(selector))) {
               child.addEventListener(
                 eventName, handler
               )
@@ -313,7 +310,7 @@ class EventHandler {
 
         if (selector !== '') {
           // Remove listener from specified elements
-          for (let child of parent.querySelectorAll(selector)) {
+          for (let child of Array.from(parent.querySelectorAll(selector))) {
             child.removeEventListener(
               eventName, handler
             )
