@@ -141,7 +141,7 @@ class EventHandler {
   constructor(options={}) {
     this._callbacks = {}
     this._domHandlers = {}
-    this.events = {}
+    this.events = options.events || {}
 
     this.debug = options.debug || false
 
