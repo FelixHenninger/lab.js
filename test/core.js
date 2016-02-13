@@ -53,6 +53,62 @@ describe('Core', () => {
     it('maps responses to event object')
     it('distributes response event handlers in document')
 
+    it('runs event handlers in response to DOM events', () => {
+      b.el = document.querySelector('div#experiment')
+
+      // Bind a handler to clicks within the document
+      var handler = sinon.spy()
+      b.events = {
+        'click': handler
+      }
+
+      // Run the element
+      b.prepare()
+      var p = b.run()
+      assert.notOk(handler.calledOnce)
+
+      // Simulate click
+      b.el.click()
+
+      // End the element so that the result
+      // can be checked
+      b.end()
+
+      // Make sure the handler is called
+      return p.then(() => {
+        assert.ok(handler.calledOnce)
+      })
+    })
+
+    it('binds event handlers to element', () => {
+      b.el = document.querySelector('div#experiment')
+
+      var handler_context
+
+      // Define a click handler
+      // (note that this is a 'regular' function,
+      // not an arrow function, which would not be
+      // bound to the element)
+      b.events = {
+        'click': function() {
+          handler_context = this
+        }
+      }
+
+      // Prepare and run element
+      b.prepare()
+      var p = b.run()
+
+      // Simulate click, triggering handler
+      b.el.click()
+
+      // End element and check result
+      b.end()
+      return p.then(() => {
+        assert.equal(handler_context, b)
+      })
+    })
+
     it('calls internal event handlers', () => {
       callback_prepare = sinon.spy()
       b.on('prepare', callback_prepare)
