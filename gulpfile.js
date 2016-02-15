@@ -18,6 +18,7 @@ const combine = function() {
       'src/core.js',
       'src/core-flow.js',
       'src/core-display-html.js',
+      'src/core-display-canvas.js',
       'src/data.js'
     ])
   	.pipe(sourcemaps.init())
