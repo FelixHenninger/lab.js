@@ -66,18 +66,8 @@ export class BaseElement extends EventHandler {
     Object.keys(this.responses).forEach(
       eventString => {
         this.events[eventString] = function(e) {
-          // Save response
-          this.data.response = this.responses[eventString]
-
-          // Save ideal response and response veracity
-          if (this.response_correct !== null) {
-            this.data.response_correct = this.response_correct
-            this.data.correct =
-              this.data.response === this.response_correct
-          }
-
-          // End screen
-          this.end('response')
+          // Trigger internal response handling
+          this.respond(this.responses[eventString])
         }
       }
     )
@@ -137,6 +127,21 @@ export class BaseElement extends EventHandler {
     return new Promise((resolve, reject) => {
       this.on('end', resolve)
     })
+  }
+
+  respond(response=null) {
+    // Save response
+    this.data.response = response
+
+    // Save ideal response and response veracity
+    if (this.response_correct !== null) {
+      this.data.response_correct = this.response_correct
+      this.data.correct =
+        this.data.response === this.response_correct
+    }
+
+    // End screen
+    this.end('response')
   }
 
   end(reason=null) {
