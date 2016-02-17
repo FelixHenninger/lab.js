@@ -74,8 +74,6 @@ export class BaseElement extends EventHandler {
 
     // Prepare timeout
     if (this.timeout !== null) {
-      // By default, the timeout is not met
-      this.data.timed_out = false
       // Add a timeout to end the element
       // automatically after the specified
       // duration.
