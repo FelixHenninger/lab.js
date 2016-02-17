@@ -115,3 +115,36 @@ export class CanvasScreen extends BaseElement {
     return super.end(reason)
   }
 }
+
+// Canvas-based sequence of elements
+// drawing on the same canvas
+export class CanvasSequence extends Sequence {
+  constructor(content, options={}) {
+    super(content, options)
+
+    // Initialize canvas
+    canvas_init.apply(this, [options])
+
+    // Push canvas to nested elements
+    if (!this.hand_me_downs.includes('canvas')) {
+      this.hand_me_downs.push('canvas')
+    }
+  }
+
+  prepare() {
+    // Prepare canvas
+    canvas_prepare.apply(this)
+
+    // Prepare sequence as usual
+    super.prepare()
+  }
+
+  run() {
+    // Insert canvas into DOM,
+    // if not present already
+    canvas_insert.apply(this)
+
+    // Run sequence as usual
+    return super.run()
+  }
+}
