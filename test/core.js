@@ -1,7 +1,7 @@
 describe('Core', () => {
   describe('BaseElement', () => {
     var b
-    
+
     beforeEach(() => {
       b = new lab.BaseElement({})
     })
@@ -50,9 +50,6 @@ describe('Core', () => {
       return p
     })
 
-    it('maps responses to event object')
-    it('distributes response event handlers in document')
-
     it('runs event handlers in response to DOM events', () => {
       b.el = document.querySelector('div#experiment')
 
@@ -78,6 +75,43 @@ describe('Core', () => {
       return p.then(() => {
         assert.ok(handler.calledOnce)
       })
+    })
+
+    it('runs event handlers in response to specific events/emitters', () => {
+      b.el = document.querySelector('div#experiment')
+
+      // Simulate two buttons
+      b.el.innerHTML = ' \
+        <button id="btn-a">Button A</button> \
+        <button id="btn-b">Button B</button>'
+
+      // Create two handlers that are triggered
+      // when the buttons are pressed
+      handler_a = sinon.spy()
+      handler_b = sinon.spy()
+
+      b.events = {
+        'click button#btn-a': handler_a,
+        'click button#btn-b': handler_b,
+      }
+
+      // Simulate clicking both buttons in sequence,
+      // and ensure that the associated handlers are triggered
+      b.prepare()
+      b.run()
+
+      b.el.querySelector('button#btn-a').click()
+      assert.ok(handler_a.calledOnce)
+      assert.notOk(handler_b.called)
+
+      b.el.querySelector('button#btn-b').click()
+      assert.ok(handler_a.calledOnce)
+      assert.ok(handler_b.calledOnce)
+
+      b.end()
+
+      // Clean up
+      b.el.innerHTML = ''
     })
 
     it('binds event handlers to element', () => {
@@ -119,41 +153,57 @@ describe('Core', () => {
       callback_end = sinon.spy()
       b.on('end', callback_end)
 
+      // Check whether internal event handlers
+      // are called at the appropriate times
       b.prepare()
       assert.ok(callback_prepare.calledOnce)
+      assert.notOk(callback_run.called)
+      assert.notOk(callback_end.called)
 
       b.run()
+      assert.ok(callback_prepare.calledOnce)
       assert.ok(callback_run.calledOnce)
+      assert.notOk(callback_end.called)
 
       b.end()
+      assert.ok(callback_prepare.calledOnce)
+      assert.ok(callback_run.calledOnce)
       assert.ok(callback_end.calledOnce)
     })
 
-    it('classifies correct responses as such', () => {
-      // FIXME: There is a certain smell surrounding this,
-      // and the author has the definite impression that
-      // this cannot be the cleanest possible way of
-      // handling responses. In particular, the automatic
-      // binding of event handlers should be revisited,
-      // as should the exact location of the response
-      // recording and classification (i.e. should it
-      // be placed in the commit method rather than the
-      // event handlers?)
-      // It might, at some point, also be worthwhile to
-      // investigate multiple correct responses.
-
-      // Define a response, and a correct response
+    it('maps responses onto event handlers', () => {
+      b.el = document.querySelector('div#experiment')
       b.responses = {
-        'keypress(b)': 'foo'
+        'click': 'response_keypress'
       }
+
+      // Attach a spy to the respond method
+      let spy = sinon.spy(b, 'respond')
+
+      // Run the element
+      b.prepare()
+      b.run()
+
+      // Test whether the click triggers
+      // a respond method call
+      assert.notOk(spy.called)
+      b.el.click()
+      assert.ok(spy.withArgs('response_keypress').calledOnce)
+      assert.ok(spy.calledOnce)
+
+      // Cleanup
+      b.end()
+    })
+
+    it('classifies correct responses as such', () => {
+      // Define a correct response
       b.response_correct = 'foo'
 
-      // Response wrappers are built only
-      // during the prepare phase
+      // Prepare the element
       b.prepare()
 
-      // Manually trigger a response event
-      b.events['keypress(b)'].bind(b)()
+      // Trigger a response
+      b.respond('foo')
 
       // Check the classification
       assert.equal(b.data.correct, true)
@@ -164,12 +214,9 @@ describe('Core', () => {
 
     it('classifies incorrect responses as such', () => {
       // Same as above
-      b.responses = {
-        'keypress(b)': 'foo'
-      }
-      b.response_correct = 'bar'
+      b.response_correct = 'foo'
       b.prepare()
-      b.events['keypress(b)'].bind(b)()
+      b.respond('bar')
 
       // Check classification
       assert.equal(b.data.correct, false)
