@@ -117,16 +117,10 @@ describe('Core', () => {
     it('binds event handlers to element', () => {
       b.el = document.querySelector('div#experiment')
 
-      var handler_context
-
-      // Define a click handler
-      // (note that this is a 'regular' function,
-      // not an arrow function, which would not be
-      // bound to the element)
+      // Define a spy and use it as an event handler
+      let spy = sinon.spy()
       b.events = {
-        'click': function() {
-          handler_context = this
-        }
+        'click': spy
       }
 
       // Prepare and run element
@@ -136,11 +130,11 @@ describe('Core', () => {
       // Simulate click, triggering handler
       b.el.click()
 
-      // End element and check result
+      // Check binding
+      assert.ok(spy.calledOn(b))
+
+      // Cleanup
       b.end()
-      return p.then(() => {
-        assert.equal(handler_context, b)
-      })
     })
 
     it('calls internal event handlers', () => {
