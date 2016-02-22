@@ -160,4 +160,20 @@ export class DataStore {
       this.keys() // Use a neater column order
     )
   }
+
+  // Send data via POST request ---------------------------
+  transmit(url, metadata={}) {
+    return fetch(url, {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        meta: metadata,
+        url: window.location.href,
+        data: this.data
+      })
+    })
+  }
 }

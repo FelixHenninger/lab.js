@@ -164,3 +164,89 @@ Data download
 
   In the background, this appends a link to the document body and simulates a
   click on it in order to trigger a file download.
+
+Data transmission
+.................
+
+``transmit(url, metadata={})`` · Transmit data to a given url
+  Sends a HTTP ``POST`` request to the specified URL, containing the stored data
+  in JSON format. The request body contains, encoded as a JSON string, the
+  contents of the datastore (under the key ``data``), the current page URL (as
+  ``url``), and any additional metadata specified in the argument of the same
+  name.
+
+  This method returns a promise that originates from the underlying ``fetch``
+  call. The promise will be rejected if no connection can be established,
+  but will otherwise resolve to a ``Response`` instance representing the
+  server's response. The status of the exchange can be accessed via the
+  ``response.ok`` attribute, or through the status code, which is available
+  through ``response.code``. Please consult the `Fetch API documentation
+  <https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API>`_ for additional
+  details.
+
+  For the most part, you will probably interact with the transmit method in a
+  way similar to the following example::
+
+    // Define server URL and metadata for the current dataset
+    let storage_endpoint = 'https://nice_lab.prestigious.edu/study/storage.php'
+    let storage_metadata = {
+      'participant_id': 77
+    }
+
+    // Transmit data to server
+    ds.transmit(
+      storage_endpoint,
+      storage_metadata
+    ).then(
+      () => experiment.end()
+      // ... thank the participant,
+      // explaining that it is now possible
+      // to close the browser window.
+    )
+
+  However, much more complex scenarios are possible, especially with regard
+  to the detection and graceful handling of errors. These are generally
+  rare, however, especially in a more controlled, laboratory, environment,
+  safeguards can be helpful in case something does go wrong, as illustrated
+  in the following example::
+
+    // Assuming we have established and used the DataStore 'ds'
+    ds.transmit(storage_endpoint, storage_metadata)
+      .then((response) => {
+          if (response.ok) {
+            // All is well: The server reported a successful transmission
+            experiment.end() // As a simple example of a possible reaction
+          } else {
+            // A connection could be established, but something went
+            // wrong along the way ... let the experimenter know
+            alert(
+              'Transmission resulted in response' + response.code + '. ' +
+              'Please download data manually.'
+            )
+
+            // Download data locally (onto lab computers)
+            // If you are conducting distributed experiments online,
+            // you might instead use a timeout to retry after a short
+            // interval. However, errors at this stage should be a
+            // very rare occurrence.
+            ds.download()
+
+            // End the experiment (as above)
+            experiment.end()
+          })
+        .catch((error) => {
+          // The connection itself failed, probably due to connectivity issues.
+          // (this second part, the catch, is optional -- in may cases you will
+          // not run into this situation, and if you do, there is, sadly, very
+          // little that can be done. Any traditional web survey will
+          // have long failed at this point)
+          alert(
+            'Could not establish connection to endpoint. ' +
+            'ran into error ' + error.message
+          )
+
+          // Download data and end as before
+          ds.download()
+          experiment.end()
+        })
+      )
