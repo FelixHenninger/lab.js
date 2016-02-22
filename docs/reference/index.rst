@@ -12,3 +12,4 @@ Keep this under your pillow!
    flow.rst
    data.rst
    html.rst
+   canvas.rst
