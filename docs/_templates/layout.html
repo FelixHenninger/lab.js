@@ -1,0 +1,26 @@
+{% extends "!layout.html" %}
+{% block sidebartitle %}
+  <a href="{{ pathto(master_doc) }}" style="margin-bottom: 0">
+    {# Not strictly valid HTML, but it's the only way to display/scale it properly, without weird scripting or heaps of work #}
+    <img src="{{ pathto('_static/' + logo, 1) }}" class="logo" />
+  </a>
+
+  {% if theme_display_version %}
+    <div class="version" style="padding: 3px; color: white;">
+      {%- set nav_version = version %}
+      {% if READTHEDOCS and current_version %}
+        {%- set nav_version = current_version %}
+      {% endif %}
+        <span class="project">
+          {{ project }}
+        </span>
+      {% if nav_version %}
+        <span class="version" style="opacity: 0.3">
+          · {{ nav_version }}
+        </span>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% include "searchbox.html" %}
+{% endblock %}
