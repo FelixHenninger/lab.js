@@ -365,6 +365,33 @@ consider enlisting a helper library to simplify drawing, such as `three.js
 
 ----
 
+.. _reference/canvas/CanvasSequence:
+
+CanvasSequence
+--------------
+
+If a ``CanvasScreen`` reflects a single canvas-based display, a
+``CanvasSequence`` represents a series of such screens strung together. It
+is constructed analogously to a regular
+:ref:`sequence <reference/flow/sequence>`, and behaves identically, with the
+single exception that it inserts a canvas into the document when it starts,
+and directs all nested screens to draw onto this canvas.
+
+The rationale for using a dedicated ``CanvasSequence`` over a regular one is
+that the canvas need only be inserted into the document once, when the sequence
+runs, rather than before each nested screen individually. This results in a
+significant increase in transition speed, and allows for seamless and instant
+switches between adjacent screens.
+
+Options
+^^^^^^^
+
+A ``CanvasSequence`` will accept and apply any of the options used by a
+:ref:`regular sequence <reference/flow/sequence>`, as well as those accepted by
+a :ref:`CanvasScreen <reference/canvas/CanvasScreen>`.
+
+----
+
 .. [#f1] If you ever do this, please let us know, we will award you the coveted
   *lab.js brave soul award*.
 .. [#f2] Or, alternatively, you might decide that life is too short. Please
