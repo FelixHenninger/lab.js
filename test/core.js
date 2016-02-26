@@ -226,5 +226,21 @@ describe('Core', () => {
 
       assert.equal(b.datastore.state.foo, 'bar')
     })
+
+    it('commits data automatically when ending', () => {
+      // Spy on the commit method
+      let spy = sinon.spy(b, 'commit')
+
+      // Supply the BaseElement with a DataStore, then run
+      b.datastore = new lab.DataStore()
+      b.prepare()
+      let p = b.run()
+      b.end()
+
+      // Make sure the commit method was run
+      return p.then(() => {
+        assert.ok(spy.calledOnce)
+      })
+    })
   })
 })
