@@ -15,9 +15,11 @@ of an element on the page when it is run. Otherwise, it behaves exactly as a
 Usage
 ^^^^^
 
-When a ``HTMLScreen`` is constructed, it needs two options. The first is the
+When a ``HTMLScreen`` is constructed, it takes two arguments. The first is the
 *content*, which is the string of text inserted into the HTML document. It can
-contain any HTML tags alongside textual content. For example, a single screen
+contain any HTML tags alongside textual content. The second argument can contain
+options that govern the screen's behavior, which correspond to those of a
+:ref:`BaseElement <reference/base/BaseElement>`. For example, a single screen
 could be inserted into a document as follows::
 
   screen = new lab.HTMLScreen(
