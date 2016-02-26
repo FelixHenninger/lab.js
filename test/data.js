@@ -161,5 +161,107 @@ describe('Data handling', () => {
         ].join('\r\n')
       )
     })
+
+    it('exports data as a blob', () => {
+      ds.commit({
+        'one': 1,
+        'two': 2
+      })
+      ds.commit({
+        'two': 2,
+        'three': 3
+      })
+
+      // Define a function to convert blobs back into text
+      let readBlob = (blob) => {
+        return new Promise((resolve, reject) => {
+          let reader = new FileReader()
+          reader.onload = () => {
+            resolve(reader.result)
+          }
+          reader.onerror = reject
+          reader.readAsText(blob)
+        })
+      }
+
+      return Promise.all([
+        readBlob(ds.export_blob()).then((result) => {
+          assert.equal(result, ds.export_csv())
+        }),
+        readBlob(ds.export_blob('json')).then((result) => {
+          assert.equal(result, ds.export_json())
+        })
+      ])
+    })
+
+    it('shows data on the browser console', () => {
+      ds.commit({
+        'one': 1,
+        'two': 2
+      })
+      ds.commit({
+        'two': 2,
+        'three': 3
+      })
+
+      let spy = sinon.spy(console, 'table')
+
+      // Trigger data output
+      ds.show()
+
+      assert.ok(spy.withArgs(ds.data, ds.keys()).calledOnce)
+    })
+
+    it('transmits data per post request', () => {
+      // This test ist done as suggested by R.J. Zaworski (MIT licenced)
+      // http://rjzaworski.com/2015/06/testing-api-requests-from-window-fetch
+
+      // Stub window.fetch
+      let fake_fetch = sinon.stub(window, 'fetch');
+
+      // Simulate a response
+      let res = new window.Response('', {
+        status: 200,
+        headers: {
+          'Content-type': 'application/json'
+        }
+      })
+
+      // Make the stub call return the response
+      window.fetch.returns(
+        Promise.resolve(res)
+      )
+
+      // Make a mock request and ensure that it works
+      // (i.e. that a promise is returned, and that the
+      // response passed with it is ok)
+      let output = ds.transmit('https://random.example').then((response) => {
+        assert.ok(response.ok)
+      })
+
+      // Make sure fetch has been called with the correct options
+      assert.ok(fake_fetch.withArgs(
+        'https://random.example',
+        {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            meta: {},
+            url: window.location.href,
+            data: ds.data
+          })
+        }
+      ).calledOnce)
+      // TODO: There must be a better way than just checking
+      // whether the arguments were passed correctly, no?
+
+      // Restore window.fetch
+      window.fetch.restore()
+
+      return output
+    })
   })
 })
