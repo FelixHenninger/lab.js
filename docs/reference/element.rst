@@ -1,6 +1,8 @@
 Elements
 ========
 
+.. _reference/base/BaseElement:
+
 The ``BaseElement`` class is the most basic class provided by lab.js . It is the
 foundation for all other components, which extend and slightly modify this
 basic class. As per the philosophy of lab.js, experiments are composed entirely
