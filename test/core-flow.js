@@ -34,12 +34,21 @@ describe('Flow control', () => {
       assert.equal(b.parent, p)
     })
 
-    it('sets id attribute', () => {
+    it('sets id attribute correctly on nested elements', () => {
       p.content = [a, b]
       p.prepare()
 
       assert.equal(a.id, '0')
       assert.equal(b.id, '1')
+    })
+
+    it('sets id attribute correctly on nested elements with id present', () => {
+      p.id = '0'
+      p.content = [a, b]
+      p.prepare()
+
+      assert.equal(a.id, '0_0')
+      assert.equal(b.id, '0_1')
     })
 
     it('runs prepare on nested elements', () => {
@@ -105,6 +114,27 @@ describe('Flow control', () => {
       assert.ok(a_run.calledOnce)
       assert.ok(b_run.calledOnce)
       assert.ok(s_end.calledOnce)
+    })
+
+    it('shuffles elements if requested', () => {
+      // Generate 100 DummyElements as content
+      let content = _.range(100).map((i) => {
+        let o = new lab.DummyElement()
+        o._test_counter = i
+        return o
+      })
+      // Assign them to the Sequence
+      s.content = content
+
+      // Setup shuffle and prepare Sequence
+      s.shuffle = true
+      s.prepare()
+
+      // Test that the content has the correct length,
+      // and that the order is not the original one
+      assert.equal(s.content.length, 100)
+      assert.notDeepEqual(content, s.content)
+      // console.log(s.content.map(x => x._test_counter))
     })
   })
 
