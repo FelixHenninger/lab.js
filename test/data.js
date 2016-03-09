@@ -33,6 +33,15 @@ describe('Data handling', () => {
       )
     })
 
+    it('retrieves individual values', () => {
+      ds.set({
+        'one': 1,
+        'two': 2
+      })
+      assert.equal(ds.get('one'), ds.state.one)
+      assert.equal(ds.get('two'), ds.state.two)
+    })
+
     it('copies data to storage on commit', () => {
       ds.set({
         'one': 1,
