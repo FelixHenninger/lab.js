@@ -11,6 +11,9 @@ describe('Core', () => {
       b.run()
     })
 
+    it('provides timer while running')
+    // fake performance.now as described here: https://github.com/sinonjs/sinon/issues/803
+
     it('times out if requested', () => {
       // Setup fake timers
       this.clock = sinon.useFakeTimers()
