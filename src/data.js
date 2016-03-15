@@ -1,10 +1,67 @@
 // Data saving --------------------------------------------
 
+let metadata_keys = ['sender', 'sender_type', 'sender_id', 'timestamp']
+
 export class DataStore {
-  constructor() {
-    this.data = []
+  constructor(options={}) {
+    // Setup persistent storage, if requested
+    if (options.persistence === 'session') {
+      this.storage = sessionStorage
+    } else if (options.persistence === 'local') {
+      this.storage = localStorage
+    } else {
+      this.storage = null
+    }
+
+    // Clear persistent storage
+    if (options.persistence_clear) {
+      this.clear()
+    }
+
+    // Remember to trigger fallback if something
+    // goes wrong
+    let use_fallback = true
+
+    // Recover state from storage, if present,
+    // otherwise initialize empty data array
+    if (this.storage) {
+      // Check for preexisting data
+      const existing_data = this.storage.getItem('lab.js-data')
+
+      // Perform initialization
+      if (existing_data) {
+        // Fail gracefully if JSON parsing fails
+        try {
+          this.data = JSON.parse(existing_data)
+          this.state = Object.assign(...this.data)
+
+          // Remove metadata from current state
+          metadata_keys.forEach(key => {
+            if (this.state.hasOwnProperty(key)) {
+              delete this.state[key]
+            }
+          })
+
+          // Everything went well,
+          // skip initialization of data and state
+          use_fallback = false
+        } catch(err) {
+          // If an error occurs, play it safe
+          use_fallback = true
+        }
+      }
+    }
+
+    // Initialize empty data and state
+    // if no existing data were found,
+    // or data were invalid
+    if (use_fallback) {
+      this.data = []
+      this.state = {}
+    }
+
+    // Initialize empty staging data
     this.staging = {}
-    this.state = {}
   }
 
   // Get and set individual values ------------------------
@@ -29,10 +86,32 @@ export class DataStore {
     this.set(key, value)
     this.data.push(this.staging)
     this.staging = {}
+
+    // Make persistent data copy if desired
+    if (this.storage) {
+      this.storage.setItem('lab.js-data', JSON.stringify(this.data))
+    }
+  }
+
+  // Erase collected data ---------------------------------
+  clear(persistence=true, state=false) {
+    // Clear persistent state
+    if (persistence && this.storage) {
+      // TODO: Maybe limit this
+      // to specific keys?
+      this.storage.clear()
+    }
+
+    // Clear local (transient) state
+    if (state) {
+      this.data = []
+      this.staging = {}
+      this.state = {}
+    }
   }
 
   // Extracting data --------------------------------------
-  keys(leaders=['sender', 'sender_type', 'sender_id', 'timestamp']) {
+  keys(leaders=metadata_keys) {
     // Extract all keys from the data collected
     let keys = this.data.map(
       e => Object.keys(e)
