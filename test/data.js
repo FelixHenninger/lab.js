@@ -137,6 +137,121 @@ describe('Data handling', () => {
       )
     })
 
+    it('clears transient data if requested', () => {
+      ds.commit({
+        'a': 'b'
+      })
+
+      // Don't clear persistent storage
+      ds.clear(false, true)
+
+      assert.deepEqual(
+        ds.data,
+        []
+      )
+      assert.deepEqual(
+        ds.state,
+        {}
+      )
+      assert.deepEqual(
+        ds.staging,
+        {}
+      )
+    })
+
+    // Local persistence
+
+    it('Saves state into local storage if requested', () => {
+      persistent_ds = new lab.DataStore({
+        persistence: 'session'
+      })
+
+      persistent_ds.set("a", "bcd")
+      persistent_ds.commit()
+
+      assert.deepEqual(
+        JSON.parse(sessionStorage.getItem('lab.js-data')),
+        persistent_ds.data
+      )
+
+      sessionStorage.clear()
+    })
+
+    it('Recovers state from local storage', () => {
+      // Save some data in sessionStorage
+      let json_data = '[{"a": 1, "b": "foo"}]'
+      sessionStorage.setItem('lab.js-data', json_data)
+
+      persistent_ds = new lab.DataStore({
+        persistence: 'session'
+      })
+
+      assert.equal(
+        persistent_ds.get('a'),
+        1
+      )
+      assert.equal(
+        persistent_ds.get('b'),
+        'foo'
+      )
+
+      sessionStorage.clear()
+    })
+
+    it('Fails gracefully if local data are invalid', () => {
+      sessionStorage.setItem('lab.js-data', 'clearly_not_json')
+      persistent_ds = new lab.DataStore({
+        persistence: 'session'
+      })
+
+      assert.deepEqual(
+        persistent_ds.data, []
+      )
+      assert.deepEqual(
+        persistent_ds.state, {}
+      )
+
+      sessionStorage.clear()
+    })
+
+    it('Clears persistent data when instructed', () => {
+      let json_data = '[{"a": 1, "b": "foo"}]'
+      sessionStorage.setItem('lab.js-data', json_data)
+
+      persistent_ds = new lab.DataStore({
+        persistence: 'session'
+      })
+
+      persistent_ds.clear()
+
+      assert.equal(
+        sessionStorage.getItem('lab.js-data'),
+        null
+      )
+    })
+
+    it('Clears previous persistent data if requested', () => {
+      let json_data = '[{"a": 1, "b": "foo"}]'
+      sessionStorage.setItem('lab.js-data', json_data)
+
+      persistent_ds = new lab.DataStore({
+        persistence: 'session',
+        persistence_clear: true
+      })
+
+      assert.deepEqual(
+        persistent_ds.data,
+        []
+      )
+
+      assert.equal(
+        sessionStorage.getItem('lab.js-data'),
+        null
+      )
+    })
+
+    // Data export
+
     it('exports correct JSON data', () => {
       ds.commit({
         'one': 1,
