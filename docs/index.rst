@@ -19,12 +19,12 @@ experiments throughout the social and behavioral sciences. It is not limited
 to any particular paradigm or environment, and designed to handle questionnaires
 just as well as complex experimental tasks.
 
-An additional design goal is to provide a tool for :ref:`teaching` programming
-and experimental design to students. In particular, it is intended to provide
-a stepping stone for students with knowledge of ``HTML``, but little programming
-experience. The structure of the library has been chosen to expose the features
-of the underlying Javascript programming language, and to be extensible using
-the same.
+An additional design goal is to provide a tool for :ref:`teaching <teach>`
+programming and experimental design to students. In particular, it is intended
+to provide a stepping stone for students with knowledge of ``HTML``, but little
+programming experience. The structure of the library has been chosen to expose
+the features of the underlying Javascript programming language, and to be
+extensible using the same.
 
 **Thank you for checking out lab.js!** If you are new around here, you might
 want to go through the :ref:`tutorial <tutorial>` to get started. There are also
