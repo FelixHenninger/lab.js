@@ -41,5 +41,11 @@ jump right in and consult further resources as required.
 With that, let's get started!
 
 .. note::
-  We're actively working on the tutorial -- things might be slightly ajar still.
-  If you spot something that might be improved, please let us know.
+  We're actively working on the tutorials -- things might be slightly ajar
+  still. If you spot something that might be improved, please let us know.
+
+.. toctree::
+   :caption: Contents
+   :maxdepth: 1
+
+   functional.rst
