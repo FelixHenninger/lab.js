@@ -84,6 +84,43 @@ everything provided by the present library.
 So now we know how to invoke functions, but we can't rely on other programmers
 to supply just the right ones for our purposes. How do we make our own?
 
+Defining our own functions
+--------------------------
+
+A simple example
+^^^^^^^^^^^^^^^^
+
+We just saw that functions can be thought of as miniature machines inside a
+program, built to serve a specific purpose, and to encapsulate a more complex
+process. Many are offered by the browser itself so that we may use them, they
+might be added through the libraries we load on our pages, or we can define our
+own.
+
+One of the simplest possible functions can be defined as follows::
+
+  const greet_felix = function() {
+    console.log('Hello Felix!')
+  }
+
+If you have a browser window handy, please be invited to copy the code into
+the browser console! (feel free to substitute your own name)
+
+There are several parts to this **function definition**. The final, and largest
+part, located within the curly braces, delimits the **block** of code that
+contains the function's inner workings, and that is run when the function is
+called. In this case, all our function does is call another function in turn,
+writing a greeting on the console. You might recognize this block structure from
+other elements of programs, for example ``if`` statements, where blocks of code
+are run only if a certain condition is met, or loops, where blocks of code are
+run repeatedly. This block of code is preceded by the ``function`` keyword,
+which marks it as a function. The very first part represents the assignment of
+the function to the ``greet_felix`` variable, allowing us to retrieve the
+function at some later point.
+
+If you now call the function using ``greet_felix()`` (typed in the console or
+as a line within a larger script), the code contained in the function block will
+be executed, and the greeting will be shown.
+
 ----
 
 .. [#f1] An earlier version of this tutorial read 'take advantage of their
