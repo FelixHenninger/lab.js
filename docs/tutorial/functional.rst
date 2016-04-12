@@ -121,6 +121,83 @@ If you now call the function using ``greet_felix()`` (typed in the console or
 as a line within a larger script), the code contained in the function block will
 be executed, and the greeting will be shown.
 
+Using return values
+^^^^^^^^^^^^^^^^^^^
+
+In our last example, all our function did was produce a console output as a side
+effect. In a way, it acted as a shortcut for another function call. However,
+functions are capable of far more, and can substitute not only other function
+calls, but also more complex calculations (such as the ``Math.sqrt`` example
+above). We can also make use of this in our own functions, using the ``return``
+keyword to return a value::
+
+  const make_two = function() {
+    return 2
+  }
+
+A call of this ``make_two`` function now produces the integer value ``2``, and
+both can be substituted for one another. For example, ``1 + make_two()`` would
+produce the value three, and ``console.log(2 * make_two())`` would output the
+number four onto the console.
+
+Of course, this is not a very useful function, because the value it returns
+is easier to produce through other means (by writing ``2`` directly); it does
+not make our lives easier. However, there are many cases in which long blocks of
+code can be substituted by a function call. Take, for example, the humble
+fixation cross. It is used often, rarely varies, and therefore a prime candidate
+for abstraction using a function::
+
+  const fixationCross = function() {
+    return new lab.HTMLScreen(
+      '+',
+      {
+        'timeout': 500
+      }
+    )
+  }
+
+This function, when called, returns an ``HTMLScreen`` containing nothing but a
+plus character that, for our purposes, will double as a fixation cross. Like a
+call of ``make_two`` would provide the number two for further use, a call of
+the ``fixationCross`` function provides a fixation cross screen, and accordingly
+may be substituted wherever we would otherwise have defined such a screen by
+hand.
+
+For example, one might construct a simple experiment as follows::
+
+  const experiment = lab.Sequence([
+    // First trial
+    fixationCross(),
+    // Stimulus 1
+    new lab.HTMLScreen(
+      'Press A!',
+      { // Options
+        responses: {
+          'keypress(a)': 'correct'
+        }
+      }
+    ),
+    // Second trial
+    fixationCross(),
+    // Stimulus 2
+    new lab.HTMLScreen(
+      'Press B!',
+      { // Options
+        responses: {
+          'keypress(b)': 'correct'
+        }
+      }
+    ),
+    // ...
+  ])
+
+  experiment.prepare()
+  experiment.run()
+
+Please note how the calls to the ``fixationCross`` function replaces the
+otherwise unwieldy and repetitive direct construction of the corresponding
+screen. Nice, isn't it?
+
 ----
 
 .. [#f1] An earlier version of this tutorial read 'take advantage of their
