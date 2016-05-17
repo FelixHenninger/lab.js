@@ -65,11 +65,11 @@ referred to as **side effects**.
 As just mentioned, a function call can hide very complex operations from us,
 saving us from having to calculate a square root on our own, as in the last
 example. Thus, a function can replace any other code by returning an equivalent
-value. If we had a function called ``plus_two``, typing ``1 + 2`` and
-``plus_two(1)``, and analogously ``let new_number = 1 + 2`` and ``let new_number
- = plus_two(1)`` are for our purposes entirely equivalent. A function call can
-act as a stand-in for an expression that results in the same value, or a
-variable name that represents the same value.
+value. If we had a function called ``plusTwo``, typing ``1 + 2`` and
+``plusTwo(1)``, and analogously ``let new_number = 1 + 2`` and ``let new_number 
+= plusTwo(1)`` are for our purposes entirely equivalent. A function call can act
+as a stand-in for an expression that results in the same value, or a variable
+name that represents the same value.
 
 Where do functions come from? Many, like the above examples, are **built-in**,
 and come with the browser. Others are provided by **libraries**, which are
@@ -98,7 +98,7 @@ own.
 
 One of the simplest possible functions can be defined as follows::
 
-  const greet_felix = function() {
+  const greetFelix = function() {
     console.log('Hello Felix!')
   }
 
@@ -107,19 +107,19 @@ the browser console! (feel free to substitute your own name)
 
 There are several parts to this **function definition**. The final, and largest
 part, located within the curly braces, delimits the **block** of code that
-contains the function's inner workings, and that is run when the function is
-called. In this case, all our function does is call another function in turn,
+contains the function's inner workings, the recipe that is run when the function
+is called. In this case, all our function does is call another function in turn,
 writing a greeting on the console. You might recognize this block structure from
 other elements of programs, for example ``if`` statements, where blocks of code
 are run only if a certain condition is met, or loops, where blocks of code are
 run repeatedly. This block of code is preceded by the ``function`` keyword,
 which marks it as a function. The very first part represents the assignment of
-the function to the ``greet_felix`` variable, allowing us to retrieve the
+the function to the ``greetFelix`` variable, allowing us to retrieve the
 function at some later point.
 
-If you now call the function using ``greet_felix()`` (typed in the console or
-as a line within a larger script), the code contained in the function block will
-be executed, and the greeting will be shown.
+If you now call the function using ``greetFelix()`` (typed in the console or as
+a line within a larger script), the code contained in the function block will be
+executed, and the greeting will be shown.
 
 Using return values
 ^^^^^^^^^^^^^^^^^^^
@@ -131,14 +131,14 @@ calls, but also more complex calculations (such as the ``Math.sqrt`` example
 above). We can also make use of this in our own functions, using the ``return``
 keyword to return a value::
 
-  const make_two = function() {
+  const makeTwo = function() {
     return 2
   }
 
-A call of this ``make_two`` function now produces the integer value ``2``, and
-both can be substituted for one another. For example, ``1 + make_two()`` would
-produce the value three, and ``console.log(2 * make_two())`` would output the
-number four onto the console.
+A call of this ``makeTwo`` function now produces the integer value ``2``, and
+both can be substituted for one another. For example, ``1 + makeTwo()`` would
+produce the value three, and ``console.log(2 * makeTwo())`` would output the
+number four onto the console.[#f3]_
 
 Of course, this is not a very useful function, because the value it returns
 is easier to produce through other means (by writing ``2`` directly); it does
@@ -158,7 +158,7 @@ for abstraction using a function::
 
 This function, when called, returns an ``HTMLScreen`` containing nothing but a
 plus character that, for our purposes, will double as a fixation cross. Like a
-call of ``make_two`` would provide the number two for further use, a call of
+call of ``makeTwo`` would provide the number two for further use, a call of
 the ``fixationCross`` function provides a fixation cross screen, and accordingly
 may be substituted wherever we would otherwise have defined such a screen by
 hand.
@@ -214,3 +214,7 @@ screen. Nice, isn't it?
   ``experiment.run()``, which runs a specific element. This indicates that the
   function is linked to, and operates on, the object it comes with. Such
   functions are often called **methods**.
+.. [#f3] Note that, unlike this example might suggest, return values need not
+  be deterministic. For example, the function ``Math.random()`` will return a
+  different floating point number between zero and one with each call (well,
+  most of the time).
