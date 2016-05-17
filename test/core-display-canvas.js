@@ -1,7 +1,33 @@
 describe('Canvas-based elements', () => {
 
   describe('Helper functions', () => {
-    it('Inserts a canvas into the page if necessary')
+    let c
+
+    beforeEach(() => {
+      // Reset screen
+      c = new lab.CanvasScreen(
+        () => null, // dummy drawing function
+        {
+          el: document.createElement('div')
+        }
+      )
+    })
+
+    it('Inserts a canvas into the page if necessary', () => {
+      // Run the CanvasScreen
+      const p = c.go()
+      c.end()
+
+      // Tests
+      return p.then(() => {
+        // Check whether a canvas has been
+        // inserted into the page
+        const canvas = c.el.getElementsByTagName('canvas')[0]
+        assert.ok(canvas)
+        assert.equal(canvas, c.canvas)
+      })
+    })
+    
     it('Does not insert a canvas if provided with one')
     it('Sets canvas width and height correctly')
   })
