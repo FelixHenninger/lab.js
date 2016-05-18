@@ -5,7 +5,7 @@ describe('HTML-based elements', () => {
 
     beforeEach(() => {
       el = document.createElement('div')
-      h = new lab.FormScreen('', {
+      h = new lab.HTMLScreen('', {
         'el': el
       })
     })
