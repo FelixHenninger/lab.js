@@ -27,8 +27,24 @@ describe('Canvas-based elements', () => {
         assert.equal(canvas, c.canvas)
       })
     })
+
+    it('Does not insert a canvas if provided with one', () => {
+      // Specify a canvas for the CanvasScreen
+      c.canvas = document.createElement('canvas')
+
+      const p = c.go()
+      c.end()
+
+      // Tests
+      return p.then(() => {
+        // The element should be empty
+        assert.equal(
+          c.el.getElementsByTagName('canvas').length,
+          0
+        )
+      })
+    })
     
-    it('Does not insert a canvas if provided with one')
     it('Sets canvas width and height correctly')
   })
 
