@@ -198,6 +198,36 @@ Please note how the calls to the ``fixationCross`` function replaces the
 otherwise unwieldy and repetitive direct construction of the corresponding
 screen. Nice, isn't it?
 
+Adding parameters
+^^^^^^^^^^^^^^^^^
+
+Up to now, the functions we have defined always perform the exact same task,
+whether producing side effects or returning values. Once defined, they never
+wavered in their stoic performance of the recipe they have been programmed to
+perform. This would mean that we would have to program a new function for each
+set of tasks we would like to encapsulate. If the sets of tasks vary only in
+minutiae, this would also quickly become repetitive.
+
+Parameters allow us vary the behavior of a single function across calls, by
+specifying the details of its' execution. For example, rather than a ``makeTwo``
+function, we might define a ``plusTwo`` function that, as you might imagine,
+increments a given value by two. We do so by adding a parameter in the brackets
+following the function keyword. In this case, it is called ``x``, but any other
+variable name would also be possible. The central trick is that whatever we pass
+along as a parameter value will be available within the function block through
+this variable, and can be used for our further calculations.::
+
+  const plusTwo = function(x) {
+    return x + 2
+  }
+
+In this case, the variable ``x`` takes on the value of the parameter passed to
+the function, which adds two before returning the result. Thus, ``plusTwo(3)``
+would return the value five, and so on.
+
+Again, this is not a particularly useful example, so how can we apply this to
+our experiments?
+
 ----
 
 .. [#f1] An earlier version of this tutorial read 'take advantage of their
