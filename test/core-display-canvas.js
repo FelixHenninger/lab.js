@@ -44,8 +44,29 @@ describe('Canvas-based elements', () => {
         )
       })
     })
-    
-    it('Sets canvas width and height correctly')
+
+    it('Sets canvas width and height correctly', () => {
+      // Set dimensions on the surrounding element
+      c.el.style.height = '200px'
+      c.el.style.width = '300px'
+
+      const p = c.go()
+      c.end()
+
+      // Tests
+      return p.then(() => {
+        assert.equal(
+          c.canvas.height,
+          c.el.clientHeight,
+          'canvas height set correctly'
+        )
+        assert.equal(
+          c.canvas.width,
+          c.el.clientWidth,
+          'canvas width set correctly'
+        )
+      })
+    })
   })
 
   describe('CanvasScreen', () => {
