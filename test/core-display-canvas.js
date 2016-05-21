@@ -100,8 +100,18 @@ describe('Canvas-based elements', () => {
         c
       )
     })
+
+    it('Selects 2d canvas context by default', () => {
+      const p = c.go()
+      c.end()
+
+      return p.then(() => {
+        assert.ok(
+          c.ctx instanceof CanvasRenderingContext2D
+        )
+      })
+    })
     
-    it('Selects 2d canvas context by default')
     it('Executes render function to draw on element when run')
   })
 
