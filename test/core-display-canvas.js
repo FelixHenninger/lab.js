@@ -70,7 +70,37 @@ describe('Canvas-based elements', () => {
   })
 
   describe('CanvasScreen', () => {
-    it('Binds render function to element')
+    let c
+
+    beforeEach(() => {
+      // Reset screen
+      c = new lab.CanvasScreen(
+        () => null, // dummy drawing function
+        {
+          el: document.createElement('div')
+        }
+      )
+    })
+
+    it('Binds render function to element', () => {
+      // Define a render function and
+      // insert it into the CanvasScreen
+      render_func = function() {
+        return this
+      }
+      c.render_function = render_func
+
+      // Preparing the element binds the
+      // function to it
+      c.prepare()
+
+      // Check function binding
+      assert.equal(
+        c.render_function(),
+        c
+      )
+    })
+    
     it('Selects 2d canvas context by default')
     it('Executes render function to draw on element when run')
   })
