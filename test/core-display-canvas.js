@@ -15,7 +15,7 @@ describe('Canvas-based elements', () => {
 
     it('Inserts a canvas into the page if necessary', () => {
       // Run the CanvasScreen
-      const p = c.go()
+      const p = c.run()
       c.end()
 
       // Tests
@@ -32,7 +32,7 @@ describe('Canvas-based elements', () => {
       // Specify a canvas for the CanvasScreen
       c.canvas = document.createElement('canvas')
 
-      const p = c.go()
+      const p = c.run()
       c.end()
 
       // Tests
@@ -50,7 +50,7 @@ describe('Canvas-based elements', () => {
       c.el.style.height = '200px'
       c.el.style.width = '300px'
 
-      const p = c.go()
+      const p = c.run()
       c.end()
 
       // Tests
@@ -102,7 +102,7 @@ describe('Canvas-based elements', () => {
     })
 
     it('Selects 2d canvas context by default', () => {
-      const p = c.go()
+      const p = c.run()
       c.end()
 
       return p.then(() => {
@@ -115,7 +115,7 @@ describe('Canvas-based elements', () => {
     it('Executes render function to draw on element when run', () => {
       c.render_function = sinon.spy()
 
-      const p = c.go().then(() => {
+      const p = c.run().then(() => {
         assert.ok(
           c.render_function.calledOnce
         )
