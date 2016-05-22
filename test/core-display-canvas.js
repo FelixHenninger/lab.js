@@ -111,8 +111,16 @@ describe('Canvas-based elements', () => {
         )
       })
     })
-    
-    it('Executes render function to draw on element when run')
+
+    it('Executes render function to draw on element when run', () => {
+      c.render_function = sinon.spy()
+
+      const p = c.go().then(() => {
+        assert.ok(
+          c.render_function.calledOnce
+        )
+      })
+    })
   })
 
   describe('CanvasSequence', () => {
