@@ -109,6 +109,15 @@ export class BaseElement extends EventHandler {
   }
 
   run() {
+    // Prepare element if this has not been done
+    if (this.status < status.prepared) {
+      if (this.debug) {
+        console.log('Preparing at the last minute')
+      }
+      this.prepare()
+    }
+
+    // Trigger pre-run hooks
     this.triggerMethod('before:run')
 
     // Update status
