@@ -7,12 +7,9 @@ export class HTMLScreen extends BaseElement {
     this.content = content
   }
 
-  run() {
+  onRun() {
     // Insert specified content into element
     this.el.innerHTML = this.content
-
-    // Return promise from ancestor
-    return super.run()
   }
 }
 

@@ -76,17 +76,14 @@ export class CanvasScreen extends BaseElement {
     )
   }
 
-  prepare() {
+  onPrepare() {
     canvas_prepare.apply(this)
 
     // Bind render function to local context
     this.render_function = this.render_function.bind(this)
-
-    // Everything else happens as usual
-    return super.prepare()
   }
 
-  run() {
+  onBeforeRun() {
     // Add canvas to the dom, if necessary
     canvas_insert.apply(this)
 
@@ -94,25 +91,21 @@ export class CanvasScreen extends BaseElement {
     this.ctx = this.canvas.getContext(
       this.ctx_type
     )
+  }
 
+  onRun() {
     // Draw on canvas before the next repaint
     this.frame_request = window.requestAnimationFrame(
       // Context apparently is lost in the callback
       this.render.bind(this)
     )
-
-    // Return promise from ancestor
-    return super.run()
   }
 
-  end(reason) {
+  onEnd() {
     // Attempt to cancel any pending frame requests
     window.cancelAnimationFrame(
       this.frame_request
     )
-
-    // Otherwise, end as per default
-    return super.end(reason)
   }
 }
 
