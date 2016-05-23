@@ -121,6 +121,23 @@ describe('Canvas-based elements', () => {
         )
       })
     })
+
+    it('Calls window.cancelAnimationFrame when it ends', () => {
+      // Stub window.cancelAnimationFrame
+      let fake_cAF = sinon.stub(window, 'cancelAnimationFrame');
+
+      // Run and end the CanvasScreen
+      const p = c.run()
+      c.end()
+
+      // Check that cancelAnimationFrame was called
+      assert.ok(
+        fake_cAF.calledOnce
+      )
+
+      // Restore window.cancelAnimationFrame
+      window.cancelAnimationFrame.restore()
+    })
   })
 
   describe('CanvasSequence', () => {
