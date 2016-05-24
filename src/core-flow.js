@@ -50,26 +50,23 @@ export class Sequence extends BaseElement {
     this.hand_me_downs = options.hand_me_downs || hand_me_downs
   }
 
-  prepare() {
-    super.prepare()
-
+  onPrepare() {
     // Shuffle content, if requested
     if (this.shuffle) {
       this.content = _.shuffle(this.content)
     }
 
+    // Prepare nested items
     prepare_nested(this.content, this)
   }
 
-  run() {
+  onRun() {
     // Run the sequence by stepping through the
     // content elements
-    const promise = super.run()
     this.step()
-    return promise
   }
 
-  end(reason) {
+  onEnd() {
     // End prematurely, if necessary
     if (this.currentPosition !== this.content.length) {
       const currentElement = this.content[this.currentPosition]
@@ -80,7 +77,6 @@ export class Sequence extends BaseElement {
       currentElement.off('after:end')
       currentElement.end('abort by sequence')
     }
-    super.end(reason)
   }
 
   step(increment=+1, keep_going=true) {
@@ -147,11 +143,14 @@ export class Parallel extends BaseElement {
     this.hand_me_downs = options.hand_me_downs || hand_me_downs
   }
 
-  prepare() {
-    super.prepare()
+  onPrepare() {
+    // Prepare nested items
     prepare_nested(this.content, this)
   }
 
+  // The run method is overwritten at this point,
+  // because the original promise is swapped for a
+  // version that runs all nested items in parallel
   run() {
     let promise = super.run()
 
@@ -166,13 +165,11 @@ export class Parallel extends BaseElement {
     return promise
   }
 
-  end(reason) {
+  onEnd() {
     // Cancel remaining running nested elements
     this.content.forEach(c => {
       if (c.status < status.done)
         c.end('abort by parallel')
     })
-
-    super.end(reason)
   }
 }
