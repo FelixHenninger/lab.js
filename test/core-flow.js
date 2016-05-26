@@ -67,6 +67,24 @@ describe('Flow control', () => {
       assert.ok(a_prepare.calledOnce)
       assert.ok(b_prepare.calledOnce)
     })
+
+    it('indicates indirect call to nested items during prepare', () => {
+      // Nest item and prepare container (automated preparation)
+      let a_prepare = sinon.spy()
+      a.on('prepare', a_prepare)
+      
+      p.content = [a]
+      p.prepare()
+
+      // Prepare on nested elements should be called
+      // with direct_call parameter set to false
+      assert.ok(
+        a_prepare.withArgs(false).calledOnce
+      )
+    })
+
+    it('nested elements inherit data from parents')
+    it('updating data changes local properties')
   })
 
   describe('Sequence', () => {

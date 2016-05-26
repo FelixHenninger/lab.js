@@ -11,6 +11,65 @@ describe('Core', () => {
       b.run()
     })
 
+    it('skips automated preparation when tardy option is set', () => {
+      // Set tardy option: No automated preparation
+      b.tardy = true
+
+      // Prepare callback to check whether preparation is run
+      const callback = sinon.spy()
+      b.on('prepare', callback)
+
+      // Prepare item
+      b.prepare(false) // indicate indirect prepare call
+
+      assert.notOk(callback.called)
+    })
+
+    it('responds to manual preparation when tardy option is set', () => {
+      // Set tardy option: No automated preparation
+      b.tardy = true
+
+      // Prepare callback to check whether preparation is run
+      const callback = sinon.spy()
+      b.on('prepare', callback)
+
+      // Prepare item
+      b.prepare() // direct call
+
+      assert.ok(callback.calledOnce)
+    })
+
+    it('calls prepare method automatically when running unprepared', () => {
+      const callback = sinon.spy()
+      b.on('prepare', callback)
+
+      b.run()
+
+      assert.ok(callback.calledOnce)
+    })
+
+    it('calls prepare method automatically on run, even with tardy option', () => {
+      const callback = sinon.spy()
+      b.on('prepare', callback)
+
+      // Set tardy option
+      b.tardy = true
+      b.run()
+
+      assert.ok(callback.calledOnce)
+    })
+
+    it('does not call prepare on a previously prepared item when run', () => {
+      // Prepare item beforehand
+      b.prepare()
+
+      const callback = sinon.spy()
+      b.on('prepare', callback)
+      b.run()
+
+      assert.notOk(callback.called)
+    })
+
     it('provides timer while running')
     // fake performance.now as described here: https://github.com/sinonjs/sinon/issues/803
 
