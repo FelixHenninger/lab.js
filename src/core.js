@@ -25,6 +25,15 @@ export class BaseElement extends EventHandler {
     this.element_type = this.constructor.name
     this.id = options.id || null
 
+    // Setup 'tardyness'
+    // If this option is set, the element will not
+    // respond to automated calls to its prepare
+    // method by superordinate elements (e.g. a
+    // sequence in which it is nested). Instead,
+    // it will prepare when run or after a manual
+    // .prepare() call.
+    this.tardy = options.tardy || false
+
     // Save element status
     this.status = status.initialized
 
@@ -57,10 +66,20 @@ export class BaseElement extends EventHandler {
   }
 
   // Actions ----------------------------------------------
-  prepare() {
+  prepare(direct_call=true) {
     // Prepare an element prior to its display,
     // for example by pre-loading or pre-rendering
     // content
+
+    // Skip the remainder of the function if the
+    // prepare call was automated and the element
+    // is labeled as tardy
+    if (this.tardy && !direct_call) {
+      if (this.debug) {
+        console.log('Skipping automated preparation')
+      }
+      return;
+    }
 
     // Setup automatic event handling for responses
     Object.keys(this.responses).forEach(
@@ -102,7 +121,7 @@ export class BaseElement extends EventHandler {
     Promise.all( this.media.audio.map(preload_audio) )
 
     // Trigger related methods
-    this.triggerMethod('prepare')
+    this.triggerMethod('prepare', direct_call)
 
     // Update status
     this.status = status.prepared

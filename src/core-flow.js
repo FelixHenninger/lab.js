@@ -24,7 +24,7 @@ let prepare_nested = function(nested, parent) {
   })
 
   // Trigger prepare on all nested elements
-  nested.forEach(c => c.prepare())
+  nested.forEach(c => c.prepare(false)) // indicate indirect call
 }
 
 // A sequence combines an array of other
