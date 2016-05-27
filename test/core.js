@@ -70,12 +70,54 @@ describe('Core', () => {
       assert.notOk(callback.called)
     })
 
-    it('provides timer while running')
-    // fake performance.now as described here: https://github.com/sinonjs/sinon/issues/803
+    it('timer property is undefined before running', () => {
+      assert.equal(b.timer, undefined)
+      b.prepare()
+      assert.equal(b.timer, undefined)
+      b.run()
+      assert.notEqual(b.timer, undefined)
+    })
+
+    it('provides and increments timer property while running', () => {
+      const clock = sinon.useFakeTimers()
+
+      // Stub performance.now for the time being,
+      // as described in https://github.com/sinonjs/sinon/issues/803
+      sinon.stub(performance, 'now', Date.now)
+
+      // Simulate progress of time and check timer
+      b.run()
+      assert.equal(b.timer, 0)
+      clock.tick(500)
+      assert.equal(b.timer, 500)
+      clock.tick(500)
+      assert.equal(b.timer, 1000)
+
+      // Restore clocks
+      clock.restore()
+      performance.now.restore()
+    })
+
+    it('timer property remains static after run is complete', () => {
+      // As above
+      const clock = sinon.useFakeTimers()
+      sinon.stub(performance, 'now', Date.now)
+
+      b.run()
+      clock.tick(500)
+      assert.equal(b.timer, 500)
+      b.end()
+      clock.tick(500)
+      assert.equal(b.timer, 500) // timer remains constant
+
+      // Restore clocks
+      clock.restore()
+      performance.now.restore()
+    })
 
     it('times out if requested', () => {
       // Setup fake timers
-      this.clock = sinon.useFakeTimers()
+      const clock = sinon.useFakeTimers()
 
       // Set the timeout to 500ms
       b.timeout = 500
@@ -93,14 +135,14 @@ describe('Core', () => {
       // called after the specified interval
       // has passed
       assert.notOk(callback.called)
-      this.clock.tick(500)
+      clock.tick(500)
       assert.ok(callback.calledOnce)
 
       // Check that the resulting status is ok
       assert.equal(b.data.ended_on, 'timeout')
 
       // Restore timers
-      this.clock.restore()
+      clock.restore()
     })
 
     it('resolves promise when running', () => {
