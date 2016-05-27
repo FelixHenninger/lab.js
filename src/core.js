@@ -213,6 +213,17 @@ export class BaseElement extends EventHandler {
     }
   }
 
+  get timer() {
+    switch (this.status) {
+      case status.running:
+        return performance.now() - this.data.time_run
+      case status.done:
+        return this.data.time_end - this.data.time_run
+      default:
+        return undefined
+    }
+  }
+
 }
 
 // Default options ----------------------------------------
