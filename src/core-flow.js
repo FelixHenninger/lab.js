@@ -47,7 +47,8 @@ export class Sequence extends BaseElement {
 
     // Use default hand-me-downs
     // unless directed otherwise
-    this.hand_me_downs = options.hand_me_downs || hand_me_downs
+    // (note that the hand-me-downs are copied)
+    this.hand_me_downs = options.hand_me_downs || [...hand_me_downs]
   }
 
   onPrepare() {
@@ -140,7 +141,7 @@ export class Parallel extends BaseElement {
 
     // Save options
     this.mode = options.mode || 'race'
-    this.hand_me_downs = options.hand_me_downs || hand_me_downs
+    this.hand_me_downs = options.hand_me_downs || [...hand_me_downs]
   }
 
   onPrepare() {

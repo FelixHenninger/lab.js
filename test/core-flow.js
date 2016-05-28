@@ -26,6 +26,15 @@ describe('Flow control', () => {
       assert.equal(b.foo, 'baz')
     })
 
+    it('hand-me-downs do not leak between elements', () => {
+      p.hand_me_downs.push('foo')
+      q = new lab.Sequence()
+
+      assert.notOk(
+        q.hand_me_downs.includes('foo')
+      )
+    })
+
     it('sets parent attribute', () => {
       p.content = [a, b]
       p.prepare()
