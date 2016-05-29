@@ -141,7 +141,42 @@ describe('Canvas-based elements', () => {
   })
 
   describe('CanvasSequence', () => {
-    it('Adds canvas to hand-me-downs')
+    let s, a, b
+
+    beforeEach(() => {
+      a = new lab.CanvasScreen(
+        () => null // dummy drawing function
+      )
+      b = new lab.CanvasScreen(
+        () => null
+      )
+      s = new lab.CanvasSequence()
+    })
+
+    it('Adds canvas property to hand-me-downs', () => {
+      assert.include(
+        s.hand_me_downs,
+        'canvas'
+      )
+    })
+
+    it('Passes its canvas to nested elements', () => {
+      s.content = [a, b]
+      s.prepare()
+
+      // The canvas should be shared
+      assert.equal(
+        s.canvas,
+        a.canvas
+      )
+
+      // Make sure that the canvas is actually a canvas,
+      // and not some undefined value.
+      assert.ok(
+        b.canvas instanceof HTMLCanvasElement
+      )
+    })
+
     it('Complains if any nested elements are not CanvasScreens')
     it('Runs canvas drawing operations in sequence')
   })
