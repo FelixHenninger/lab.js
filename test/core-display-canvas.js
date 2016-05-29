@@ -177,7 +177,18 @@ describe('Canvas-based elements', () => {
       )
     })
 
-    it('Complains if any nested elements are not CanvasScreens')
+    it('Complains if any nested elements are not canvas-based', () => {
+      s.content = [
+        a, new lab.HTMLScreen('')
+      ]
+
+      // This should cause an error
+      assert.throws(
+        () => s.prepare(), // Binding seems to fail without a wrapper function
+        'Content element not a CanvasScreen or CanvasSequence'
+      )
+    })
+
     it('Runs canvas drawing operations in sequence')
   })
 })

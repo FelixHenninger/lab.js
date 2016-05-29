@@ -124,12 +124,24 @@ export class CanvasSequence extends Sequence {
     }
   }
 
-  prepare() {
+  prepare(direct_call) {
     // Prepare canvas
     canvas_prepare.apply(this)
 
+    // Check that all nested elements
+    // use the Canvas
+    const isCanvasElement = (e) =>
+      e instanceof lab.CanvasScreen ||
+      e instanceof lab.CanvasSequence
+
+    if (!this.content.every(isCanvasElement)) {
+      throw new Error(
+        'Content element not a CanvasScreen or CanvasSequence'
+      )
+    }
+
     // Prepare sequence as usual
-    super.prepare()
+    super.prepare(direct_call)
   }
 
   run() {
