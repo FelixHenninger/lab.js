@@ -81,7 +81,7 @@ describe('Flow control', () => {
       // Nest item and prepare container (automated preparation)
       let a_prepare = sinon.spy()
       a.on('prepare', a_prepare)
-      
+
       p.content = [a]
       p.prepare()
 
@@ -162,6 +162,50 @@ describe('Flow control', () => {
       assert.equal(s.content.length, 100)
       assert.notDeepEqual(content, s.content)
       // console.log(s.content.map(x => x._test_counter))
+    })
+
+    it('terminates current element when aborted', () => {
+      // Setup sequence
+      const a = new lab.BaseElement()
+      s.content = [a]
+
+      // Run
+      s.run()
+
+      // Spy on the nested element's end method
+      const a_end = sinon.spy()
+      a.on('end', a_end)
+
+      // Make sure that the nested element is ended
+      // when the superordinate element is
+      s.end()
+      assert.ok(a_end.calledOnce)
+    })
+
+    it('deactivates stepper when ended', () => {
+      // Setup sequence
+      const a = new lab.BaseElement()
+      const b = new lab.BaseElement()
+      s.content = [a, b]
+
+      s.run()
+      s.end()
+
+      const b_run = sinon.spy()
+      b.on('run', b_run)
+
+      // This should not happen in practice, since elements
+      // are rarely ended manually, but it should still not
+      // result in the sequence progressing
+      a.end()
+      assert.notOk(b_run.called)
+
+      // Just in case someone tries to run the stepper
+      // function manually, this should not work
+      assert.throws(
+        () => s.currentElementStepper(), // Try stepper function
+        's.currentElementStepper is not a function'
+      )
     })
   })
 
