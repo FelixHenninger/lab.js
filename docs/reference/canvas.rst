@@ -1,10 +1,12 @@
 Canvas-based displays
 =====================
 
-The ``canvas`` is an alternate method of displaying content and stimuli on the
+.. module:: lab
+
+The ``Canvas`` is an alternate method of displaying content and stimuli on the
 screen. The underlying principle are true to the canvas metaphor: A canvas is
 a (rectangular) area on which lines, shapes and text can be drawn, to be shown
-to the user. It is represented in HTML using the ``<canvas>`` tag.
+to the user. It is represented in ``HTML`` using the ``<canvas>`` tag.
 
 As `Mark Pilgrim  <http://diveintohtml5.info/canvas.html>`_ has put it: "A
 canvas is a rectangle in your page where you can use JavaScript to draw anything
@@ -22,21 +24,21 @@ Introduction to the canvas
 Why canvas?
 ^^^^^^^^^^^
 
-You might be wondering: HTML largely deals with showing rectangles and text on
-screen, so if a canvas basically does the same thing, why, then, is it useful?
-The primary reason is that browsers are often doing more work for us than we
-realize. In particular, for any HTML content, it is the browser's responsibility
-to  maintain the layout of the page. Whenever a page's content changes, browsers
-need to recalculate the layout, to make sure that any newly inserted text pushes
-the content below further downward, that all text is wrapped neatly around newly
-inserted images, and that all style rules are maintained. You might imagine this
-process like continuously trying to layout a newspaper's front page while new
-content is added and deleted simultaneously. Naturally, this process takes time,
-and if we rely on the browser to react very quickly and update the display
-rapidly in response to our changing the content, the resulting delay might be
-too long, resulting in lag.
+You might be wondering: ``HTML`` largely deals with showing rectangles and text
+on screen, so if a canvas basically does the same thing, why, then, is it
+useful? The primary reason is that browsers are often doing more work for us
+than we realize. In particular, for any ``HTML`` content, it is the browser's
+responsibility to  maintain the layout of the page. Whenever a page's content
+changes, browsers need to recalculate the layout, to make sure that any newly
+inserted text pushes the content below further downward, that all text is
+wrapped neatly around newly inserted images, and that all style rules are
+maintained. You might imagine this process like continuously trying to layout a
+newspaper's front page while new content is added and deleted simultaneously.
+Naturally, this process takes time, and if we rely on the browser to react very
+quickly and update the display rapidly in response to our changing the content,
+the resulting delay might be too long, resulting in lag.
 
-A ``canvas`` does away with continuous layout recalculation, and instead
+A ``Canvas`` does away with continuous layout recalculation, and instead
 provides us with space on which we can happily paint and collage the content
 ourselves. The browser no longer assumes responsibility for our layout, but
 leaves us to squiggle at our hearts' content. If things overlap, no worries --
@@ -75,85 +77,83 @@ We have compiled a few in the following:
 CanvasScreen
 ------------
 
-A ``CanvasScreen`` is an element in an experiment that provides a canvas element
-to draw on via Javascript. It automatically inserts a canvas into the page when
-it is run, and adjusts its size to cover the containing element.
-
 .. caution::
-  The ``CanvasScreen`` API, while completely functional, is not entirely settled
-  yet. You are absolutely invited to use it, however please bear in mind that
-  some details might change over time, as everybody gathers experience using
-  it.
+  The :js:class:`CanvasScreen` API, while completely functional, is not entirely
+  settled yet. You are absolutely invited to use it, however please bear in mind
+  that some details might change over time, as everybody gathers experience
+  using it.
 
   In particular, the part that is most likely to change is the handling of
   animation. This is because this is the aspect of the canvas which the authors
-  have the least experience with. If you are using a ``canvas`` to show animated
+  have the least experience with. If you are using a ``Canvas`` to show animated
   content within an experiment, and would be willing to share thoughts or even
   code, please be warmly invited to drop us a line.
 
-Usage
-^^^^^
+.. js:class:: CanvasScreen(render_function[, options])
 
-When a ``CanvasScreen`` is constructed, it takes two arguments. First,
-it is passed a *render function*, which is a function responsible for filling
-the canvas. Second, the screen can receive options which correspond to those
-of the :ref:`BaseElement <reference/base/BaseElement>`.
+  A :js:class:`CanvasScreen` is an element in an experiment that provides a
+  canvas element to draw on via Javascript. It automatically inserts a canvas
+  into the page when it is run, and adjusts its size to cover the containing
+  element.
 
-Render function
-"""""""""""""""
+  When a :js:class:`CanvasScreen` is constructed, it takes two arguments. First,
+  it is passed a :js:attr:`render_function` , which is a function responsible
+  for filling the canvas. Second, the screen can receive :js:attr:`options`,
+  which correspond to those of the :js:class:`BaseElement` .
 
-The render function contains any code that draws on the canvas when the screen
-is shown. Is called with four arguments:
+  :param function render_function: Function responsible for filling the canvas
+  :param object options: Additional options
 
-* The ``timestamp`` contains a *timestamp* which represents the point in time at
-  which the function is called. It represents the interval since page load,
-  measured in milliseconds.
-* The second argument, ``canvas``, contains a reference to the *canvas object*
-  provided by the CanvasScreen.
-* On third place, the ``ctx`` argument provides a canvas *drawing context*.
-  This is used to actually place information on the canvas.
-* Finally, the ``obj`` argument provides a reference to the ``CanvasScreen``
-  that is currently drawing the canvas.
+  .. js:attribute:: render_function
 
-The simplest possible CanvasScreen might therefore be defined as follows::
+    The render function contains any code that draws on the canvas when the
+    screen is shown. It is called with four arguments:
 
-  // Define a simple render function
-  const render_function = function(ts, canvas, ctx, obj) {
-    // The render function draws a simple text on the screen
-    ctx.fillText(
-      'Hello world', // Text to be shown
-      canvas.width / 2, // x coordinate
-      canvas.height / 2 // y coordinate
-    )
-  }
+    * The ``timestamp`` contains a *timestamp* which represents the point in
+      time at which the function is called. It represents the interval since
+      page load, measured in milliseconds.
+    * The second argument, ``canvas``, contains a reference to the *Canvas
+      object* provided by the :js:class:`CanvasScreen`.
+    * On third place, the ``ctx`` argument provides a canvas *drawing context*.
+      This is used to actually place information on the canvas.
+    * Finally, the ``obj`` argument provides a reference to the
+      :js:class:`CanvasScreen` that is currently drawing the canvas.
 
-  // Define a CanvasScreen that uses the render function
-  const example_screen = new lab.CanvasScreen(
-    render_function,
-    {
-      el: document.getElementById('experiment')
-    }
-  )
+    The simplest possible :js:class:`CanvasScreen` might therefore be defined as
+    follows::
 
-  // Prepare and run the screen
-  example_screen.prepare()
-  example_screen.run()
+      // Define a simple render function
+      const render_function = function(ts, canvas, ctx, obj) {
+        // The render function draws a simple text on the screen
+        ctx.fillText(
+          'Hello world', // Text to be shown
+          canvas.width / 2, // x coordinate
+          canvas.height / 2 // y coordinate
+        )
+      }
 
-Options
-^^^^^^^
+      // Define a CanvasScreen that uses the render function
+      const example_screen = new lab.CanvasScreen(
+        render_function,
+        {
+          el: document.getElementById('experiment')
+        }
+      )
 
-As noted above, any ``CanvasScreen`` accepts the same options that any other
-element of an experiment would, for example responses triggered by the user,
-a timeout, and many more. In addition, the following options are accepted:
+      // Prepare and run the screen
+      example_screen.run()
 
-``ctx_type`` · Drawing mode (``2d``)
-  Type of canvas context passed to the render function (via the ``ctx``
-  parameter, as described above). By default, the context will be of the ``2d``
-  variety, which will probably be most commonly used in experiments.
-  However, `more types are possible
-  <https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement/getContext>`_,
-  in particular if the content is three-dimensional or drawn using 3d hardware
-  acceleration. [#f1]_
+  .. js:attribute:: ctx_type
+
+    Drawing mode: String, defaults to ``2d``
+
+    Type of canvas context passed to the render function (via the ``ctx``
+    parameter, as described above). By default, the context will be of the
+    ``2d`` variety, which will probably be most commonly used in experiments.
+    However, `more types are possible
+    <https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement/getContext>`_,
+    in particular if the content is three-dimensional or drawn using 3d hardware
+    acceleration. [#f1]_
 
 Examples and tricks
 ^^^^^^^^^^^^^^^^^^^
@@ -162,7 +162,7 @@ Drawing shapes
 """"""""""""""
 
 The most natural use of the canvas is to draw shapes on it. In comparison to
-using HTML and images, this approach will offer you greater flexibility and
+using ``HTML`` and images, this approach will offer you greater flexibility and
 likely slightly better timing properties: As noted above, a canvas will provide
 faster drawing times since it does not need to load images and layout the page.
 This is particularly important if you are drawing different shapes in rapid
@@ -254,7 +254,6 @@ might be realized as follows::
     // Fill the shape spanned by the vertices
     ctx.fillStyle = '#0b5d18'
     ctx.fill()
-
   }
 
 Sharp lines
@@ -370,25 +369,37 @@ consider enlisting a helper library to simplify drawing, such as `three.js
 CanvasSequence
 --------------
 
-If a ``CanvasScreen`` reflects a single canvas-based display, a
-``CanvasSequence`` represents a series of such screens strung together. It
-is constructed analogously to a regular
-:ref:`sequence <reference/flow/sequence>`, and behaves identically, with the
-single exception that it inserts a canvas into the document when it starts,
-and directs all nested screens to draw onto this canvas.
+If a :js:class:`CanvasScreen` reflects a single canvas-based display, a
+:class:`CanvasSequence` represents a series of such screens strung together. It
+is constructed analogously to a regular :js:class:`Sequence`, and behaves
+identically, with the single exception that it inserts a canvas into the
+document when it starts, and directs all nested screens to draw onto this
+canvas.
 
-The rationale for using a dedicated ``CanvasSequence`` over a regular one is
-that the canvas need only be inserted into the document once, when the sequence
-runs, rather than before each nested screen individually. This results in a
-significant increase in transition speed, and allows for seamless and instant
-switches between adjacent screens.
+The rationale for using a dedicated :js:class:`CanvasSequence` over a regular
+one is that the canvas need only be inserted into the document once, when the
+sequence runs, rather than before each nested screen individually. This results
+in a significant increase in transition speed, and allows for seamless and
+instant switches between adjacent screens. The ``Canvas`` is not cleared
+automatically between nested elements, so progressive animations are also
+possible.
 
-Options
-^^^^^^^
+.. js:class:: CanvasSequence(content[, options])
 
-A ``CanvasSequence`` will accept and apply any of the options used by a
-:ref:`regular sequence <reference/flow/sequence>`, as well as those accepted by
-a :ref:`CanvasScreen <reference/canvas/CanvasScreen>`.
+  A :js:class:`CanvasSequence` will accept and apply any of the options used by
+  a :js:class:`Sequence`, as well as those accepted by a
+  :js:class:`CanvasScreen`.
+
+.. important::
+  A :js:class:`CanvasSequence` requires that all nested elements are ``Canvas``-
+  based. This is because the ``Canvas`` is shared between all elements in the
+  sequence, and is assumed to be visible and available throughout. The code will
+  therefore throw an error if this condition is not met.
+
+  If you switch between ``Canvas`` and ``HTML``-based elements, please use a
+  regular :js:class:`Sequence`. This will allow nested elements to insert a
+  canvas if they require one, at the cost of changing the document content
+  rather than being able to reduce the same ``Canvas`` continuously.
 
 ----
 
