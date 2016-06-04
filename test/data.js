@@ -1,5 +1,7 @@
 describe('Data handling', () => {
   describe('DataStore', () => {
+    let ds
+
     beforeEach(() => {
       ds = new lab.DataStore({})
     })
@@ -162,7 +164,7 @@ describe('Data handling', () => {
     // Local persistence
 
     it('Saves state into local storage if requested', () => {
-      persistent_ds = new lab.DataStore({
+      const persistent_ds = new lab.DataStore({
         persistence: 'session'
       })
 
@@ -179,10 +181,10 @@ describe('Data handling', () => {
 
     it('Recovers state from local storage', () => {
       // Save some data in sessionStorage
-      let json_data = '[{"a": 1, "b": "foo"}]'
+      const json_data = '[{"a": 1, "b": "foo"}]'
       sessionStorage.setItem('lab.js-data', json_data)
 
-      persistent_ds = new lab.DataStore({
+      const persistent_ds = new lab.DataStore({
         persistence: 'session'
       })
 
@@ -200,7 +202,7 @@ describe('Data handling', () => {
 
     it('Fails gracefully if local data are invalid', () => {
       sessionStorage.setItem('lab.js-data', 'clearly_not_json')
-      persistent_ds = new lab.DataStore({
+      const persistent_ds = new lab.DataStore({
         persistence: 'session'
       })
 
@@ -215,10 +217,10 @@ describe('Data handling', () => {
     })
 
     it('Clears persistent data when instructed', () => {
-      let json_data = '[{"a": 1, "b": "foo"}]'
+      const json_data = '[{"a": 1, "b": "foo"}]'
       sessionStorage.setItem('lab.js-data', json_data)
 
-      persistent_ds = new lab.DataStore({
+      const persistent_ds = new lab.DataStore({
         persistence: 'session'
       })
 
@@ -231,10 +233,10 @@ describe('Data handling', () => {
     })
 
     it('Clears previous persistent data if requested', () => {
-      let json_data = '[{"a": 1, "b": "foo"}]'
+      const json_data = '[{"a": 1, "b": "foo"}]'
       sessionStorage.setItem('lab.js-data', json_data)
 
-      persistent_ds = new lab.DataStore({
+      const persistent_ds = new lab.DataStore({
         persistence: 'session',
         persistence_clear: true
       })
@@ -297,7 +299,7 @@ describe('Data handling', () => {
       })
 
       // Define a function to convert blobs back into text
-      let readBlob = (blob) => {
+      const readBlob = (blob) => {
         return new Promise((resolve, reject) => {
           let reader = new FileReader()
           reader.onload = () => {
@@ -328,7 +330,7 @@ describe('Data handling', () => {
         'three': 3
       })
 
-      let spy = sinon.spy(console, 'table')
+      const spy = sinon.spy(console, 'table')
 
       // Trigger data output
       ds.show()
@@ -341,10 +343,10 @@ describe('Data handling', () => {
       // http://rjzaworski.com/2015/06/testing-api-requests-from-window-fetch
 
       // Stub window.fetch
-      let fake_fetch = sinon.stub(window, 'fetch');
+      const fake_fetch = sinon.stub(window, 'fetch');
 
       // Simulate a response
-      let res = new window.Response('', {
+      const res = new window.Response('', {
         status: 200,
         headers: {
           'Content-type': 'application/json'
@@ -359,7 +361,7 @@ describe('Data handling', () => {
       // Make a mock request and ensure that it works
       // (i.e. that a promise is returned, and that the
       // response passed with it is ok)
-      let output = ds.transmit('https://random.example').then((response) => {
+      const output = ds.transmit('https://random.example').then((response) => {
         assert.ok(response.ok)
       })
 

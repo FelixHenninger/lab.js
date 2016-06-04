@@ -124,7 +124,7 @@ describe('Canvas-based elements', () => {
 
     it('Calls window.cancelAnimationFrame when it ends', () => {
       // Stub window.cancelAnimationFrame
-      let fake_cAF = sinon.stub(window, 'cancelAnimationFrame');
+      const fake_cAF = sinon.stub(window, 'cancelAnimationFrame');
 
       // Run and end the CanvasScreen
       const p = c.run()

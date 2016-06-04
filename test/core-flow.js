@@ -6,7 +6,7 @@ describe('Flow control', () => {
     // is not public, so it's difficult to test
     // directly
 
-    var p, a, b
+    let p, a, b
     beforeEach(() => {
       p = new lab.Sequence()
       a = new lab.BaseElement()
@@ -28,7 +28,7 @@ describe('Flow control', () => {
 
     it('hand-me-downs do not leak between elements', () => {
       p.hand_me_downs.push('foo')
-      q = new lab.Sequence()
+      const q = new lab.Sequence()
 
       assert.notOk(
         q.hand_me_downs.includes('foo')
@@ -63,8 +63,8 @@ describe('Flow control', () => {
     it('runs prepare on nested elements', () => {
       p.content = [a, b]
 
-      let a_prepare = sinon.spy()
-      let b_prepare = sinon.spy()
+      const a_prepare = sinon.spy()
+      const b_prepare = sinon.spy()
       a.on('prepare', a_prepare)
       b.on('prepare', b_prepare)
 
@@ -79,7 +79,7 @@ describe('Flow control', () => {
 
     it('indicates indirect call to nested items during prepare', () => {
       // Nest item and prepare container (automated preparation)
-      let a_prepare = sinon.spy()
+      const a_prepare = sinon.spy()
       a.on('prepare', a_prepare)
 
       p.content = [a]
@@ -98,20 +98,20 @@ describe('Flow control', () => {
 
   describe('Sequence', () => {
 
-    var s
+    let s
     beforeEach(() => {
       s = new lab.Sequence([], {})
     })
 
     it('runs elements in sequence', () => {
       // Setup sequence
-      let a = new lab.BaseElement()
-      let b = new lab.BaseElement()
+      const a = new lab.BaseElement()
+      const b = new lab.BaseElement()
       s.content = [a, b]
 
       // Setup spys
-      let a_run = sinon.spy()
-      let b_run = sinon.spy()
+      const a_run = sinon.spy()
+      const b_run = sinon.spy()
       a.on('run', a_run)
       b.on('run', b_run)
       let s_end = sinon.spy()
@@ -145,8 +145,8 @@ describe('Flow control', () => {
 
     it('shuffles elements if requested', () => {
       // Generate 100 DummyElements as content
-      let content = _.range(100).map((i) => {
-        let o = new lab.DummyElement()
+      const content = _.range(100).map((i) => {
+        const o = new lab.DummyElement()
         o._test_counter = i
         return o
       })
@@ -211,7 +211,7 @@ describe('Flow control', () => {
 
   describe('Parallel', () => {
 
-    var p, a, b
+    let p, a, b
     beforeEach(() => {
       a = new lab.BaseElement()
       b = new lab.BaseElement()
@@ -219,27 +219,28 @@ describe('Flow control', () => {
     })
 
     it('runs elements in parallel', () => {
-      let a_run = sinon.spy()
-      let b_run = sinon.spy()
+      const a_run = sinon.spy()
+      const b_run = sinon.spy()
       a.on('run', a_run)
       b.on('run', b_run)
 
+      // Prepare ...
       p.prepare()
-
       assert.notOk(a_run.called)
       assert.notOk(b_run.called)
+
+      // ... and run
       p.run()
       assert.ok(a_run.calledOnce)
       assert.ok(b_run.calledOnce)
     })
 
     it('ends elements in parallel', () => {
-      let a_end = sinon.spy()
-      let b_end = sinon.spy()
+      const a_end = sinon.spy()
+      const b_end = sinon.spy()
       a.on('end', a_end)
       b.on('end', b_end)
 
-      p.prepare()
       p.run()
       assert.notOk(a_end.called)
       assert.notOk(b_end.called)
@@ -254,8 +255,7 @@ describe('Flow control', () => {
       let p_end = sinon.spy()
       p.on('end', p_end)
 
-      p.prepare()
-      let output =  p.run().then(() => {
+      const output =  p.run().then(() => {
         assert.ok(b_end.calledOnce)
         assert.ok(p_end.calledOnce)
       })
@@ -271,9 +271,7 @@ describe('Flow control', () => {
       let p_end = sinon.spy()
       p.on('end', p_end)
 
-      p.prepare()
-
-      let output = p.run()
+      const output = p.run()
 
       a.end()
       assert.notOk(p_end.called)

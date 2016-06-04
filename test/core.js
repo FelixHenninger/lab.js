@@ -1,6 +1,6 @@
 describe('Core', () => {
   describe('BaseElement', () => {
-    var b
+    let b
 
     beforeEach(() => {
       b = new lab.BaseElement({})
@@ -134,7 +134,7 @@ describe('Core', () => {
 
       // Setup a callback to be run
       // when the element ends
-      var callback = sinon.spy()
+      const callback = sinon.spy()
       b.on('end', callback)
 
       // Run the element
@@ -155,8 +155,7 @@ describe('Core', () => {
     })
 
     it('resolves promise when running', () => {
-      b.prepare()
-      var p = b.run().then(() => {
+      const p = b.run().then(() => {
         assert.ok(true)
       })
       b.end()
@@ -165,14 +164,13 @@ describe('Core', () => {
 
     it('runs event handlers in response to DOM events', () => {
       // Bind a handler to clicks within the document
-      var handler = sinon.spy()
+      const handler = sinon.spy()
       b.events = {
         'click': handler
       }
 
       // Run the element
-      b.prepare()
-      var p = b.run()
+      const p = b.run()
       assert.notOk(handler.calledOnce)
 
       // Simulate click
@@ -202,8 +200,8 @@ describe('Core', () => {
 
       // Create two handlers that are triggered
       // when the buttons are pressed
-      handler_a = sinon.spy()
-      handler_b = sinon.spy()
+      const handler_a = sinon.spy()
+      const handler_b = sinon.spy()
 
       b.events = {
         'click button#btn-a': handler_a,
@@ -212,7 +210,6 @@ describe('Core', () => {
 
       // Simulate clicking both buttons in sequence,
       // and ensure that the associated handlers are triggered
-      b.prepare()
       b.run()
 
       b.el.querySelector('button#btn-a').click()
@@ -231,14 +228,13 @@ describe('Core', () => {
 
     it('binds event handlers to element', () => {
       // Define a spy and use it as an event handler
-      let spy = sinon.spy()
+      const spy = sinon.spy()
       b.events = {
         'click': spy
       }
 
       // Prepare and run element
-      b.prepare()
-      var p = b.run()
+      const p = b.run()
 
       // Simulate click, triggering handler
       b.el.click()
@@ -251,13 +247,13 @@ describe('Core', () => {
     })
 
     it('calls internal event handlers', () => {
-      callback_prepare = sinon.spy()
+      const callback_prepare = sinon.spy()
       b.on('prepare', callback_prepare)
 
-      callback_run = sinon.spy()
+      const callback_run = sinon.spy()
       b.on('run', callback_run)
 
-      callback_end = sinon.spy()
+      const callback_end = sinon.spy()
       b.on('end', callback_end)
 
       // Check whether internal event handlers
@@ -284,10 +280,9 @@ describe('Core', () => {
       }
 
       // Attach a spy to the respond method
-      let spy = sinon.spy(b, 'respond')
+      const spy = sinon.spy(b, 'respond')
 
       // Run the element
-      b.prepare()
       b.run()
 
       // Test whether the click triggers
@@ -305,8 +300,8 @@ describe('Core', () => {
       // Define a correct response
       b.response_correct = 'foo'
 
-      // Prepare the element
-      b.prepare()
+      // Run the element
+      b.run()
 
       // Trigger a response
       b.respond('foo')
@@ -321,7 +316,7 @@ describe('Core', () => {
     it('classifies incorrect responses as such', () => {
       // Same as above
       b.response_correct = 'foo'
-      b.prepare()
+      b.run()
       b.respond('bar')
 
       // Check classification
@@ -341,12 +336,11 @@ describe('Core', () => {
 
     it('commits data automatically when ending', () => {
       // Spy on the commit method
-      let spy = sinon.spy(b, 'commit')
+      const spy = sinon.spy(b, 'commit')
 
       // Supply the BaseElement with a DataStore, then run
       b.datastore = new lab.DataStore()
-      b.prepare()
-      let p = b.run()
+      const p = b.run()
       b.end()
 
       // Make sure the commit method was run

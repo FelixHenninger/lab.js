@@ -1,7 +1,7 @@
 describe('HTML-based elements', () => {
 
   describe('HTMLScreen', () => {
-    var h, el
+    let h, el
 
     beforeEach(() => {
       el = document.createElement('div')
@@ -12,14 +12,13 @@ describe('HTML-based elements', () => {
 
     it('inserts HTML into the document', () => {
       h.content = '<strong>Hello World!</strong>'
-      h.prepare()
       h.run()
       assert.equal(h.el.innerHTML, '<strong>Hello World!</strong>')
     })
   })
 
   describe('FormScreen', () => {
-    var f, el
+    let f, el
 
     beforeEach(() => {
       el = document.createElement('div')
@@ -157,12 +156,11 @@ describe('HTML-based elements', () => {
         '  <button name="button" type="submit" value="value">Submit</button>' +
         '</form>'
 
-      var callback = sinon.spy()
+      const callback = sinon.spy()
       f.on('end', callback)
-      f.prepare()
 
       // Wrap the tests in a promise
-      var p = f.run()
+      const p = f.run()
 
       // Submit the form
       // (note that direct submission via form.submit()
@@ -170,7 +168,7 @@ describe('HTML-based elements', () => {
       // the page)
       f.el.querySelector('button').click()
 
-      var result = p.then(() => {
+      return p.then(() => {
         // Tests
         assert.ok(callback.calledOnce)
         assert.equal(f.data.text_input, 'text_input_contents')
@@ -180,9 +178,6 @@ describe('HTML-based elements', () => {
         // when we're done.
         f.el.innerHTML = ''
       })
-
-      // Return the promise
-      return result
     })
 
     it('validates form input correctly', () => {
