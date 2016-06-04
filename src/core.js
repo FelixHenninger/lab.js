@@ -81,6 +81,14 @@ export class BaseElement extends EventHandler {
       return;
     }
 
+    // Direct output to the HTML element with the id
+    // 'labjs-content', unless a different element
+    // has been provided explicitly
+    if (this.debug && this.el == null) {
+      console.log('No output element specified, using #labjs-content')
+    }
+    this.el = this.el || document.getElementById('labjs-content')
+
     // Setup automatic event handling for responses
     Object.keys(this.responses).forEach(
       eventString => {
