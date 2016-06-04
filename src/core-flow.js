@@ -68,6 +68,9 @@ export class Sequence extends BaseElement {
   }
 
   onEnd() {
+    // Remove stepper function
+    this.currentElementStepper = null
+    
     // End prematurely, if necessary
     if (this.currentPosition !== this.content.length) {
       const currentElement = this.content[this.currentPosition]
