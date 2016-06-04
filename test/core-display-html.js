@@ -150,7 +150,7 @@ describe('HTML-based elements', () => {
       // document node because the virtual
       // elements used above do not deal correctly
       // with the click event used below.
-      f.el = document.querySelector('div#experiment')
+      f.el = null
       f.content = '' +
         '<form>' +
         '  <input type="text" name="text_input" value="text_input_contents">' +

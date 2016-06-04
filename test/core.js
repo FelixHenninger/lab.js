@@ -70,6 +70,15 @@ describe('Core', () => {
       assert.notOk(callback.called)
     })
 
+    it('Directs output to #labjs-content if no other element is specified', () => {
+      b.prepare()
+
+      assert.equal(
+        b.el,
+        document.querySelector('#labjs-content')
+      )
+    })
+
     it('timer property is undefined before running', () => {
       assert.equal(b.timer, undefined)
       b.prepare()
@@ -155,8 +164,6 @@ describe('Core', () => {
     })
 
     it('runs event handlers in response to DOM events', () => {
-      b.el = document.querySelector('div#experiment')
-
       // Bind a handler to clicks within the document
       var handler = sinon.spy()
       b.events = {
@@ -182,7 +189,11 @@ describe('Core', () => {
     })
 
     it('runs event handlers in response to specific events/emitters', () => {
-      b.el = document.querySelector('div#experiment')
+      // We need to set the output element
+      // manually at this point so that we
+      // can inject content before running
+      // .prepare()
+      b.el = document.getElementById('labjs-content')
 
       // Simulate two buttons
       b.el.innerHTML = ' \
@@ -219,8 +230,6 @@ describe('Core', () => {
     })
 
     it('binds event handlers to element', () => {
-      b.el = document.querySelector('div#experiment')
-
       // Define a spy and use it as an event handler
       let spy = sinon.spy()
       b.events = {
@@ -270,7 +279,6 @@ describe('Core', () => {
     })
 
     it('maps responses onto event handlers', () => {
-      b.el = document.querySelector('div#experiment')
       b.responses = {
         'click': 'response_keypress'
       }
