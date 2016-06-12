@@ -15,6 +15,11 @@ export class BaseElement extends EventHandler {
     // Construct the EventHandler first
     super(options)
 
+    // Setup a storage for internal properties
+    // (these are not supposed to be directly
+    // available to users, and will not be documented)
+    this.internals = {}
+
     // Setup a document node within which
     // the element operates
     this.el = options.el || null
@@ -37,6 +42,9 @@ export class BaseElement extends EventHandler {
     // Save element status
     this.status = status.initialized
 
+    // Set parent, if defined
+    this.internals.parent = options.parent || null
+
     // Setup responses
     this.responses = options.responses || {}
     this.response_correct = options.response_correct || null
@@ -45,6 +53,9 @@ export class BaseElement extends EventHandler {
     this.data = options.data || {}
     this.datastore = options.datastore || null
     this.datacommit = options.datacommit || null
+
+    // Setup parameters
+    this.parameters = options.parameters || {}
 
     // Setup media handling
     this.media = options.media || {}
@@ -232,6 +243,32 @@ export class BaseElement extends EventHandler {
     }
   }
 
+  get parent() {
+    return this.internals.parent
+  }
+
+  set parent(p) {
+    // Set internal attribute
+    this.internals.parent = p
+
+    // Set prototype on parameter object
+    // (to allow inheritance of values)
+    if (p != null) {
+      this.parameters = _.extend(
+        // Object.create is preferred over mucking
+        // with the __proto__ attribute, which is
+        // deprecated and introduces performance issues
+        Object.create(p.parameters),
+        this.parameters
+      )
+    } else {
+      // Remove the parent
+      this.parameters = _.extend(
+        Object.create(null),
+        this.parameters
+      )
+    }
+  }
 }
 
 // Default options ----------------------------------------

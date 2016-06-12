@@ -91,9 +91,6 @@ describe('Flow control', () => {
         a_prepare.withArgs(false).calledOnce
       )
     })
-
-    it('nested elements inherit data from parents')
-    it('updating data changes local properties')
   })
 
   describe('Sequence', () => {
