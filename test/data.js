@@ -263,7 +263,7 @@ describe('Data handling', () => {
     })
 
     describe('Data export', () => {
-      it('exports correct JSON data', () => {
+      it('exports correct json data', () => {
         ds.commit({
           'one': 1,
           'two': 2
@@ -278,7 +278,7 @@ describe('Data handling', () => {
         )
       })
 
-      it('exports correct CSV data', () => {
+      it('exports correct csv data', () => {
         ds.commit({
           'one': 1,
           'two': 2
@@ -293,6 +293,36 @@ describe('Data handling', () => {
             'one,three,two',
             '1,,2',
             ',3,2'
+          ].join('\r\n')
+        )
+      })
+
+      it('csv export places cells in quotation marks if required', () => {
+        ds.commit({
+          '1': 'a',
+          '2': 'b,',
+          '3': 'c\n',
+        })
+        assert.strictEqual(
+          ds.export_csv(),
+          [
+            '1,2,3',
+            'a,"b,","c\n"',
+          ].join('\r\n')
+        )
+      })
+
+      it('csv export escapes quotation marks in cells', () => {
+        ds.commit({
+          '1': 'a',
+          '2': 'b"',
+          '3': 'c',
+        })
+        assert.strictEqual(
+          ds.export_csv(),
+          [
+            '1,2,3',
+            'a,"b""",c',
           ].join('\r\n')
         )
       })

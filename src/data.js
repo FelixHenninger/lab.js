@@ -2,6 +2,24 @@
 
 let metadata_keys = ['sender', 'sender_type', 'sender_id', 'timestamp']
 
+const csv_escape_cell = (c) => {
+  // Escape CSV cells as per RFC 4180
+
+  if (typeof c == 'string') {
+    // Replace double quotation marks by
+    // double double quotation marks
+    c = c.replace(/\"/, '""')
+
+    // Surround a cell if it contains a comma,
+    // (double) quotation marks, or a line break
+    if (/[,"\n]+/.test(c)) {
+      c = '"' + c + '"'
+    }
+  }
+
+  return c
+}
+
 export class DataStore {
   constructor(options={}) {
     // Setup persistent storage, if requested
@@ -177,13 +195,15 @@ export class DataStore {
         }
       })
 
-      // TODO: Escape commas and quotes
-      return row_cells.join(separator)
+      return row_cells
+        .map(csv_escape_cell) // Escape special characters in cells
+        .join(separator) // Separate cells
     })
 
     // Prepend column names
     csv_rows.unshift(keys.join(separator))
 
+    // Join rows
     return csv_rows.join('\r\n')
   }
 
