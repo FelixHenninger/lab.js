@@ -11,383 +11,395 @@ describe('Data handling', () => {
       assert.deepEqual(ds.data, [])
     })
 
-    it('stores individual values', () => {
-      ds.set('one', 1)
-      assert.deepEqual(
-        ds.state,
-        {
-          'one': 1,
-        }
-      )
-    })
-
-    it('stores objects', () => {
-      ds.set({
-        'one': 1,
-        'two': 2
-      })
-      assert.deepEqual(
-        ds.state,
-        {
-          'one': 1,
-          'two': 2
-        }
-      )
-    })
-
-    it('retrieves individual values', () => {
-      ds.set({
-        'one': 1,
-        'two': 2
-      })
-      assert.equal(ds.get('one'), ds.state.one)
-      assert.equal(ds.get('two'), ds.state.two)
-    })
-
-    it('copies data to storage on commit', () => {
-      ds.set({
-        'one': 1,
-        'two': 2
-      })
-      ds.commit()
-      assert.deepEqual(
-        ds.state,
-        {
-          'one': 1,
-          'two': 2
-        }
-      )
-      assert.deepEqual(
-        ds.data,
-        [ds.state]
-      )
-    })
-
-    it('clears the staging area on commit', () => {
-      ds.set({
-        'one': 1,
-        'two': 2
-      })
-      ds.commit()
-      assert.deepEqual(ds.staging, {})
-    })
-
-    it('computes column keys', () => {
-      ds.commit({
-        'one': 1,
-        'two': 2
-      })
-      ds.commit({
-        'two': 2,
-        'three': 3
-      })
-      assert.deepEqual(
-        ds.keys(), // sorted alphabetically
-        ['one', 'three', 'two']
-      )
-    })
-
-    it('moves metadata to first columns', () => {
-      // sender should be moved to the front by default
-      ds.commit({
-        'abc': 1,
-        'sender': 2
-      })
-      assert.deepEqual(
-        ds.keys(),
-        ['sender', 'abc']
-      )
-    })
-
-    it('can extract individual columns from the data', () => {
-      ds.commit({
-        'column_1': 1,
-        'column_2': 'a'
-      })
-      ds.commit({
-        'column_1': 2,
-        'column_2': 'b'
-      })
-
-      assert.deepEqual(
-        ds.extract('column_1'),
-        [1, 2]
-      )
-      assert.deepEqual(
-        ds.extract('column_2'),
-        ['a', 'b']
-      )
-    })
-
-    it('can filter by sender when extracting columns', () => {
-      ds.commit({
-        'sender': 'relevantScreen',
-        'column_1': 'foo'
-      })
-      ds.commit({
-        'sender': 'irrelevantScreen',
-        'column_1': 'bar'
-      })
-      ds.commit({
-        'sender': 'relevantScreen',
-        'column_1': 'baz'
-      })
-
-      assert.deepEqual(
-        ds.extract('column_1', 'relevantScreen'),
-        ['foo', 'baz']
-      )
-    })
-
-    it('clears transient data if requested', () => {
-      ds.commit({
-        'a': 'b'
-      })
-
-      // Don't clear persistent storage
-      ds.clear(false, true)
-
-      assert.deepEqual(
-        ds.data,
-        []
-      )
-      assert.deepEqual(
-        ds.state,
-        {}
-      )
-      assert.deepEqual(
-        ds.staging,
-        {}
-      )
-    })
-
-    // Local persistence
-
-    it('Saves state into local storage if requested', () => {
-      const persistent_ds = new lab.DataStore({
-        persistence: 'session'
-      })
-
-      persistent_ds.set("a", "bcd")
-      persistent_ds.commit()
-
-      assert.deepEqual(
-        JSON.parse(sessionStorage.getItem('lab.js-data')),
-        persistent_ds.data
-      )
-
-      sessionStorage.clear()
-    })
-
-    it('Recovers state from local storage', () => {
-      // Save some data in sessionStorage
-      const json_data = '[{"a": 1, "b": "foo"}]'
-      sessionStorage.setItem('lab.js-data', json_data)
-
-      const persistent_ds = new lab.DataStore({
-        persistence: 'session'
-      })
-
-      assert.equal(
-        persistent_ds.get('a'),
-        1
-      )
-      assert.equal(
-        persistent_ds.get('b'),
-        'foo'
-      )
-
-      sessionStorage.clear()
-    })
-
-    it('Fails gracefully if local data are invalid', () => {
-      sessionStorage.setItem('lab.js-data', 'clearly_not_json')
-      const persistent_ds = new lab.DataStore({
-        persistence: 'session'
-      })
-
-      assert.deepEqual(
-        persistent_ds.data, []
-      )
-      assert.deepEqual(
-        persistent_ds.state, {}
-      )
-
-      sessionStorage.clear()
-    })
-
-    it('Clears persistent data when instructed', () => {
-      const json_data = '[{"a": 1, "b": "foo"}]'
-      sessionStorage.setItem('lab.js-data', json_data)
-
-      const persistent_ds = new lab.DataStore({
-        persistence: 'session'
-      })
-
-      persistent_ds.clear()
-
-      assert.equal(
-        sessionStorage.getItem('lab.js-data'),
-        null
-      )
-    })
-
-    it('Clears previous persistent data if requested', () => {
-      const json_data = '[{"a": 1, "b": "foo"}]'
-      sessionStorage.setItem('lab.js-data', json_data)
-
-      const persistent_ds = new lab.DataStore({
-        persistence: 'session',
-        persistence_clear: true
-      })
-
-      assert.deepEqual(
-        persistent_ds.data,
-        []
-      )
-
-      assert.equal(
-        sessionStorage.getItem('lab.js-data'),
-        null
-      )
-    })
-
-    // Data export
-
-    it('exports correct JSON data', () => {
-      ds.commit({
-        'one': 1,
-        'two': 2
-      })
-      ds.commit({
-        'two': 2,
-        'three': 3
-      })
-      assert.deepEqual(
-        ds.export_json(),
-        JSON.stringify(ds.data)
-      )
-    })
-
-    it('exports correct CSV data', () => {
-      ds.commit({
-        'one': 1,
-        'two': 2
-      })
-      ds.commit({
-        'two': 2,
-        'three': 3
-      })
-      assert.strictEqual(
-        ds.export_csv(),
-        [
-          'one,three,two',
-          '1,,2',
-          ',3,2'
-        ].join('\r\n')
-      )
-    })
-
-    it('exports data as a blob', () => {
-      ds.commit({
-        'one': 1,
-        'two': 2
-      })
-      ds.commit({
-        'two': 2,
-        'three': 3
-      })
-
-      // Define a function to convert blobs back into text
-      const readBlob = (blob) => {
-        return new Promise((resolve, reject) => {
-          let reader = new FileReader()
-          reader.onload = () => {
-            resolve(reader.result)
+    describe('Storage', () => {
+      it('stores individual values', () => {
+        ds.set('one', 1)
+        assert.deepEqual(
+          ds.state,
+          {
+            'one': 1,
           }
-          reader.onerror = reject
-          reader.readAsText(blob)
-        })
-      }
+        )
+      })
 
-      return Promise.all([
-        readBlob(ds.export_blob()).then((result) => {
-          assert.equal(result, ds.export_csv())
-        }),
-        readBlob(ds.export_blob('json')).then((result) => {
-          assert.equal(result, ds.export_json())
+      it('stores objects', () => {
+        ds.set({
+          'one': 1,
+          'two': 2
         })
-      ])
+        assert.deepEqual(
+          ds.state,
+          {
+            'one': 1,
+            'two': 2
+          }
+        )
+      })
     })
 
-    it('shows data on the browser console', () => {
-      ds.commit({
-        'one': 1,
-        'two': 2
+    describe('Retrieval', () => {
+      it('retrieves individual values', () => {
+        ds.set({
+          'one': 1,
+          'two': 2
+        })
+        assert.equal(ds.get('one'), ds.state.one)
+        assert.equal(ds.get('two'), ds.state.two)
       })
-      ds.commit({
-        'two': 2,
-        'three': 3
+
+      it('can extract individual columns from the data', () => {
+        ds.commit({
+          'column_1': 1,
+          'column_2': 'a'
+        })
+        ds.commit({
+          'column_1': 2,
+          'column_2': 'b'
+        })
+
+        assert.deepEqual(
+          ds.extract('column_1'),
+          [1, 2]
+        )
+        assert.deepEqual(
+          ds.extract('column_2'),
+          ['a', 'b']
+        )
       })
 
-      const spy = sinon.spy(console, 'table')
+      it('can filter by sender when extracting columns', () => {
+        ds.commit({
+          'sender': 'relevantScreen',
+          'column_1': 'foo'
+        })
+        ds.commit({
+          'sender': 'irrelevantScreen',
+          'column_1': 'bar'
+        })
+        ds.commit({
+          'sender': 'relevantScreen',
+          'column_1': 'baz'
+        })
 
-      // Trigger data output
-      ds.show()
-
-      assert.ok(spy.withArgs(ds.data, ds.keys()).calledOnce)
+        assert.deepEqual(
+          ds.extract('column_1', 'relevantScreen'),
+          ['foo', 'baz']
+        )
+      })
     })
 
-    it('transmits data per post request', () => {
-      // This test ist done as suggested by R.J. Zaworski (MIT licenced)
-      // http://rjzaworski.com/2015/06/testing-api-requests-from-window-fetch
-
-      // Stub window.fetch
-      const fake_fetch = sinon.stub(window, 'fetch');
-
-      // Simulate a response
-      const res = new window.Response('', {
-        status: 200,
-        headers: {
-          'Content-type': 'application/json'
-        }
+    describe('Commit', () => {
+      it('copies data to storage on commit', () => {
+        ds.set({
+          'one': 1,
+          'two': 2
+        })
+        ds.commit()
+        assert.deepEqual(
+          ds.state,
+          {
+            'one': 1,
+            'two': 2
+          }
+        )
+        assert.deepEqual(
+          ds.data,
+          [ds.state]
+        )
       })
 
-      // Make the stub call return the response
-      window.fetch.returns(
-        Promise.resolve(res)
-      )
+      it('clears the staging area on commit', () => {
+        ds.set({
+          'one': 1,
+          'two': 2
+        })
+        ds.commit()
+        assert.deepEqual(ds.staging, {})
+      })
+    })
 
-      // Make a mock request and ensure that it works
-      // (i.e. that a promise is returned, and that the
-      // response passed with it is ok)
-      const output = ds.transmit('https://random.example').then((response) => {
-        assert.ok(response.ok)
+    describe('Metadata', () => {
+      it('computes column keys', () => {
+        ds.commit({
+          'one': 1,
+          'two': 2
+        })
+        ds.commit({
+          'two': 2,
+          'three': 3
+        })
+        assert.deepEqual(
+          ds.keys(), // sorted alphabetically
+          ['one', 'three', 'two']
+        )
       })
 
-      // Make sure fetch has been called with the correct options
-      assert.ok(fake_fetch.withArgs(
-        'https://random.example',
-        {
-          method: 'post',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            meta: {},
-            url: window.location.href,
-            data: ds.data
+      it('moves metadata to first columns', () => {
+        // sender should be moved to the front by default
+        ds.commit({
+          'abc': 1,
+          'sender': 2
+        })
+        assert.deepEqual(
+          ds.keys(),
+          ['sender', 'abc']
+        )
+      })
+    })
+
+    describe('Reset', () => {
+      it('clears transient data if requested', () => {
+        ds.commit({
+          'a': 'b'
+        })
+
+        // Don't clear persistent storage
+        ds.clear(false, true)
+
+        assert.deepEqual(
+          ds.data,
+          []
+        )
+        assert.deepEqual(
+          ds.state,
+          {}
+        )
+        assert.deepEqual(
+          ds.staging,
+          {}
+        )
+      })
+    })
+
+    describe('Local persistence', () => {
+      it('Saves state into local storage if requested', () => {
+        const persistent_ds = new lab.DataStore({
+          persistence: 'session'
+        })
+
+        persistent_ds.set("a", "bcd")
+        persistent_ds.commit()
+
+        assert.deepEqual(
+          JSON.parse(sessionStorage.getItem('lab.js-data')),
+          persistent_ds.data
+        )
+
+        sessionStorage.clear()
+      })
+
+      it('Recovers state from local storage', () => {
+        // Save some data in sessionStorage
+        const json_data = '[{"a": 1, "b": "foo"}]'
+        sessionStorage.setItem('lab.js-data', json_data)
+
+        const persistent_ds = new lab.DataStore({
+          persistence: 'session'
+        })
+
+        assert.equal(
+          persistent_ds.get('a'),
+          1
+        )
+        assert.equal(
+          persistent_ds.get('b'),
+          'foo'
+        )
+
+        sessionStorage.clear()
+      })
+
+      it('Fails gracefully if local data are invalid', () => {
+        sessionStorage.setItem('lab.js-data', 'clearly_not_json')
+        const persistent_ds = new lab.DataStore({
+          persistence: 'session'
+        })
+
+        assert.deepEqual(
+          persistent_ds.data, []
+        )
+        assert.deepEqual(
+          persistent_ds.state, {}
+        )
+
+        sessionStorage.clear()
+      })
+
+      it('Clears persistent data when instructed', () => {
+        const json_data = '[{"a": 1, "b": "foo"}]'
+        sessionStorage.setItem('lab.js-data', json_data)
+
+        const persistent_ds = new lab.DataStore({
+          persistence: 'session'
+        })
+
+        persistent_ds.clear()
+
+        assert.equal(
+          sessionStorage.getItem('lab.js-data'),
+          null
+        )
+      })
+
+      it('Clears previous persistent data if requested', () => {
+        const json_data = '[{"a": 1, "b": "foo"}]'
+        sessionStorage.setItem('lab.js-data', json_data)
+
+        const persistent_ds = new lab.DataStore({
+          persistence: 'session',
+          persistence_clear: true
+        })
+
+        assert.deepEqual(
+          persistent_ds.data,
+          []
+        )
+
+        assert.equal(
+          sessionStorage.getItem('lab.js-data'),
+          null
+        )
+      })
+    })
+
+    describe('Data export', () => {
+      it('exports correct JSON data', () => {
+        ds.commit({
+          'one': 1,
+          'two': 2
+        })
+        ds.commit({
+          'two': 2,
+          'three': 3
+        })
+        assert.deepEqual(
+          ds.export_json(),
+          JSON.stringify(ds.data)
+        )
+      })
+
+      it('exports correct CSV data', () => {
+        ds.commit({
+          'one': 1,
+          'two': 2
+        })
+        ds.commit({
+          'two': 2,
+          'three': 3
+        })
+        assert.strictEqual(
+          ds.export_csv(),
+          [
+            'one,three,two',
+            '1,,2',
+            ',3,2'
+          ].join('\r\n')
+        )
+      })
+
+      it('exports data as a blob', () => {
+        ds.commit({
+          'one': 1,
+          'two': 2
+        })
+        ds.commit({
+          'two': 2,
+          'three': 3
+        })
+
+        // Define a function to convert blobs back into text
+        const readBlob = (blob) => {
+          return new Promise((resolve, reject) => {
+            let reader = new FileReader()
+            reader.onload = () => {
+              resolve(reader.result)
+            }
+            reader.onerror = reject
+            reader.readAsText(blob)
           })
         }
-      ).calledOnce)
-      // TODO: There must be a better way than just checking
-      // whether the arguments were passed correctly, no?
 
-      // Restore window.fetch
-      window.fetch.restore()
+        return Promise.all([
+          readBlob(ds.export_blob()).then((result) => {
+            assert.equal(result, ds.export_csv())
+          }),
+          readBlob(ds.export_blob('json')).then((result) => {
+            assert.equal(result, ds.export_json())
+          })
+        ])
+      })
 
-      return output
+      it('shows data on the browser console', () => {
+        ds.commit({
+          'one': 1,
+          'two': 2
+        })
+        ds.commit({
+          'two': 2,
+          'three': 3
+        })
+
+        const spy = sinon.spy(console, 'table')
+
+        // Trigger data output
+        ds.show()
+
+        assert.ok(spy.withArgs(ds.data, ds.keys()).calledOnce)
+      })
+    })
+
+    describe('Data transmission', () => {
+      it('transmits data per post request', () => {
+        // This test ist done as suggested by R.J. Zaworski (MIT licenced)
+        // http://rjzaworski.com/2015/06/testing-api-requests-from-window-fetch
+
+        // Stub window.fetch
+        const fake_fetch = sinon.stub(window, 'fetch');
+
+        // Simulate a response
+        const res = new window.Response('', {
+          status: 200,
+          headers: {
+            'Content-type': 'application/json'
+          }
+        })
+
+        // Make the stub call return the response
+        window.fetch.returns(
+          Promise.resolve(res)
+        )
+
+        // Make a mock request and ensure that it works
+        // (i.e. that a promise is returned, and that the
+        // response passed with it is ok)
+        const output = ds.transmit('https://random.example').then((response) => {
+          assert.ok(response.ok)
+        })
+
+        // Make sure fetch has been called with the correct options
+        assert.ok(fake_fetch.withArgs(
+          'https://random.example',
+          {
+            method: 'post',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              meta: {},
+              url: window.location.href,
+              data: ds.data
+            })
+          }
+        ).calledOnce)
+        // TODO: There must be a better way than just checking
+        // whether the arguments were passed correctly, no?
+
+        // Restore window.fetch
+        window.fetch.restore()
+
+        return output
+      })
     })
   })
 })
