@@ -11,77 +11,6 @@ describe('Core', () => {
       b.run()
     })
 
-    describe('Preparation', () => {
-      it('skips automated preparation when tardy option is set', () => {
-        // Set tardy option: No automated preparation
-        b.tardy = true
-
-        // Prepare callback to check whether preparation is run
-        const callback = sinon.spy()
-        b.on('prepare', callback)
-
-        // Prepare item
-        b.prepare(false) // indicate indirect prepare call
-
-        assert.notOk(callback.called)
-      })
-
-      it('responds to manual preparation when tardy option is set', () => {
-        // Set tardy option: No automated preparation
-        b.tardy = true
-
-        // Prepare callback to check whether preparation is run
-        const callback = sinon.spy()
-        b.on('prepare', callback)
-
-        // Prepare item
-        b.prepare() // direct call
-
-        assert.ok(callback.calledOnce)
-      })
-
-      it('calls prepare method automatically when running unprepared', () => {
-        const callback = sinon.spy()
-        b.on('prepare', callback)
-
-        b.run()
-
-        assert.ok(callback.calledOnce)
-      })
-
-      it('calls prepare method automatically on run, even with tardy option', () => {
-        const callback = sinon.spy()
-        b.on('prepare', callback)
-
-        // Set tardy option
-        b.tardy = true
-        b.run()
-
-        assert.ok(callback.calledOnce)
-      })
-
-      it('does not call prepare on a previously prepared item when run', () => {
-        // Prepare item beforehand
-        b.prepare()
-
-        const callback = sinon.spy()
-        b.on('prepare', callback)
-        b.run()
-
-        assert.notOk(callback.called)
-      })
-    })
-
-
-    it('Directs output to #labjs-content if no other element is specified', () => {
-      b.prepare()
-
-      assert.equal(
-        b.el,
-        document.querySelector('#labjs-content')
-      )
-    })
-
     describe('Parameters', () => {
       it('inherits parameters from parent', () => {
         const a = new lab.BaseElement({
@@ -177,6 +106,86 @@ describe('Core', () => {
       })
     })
 
+    describe('Preparation', () => {
+      it('skips automated preparation when tardy option is set', () => {
+        // Set tardy option: No automated preparation
+        b.tardy = true
+
+        // Prepare callback to check whether preparation is run
+        const callback = sinon.spy()
+        b.on('prepare', callback)
+
+        // Prepare item
+        b.prepare(false) // indicate indirect prepare call
+
+        assert.notOk(callback.called)
+      })
+
+      it('responds to manual preparation when tardy option is set', () => {
+        // Set tardy option: No automated preparation
+        b.tardy = true
+
+        // Prepare callback to check whether preparation is run
+        const callback = sinon.spy()
+        b.on('prepare', callback)
+
+        // Prepare item
+        b.prepare() // direct call
+
+        assert.ok(callback.calledOnce)
+      })
+
+      it('calls prepare method automatically when running unprepared', () => {
+        const callback = sinon.spy()
+        b.on('prepare', callback)
+
+        b.run()
+
+        assert.ok(callback.calledOnce)
+      })
+
+      it('calls prepare method automatically on run, even with tardy option', () => {
+        const callback = sinon.spy()
+        b.on('prepare', callback)
+
+        // Set tardy option
+        b.tardy = true
+        b.run()
+
+        assert.ok(callback.calledOnce)
+      })
+
+      it('does not call prepare on a previously prepared item when run', () => {
+        // Prepare item beforehand
+        b.prepare()
+
+        const callback = sinon.spy()
+        b.on('prepare', callback)
+        b.run()
+
+        assert.notOk(callback.called)
+      })
+
+      it('directs output to #labjs-content if no other element is specified', () => {
+        b.prepare()
+
+        assert.equal(
+          b.el,
+          document.querySelector('#labjs-content')
+        )
+      })
+    })
+
+    describe('Running', () => {
+      it('resolves promise when running', () => {
+        const p = b.run().then(() => {
+          assert.ok(true)
+        })
+        b.end()
+        return p
+      })
+    })
+
     describe('Timers', () => {
       it('timer property is undefined before running', () => {
         assert.equal(b.timer, undefined)
@@ -252,14 +261,6 @@ describe('Core', () => {
         // Restore timers
         clock.restore()
       })
-    })
-
-    it('resolves promise when running', () => {
-      const p = b.run().then(() => {
-        assert.ok(true)
-      })
-      b.end()
-      return p
     })
 
     describe('Event handlers', () => {
