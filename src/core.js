@@ -269,6 +269,20 @@ export class BaseElement extends EventHandler {
       )
     }
   }
+
+  get parents() {
+    let output = []
+    let current_element = this
+
+    // Traverse hierarchy upwards
+    while (current_element.parent) {
+      current_element = current_element.parent
+      output = output.concat(current_element)
+    }
+
+    // Sort in a top-to-bottom order
+    return output.reverse()
+  }
 }
 
 // Default options ----------------------------------------

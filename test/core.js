@@ -455,5 +455,22 @@ describe('Core', () => {
         })
       })
     })
+
+    describe('Hierarchy traversal', () => {
+      it('provides parents attribute', () => {
+        const a = new lab.BaseElement()
+        const b = new lab.BaseElement()
+        const c = new lab.BaseElement()
+
+        c.parent = b
+        b.parent = a
+
+        assert.deepEqual(
+          c.parents,
+          [a, b]
+        )
+
+      })
+    })
   })
 })
