@@ -11,34 +11,6 @@ describe('Core', () => {
       b.run()
     })
 
-    describe('Parameters', () => {
-      it('can aggregate parameters from parents across multiple levels', () => {
-        // Create elements
-        const a = new lab.BaseElement()
-        const b = new lab.BaseElement()
-        const c = new lab.BaseElement()
-
-        // Establish hierarchy (a > b > c)
-        b.parent = a
-        c.parent = b
-
-        // Distribute parameters
-        a.parameters['foo'] = 'bar'
-        a.parameters['baz'] = 'quux'
-        b.parameters['baz'] = 'queer'
-        c.parameters['bar'] = 'bloop'
-
-        // Check whether inheritance works properly
-        assert.deepEqual(
-          c.parameters_aggregate,
-          {
-            foo: 'bar',
-            baz: 'queer',
-            bar: 'bloop'
-          }
-        )
-      })
-    })
 
     describe('Preparation', () => {
       it('skips automated preparation when tardy option is set', () => {
@@ -365,6 +337,45 @@ describe('Core', () => {
       })
     })
 
+
+    describe('Parameters', () => {
+      it('can aggregate parameters from parents across multiple levels', () => {
+        // Create elements
+        const a = new lab.BaseElement()
+        const b = new lab.BaseElement()
+        const c = new lab.BaseElement()
+
+        // Establish hierarchy (a > b > c)
+        b.parent = a
+        c.parent = b
+
+        // Distribute parameters
+        a.parameters['foo'] = 'bar'
+        a.parameters['baz'] = 'quux'
+        b.parameters['baz'] = 'queer'
+        c.parameters['bar'] = 'bloop'
+
+        // Check whether inheritance works properly
+        assert.deepEqual(
+          c.parameters_aggregate,
+          {
+            foo: 'bar',
+            baz: 'queer',
+            bar: 'bloop'
+          }
+        )
+      })
+
+      it('commits parameters alongside data', () => {
+        // Parameter inheritance is tested elsewhere
+        b.datastore = new lab.DataStore()
+        b.parameters['foo'] = 'bar'
+        b.commit()
+
+        assert.equal(b.datastore.state.foo, 'bar')
+      })
+    })
+
     describe('Data', () => {
       it('commits data if datastore is provided', () => {
         b.datastore = new lab.DataStore()
@@ -403,8 +414,8 @@ describe('Core', () => {
           c.parents,
           [a, b]
         )
-
       })
     })
+    
   })
 })
