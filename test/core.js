@@ -36,6 +36,33 @@ describe('Core', () => {
         )
       })
 
+      it('can aggregate parameters across multiple levels', () => {
+        // Create elements
+        const a = new lab.BaseElement()
+        const b = new lab.BaseElement()
+        const c = new lab.BaseElement()
+
+        // Establish hierarchy (a > b > c)
+        b.parent = a
+        c.parent = b
+
+        // Distribute parameters
+        a.parameters['foo'] = 'bar'
+        a.parameters['baz'] = 'quux'
+        b.parameters['baz'] = 'queer'
+        c.parameters['bar'] = 'bloop'
+
+        // Check whether inheritance works properly
+        assert.deepEqual(
+          c.parameters_aggregate,
+          {
+            foo: 'bar',
+            baz: 'queer',
+            bar: 'bloop'
+          }
+        )
+      })
+
       it('can overwrite parameters set on parents', () => {
         const a = new lab.BaseElement({
           parameters: {
@@ -103,6 +130,15 @@ describe('Core', () => {
         assert.isUndefined(
           b.parameters.foo
         )
+      })
+
+      it('commits parameters alongside data', () => {
+        // Parameter inheritance is tested elsewhere
+        b.datastore = new lab.DataStore()
+        b.parameters['foo'] = 'bar'
+        b.commit()
+
+        assert.equal(b.datastore.state.foo, 'bar')
       })
     })
 

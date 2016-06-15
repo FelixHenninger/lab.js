@@ -220,7 +220,7 @@ export class BaseElement extends EventHandler {
       // Commit the data collected by this element
       this.datastore.commit(
         // ... plus some additional metadata
-        _.extend(this.data, {
+        _.extend(this.data, this.parameters_aggregate, {
           duration: this.data.time_end - this.data.time_run,
           sender: this.title,
           sender_type: this.element_type,
@@ -282,6 +282,13 @@ export class BaseElement extends EventHandler {
 
     // Sort in a top-to-bottom order
     return output.reverse()
+  }
+
+  get parameters_aggregate() {
+    return _.extend(
+      {}, ...this.parents.map(o => o.parameters),
+      this.parameters
+    )
   }
 }
 
