@@ -43,7 +43,7 @@ export class BaseElement extends EventHandler {
     this.status = status.initialized
 
     // Set parent, if defined
-    this.internals.parent = options.parent || null
+    this.parent = options.parent || null
 
     // Setup responses
     this.responses = options.responses || {}
@@ -240,33 +240,6 @@ export class BaseElement extends EventHandler {
         return this.data.time_end - this.data.time_run
       default:
         return undefined
-    }
-  }
-
-  get parent() {
-    return this.internals.parent
-  }
-
-  set parent(p) {
-    // Set internal attribute
-    this.internals.parent = p
-
-    // Set prototype on parameter object
-    // (to allow inheritance of values)
-    if (p != null) {
-      this.parameters = _.extend(
-        // Object.create is preferred over mucking
-        // with the __proto__ attribute, which is
-        // deprecated and introduces performance issues
-        Object.create(p.parameters),
-        this.parameters
-      )
-    } else {
-      // Remove the parent
-      this.parameters = _.extend(
-        Object.create(null),
-        this.parameters
-      )
     }
   }
 

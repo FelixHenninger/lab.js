@@ -12,31 +12,7 @@ describe('Core', () => {
     })
 
     describe('Parameters', () => {
-      it('inherits parameters from parent', () => {
-        const a = new lab.BaseElement({
-          parameters: {
-            foo: 'bar'
-          }
-        })
-
-        b.parameters = {
-          'baz': 'quux'
-        }
-        b.parent = a
-
-        // Parameters set on the parent should
-        // also be available on the nested object
-        assert.equal(
-          b.parameters.foo,
-          'bar'
-        )
-        assert.equal(
-          b.parameters.baz,
-          'quux'
-        )
-      })
-
-      it('can aggregate parameters across multiple levels', () => {
+      it('can aggregate parameters from parents across multiple levels', () => {
         // Create elements
         const a = new lab.BaseElement()
         const b = new lab.BaseElement()
@@ -61,84 +37,6 @@ describe('Core', () => {
             bar: 'bloop'
           }
         )
-      })
-
-      it('can overwrite parameters set on parents', () => {
-        const a = new lab.BaseElement({
-          parameters: {
-            foo: 'bar'
-          }
-        })
-        b.parent = a
-
-        // parameter changes should be
-        // reflected on the element ...
-        b.parameters['foo'] = 'poof'
-        assert.equal(
-          b.parameters.foo,
-          'poof'
-        )
-
-        // ... but not on the parent
-        assert.equal(
-          a.parameters.foo,
-          'bar'
-        )
-      })
-
-      it('parent change modifies parameter inheritance', () => {
-        const p_1 = new lab.BaseElement({
-          parameters: {
-            foo: 'bar',
-            baz: 'quux'
-          }
-        })
-
-        const p_2 = new lab.BaseElement({
-          parameters: {
-            foo: 'poof'
-          }
-        })
-
-        b.parent = p_1
-        b.parent = p_2
-        b.parameters.justInCase = 'to_be_sure'
-
-        assert.equal(
-          b.parameters.foo,
-          'poof'
-        )
-        assert.isUndefined(
-          b.parameters.baz
-        )
-        assert.equal(
-          b.parameters.justInCase,
-          'to_be_sure'
-        )
-      })
-
-      it('reacts appropriately to parent property reset', () => {
-        const p = new lab.BaseElement({
-          parameters: {
-            foo: 'bar'
-          }
-        })
-
-        b.parent = p
-        b.parent = null
-
-        assert.isUndefined(
-          b.parameters.foo
-        )
-      })
-
-      it('commits parameters alongside data', () => {
-        // Parameter inheritance is tested elsewhere
-        b.datastore = new lab.DataStore()
-        b.parameters['foo'] = 'bar'
-        b.commit()
-
-        assert.equal(b.datastore.state.foo, 'bar')
       })
     })
 
