@@ -1,10 +1,11 @@
-const gulp = require('gulp');
-const sourcemaps = require('gulp-sourcemaps');
-const concat = require('gulp-concat');
-const babel = require('gulp-babel');
-const iife = require("gulp-iife");
-const header = require('gulp-header');
+const gulp = require('gulp')
+const sourcemaps = require('gulp-sourcemaps')
+const concat = require('gulp-concat')
+const babel = require('gulp-babel')
+const iife = require("gulp-iife")
+const header = require('gulp-header')
 const strip_comments = require('gulp-strip-comments')
+const zip = require('gulp-zip')
 
 const banner = [
   '// lab.js -- Building blocks for online experiments',
@@ -52,8 +53,23 @@ gulp.task('transpile', function() {
     .pipe(gulp.dest('dist'));
 });
 
+gulp.task('starterkit', function() {
+  // Copy library into starterkit folder
+  gulp.src('dist/lab.js')
+    .pipe(gulp.dest('dist/labjs-starterkit/lib'))
+
+  // Copy auxiliary files into starterkit folder
+  gulp.src('src/starterkit/**/*')
+    .pipe(gulp.dest('dist/labjs-starterkit/'))
+
+  // Create zip file
+  return gulp.src('dist/labjs-starterkit/**/*', {base: 'dist'})
+    .pipe(zip('starterkit.zip'))
+    .pipe(gulp.dest('dist'))
+})
+
 gulp.task('watch', function() {
-  gulp.watch('src/*.js', ['bundle', 'transpile']);
+  gulp.watch('src/*.js', ['bundle', 'transpile', 'starterkit']);
 });
 
-gulp.task('default', ['bundle', 'transpile', 'watch']);
+gulp.task('default', ['bundle', 'transpile', 'starterkit', 'watch']);
