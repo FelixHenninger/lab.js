@@ -1,4 +1,5 @@
-import { EventHandler, preload_image, preload_audio } from './base'
+import { EventHandler } from './base'
+import { preload_image, preload_audio } from './util'
 import _ from 'lodash'
 
 // Define status codes

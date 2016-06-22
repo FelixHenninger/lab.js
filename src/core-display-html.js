@@ -1,6 +1,6 @@
 // HTML-based displays for lab.js
 import { BaseElement } from './core'
-import { domSelect } from './base'
+import { domSelect } from './util'
 import _ from 'lodash'
 
 // HTMLScreens display HTML when run
