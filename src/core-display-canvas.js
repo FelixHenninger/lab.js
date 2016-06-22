@@ -1,5 +1,8 @@
 // Canvas-based displays for lab.js
 
+import { BaseElement } from './core'
+import { Sequence } from './core-flow'
+
 // Global canvas functions used in all of the following elements
 // (multiple inheritance would come in handy here, but alas...)
 
@@ -131,8 +134,8 @@ export class CanvasSequence extends Sequence {
     // Check that all nested elements
     // use the Canvas
     const isCanvasElement = (e) =>
-      e instanceof lab.CanvasScreen ||
-      e instanceof lab.CanvasSequence
+      e instanceof CanvasScreen ||
+      e instanceof CanvasSequence
 
     if (!this.content.every(isCanvasElement)) {
       throw new Error(

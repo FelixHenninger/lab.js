@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 // Data saving --------------------------------------------
 
 let metadata_keys = ['sender', 'sender_type', 'sender_id', 'timestamp']
@@ -140,7 +142,7 @@ export class DataStore {
 
     // Sort alphabetically and remove duplicates
     keys.sort()
-    keys = _.unique(keys, true)
+    keys = _.uniq(keys, true)
     keys.sort() // apparently need to be sorted again
 
     // Bring certain columns to the front

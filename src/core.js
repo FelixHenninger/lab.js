@@ -1,8 +1,8 @@
-// Version
-export const version = '2015'
+import { EventHandler, preload_image, preload_audio } from './base'
+import _ from 'lodash'
 
 // Define status codes
-const status = Object.freeze({
+export const status = Object.freeze({
   initialized:  0,
   prepared:     1,
   running:      2,

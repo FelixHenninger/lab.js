@@ -11,13 +11,13 @@
   <div id="messages"></div>
   <div id="fixtures"></div>
   <!-- Load libraries for testing: Mocha, Chai & Sinon -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.3.4/mocha.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.4.1/chai.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.15.4/sinon.min.js"></script>
   <!-- Optional coverage testing via blanket.js, needs local server (e.g. python -m http.server)
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blanket.js/1.1.4/blanket.min.js" data-cover-adapter="https://raw.githubusercontent.com/alex-seville/blanket/master/src/adapters/mocha-blanket.js"></script>
   -->
+  <script src="../dist/lab.vendor.js" data-cover></script>
   <script src="../dist/lab.js" data-cover></script>
   <script>
     // Setup mocha in BDD mode

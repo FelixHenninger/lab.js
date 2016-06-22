@@ -1,4 +1,6 @@
 // Flow control elements for lab.js
+import { BaseElement, status, hand_me_downs } from './core'
+import _ from 'lodash'
 
 // Helper function to handle nested elements
 let prepare_nested = function(nested, parent) {
@@ -70,7 +72,7 @@ export class Sequence extends BaseElement {
   onEnd() {
     // Remove stepper function
     this.currentElementStepper = null
-    
+
     // End prematurely, if necessary
     if (this.currentPosition !== this.content.length) {
       const currentElement = this.content[this.currentPosition]

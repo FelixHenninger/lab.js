@@ -1,5 +1,7 @@
+import _ from 'lodash'
+
 // JQuery emulation
-const domSelect = function(selector, parent=document) {
+export const domSelect = function(selector, parent=document) {
   // If the selection occurs by id,
   // use getElementById, or querySelectorAll otherwise
   const selectorType = selector.indexOf('#') === 0 ?
@@ -98,7 +100,7 @@ const wrapHandler = function(handler, eventName, options=null, context=null) {
 }
 
 // Preload images
-const preload_image = function(url) {
+export const preload_image = function(url) {
   return new Promise((resolve, reject) => {
     const image = new Image()
 
@@ -114,7 +116,7 @@ const preload_image = function(url) {
 }
 
 // Preload audio
-const preload_audio = function(url) {
+export const preload_audio = function(url) {
   return new Promise((resolve, reject) => {
     const audio = new Audio()
 
@@ -137,7 +139,7 @@ const preload_audio = function(url) {
 // provides a basic framework for this, in that is
 // allows for custom events on an object, and handles
 // DOM event binding and unbinding.
-class EventHandler {
+export class EventHandler {
   constructor(options={}) {
     this._callbacks = {}
     this._domHandlers = {}
