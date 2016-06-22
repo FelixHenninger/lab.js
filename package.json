@@ -22,5 +22,8 @@
       "es6": true,
       "node": true
     }
+  },
+  "scripts": {
+    "build:docs": "cd docs && make html"
   }
 }
