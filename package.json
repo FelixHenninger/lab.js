@@ -12,6 +12,7 @@
     "babel-preset-es2015": ">=6.3.0",
     "gulp": ">=3.9.0",
     "gulp-zip": "^3.2.0",
+    "onchange": "^2.5.0",
     "webpack": "^1.13.1",
     "webpack-stream": "^3.2.0"
   },
@@ -24,6 +25,7 @@
     }
   },
   "scripts": {
-    "build:docs": "cd docs && make html"
+    "build:docs": "cd docs && make html",
+    "watch:docs": "onchange 'docs/**/*.rst' 'docs/**/*.py' -- npm run build:docs"
   }
 }
