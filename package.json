@@ -26,6 +26,8 @@
   },
   "scripts": {
     "build:docs": "cd docs && make html",
-    "watch:docs": "onchange 'docs/**/*.rst' 'docs/**/*.py' -- npm run build:docs"
+    "build:js": "webpack",
+    "watch:docs": "onchange 'docs/**/*.rst' 'docs/**/*.py' -- npm run build:docs",
+    "watch:js": "onchange 'src/**/*' -- npm run build:js"
   }
 }
