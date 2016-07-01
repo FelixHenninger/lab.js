@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { domSelect } from './util'
+import { domSelect } from './util/dom'
 
 // Split an event specifier into event name, options and selector
 const splitEventString = function(eventString) {
