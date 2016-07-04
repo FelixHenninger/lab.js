@@ -144,7 +144,7 @@ export class CanvasSequence extends Sequence {
     }
 
     // Prepare sequence as usual
-    super.prepare(direct_call)
+    return super.prepare(direct_call)
   }
 
   run() {

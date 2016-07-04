@@ -1,5 +1,6 @@
 import { EventHandler } from './base'
 import { preload_image, preload_audio } from './util/preload'
+import { promise_chain } from './util/promise'
 import _ from 'lodash'
 
 // Define status codes
@@ -90,7 +91,7 @@ export class BaseElement extends EventHandler {
       if (this.debug) {
         console.log('Skipping automated preparation')
       }
-      return;
+      return Promise.resolve()
     }
 
     // Direct output to the HTML element with the id
@@ -133,44 +134,58 @@ export class BaseElement extends EventHandler {
       this.on('after:end', this.commit)
     }
 
-    // Preload media
-    // FIXME: This is asynchronous at present,
-    // meaning that the experiment will not wait until
-    // all media are fully loaded.
-    Promise.all( this.media.images.map(preload_image) )
-    Promise.all( this.media.audio.map(preload_audio) )
-
-    // Trigger related methods
-    this.triggerMethod('prepare', direct_call)
-
-    // Update status
-    this.status = status.prepared
+    return promise_chain([
+      // Preload media
+      () => Promise.all( this.media.images.map(preload_image) ),
+      () => Promise.all( this.media.audio.map(preload_audio) ),
+      // Trigger related methods
+      () => this.triggerMethod('prepare', direct_call),
+      // Update status
+      () => this.status = status.prepared
+      // TODO: Need to reflect on the order of the last
+      // two operations. A problem emerged that calls
+      // to 'run' in a prepare handler would lead to
+      // double preparation, therefore the current order
+      // was chosen. However, this might be revised
+      // at some later point for clearer semantics.
+    ])
   }
 
   run() {
+    // Promise that represents the entire run
+    // of the element
+    const p = new Promise((resolve, reject) => {
+      this.on('end', resolve)
+    })
+    let chain // Chain for intermediate promises
+
     // Prepare element if this has not been done
     if (this.status < status.prepared) {
       if (this.debug) {
         console.log('Preparing at the last minute')
       }
-      this.prepare()
+      chain = this.prepare()
+    } else {
+      chain = Promise.resolve()
     }
 
-    // Trigger pre-run hooks
-    this.triggerMethod('before:run')
+    return chain.then(() => {
+      // Trigger pre-run hooks
+      this.triggerMethod('before:run')
 
-    // Update status
-    this.status = status.running
+      // Update status
+      this.status = status.running
 
-    // Note the time
-    this.data.time_run = performance.now()
+      // Note the time
+      this.data.time_run = performance.now()
 
-    // Run an element by showing it
-    this.triggerMethod('run')
+      // Run an element by showing it
+      this.triggerMethod('run')
 
-    // Return a promise that is resolved after
-    // the element has been run
-    return this.wait_for('end')
+      // Return a promise that is resolved after
+      // the element has been run
+      return p
+    })
   }
 
   respond(response=null) {

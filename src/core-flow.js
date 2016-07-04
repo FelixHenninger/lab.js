@@ -26,7 +26,9 @@ let prepare_nested = function(nested, parent) {
   })
 
   // Trigger prepare on all nested elements
-  nested.forEach(c => c.prepare(false)) // indicate indirect call
+  return Promise.all(
+    nested.map(c => c.prepare(false)) // indicate indirect call
+  )
 }
 
 // A sequence combines an array of other
@@ -53,14 +55,18 @@ export class Sequence extends BaseElement {
     this.hand_me_downs = options.hand_me_downs || [...hand_me_downs]
   }
 
-  onPrepare() {
+  prepare(direct_call) {
+    const p = super.prepare(direct_call)
+
     // Shuffle content, if requested
     if (this.shuffle) {
       this.content = _.shuffle(this.content)
     }
 
     // Prepare nested items
-    prepare_nested(this.content, this)
+    return p.then(
+      () => prepare_nested(this.content, this)
+    )
   }
 
   onRun() {
@@ -149,9 +155,13 @@ export class Parallel extends BaseElement {
     this.hand_me_downs = options.hand_me_downs || [...hand_me_downs]
   }
 
-  onPrepare() {
+  prepare(direct_call) {
+    const p = super.prepare(direct_call)
+
     // Prepare nested items
-    prepare_nested(this.content, this)
+    return p.then(
+      () => prepare_nested(this.content, this)
+    )
   }
 
   // The run method is overwritten at this point,
