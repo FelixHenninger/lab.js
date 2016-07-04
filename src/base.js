@@ -140,6 +140,14 @@ export class EventHandler {
     return this
   }
 
+  wait_for(event) {
+    // Return a promise that resolves when
+    // the event in question is triggered
+    return new Promise(
+      (resolve, reject) => this.on(event, resolve)
+    )
+  }
+
   // Trigger handling
   // This is heavily inspired by the excellent backbone.marionette, see
   // http://marionettejs.com/annotated-src/backbone.marionette.html#section-96

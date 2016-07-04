@@ -170,9 +170,7 @@ export class BaseElement extends EventHandler {
 
     // Return a promise that is resolved after
     // the element has been run
-    return new Promise((resolve, reject) => {
-      this.on('end', resolve)
-    })
+    return this.wait_for('end')
   }
 
   respond(response=null) {
