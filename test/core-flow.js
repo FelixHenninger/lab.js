@@ -20,10 +20,10 @@ describe('Flow control', () => {
       p.content = [a, b]
       p.hand_me_downs.push('foo')
 
-      p.prepare()
-
-      assert.equal(a.foo, 'bar')
-      assert.equal(b.foo, 'baz')
+      return p.prepare().then(() => {
+        assert.equal(a.foo, 'bar')
+        assert.equal(b.foo, 'baz')
+      })
     })
 
     it('hand-me-downs do not leak between elements', () => {
@@ -37,27 +37,27 @@ describe('Flow control', () => {
 
     it('sets parent attribute', () => {
       p.content = [a, b]
-      p.prepare()
-
-      assert.equal(a.parent, p)
-      assert.equal(b.parent, p)
+      return p.prepare().then(() => {
+        assert.equal(a.parent, p)
+        assert.equal(b.parent, p)
+      })
     })
 
     it('sets id attribute correctly on nested elements', () => {
       p.content = [a, b]
-      p.prepare()
-
-      assert.equal(a.id, '0')
-      assert.equal(b.id, '1')
+      return p.prepare().then(() => {
+        assert.equal(a.id, '0')
+        assert.equal(b.id, '1')
+      })
     })
 
     it('sets id attribute correctly on nested elements with id present', () => {
       p.id = '0'
       p.content = [a, b]
-      p.prepare()
-
-      assert.equal(a.id, '0_0')
-      assert.equal(b.id, '0_1')
+      return p.prepare().then(() => {
+        assert.equal(a.id, '0_0')
+        assert.equal(b.id, '0_1')
+      })
     })
 
     it('runs prepare on nested elements', () => {
@@ -71,25 +71,24 @@ describe('Flow control', () => {
       assert.notOk(a_prepare.calledOnce)
       assert.notOk(b_prepare.calledOnce)
 
-      p.prepare()
-
-      assert.ok(a_prepare.calledOnce)
-      assert.ok(b_prepare.calledOnce)
+      return p.prepare().then(() => {
+        assert.ok(a_prepare.calledOnce)
+        assert.ok(b_prepare.calledOnce)
+      })
     })
 
     it('indicates indirect call to nested items during prepare', () => {
       // Nest item and prepare container (automated preparation)
-      const a_prepare = sinon.spy()
-      a.on('prepare', a_prepare)
+      const a_prepare = sinon.stub(a, 'prepare')
 
       p.content = [a]
-      p.prepare()
-
-      // Prepare on nested elements should be called
-      // with direct_call parameter set to false
-      assert.ok(
-        a_prepare.withArgs(false).calledOnce
-      )
+      p.prepare().then(() => {
+        // Prepare on nested elements should be called
+        // with direct_call parameter set to false
+        assert.ok(
+          a_prepare.withArgs(false).calledOnce
+        )
+      })
     })
   })
 
@@ -114,30 +113,53 @@ describe('Flow control', () => {
       let s_end = sinon.spy()
       s.on('end', s_end)
 
-      // Prepare sequence
-      s.prepare()
-      assert.notOk(a_run.called)
-      assert.notOk(b_run.called)
 
-      // Run
-      // A goes first
-      s.run()
-      assert.ok(a_run.calledOnce)
-      assert.notOk(b_run.called)
-      // B follows
-      a.end()
-      assert.ok(a_run.calledOnce)
-      assert.ok(b_run.calledOnce)
-      // We're not done yet
-      assert.notOk(s_end.called)
-      // The sequence ends
-      b.end()
-      // By now, each element should
-      // have run once and the sequence
-      // should have ended automatically
-      assert.ok(a_run.calledOnce)
-      assert.ok(b_run.calledOnce)
-      assert.ok(s_end.calledOnce)
+      const tasks = [
+        () => {
+          // Prepare sequence
+          return s.prepare().then(() => {
+            assert.notOk(a_run.called)
+            assert.notOk(b_run.called)
+          })
+        },
+        () => {
+          // Run
+          // A goes first
+          let p = s.wait_for('run').then(() => {
+            assert.ok(a_run.calledOnce)
+            assert.notOk(b_run.called)
+          })
+          s.run()
+          return p
+        },
+        () => {
+          // B follows
+          let p = a.wait_for('end', () => {
+            assert.ok(a_run.calledOnce)
+            assert.ok(b_run.calledOnce)
+          })
+          a.end()
+          return p
+        },
+        () => {
+          // We're not done yet
+          assert.notOk(s_end.called)
+          // The sequence ends
+          b.end()
+        },
+        () => {
+          // By now, each element should
+          // have run once and the sequence
+          // should have ended automatically
+          assert.ok(a_run.calledOnce)
+          assert.ok(b_run.calledOnce)
+          assert.ok(s_end.calledOnce)
+        }
+      ]
+
+      return tasks.reduce((chain, f) => {
+        return chain.then(f)
+      }, Promise.resolve())
     })
 
     it('shuffles elements if requested', () => {
@@ -152,12 +174,15 @@ describe('Flow control', () => {
 
       // Setup shuffle and prepare Sequence
       s.shuffle = true
-      s.prepare()
 
-      // Test that the content has the correct length,
-      // and that the order is not the original one
-      assert.equal(s.content.length, 100)
-      assert.notDeepEqual(content, s.content)
+      return s.prepare().then(() => {
+        // Test that the content has the correct length,
+        // and that the order is not the original one
+        assert.equal(s.content.length, 100)
+        assert.notDeepEqual(content, s.content)
+      })
+
+      // Output internal counter ids for debugging
       // console.log(s.content.map(x => x._test_counter))
     })
 
@@ -173,10 +198,12 @@ describe('Flow control', () => {
       const a_end = sinon.spy()
       a.on('end', a_end)
 
-      // Make sure that the nested element is ended
-      // when the superordinate element is
-      s.end()
-      assert.ok(a_end.calledOnce)
+      return s.wait_for('run').then(() => {
+        // Make sure that the nested element is ended
+        // when the superordinate element is
+        s.end()
+        assert.ok(a_end.calledOnce)
+      })
     })
 
     it('deactivates stepper when ended', () => {
@@ -185,24 +212,29 @@ describe('Flow control', () => {
       const b = new lab.BaseElement()
       s.content = [a, b]
 
-      s.run()
-      s.end()
-
       const b_run = sinon.spy()
       b.on('run', b_run)
 
-      // This should not happen in practice, since elements
-      // are rarely ended manually, but it should still not
-      // result in the sequence progressing
-      a.end()
-      assert.notOk(b_run.called)
 
-      // Just in case someone tries to run the stepper
-      // function manually, this should not work
-      assert.throws(
-        () => s.currentElementStepper(), // Try stepper function
-        's.currentElementStepper is not a function'
-      )
+      const p = s.wait_for('run').then(() => {
+        s.end()
+
+        // This should not happen in practice, since elements
+        // are rarely ended manually, but it should still not
+        // result in the sequence progressing
+        a.end()
+        assert.notOk(b_run.called)
+
+        // Just in case someone tries to run the stepper
+        // function manually, this should not work
+        assert.throws(
+          () => s.currentElementStepper(), // Try stepper function
+          's.currentElementStepper is not a function'
+        )
+      })
+
+      s.run()
+      return p
     })
   })
 
@@ -221,15 +253,23 @@ describe('Flow control', () => {
       a.on('run', a_run)
       b.on('run', b_run)
 
-      // Prepare ...
-      p.prepare()
-      assert.notOk(a_run.called)
-      assert.notOk(b_run.called)
+      const output = Promise.all([
+        p.wait_for('prepare').then(() => {
+          // Prepare ...
+          assert.notOk(a_run.called)
+          assert.notOk(b_run.called)
 
-      // ... and run
-      p.run()
-      assert.ok(a_run.calledOnce)
-      assert.ok(b_run.calledOnce)
+          p.run()
+        }),
+        p.wait_for('run').then(() => {
+          // ... and run
+          assert.ok(a_run.calledOnce)
+          assert.ok(b_run.calledOnce)
+        })
+      ])
+
+      p.prepare()
+      return output
     })
 
     it('ends elements in parallel', () => {
@@ -239,11 +279,13 @@ describe('Flow control', () => {
       b.on('end', b_end)
 
       p.run()
-      assert.notOk(a_end.called)
-      assert.notOk(b_end.called)
-      p.end()
-      assert.ok(a_end.calledOnce)
-      assert.ok(b_end.calledOnce)
+      return p.wait_for('run').then(() => {
+        assert.notOk(a_end.called)
+        assert.notOk(b_end.called)
+        p.end()
+        assert.ok(a_end.calledOnce)
+        assert.ok(b_end.calledOnce)
+      })
     })
 
     it('implements race mode (by default)', () => {
@@ -252,7 +294,7 @@ describe('Flow control', () => {
       let p_end = sinon.spy()
       p.on('end', p_end)
 
-      const output =  p.run().then(() => {
+      const output = p.run().then(() => {
         assert.ok(b_end.calledOnce)
         assert.ok(p_end.calledOnce)
       })

@@ -11,7 +11,6 @@ describe('Core', () => {
       b.run()
     })
 
-
     describe('Preparation', () => {
       it('skips automated preparation when tardy option is set', () => {
         // Set tardy option: No automated preparation
@@ -21,10 +20,10 @@ describe('Core', () => {
         const callback = sinon.spy()
         b.on('prepare', callback)
 
-        // Prepare item
-        b.prepare(false) // indicate indirect prepare call
-
-        assert.notOk(callback.called)
+        // Prepare item (indicate non-direct call)
+        return b.prepare(false).then(() => {
+          assert.notOk(callback.called)
+        })
       })
 
       it('responds to manual preparation when tardy option is set', () => {
@@ -35,19 +34,19 @@ describe('Core', () => {
         const callback = sinon.spy()
         b.on('prepare', callback)
 
-        // Prepare item
-        b.prepare() // direct call
-
-        assert.ok(callback.calledOnce)
+        // Prepare item (via direct call)
+        return b.prepare().then(() => {
+          assert.ok(callback.calledOnce)
+        })
       })
 
       it('calls prepare method automatically when running unprepared', () => {
         const callback = sinon.spy()
         b.on('prepare', callback)
 
-        b.run()
-
-        assert.ok(callback.calledOnce)
+        b.run().then(() => {
+          assert.ok(callback.calledOnce)
+        })
       })
 
       it('calls prepare method automatically on run, even with tardy option', () => {
@@ -56,20 +55,24 @@ describe('Core', () => {
 
         // Set tardy option
         b.tardy = true
-        b.run()
-
-        assert.ok(callback.calledOnce)
+        b.run().then(() => {
+          assert.ok(callback.calledOnce)
+        })
       })
 
       it('does not call prepare on a previously prepared item when run', () => {
-        // Prepare item beforehand
-        b.prepare()
-
         const callback = sinon.spy()
-        b.on('prepare', callback)
-        b.run()
 
-        assert.notOk(callback.called)
+        // Prepare item beforehand
+        return b.prepare().then(() => {
+          // Run item
+          b.on('prepare', callback)
+          const p = b.run()
+          b.end()
+          return p
+        }).then(() => {
+          assert.notOk(callback.called)
+        })
       })
 
       it('directs output to #labjs-content if no other element is specified', () => {
@@ -95,10 +98,18 @@ describe('Core', () => {
     describe('Timers', () => {
       it('timer property is undefined before running', () => {
         assert.equal(b.timer, undefined)
-        b.prepare()
-        assert.equal(b.timer, undefined)
+        return b.prepare().then(() => {
+          assert.equal(b.timer, undefined)
+        })
+      })
+
+      it('timer property holds a value while running', () => {
+        const p = b.wait_for('run').then(() => {
+          assert.notEqual(b.timer, undefined)
+        })
+
         b.run()
-        assert.notEqual(b.timer, undefined)
+        return p
       })
 
       it('provides and increments timer property while running', () => {
@@ -108,17 +119,21 @@ describe('Core', () => {
         // as described in https://github.com/sinonjs/sinon/issues/803
         sinon.stub(performance, 'now', Date.now)
 
-        // Simulate progress of time and check timer
-        b.run()
-        assert.equal(b.timer, 0)
-        clock.tick(500)
-        assert.equal(b.timer, 500)
-        clock.tick(500)
-        assert.equal(b.timer, 1000)
+        const p = b.wait_for('run').then(() => {
+          // Simulate progress of time and check timer
+          assert.equal(b.timer, 0)
+          clock.tick(500)
+          assert.equal(b.timer, 500)
+          clock.tick(500)
+          assert.equal(b.timer, 1000)
 
-        // Restore clocks
-        clock.restore()
-        performance.now.restore()
+          // Restore clocks
+          clock.restore()
+          performance.now.restore()
+        })
+
+        b.run()
+        return p
       })
 
       it('timer property remains static after run is complete', () => {
@@ -126,16 +141,24 @@ describe('Core', () => {
         const clock = sinon.useFakeTimers()
         sinon.stub(performance, 'now', Date.now)
 
-        b.run()
-        clock.tick(500)
-        assert.equal(b.timer, 500)
-        b.end()
-        clock.tick(500)
-        assert.equal(b.timer, 500) // timer remains constant
+        b.wait_for('run').then(() => {
+          clock.tick(500)
+          b.end()
+        })
 
-        // Restore clocks
-        clock.restore()
-        performance.now.restore()
+        const p = b.wait_for('end').then(() => {
+          assert.equal(b.timer, 500) // timer remains constant
+          clock.tick(500)
+          assert.equal(b.timer, 500) // timer remains constant
+
+          // Restore clocks
+          clock.restore()
+          performance.now.restore()
+        })
+
+        b.run()
+
+        return p
       })
 
       it('times out if requested', () => {
@@ -144,28 +167,46 @@ describe('Core', () => {
 
         // Set the timeout to 500ms
         b.timeout = 500
-        b.prepare()
 
         // Setup a callback to be run
         // when the element ends
         const callback = sinon.spy()
         b.on('end', callback)
 
+        const p = b.wait_for('run').then(() => {
+          // Check that the callback is only
+          // called after the specified interval
+          // has passed
+          assert.notOk(callback.called)
+          clock.tick(500)
+          assert.ok(callback.calledOnce)
+
+          // Restore timers
+          clock.restore()
+        })
+
         // Run the element
         b.run()
 
-        // Check that the callback is only
-        // called after the specified interval
-        // has passed
-        assert.notOk(callback.called)
-        clock.tick(500)
-        assert.ok(callback.calledOnce)
+        return p
+      })
 
-        // Check that the resulting status is ok
-        assert.equal(b.data.ended_on, 'timeout')
+      it('notes timeout as status if timed out', () => {
+        // As above
+        const clock = sinon.useFakeTimers()
+        b.timeout = 500
 
-        // Restore timers
-        clock.restore()
+        b.wait_for('run').then(() => {
+          // Trigger timeout
+          clock.tick(500)
+        })
+
+        return b.run().then(() => {
+          // Check that the resulting status is ok
+          assert.equal(b.data.ended_on, 'timeout')
+
+          clock.restore()
+        })
       })
     })
 
@@ -177,21 +218,18 @@ describe('Core', () => {
           'click': handler
         }
 
-        // Run the element
-        const p = b.run()
-        assert.notOk(handler.calledOnce)
+        const p = b.wait_for('run').then(() => {
+          assert.notOk(handler.calledOnce)
 
-        // Simulate click
-        b.el.click()
+          // Simulate click
+          b.el.click()
 
-        // End the element so that the result
-        // can be checked
-        b.end()
-
-        // Make sure the handler is called
-        return p.then(() => {
           assert.ok(handler.calledOnce)
         })
+
+        b.run()
+
+        return p
       })
 
       it('runs event handlers in response to specific events/emitters', () => {
@@ -216,22 +254,25 @@ describe('Core', () => {
           'click button#btn-b': handler_b,
         }
 
-        // Simulate clicking both buttons in sequence,
-        // and ensure that the associated handlers are triggered
+        const p = b.wait_for('run').then(() => {
+          // Simulate clicking both buttons in sequence,
+          // and ensure that the associated handlers are triggered
+          b.el.querySelector('button#btn-a').click()
+          assert.ok(handler_a.calledOnce)
+          assert.notOk(handler_b.called)
+
+          b.el.querySelector('button#btn-b').click()
+          assert.ok(handler_a.calledOnce)
+          assert.ok(handler_b.calledOnce)
+
+          // Clean up
+          b.end()
+          b.el.innerHTML = ''
+        })
+
         b.run()
 
-        b.el.querySelector('button#btn-a').click()
-        assert.ok(handler_a.calledOnce)
-        assert.notOk(handler_b.called)
-
-        b.el.querySelector('button#btn-b').click()
-        assert.ok(handler_a.calledOnce)
-        assert.ok(handler_b.calledOnce)
-
-        b.end()
-
-        // Clean up
-        b.el.innerHTML = ''
+        return p
       })
 
       it('binds event handlers to element', () => {
@@ -241,17 +282,20 @@ describe('Core', () => {
           'click': spy
         }
 
-        // Prepare and run element
-        const p = b.run()
+        const p = b.wait_for('run').then(() => {
+          // Simulate click, triggering handler
+          b.el.click()
 
-        // Simulate click, triggering handler
-        b.el.click()
+          // Check binding
+          assert.ok(spy.calledOn(b))
 
-        // Check binding
-        assert.ok(spy.calledOn(b))
+          // Cleanup
+          b.end()
+        })
 
-        // Cleanup
-        b.end()
+        b.run()
+
+        return p
       })
 
       it('calls internal event handlers', () => {
@@ -266,20 +310,35 @@ describe('Core', () => {
 
         // Check whether internal event handlers
         // are called at the appropriate times
-        b.prepare()
-        assert.ok(callback_prepare.calledOnce)
-        assert.notOk(callback_run.called)
-        assert.notOk(callback_end.called)
+        return Promise.all([
+          b.prepare().then(() => {
+            assert.ok(callback_prepare.calledOnce)
+            assert.notOk(callback_run.called)
+            assert.notOk(callback_end.called)
+            b.run()
+          }),
+          b.wait_for('run').then(() => {
+            assert.ok(callback_prepare.calledOnce)
+            assert.ok(callback_run.calledOnce)
+            assert.notOk(callback_end.called)
+            b.end()
+          }),
+          b.wait_for('end').then(() => {
+            assert.ok(callback_prepare.calledOnce)
+            assert.ok(callback_run.calledOnce)
+            assert.ok(callback_end.calledOnce)
+          })
+        ])
+      })
 
-        b.run()
-        assert.ok(callback_prepare.calledOnce)
-        assert.ok(callback_run.calledOnce)
-        assert.notOk(callback_end.called)
+      it('resolves promises via wait_for', () => {
+        const p = b.wait_for('foo').then(() => {
+          assert.ok(true)
+        })
 
-        b.end()
-        assert.ok(callback_prepare.calledOnce)
-        assert.ok(callback_run.calledOnce)
-        assert.ok(callback_end.calledOnce)
+        b.triggerMethod('foo')
+
+        return p
       })
 
       it('resolves promises via wait_for', () => {
@@ -302,18 +361,20 @@ describe('Core', () => {
         // Attach a spy to the respond method
         const spy = sinon.spy(b, 'respond')
 
-        // Run the element
+        const p = b.wait_for('run').then(() => {
+          // Test whether the click triggers
+          // a respond method call
+          assert.notOk(spy.called)
+          b.el.click()
+          assert.ok(spy.withArgs('response_keypress').calledOnce)
+          assert.ok(spy.calledOnce)
+
+          // Cleanup
+          b.end()
+        })
+
         b.run()
-
-        // Test whether the click triggers
-        // a respond method call
-        assert.notOk(spy.called)
-        b.el.click()
-        assert.ok(spy.withArgs('response_keypress').calledOnce)
-        assert.ok(spy.calledOnce)
-
-        // Cleanup
-        b.end()
+        return p
       })
 
       it('classifies correct responses as such', () => {
@@ -426,6 +487,6 @@ describe('Core', () => {
         )
       })
     })
-    
+
   })
 })

@@ -162,19 +162,19 @@ describe('Canvas-based elements', () => {
 
     it('Passes its canvas to nested elements', () => {
       s.content = [a, b]
-      s.prepare()
+      s.prepare().then(() => {
+        // The canvas should be shared
+        assert.equal(
+          s.canvas,
+          a.canvas
+        )
 
-      // The canvas should be shared
-      assert.equal(
-        s.canvas,
-        a.canvas
-      )
-
-      // Make sure that the canvas is actually a canvas,
-      // and not some undefined value.
-      assert.ok(
-        b.canvas instanceof HTMLCanvasElement
-      )
+        // Make sure that the canvas is actually a canvas,
+        // and not some undefined value.
+        assert.ok(
+          b.canvas instanceof HTMLCanvasElement
+        )
+      })
     })
 
     it('Complains if any nested elements are not canvas-based', () => {
@@ -208,64 +208,65 @@ describe('Canvas-based elements', () => {
 
       s.run()
 
-      return new Promise((resolve, reject) => {
-          // This test includes delays because
-          // drawing takes a tiny amount of time.
-          // Testing shows that the timeouts could
-          // be shorter, but they are left at 5ms
-          // so as not to fail in slower environments.
-          window.setTimeout(resolve, 5)
+      const promise_timeout = (delay) => {
+        return new Promise((resolve, reject) => {
+          window.setTimeout(resolve, delay)
         })
-        .then(() => {
-          // After drawing the first screen ...
-          // ... left area should be black
-          assert.deepEqual(
-            Array.from(
-              s.canvas
-                .getContext('2d')
-                .getImageData(5, 5, 1, 1)
-                .data
-            ),
-            [0, 0, 0, 255]
-          )
-          // ... right area should be empty/blank
-          assert.deepEqual(
-            Array.from(
-              s.canvas
-                .getContext('2d')
-                .getImageData(15, 5, 1, 1)
-                .data
-            ),
-            [0, 0, 0, 0]
-          )
-          a.end()
-          return new Promise((resolve, reject) => {
-            window.setTimeout(resolve, 5) // Again, leave a moment to redraw
+      }
+
+      return Promise.all([
+        a.wait_for('run')
+          .then(() => promise_timeout(10))
+          .then(() => {
+            // After drawing the first screen ...
+            // ... left area should be black
+            assert.deepEqual(
+              Array.from(
+                s.canvas
+                  .getContext('2d')
+                  .getImageData(5, 5, 1, 1)
+                  .data
+              ),
+              [0, 0, 0, 255]
+            )
+            // ... right area should be empty/blank
+            assert.deepEqual(
+              Array.from(
+                s.canvas
+                  .getContext('2d')
+                  .getImageData(15, 5, 1, 1)
+                  .data
+              ),
+              [0, 0, 0, 0]
+            )
+            a.end()
+          }),
+        b.wait_for('run')
+          .then(() => promise_timeout(10))
+          .then(() => {
+            // After drawing the second screen ...
+            // ... left area should be empty
+            assert.deepEqual(
+              Array.from(
+                s.canvas
+                  .getContext('2d')
+                  .getImageData(5, 5, 1, 1)
+                  .data
+              ),
+              [0, 0, 0, 0]
+            )
+            // ... right area should be filled
+            assert.deepEqual(
+              Array.from(
+                s.canvas
+                  .getContext('2d')
+                  .getImageData(15, 5, 1, 1)
+                  .data
+              ),
+              [0, 0, 0, 255]
+            )
           })
-        })
-        .then(() => {
-          // After drawing the second screen ...
-          // ... left area should be empty
-          assert.deepEqual(
-            Array.from(
-              s.canvas
-                .getContext('2d')
-                .getImageData(5, 5, 1, 1)
-                .data
-            ),
-            [0, 0, 0, 0]
-          )
-          // ... right area should be filled
-          assert.deepEqual(
-            Array.from(
-              s.canvas
-                .getContext('2d')
-                .getImageData(15, 5, 1, 1)
-                .data
-            ),
-            [0, 0, 0, 255]
-          )
-        })
+      ])
     })
   })
 })

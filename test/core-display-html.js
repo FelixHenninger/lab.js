@@ -12,8 +12,13 @@ describe('HTML-based elements', () => {
 
     it('inserts HTML into the document', () => {
       h.content = '<strong>Hello World!</strong>'
+      
+      const p = h.wait_for('run').then(() => {
+        assert.equal(h.el.innerHTML, '<strong>Hello World!</strong>')
+      })
+
       h.run()
-      assert.equal(h.el.innerHTML, '<strong>Hello World!</strong>')
+      return p
     })
   })
 
@@ -159,16 +164,15 @@ describe('HTML-based elements', () => {
       const callback = sinon.spy()
       f.on('end', callback)
 
-      // Wrap the tests in a promise
-      const p = f.run()
-
       // Submit the form
       // (note that direct submission via form.submit()
       // overrides the event handlers and reloads
       // the page)
-      f.el.querySelector('button').click()
+      f.wait_for('run').then(() => {
+        f.el.querySelector('button').click()
+      })
 
-      return p.then(() => {
+      const p = f.wait_for('end').then(() => {
         // Tests
         assert.ok(callback.calledOnce)
         assert.equal(f.data.text_input, 'text_input_contents')
@@ -178,6 +182,9 @@ describe('HTML-based elements', () => {
         // when we're done.
         f.el.innerHTML = ''
       })
+
+      f.run()
+      return p
     })
 
     it('validates form input correctly', () => {
