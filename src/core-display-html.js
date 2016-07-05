@@ -8,6 +8,25 @@ export class HTMLScreen extends BaseElement {
   constructor(content, options={}) {
     super(options)
     this.content = content
+    this.contentUrl = options.contentUrl
+  }
+
+  prepare(direct_call) {
+    return Promise.resolve().then(() => {
+      if (this.contentUrl) {
+        return fetch(this.contentUrl).then(response => {
+          return response.text()
+        }).then(text => {
+          this.content = text
+        }).catch(e => {
+          console.log('Error while loading content: ', e)
+        })
+      } else {
+        return
+      }
+    }).then(() => {
+      return super.prepare(direct_call)
+    })
   }
 
   onRun() {
