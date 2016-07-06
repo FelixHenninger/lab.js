@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { assign, difference, flatten, intersection, uniq } from 'lodash-es'
 
 // Data saving --------------------------------------------
 
@@ -93,8 +93,8 @@ export class DataStore {
       attrs[key] = value
     }
 
-    this.state = _.assign(this.state, attrs)
-    this.staging = _.assign(this.staging, attrs)
+    this.state = assign(this.state, attrs)
+    this.staging = assign(this.staging, attrs)
   }
 
   get(key) {
@@ -138,16 +138,16 @@ export class DataStore {
       )
 
     // Flatten the nested array
-    keys = _.flatten(keys)
+    keys = flatten(keys)
 
     // Sort alphabetically and remove duplicates
     keys.sort()
-    keys = _.uniq(keys, true)
+    keys = uniq(keys, true)
     keys.sort() // apparently need to be sorted again
 
     // Bring certain columns to the front
-    const leaders_present = _.intersection(leaders, keys)
-    const remaining_keys = _.difference(keys, leaders_present)
+    const leaders_present = intersection(leaders, keys)
+    const remaining_keys = difference(keys, leaders_present)
 
     keys = leaders_present.concat(remaining_keys)
 
@@ -238,6 +238,7 @@ export class DataStore {
     // Create a link containing the url
     // just computed, and add it to the document
     const a = document.createElement('a')
+    // FIXME: The following lines fail in Safari
     a.style = 'display: none'
     a.href = url
     a.download = filename

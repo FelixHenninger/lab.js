@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { isFunction } from 'lodash-es'
 import { domSelect } from './util/dom'
 
 // Split an event specifier into event name, options and selector
@@ -188,7 +188,7 @@ export class EventHandler {
     // run it and save the results
     const method = this[methodName]
     let result
-    if (_.isFunction(method)) {
+    if (isFunction(method)) {
       result = method.apply(this, args)
     }
 

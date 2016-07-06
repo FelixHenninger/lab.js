@@ -14,7 +14,7 @@ module.exports = {
       './src/index'
     ],
     vendor: [
-      'lodash'
+      'lodash-es'
     ]
   },
   module: {
@@ -24,7 +24,7 @@ module.exports = {
       include: path.join(__dirname, 'src'),
       'query': {
         'plugins': ['add-module-exports'],
-        'presets': ['es2015']
+        'presets': ['es2015-webpack']
       }
     }]
   },
@@ -34,12 +34,10 @@ module.exports = {
       filename: 'lab.vendor.js',
       minChunks: Infinity
     }),
-    new webpack.BannerPlugin(
-      banner,
-      {
-        exclude: ['lab.vendor.js']
-      }
-    )
+    new webpack.BannerPlugin({
+      banner: banner,
+      exclude: ['lab.vendor.js']
+    }),
   ],
   output: {
     filename: 'lab.js',

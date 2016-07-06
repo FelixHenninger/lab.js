@@ -1,6 +1,6 @@
 // Flow control elements for lab.js
 import { BaseElement, status, hand_me_downs } from './core'
-import _ from 'lodash'
+import { shuffle } from 'lodash-es'
 
 // Helper function to handle nested elements
 let prepare_nested = function(nested, parent) {
@@ -60,7 +60,7 @@ export class Sequence extends BaseElement {
 
     // Shuffle content, if requested
     if (this.shuffle) {
-      this.content = _.shuffle(this.content)
+      this.content = shuffle(this.content)
     }
 
     // Prepare nested items

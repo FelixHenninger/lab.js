@@ -1,7 +1,7 @@
 // HTML-based displays for lab.js
 import { BaseElement } from './core'
 import { domSelect } from './util/dom'
-import _ from 'lodash'
+import { extend } from 'lodash-es'
 
 // HTMLScreens display HTML when run
 export class HTMLScreen extends BaseElement {
@@ -59,7 +59,7 @@ export class FormScreen extends HTMLScreen {
     if (this.validate()) {
       // Add serialized form data to
       // the element's dataset
-      this.data = _.extend(
+      this.data = extend(
         this.data,
         this.serialize()
       )
