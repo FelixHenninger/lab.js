@@ -23,7 +23,7 @@
 }
 
 /* Content layout */
-div#container {
+div.container {
   min-width: var(--width-min);
   /* Use page layout by default */
   margin: 24px auto;
@@ -46,7 +46,7 @@ header, footer {
 }
 
 /* Fullscreen layout */
-div#container.fullscreen {
+div.container.fullscreen {
   /* Full screen minus margins */
   margin: 24px 16px;
   min-height: calc(100vh - 48px);
@@ -55,16 +55,16 @@ div#container.fullscreen {
   display: flex;
   flex-direction: column;
 }
-div#container.fullscreen main {
+div.container.fullscreen main {
   /* Flex positioning */
   flex: 1;
 }
-div#container.fullscreen #labjs-content {
+div.container.fullscreen #labjs-content {
   width: var(--height-min-main);
 }
 
 /* Borders and backgrounds */
-div#container {
+div.container {
   border: 1px solid var(--color-border);
   border-radius: 5px;
 }
