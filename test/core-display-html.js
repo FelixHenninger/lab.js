@@ -12,13 +12,22 @@ describe('HTML-based elements', () => {
 
     it('inserts HTML into the document', () => {
       h.content = '<strong>Hello World!</strong>'
-      
+
       const p = h.wait_for('run').then(() => {
         assert.equal(h.el.innerHTML, '<strong>Hello World!</strong>')
       })
 
       h.run()
       return p
+    })
+
+    it('fills template tags in the content using parameters', () => {
+      h.content = 'Hello ${ place }!'
+      h.parameters['place'] = 'World'
+
+      return h.prepare().then(() => {
+        assert.equal(h.content, 'Hello World!')
+      })
     })
   })
 

@@ -1,7 +1,7 @@
 // HTML-based displays for lab.js
 import { BaseElement } from './core'
 import { domSelect } from './util/dom'
-import { extend } from 'lodash-es'
+import { extend, template } from 'lodash-es'
 
 // HTMLScreens display HTML when run
 export class HTMLScreen extends BaseElement {
@@ -13,6 +13,7 @@ export class HTMLScreen extends BaseElement {
 
   prepare(direct_call) {
     return Promise.resolve().then(() => {
+      // Fetch content from URL, if one is given
       if (this.contentUrl) {
         return fetch(this.contentUrl).then(response => {
           return response.text()
@@ -25,6 +26,12 @@ export class HTMLScreen extends BaseElement {
         return
       }
     }).then(() => {
+      // Post-process template by adding
+      // placeholders through lodash.template
+      this.content = template(this.content)(this.parameters_aggregate)
+      return
+    }).then(() => {
+      // Continue preparation 
       return super.prepare(direct_call)
     })
   }
