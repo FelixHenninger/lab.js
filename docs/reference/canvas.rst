@@ -3,6 +3,8 @@ Canvas-based displays
 
 .. module:: lab
 
+.. _reference/canvas:
+
 The ``Canvas`` is an alternate method of displaying content and stimuli on the
 screen. The underlying principle are true to the canvas metaphor: A canvas is
 a (rectangular) area on which lines, shapes and text can be drawn, to be shown

@@ -29,29 +29,47 @@ as a :js:class:`BaseElement` does.
   could be inserted into a document as follows::
 
     const screen = new lab.HTMLScreen(
-      '<p>Hello world!</p>', // Content
-      { // Options
-        el: document.getElementById('experiment')
-      }
+      '<p>Hello world!</p>' // Content
     )
 
-    screen.prepare()
     screen.run()
 
   When this code is run, a single screen is shown, that is, the content string
   supplied is inserted into the the element specified in the options. In this
   case, the element with the id 'experiment' is used to display the content.
 
+  **Using placeholders and parameters**
+
+  You can access the :js:attr:`parameters` available through the
+  :js:class:`HTMLScreen` to insert placeholders within its :js:attr:`content`.
+  These are filled when the screen is :js:func:`prepared <prepare>`. Thereby,
+  the exact content need not be specified initially.
+
+  Placeholders are delimited by ``${`` and ``}``. A parameter name can be placed
+  within these limits, and the parameter content will replace the placeholder as
+  soon as the screen is prepared.
+
+  For example, the following screen would produce an output equivalent to the
+  example above::
+
+    const parameterScreen = new lab.HTMLScreen(
+      '<p>Hello ${ place }!</p>',
+      {
+        parameters: {
+          place: 'World'
+        }
+      }
+    )
+
   **Options**
 
-  The options available for an ``HTMLScreen`` are identical to those of the
-  ``BaseElement``. For example, one might capture responses as in the following
-  example::
+  The options available for an :js:class:`HTMLScreen` are identical to those of
+  the ``BaseElement``. For example, one might capture responses as in the
+  following example::
 
     const screen = new lab.HTMLScreen(
       '<p>Please press <kbd>s</kbd> or <kbd>l</kbd></p>',
       {
-        el: document.getElementById('experiment'),
         responses: {
           'keypress(s)': 's',
           'keypress(l)': 'l'
@@ -59,7 +77,6 @@ as a :js:class:`BaseElement` does.
       }
     )
 
-    screen.prepare()
     screen.run()
 
   Similarly, the screen might be shown only for a specified amount of time (in
@@ -68,7 +85,6 @@ as a :js:class:`BaseElement` does.
     const timedScreen = new lab.HTMLScreen(
       '<p>Please press space, fast!</p>',
       {
-        el: document.getElementById('experiment'),
         responses: {
           'keypress(space)': 'response'
         },
@@ -157,10 +173,7 @@ an experiment::
     '<form>' +
     '  <input type="number" name="participant-id" id="participant-id">' +
     '  <button type="submit">Save</button>' +
-    '</form>',
-    {
-      el: document.getElementById('experiment')
-    }
+    '</form>'
   )
 
 The above screen, inserted into an experiment, will display the form, and wait
