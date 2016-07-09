@@ -340,16 +340,6 @@ describe('Core', () => {
 
         return p
       })
-
-      it('resolves promises via wait_for', () => {
-        const p = b.wait_for('foo').then(() => {
-          assert.ok(true)
-        })
-
-        b.triggerMethod('foo')
-
-        return p
-      })
     })
 
     describe('Responses', () => {
