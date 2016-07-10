@@ -1,4 +1,5 @@
 import { EventHandler } from './base'
+import { DomConnection } from './util/events'
 import { preload_image, preload_audio } from './util/preload'
 import { promise_chain } from './util/promise'
 import { extend } from 'lodash-es'
@@ -25,6 +26,22 @@ export class BaseElement extends EventHandler {
     // Setup a document node within which
     // the element operates
     this.el = options.el || null
+
+    // Add a DomConnection that connects
+    // DOM events to internal handlers
+    this.internals.domConnection = new DomConnection({
+      el: this.el,
+      context: this,
+    })
+    this.events = options.events || {}
+    this.on('run', () => {
+      this.internals.domConnection.attach()
+      this.triggerMethod('after:event:init')
+    })
+    this.on('end', () => {
+      this.internals.domConnection.detach()
+      this.triggerMethod('after:event:remove')
+    })
 
     // Save the type of element as well as
     // its position in the hierarchy
@@ -105,12 +122,15 @@ export class BaseElement extends EventHandler {
     // Setup automatic event handling for responses
     Object.keys(this.responses).forEach(
       eventString => {
-        this.events[eventString] = function(e) {
+        this.events[eventString] = e => {
           // Trigger internal response handling
           this.respond(this.responses[eventString])
         }
       }
     )
+    // Push existing events and el to DomConnection
+    this.internals.domConnection.events = this.events
+    this.internals.domConnection.el = this.el
 
     // Prepare timeout
     if (this.timeout !== null) {

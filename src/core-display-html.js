@@ -31,7 +31,7 @@ export class HTMLScreen extends BaseElement {
       this.content = template(this.content)(this.parameters_aggregate)
       return
     }).then(() => {
-      // Continue preparation 
+      // Continue preparation
       return super.prepare(direct_call)
     })
   }
@@ -52,7 +52,9 @@ export class FormScreen extends HTMLScreen {
     this.validator = options.validator || (() => true)
 
     // Capture form submissions
-    this.events['submit form'] = this.submit
+    this.events['submit form'] = (e) => {
+      this.submit(e)
+    }
   }
 
   submit(e=null) {
