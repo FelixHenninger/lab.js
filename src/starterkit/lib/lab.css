@@ -6,12 +6,15 @@
   --width-min: 850px;
   --padding-internal: 24px;
   /* Typography */
-  --font-size: 22px;
-  --line-height: 140%;
+  --font-family: sans-serif;
+  --font-size: 18px;
+  --line-height: 1.4em;
+  --paragraph-margin-vertical: var(--font-size);
   /* Colors */
   --color-border: #e5e5e5;
   --color-border-internal: #efefef;
   --color-gray-background: #f5f5f5;
+  --color-gray-content: #8d8d8d;
 }
 
 /* Set box model to border-box globally */
@@ -78,13 +81,17 @@ footer {
 
 /* Typography */
 :root {
-  font-family: sans-serif;
+  font-family: var(--font-family);
   font-size: var(--font-size);
   line-height: var(--line-height);
 }
 header, footer, main {
   text-align: center;
 }
+h1, h2, h3 {
+  line-height: var(--line-height);
+}
+
 
 /* Special elements: Keyboard buttons */
 kbd {
@@ -109,9 +116,69 @@ kbd.big {
   border-radius: 0.125em;
 }
 
-/* Helpers */
-.center-content-vh {
+/* Alignment helpers */
+.content-vertical-center {
   display: flex;
   align-items: center;
+}
+.content-horizontal-center {
+  display: flex;
   justify-content: center;
+}
+.content-horizontal-right {
+  display: flex;
+  justify-content: flex-end;
+}
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-muted {
+  color: var(--color-gray-content);
+}
+.font-weight-bold {
+  font-weight: bold;
+}
+.font-italic {
+  font-style: italic;
+}
+
+/* Form elements */
+input[type="checkbox"] {
+  margin: 0 10px;
+}
+input + label {
+  margin-left: 2px;
+}
+button {
+  font-size: 0.9rem;
+  border: 2px solid var(--color-border-internal);
+  background-color: white;
+  border-radius: 3px;
+  padding: 6px 8px;
+}
+textarea {
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  line-height: var(--line-height);
+  display: block;
+  margin: var(--paragraph-margin-vertical) 0;
+  padding: 8px;
+  border: 1px solid var(--color-border-internal);
+  border-radius: 4px;
+  resize: vertical;
+}
+
+/* Table */
+table {
+  width: 100%;
+}
+table td {
+  padding: 0 8px;
+  border-top: 1px solid var(--color-border-internal);
 }
