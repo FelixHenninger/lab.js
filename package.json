@@ -13,6 +13,8 @@
     "gulp": ">=3.9.0",
     "gulp-zip": "^3.2.0",
     "onchange": "^2.5.0",
+    "postcss-cli": "^2.5.2",
+    "postcss-cssnext": "^2.7.0",
     "webpack": "^2.1.0-beta.5",
     "webpack-stream": "^3.2.0"
   },
@@ -27,6 +29,7 @@
   "scripts": {
     "build:docs": "cd docs && make html",
     "build:js": "webpack",
+    "build:starterkit:css": "postcss --local-plugins -u postcss-cssnext -o dist/starterkit/lib/lab.css src/starterkit/lib/lab.css",
     "clean:docs": "cd docs && make clean",
     "clean:js": "rm -rfv dist && mkdir dist",
     "watch:docs": "onchange 'docs/**/*.rst' 'docs/**/*.py' -- npm run build:docs",
