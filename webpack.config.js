@@ -14,7 +14,9 @@ module.exports = {
       './src/index'
     ],
     vendor: [
-      'lodash-es'
+      'lodash-es',
+      'es6-promise',
+      'whatwg-fetch',
     ]
   },
   module: {

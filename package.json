@@ -4,7 +4,9 @@
   "version": "2015.1.0",
   "author": "Felix Henninger <mailbox@felixhenninger.com>",
   "dependencies": {
-    "lodash-es": "^4.13.1"
+    "es6-promise": "^3.2.1",
+    "lodash-es": "^4.13.1",
+    "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
     "babel-loader": "^6.2.4",
