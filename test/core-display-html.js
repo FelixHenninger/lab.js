@@ -21,6 +21,32 @@ describe('HTML-based elements', () => {
       return p
     })
 
+    it('retrieves content from URL if requested', () => {
+      // Stub window.fetch to return a predefined response
+      const content_response = new window.Response('Inserted content', {
+        status: 200,
+        headers: {
+          'Content-type': 'text/html'
+        }
+      })
+      sinon.stub(window, 'fetch')
+      window.fetch.returns(Promise.resolve(content_response))
+
+      // Instruct HTMLScreen to fetch content from url
+      h.contentUrl = 'https://example.com/'
+
+      return h.prepare().then(() => {
+        assert.equal(
+          h.content,
+          'Inserted content'
+        )
+        assert.ok(
+          window.fetch.withArgs(h.contentUrl).calledOnce
+        )
+        window.fetch.restore()
+      })
+    })
+
     it('fills template tags in the content using parameters', () => {
       h.content = 'Hello ${ place }!'
       h.parameters['place'] = 'World'
