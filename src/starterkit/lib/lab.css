@@ -148,6 +148,14 @@ kbd.big {
   font-style: italic;
 }
 
+/* Visibility */
+.hidden {
+  display: none;
+}
+.hide-if-empty:empty {
+  display: none
+}
+
 /* Form elements */
 input[type="checkbox"] {
   margin: 0 10px;
