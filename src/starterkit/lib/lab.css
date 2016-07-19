@@ -156,6 +156,15 @@ kbd.big {
   display: none
 }
 
+/* Alerts */
+.alert {
+  background-color: var(--color-gray-background);
+  border: 1px solid var(--color-border-internal);
+  border-radius: 4px;
+  padding: 16px 16px 14px;
+  margin: 16px 0;
+}
+
 /* Form elements */
 input[type="checkbox"] {
   margin: 0 10px;
