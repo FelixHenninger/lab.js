@@ -162,39 +162,43 @@ kbd.big {
 /* Alerts */
 .alert {
   background-color: var(--color-gray-background);
-  border: 1px solid var(--color-border-internal);
+  border: 2px solid var(--color-border);
   border-radius: 4px;
   padding: 16px 16px 14px;
   margin: 16px 0;
 }
 
 /* Form elements */
+input, select, button, textarea {
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  line-height: var(--line-height);
+  border: 2px solid var(--color-border);
+  border-radius: 4px;
+  margin: 4px 0 8px;
+  padding: 8px;
+}
 input[type="checkbox"] {
   margin: 0 10px;
 }
 input + label {
   margin-left: 2px;
 }
+select {
+  padding: 8px 5px; /* selects have a weird vertical alignment */
+}
 button {
-  font-size: 0.9rem;
-  border: 2px solid var(--color-border-internal);
   background-color: white;
   border-radius: 3px;
-  padding: 6px 8px;
+  padding: 8px 8px 6px;
 }
 button:hover {
-  border-color: var(--color-border);
+  border-color: #ddd;
   background-color: #fcfcfc;
 }
 textarea {
-  font-family: var(--font-family);
-  font-size: 0.9rem;
-  line-height: var(--line-height);
   display: block;
   margin: var(--paragraph-margin-vertical) 0;
-  padding: 8px;
-  border: 1px solid var(--color-border-internal);
-  border-radius: 4px;
   resize: vertical;
 }
 
