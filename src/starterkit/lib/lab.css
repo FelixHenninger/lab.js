@@ -117,6 +117,9 @@ kbd.big {
 }
 
 /* Alignment helpers */
+.width-full {
+  width: 100%;
+}
 .content-vertical-center {
   display: flex;
   align-items: center;
