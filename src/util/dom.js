@@ -1,5 +1,5 @@
 // JQuery emulation
-export const domSelect = function(selector, parent=document) {
+export const domSelect = (selector, parent=document) => {
   // If the selection occurs by id,
   // use getElementById, or querySelectorAll otherwise
   const selectorType = selector.indexOf('#') === 0 ?

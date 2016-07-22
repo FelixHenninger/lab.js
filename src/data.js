@@ -2,20 +2,20 @@ import { assign, difference, flatten, intersection, uniq } from 'lodash-es'
 
 // Data saving --------------------------------------------
 
-let metadata_keys = ['sender', 'sender_type', 'sender_id', 'timestamp']
+const metadata_keys = ['sender', 'sender_type', 'sender_id', 'timestamp']
 
 const csv_escape_cell = (c) => {
   // Escape CSV cells as per RFC 4180
 
-  if (typeof c == 'string') {
+  if (typeof c === 'string') {
     // Replace double quotation marks by
     // double double quotation marks
-    c = c.replace(/\"/, '""')
+    c = c.replace(/"/, '""')
 
     // Surround a cell if it contains a comma,
     // (double) quotation marks, or a line break
     if (/[,"\n]+/.test(c)) {
-      c = '"' + c + '"'
+      c = `"${ c }"`
     }
   }
 
@@ -65,7 +65,7 @@ export class DataStore {
           // Everything went well,
           // skip initialization of data and state
           use_fallback = false
-        } catch(err) {
+        } catch (err) {
           // If an error occurs, play it safe
           use_fallback = true
         }
@@ -87,7 +87,7 @@ export class DataStore {
   // Get and set individual values ------------------------
   set(key, value) {
     let attrs = {}
-    if (typeof key == 'object') {
+    if (typeof key === 'object') {
       attrs = key
     } else {
       attrs[key] = value
@@ -162,7 +162,7 @@ export class DataStore {
     // Convert the string into the corresponding
     // regular expression.
     if (typeof sender_re === 'string') {
-      sender_re = RegExp('^' + sender_re + '$')
+      sender_re = RegExp(`^${ sender_re }$`)
     }
 
     // Filter the data using the sender column,
@@ -214,7 +214,7 @@ export class DataStore {
     // of the current data
     let text = ''
 
-    if (filetype == 'json') {
+    if (filetype === 'json') {
       text = this.export_json()
     } else {
       text = this.export_csv()
@@ -222,7 +222,7 @@ export class DataStore {
 
     // Convert the so encoded data to a blob object
     const blob = new Blob(
-      [text], {type: "octet/stream"}
+      [text], { type: 'octet/stream' }
     )
 
     return blob
@@ -252,7 +252,6 @@ export class DataStore {
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
     }, 100)
-
   }
 
   // Display data on the console
@@ -269,13 +268,13 @@ export class DataStore {
       method: 'post',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         meta: metadata,
         url: window.location.href,
-        data: this.data
-      })
+        data: this.data,
+      }),
     })
   }
 }

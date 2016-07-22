@@ -30,7 +30,10 @@
     "extends": "airbnb",
     "rules": {
       "no-console": 0,
-      "semi": [2, "never"]
+      "no-else-return": 1,
+      "semi": [2, "never"],
+      "space-infix-ops": 1,
+      "template-curly-spacing": [2, "always"]
     },
     "env": {
       "browser": true,

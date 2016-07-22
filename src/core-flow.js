@@ -3,7 +3,7 @@ import { BaseElement, status, hand_me_downs } from './core'
 import { shuffle } from 'lodash-es'
 
 // Helper function to handle nested elements
-let prepare_nested = function(nested, parent) {
+const prepare_nested = function(nested, parent) {
   // Setup parent links on nested items
   nested.forEach(c => c.parent = parent)
 
@@ -39,12 +39,12 @@ export class Sequence extends BaseElement {
 
     // Define an array of nested elements to
     // iterate over
-    this.content = content;
+    this.content = content
 
     // Define a position in the array to begin
     // (note that this is incremented before
     // running the first nested element)
-    this.currentPosition = -1;
+    this.currentPosition = -1
 
     // Shuffle items, if so desired
     this.shuffle = options.shuffle || false
@@ -131,7 +131,7 @@ export class Loop extends Sequence {
     // Generate the content by applying
     // the element_factory function to each
     // entry in the data array
-    content = data.map(element_factory)
+    const content = data.map(element_factory)
 
     // Otherwise, behave exactly
     // as a sequence would
@@ -168,7 +168,7 @@ export class Parallel extends BaseElement {
   // because the original promise is swapped for a
   // version that runs all nested items in parallel
   run() {
-    let promise = super.run()
+    const promise = super.run()
 
     // Run all nested elements simultaneously
     this.promises = this.content.map(c => c.run())
@@ -184,8 +184,9 @@ export class Parallel extends BaseElement {
   onEnd() {
     // Cancel remaining running nested elements
     this.content.forEach(c => {
-      if (c.status < status.done)
+      if (c.status < status.done) {
         c.end('abort by parallel')
+      }
     })
   }
 }

@@ -8,14 +8,14 @@ import { DataStore } from './data'
 const version = '2015'
 
 export default {
-  version: version,
-  BaseElement: BaseElement,
-  DummyElement: DummyElement,
-  CanvasScreen: CanvasScreen,
-  CanvasSequence: CanvasSequence,
-  HTMLScreen: HTMLScreen,
-  FormScreen: FormScreen,
-  Sequence: Sequence,
-  Parallel: Parallel,
-  DataStore: DataStore
+  version,
+  BaseElement,
+  DummyElement,
+  CanvasScreen,
+  CanvasSequence,
+  HTMLScreen,
+  FormScreen,
+  Sequence,
+  Parallel,
+  DataStore,
 }
