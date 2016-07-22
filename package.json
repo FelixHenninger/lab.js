@@ -12,6 +12,11 @@
     "babel-loader": "^6.2.4",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015-webpack": "^6.4.1",
+    "eslint": "^2.13.1",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.11.1",
+    "eslint-plugin-jsx-a11y": "^1.5.5",
+    "eslint-plugin-react": "^5.2.2",
     "gulp": ">=3.9.0",
     "gulp-zip": "^3.2.0",
     "onchange": "^2.5.0",
@@ -22,6 +27,11 @@
   },
   "eslintConfig": {
     "parser": "babel-eslint",
+    "extends": "airbnb",
+    "rules": {
+      "no-console": 0,
+      "semi": [2, "never"]
+    },
     "env": {
       "browser": true,
       "es6": true,
@@ -34,6 +44,8 @@
     "build:starterkit:css": "postcss --local-plugins -u postcss-cssnext -o dist/starterkit/lib/lab.css src/starterkit/lib/lab.css",
     "clean:docs": "cd docs && make clean",
     "clean:js": "rm -rfv dist && mkdir dist",
+    "lint": "eslint src",
+    "pretest": "npm run --silent lint",
     "watch:docs": "onchange 'docs/**/*.rst' 'docs/**/*.py' -- npm run build:docs",
     "watch:js": "onchange 'src/**/*' -- npm run build:js"
   }
