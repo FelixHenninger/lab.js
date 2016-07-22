@@ -222,7 +222,7 @@ describe('HTML-based elements', () => {
       return p
     })
 
-    it('validates form input correctly', () => {
+    it('validates form input using a validation function', () => {
       f.el.innerHTML = '' +
         '<form>' +
         '  <input type="text" name="text_input" value="valid">' +
@@ -233,6 +233,22 @@ describe('HTML-based elements', () => {
 
       f.validator = data => data.text_input == 'not_valid'
       assert.notOk(f.validate())
+    })
+
+    it('is also sensitive to native form validation', () => {
+      f.el.innerHTML = '' +
+        '<form>' +
+        '  <input type="text" name="text_input" required>' +
+        '</form>'
+
+      assert.notOk(f.validate())
+
+      f.el.innerHTML = '' +
+        '<form>' +
+        '  <input type="text" name="text_input" value="some_value" required>' +
+        '</form>'
+
+      assert.ok(f.validate())
     })
   })
 })

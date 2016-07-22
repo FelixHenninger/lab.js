@@ -147,9 +147,12 @@ export class FormScreen extends HTMLScreen {
 
   validate() {
     // Validate the form by applying the
-    // form's validator to the serialized data
-    return this.validator(
-      this.serialize()
-    )
+    // form's validator to the serialized data,
+    // and also checking that the browser
+    // validation succeeds.
+    const forms = domSelect('form', this.el)
+
+    return this.validator(this.serialize()) &&
+      Array.from(forms).every(form => form.checkValidity())
   }
 }
