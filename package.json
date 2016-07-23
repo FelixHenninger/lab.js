@@ -29,9 +29,12 @@
     "parser": "babel-eslint",
     "extends": "airbnb",
     "rules": {
+      "key-spacing": [2, { "mode": "minimum" }],
       "no-console": 0,
       "no-else-return": 1,
+      "radix": [2, "as-needed"],
       "semi": [2, "never"],
+      "space-before-function-paren": [2, "never"],
       "space-infix-ops": 1,
       "template-curly-spacing": [2, "always"]
     },
