@@ -84,7 +84,7 @@ describe('Flow control', () => {
       p.content = [a]
       p.prepare().then(() => {
         // Prepare on nested elements should be called
-        // with direct_call parameter set to false
+        // with directCall parameter set to false
         assert.ok(
           a_prepare.withArgs(false).calledOnce
         )

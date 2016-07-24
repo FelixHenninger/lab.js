@@ -11,7 +11,7 @@ export class HTMLScreen extends BaseElement {
     this.contentUrl = options.contentUrl
   }
 
-  prepare(direct_call) {
+  prepare(directCall) {
     return Promise.resolve().then(() => {
       // Fetch content from URL, if one is given
       if (this.contentUrl) {
@@ -32,7 +32,7 @@ export class HTMLScreen extends BaseElement {
       return
     }).then(
       // Continue preparation
-      () => super.prepare(direct_call)
+      () => super.prepare(directCall)
     )
   }
 

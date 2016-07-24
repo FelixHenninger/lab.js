@@ -127,7 +127,7 @@ export class CanvasSequence extends Sequence {
     }
   }
 
-  prepare(direct_call) {
+  prepare(directCall) {
     // Prepare canvas
     prepareCanvas.apply(this)
 
@@ -144,7 +144,7 @@ export class CanvasSequence extends Sequence {
     }
 
     // Prepare sequence as usual
-    return super.prepare(direct_call)
+    return super.prepare(directCall)
   }
 
   run() {

@@ -96,7 +96,7 @@ export class BaseElement extends EventHandler {
   }
 
   // Actions ----------------------------------------------
-  prepare(direct_call=true) {
+  prepare(directCall=true) {
     // Prepare an element prior to its display,
     // for example by pre-loading or pre-rendering
     // content
@@ -104,7 +104,7 @@ export class BaseElement extends EventHandler {
     // Skip the remainder of the function if the
     // prepare call was automated and the element
     // is labeled as tardy
-    if (this.tardy && !direct_call) {
+    if (this.tardy && !directCall) {
       if (this.debug) {
         console.log('Skipping automated preparation')
       }
@@ -159,7 +159,7 @@ export class BaseElement extends EventHandler {
       () => Promise.all(this.media.images.map(preloadImage)),
       () => Promise.all(this.media.audio.map(preloadAudio)),
       // Trigger related methods
-      () => this.triggerMethod('prepare', direct_call),
+      () => this.triggerMethod('prepare', directCall),
       // Update status
       () => (this.status = status.prepared),
       // TODO: Need to reflect on the order of the last
@@ -301,10 +301,10 @@ export class BaseElement extends EventHandler {
 
 // Default options ----------------------------------------
 // Attributes to pass on to nested items (as names)
-export let handMeDowns = [
+export const handMeDowns = [
   'debug',
   'datastore',
-  'el'
+  'el',
 ]
 
 // Simple elements ----------------------------------------

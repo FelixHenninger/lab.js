@@ -55,8 +55,8 @@ export class Sequence extends BaseElement {
     this.handMeDowns = options.handMeDowns || [...handMeDowns]
   }
 
-  prepare(direct_call) {
-    const p = super.prepare(direct_call)
+  prepare(directCall) {
+    const p = super.prepare(directCall)
 
     // Shuffle content, if requested
     if (this.shuffle) {
@@ -154,8 +154,8 @@ export class Parallel extends BaseElement {
     this.handMeDowns = options.handMeDowns || [...handMeDowns]
   }
 
-  prepare(direct_call) {
-    const p = super.prepare(direct_call)
+  prepare(directCall) {
+    const p = super.prepare(directCall)
 
     // Prepare nested items
     return p.then(
