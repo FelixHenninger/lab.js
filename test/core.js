@@ -104,7 +104,7 @@ describe('Core', () => {
       })
 
       it('timer property holds a value while running', () => {
-        const p = b.wait_for('run').then(() => {
+        const p = b.waitFor('run').then(() => {
           assert.notEqual(b.timer, undefined)
         })
 
@@ -119,7 +119,7 @@ describe('Core', () => {
         // as described in https://github.com/sinonjs/sinon/issues/803
         sinon.stub(performance, 'now', Date.now)
 
-        const p = b.wait_for('run').then(() => {
+        const p = b.waitFor('run').then(() => {
           // Simulate progress of time and check timer
           assert.equal(b.timer, 0)
           clock.tick(500)
@@ -141,12 +141,12 @@ describe('Core', () => {
         const clock = sinon.useFakeTimers()
         sinon.stub(performance, 'now', Date.now)
 
-        b.wait_for('run').then(() => {
+        b.waitFor('run').then(() => {
           clock.tick(500)
           b.end()
         })
 
-        const p = b.wait_for('end').then(() => {
+        const p = b.waitFor('end').then(() => {
           assert.equal(b.timer, 500) // timer remains constant
           clock.tick(500)
           assert.equal(b.timer, 500) // timer remains constant
@@ -173,7 +173,7 @@ describe('Core', () => {
         const callback = sinon.spy()
         b.on('end', callback)
 
-        const p = b.wait_for('run').then(() => {
+        const p = b.waitFor('run').then(() => {
           // Check that the callback is only
           // called after the specified interval
           // has passed
@@ -196,7 +196,7 @@ describe('Core', () => {
         const clock = sinon.useFakeTimers()
         b.timeout = 500
 
-        b.wait_for('run').then(() => {
+        b.waitFor('run').then(() => {
           // Trigger timeout
           clock.tick(500)
         })
@@ -218,7 +218,7 @@ describe('Core', () => {
           'click': handler
         }
 
-        const p = b.wait_for('run').then(() => {
+        const p = b.waitFor('run').then(() => {
           assert.notOk(handler.calledOnce)
 
           // Simulate click
@@ -254,7 +254,7 @@ describe('Core', () => {
           'click button#btn-b': handler_b,
         }
 
-        const p = b.wait_for('run').then(() => {
+        const p = b.waitFor('run').then(() => {
           // Simulate clicking both buttons in sequence,
           // and ensure that the associated handlers are triggered
           b.el.querySelector('button#btn-a').click()
@@ -282,7 +282,7 @@ describe('Core', () => {
           'click': spy
         }
 
-        const p = b.wait_for('run').then(() => {
+        const p = b.waitFor('run').then(() => {
           // Simulate click, triggering handler
           b.el.click()
 
@@ -317,13 +317,13 @@ describe('Core', () => {
             assert.notOk(callback_end.called)
             b.run()
           }),
-          b.wait_for('run').then(() => {
+          b.waitFor('run').then(() => {
             assert.ok(callback_prepare.calledOnce)
             assert.ok(callback_run.calledOnce)
             assert.notOk(callback_end.called)
             b.end()
           }),
-          b.wait_for('end').then(() => {
+          b.waitFor('end').then(() => {
             assert.ok(callback_prepare.calledOnce)
             assert.ok(callback_run.calledOnce)
             assert.ok(callback_end.calledOnce)
@@ -331,8 +331,8 @@ describe('Core', () => {
         ])
       })
 
-      it('resolves promises via wait_for', () => {
-        const p = b.wait_for('foo').then(() => {
+      it('resolves promises via waitFor', () => {
+        const p = b.waitFor('foo').then(() => {
           assert.ok(true)
         })
 
@@ -351,7 +351,7 @@ describe('Core', () => {
         // Attach a spy to the respond method
         const spy = sinon.spy(b, 'respond')
 
-        const p = b.wait_for('run').then(() => {
+        const p = b.waitFor('run').then(() => {
           // Test whether the click triggers
           // a respond method call
           assert.notOk(spy.called)

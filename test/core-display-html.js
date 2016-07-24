@@ -13,7 +13,7 @@ describe('HTML-based elements', () => {
     it('inserts HTML into the document', () => {
       h.content = '<strong>Hello World!</strong>'
 
-      const p = h.wait_for('run').then(() => {
+      const p = h.waitFor('run').then(() => {
         assert.equal(h.el.innerHTML, '<strong>Hello World!</strong>')
       })
 
@@ -203,11 +203,11 @@ describe('HTML-based elements', () => {
       // (note that direct submission via form.submit()
       // overrides the event handlers and reloads
       // the page)
-      f.wait_for('run').then(() => {
+      f.waitFor('run').then(() => {
         f.el.querySelector('button').click()
       })
 
-      const p = f.wait_for('end').then(() => {
+      const p = f.waitFor('end').then(() => {
         // Tests
         assert.ok(callback.calledOnce)
         assert.equal(f.data.text_input, 'text_input_contents')

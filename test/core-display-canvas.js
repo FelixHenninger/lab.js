@@ -215,7 +215,7 @@ describe('Canvas-based elements', () => {
       }
 
       return Promise.all([
-        a.wait_for('run')
+        a.waitFor('run')
           .then(() => promise_timeout(10))
           .then(() => {
             // After drawing the first screen ...
@@ -241,7 +241,7 @@ describe('Canvas-based elements', () => {
             )
             a.end()
           }),
-        b.wait_for('run')
+        b.waitFor('run')
           .then(() => promise_timeout(10))
           .then(() => {
             // After drawing the second screen ...

@@ -58,7 +58,7 @@ export class EventHandler {
     return this
   }
 
-  wait_for(event) {
+  waitFor(event) {
     // Return a promise that resolves when
     // the event in question is triggered
     return new Promise(

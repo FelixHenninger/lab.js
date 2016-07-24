@@ -125,7 +125,7 @@ describe('Flow control', () => {
         () => {
           // Run
           // A goes first
-          let p = s.wait_for('run').then(() => {
+          let p = s.waitFor('run').then(() => {
             assert.ok(a_run.calledOnce)
             assert.notOk(b_run.called)
           })
@@ -134,7 +134,7 @@ describe('Flow control', () => {
         },
         () => {
           // B follows
-          let p = a.wait_for('end', () => {
+          let p = a.waitFor('end', () => {
             assert.ok(a_run.calledOnce)
             assert.ok(b_run.calledOnce)
           })
@@ -198,7 +198,7 @@ describe('Flow control', () => {
       const a_end = sinon.spy()
       a.on('end', a_end)
 
-      return s.wait_for('run').then(() => {
+      return s.waitFor('run').then(() => {
         // Make sure that the nested element is ended
         // when the superordinate element is
         s.end()
@@ -216,7 +216,7 @@ describe('Flow control', () => {
       b.on('run', b_run)
 
 
-      const p = s.wait_for('run').then(() => {
+      const p = s.waitFor('run').then(() => {
         // A stepper function should exist at this point
         assert.isFunction(s.stepper)
 
@@ -258,14 +258,14 @@ describe('Flow control', () => {
       b.on('run', b_run)
 
       const output = Promise.all([
-        p.wait_for('prepare').then(() => {
+        p.waitFor('prepare').then(() => {
           // Prepare ...
           assert.notOk(a_run.called)
           assert.notOk(b_run.called)
 
           p.run()
         }),
-        p.wait_for('run').then(() => {
+        p.waitFor('run').then(() => {
           // ... and run
           assert.ok(a_run.calledOnce)
           assert.ok(b_run.calledOnce)
@@ -283,7 +283,7 @@ describe('Flow control', () => {
       b.on('end', b_end)
 
       p.run()
-      return p.wait_for('run').then(() => {
+      return p.waitFor('run').then(() => {
         assert.notOk(a_end.called)
         assert.notOk(b_end.called)
         p.end()
