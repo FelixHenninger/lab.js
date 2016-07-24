@@ -184,10 +184,10 @@ Usage
     be (and is automatically) collected in the :js:attr:`data` attribute.
 
     Please also note that the :js:attr:`parameters` are made available to any
-    nested elements through :js:attr:`parameters_aggregate`, while no such
+    nested elements through :js:attr:`aggregateParameters`, while no such
     mechanism exists for :js:attr:`data`.
 
-  .. js:attribute:: parameters_aggregate
+  .. js:attribute:: aggregateParameters
 
     Combination of the element's parameters and those of any superordinate
     elements (read-only)
@@ -200,7 +200,7 @@ Usage
     superordinate elements, which are then applied to all subordinate, nested,
     elements.
 
-    The :js:attr:`parameters_aggregate` attribute combines the
+    The :js:attr:`aggregateParameters` attribute combines the
     :js:attr:`parameters` of any single element with those of superordinate
     elements, if there are any. Within this structure, parameters defined at
     lower, more specific, levels override those with an otherwise broader scope.

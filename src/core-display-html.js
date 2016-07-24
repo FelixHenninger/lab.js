@@ -28,7 +28,7 @@ export class HTMLScreen extends BaseElement {
     }).then(() => {
       // Post-process template by adding
       // placeholders through lodash.template
-      this.content = template(this.content)(this.parameters_aggregate)
+      this.content = template(this.content)(this.aggregateParameters)
       return
     }).then(
       // Continue preparation

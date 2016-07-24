@@ -418,7 +418,7 @@ describe('Core', () => {
 
         // Check whether inheritance works properly
         assert.deepEqual(
-          c.parameters_aggregate,
+          c.aggregateParameters,
           {
             foo: 'bar',
             baz: 'queer',
