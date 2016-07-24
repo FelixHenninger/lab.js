@@ -155,7 +155,7 @@ describe('Canvas-based elements', () => {
 
     it('Adds canvas property to hand-me-downs', () => {
       assert.include(
-        s.hand_me_downs,
+        s.handMeDowns,
         'canvas'
       )
     })

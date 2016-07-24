@@ -65,7 +65,7 @@ sequence accepts two additional options:
   If this option is set to ``true``, the elements in the sequence are shuffled
   during the prepare phase.
 
-``hand_me_downs`` · Options passed to nested elements (``['datastore', 'el']``)
+``handMeDowns`` · Options passed to nested elements (``['datastore', 'el']``)
   The options/attributes set in this option are set on nested elements
   during the prepare phase.
   This option is largely for convenience, and designed to decrease the amount
@@ -96,7 +96,7 @@ Options
   down automatically (by calling ``end``). If the mode is set to ``all``, it
   waits until all nested items have ended.
 
-``hand_me_downs`` · Options passed to nested elements
+``handMeDowns`` · Options passed to nested elements
   Exactly analogous to the correspondent option for sequences.
 
 ----

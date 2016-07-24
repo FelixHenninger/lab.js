@@ -1,5 +1,5 @@
 // Flow control elements for lab.js
-import { BaseElement, status, hand_me_downs } from './core'
+import { BaseElement, status, handMeDowns } from './core'
 import { shuffle } from 'lodash-es'
 
 // Helper function to handle nested elements
@@ -20,7 +20,7 @@ const prepareNested = function(nested, parent) {
 
   // Pass on specified attributes
   nested.forEach(c => {
-    parent.hand_me_downs.forEach(k => {
+    parent.handMeDowns.forEach(k => {
       c[k] = c[k] || parent[k]
     })
   })
@@ -52,7 +52,7 @@ export class Sequence extends BaseElement {
     // Use default hand-me-downs
     // unless directed otherwise
     // (note that the hand-me-downs are copied)
-    this.hand_me_downs = options.hand_me_downs || [...hand_me_downs]
+    this.handMeDowns = options.handMeDowns || [...handMeDowns]
   }
 
   prepare(direct_call) {
@@ -151,7 +151,7 @@ export class Parallel extends BaseElement {
 
     // Save options
     this.mode = options.mode || 'race'
-    this.hand_me_downs = options.hand_me_downs || [...hand_me_downs]
+    this.handMeDowns = options.handMeDowns || [...handMeDowns]
   }
 
   prepare(direct_call) {

@@ -122,8 +122,8 @@ export class CanvasSequence extends Sequence {
     initCanvas.apply(this, [options])
 
     // Push canvas to nested elements
-    if (!this.hand_me_downs.includes('canvas')) {
-      this.hand_me_downs.push('canvas')
+    if (!this.handMeDowns.includes('canvas')) {
+      this.handMeDowns.push('canvas')
     }
   }
 

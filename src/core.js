@@ -301,7 +301,7 @@ export class BaseElement extends EventHandler {
 
 // Default options ----------------------------------------
 // Attributes to pass on to nested items (as names)
-export let hand_me_downs = [
+export let handMeDowns = [
   'debug',
   'datastore',
   'el'

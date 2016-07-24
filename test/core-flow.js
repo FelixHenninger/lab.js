@@ -18,7 +18,7 @@ describe('Flow control', () => {
       b.foo = 'baz'
 
       p.content = [a, b]
-      p.hand_me_downs.push('foo')
+      p.handMeDowns.push('foo')
 
       return p.prepare().then(() => {
         assert.equal(a.foo, 'bar')
@@ -27,11 +27,11 @@ describe('Flow control', () => {
     })
 
     it('hand-me-downs do not leak between elements', () => {
-      p.hand_me_downs.push('foo')
+      p.handMeDowns.push('foo')
       const q = new lab.Sequence()
 
       assert.notOk(
-        q.hand_me_downs.includes('foo')
+        q.handMeDowns.includes('foo')
       )
     })
 
