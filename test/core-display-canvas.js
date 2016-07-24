@@ -190,11 +190,11 @@ describe('Canvas-based elements', () => {
     })
 
     it('Runs canvas drawing operations in sequence', () => {
-      a.render_function = (ts, canvas, ctx, screen) => {
+      a.renderFunction = (ts, canvas, ctx, screen) => {
         ctx.rect(0, 0, 10, 10)
         ctx.fill()
       }
-      b.render_function = (ts, canvas, ctx, screen) => {
+      b.renderFunction = (ts, canvas, ctx, screen) => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.beginPath()
         ctx.rect(10, 0, 10, 10)

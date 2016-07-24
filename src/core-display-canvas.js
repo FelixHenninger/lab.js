@@ -11,7 +11,7 @@ import { Sequence } from './core-flow'
 // (code is clean, but not necessarily as elegant
 // as possible)
 
-const canvas_init = function(options) {
+const initCanvas = function(options) {
   // Setup canvas handling:
   // By default, the element does not
   // come bundled with a canvas. Instead,
@@ -23,24 +23,24 @@ const canvas_init = function(options) {
   // Either way, a canvas is definitely present
   // after the Element is prepared.
   this.canvas = null
-  this.ctx_type = options.ctx_type || '2d'
+  this.ctxType = options.ctxType || '2d'
   this.ctx = null
-  this._canvas_needs_appending = false
+  this.internals.insertCanvasOnRun = false
 }
 
-const canvas_prepare = function() {
+const prepareCanvas = function() {
   // Initialize a canvas,
   // if this has not already been done
   if (this.canvas == null) {
     this.canvas = document.createElement('canvas')
     // Remember to add the canvas to the DOM later
-    this._canvas_needs_appending = true
+    this.internals.insertCanvasOnRun = true
   }
 }
 
-const canvas_insert = function() {
+const insertCanvas = function() {
   // Add the canvas to the DOM if need be
-  if (this._canvas_needs_appending) {
+  if (this.internals.insertCanvasOnRun) {
     // Remove all other content within the HTML tag
     // (note that this could be sped up, as per
     // http://jsperf.com/innerhtml-vs-removechild
@@ -58,20 +58,20 @@ const canvas_insert = function() {
 }
 
 export class CanvasScreen extends BaseElement {
-  constructor(render_function, options={}) {
+  constructor(renderFunction, options={}) {
     super(options)
-    this.render_function = render_function
+    this.renderFunction = renderFunction
 
     // Initialize canvas
-    canvas_init.apply(this, [options])
+    initCanvas.apply(this, [options])
 
     // Provide an attribute for tracking
     // redraw requests
-    this.frame_request = null
+    this.frameRequest = null
   }
 
   render(timestamp) {
-    return this.render_function(
+    return this.renderFunction(
       timestamp,
       this.canvas,
       this.ctx,
@@ -80,25 +80,25 @@ export class CanvasScreen extends BaseElement {
   }
 
   onPrepare() {
-    canvas_prepare.apply(this)
+    prepareCanvas.apply(this)
 
     // Bind render function to local context
-    this.render_function = this.render_function.bind(this)
+    this.renderFunction = this.renderFunction.bind(this)
   }
 
   onBeforeRun() {
     // Add canvas to the dom, if necessary
-    canvas_insert.apply(this)
+    insertCanvas.apply(this)
 
     // Extract the requested context for the canvas
     this.ctx = this.canvas.getContext(
-      this.ctx_type
+      this.ctxType
     )
   }
 
   onRun() {
     // Draw on canvas before the next repaint
-    this.frame_request = window.requestAnimationFrame(
+    this.frameRequest = window.requestAnimationFrame(
       // Context apparently is lost in the callback
       this.render.bind(this)
     )
@@ -107,7 +107,7 @@ export class CanvasScreen extends BaseElement {
   onEnd() {
     // Attempt to cancel any pending frame requests
     window.cancelAnimationFrame(
-      this.frame_request
+      this.frameRequest
     )
   }
 }
@@ -119,7 +119,7 @@ export class CanvasSequence extends Sequence {
     super(content, options)
 
     // Initialize canvas
-    canvas_init.apply(this, [options])
+    initCanvas.apply(this, [options])
 
     // Push canvas to nested elements
     if (!this.hand_me_downs.includes('canvas')) {
@@ -129,7 +129,7 @@ export class CanvasSequence extends Sequence {
 
   prepare(direct_call) {
     // Prepare canvas
-    canvas_prepare.apply(this)
+    prepareCanvas.apply(this)
 
     // Check that all nested elements
     // use the Canvas
@@ -150,7 +150,7 @@ export class CanvasSequence extends Sequence {
   run() {
     // Insert canvas into DOM,
     // if not present already
-    canvas_insert.apply(this)
+    insertCanvas.apply(this)
 
     // Run sequence as usual
     return super.run()

@@ -1,6 +1,6 @@
 // Preload images
-export const preload_image = function(url) {
-  return new Promise((resolve, reject) => {
+export const preloadImage = url =>
+  new Promise((resolve, reject) => {
     const image = new Image()
 
     // Resolve or reject the promise, depending
@@ -12,11 +12,10 @@ export const preload_image = function(url) {
     // queue for loading.
     image.src = url
   })
-}
 
 // Preload audio
-export const preload_audio = function(url) {
-  return new Promise((resolve, reject) => {
+export const preloadAudio = url =>
+  new Promise((resolve, reject) => {
     const audio = new Audio()
 
     // Resolve/reject the promise based on the
@@ -31,4 +30,3 @@ export const preload_audio = function(url) {
     // Set the path
     audio.src = url
   })
-}

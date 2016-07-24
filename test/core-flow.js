@@ -217,6 +217,10 @@ describe('Flow control', () => {
 
 
       const p = s.wait_for('run').then(() => {
+        // A stepper function should exist at this point
+        assert.isFunction(s.stepper)
+
+        // End sequence
         s.end()
 
         // This should not happen in practice, since elements
@@ -228,8 +232,8 @@ describe('Flow control', () => {
         // Just in case someone tries to run the stepper
         // function manually, this should not work
         assert.throws(
-          () => s.currentElementStepper(), // Try stepper function
-          's.currentElementStepper is not a function'
+          () => s.stepper(), // Try stepper function
+          's.stepper is not a function'
         )
       })
 

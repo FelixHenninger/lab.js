@@ -2,9 +2,9 @@ import { assign, difference, flatten, intersection, uniq } from 'lodash-es'
 
 // Data saving --------------------------------------------
 
-const metadata_keys = ['sender', 'sender_type', 'sender_id', 'timestamp']
+const defaultMetadata = ['sender', 'sender_type', 'sender_id', 'timestamp']
 
-const csv_escape_cell = (c) => {
+const escapeCsvCell = c => {
   // Escape CSV cells as per RFC 4180
 
   if (typeof c === 'string') {
@@ -40,23 +40,23 @@ export class DataStore {
 
     // Remember to trigger fallback if something
     // goes wrong
-    let use_fallback = true
+    let fallback = true
 
     // Recover state from storage, if present,
     // otherwise initialize empty data array
     if (this.storage) {
       // Check for preexisting data
-      const existing_data = this.storage.getItem('lab.js-data')
+      const data = this.storage.getItem('lab.js-data')
 
       // Perform initialization
-      if (existing_data) {
+      if (data) {
         // Fail gracefully if JSON parsing fails
         try {
-          this.data = JSON.parse(existing_data)
+          this.data = JSON.parse(data)
           this.state = Object.assign(...this.data)
 
           // Remove metadata from current state
-          metadata_keys.forEach(key => {
+          defaultMetadata.forEach(key => {
             if (this.state.hasOwnProperty(key)) {
               delete this.state[key]
             }
@@ -64,10 +64,10 @@ export class DataStore {
 
           // Everything went well,
           // skip initialization of data and state
-          use_fallback = false
+          fallback = false
         } catch (err) {
           // If an error occurs, play it safe
-          use_fallback = true
+          fallback = true
         }
       }
     }
@@ -75,7 +75,7 @@ export class DataStore {
     // Initialize empty data and state
     // if no existing data were found,
     // or data were invalid
-    if (use_fallback) {
+    if (fallback) {
       this.data = []
       this.state = {}
     }
@@ -117,8 +117,7 @@ export class DataStore {
   clear(persistence=true, state=false) {
     // Clear persistent state
     if (persistence && this.storage) {
-      // TODO: Maybe limit this
-      // to specific keys?
+      // TODO: Maybe limit this to specific keys?
       this.storage.clear()
     }
 
@@ -131,45 +130,43 @@ export class DataStore {
   }
 
   // Extracting data --------------------------------------
-  keys(leaders=metadata_keys) {
+  keys(metadata=defaultMetadata) {
     // Extract all keys from the data collected
     let keys = this.data.map(
       e => Object.keys(e)
-      )
+    )
 
     // Flatten the nested array
     keys = flatten(keys)
 
     // Sort alphabetically and remove duplicates
+    // (sorting apparently needs to be done twice)
     keys.sort()
-    keys = uniq(keys, true)
-    keys.sort() // apparently need to be sorted again
+    keys = uniq(keys, true).sort()
 
     // Bring certain columns to the front
-    const leaders_present = intersection(leaders, keys)
-    const remaining_keys = difference(keys, leaders_present)
+    const availableMetadata = intersection(metadata, keys)
+    const remainder = difference(keys, availableMetadata)
 
-    keys = leaders_present.concat(remaining_keys)
-
-    return keys
+    return availableMetadata.concat(remainder)
   }
 
   // Extract a single column for the data,
   // also filtering by sender, if desired
-  extract(column, sender_re=RegExp('.*')) {
+  extract(column, senderRegExp=RegExp('.*')) {
     // If a string is provided, assume that
     // the user is performing an exact search.
     // Convert the string into the corresponding
     // regular expression.
-    if (typeof sender_re === 'string') {
-      sender_re = RegExp(`^${ sender_re }$`)
+    if (typeof senderRegExp === 'string') {
+      senderRegExp = RegExp(`^${ senderRegExp }$`)
     }
 
     // Filter the data using the sender column,
     // and then extract the column in question
     return this.data
       .filter(
-        e => sender_re.test(e.sender)
+        e => senderRegExp.test(e.sender)
       )
       .map(
         e => e[column]
@@ -177,19 +174,17 @@ export class DataStore {
   }
 
   // Export data in various formats -----------------------
-  export_json() {
+  exportJson() {
     // Export data a JSON string
     return JSON.stringify(this.data)
   }
 
-  export_csv(separator=',') {
+  exportCsv(separator=',') {
     // Export data as csv string
 
-    const keys = this.keys()
-
     // Extract the data from each entry
-    const csv_rows = this.data.map(e => {
-      const row_cells = keys.map(k => {
+    const rows = this.data.map(e => {
+      const cells = this.keys().map(k => {
         if (e.hasOwnProperty(k)) {
           return e[k]
         } else {
@@ -197,27 +192,27 @@ export class DataStore {
         }
       })
 
-      return row_cells
-        .map(csv_escape_cell) // Escape special characters in cells
+      return cells
+        .map(escapeCsvCell) // Escape special characters in cells
         .join(separator) // Separate cells
     })
 
     // Prepend column names
-    csv_rows.unshift(keys.join(separator))
+    rows.unshift(this.keys().join(separator))
 
     // Join rows
-    return csv_rows.join('\r\n')
+    return rows.join('\r\n')
   }
 
-  export_blob(filetype='csv') {
+  exportBlob(filetype='csv') {
     // Assemble the text representation
     // of the current data
     let text = ''
 
     if (filetype === 'json') {
-      text = this.export_json()
+      text = this.exportJson()
     } else {
-      text = this.export_csv()
+      text = this.exportCsv()
     }
 
     // Convert the so encoded data to a blob object
@@ -230,7 +225,7 @@ export class DataStore {
 
   // Download data in a given format ----------------------
   download(filetype='csv', filename='data.csv') {
-    const blob = this.export_blob(filetype)
+    const blob = this.exportBlob(filetype)
 
     // Convert this blob, in turn, to a url
     const url = window.URL.createObjectURL(blob)

@@ -273,7 +273,7 @@ describe('Data handling', () => {
           'three': 3
         })
         assert.deepEqual(
-          ds.export_json(),
+          ds.exportJson(),
           JSON.stringify(ds.data)
         )
       })
@@ -288,7 +288,7 @@ describe('Data handling', () => {
           'three': 3
         })
         assert.strictEqual(
-          ds.export_csv(),
+          ds.exportCsv(),
           [
             'one,three,two',
             '1,,2',
@@ -304,7 +304,7 @@ describe('Data handling', () => {
           '3': 'c\n',
         })
         assert.strictEqual(
-          ds.export_csv(),
+          ds.exportCsv(),
           [
             '1,2,3',
             'a,"b,","c\n"',
@@ -319,7 +319,7 @@ describe('Data handling', () => {
           '3': 'c',
         })
         assert.strictEqual(
-          ds.export_csv(),
+          ds.exportCsv(),
           [
             '1,2,3',
             'a,"b""",c',
@@ -350,11 +350,11 @@ describe('Data handling', () => {
         }
 
         return Promise.all([
-          readBlob(ds.export_blob()).then((result) => {
-            assert.equal(result, ds.export_csv())
+          readBlob(ds.exportBlob()).then((result) => {
+            assert.equal(result, ds.exportCsv())
           }),
-          readBlob(ds.export_blob('json')).then((result) => {
-            assert.equal(result, ds.export_json())
+          readBlob(ds.exportBlob('json')).then((result) => {
+            assert.equal(result, ds.exportJson())
           })
         ])
       })

@@ -15,25 +15,25 @@ export class HTMLScreen extends BaseElement {
     return Promise.resolve().then(() => {
       // Fetch content from URL, if one is given
       if (this.contentUrl) {
-        return fetch(this.contentUrl).then(response => {
-          return response.text()
-        }).then(text => {
-          this.content = text
-        }).catch(e => {
-          console.log('Error while loading content: ', e)
-        })
+        return fetch(this.contentUrl).then(
+          response => response.text()
+        ).then(
+          text => (this.content = text)
+        ).catch(
+          e => console.log('Error while loading content: ', e)
+        )
       } else {
-        return
+        return null
       }
     }).then(() => {
       // Post-process template by adding
       // placeholders through lodash.template
       this.content = template(this.content)(this.parameters_aggregate)
       return
-    }).then(() => {
+    }).then(
       // Continue preparation
-      return super.prepare(direct_call)
-    })
+      () => super.prepare(direct_call)
+    )
   }
 
   onRun() {
@@ -130,6 +130,7 @@ export class FormScreen extends HTMLScreen {
                     .filter(option => option.selected)
                     .map(option => option.value)
                 break
+              // no default
             }
             break
           case 'button':
@@ -138,8 +139,11 @@ export class FormScreen extends HTMLScreen {
               case 'submit':
               case 'reset':
                 output[element.name] = element.value
+                break
+              default:
             }
             break
+          default:
         } // outer switch
       }) // iterate across elements
     }) // iterate across forms

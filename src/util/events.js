@@ -3,17 +3,17 @@ const splitEventString = function(eventString) {
   // Split the specifier ('click(0) div > button')
   // into selector ('div > button'), event type ('click')
   // and additional options ('0')
-  const re_handler_direct = /^(\w+)\s*([^()]*)$/
-  const re_handler_wrapped = /^(\w+)\(([\w,]+)\)\s*(.*)$/
+  const directHandlerRegEx = /^(\w+)\s*([^()]*)$/
+  const wrappedHandlerRegEx = /^(\w+)\(([\w,]+)\)\s*(.*)$/
 
   let eventName = null
   let options = null
   let selector = null
 
-  if (re_handler_direct.test(eventString)) {
-    [, eventName, selector] = re_handler_direct.exec(eventString)
-  } else if (re_handler_wrapped.test(eventString)) {
-    [, eventName, options, selector] = re_handler_wrapped.exec(eventString)
+  if (directHandlerRegEx.test(eventString)) {
+    [, eventName, selector] = directHandlerRegEx.exec(eventString)
+  } else if (wrappedHandlerRegEx.test(eventString)) {
+    [, eventName, options, selector] = wrappedHandlerRegEx.exec(eventString)
     options = options.split(' ')
   } else {
     console.log('Can\'t interpret event string ', eventString)
@@ -42,16 +42,10 @@ const wrapHandler = function(handler, eventName, options=null, context=null) {
     switch (eventName) {
       case 'keypress':
         // Options filter defined keys
-        const keycodes_lookup = {
-          'space': 32,
-          'enter': 13,
-          'tab': 19,
-          'backspace': 8
-        }
 
         // Look up keycode for each key
         const keycodes = options.map(
-          key => keycodes_lookup[key] || key.charCodeAt(0)
+          key => keycodeLabels[key] || key.charCodeAt(0)
         )
 
         // Wrap the handler to fire only
@@ -78,6 +72,13 @@ const wrapHandler = function(handler, eventName, options=null, context=null) {
   }
 }
 
+const keycodeLabels = {
+  space: 32,
+  enter: 13,
+  tab: 19,
+  backspace: 8,
+}
+
 export class DomConnection {
   constructor(options) {
     // Limit search for elements to a
@@ -93,7 +94,7 @@ export class DomConnection {
     this.context = options.context || this
 
     // Collect DOM handlers
-    this._domHandlers = {}
+    this.domHandlers = {}
   }
 
   // DOM event handling -----------
@@ -119,7 +120,7 @@ export class DomConnection {
           // If the event is constrainted to a certain element
           // or a set of elements, search for these within the
           // specified element, and add the handler to each
-          for (let child of Array.from(this.el.querySelectorAll(selector))) {
+          for (const child of Array.from(this.el.querySelectorAll(selector))) {
             child.addEventListener(
               eventName, handler
             )
@@ -133,24 +134,23 @@ export class DomConnection {
         }
 
         // Save the handler so that it can be retrieved later
-        this._domHandlers[specifier] = handler
-
+        this.domHandlers[specifier] = handler
       }
     )
   }
 
   detach() {
-    Object.keys(this._domHandlers).forEach(
+    Object.keys(this.domHandlers).forEach(
       specifier => {
         // Split event string into constituent components
         const [eventName, , selector] = splitEventString(specifier)
 
         // Retrieve handler
-        const handler = this._domHandlers[specifier]
+        const handler = this.domHandlers[specifier]
 
         if (selector !== '') {
           // Remove listener from specified elements
-          for (let child of Array.from(this.el.querySelectorAll(selector))) {
+          for (const child of Array.from(this.el.querySelectorAll(selector))) {
             child.removeEventListener(
               eventName, handler
             )
@@ -163,6 +163,5 @@ export class DomConnection {
         }
       }
     ) // forEach over all DOM handlers
-
   }
 }

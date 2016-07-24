@@ -1,7 +1,7 @@
 import { EventHandler } from './base'
 import { DomConnection } from './util/events'
-import { preload_image, preload_audio } from './util/preload'
-import { promise_chain } from './util/promise'
+import { preloadImage, preloadAudio } from './util/preload'
+import { promiseChain } from './util/promise'
 import { extend } from 'lodash-es'
 
 // Define status codes
@@ -9,7 +9,7 @@ export const status = Object.freeze({
   initialized:  0,
   prepared:     1,
   running:      2,
-  done:         3
+  done:         3,
 })
 
 // Generic building block for experiment
@@ -21,7 +21,7 @@ export class BaseElement extends EventHandler {
     // Setup a storage for internal properties
     // (these are not supposed to be directly
     // available to users, and will not be documented)
-    this.internals = {}
+    this.internals = this.internals || {}
 
     // Setup a document node within which
     // the element operates
@@ -122,7 +122,7 @@ export class BaseElement extends EventHandler {
     // Setup automatic event handling for responses
     Object.keys(this.responses).forEach(
       eventString => {
-        this.events[eventString] = e => {
+        this.events[eventString] = () => {
           // Trigger internal response handling
           this.respond(this.responses[eventString])
         }
@@ -154,14 +154,14 @@ export class BaseElement extends EventHandler {
       this.on('after:end', this.commit)
     }
 
-    return promise_chain([
+    return promiseChain([
       // Preload media
-      () => Promise.all( this.media.images.map(preload_image) ),
-      () => Promise.all( this.media.audio.map(preload_audio) ),
+      () => Promise.all(this.media.images.map(preloadImage)),
+      () => Promise.all(this.media.audio.map(preloadAudio)),
       // Trigger related methods
       () => this.triggerMethod('prepare', direct_call),
       // Update status
-      () => this.status = status.prepared
+      () => (this.status = status.prepared),
       // TODO: Need to reflect on the order of the last
       // two operations. A problem emerged that calls
       // to 'run' in a prepare handler would lead to
@@ -174,9 +174,9 @@ export class BaseElement extends EventHandler {
   run() {
     // Promise that represents the entire run
     // of the element
-    const p = new Promise((resolve, reject) => {
-      this.on('end', resolve)
-    })
+    const p = new Promise(
+      resolve => this.on('end', resolve)
+    )
     let chain // Chain for intermediate promises
 
     // Prepare element if this has not been done
@@ -260,7 +260,7 @@ export class BaseElement extends EventHandler {
           sender_type: this.element_type,
           sender_id: this.id,
           time_commit: performance.now(),
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         })
       )
     }
@@ -279,12 +279,12 @@ export class BaseElement extends EventHandler {
 
   get parents() {
     let output = []
-    let current_element = this
+    let currentElement = this
 
     // Traverse hierarchy upwards
-    while (current_element.parent) {
-      current_element = current_element.parent
-      output = output.concat(current_element)
+    while (currentElement.parent) {
+      currentElement = currentElement.parent
+      output = output.concat(currentElement)
     }
 
     // Sort in a top-to-bottom order
@@ -312,7 +312,7 @@ export let hand_me_downs = [
 // immediately as soon as it is called
 export class DummyElement extends BaseElement {
   constructor(options={}) {
-    options.timeout = options.timeout || 0;
+    options.timeout = options.timeout || 0
     super(options)
   }
 }

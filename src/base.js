@@ -1,5 +1,4 @@
 import { isFunction } from 'lodash-es'
-import { domSelect } from './util/dom'
 
 // Most of the 'magic' that happens in the library
 // is due to event handling. The following class
@@ -7,8 +6,12 @@ import { domSelect } from './util/dom'
 // allows for custom events on an object.
 export class EventHandler {
   constructor(options={}) {
+    // Internal storage for whatever,
+    // not supposed to be accessed by end-users
+    this.internals = {}
+
     // Collect callbacks
-    this._callbacks = {}
+    this.internals.callbacks = {}
 
     // Debug state
     this.debug = options.debug || false
@@ -19,8 +22,8 @@ export class EventHandler {
   // see https://github.com/component/emitter.git
   // Any mistakes, of course, are entirely my own.
   on(event, fn) {
-    this._callbacks['$' + event] = this._callbacks['$' + event] || []
-    this._callbacks['$' + event].push(fn)
+    this.internals.callbacks[`$${ event }`] = this.internals.callbacks[`$${ event }`] || []
+    this.internals.callbacks[`$${ event }`].push(fn)
     return this
   }
 
@@ -28,12 +31,12 @@ export class EventHandler {
     if (fn === null) {
       // If there is no specific handler specified,
       // remove all handlers for an event
-      delete this._callbacks['$' + event]
+      delete this.internals.callbacks[`$${ event }`]
     } else {
       // If a specific handler is given, search for
       // it and remove just this one handler
-      this._callbacks['$' + event] =
-        this._callbacks['$' + event].filter(cb => cb !== fn)
+      this.internals.callbacks[`$${ event }`] =
+        this.internals.callbacks[`$${ event }`].filter(cb => cb !== fn)
     }
     return this
   }
@@ -59,7 +62,7 @@ export class EventHandler {
     // Return a promise that resolves when
     // the event in question is triggered
     return new Promise(
-      (resolve, reject) => this.on(event, resolve)
+      resolve => this.on(event, resolve)
     )
   }
 
@@ -69,9 +72,10 @@ export class EventHandler {
   // (though I do not catch as many special cases, probably to my peril)
   trigger(event, ...args) {
     // Trigger all callbacks for a specific event
-    const callbacks = this._callbacks['$' + event]
-    if (callbacks)
+    const callbacks = this.internals.callbacks[`$${ event }`]
+    if (callbacks) {
       callbacks.forEach(c => c.apply(this, args))
+    }
     // Note that the apply method will set the context
     // to the local object
 
@@ -99,7 +103,7 @@ export class EventHandler {
     function getEventName(match, prefix, eventName) {
       return eventName.toUpperCase()
     }
-    const methodName = 'on' + event.replace(splitter, getEventName)
+    const methodName = `on${ event.replace(splitter, getEventName) }`
 
     // If there is a method called methodName,
     // run it and save the results
