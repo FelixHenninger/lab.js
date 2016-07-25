@@ -175,7 +175,7 @@ input, select, button, textarea {
   line-height: var(--line-height);
   border: 2px solid var(--color-border);
   border-radius: 4px;
-  margin: 4px 0 8px;
+  margin: 8px 0;
   padding: 8px;
 }
 input[type="checkbox"] {
@@ -200,6 +200,29 @@ textarea {
   display: block;
   margin: var(--paragraph-margin-vertical) 0;
   resize: vertical;
+}
+/* Input groups */
+.input-group {
+  display: inline-table;
+  margin: 8px 0;
+}
+.input-group * {
+  display: table-cell;
+  border-radius: 0px;
+}
+.input-group input {
+  margin: 0;
+}
+.input-group *:first-child {
+  border-radius: 4px 0 0 4px;
+}
+.input-group *:last-child {
+  border-radius: 0 4px 4px 0;
+}
+.input-group .input-group-addon {
+  background-color: var(--color-border);
+  border: 2px solid var(--color-border);
+  padding: 0 10px;
 }
 
 /* Table */
