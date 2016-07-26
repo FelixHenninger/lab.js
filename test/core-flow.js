@@ -96,7 +96,7 @@ describe('Flow control', () => {
 
     let s
     beforeEach(() => {
-      s = new lab.Sequence([], {})
+      s = new lab.Sequence()
     })
 
     it('runs elements in sequence', () => {
@@ -112,7 +112,6 @@ describe('Flow control', () => {
       b.on('run', b_run)
       let s_end = sinon.spy()
       s.on('end', s_end)
-
 
       const tasks = [
         () => {
@@ -248,7 +247,9 @@ describe('Flow control', () => {
     beforeEach(() => {
       a = new lab.BaseElement()
       b = new lab.BaseElement()
-      p = new lab.Parallel([a, b], {})
+      p = new lab.Parallel({
+        content: [a, b] 
+      })
     })
 
     it('runs elements in parallel', () => {

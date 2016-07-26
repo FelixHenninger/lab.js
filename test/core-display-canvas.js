@@ -5,12 +5,10 @@ describe('Canvas-based elements', () => {
 
     beforeEach(() => {
       // Reset screen
-      c = new lab.CanvasScreen(
-        () => null, // dummy drawing function
-        {
-          el: document.createElement('div')
-        }
-      )
+      c = new lab.CanvasScreen({
+        renderFunction: () => null, // dummy drawing function
+        el: document.createElement('div')
+      })
     })
 
     it('Inserts a canvas into the page if necessary', () => {
@@ -74,21 +72,19 @@ describe('Canvas-based elements', () => {
 
     beforeEach(() => {
       // Reset screen
-      c = new lab.CanvasScreen(
-        () => null, // dummy drawing function
-        {
-          el: document.createElement('div')
-        }
-      )
+      c = new lab.CanvasScreen({
+        renderFunction: () => null, // dummy drawing function
+        el: document.createElement('div')
+      })
     })
 
     it('Binds render function to element', () => {
       // Define a render function and
       // insert it into the CanvasScreen
-      render_func = function() {
+      renderFunc = function() {
         return this
       }
-      c.render_function = render_func
+      c.renderFunction = renderFunc
 
       // Preparing the element binds the
       // function to it
@@ -96,7 +92,7 @@ describe('Canvas-based elements', () => {
 
       // Check function binding
       assert.equal(
-        c.render_function(),
+        c.renderFunction(),
         c
       )
     })
@@ -144,12 +140,12 @@ describe('Canvas-based elements', () => {
     let s, a, b
 
     beforeEach(() => {
-      a = new lab.CanvasScreen(
-        () => null // dummy drawing function
-      )
-      b = new lab.CanvasScreen(
-        () => null
-      )
+      a = new lab.CanvasScreen({
+        renderFunction: () => null // dummy drawing function
+      })
+      b = new lab.CanvasScreen({
+        renderFunction: () => null
+      })
       s = new lab.CanvasSequence()
     })
 
@@ -179,7 +175,10 @@ describe('Canvas-based elements', () => {
 
     it('Complains if any nested elements are not canvas-based', () => {
       s.content = [
-        a, new lab.HTMLScreen('')
+        a,
+        new lab.HTMLScreen({
+          content: ''
+        })
       ]
 
       // This should cause an error

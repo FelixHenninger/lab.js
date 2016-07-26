@@ -1,7 +1,7 @@
 // Canvas-based displays for lab.js
-
 import { BaseElement } from './core'
 import { Sequence } from './core-flow'
+import deprecation from './util/deprecation'
 
 // Global canvas functions used in all of the following elements
 // (multiple inheritance would come in handy here, but alas...)
@@ -58,9 +58,14 @@ const insertCanvas = function() {
 }
 
 export class CanvasScreen extends BaseElement {
-  constructor(renderFunction, options={}) {
+  constructor(options={}) {
+    // Deprecate multiple arguments in constructor
+    options = deprecation.multiArgumentConstructor(
+      options, arguments, ['renderFunction'], 'CanvasScreen'
+    )
+
     super(options)
-    this.renderFunction = renderFunction
+    this.renderFunction = options.renderFunction || (() => null)
 
     // Initialize canvas
     initCanvas.apply(this, [options])
@@ -115,8 +120,11 @@ export class CanvasScreen extends BaseElement {
 // Canvas-based sequence of elements
 // drawing on the same canvas
 export class CanvasSequence extends Sequence {
-  constructor(content, options={}) {
-    super(content, options)
+  constructor(options={}) {
+    options = deprecation.multiArgumentConstructor(
+      options, arguments, ['content'], 'CanvasSequence'
+    )
+    super(options)
 
     // Initialize canvas
     initCanvas.apply(this, [options])

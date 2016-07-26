@@ -3,7 +3,7 @@ describe('Core', () => {
     let b
 
     beforeEach(() => {
-      b = new lab.BaseElement({})
+      b = new lab.BaseElement()
     })
 
     it('loads', () => {

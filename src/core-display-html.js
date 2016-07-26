@@ -2,12 +2,18 @@
 import { BaseElement } from './core'
 import { domSelect } from './util/dom'
 import { extend, template } from 'lodash-es'
+import deprecation from './util/deprecation'
 
 // HTMLScreens display HTML when run
 export class HTMLScreen extends BaseElement {
-  constructor(content, options={}) {
+  constructor(options={}) {
+    // Deprecate multiple arguments in constructor
+    options = deprecation.multiArgumentConstructor(
+      options, arguments, ['content'], 'HTMLScreen'
+    )
+
     super(options)
-    this.content = content
+    this.content = options.content
     this.contentUrl = options.contentUrl
   }
 
@@ -44,8 +50,13 @@ export class HTMLScreen extends BaseElement {
 
 // A FormScreen can show, validate and serialize a form
 export class FormScreen extends HTMLScreen {
-  constructor(content, options={}) {
-    super(content, options)
+  constructor(options={}) {
+    // Deprecate multiple arguments in constructor
+    options = deprecation.multiArgumentConstructor(
+      options, arguments, ['content'], 'FormScreen'
+    )
+
+    super(options)
 
     // Add a validator
     // (inactive by default)
