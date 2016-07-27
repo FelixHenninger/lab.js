@@ -43,10 +43,9 @@ export class BaseElement extends EventHandler {
       this.triggerMethod('after:event:remove')
     })
 
-    // Save the type of element as well as
+    // Save the title of element as well as
     // its position in the hierarchy
     this.title = options.title || null
-    this.element_type = this.constructor.name
     this.id = options.id || null
 
     // Setup 'tardyness'
@@ -90,7 +89,7 @@ export class BaseElement extends EventHandler {
     // Setup console output grouping
     // when the element is run
     if (this.debug) {
-      this.on('before:run', () => console.group(this.element_type))
+      this.on('before:run', () => console.group(this.type))
       this.on('after:end', () => console.groupEnd())
     }
   }
@@ -257,7 +256,7 @@ export class BaseElement extends EventHandler {
         extend(this.data, this.aggregateParameters, {
           duration: this.data.time_end - this.data.time_run,
           sender: this.title,
-          sender_type: this.element_type,
+          sender_type: this.type,
           sender_id: this.id,
           time_commit: performance.now(),
           timestamp: new Date().toISOString(),
@@ -297,7 +296,13 @@ export class BaseElement extends EventHandler {
       this.parameters
     )
   }
+
+  get type() {
+    return [...this.constructor.module, this.constructor.name].join('.')
+  }
 }
+
+BaseElement.module = ['core']
 
 // Default options ----------------------------------------
 // Attributes to pass on to nested items (as names)

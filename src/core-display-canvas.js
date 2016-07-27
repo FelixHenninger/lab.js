@@ -117,6 +117,8 @@ export class CanvasScreen extends BaseElement {
   }
 }
 
+CanvasScreen.module = ['canvas']
+
 // Canvas-based sequence of elements
 // drawing on the same canvas
 export class CanvasSequence extends Sequence {
@@ -164,3 +166,5 @@ export class CanvasSequence extends Sequence {
     return super.run()
   }
 }
+
+CanvasSequence.module = ['canvas']

@@ -48,6 +48,8 @@ export class HTMLScreen extends BaseElement {
   }
 }
 
+HTMLScreen.module = ['html']
+
 // A FormScreen can show, validate and serialize a form
 export class FormScreen extends HTMLScreen {
   constructor(options={}) {
@@ -173,3 +175,5 @@ export class FormScreen extends HTMLScreen {
       Array.from(forms).every(form => form.checkValidity())
   }
 }
+
+FormScreen.module = ['html']

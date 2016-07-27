@@ -125,6 +125,8 @@ export class Sequence extends BaseElement {
   }
 }
 
+Sequence.module = ['flow']
+
 // A loop functions exactly like a sequence,
 // except that the elements in the loop are
 // generated upon initialization from a
@@ -148,6 +150,8 @@ export class Loop extends Sequence {
     super(options)
   }
 }
+
+Loop.module = ['flow']
 
 // A parallel element executes multiple
 // other elements simultaneously
@@ -205,3 +209,5 @@ export class Parallel extends BaseElement {
     })
   }
 }
+
+Parallel.module = ['flow']
