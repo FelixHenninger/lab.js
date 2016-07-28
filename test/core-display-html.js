@@ -1,11 +1,11 @@
 describe('HTML-based elements', () => {
 
-  describe('HTMLScreen', () => {
+  describe('Screen', () => {
     let h, el
 
     beforeEach(() => {
       el = document.createElement('div')
-      h = new lab.HTMLScreen({
+      h = new lab.html.Screen({
         content: '',
         el: el
       })
@@ -33,7 +33,7 @@ describe('HTML-based elements', () => {
       sinon.stub(window, 'fetch')
       window.fetch.returns(Promise.resolve(content_response))
 
-      // Instruct HTMLScreen to fetch content from url
+      // Instruct screen to fetch content from url
       h.contentUrl = 'https://example.com/'
 
       return h.prepare().then(() => {
@@ -58,12 +58,12 @@ describe('HTML-based elements', () => {
     })
   })
 
-  describe('FormScreen', () => {
+  describe('Form', () => {
     let f, el
 
     beforeEach(() => {
       el = document.createElement('div')
-      f = new lab.FormScreen({
+      f = new lab.html.Form({
         el: el
       })
     })

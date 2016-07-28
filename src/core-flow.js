@@ -1,5 +1,5 @@
 // Flow control elements for lab.js
-import { BaseElement, status, handMeDowns } from './core'
+import { Component, status, handMeDowns } from './core'
 import { shuffle } from 'lodash-es'
 import deprecation from './util/deprecation'
 
@@ -34,7 +34,7 @@ const prepareNested = function(nested, parent) {
 
 // A sequence combines an array of other
 // elements and runs them sequentially
-export class Sequence extends BaseElement {
+export class Sequence extends Component {
   constructor(options={}) {
     // Deprecate multiple arguments in constructor
     options = deprecation.multiArgumentConstructor(
@@ -155,7 +155,7 @@ Loop.module = ['flow']
 
 // A parallel element executes multiple
 // other elements simultaneously
-export class Parallel extends BaseElement {
+export class Parallel extends Component {
   constructor(options={}) {
     // Deprecate multiple arguments in constructor
     options = deprecation.multiArgumentConstructor(

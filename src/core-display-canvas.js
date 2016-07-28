@@ -1,6 +1,6 @@
 // Canvas-based displays for lab.js
-import { BaseElement } from './core'
-import { Sequence } from './core-flow'
+import { Component } from './core'
+import { Sequence as BaseSequence } from './core-flow'
 import deprecation from './util/deprecation'
 
 // Global canvas functions used in all of the following elements
@@ -57,7 +57,7 @@ const insertCanvas = function() {
   }
 }
 
-export class CanvasScreen extends BaseElement {
+export class Screen extends Component {
   constructor(options={}) {
     // Deprecate multiple arguments in constructor
     options = deprecation.multiArgumentConstructor(
@@ -117,11 +117,11 @@ export class CanvasScreen extends BaseElement {
   }
 }
 
-CanvasScreen.module = ['canvas']
+Screen.module = ['canvas']
 
 // Canvas-based sequence of elements
 // drawing on the same canvas
-export class CanvasSequence extends Sequence {
+export class Sequence extends BaseSequence {
   constructor(options={}) {
     options = deprecation.multiArgumentConstructor(
       options, arguments, ['content'], 'CanvasSequence'
@@ -144,12 +144,12 @@ export class CanvasSequence extends Sequence {
     // Check that all nested elements
     // use the Canvas
     const isCanvasElement = (e) =>
-      e instanceof CanvasScreen ||
-      e instanceof CanvasSequence
+      e instanceof Screen ||
+      e instanceof Sequence
 
     if (!this.content.every(isCanvasElement)) {
       throw new Error(
-        'Content element not a CanvasScreen or CanvasSequence'
+        'Content element not a canvas.Screen or canvas.Sequence'
       )
     }
 
@@ -167,4 +167,4 @@ export class CanvasSequence extends Sequence {
   }
 }
 
-CanvasSequence.module = ['canvas']
+Sequence.module = ['canvas']

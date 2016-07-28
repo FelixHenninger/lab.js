@@ -1,9 +1,9 @@
 describe('Core', () => {
-  describe('BaseElement', () => {
+  describe('Component', () => {
     let b
 
     beforeEach(() => {
-      b = new lab.BaseElement()
+      b = new lab.core.Component()
     })
 
     it('loads', () => {
@@ -402,9 +402,9 @@ describe('Core', () => {
     describe('Parameters', () => {
       it('can aggregate parameters from parents across multiple levels', () => {
         // Create elements
-        const a = new lab.BaseElement()
-        const b = new lab.BaseElement()
-        const c = new lab.BaseElement()
+        const a = new lab.core.Component()
+        const b = new lab.core.Component()
+        const c = new lab.core.Component()
 
         // Establish hierarchy (a > b > c)
         b.parent = a
@@ -429,7 +429,7 @@ describe('Core', () => {
 
       it('commits parameters alongside data', () => {
         // Parameter inheritance is tested elsewhere
-        b.datastore = new lab.DataStore()
+        b.datastore = new lab.data.Store()
         b.parameters['foo'] = 'bar'
         b.commit()
 
@@ -439,7 +439,7 @@ describe('Core', () => {
 
     describe('Data', () => {
       it('commits data if datastore is provided', () => {
-        b.datastore = new lab.DataStore()
+        b.datastore = new lab.data.Store()
         b.data['foo'] = 'bar'
         b.commit()
 
@@ -450,8 +450,8 @@ describe('Core', () => {
         // Spy on the commit method
         const spy = sinon.spy(b, 'commit')
 
-        // Supply the BaseElement with a DataStore, then run
-        b.datastore = new lab.DataStore()
+        // Supply the Component with a data store, then run
+        b.datastore = new lab.data.Store()
         const p = b.run()
         b.end()
 
@@ -464,9 +464,9 @@ describe('Core', () => {
 
     describe('Hierarchy traversal', () => {
       it('provides parents attribute', () => {
-        const a = new lab.BaseElement()
-        const b = new lab.BaseElement()
-        const c = new lab.BaseElement()
+        const a = new lab.core.Component()
+        const b = new lab.core.Component()
+        const c = new lab.core.Component()
 
         c.parent = b
         b.parent = a

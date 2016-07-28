@@ -13,7 +13,7 @@ export const status = Object.freeze({
 })
 
 // Generic building block for experiment
-export class BaseElement extends EventHandler {
+export class Component extends EventHandler {
   constructor(options={}) {
     // Construct the EventHandler first
     super(options)
@@ -302,7 +302,7 @@ export class BaseElement extends EventHandler {
   }
 }
 
-BaseElement.module = ['core']
+Component.module = ['core']
 
 // Default options ----------------------------------------
 // Attributes to pass on to nested items (as names)
@@ -315,7 +315,7 @@ export const handMeDowns = [
 // Simple elements ----------------------------------------
 // A DummyElement does nothing and ends
 // immediately as soon as it is called
-export class DummyElement extends BaseElement {
+export class Dummy extends Component {
   constructor(options={}) {
     options.timeout = options.timeout || 0
     super(options)

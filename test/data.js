@@ -1,9 +1,9 @@
 describe('Data handling', () => {
-  describe('DataStore', () => {
+  describe('Store', () => {
     let ds
 
     beforeEach(() => {
-      ds = new lab.DataStore({})
+      ds = new lab.data.Store({})
     })
 
     it('loads', () => {
@@ -173,7 +173,7 @@ describe('Data handling', () => {
 
     describe('Local persistence', () => {
       it('Saves state into local storage if requested', () => {
-        const persistent_ds = new lab.DataStore({
+        const persistent_ds = new lab.data.Store({
           persistence: 'session'
         })
 
@@ -193,7 +193,7 @@ describe('Data handling', () => {
         const json_data = '[{"a": 1, "b": "foo"}]'
         sessionStorage.setItem('lab.js-data', json_data)
 
-        const persistent_ds = new lab.DataStore({
+        const persistent_ds = new lab.data.Store({
           persistence: 'session'
         })
 
@@ -211,7 +211,7 @@ describe('Data handling', () => {
 
       it('Fails gracefully if local data are invalid', () => {
         sessionStorage.setItem('lab.js-data', 'clearly_not_json')
-        const persistent_ds = new lab.DataStore({
+        const persistent_ds = new lab.data.Store({
           persistence: 'session'
         })
 
@@ -229,7 +229,7 @@ describe('Data handling', () => {
         const json_data = '[{"a": 1, "b": "foo"}]'
         sessionStorage.setItem('lab.js-data', json_data)
 
-        const persistent_ds = new lab.DataStore({
+        const persistent_ds = new lab.data.Store({
           persistence: 'session'
         })
 
@@ -245,7 +245,7 @@ describe('Data handling', () => {
         const json_data = '[{"a": 1, "b": "foo"}]'
         sessionStorage.setItem('lab.js-data', json_data)
 
-        const persistent_ds = new lab.DataStore({
+        const persistent_ds = new lab.data.Store({
           persistence: 'session',
           persistence_clear: true
         })

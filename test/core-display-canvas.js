@@ -1,18 +1,18 @@
-describe('Canvas-based elements', () => {
+describe('Canvas-based components', () => {
 
   describe('Helper functions', () => {
     let c
 
     beforeEach(() => {
       // Reset screen
-      c = new lab.CanvasScreen({
+      c = new lab.canvas.Screen({
         renderFunction: () => null, // dummy drawing function
         el: document.createElement('div')
       })
     })
 
     it('Inserts a canvas into the page if necessary', () => {
-      // Run the CanvasScreen
+      // Run the Screen
       const p = c.run()
       c.end()
 
@@ -27,7 +27,7 @@ describe('Canvas-based elements', () => {
     })
 
     it('Does not insert a canvas if provided with one', () => {
-      // Specify a canvas for the CanvasScreen
+      // Specify a canvas for the Screen
       c.canvas = document.createElement('canvas')
 
       const p = c.run()
@@ -67,12 +67,12 @@ describe('Canvas-based elements', () => {
     })
   })
 
-  describe('CanvasScreen', () => {
+  describe('Screen', () => {
     let c
 
     beforeEach(() => {
       // Reset screen
-      c = new lab.CanvasScreen({
+      c = new lab.canvas.Screen({
         renderFunction: () => null, // dummy drawing function
         el: document.createElement('div')
       })
@@ -80,7 +80,7 @@ describe('Canvas-based elements', () => {
 
     it('Binds render function to element', () => {
       // Define a render function and
-      // insert it into the CanvasScreen
+      // insert it into the Screen
       renderFunc = function() {
         return this
       }
@@ -122,7 +122,7 @@ describe('Canvas-based elements', () => {
       // Stub window.cancelAnimationFrame
       const fake_cAF = sinon.stub(window, 'cancelAnimationFrame');
 
-      // Run and end the CanvasScreen
+      // Run and end the Screen
       const p = c.run()
       c.end()
 
@@ -136,17 +136,17 @@ describe('Canvas-based elements', () => {
     })
   })
 
-  describe('CanvasSequence', () => {
+  describe('Sequence', () => {
     let s, a, b
 
     beforeEach(() => {
-      a = new lab.CanvasScreen({
+      a = new lab.canvas.Screen({
         renderFunction: () => null // dummy drawing function
       })
-      b = new lab.CanvasScreen({
+      b = new lab.canvas.Screen({
         renderFunction: () => null
       })
-      s = new lab.CanvasSequence()
+      s = new lab.canvas.Sequence()
     })
 
     it('Adds canvas property to hand-me-downs', () => {
@@ -176,7 +176,7 @@ describe('Canvas-based elements', () => {
     it('Complains if any nested elements are not canvas-based', () => {
       s.content = [
         a,
-        new lab.HTMLScreen({
+        new lab.html.Screen({
           content: ''
         })
       ]
@@ -184,7 +184,7 @@ describe('Canvas-based elements', () => {
       // This should cause an error
       assert.throws(
         () => s.prepare(), // Binding seems to fail without a wrapper function
-        'Content element not a CanvasScreen or CanvasSequence'
+        'Content element not a canvas.Screen or canvas.Sequence'
       )
     })
 

@@ -1,11 +1,11 @@
 // HTML-based displays for lab.js
-import { BaseElement } from './core'
+import { Component } from './core'
 import { domSelect } from './util/dom'
 import { extend, template } from 'lodash-es'
 import deprecation from './util/deprecation'
 
 // HTMLScreens display HTML when run
-export class HTMLScreen extends BaseElement {
+export class Screen extends Component {
   constructor(options={}) {
     // Deprecate multiple arguments in constructor
     options = deprecation.multiArgumentConstructor(
@@ -48,10 +48,10 @@ export class HTMLScreen extends BaseElement {
   }
 }
 
-HTMLScreen.module = ['html']
+Screen.module = ['html']
 
 // A FormScreen can show, validate and serialize a form
-export class FormScreen extends HTMLScreen {
+export class Form extends Screen {
   constructor(options={}) {
     // Deprecate multiple arguments in constructor
     options = deprecation.multiArgumentConstructor(
@@ -176,4 +176,4 @@ export class FormScreen extends HTMLScreen {
   }
 }
 
-FormScreen.module = ['html']
+Form.module = ['html']

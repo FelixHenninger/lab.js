@@ -22,7 +22,7 @@ const escapeCsvCell = c => {
   return c
 }
 
-export class DataStore {
+export class Store {
   constructor(options={}) {
     // Setup persistent storage, if requested
     if (options.persistence === 'session') {

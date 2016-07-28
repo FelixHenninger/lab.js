@@ -8,9 +8,9 @@ describe('Flow control', () => {
 
     let p, a, b
     beforeEach(() => {
-      p = new lab.Sequence()
-      a = new lab.BaseElement()
-      b = new lab.BaseElement()
+      p = new lab.flow.Sequence()
+      a = new lab.core.Component()
+      b = new lab.core.Component()
     })
 
     it('distributes hand-me-downs', () => {
@@ -28,7 +28,7 @@ describe('Flow control', () => {
 
     it('hand-me-downs do not leak between elements', () => {
       p.handMeDowns.push('foo')
-      const q = new lab.Sequence()
+      const q = new lab.flow.Sequence()
 
       assert.notOk(
         q.handMeDowns.includes('foo')
@@ -96,13 +96,13 @@ describe('Flow control', () => {
 
     let s
     beforeEach(() => {
-      s = new lab.Sequence()
+      s = new lab.flow.Sequence()
     })
 
     it('runs elements in sequence', () => {
       // Setup sequence
-      const a = new lab.BaseElement()
-      const b = new lab.BaseElement()
+      const a = new lab.core.Component()
+      const b = new lab.core.Component()
       s.content = [a, b]
 
       // Setup spys
@@ -162,9 +162,9 @@ describe('Flow control', () => {
     })
 
     it('shuffles elements if requested', () => {
-      // Generate 100 DummyElements as content
+      // Generate 100 dummy components as content
       const content = _.range(100).map((i) => {
-        const o = new lab.DummyElement()
+        const o = new lab.core.Dummy()
         o._test_counter = i
         return o
       })
@@ -187,7 +187,7 @@ describe('Flow control', () => {
 
     it('terminates current element when aborted', () => {
       // Setup sequence
-      const a = new lab.BaseElement()
+      const a = new lab.core.Component()
       s.content = [a]
 
       // Run
@@ -207,8 +207,8 @@ describe('Flow control', () => {
 
     it('deactivates stepper when ended', () => {
       // Setup sequence
-      const a = new lab.BaseElement()
-      const b = new lab.BaseElement()
+      const a = new lab.core.Component()
+      const b = new lab.core.Component()
       s.content = [a, b]
 
       const b_run = sinon.spy()
@@ -245,10 +245,10 @@ describe('Flow control', () => {
 
     let p, a, b
     beforeEach(() => {
-      a = new lab.BaseElement()
-      b = new lab.BaseElement()
-      p = new lab.Parallel({
-        content: [a, b] 
+      a = new lab.core.Component()
+      b = new lab.core.Component()
+      p = new lab.flow.Parallel({
+        content: [a, b]
       })
     })
 
