@@ -34,7 +34,7 @@ export class Store {
     }
 
     // Clear persistent storage
-    if (options.persistence_clear) {
+    if (options.clearPersistence) {
       this.clear()
     }
 

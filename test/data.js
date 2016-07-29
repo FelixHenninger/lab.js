@@ -247,7 +247,7 @@ describe('Data handling', () => {
 
         const persistent_ds = new lab.data.Store({
           persistence: 'session',
-          persistence_clear: true
+          clearPersistence: true
         })
 
         assert.deepEqual(
