@@ -369,7 +369,7 @@ describe('Core', () => {
 
       it('classifies correct responses as such', () => {
         // Define a correct response
-        b.response_correct = 'foo'
+        b.correctResponse = 'foo'
 
         // Run the element
         b.run()
@@ -386,7 +386,7 @@ describe('Core', () => {
 
       it('classifies incorrect responses as such', () => {
         // Same as above
-        b.response_correct = 'foo'
+        b.correctResponse = 'foo'
         b.run()
         b.respond('bar')
 

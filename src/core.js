@@ -65,7 +65,7 @@ export class Component extends EventHandler {
 
     // Setup responses
     this.responses = options.responses || {}
-    this.response_correct = options.response_correct || null
+    this.correctResponse = options.correctResponse || null
 
     // Setup data handling
     this.data = options.data || {}
@@ -212,10 +212,10 @@ export class Component extends EventHandler {
     this.data.response = response
 
     // Save ideal response and response veracity
-    if (this.response_correct !== null) {
-      this.data.response_correct = this.response_correct
+    if (this.correctResponse !== null) {
+      this.data.correctResponse = this.correctResponse
       this.data.correct =
-        this.data.response === this.response_correct
+        this.data.response === this.correctResponse
     }
 
     // End screen
