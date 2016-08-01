@@ -91,6 +91,10 @@ header, footer, main {
 h1, h2, h3 {
   line-height: var(--line-height);
 }
+hr {
+  border: none;
+  border-top: 2px solid var(--color-border)
+}
 
 
 /* Special elements: Keyboard buttons */
@@ -167,6 +171,11 @@ kbd.big {
   padding: 16px 16px 14px;
   margin: 16px 0;
 }
+.alert.alert-danger {
+  color: #a02c2c;
+  background-color: #e9afaf;
+  border-color: #a02c2c;
+}
 
 /* Form elements */
 input, select, button, textarea {
@@ -228,8 +237,14 @@ textarea {
 /* Table */
 table {
   width: 100%;
+  border-collapse: collapse;
 }
-table td {
-  padding: 0 8px;
-  border-top: 1px solid var(--color-border-internal);
+table td, table th {
+  padding: 10px 8px 8px;
+}
+table tr td, table tr th {
+  border-bottom: 2px solid var(--color-border);
+}
+table.table-striped tr:nth-child(odd) td {
+  background-color: var(--color-border-internal)
 }
