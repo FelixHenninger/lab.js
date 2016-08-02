@@ -1,5 +1,5 @@
-import { EventHandler } from './base'
-import { DomConnection } from './util/events'
+import { EventHandler } from './util/eventAPI'
+import { DomConnection } from './util/domEvents'
 import { preloadImage, preloadAudio } from './util/preload'
 import { promiseChain } from './util/promise'
 import { extend } from 'lodash-es'

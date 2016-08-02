@@ -1,6 +1,6 @@
 // Canvas-based displays for lab.js
 import { Component } from './core'
-import { Sequence as BaseSequence } from './core-flow'
+import { Sequence as BaseSequence } from './flow'
 import deprecation from './util/deprecation'
 
 // Global canvas functions used in all of the following elements
