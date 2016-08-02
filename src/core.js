@@ -23,6 +23,10 @@ export class Component extends EventHandler {
     // available to users, and will not be documented)
     this.internals = this.internals || {}
 
+    // Setup a space for timestamps within
+    // the internal data structure
+    this.internals.timestamps = {}
+
     // Setup a document node within which
     // the element operates
     this.el = options.el || null
@@ -137,10 +141,8 @@ export class Component extends EventHandler {
       // automatically after the specified
       // duration.
       this.on('run', () => {
-        this.timeoutTimer = window.setTimeout(
-          () => {
-            this.end('timeout')
-          },
+        this.internals.timeoutTimer = window.setTimeout(
+          () => this.end('timeout'),
           this.timeout
         )
       })
@@ -196,7 +198,7 @@ export class Component extends EventHandler {
       this.status = status.running
 
       // Note the time
-      this.data.time_run = performance.now()
+      this.internals.timestamps.run = performance.now()
 
       // Run an element by showing it
       this.triggerMethod('run')
@@ -224,7 +226,7 @@ export class Component extends EventHandler {
 
   end(reason=null) {
     // Note the time of and reason for ending
-    this.data.time_end = performance.now()
+    this.internals.timestamps.end = performance.now()
     this.data.ended_on = reason
 
     // Update status
@@ -232,7 +234,7 @@ export class Component extends EventHandler {
 
     // Cancel the timeout timer
     if (this.timeout !== null) {
-      window.clearTimeout(this.timeoutTimer)
+      window.clearTimeout(this.internals.timeoutTimer)
     }
 
     // Complete an element's run and cleanup
@@ -254,10 +256,13 @@ export class Component extends EventHandler {
       this.datastore.commit(
         // ... plus some additional metadata
         extend(this.data, this.aggregateParameters, {
-          duration: this.data.time_end - this.data.time_run,
           sender: this.title,
           sender_type: this.type,
           sender_id: this.id,
+          time_run: this.internals.timestamps.run,
+          time_end: this.internals.timestamps.end,
+          duration: this.internals.timestamps.end -
+            this.internals.timestamps.run,
           time_commit: performance.now(),
           timestamp: new Date().toISOString(),
         })
@@ -268,9 +273,9 @@ export class Component extends EventHandler {
   get timer() {
     switch (this.status) {
       case status.running:
-        return performance.now() - this.data.time_run
+        return performance.now() - this.internals.timestamps.run
       case status.done:
-        return this.data.time_end - this.data.time_run
+        return this.internals.timestamps.end - this.internals.timestamps.run
       default:
         return undefined
     }
