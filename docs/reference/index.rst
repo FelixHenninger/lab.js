@@ -8,7 +8,7 @@ Keep this under your pillow!
    :maxdepth: 2
 
    conceptual.rst
-   element.rst
+   core.rst
    flow.rst
    data.rst
    html.rst
