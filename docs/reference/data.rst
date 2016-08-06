@@ -56,8 +56,8 @@ data.
     })
 
   This will record any data collected by the :ref:`Screen
-  <reference/html/HTMLScreen>` into the newly created datastore. In addition,
-  the value ``value`` will be placed in the column ``variable``.
+  <reference/html/Screen>` into the newly created datastore. In addition, the
+  value ``value`` will be placed in the column ``variable``.
 
   The stored data can then be accessed later during the experiment, for example
   as follows::
