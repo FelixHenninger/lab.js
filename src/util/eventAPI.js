@@ -1,4 +1,4 @@
-import { isFunction } from 'lodash-es'
+import { isFunction } from 'lodash'
 
 // Most of the 'magic' that happens in the library
 // is due to event handling. The following class

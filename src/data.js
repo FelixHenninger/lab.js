@@ -1,4 +1,4 @@
-import { assign, difference, flatten, intersection, uniq } from 'lodash-es'
+import { assign, difference, flatten, intersection, uniq } from 'lodash'
 
 // Data saving --------------------------------------------
 

@@ -1,6 +1,6 @@
 // Flow control elements for lab.js
 import { Component, status, handMeDowns } from './core'
-import { shuffle } from 'lodash-es'
+import { shuffle } from 'lodash'
 import deprecation from './util/deprecation'
 
 // Helper function to handle nested elements

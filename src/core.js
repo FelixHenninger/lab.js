@@ -2,7 +2,7 @@ import { EventHandler } from './util/eventAPI'
 import { DomConnection } from './util/domEvents'
 import { preloadImage, preloadAudio } from './util/preload'
 import { promiseChain } from './util/promise'
-import { extend } from 'lodash-es'
+import { extend } from 'lodash'
 
 // Define status codes
 export const status = Object.freeze({

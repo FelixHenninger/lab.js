@@ -1,7 +1,7 @@
 // HTML-based displays for lab.js
 import { Component } from './core'
 import { domSelect } from './util/domSelect'
-import { extend, template } from 'lodash-es'
+import { extend, template } from 'lodash'
 import deprecation from './util/deprecation'
 
 // HTMLScreens display HTML when run
