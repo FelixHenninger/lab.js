@@ -6,7 +6,10 @@ export const renamedMethod = () => null
 // only a single options argument, instead of
 // a 'content' argument and an options object
 export const multiArgumentConstructor = function(options, args, names, className) {
-  if (args.length > 1 || (args.length == 1 && (typeof args[0] !== 'object' || Array.isArray(args[0])))) {
+  if (args.length > 1 || ( // More than one argument
+      args.length === 1 && ( // One argument, but not an object
+        typeof args[0] !== 'object' || Array.isArray(args[0])
+      ))) {
     options = args[names.length] || {}
 
     console.warn(

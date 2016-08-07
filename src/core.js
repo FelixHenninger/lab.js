@@ -270,6 +270,7 @@ export class Component extends EventHandler {
     }
   }
 
+  // Timekeeping ------------------------------------------
   get timer() {
     switch (this.status) {
       case status.running:
@@ -281,6 +282,15 @@ export class Component extends EventHandler {
     }
   }
 
+  // Parameters -------------------------------------------
+  get aggregateParameters() {
+    return extend(
+      {}, ...this.parents.map(o => o.parameters),
+      this.parameters
+    )
+  }
+
+  // Metadata ---------------------------------------------
   get parents() {
     let output = []
     let currentElement = this
@@ -293,13 +303,6 @@ export class Component extends EventHandler {
 
     // Sort in a top-to-bottom order
     return output.reverse()
-  }
-
-  get aggregateParameters() {
-    return extend(
-      {}, ...this.parents.map(o => o.parameters),
-      this.parameters
-    )
   }
 
   get type() {

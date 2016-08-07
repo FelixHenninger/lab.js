@@ -386,24 +386,25 @@ possible.
 
 .. js:class:: canvas.Sequence([options])
 
-  A :js:class:`canvas.Sequence` will accept and apply any of the options used by
-  a :js:class:`flow.Sequence` (e.g. :js:attr:`shuffle`), as well as
-  :js:attr:`ctxType` as accepted by :js:class:`canvas.Screen`.
+  .. seealso:: A :js:class:`canvas.Sequence` will accept and apply any of the
+    options used by a :js:class:`flow.Sequence` (e.g. :js:attr:`shuffle`), as
+    well as :js:attr:`ctxType` as accepted by :js:class:`canvas.Screen`.
 
   .. js:attribute:: content
 
     Array of canvas-based components to be run in sequence.
 
-.. important::
-  A :js:class:`canvas.Sequence` requires that all nested elements are ``canvas``-
-  based. This is because the ``canvas`` is shared between all elements in the
-  sequence, and is assumed to be visible and available throughout. The code will
-  therefore throw an error if this condition is not met.
+  .. important::
+    A :js:class:`canvas.Sequence` requires that all nested elements are
+    ``canvas``-based. This is because the ``canvas`` is shared between all
+    elements in the sequence, and is assumed to be visible and available
+    throughout. The code will therefore throw an error if this condition is not
+    met.
 
-  If you switch between ``canvas`` and ``HTML``-based elements, please use a
-  regular :js:class:`flow.Sequence`. This will allow nested elements to insert a
-  canvas if they require one, at the cost of changing the document content
-  rather than being able to reduce the same ``canvas`` continuously.
+    If you switch between ``canvas`` and ``HTML``-based elements, please use a
+    regular :js:class:`flow.Sequence`. This will allow nested elements to insert
+    a canvas if they require one, at the cost of changing the document content
+    rather than being able to reduce the same ``canvas`` continuously.
 
 ----
 
