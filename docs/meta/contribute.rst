@@ -37,42 +37,60 @@ High-level code overview
 The source code underlying lab.js is contained in the ``src`` folder of the
 repository. For ease of development, the code is split across several files.
 
-``base.js`` · Low-level helpers and event handlers
-  This file contains low-level code largely dedicated to handling events both
-  from the browser and the library itself. In particular, it defines the
-  ``EventHandler`` class, which provides objects with the ability to easily bind
-  and remove handlers to DOM as well as internal events. This class is essential
-  to the other parts of the library.
-
-  This code is used only within the library, and is not directly exposed to
-  users.
+User-facing code
+^^^^^^^^^^^^^^^^
 
 ``core.js`` · Core user-facing classes
-  This code builds upon the ``EventHandler`` class to define the user-facing
-  parts of the library, in particular the :js:class:`BaseElement` and its
-  derivatives.
+  This code defines the core user-facing parts of the library, notably the
+  :js:class:`core.Component` and its simplest derivative, the
+  :js:class:`core.Dummy` component.
 
-  The code in this file is far more straightforward than that in ``base.js``,
-  and much more accessible. If you are looking to understand the internals of
-  the library, this is the place to start.
+  If you are looking to understand the internals of the library, this is the
+  place to start -- all the core functionality is defined here. We strive to
+  keep this code especially well-commented and understandable, please do let us
+  know if we can explain something better!
 
-``core-display-html.js`` · HTML-based elements
-  All elements that use ``HTML`` for showing content: :js:class:`HTMLScreen` and
-  :js:class:`FormScreen`.
+``html.js`` · HTML-based components
+  All elements that use ``HTML`` for showing content: :js:class:`html.Screen`
+  and :js:class:`html.Form`.
 
-``core-display-canvas.js`` · Canvas-based elements
+``canvas.js`` · Canvas-based components
   Components in this file rely on the ``Canvas`` for showing content:
-  :js:class:`CanvasScreen` and :js:class:`CanvasSequence`.
+  :js:class:`canvas.Screen` and :js:class:`canvas.Sequence`.
 
-``core-flow.js`` · Flow control
+``flow.js`` · Flow control
   These components are not so much for displaying information, but for
   controlling the overall flow of the experiment. In particular, this file
-  includes the source for :js:class:`Sequence` and :js:class:`Parallel`.
+  includes the source for :js:class:`flow.Sequence` and
+  :js:class:`flow.Parallel`.
 
 ``data.js`` · Data handling
   The code contained in this file takes care of data storage and export. It
-  defines the :js:class:`DataStore` class that logs and formats the experiments'
-  output.
+  defines the :js:class:`data.Store` class that logs and formats the
+  experiments' output.
+
+Utilities
+^^^^^^^^^
+
+The library also contains a range of utility functions and classes for internal
+use. These are generally not exposed to end-users, but are used extensively
+throughout the library code.
+
+``util/eventAPI.js`` · Low-level helpers and event handlers
+  This file defines the :js:class:`EventHandler` class that provides a very
+  basic `publish-subscribe`_ architecture to all other classes in the library.
+
+  This is really the backbone of the library, which relies heavily on this
+  design for everything that happens. This is the place to dig deepest into the
+  inner machinations of ``lab.js`` .
+
+  .. _publish-subscribe: https://en.wikipedia.org/wiki/Publish–subscribe_pattern
+
+``util/domEvents.js`` · Document event handling
+  The code in this file deals with assigning handlers to document events, and
+  establishing and removing the links between both. The resulting
+  :js:class:`DomConnection` class encapsulates this functionality, and is used
+  within each component to handle document events.
 
 ----
 
@@ -85,8 +103,8 @@ into a single file you can use directly, please follow the following steps.
 Compiling a release candidate
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Releases are built using `gulp`_ and several plugins thereof. To produce a
-build, you will need a local installation of `node.js`_ and `npm`_. Running
+Releases are built using `npm scripts`_. To produce a build, you will need a
+local installation of `node.js`_ and `npm`_. Running
 
 .. code::
 
@@ -96,15 +114,15 @@ within the build directory will install all necessary dependencies, whereafter
 
 .. code::
 
-  gulp transpile
+  npm run build:js
 
 will output a transpiled version in the ``build`` directory.
 
 While developing, automatic transpiling when a file has changed is handy.
-Running ``gulp watch`` will transpile anew whenever a file is changed. This
-is the default action for gulp, so ``gulp`` alone will behave the same.
+Running ``npm run watch:js`` will run the transpilation anew whenever a file is
+changed.
 
-.. _gulp: http://gulpjs.com/
+.. _npm scripts: https://docs.npmjs.com/misc/scripts
 .. _node.js: https://nodejs.org/
 .. _npm: https://www.npmjs.com/
 
@@ -112,16 +130,16 @@ Building the documentation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The library's documentation is built using `Sphinx`_, which you will need to
-`install`_. In addition, you will require the fabulous `Read the Docs Theme`_.
+`install`_. In addition, you'll need the fabulous `Read the Docs Theme`_.
 
 Equipped with both, you can run
 
 .. code::
 
-    make html
+    npm run build:docs
 
-in the ``docs`` directory, which will output the html documentation in the
-``_build`` subdirectory.
+within the repository, which will output the html documentation in the
+``docs/_build`` subdirectory.
 
 .. _Sphinx: http://sphinx-doc.org/
 .. _install: http://sphinx-doc.org/tutorial.html#install-sphinx
