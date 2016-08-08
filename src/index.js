@@ -4,7 +4,7 @@ import { Screen, Form } from './html'
 import { Sequence, Parallel } from './flow'
 import { Store } from './data'
 
-const version = '2015'
+const version = '2016.1.0'
 
 export default {
   version,
