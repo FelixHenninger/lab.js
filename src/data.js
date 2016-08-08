@@ -1,3 +1,4 @@
+import { EventHandler } from './util/eventAPI'
 import { assign, difference, flatten, intersection, uniq } from 'lodash'
 
 // Data saving --------------------------------------------
@@ -22,8 +23,11 @@ const escapeCsvCell = c => {
   return c
 }
 
-export class Store {
+export class Store extends EventHandler {
   constructor(options={}) {
+    // Construct the underlying EventHandler
+    super(options)
+
     // Setup persistent storage, if requested
     if (options.persistence === 'session') {
       this.storage = sessionStorage
@@ -111,10 +115,14 @@ export class Store {
     if (this.storage) {
       this.storage.setItem('lab.js-data', JSON.stringify(this.data))
     }
+
+    this.triggerMethod('commit')
   }
 
   // Erase collected data ---------------------------------
   clear(persistence=true, state=false) {
+    this.triggerMethod('clear')
+
     // Clear persistent state
     if (persistence && this.storage) {
       // TODO: Maybe limit this to specific keys?
@@ -259,6 +267,8 @@ export class Store {
 
   // Send data via POST request ---------------------------
   transmit(url, metadata={}) {
+    this.triggerMethod('transmit')
+
     return fetch(url, {
       method: 'post',
       headers: {
