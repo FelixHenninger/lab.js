@@ -78,23 +78,21 @@ describe('Canvas-based components', () => {
       })
     })
 
-    it('Binds render function to element', () => {
-      // Define a render function and
-      // insert it into the Screen
-      renderFunc = function() {
-        return this
-      }
-      c.renderFunction = renderFunc
+    it('Runs render function in component context', () => {
+      c.renderFunction = sinon.spy()
 
-      // Preparing the element binds the
-      // function to it
-      c.prepare()
+      // The delay necessary here appears to
+      // stem from the use of requestAnimationFrame,
+      // which adds a slight delay to rendering
+      c.timeout = 20 // [ms]
+
+      const p = c.run()
 
       // Check function binding
-      assert.equal(
-        c.renderFunction(),
-        c
-      )
+      return p.then(() => {
+        assert.ok(c.renderFunction.calledOnce)
+        assert.ok(c.renderFunction.alwaysCalledOn(c))
+      })
     })
 
     it('Selects 2d canvas context by default', () => {
@@ -207,6 +205,9 @@ describe('Canvas-based components', () => {
 
       s.run()
 
+      // During testing, we need to introduce delays
+      // because the render methods tend to wait for
+      // a new frame before running
       const promise_timeout = (delay) => {
         return new Promise((resolve, reject) => {
           window.setTimeout(resolve, delay)

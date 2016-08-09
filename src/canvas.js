@@ -76,8 +76,9 @@ export class Screen extends Component {
   }
 
   render(timestamp) {
-    return this.renderFunction(
-      timestamp,
+    return this.renderFunction.call(
+      this, // context
+      timestamp, // arguments ...
       this.canvas,
       this.ctx,
       this
@@ -86,9 +87,6 @@ export class Screen extends Component {
 
   onPrepare() {
     prepareCanvas.apply(this)
-
-    // Bind render function to local context
-    this.renderFunction = this.renderFunction.bind(this)
   }
 
   onBeforeRun() {
@@ -105,7 +103,7 @@ export class Screen extends Component {
     // Draw on canvas before the next repaint
     this.frameRequest = window.requestAnimationFrame(
       // Context apparently is lost in the callback
-      this.render.bind(this)
+      () => this.render()
     )
   }
 
