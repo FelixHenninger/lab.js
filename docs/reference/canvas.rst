@@ -273,8 +273,11 @@ pixels, and the browser will attempt to do this situation justice by drawing a
 slightly coloring both of the pixels in a slightly lighter shade than the line
 would otherwise have been.
 
-The solution for this is simple: If you draw a line with an integer width along
-the coordinate system, offset it by half a pixel to achieve crisp shapes. [#f2]_
+To achieve crisp rendering and draw lines along the coordinate system (for lines
+where the width is an odd integer number), you'll need offset the coordinates by
+half a pixel. You could shift the `x` and `y` coordinates of each drawing
+command by 0.5, or alternatively you might apply a global shift using
+``ctx.translate(0.5, 0.5)``.
 
 Advanced text placement
 """""""""""""""""""""""
@@ -410,6 +413,3 @@ possible.
 
 .. [#f1] If you ever do this, please let us know, we will award you the coveted
   *lab.js brave soul award*.
-.. [#f2] Or, alternatively, you might decide that life is too short. Please
-  see the examples that come with the library for evidence of the author's
-  stance on this matter.
