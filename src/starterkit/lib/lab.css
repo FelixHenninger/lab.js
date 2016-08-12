@@ -121,20 +121,29 @@ kbd.big {
 }
 
 /* Alignment helpers */
-.width-full {
+.w-100 {
   width: 100%;
 }
-.content-vertical-center {
+.content-vertical-center:not(td) {
   display: flex;
   align-items: center;
 }
-.content-horizontal-center {
+td.content-vertical-center {
+  vertical-align: middle;
+}
+.content-horizontal-center:not(td) {
   display: flex;
   justify-content: center;
 }
-.content-horizontal-right {
+td.content-horizontal-center {
+  text-align: center;
+}
+.content-horizontal-right:not(td) {
   display: flex;
   justify-content: flex-end;
+}
+td.content-horizontal-right > * {
+  margin-left: auto;
 }
 .text-left {
   text-align: left;
