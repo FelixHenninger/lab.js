@@ -242,7 +242,8 @@ table {
 table td, table th {
   padding: 10px 8px 8px;
 }
-table tr td, table tr th {
+table:not(.table-plain) > tr > td, table:not(.table-plain) > tr > th,
+table:not(.table-plain) > tbody > tr > td, table:not(.table-plain) > tbody > tr > th {
   border-bottom: 2px solid var(--color-border);
 }
 table.table-striped tr:nth-child(odd) td {
