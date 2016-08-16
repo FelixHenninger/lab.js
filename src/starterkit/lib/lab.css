@@ -165,6 +165,9 @@ td.content-horizontal-right > * {
 }
 
 /* Visibility */
+.invisible {
+  visibility: hidden;
+}
 .hidden {
   display: none;
 }
