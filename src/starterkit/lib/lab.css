@@ -194,6 +194,11 @@ small, .small {
   background-color: #e9afaf;
   border-color: #a02c2c;
 }
+.alert.alert-warning {
+  color: #967800;
+  background-color: #ffe398;
+  border-color: #ffcc00;
+}
 
 /* Form elements */
 input, select, button, textarea {
