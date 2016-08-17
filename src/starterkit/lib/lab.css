@@ -157,6 +157,12 @@ td.content-horizontal-right > * {
 .text-muted {
   color: var(--color-gray-content);
 }
+.text-muted a {
+  color: rgb(60, 89, 156);
+}
+small, .small {
+  font-size: 0.9rem;
+}
 .font-weight-bold {
   font-weight: bold;
 }
