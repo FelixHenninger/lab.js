@@ -45,15 +45,21 @@ header, footer {
 }
 /* Actual experiment content */
 #labjs-content {
-  width: var(--height-min-main);
+  min-width: var(--height-min-main);
+}
+/* IE 11 Hack */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  div.content {
+    padding: 24px;
+  }
 }
 
 /* Fullscreen layout */
 div.container.fullscreen {
   /* Full screen minus margins */
   margin: 24px 16px;
-  min-height: calc(100vh - 48px);
-  width: calc(100vw - 48px);
+  min-height: calc(100vh - 48px) !important;
+  width: calc(100vw - 48px) !important;
   /* Display content using flexboxes */
   display: flex;
   flex-direction: column;
