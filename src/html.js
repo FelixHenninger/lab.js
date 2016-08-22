@@ -31,15 +31,15 @@ export class Screen extends Component {
       } else {
         return null
       }
-    }).then(() => {
+    }).then(
+      // Continue preparation
+      () => super.prepare(directCall)
+    ).then(() => {
       // Post-process template by adding
       // placeholders through lodash.template
       this.content = template(this.content)(this.aggregateParameters)
       return
-    }).then(
-      // Continue preparation
-      () => super.prepare(directCall)
-    )
+    })
   }
 
   onRun() {
