@@ -122,6 +122,9 @@ export class Component extends EventHandler {
     }
     this.el = this.el || document.getElementById('labjs-content')
 
+    // Trigger the before:prepare event
+    this.triggerMethod('before:prepare')
+
     // Setup automatic event handling for responses
     Object.keys(this.responses).forEach(
       eventString => {
