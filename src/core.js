@@ -258,7 +258,10 @@ export class Component extends EventHandler {
       // Commit the data collected by this element
       this.datastore.commit(
         // ... plus some additional metadata
-        extend(this.data, this.aggregateParameters, {
+        // TODO: Decide whether the data attribute should
+        // be extended, or whether the extension here should
+        // start from an empty object
+        extend({}, this.data, this.aggregateParameters, {
           sender: this.title,
           sender_type: this.type,
           sender_id: this.id,
