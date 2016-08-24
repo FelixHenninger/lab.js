@@ -93,6 +93,23 @@ describe('Core', () => {
         b.end()
         return p
       })
+
+      it('updates the progress property', () => {
+        // Before running
+        assert.equal(b.progress, 0)
+
+        // Prepare check for after ending
+        const p = b.waitFor('end').then(() => {
+          assert.equal(b.progress, 1)
+        })
+
+        // Run
+        b.run()
+        assert.equal(b.progress, 0)
+        b.end()
+
+        return p
+      })
     })
 
     describe('Timers', () => {

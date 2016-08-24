@@ -288,6 +288,11 @@ export class Component extends EventHandler {
     }
   }
 
+  // Progress ---------------------------------------------
+  get progress() {
+    return (this.status === status.done) * 1
+  }
+
   // Parameters -------------------------------------------
   get aggregateParameters() {
     return extend(
