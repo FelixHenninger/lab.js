@@ -1,6 +1,6 @@
 // Flow control elements for lab.js
 import { Component, status, handMeDowns } from './core'
-import { shuffle } from 'lodash'
+import { shuffle, mean } from 'lodash'
 import deprecation from './util/deprecation'
 
 // Helper function to handle nested elements
@@ -122,6 +122,12 @@ export class Sequence extends Component {
       this.currentElement = null
       this.end('complete')
     }
+  }
+
+  get progress() {
+    return mean(
+      this.content.map(c => c.progress)
+    )
   }
 }
 

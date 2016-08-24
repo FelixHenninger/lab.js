@@ -239,6 +239,26 @@ describe('Flow control', () => {
       s.run()
       return p
     })
+
+    it('updates progress property', () => {
+      // Setup sequence
+      const a = new lab.core.Component()
+      const b = new lab.core.Component()
+      s.content = [a, b]
+
+      // Before everything starts
+      assert.equal(s.progress, 0)
+      s.run()
+      assert.equal(s.progress, 0)
+
+      // First nested component
+      a.end()
+      assert.equal(s.progress, 0.5)
+
+      // Second nested component
+      b.end()
+      assert.equal(s.progress, 1)
+    })
   })
 
   describe('Parallel', () => {
