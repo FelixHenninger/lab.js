@@ -214,6 +214,12 @@ export class Parallel extends Component {
       }
     })
   }
+
+  get progress() {
+    return mean(
+      this.content.map(c => c.progress)
+    )
+  }
 }
 
 Parallel.module = ['flow']

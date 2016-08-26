@@ -346,6 +346,40 @@ describe('Flow control', () => {
       })
     })
 
+    it('updates the progress property', () => {
+      // This is a tough one :-)
+      const a1 = new lab.core.Component()
+      const a2 = new lab.core.Component()
+      const b1 = new lab.core.Component()
+      const b2 = new lab.core.Component()
+      const b3 = new lab.core.Component()
+      let a = new lab.flow.Sequence({
+        content: [a1, a2]
+      })
+      let b = new lab.flow.Sequence({
+        content: [b1, b2, b3]
+      })
+      p.content = [a, b]
+
+      p.run()
+      assert.equal(p.progress, 0)
+
+      a1.end()
+      assert.equal(p.progress, 0.25)
+
+      b1.end()
+      assert.closeTo(p.progress, 2.5/6, Math.exp(10, -5))
+
+      b2.end()
+      assert.closeTo(p.progress, 3.5/6, Math.exp(10, -5))
+
+      a2.end()
+      assert.closeTo(p.progress, 5/6, Math.exp(10, -5))
+
+      b3.end()
+      assert.equal(p.progress, 1)
+    })
+
   })
 
 })
