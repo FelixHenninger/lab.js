@@ -1,7 +1,7 @@
 import { impl } from '../vendor/alea'
 
 export class Random {
-  constructor(options) {
+  constructor(options={}) {
     if (options.algorithm === 'alea') {
       // If no seed is given, autoseed the PRNG using
       // a (mostly) random 256-character string
