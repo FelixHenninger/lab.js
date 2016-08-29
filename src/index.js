@@ -3,6 +3,7 @@ import { Screen as CanvasScreen, Sequence as CanvasSequence } from './canvas'
 import { Screen, Form } from './html'
 import { Sequence, Parallel } from './flow'
 import { Store } from './data'
+import { Random } from './util/random'
 
 const version = '2016.1.0'
 
@@ -26,5 +27,8 @@ export default {
   },
   data: {
     Store,
+  },
+  util: {
+    Random,
   },
 }
