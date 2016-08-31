@@ -35,7 +35,10 @@ export class Random {
   }
 
   // Shuffle an array randomly
-  shuffle(array) {
+  shuffle(a) {
+    // Copy the input array first
+    let array = a.slice()
+
     // Fisher-Yates (a.k.a. Durstenfeld, a.k.a. Knuth)
     // in-place array shuffle algorithm
     //
@@ -46,6 +49,7 @@ export class Random {
     // elements in the array ...
     while (unshuffledElements !== 0) {
       // Pick a random as-yet-unshuffleded array element
+      // (note that the semicolon here is mandatory)
       const randomIndex = this.range(unshuffledElements--);
 
       // Swap the last unshuffled value with
