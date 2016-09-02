@@ -1,5 +1,17 @@
 import { impl } from '../vendor/alea'
 
+// Random uuid4 generation
+export const uuid4 = (random=Math.random) =>
+  // This is adapted from Jed Schmidt's code,
+  // which is available under the DWTFYWTPL
+  // at https://gist.github.com/jed/982883
+  // (there are faster and shorter implemen-
+  // tations, but this one is the clearest)
+  '00000000-0000-4000-8000-000000000000'.replace(
+      /[08]/g,
+      v => (v ^ (random() * 16 >> v / 4)).toString(16)
+    )
+
 export class Random {
   constructor(options={}) {
     if (options.algorithm === 'alea') {
@@ -37,7 +49,7 @@ export class Random {
   // Shuffle an array randomly
   shuffle(a) {
     // Copy the input array first
-    let array = a.slice()
+    const array = a.slice()
 
     // Fisher-Yates (a.k.a. Durstenfeld, a.k.a. Knuth)
     // in-place array shuffle algorithm
@@ -65,15 +77,3 @@ export class Random {
     return uuid4(this.random)
   }
 }
-
-// Random uuid4 generation
-export const uuid4 = (random=Math.random) =>
-  // This is adapted from Jed Schmidt's code,
-  // which is available under the DWTFYWTPL
-  // at https://gist.github.com/jed/982883
-  // (there are faster and shorter implemen-
-  // tations, but this one is the clearest)
-  '00000000-0000-4000-8000-000000000000'.replace(
-      /[08]/g,
-      v => (v^random() * 16 >> v / 4).toString(16)
-    )
