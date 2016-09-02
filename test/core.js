@@ -94,21 +94,43 @@ describe('Core', () => {
         return p
       })
 
+      it('updates status when running', () => {
+        // Before preparation
+        assert.equal(b.status, 0)
+
+        return b.prepare().then(() => {
+          // After preparation
+          assert.equal(b.status, 1)
+
+          // TODO: This is not particularly nice:
+          // it would be consistent for the run()
+          // method to return resolve the promise
+          // when everything is up and running.
+          // This construction is just awkward.
+          const o = b.waitFor('run')
+          b.run()
+          return o
+        }).then(() => {
+          // After running
+          assert.equal(b.status, 2)
+
+          // After ending
+          b.end()
+          assert.equal(b.status, 3)
+        })
+      })
+
       it('updates the progress property', () => {
         // Before running
         assert.equal(b.progress, 0)
 
-        // Prepare check for after ending
-        const p = b.waitFor('end').then(() => {
-          assert.equal(b.progress, 1)
-        })
-
         // Run
         b.run()
         assert.equal(b.progress, 0)
-        b.end()
 
-        return p
+        // End
+        b.end()
+        assert.equal(b.progress, 1)
       })
     })
 
