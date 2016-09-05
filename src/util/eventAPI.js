@@ -1,3 +1,4 @@
+import PluginAPI from '../plugins/api'
 import { isFunction } from 'lodash'
 
 // Most of the 'magic' that happens in the library
@@ -12,6 +13,9 @@ export class EventHandler {
 
     // Collect callbacks
     this.internals.callbacks = {}
+
+    // Add plugin support
+    this.plugins = new PluginAPI(this)
 
     // Debug state
     this.debug = options.debug || false
@@ -78,6 +82,9 @@ export class EventHandler {
     }
     // Note that the apply method will set the context
     // to the local object
+
+    // Trigger plugin events
+    this.plugins.trigger(event, ...args)
 
     return this
   }
