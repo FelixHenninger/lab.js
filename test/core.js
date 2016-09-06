@@ -517,5 +517,57 @@ describe('Core', () => {
       })
     })
 
+  }) // Component
+
+  describe('Plugin API', () => {
+    let c, plugin
+    beforeEach(() => {
+      c = new lab.core.Component()
+      plugin = {
+        handle: (context, event, args) => null
+      }
+    })
+
+    it('Adds and initializes new plugins', () => {
+      assert.deepEqual(c.plugins.plugins, [])
+
+      // Add plugin
+      const spy = sinon.spy(plugin, 'handle')
+      c.plugins.add(plugin)
+
+      // Check result
+      assert.deepEqual(c.plugins.plugins, [plugin])
+      assert.ok(
+        spy.calledWith(c, 'plugin:init')
+      )
+    })
+
+    it('Removes plugins if requested', () => {
+      c.plugins.add(plugin)
+
+      // Remove plugin
+      const spy = sinon.spy(plugin, 'handle')
+      c.plugins.remove(plugin)
+
+      // Check result
+      assert.deepEqual(c.plugins.plugins, [])
+      assert.ok(
+        spy.calledWith(c, 'plugin:removal')
+      )
+    })
+
+    it('Passes events to plugins', () => {
+      c.plugins.add(plugin)
+
+      // Setup spy
+      const spy = sinon.spy(plugin, 'handle')
+      assert.notOk(spy.called)
+
+      // Trigger event and record results
+      c.plugins.trigger('foo', 1, 2, 3)
+      assert.ok(
+        spy.calledWith(c, 'foo', 1, 2, 3)
+      )
+    })
   })
 })
