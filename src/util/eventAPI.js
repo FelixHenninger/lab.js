@@ -16,6 +16,7 @@ export class EventHandler {
 
     // Add plugin support
     this.plugins = new PluginAPI(this)
+    options.plugins.map(p => this.plugins.add(p))
 
     // Debug state
     this.debug = options.debug || false
