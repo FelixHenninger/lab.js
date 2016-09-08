@@ -1,7 +1,7 @@
 // Canvas-based displays for lab.js
 import { Component } from './core'
 import { Sequence as BaseSequence } from './flow'
-import deprecation from './util/deprecation'
+import { multiArgumentConstructor } from './util/deprecation'
 
 // Global canvas functions used in all of the following elements
 // (multiple inheritance would come in handy here, but alas...)
@@ -60,7 +60,7 @@ const insertCanvas = function() {
 export class Screen extends Component {
   constructor(options={}) {
     // Deprecate multiple arguments in constructor
-    options = deprecation.multiArgumentConstructor(
+    options = multiArgumentConstructor(
       options, arguments, ['renderFunction'], 'CanvasScreen'
     )
 
@@ -121,7 +121,7 @@ Screen.module = ['canvas']
 // drawing on the same canvas
 export class Sequence extends BaseSequence {
   constructor(options={}) {
-    options = deprecation.multiArgumentConstructor(
+    options = multiArgumentConstructor(
       options, arguments, ['content'], 'CanvasSequence'
     )
     super(options)

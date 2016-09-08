@@ -22,6 +22,17 @@ const splitEventString = function(eventString) {
   return [eventName, options, selector]
 }
 
+const keycodeLabels = {
+  space: 32,
+  enter: 13,
+  tab: 19,
+  backspace: 8,
+  left: 37,
+  up: 38,
+  right: 39,
+  down: 40,
+}
+
 // Provide basic automatic wrapping for event handlers
 // based on simple options, e.g. automatically filter
 // events based on keyboard and mouse buttons.
@@ -53,6 +64,8 @@ const wrapHandler = function(handler, eventName, options=null, context=null) {
         return function(e) {
           if (keycodes.includes(e.which)) {
             return handler(e)
+          } else {
+            return null
           }
         }
 
@@ -66,21 +79,15 @@ const wrapHandler = function(handler, eventName, options=null, context=null) {
         return function(e) {
           if (buttons.includes(e.button)) {
             return handler(e)
+          } else {
+            return null
           }
         }
+
+      default:
+        return handler
     } // switch
   }
-}
-
-const keycodeLabels = {
-  space: 32,
-  enter: 13,
-  tab: 19,
-  backspace: 8,
-  left: 37,
-  up: 38,
-  right: 39,
-  down: 40,
 }
 
 export class DomConnection {

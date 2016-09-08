@@ -1,5 +1,5 @@
-import PluginAPI from '../plugins/api'
 import { isFunction } from 'lodash'
+import PluginAPI from '../plugins/api'
 
 // Most of the 'magic' that happens in the library
 // is due to event handling. The following class
@@ -16,6 +16,7 @@ export class EventHandler {
 
     // Add plugin support
     this.plugins = new PluginAPI(this)
+    options.plugins = options.plugins || []
     options.plugins.map(p => this.plugins.add(p))
 
     // Debug state
@@ -123,7 +124,7 @@ export class EventHandler {
 
     // If the object has a trigger function,
     // call it with the arguments supplied
-    this.trigger.apply(this, [event].concat(args))
+    this.trigger(event, ...args)
 
     // Return the result of the object's onEvent method
     return result

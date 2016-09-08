@@ -1,7 +1,7 @@
 // Flow control elements for lab.js
-import { Component, status, handMeDowns } from './core'
 import { shuffle, mean } from 'lodash'
-import deprecation from './util/deprecation'
+import { Component, status, handMeDowns } from './core'
+import { multiArgumentConstructor } from './util/deprecation'
 
 // Helper function to handle nested elements
 const prepareNested = function(nested, parent) {
@@ -37,7 +37,7 @@ const prepareNested = function(nested, parent) {
 export class Sequence extends Component {
   constructor(options={}) {
     // Deprecate multiple arguments in constructor
-    options = deprecation.multiArgumentConstructor(
+    options = multiArgumentConstructor(
       options, arguments, ['content'], 'Sequence'
     )
 
@@ -142,7 +142,7 @@ Sequence.module = ['flow']
 export class Loop extends Sequence {
   constructor(options={}) {
     // Deprecate multiple arguments in constructor
-    options = deprecation.multiArgumentConstructor(
+    options = multiArgumentConstructor(
       options, arguments, ['elementFactory', 'data'], 'Loop'
     )
 
@@ -164,7 +164,7 @@ Loop.module = ['flow']
 export class Parallel extends Component {
   constructor(options={}) {
     // Deprecate multiple arguments in constructor
-    options = deprecation.multiArgumentConstructor(
+    options = multiArgumentConstructor(
       options, arguments, ['content'], 'Parallel'
     )
 

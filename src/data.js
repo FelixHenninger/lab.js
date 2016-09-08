@@ -1,5 +1,5 @@
-import { EventHandler } from './util/eventAPI'
 import { assign, difference, flatten, intersection, uniq } from 'lodash'
+import { EventHandler } from './util/eventAPI'
 
 // Data saving --------------------------------------------
 
@@ -61,7 +61,7 @@ export class Store extends EventHandler {
 
           // Remove metadata from current state
           defaultMetadata.forEach(key => {
-            if (this.state.hasOwnProperty(key)) {
+            if (Object.hasOwnProperty.call(this.state, key)) {
               delete this.state[key]
             }
           })
@@ -193,7 +193,7 @@ export class Store extends EventHandler {
     // Extract the data from each entry
     const rows = this.data.map(e => {
       const cells = this.keys().map(k => {
-        if (e.hasOwnProperty(k)) {
+        if (Object.hasOwnProperty.call(e, k)) {
           return e[k]
         } else {
           return null
