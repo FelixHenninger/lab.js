@@ -14,6 +14,19 @@
 
 ----
 
-### Contributors
+###Contributors
 
-* [Felix Henninger](http://felixhenninger.com)
+(in alphabetical order)
+
+####Code or documentation
+
+[Felix Henninger](http://felixhenninger.com)
+
+####Ideas and feedback
+
+[Ulf Mertens](http://www.psychologie.uni-heidelberg.de/ae/meth/team/mertens/) ·
+[Yury Shevchenko](http://yuryshevchenko.com/)
+
+####External libraries
+[lodash](https://lodash.com/) ·
+[seedrandom.js](https://github.com/davidbau/seedrandom)
