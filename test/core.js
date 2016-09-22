@@ -370,6 +370,20 @@ describe('Core', () => {
         ])
       })
 
+      it('accepts internal event handlers via the eventHandlers option', () => {
+        const handler = () => null
+        b = new lab.core.Component({
+          eventHandlers: {
+            'someEvent': handler
+          }
+        })
+
+        assert.include(
+          b.internals.callbacks['$someEvent'],
+          handler
+        )
+      })
+
       it('resolves promises via waitFor', () => {
         const p = b.waitFor('foo').then(() => {
           assert.ok(true)

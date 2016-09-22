@@ -27,6 +27,12 @@ export class Component extends EventHandler {
     // the internal data structure
     this.internals.timestamps = {}
 
+    // Attach component event handlers
+    this.eventHandlers = options.eventHandlers || {}
+    Object.keys(this.eventHandlers).forEach(event =>
+      this.on(event, this.eventHandlers[event])
+    )
+
     // Setup a document node within which
     // the element operates
     this.el = options.el || null
