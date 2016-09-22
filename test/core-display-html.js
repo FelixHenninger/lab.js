@@ -56,6 +56,21 @@ describe('HTML-based elements', () => {
         assert.equal(h.content, 'Hello World!')
       })
     })
+
+    it('accepts changes to parameters before preparation', () => {
+      h.content = 'Hello ${ place }!'
+      h.parameters['place'] = 'World'
+      h.on('before:prepare', function() {
+        this.parameters.place = 'Mars'
+      })
+
+      const o = h.waitFor('run').then(() => {
+        assert.equal(h.content, 'Hello Mars!')
+      })
+      h.run()
+
+      return o
+    })
   })
 
   describe('Form', () => {
