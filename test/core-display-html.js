@@ -1,4 +1,4 @@
-describe('HTML-based elements', () => {
+describe('HTML-based components', () => {
 
   describe('Screen', () => {
     let h, el

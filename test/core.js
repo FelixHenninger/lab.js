@@ -208,7 +208,7 @@ describe('Core', () => {
         b.timeout = 500
 
         // Setup a callback to be run
-        // when the element ends
+        // when the component ends
         const callback = sinon.spy()
         b.on('end', callback)
 
@@ -224,7 +224,7 @@ describe('Core', () => {
           clock.restore()
         })
 
-        // Run the element
+        // Run the component
         b.run()
 
         return p
@@ -314,7 +314,7 @@ describe('Core', () => {
         return p
       })
 
-      it('binds event handlers to element', () => {
+      it('binds event handlers to component', () => {
         // Define a spy and use it as an event handler
         const spy = sinon.spy()
         b.events = {
@@ -424,7 +424,7 @@ describe('Core', () => {
         // Define a correct response
         b.correctResponse = 'foo'
 
-        // Run the element
+        // Run the component
         b.run()
 
         // Trigger a response
@@ -454,7 +454,7 @@ describe('Core', () => {
 
     describe('Parameters', () => {
       it('can aggregate parameters from parents across multiple levels', () => {
-        // Create elements
+        // Create components
         const a = new lab.core.Component()
         const b = new lab.core.Component()
         const c = new lab.core.Component()

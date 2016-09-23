@@ -34,7 +34,7 @@ export class Component extends EventHandler {
     )
 
     // Setup a document node within which
-    // the element operates
+    // the component operates
     this.el = options.el || null
 
     // Add a DomConnection that connects
@@ -53,21 +53,21 @@ export class Component extends EventHandler {
       this.triggerMethod('after:event:remove')
     })
 
-    // Save the title of element as well as
+    // Save the title of component as well as
     // its position in the hierarchy
     this.title = options.title || null
     this.id = options.id || null
 
     // Setup 'tardyness'
-    // If this option is set, the element will not
-    // respond to automated calls to its prepare
-    // method by superordinate elements (e.g. a
+    // If this option is set, the component will
+    // not respond to automated calls to its prepare
+    // method by superordinate components (e.g. a
     // sequence in which it is nested). Instead,
     // it will prepare when run or after a manual
     // .prepare() call.
     this.tardy = options.tardy || false
 
-    // Save element status
+    // Save component status
     this.status = status.initialized
 
     // Set parent, if defined
@@ -97,7 +97,7 @@ export class Component extends EventHandler {
       options.timeout : null
 
     // Setup console output grouping
-    // when the element is run
+    // when the component is run
     if (this.debug) {
       this.on('before:run', () => console.group(this.type))
       this.on('after:end', () => console.groupEnd())
@@ -106,12 +106,12 @@ export class Component extends EventHandler {
 
   // Actions ----------------------------------------------
   prepare(directCall=true) {
-    // Prepare an element prior to its display,
+    // Prepare a component prior to its display,
     // for example by pre-loading or pre-rendering
     // content
 
     // Skip the remainder of the function if the
-    // prepare call was automated and the element
+    // prepare call was automated and the component
     // is labeled as tardy
     if (this.tardy && !directCall) {
       if (this.debug) {
@@ -146,7 +146,7 @@ export class Component extends EventHandler {
 
     // Prepare timeout
     if (this.timeout !== null) {
-      // Add a timeout to end the element
+      // Add a timeout to end the component
       // automatically after the specified
       // duration.
       this.on('run', () => {
@@ -183,13 +183,13 @@ export class Component extends EventHandler {
 
   run() {
     // Promise that represents the entire run
-    // of the element
+    // of the component
     const p = new Promise(
       resolve => this.on('end', resolve)
     )
     let chain // Chain for intermediate promises
 
-    // Prepare element if this has not been done
+    // Prepare component if this has not been done
     if (this.status < status.prepared) {
       if (this.debug) {
         console.log('Preparing at the last minute')
@@ -209,11 +209,11 @@ export class Component extends EventHandler {
       // Note the time
       this.internals.timestamps.run = performance.now()
 
-      // Run an element by showing it
+      // Run a component by showing it
       this.triggerMethod('run')
 
       // Return a promise that is resolved after
-      // the element has been run
+      // the component has been run
       return p
     })
   }
@@ -246,11 +246,11 @@ export class Component extends EventHandler {
       window.clearTimeout(this.internals.timeoutTimer)
     }
 
-    // Complete an element's run and cleanup
+    // Complete a component's run and cleanup
     this.triggerMethod('end')
 
     // A final goodbye once everything is done
-    // TODO: This won't work when an element
+    // TODO: This won't work when a component
     // in a sequence is cancelled.
     this.triggerMethod('after:end')
   }
@@ -261,7 +261,7 @@ export class Component extends EventHandler {
   commit() {
     // If a data store is defined
     if (this.datastore) {
-      // Commit the data collected by this element
+      // Commit the data collected by this component
       this.datastore.commit(
         // ... plus some additional metadata
         // TODO: Decide whether the data attribute should
@@ -310,12 +310,12 @@ export class Component extends EventHandler {
   // Metadata ---------------------------------------------
   get parents() {
     let output = []
-    let currentElement = this
+    let currentComponent = this
 
     // Traverse hierarchy upwards
-    while (currentElement.parent) {
-      currentElement = currentElement.parent
-      output = output.concat(currentElement)
+    while (currentComponent.parent) {
+      currentComponent = currentComponent.parent
+      output = output.concat(currentComponent)
     }
 
     // Sort in a top-to-bottom order
@@ -337,8 +337,8 @@ export const handMeDowns = [
   'el',
 ]
 
-// Simple elements ----------------------------------------
-// A DummyElement does nothing and ends
+// Simple components --------------------------------------
+// A Dummy component does nothing but end
 // immediately as soon as it is called
 export class Dummy extends Component {
   constructor(options={}) {

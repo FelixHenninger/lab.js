@@ -1,4 +1,4 @@
-// Define the sequence of elements
+// Define the sequence of components
 // that define the experiment
 var experiment = new lab.flow.Sequence({
   content: [

@@ -106,7 +106,7 @@ describe('Canvas-based components', () => {
       })
     })
 
-    it('Executes render function to draw on element when run', () => {
+    it('Executes render function when run', () => {
       c.render_function = sinon.spy()
 
       const p = c.run().then(() => {
@@ -154,7 +154,7 @@ describe('Canvas-based components', () => {
       )
     })
 
-    it('Passes its canvas to nested elements', () => {
+    it('Passes its canvas to nested components', () => {
       s.content = [a, b]
       s.prepare().then(() => {
         // The canvas should be shared
@@ -171,7 +171,7 @@ describe('Canvas-based components', () => {
       })
     })
 
-    it('Complains if any nested elements are not canvas-based', () => {
+    it('Complains if any nested components are not canvas-based', () => {
       s.content = [
         a,
         new lab.html.Screen({
@@ -182,7 +182,7 @@ describe('Canvas-based components', () => {
       // This should cause an error
       assert.throws(
         () => s.prepare(), // Binding seems to fail without a wrapper function
-        'Content element not a canvas.Screen or canvas.Sequence'
+        'Content component not a canvas.Screen or canvas.Sequence'
       )
     })
 

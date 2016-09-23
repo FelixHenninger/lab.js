@@ -3,7 +3,7 @@ import { Component } from './core'
 import { Sequence as BaseSequence } from './flow'
 import { multiArgumentConstructor } from './util/deprecation'
 
-// Global canvas functions used in all of the following elements
+// Global canvas functions used in all of the following components
 // (multiple inheritance would come in handy here, but alas...)
 
 // TODO: Rethink handling of the this binding
@@ -13,15 +13,15 @@ import { multiArgumentConstructor } from './util/deprecation'
 
 const initCanvas = function(options) {
   // Setup canvas handling:
-  // By default, the element does not
+  // By default, the component does not
   // come bundled with a canvas. Instead,
   // the expectation is that it will receive
   // a canvas by the time it is prepared,
-  // otherwise the element will take care of
+  // otherwise the component will take care of
   // creating its own canvas and appending
   // it to the dom at runtime.
   // Either way, a canvas is definitely present
-  // after the Element is prepared.
+  // after the component is prepared.
   this.canvas = null
   this.ctxType = options.ctxType || '2d'
   this.ctx = null
@@ -117,7 +117,7 @@ export class Screen extends Component {
 
 Screen.module = ['canvas']
 
-// Canvas-based sequence of elements
+// Canvas-based sequence of components
 // drawing on the same canvas
 export class Sequence extends BaseSequence {
   constructor(options={}) {
@@ -129,7 +129,7 @@ export class Sequence extends BaseSequence {
     // Initialize canvas
     initCanvas.apply(this, [options])
 
-    // Push canvas to nested elements
+    // Push canvas to nested components
     if (!this.handMeDowns.includes('canvas')) {
       this.handMeDowns.push('canvas')
     }
@@ -139,15 +139,15 @@ export class Sequence extends BaseSequence {
     // Prepare canvas
     prepareCanvas.apply(this)
 
-    // Check that all nested elements
+    // Check that all nested components
     // use the Canvas
-    const isCanvasElement = (e) =>
+    const isCanvasBased = (e) =>
       e instanceof Screen ||
       e instanceof Sequence
 
-    if (!this.content.every(isCanvasElement)) {
+    if (!this.content.every(isCanvasBased)) {
       throw new Error(
-        'Content element not a canvas.Screen or canvas.Sequence'
+        'Content component not a canvas.Screen or canvas.Sequence'
       )
     }
 

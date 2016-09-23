@@ -26,7 +26,7 @@ describe('Flow control', () => {
       })
     })
 
-    it('hand-me-downs do not leak between elements', () => {
+    it('hand-me-downs do not leak between components', () => {
       p.handMeDowns.push('foo')
       const q = new lab.flow.Sequence()
 
@@ -43,7 +43,7 @@ describe('Flow control', () => {
       })
     })
 
-    it('sets id attribute correctly on nested elements', () => {
+    it('sets id attribute correctly on nested components', () => {
       p.content = [a, b]
       return p.prepare().then(() => {
         assert.equal(a.id, '0')
@@ -51,7 +51,7 @@ describe('Flow control', () => {
       })
     })
 
-    it('sets id attribute correctly on nested elements with id present', () => {
+    it('sets id attribute correctly on nested components with id present', () => {
       p.id = '0'
       p.content = [a, b]
       return p.prepare().then(() => {
@@ -60,7 +60,7 @@ describe('Flow control', () => {
       })
     })
 
-    it('runs prepare on nested elements', () => {
+    it('runs prepare on nested components', () => {
       p.content = [a, b]
 
       const a_prepare = sinon.spy()
@@ -83,7 +83,7 @@ describe('Flow control', () => {
 
       p.content = [a]
       p.prepare().then(() => {
-        // Prepare on nested elements should be called
+        // Prepare should be called on nested components
         // with directCall parameter set to false
         assert.ok(
           a_prepare.withArgs(false).calledOnce
@@ -99,7 +99,7 @@ describe('Flow control', () => {
       s = new lab.flow.Sequence()
     })
 
-    it('runs elements in sequence', () => {
+    it('runs components in sequence', () => {
       // Setup sequence
       const a = new lab.core.Component()
       const b = new lab.core.Component()
@@ -147,7 +147,7 @@ describe('Flow control', () => {
           b.end()
         },
         () => {
-          // By now, each element should
+          // By now, each component should
           // have run once and the sequence
           // should have ended automatically
           assert.ok(a_run.calledOnce)
@@ -161,7 +161,7 @@ describe('Flow control', () => {
       }, Promise.resolve())
     })
 
-    it('shuffles elements if requested', () => {
+    it('shuffles content if requested', () => {
       // Generate 100 dummy components as content
       const content = _.range(100).map((i) => {
         const o = new lab.core.Dummy()
@@ -185,7 +185,7 @@ describe('Flow control', () => {
       // console.log(s.content.map(x => x._test_counter))
     })
 
-    it('terminates current element when aborted', () => {
+    it('terminates current component when aborted', () => {
       // Setup sequence
       const a = new lab.core.Component()
       s.content = [a]
@@ -193,13 +193,13 @@ describe('Flow control', () => {
       // Run
       s.run()
 
-      // Spy on the nested element's end method
+      // Spy on the nested component's end method
       const a_end = sinon.spy()
       a.on('end', a_end)
 
       return s.waitFor('run').then(() => {
-        // Make sure that the nested element is ended
-        // when the superordinate element is
+        // Make sure that the nested component is ended
+        // when the superordinate component is
         s.end()
         assert.ok(a_end.calledOnce)
       })
@@ -222,7 +222,7 @@ describe('Flow control', () => {
         // End sequence
         s.end()
 
-        // This should not happen in practice, since elements
+        // This should not happen in practice, since components
         // are rarely ended manually, but it should still not
         // result in the sequence progressing
         a.end()
@@ -272,7 +272,7 @@ describe('Flow control', () => {
       })
     })
 
-    it('runs elements in parallel', () => {
+    it('runs components in parallel', () => {
       const a_run = sinon.spy()
       const b_run = sinon.spy()
       a.on('run', a_run)
@@ -297,7 +297,7 @@ describe('Flow control', () => {
       return output
     })
 
-    it('ends elements in parallel', () => {
+    it('ends components in parallel', () => {
       const a_end = sinon.spy()
       const b_end = sinon.spy()
       a.on('end', a_end)
@@ -330,7 +330,7 @@ describe('Flow control', () => {
       return output
     })
 
-    it('implements no-element-left-behind mode (mode=all)', () => {
+    it('implements no-component-left-behind mode (mode=all)', () => {
       p.mode = 'all'
       let p_end = sinon.spy()
       p.on('end', p_end)
