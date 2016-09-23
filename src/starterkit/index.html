@@ -11,22 +11,31 @@
   <script defer src="experiment.js"></script>
 </head>
 <body>
+  <!-- If you're looking to fill all available browser space,
+       try replacing the class below with "container fullscreen" -->
   <div class="container">
     <header class="content-vertical-center content-horizontal-center">
       <div>
-        Header
+        <!-- You could put a title here,
+             or remove the header element entirely -->
       </div>
     </header>
     <main class="content-vertical-center content-horizontal-center">
       <!-- the nested div is helpful because the centering would
            otherwise break the natural flow of content -->
       <div id="labjs-content">
-        Main
+        <img src="lib/loading.svg" alt="loading icon" style="padding: 1rem"><br>
+        <p>
+          <strong>Preparing experiment</strong><br>
+          <span class="text-muted">please wait a moment</span>
+        </p>
       </div>
     </main>
     <footer class="content-vertical-center content-horizontal-center">
       <div>
-        Footer
+        <!-- Again, please feel free to replace the footer content,
+             or to remove the footer if you don't need it -->
+        <small class="text-muted">Awesome lab, prestigious institution™</small>
       </div>
     </footer>
   </div>

@@ -55,7 +55,7 @@
     "build:js:production": "webpack -p",
     "build:js": "npm run build:js:development && npm run build:js:production",
     "build:starterkit:css": "postcss --local-plugins -u postcss-cssnext -o dist/labjs-starterkit/lib/lab.css src/starterkit/lib/lab.css",
-    "build:starterkit:static": "cp src/starterkit/index.html dist/labjs-starterkit && cp src/starterkit/experiment.js dist/labjs-starterkit && cp dist/lab.js dist/labjs-starterkit/lib",
+    "build:starterkit:static": "cp src/starterkit/index.html dist/labjs-starterkit && cp src/starterkit/experiment.js dist/labjs-starterkit && cp dist/lab.js dist/labjs-starterkit/lib && cp src/starterkit/lib/loading.svg dist/labjs-starterkit/lib",
     "build:starterkit:bundle": "cd dist && zip -r labjs-starterkit.zip labjs-starterkit",
     "build:starterkit": "npm run build:js && npm run build:starterkit:css && npm run build:starterkit:static && npm run build:starterkit:bundle",
     "clean:docs": "cd docs && make clean",
