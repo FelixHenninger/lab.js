@@ -48,5 +48,6 @@ With that, let's get started!
    :caption: Contents
    :maxdepth: 1
 
+   getting_started.rst
    functional.rst
    style.rst
