@@ -13,7 +13,7 @@
   /* Colors */
   --color-border: #e5e5e5;
   --color-border-internal: #efefef;
-  --color-gray-background: #f5f5f5;
+  --color-gray-background: #f8f8f8;
   --color-gray-content: #8d8d8d;
 }
 
@@ -28,6 +28,7 @@
 /* Content layout */
 div.container {
   min-width: var(--width-min);
+  min-height: var(--height-min-header-footer);
   /* Use page layout by default */
   margin: 24px auto;
   width: 900px;
@@ -201,9 +202,9 @@ small, .small {
   border-color: #a02c2c;
 }
 .alert.alert-warning {
-  color: #967800;
-  background-color: #ffe398;
-  border-color: #ffcc00;
+  color: #f6a902;
+  background-color: #ffe6a5;
+  border-color: #ffb400;
 }
 
 /* Form elements */
