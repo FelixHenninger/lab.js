@@ -10,7 +10,7 @@
   </small>
 </p>
 
-**`lab.js` is a toolkit for constructing browser-based online experiments in Javascript.** It vastly simplifies the construction of experiments by taking care of stimulus display and timing, response collection, and data storage. The library builds on the idea that experiments are constructed from *blocks* of content: Individual stimuli of whichever nature, and sequences or more complex arrangements of these.
+**`lab.js` is a toolkit for constructing browser-based online experiments in Javascript.** It vastly simplifies the construction of experiments by taking care of stimulus display and timing, response collection, and data storage. The library builds on the idea that experiments are constructed from individual *components*: The stimuli themselves, and sequences and loops that provide structure to the experiment.
 
 ----
 
