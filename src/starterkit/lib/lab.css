@@ -7,6 +7,7 @@
   --padding-internal: 24px;
   /* Typography */
   --font-family: sans-serif;
+  --font-family-mono: monospace;
   --font-size: 18px;
   --line-height: 1.4em;
   --paragraph-margin-vertical: var(--font-size);
@@ -175,6 +176,12 @@ small, .small {
 }
 .font-italic {
   font-style: italic;
+}
+code {
+  font-family: var(--font-family-mono);
+  background-color: var(--color-gray-background);
+  padding: 2px;
+  border-radius: 2px;
 }
 
 /* Visibility */
