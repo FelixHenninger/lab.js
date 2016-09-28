@@ -24,6 +24,16 @@ to hear them!
 .. contents:: Contents
   :local:
 
+.. raw:: html
+
+  <style type="text/css">
+    .document img {
+      margin-bottom: 5px;
+      border: 1px solid #e1e4e5;
+      border-radius: 5px;
+    }
+  </style>
+
 ----
 
 Downloading the starter kit
@@ -58,6 +68,8 @@ in the next step.
 
 .. image:: getting_started/starterkit.png
    :alt: Screenshot of default starterkit page
+   :width: 60%
+   :align: right
 
 Before we move on, you might want to have a brief look at the code of the file
 you just viewed. If you open it in your editor instead of the browser, you'll

@@ -42,7 +42,7 @@ styles that are available, and shows you how to apply them.
     .document img {
       margin-bottom: 5px;
       border: 1px solid #e1e4e5;
-      border-radius: 2px;
+      border-radius: 5px;
     }
   </style>
 
