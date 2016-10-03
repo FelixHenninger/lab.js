@@ -21,6 +21,7 @@ const banner = [
 module.exports = {
   entry: {
     js: [
+      'babel-regenerator-runtime',
       'es6-promise',
       'whatwg-fetch',
       './src/index',
@@ -37,8 +38,8 @@ module.exports = {
       test: /\.js$/,
       include: path.join(__dirname, 'src'),
       query: {
-        plugins: ['add-module-exports', 'lodash'],
-        presets: ['es2015-webpack'],
+        plugins: ['add-module-exports', 'transform-regenerator', 'lodash'],
+        presets: ['es2015'],
       },
     }],
   },
