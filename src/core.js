@@ -2,7 +2,6 @@ import { extend } from 'lodash'
 import { EventHandler } from './util/eventAPI'
 import { DomConnection } from './util/domEvents'
 import { preloadImage, preloadAudio } from './util/preload'
-import { promiseChain } from './util/promise'
 
 // Define status codes
 export const status = Object.freeze({
@@ -105,7 +104,7 @@ export class Component extends EventHandler {
   }
 
   // Actions ----------------------------------------------
-  prepare(directCall=true) {
+  async prepare(directCall=true) {
     // Prepare a component prior to its display,
     // for example by pre-loading or pre-rendering
     // content
@@ -117,7 +116,7 @@ export class Component extends EventHandler {
       if (this.debug) {
         console.log('Skipping automated preparation')
       }
-      return Promise.resolve()
+      return
     }
 
     // Direct output to the HTML element with the id
@@ -164,58 +163,54 @@ export class Component extends EventHandler {
       this.on('after:end', this.commit)
     }
 
-    return promiseChain([
-      // Preload media
-      () => Promise.all(this.media.images.map(preloadImage)),
-      () => Promise.all(this.media.audio.map(preloadAudio)),
-      // Trigger related methods
-      () => this.triggerMethod('prepare', directCall),
-      // Update status
-      () => (this.status = status.prepared),
-      // TODO: Need to reflect on the order of the last
-      // two operations. A problem emerged that calls
-      // to 'run' in a prepare handler would lead to
-      // double preparation, therefore the current order
-      // was chosen. However, this might be revised
-      // at some later point for clearer semantics.
-    ])
+    // Preload media
+    await Promise.all(this.media.images.map(preloadImage))
+    await Promise.all(this.media.audio.map(preloadAudio))
+
+    // Trigger related methods
+    await this.triggerMethod('prepare', directCall)
+
+    // Update status
+    this.status = status.prepared
+
+    // TODO: Need to reflect on the order of the last
+    // two operations. A problem emerged that calls
+    // to 'run' in a prepare handler would lead to
+    // double preparation, therefore the current order
+    // was chosen. However, this might be revised
+    // at some later point for clearer semantics.
   }
 
-  run() {
+  async run() {
     // Promise that represents the entire run
     // of the component
     const p = new Promise(
       resolve => this.on('end', resolve)
     )
-    let chain // Chain for intermediate promises
 
     // Prepare component if this has not been done
     if (this.status < status.prepared) {
       if (this.debug) {
         console.log('Preparing at the last minute')
       }
-      chain = this.prepare()
-    } else {
-      chain = Promise.resolve()
+      await this.prepare()
     }
 
-    return chain.then(() => {
-      // Trigger pre-run hooks
-      this.triggerMethod('before:run')
+    // Trigger pre-run hooks
+    await this.triggerMethod('before:run')
 
-      // Update status
-      this.status = status.running
+    // Update status
+    this.status = status.running
 
-      // Note the time
-      this.internals.timestamps.run = performance.now()
+    // Note the time
+    this.internals.timestamps.run = performance.now()
 
-      // Run a component by showing it
-      this.triggerMethod('run')
+    // Run a component by showing it
+    await this.triggerMethod('run')
 
-      // Return a promise that is resolved after
-      // the component has been run
-      return p
-    })
+    // Return a promise that is resolved after
+    // the component has been run
+    return p
   }
 
   respond(response=null) {
