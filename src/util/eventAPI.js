@@ -76,22 +76,25 @@ export class EventHandler {
   // This is heavily inspired by the excellent backbone.marionette, see
   // http://marionettejs.com/annotated-src/backbone.marionette.html#section-96
   // (though I do not catch as many special cases, probably to my peril)
-  trigger(event, ...args) {
-    // Trigger all callbacks for a specific event
+  async trigger(event, ...args) {
+    // Trigger all callbacks for a specific event,
+    // within the context of the current object
     const callbacks = this.internals.callbacks[`$${ event }`]
     if (callbacks) {
-      callbacks.forEach(c => c.apply(this, args))
+      await Promise.all(
+        callbacks.map(
+          c => c.apply(this, args)
+        )
+      )
     }
-    // Note that the apply method will set the context
-    // to the local object
 
     // Trigger plugin events
-    this.plugins.trigger(event, ...args)
+    await this.plugins.trigger(event, ...args)
 
     return this
   }
 
-  triggerMethod(event, ...args) {
+  async triggerMethod(event, ...args) {
     if (this.debug) {
       // Tell the world what we're up to
       console.info(
@@ -119,12 +122,12 @@ export class EventHandler {
     const method = this[methodName]
     let result
     if (isFunction(method)) {
-      result = method.apply(this, args)
+      result = await method.apply(this, args)
     }
 
     // If the object has a trigger function,
     // call it with the arguments supplied
-    this.trigger(event, ...args)
+    await this.trigger(event, ...args)
 
     // Return the result of the object's onEvent method
     return result
