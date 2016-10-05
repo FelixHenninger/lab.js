@@ -128,7 +128,7 @@ export class Component extends EventHandler {
     this.el = this.el || document.getElementById('labjs-content')
 
     // Trigger the before:prepare event
-    this.triggerMethod('before:prepare')
+    await this.triggerMethod('before:prepare')
 
     // Setup automatic event handling for responses
     Object.keys(this.responses).forEach(
@@ -182,12 +182,6 @@ export class Component extends EventHandler {
   }
 
   async run() {
-    // Promise that represents the entire run
-    // of the component
-    const p = new Promise(
-      resolve => this.on('end', resolve)
-    )
-
     // Prepare component if this has not been done
     if (this.status < status.prepared) {
       if (this.debug) {
@@ -206,11 +200,7 @@ export class Component extends EventHandler {
     this.internals.timestamps.run = performance.now()
 
     // Run a component by showing it
-    await this.triggerMethod('run')
-
-    // Return a promise that is resolved after
-    // the component has been run
-    return p
+    return this.triggerMethod('run')
   }
 
   respond(response=null) {
@@ -228,7 +218,7 @@ export class Component extends EventHandler {
     this.end('response')
   }
 
-  end(reason=null) {
+  async end(reason=null) {
     // Note the time of and reason for ending
     this.internals.timestamps.end = performance.now()
     this.data.ended_on = reason
@@ -242,12 +232,12 @@ export class Component extends EventHandler {
     }
 
     // Complete a component's run and cleanup
-    this.triggerMethod('end')
+    await this.triggerMethod('end')
 
     // A final goodbye once everything is done
     // TODO: This won't work when a component
     // in a sequence is cancelled.
-    this.triggerMethod('after:end')
+    await this.triggerMethod('after:end')
   }
 
   // Data collection --------------------------------------
