@@ -47,11 +47,6 @@ export class Sequence extends Component {
     // to iterate over
     this.content = options.content || []
 
-    // Define a position in the array to begin
-    // (note that this is incremented before
-    // running the first nested component)
-    this.currentPosition = -1
-
     // Shuffle items, if so desired
     this.shuffle = options.shuffle || false
 
@@ -59,68 +54,53 @@ export class Sequence extends Component {
     // unless directed otherwise
     // (note that the hand-me-downs are copied)
     this.handMeDowns = options.handMeDowns || [...handMeDowns]
+
+    // Set default values for current component and index
+    this.currentComponent = null
+    this.currentPosition = null
   }
 
-  prepare(directCall) {
-    const p = super.prepare(directCall)
-
+  async onPrepare() {
     // Shuffle content, if requested
     if (this.shuffle) {
       this.content = shuffle(this.content)
     }
 
+    // Define an iterator over the content
+    this.iterator = this.content.entries()
+    this.stepper = this.step.bind(this)
+
     // Prepare nested items
-    return p.then(
-      () => prepareNested(this.content, this)
-    )
+    await prepareNested(this.content, this)
   }
 
-  onRun() {
-    // Run the sequence by stepping through the
-    // content components
-    this.step()
+  async onRun() {
+    // Make the first step
+    return await this.step()
   }
 
   onEnd() {
-    // Remove stepper function
-    this.stepper = null
-
     // End prematurely, if necessary
-    if (this.currentPosition !== this.content.length) {
-      const currentComponent = this.content[this.currentPosition]
-
-      // Don't continue stepping through content
-      // FIXME: This should only remove
-      // the stepper function, but no others
-      currentComponent.off('after:end')
-      currentComponent.end('abort by sequence')
+    if (this.currentComponent.status !== status.done) {
+      this.currentComponent.off('after:end', this.stepper)
+      this.currentComponent.end('abort by sequence')
     }
   }
 
-  step(increment=+1, keepGoing=true) {
-    // The step method is unique to sequences,
-    // and defines how the next content component
-    // is chosen and shown.
-    this.triggerMethod('step')
+  async step() {
+    if (this.status === status.done) {
+      throw 'Sequence ended, can\'t take any more steps'
+    }
 
-    // Increment the current position
-    this.currentPosition += increment
-
-    // If there ist still content yet to be shown,
-    // show it while waiting for it to complete,
-    // otherwise we are done here.
-    if (this.currentPosition !== this.content.length) {
-      this.currentComponent = this.content[this.currentPosition]
-
-      if (keepGoing) {
-        this.stepper = () => this.step()
-        this.currentComponent.once('after:end', this.stepper)
-      }
-
-      this.currentComponent.run()
+    // Move through the content
+    const next = this.iterator.next()
+    if (next.done) {
+      return await this.end()
     } else {
-      this.currentComponent = null
-      this.end('complete')
+      [this.currentPosition, this.currentComponent] = next.value
+      this.currentComponent.on('after:end', this.stepper)
+      this.triggerMethod('step')
+      return await this.currentComponent.run()
     }
   }
 

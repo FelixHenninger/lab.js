@@ -113,52 +113,28 @@ describe('Flow control', () => {
       let s_end = sinon.spy()
       s.on('end', s_end)
 
-      const tasks = [
-        () => {
-          // Prepare sequence
-          return s.prepare().then(() => {
-            assert.notOk(a_run.called)
-            assert.notOk(b_run.called)
-          })
-        },
-        () => {
-          // Run
-          // A goes first
-          let p = s.waitFor('run').then(() => {
-            assert.ok(a_run.calledOnce)
-            assert.notOk(b_run.called)
-          })
-          s.run()
-          return p
-        },
-        () => {
-          // B follows
-          let p = a.waitFor('end', () => {
-            assert.ok(a_run.calledOnce)
-            assert.ok(b_run.calledOnce)
-          })
-          a.end()
-          return p
-        },
-        () => {
-          // We're not done yet
-          assert.notOk(s_end.called)
-          // The sequence ends
-          b.end()
-        },
-        () => {
-          // By now, each component should
-          // have run once and the sequence
-          // should have ended automatically
-          assert.ok(a_run.calledOnce)
-          assert.ok(b_run.calledOnce)
-          assert.ok(s_end.calledOnce)
-        }
-      ]
-
-      return tasks.reduce((chain, f) => {
-        return chain.then(f)
-      }, Promise.resolve())
+      return s.prepare().then(() => {
+        assert.notOk(a_run.called)
+        assert.notOk(b_run.called)
+        return s.run()
+      }).then(() => {
+        assert.ok(a_run.calledOnce)
+        assert.notOk(b_run.called)
+        return a.end()
+      }).then(() => {
+        assert.ok(a_run.calledOnce)
+        assert.ok(b_run.calledOnce)
+        // We're not done yet
+        assert.notOk(s_end.called)
+        return b.end()
+      }).then(() => {
+        // By now, each component should
+        // have run once and the sequence
+        // should have ended automatically
+        assert.ok(a_run.calledOnce)
+        assert.ok(b_run.calledOnce)
+        assert.ok(s_end.calledOnce)
+      })
     })
 
     it('shuffles content if requested', () => {
@@ -190,22 +166,20 @@ describe('Flow control', () => {
       const a = new lab.core.Component()
       s.content = [a]
 
-      // Run
-      s.run()
-
       // Spy on the nested component's end method
       const a_end = sinon.spy()
       a.on('end', a_end)
 
-      return s.waitFor('run').then(() => {
-        // Make sure that the nested component is ended
-        // when the superordinate component is
-        s.end()
+      // Make sure that the nested component is ended
+      // when the superordinate component is
+      return s.run().then(() => {
+        return s.end()
+      }).then(() => {
         assert.ok(a_end.calledOnce)
       })
     })
 
-    it('deactivates stepper when ended', () => {
+    it('Abort does not trigger outstanding components', () => {
       // Setup sequence
       const a = new lab.core.Component()
       const b = new lab.core.Component()
@@ -214,30 +188,24 @@ describe('Flow control', () => {
       const b_run = sinon.spy()
       b.on('run', b_run)
 
-
-      const p = s.waitFor('run').then(() => {
-        // A stepper function should exist at this point
-        assert.isFunction(s.stepper)
-
-        // End sequence
-        s.end()
+      return s.run().then(() => {
+        // End sequence immediately
+        return s.end()
+      }).then(() => {
+        // B should not be called
+        assert.notOk(b_run.called)
 
         // This should not happen in practice, since components
         // are rarely ended manually, but it should still not
         // result in the sequence progressing
-        a.end()
+        return a.end()
+      }).then(() => {
         assert.notOk(b_run.called)
 
-        // Just in case someone tries to run the stepper
-        // function manually, this should not work
-        assert.throws(
-          () => s.stepper(), // Try stepper function
-          's.stepper is not a function'
-        )
+        // TODO: Previous versions additionally tested whether
+        // calling the stepper method raised an error -- this
+        // will need better promise support in the test suite.
       })
-
-      s.run()
-      return p
     })
 
     it('updates progress property', () => {
