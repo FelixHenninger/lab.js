@@ -246,23 +246,15 @@ describe('Flow control', () => {
       a.on('run', a_run)
       b.on('run', b_run)
 
-      const output = Promise.all([
-        p.waitFor('prepare').then(() => {
-          // Prepare ...
-          assert.notOk(a_run.called)
-          assert.notOk(b_run.called)
+      return p.prepare().then(() => {
+        assert.notOk(a_run.called)
+        assert.notOk(b_run.called)
 
-          p.run()
-        }),
-        p.waitFor('run').then(() => {
-          // ... and run
-          assert.ok(a_run.calledOnce)
-          assert.ok(b_run.calledOnce)
-        })
-      ])
-
-      p.prepare()
-      return output
+        return p.run()
+      }).then(() => {
+        assert.ok(a_run.calledOnce)
+        assert.ok(b_run.calledOnce)
+      })
     })
 
     it('ends components in parallel', () => {
@@ -271,11 +263,11 @@ describe('Flow control', () => {
       a.on('end', a_end)
       b.on('end', b_end)
 
-      p.run()
-      return p.waitFor('run').then(() => {
+      return p.run().then(() => {
         assert.notOk(a_end.called)
         assert.notOk(b_end.called)
-        p.end()
+        return p.end()
+      }).then(() => {
         assert.ok(a_end.calledOnce)
         assert.ok(b_end.calledOnce)
       })
@@ -287,15 +279,13 @@ describe('Flow control', () => {
       let p_end = sinon.spy()
       p.on('end', p_end)
 
-      const output = p.run().then(() => {
+      return p.run().then(() => {
+        assert.notOk(b_end.called)
+        return a.end()
+      }).then(() => {
         assert.ok(b_end.calledOnce)
         assert.ok(p_end.calledOnce)
       })
-
-      assert.notOk(b_end.called)
-      a.end()
-
-      return output
     })
 
     it('implements no-component-left-behind mode (mode=all)', () => {
@@ -303,13 +293,12 @@ describe('Flow control', () => {
       let p_end = sinon.spy()
       p.on('end', p_end)
 
-      const output = p.run()
-
-      a.end()
-      assert.notOk(p_end.called)
-      b.end()
-
-      return output.then(() => {
+      return p.run().then(() => {
+        return a.end()
+      }).then(() => {
+        assert.notOk(p_end.called)
+        return b.end()
+      }).then(() => {
         assert.ok(p_end.calledOnce)
       })
     })

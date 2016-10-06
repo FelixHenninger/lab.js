@@ -172,18 +172,17 @@ export class Parallel extends Component {
   // The run method is overwritten at this point,
   // because the original promise is swapped for a
   // version that runs all nested items in parallel
-  run() {
-    const promise = super.run()
-
-    // Run all nested components simultaneously
-    this.promises = this.content.map(c => c.run())
-
+  onRun() {
     // End this component when all nested components,
     // or a single component, have ended
-    Promise[this.mode](this.promises)
-      .then(() => this.end())
+    Promise[this.mode](
+      this.content.map(c => c.waitFor('end'))
+    ).then(() => this.end())
 
-    return promise
+    // Run all nested components simultaneously
+    return Promise.all(
+      this.content.map(c => c.run())
+    )
   }
 
   onEnd() {
