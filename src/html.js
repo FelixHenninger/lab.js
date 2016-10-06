@@ -17,7 +17,7 @@ export class Screen extends Component {
     this.contentUrl = options.contentUrl
   }
 
-  prepare(directCall) {
+  onPrepare() {
     return Promise.resolve().then(() => {
       // Fetch content from URL, if one is given
       if (this.contentUrl) {
@@ -31,14 +31,10 @@ export class Screen extends Component {
       } else {
         return null
       }
-    }).then(
-      // Continue preparation
-      () => super.prepare(directCall)
-    ).then(() => {
+    }).then(() => {
       // Post-process template by adding
       // placeholders through lodash.template
       this.content = template(this.content)(this.aggregateParameters)
-      return
     })
   }
 
