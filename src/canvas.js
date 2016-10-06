@@ -135,7 +135,7 @@ export class Sequence extends BaseSequence {
     }
   }
 
-  prepare(directCall) {
+  onPrepare() {
     // Prepare canvas
     prepareCanvas.apply(this)
 
@@ -152,16 +152,16 @@ export class Sequence extends BaseSequence {
     }
 
     // Prepare sequence as usual
-    return super.prepare(directCall)
+    return super.onPrepare()
   }
 
-  run() {
+  onRun() {
     // Insert canvas into DOM,
     // if not present already
     insertCanvas.apply(this)
 
     // Run sequence as usual
-    return super.run()
+    return super.onRun()
   }
 }
 

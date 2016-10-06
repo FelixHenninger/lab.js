@@ -12,12 +12,7 @@ describe('Canvas-based components', () => {
     })
 
     it('Inserts a canvas into the page if necessary', () => {
-      // Run the Screen
-      const p = c.run()
-      c.end()
-
-      // Tests
-      return p.then(() => {
+      return c.run().then(() => {
         // Check whether a canvas has been
         // inserted into the page
         const canvas = c.el.getElementsByTagName('canvas')[0]
@@ -30,11 +25,7 @@ describe('Canvas-based components', () => {
       // Specify a canvas for the Screen
       c.canvas = document.createElement('canvas')
 
-      const p = c.run()
-      c.end()
-
-      // Tests
-      return p.then(() => {
+      return c.run().then(() => {
         // The element should be empty
         assert.equal(
           c.el.getElementsByTagName('canvas').length,
@@ -48,11 +39,7 @@ describe('Canvas-based components', () => {
       c.el.style.height = '200px'
       c.el.style.width = '300px'
 
-      const p = c.run()
-      c.end()
-
-      // Tests
-      return p.then(() => {
+      return c.run().then(() => {
         assert.equal(
           c.canvas.height,
           c.el.clientHeight,
@@ -78,40 +65,41 @@ describe('Canvas-based components', () => {
       })
     })
 
-    it('Runs render function in component context', () => {
+    it('Executes render function when run', () => {
       c.renderFunction = sinon.spy()
 
-      // The delay necessary here appears to
-      // stem from the use of requestAnimationFrame,
-      // which adds a slight delay to rendering
-      c.timeout = 20 // [ms]
+      // The test here is constructed so that
+      // requestAnimationFrame is called at least once.
+      // Otherwise, the render function won't be triggered
+      c.timeout = 20
 
-      const p = c.run()
+      // Check that the function is called
+      return c.run().then(() => {
+        return c.waitFor('end')
+      }).then(() => {
+        assert.ok(
+          c.renderFunction.calledOnce
+        )
+      })
+    })
+
+    it('Runs render function in component context', () => {
+      c.renderFunction = sinon.spy()
+      c.timeout = 20
 
       // Check function binding
-      return p.then(() => {
+      return c.run().then(() => {
+        return c.waitFor('end')
+      }).then(() => {
         assert.ok(c.renderFunction.calledOnce)
         assert.ok(c.renderFunction.alwaysCalledOn(c))
       })
     })
 
     it('Selects 2d canvas context by default', () => {
-      const p = c.run()
-      c.end()
-
-      return p.then(() => {
+      return c.run().then(() => {
         assert.ok(
           c.ctx instanceof CanvasRenderingContext2D
-        )
-      })
-    })
-
-    it('Executes render function when run', () => {
-      c.render_function = sinon.spy()
-
-      const p = c.run().then(() => {
-        assert.ok(
-          c.render_function.calledOnce
         )
       })
     })
@@ -121,16 +109,17 @@ describe('Canvas-based components', () => {
       const fake_cAF = sinon.stub(window, 'cancelAnimationFrame');
 
       // Run and end the Screen
-      const p = c.run()
-      c.end()
+      return c.run()
+        .then(() => c.end())
+        .then(() => {
+          // Check that cancelAnimationFrame was called
+          assert.ok(
+            fake_cAF.calledOnce
+          )
 
-      // Check that cancelAnimationFrame was called
-      assert.ok(
-        fake_cAF.calledOnce
-      )
-
-      // Restore window.cancelAnimationFrame
-      window.cancelAnimationFrame.restore()
+          // Restore window.cancelAnimationFrame
+          window.cancelAnimationFrame.restore()
+        })
     })
   })
 
@@ -180,10 +169,13 @@ describe('Canvas-based components', () => {
       ]
 
       // This should cause an error
-      assert.throws(
-        () => s.prepare(), // Binding seems to fail without a wrapper function
-        'Content component not a canvas.Screen or canvas.Sequence'
-      )
+      return s.prepare()
+        .catch((error) => {
+          return assert.equal(
+            error.message,
+            'Content component not a canvas.Screen or canvas.Sequence'
+          )
+        })
     })
 
     it('Runs canvas drawing operations in sequence', () => {
@@ -203,8 +195,6 @@ describe('Canvas-based components', () => {
       s.canvas.width = 200
       s.canvas.height = 200
 
-      s.run()
-
       // During testing, we need to introduce delays
       // because the render methods tend to wait for
       // a new frame before running
@@ -214,59 +204,57 @@ describe('Canvas-based components', () => {
         })
       }
 
-      return Promise.all([
-        a.waitFor('run')
-          .then(() => promise_timeout(10))
-          .then(() => {
-            // After drawing the first screen ...
-            // ... left area should be black
-            assert.deepEqual(
-              Array.from(
-                s.canvas
-                  .getContext('2d')
-                  .getImageData(5, 5, 1, 1)
-                  .data
-              ),
-              [0, 0, 0, 255]
-            )
-            // ... right area should be empty/blank
-            assert.deepEqual(
-              Array.from(
-                s.canvas
-                  .getContext('2d')
-                  .getImageData(15, 5, 1, 1)
-                  .data
-              ),
-              [0, 0, 0, 0]
-            )
-            a.end()
-          }),
-        b.waitFor('run')
-          .then(() => promise_timeout(10))
-          .then(() => {
-            // After drawing the second screen ...
-            // ... left area should be empty
-            assert.deepEqual(
-              Array.from(
-                s.canvas
-                  .getContext('2d')
-                  .getImageData(5, 5, 1, 1)
-                  .data
-              ),
-              [0, 0, 0, 0]
-            )
-            // ... right area should be filled
-            assert.deepEqual(
-              Array.from(
-                s.canvas
-                  .getContext('2d')
-                  .getImageData(15, 5, 1, 1)
-                  .data
-              ),
-              [0, 0, 0, 255]
-            )
-          })
-      ])
+      return s.run()
+        .then(() => promise_timeout(10))
+        .then(() => {
+          // After drawing the first screen ...
+          // ... left area should be black
+          assert.deepEqual(
+            Array.from(
+              s.canvas
+                .getContext('2d')
+                .getImageData(5, 5, 1, 1)
+                .data
+            ),
+            [0, 0, 0, 255]
+          )
+          // ... right area should be empty/blank
+          assert.deepEqual(
+            Array.from(
+              s.canvas
+                .getContext('2d')
+                .getImageData(15, 5, 1, 1)
+                .data
+            ),
+            [0, 0, 0, 0]
+          )
+          return a.end()
+        })
+        .then(() => b.run())
+        .then(() => promise_timeout(10))
+        .then(() => {
+          // After drawing the second screen ...
+          // ... left area should be empty
+          assert.deepEqual(
+            Array.from(
+              s.canvas
+                .getContext('2d')
+                .getImageData(5, 5, 1, 1)
+                .data
+            ),
+            [0, 0, 0, 0]
+          )
+          // ... right area should be filled
+          assert.deepEqual(
+            Array.from(
+              s.canvas
+                .getContext('2d')
+                .getImageData(15, 5, 1, 1)
+                .data
+            ),
+            [0, 0, 0, 255]
+          )
+        })
     })
   })
 })
