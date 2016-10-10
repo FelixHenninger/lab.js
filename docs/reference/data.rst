@@ -1,6 +1,8 @@
 Data storage
 ============
 
+.. _reference/data:
+
 While the different kinds of elements are responsible for what happens on
 screen, data storage collects participants' responses, records their actions,
 and keeps them in store for later retrieval and export.
