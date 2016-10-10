@@ -1,6 +1,8 @@
 Styling your study
 ==================
 
+.. _tutorial/style:
+
 **Making a study look neat is helpful in several ways: A clear design helps
 participants navigate through the study, and it shows the professionalism of its
 creators.** There are, of course, many ways to achieve this, and if you have
@@ -437,8 +439,8 @@ additional style sheet looked like:
   the included stylesheet lacking -- because the class names are, where
   possible, identical, switching should not be to big an effort.
 
-  There are several more such layout frameworks, for example `Semantic UI`_ or
-  `Material Design`_.
+  There are several more such frameworks that cater to different tastes and
+  programming styles, for example `Semantic UI`_ or `Material Design`_.
 
   .. _Bootstrap framework: https://getbootstrap.com/
   .. _Semantic UI: http://semantic-ui.com/
