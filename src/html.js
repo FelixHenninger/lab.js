@@ -1,6 +1,6 @@
 // HTML-based displays for lab.js
 import { extend, template } from 'lodash'
-import { Component } from './core'
+import { Component, status } from './core'
 import { domSelect } from './util/domSelect'
 import { multiArgumentConstructor } from './util/deprecation'
 
@@ -173,3 +173,55 @@ export class Form extends Screen {
 }
 
 Form.module = ['html']
+
+export class Frame extends Component {
+  constructor(options={}) {
+    super(options)
+    this.content = options.content
+    this.context = options.context || ''
+    this.contextId = options.contextId || ''
+  }
+
+  onPrepare() {
+    // Parse context HTML
+    const parser = new DOMParser()
+    this.internals.parsedContext = parser.parseFromString(
+      this.context, 'text/html'
+    )
+
+    // Setup nested component to use the context
+    this.content.el = this.internals
+      .parsedContext.getElementById(this.contextId)
+
+    // Couple the run cycle of the frame to its content
+    this.content.once('after:end', () => this.end())
+
+    // Prepare content
+    return this.content.prepare(false) // indicate automated call
+  }
+
+  onRun() {
+    // Clear element content, and insert context
+    this.el.innerHTML = ''
+    Array.from(this.internals.parsedContext.body.children)
+      .forEach(c => this.el.appendChild(c))
+
+    // Run nested content
+    return this.content.run()
+  }
+
+  onEnd() {
+    if (this.content.status <= status.done) {
+      // Avoid an infinite loop of
+      // frame and content ending one another
+      this.content.off('after:end')
+
+      // Again, the content is in focus
+      return this.content.end('abort by frame')
+    } else {
+      // If the content has already ended,
+      // there is nothing left to do
+      return Promise.resolve()
+    }
+  }
+}
