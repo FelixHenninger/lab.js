@@ -267,4 +267,88 @@ describe('HTML-based components', () => {
       assert.ok(f.validate())
     })
   })
+
+  describe('Frame', () => {
+    let el, c, f
+
+    beforeEach(() => {
+      el = document.createElement('div')
+      c = new lab.core.Component()
+      f = new lab.html.Frame({
+        el: el,
+        content: c,
+        context: '<div id="labjs-context"></div>',
+        contextId: 'labjs-context'
+      })
+    })
+
+    it('prepares its content', () => {
+      const spy = sinon.spy(c, 'prepare')
+
+      assert.notOk(spy.called)
+      return f.prepare().then(() => {
+        assert.ok(spy.calledOnce)
+        // Call indicated automated preparation
+        assert.ok(spy.calledWith(false))
+      })
+    })
+
+    it('sets content element correctly', () => {
+      return f.prepare().then(() => {
+        assert.equal(
+          c.el,
+          f.internals.parsedContext.
+            documentElement.querySelector('#' + f.contextId)
+        )
+      })
+    })
+
+    it('runs content when run', () => {
+      const spy = sinon.spy(c, 'run')
+
+      return f.run().then(() => {
+        assert.ok(spy.calledOnce)
+      })
+    })
+
+    it('frames content output', () => {
+      c = new lab.html.Screen({
+        content: 'Hello world!'
+      })
+      f.content = c
+      f.context = '<strong id="mycontext"></strong>'
+      f.contextId = 'mycontext'
+
+      return f.run().then(() => {
+        assert.equal(
+          f.el.innerHTML,
+          '<strong id="mycontext">Hello world!</strong>'
+        )
+      })
+    })
+
+    it('ends with content', () => {
+      const spy = sinon.spy(f, 'end')
+
+      return f.run().then(() => {
+        assert.notOk(spy.called)
+        return c.end()
+      }).then(() => {
+        assert.ok(spy.calledOnce)
+      })
+    })
+
+    it('aborts running content when it ends', () => {
+      const spy = sinon.spy(c, 'end')
+
+      return f.run().then(() => {
+        assert.notOk(spy.calledOnce)
+        return f.end()
+      }).then(() => {
+        console.log('c status', c.status)
+        assert.ok(spy.calledOnce)
+        assert.ok(spy.calledWith('abort by frame'))
+      })
+    })
+  })
 })
