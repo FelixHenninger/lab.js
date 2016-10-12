@@ -225,3 +225,5 @@ export class Frame extends Component {
     }
   }
 }
+
+Frame.module = ['html']
