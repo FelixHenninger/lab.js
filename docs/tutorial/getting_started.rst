@@ -6,18 +6,19 @@ here, and we hope you will enjoy building experiments using this little library
 as much as we have enjoyed creating it.
 
 The purpose of this initial tutorial is to get you up to speed as quickly as
-possible. We'll have you building a simple experiment in the next half hour or
-so, and we'll examine more details in the following parts of the tutorial.
+possible. We'll have you building a very simple experiment in the next half hour
+or so, and we'll examine more details in the following parts of the tutorial.
 
 You'll need a browser, and a basic understanding of how web pages are built
 using ``HTML``. In addition, a good text editor with syntax highlighting can be
 an enormous support: It helps us distinguish the different parts of our code
-visually. If you're using a text editor already in your daily work, stick to
-that. If you haven't used a text editor before, we would encourage you to try
-out `Atom <https://atom.io/>`_, which works great out of the box.
+visually. If you're using a text editor already in your daily work, we'd
+recommend to stick to that for the moment. If you haven't used a text editor
+before, we would encourage you to try out `Atom <https://atom.io/>`_, which
+works great out of the box.
 
-If you run into difficulties in the tutorial, that's our fault. Please let us
-know how we can support you. We are also constantly trying to make the tutorial
+If you run into difficulties in the tutorial, that's our fault: Please let us
+know how we can support you! We are also constantly trying to make the tutorial
 clearer and more helpful -- if you have comments or suggestions, we would love
 to hear them!
 
