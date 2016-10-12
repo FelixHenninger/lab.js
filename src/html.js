@@ -4,7 +4,7 @@ import { Component, status } from './core'
 import { domSelect } from './util/domSelect'
 import { multiArgumentConstructor } from './util/deprecation'
 
-// HTMLScreens display HTML when run
+// html.Screens display HTML when run
 export class Screen extends Component {
   constructor(options={}) {
     // Deprecate multiple arguments in constructor
@@ -46,7 +46,7 @@ export class Screen extends Component {
 
 Screen.module = ['html']
 
-// A FormScreen can show, validate and serialize a form
+// An html.Form can show, validate and serialize a form
 export class Form extends Screen {
   constructor(options={}) {
     // Deprecate multiple arguments in constructor

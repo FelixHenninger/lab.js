@@ -28,7 +28,7 @@ const prepareNested = function(nested, parent) {
 
   // Trigger prepare on all nested components
   return Promise.all(
-    nested.map(c => c.prepare(false)) // indicate indirect call
+    nested.map(c => c.prepare(false)) // indicate automated call
   )
 }
 
