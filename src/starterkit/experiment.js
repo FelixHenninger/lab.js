@@ -3,14 +3,13 @@
 var experiment = new lab.flow.Sequence({
   content: [
     new lab.html.Screen({
-      content: 'The experiment is running!'
-    })
-  ]
+      content: 'The experiment is running!',
+    }),
+  ],
 })
 
-// Collect data in a central DataStore
-var ds = new lab.data.Store()
-experiment.datastore = ds
+// Collect data in a central data store
+experiment.datastore = new lab.data.Store()
 
 // Start the experiment
 // (uncomment to run)
