@@ -2,16 +2,10 @@
 import { extend, template } from 'lodash'
 import { Component, status } from './core'
 import { domSelect } from './util/domSelect'
-import { multiArgumentConstructor } from './util/deprecation'
 
 // html.Screens display HTML when run
 export class Screen extends Component {
   constructor(options={}) {
-    // Deprecate multiple arguments in constructor
-    options = multiArgumentConstructor(
-      options, arguments, ['content'], 'HTMLScreen'
-    )
-
     super(options)
     this.content = options.content
     this.contentUrl = options.contentUrl
@@ -49,11 +43,6 @@ Screen.module = ['html']
 // An html.Form can show, validate and serialize a form
 export class Form extends Screen {
   constructor(options={}) {
-    // Deprecate multiple arguments in constructor
-    options = multiArgumentConstructor(
-      options, arguments, ['content'], 'FormScreen'
-    )
-
     super(options)
 
     // Add a validator
