@@ -24,9 +24,16 @@
 
 ####Ideas and feedback
 
+[Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/) ·
 [Ulf Mertens](http://www.psychologie.uni-heidelberg.de/ae/meth/team/mertens/) ·
 [Yury Shevchenko](http://yuryshevchenko.com/)
 
+####Institutional Support
+
+[FernUniversität in Hagen](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/) ·
+[University of Koblenz-Landau](https://www.cognition.uni-landau.de/)
+
 ####External libraries
+
 [lodash](https://lodash.com/) ·
 [seedrandom.js](https://github.com/davidbau/seedrandom)
