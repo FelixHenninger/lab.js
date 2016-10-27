@@ -3,6 +3,7 @@
   "description": "Building blocks for web-based behavioral experiments",
   "version": "2016.1.0",
   "author": "Felix Henninger <mailbox@felixhenninger.com>",
+  "license": "Apache-2.0",
   "dependencies": {
     "babel-plugin-transform-regenerator": "^6.16.0",
     "babel-regenerator-runtime": "^6.5.0",

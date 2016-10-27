@@ -37,3 +37,7 @@
 
 [lodash](https://lodash.com/) ·
 [seedrandom.js](https://github.com/davidbau/seedrandom)
+
+### License
+
+`lab.js` is made available under the terms of the [Apache License](/license).
