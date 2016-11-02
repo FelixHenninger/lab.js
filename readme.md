@@ -28,6 +28,13 @@ walk you through building an experiment.
 
 If you get stuck or things don't make sense, please don't hesitate to reach out!
 
+###Find help
+
+The easiest and quickest way to find help is to [join our Slack
+channel](https://slackin-nmbrcrnchrs.herokuapp.com/), where there's often
+someone around to discuss things and help out. You're welcome to just join and
+say hello!
+
 ----
 
 ###Contributors
