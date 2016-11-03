@@ -17,6 +17,8 @@ library builds on the idea that experiments are constructed from individual
 *components*: The stimuli themselves, and sequences and loops that provide
 structure to the experiment.
 
+[![Slack Status](https://slackin-nmbrcrnchrs.herokuapp.com/badge.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
+
 ----
 
 ###Get started
