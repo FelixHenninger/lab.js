@@ -35,6 +35,12 @@ channel](https://slackin-nmbrcrnchrs.herokuapp.com/), where there's often
 someone around to discuss things and help out. You're welcome to just join and
 say hello!
 
+###Keep up-to-date
+
+If you'd like to keep in the loop regarding the development, please [join our
+newsletter](http://eepurl.com/co0K9r) to receive very occasional updates and
+release notifications.
+
 ----
 
 ###Contributors
