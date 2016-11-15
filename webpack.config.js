@@ -38,7 +38,11 @@ module.exports = {
       test: /\.js$/,
       include: path.join(__dirname, 'src'),
       query: {
-        plugins: ['add-module-exports', 'transform-regenerator', 'lodash'],
+        plugins: [
+          'add-module-exports',
+          'transform-regenerator',
+          'lodash',
+        ],
         presets: ['es2015'],
       },
     }],
@@ -49,7 +53,7 @@ module.exports = {
       filename: 'lab.vendor.js',
       minChunks: Infinity
     }), */
-    new LodashModuleReplacementPlugin,
+    new LodashModuleReplacementPlugin(),
     new webpack.BannerPlugin({
       banner,
       exclude: ['lab.vendor.js'],
