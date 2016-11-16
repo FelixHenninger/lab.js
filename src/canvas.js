@@ -75,7 +75,7 @@ export class Screen extends Component {
       timestamp, // arguments ...
       this.canvas,
       this.ctx,
-      this
+      this,
     )
   }
 
@@ -89,7 +89,7 @@ export class Screen extends Component {
 
     // Extract the requested context for the canvas
     this.ctx = this.canvas.getContext(
-      this.ctxType
+      this.ctxType,
     )
   }
 
@@ -97,14 +97,14 @@ export class Screen extends Component {
     // Draw on canvas before the next repaint
     this.frameRequest = window.requestAnimationFrame(
       // Context apparently is lost in the callback
-      () => this.render()
+      () => this.render(),
     )
   }
 
   onEnd() {
     // Attempt to cancel any pending frame requests
     window.cancelAnimationFrame(
-      this.frameRequest
+      this.frameRequest,
     )
   }
 }
@@ -132,13 +132,13 @@ export class Sequence extends BaseSequence {
 
     // Check that all nested components
     // use the Canvas
-    const isCanvasBased = (e) =>
+    const isCanvasBased = e =>
       e instanceof Screen ||
       e instanceof Sequence
 
     if (!this.content.every(isCanvasBased)) {
       throw new Error(
-        'Content component not a canvas.Screen or canvas.Sequence'
+        'Content component not a canvas.Screen or canvas.Sequence',
       )
     }
 

@@ -16,11 +16,11 @@ export class Screen extends Component {
       // Fetch content from URL, if one is given
       if (this.contentUrl) {
         return fetch(this.contentUrl).then(
-          response => response.text()
+          response => response.text(),
         ).then(
-          text => (this.content = text)
+          text => (this.content = text),
         ).catch(
-          e => console.log('Error while loading content: ', e)
+          e => console.log('Error while loading content: ', e),
         )
       } else {
         return null
@@ -68,7 +68,7 @@ export class Form extends Screen {
       // the element's dataset
       this.data = extend(
         this.data,
-        this.serialize()
+        this.serialize(),
       )
 
       // Bye!
@@ -90,9 +90,9 @@ export class Form extends Screen {
     // (not that this slightly cumbersome detour
     // is necessary because NodeLists, unlike arrays,
     // do not support the forDach method)
-    Array.prototype.forEach.call(forms, form => {
+    Array.prototype.forEach.call(forms, (form) => {
       // ... and elements within them
-      Array.prototype.forEach.call(form.elements, element => {
+      Array.prototype.forEach.call(form.elements, (element) => {
         // Handle the element differently depending
         // on the tag type
         switch (element.nodeName.toLowerCase()) {
@@ -175,7 +175,7 @@ export class Frame extends Component {
     // Parse context HTML
     const parser = new DOMParser()
     this.internals.parsedContext = parser.parseFromString(
-      this.context, 'text/html'
+      this.context, 'text/html',
     )
 
     // Setup nested component to use the context

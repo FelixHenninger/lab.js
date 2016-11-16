@@ -19,15 +19,15 @@ const prepareNested = function(nested, parent) {
   })
 
   // Pass on specified attributes
-  nested.forEach(c => {
-    parent.handMeDowns.forEach(k => {
+  nested.forEach((c) => {
+    parent.handMeDowns.forEach((k) => {
       c[k] = c[k] || parent[k]
     })
   })
 
   // Trigger prepare on all nested components
   return Promise.all(
-    nested.map(c => c.prepare(false)) // indicate automated call
+    nested.map(c => c.prepare(false)), // indicate automated call
   )
 }
 
@@ -100,7 +100,7 @@ export class Sequence extends Component {
 
   get progress() {
     return mean(
-      this.content.map(c => c.progress)
+      this.content.map(c => c.progress),
     )
   }
 }
@@ -149,7 +149,7 @@ export class Parallel extends Component {
 
     // Prepare nested items
     return p.then(
-      () => prepareNested(this.content, this)
+      () => prepareNested(this.content, this),
     )
   }
 
@@ -160,18 +160,18 @@ export class Parallel extends Component {
     // End this component when all nested components,
     // or a single component, have ended
     Promise[this.mode](
-      this.content.map(c => c.waitFor('end'))
+      this.content.map(c => c.waitFor('end')),
     ).then(() => this.end())
 
     // Run all nested components simultaneously
     return Promise.all(
-      this.content.map(c => c.run())
+      this.content.map(c => c.run()),
     )
   }
 
   onEnd() {
     // Cancel remaining running nested components
-    this.content.forEach(c => {
+    this.content.forEach((c) => {
       if (c.status < status.done) {
         c.end('abort by parallel')
       }
@@ -180,7 +180,7 @@ export class Parallel extends Component {
 
   get progress() {
     return mean(
-      this.content.map(c => c.progress)
+      this.content.map(c => c.progress),
     )
   }
 }

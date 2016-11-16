@@ -56,7 +56,7 @@ const wrapHandler = function(handler, eventName, options=null, context=null) {
 
         // Look up keycode for each key
         const keycodes = options.map(
-          key => keycodeLabels[key] || key.charCodeAt(0)
+          key => keycodeLabels[key] || key.charCodeAt(0),
         )
 
         // Wrap the handler to fire only
@@ -72,7 +72,7 @@ const wrapHandler = function(handler, eventName, options=null, context=null) {
       case 'click':
         // Filter clicks on a certain button
         const buttons = options.map(
-          button => parseInt(button)
+          button => parseInt(button),
         )
 
         // Wrap the handler accordingly
@@ -113,7 +113,7 @@ export class DomConnection {
     // For each of the specified events and their
     // respective handlers ...
     Object.keys(this.events).forEach(
-      specifier => {
+      (specifier) => {
         // ... loop over all elements matching the
         // selector, attaching a listener to each
 
@@ -123,7 +123,7 @@ export class DomConnection {
         // Apply the wrapHandler function to the handler,
         // so that any additional filters etc. are added
         const handler = wrapHandler(
-          this.events[specifier], eventName, options, this.context
+          this.events[specifier], eventName, options, this.context,
         )
 
         // Apply listeners
@@ -133,26 +133,26 @@ export class DomConnection {
           // specified element, and add the handler to each
           for (const child of Array.from(this.el.querySelectorAll(selector))) {
             child.addEventListener(
-              eventName, handler
+              eventName, handler,
             )
           }
         } else {
           // If no selector is supplied, the listener is
           // added to the document itself
           document.addEventListener(
-            eventName, handler
+            eventName, handler,
           )
         }
 
         // Save the handler so that it can be retrieved later
         this.domHandlers[specifier] = handler
-      }
+      },
     )
   }
 
   detach() {
     Object.keys(this.domHandlers).forEach(
-      specifier => {
+      (specifier) => {
         // Split event string into constituent components
         const [eventName, , selector] = splitEventString(specifier)
 
@@ -163,16 +163,16 @@ export class DomConnection {
           // Remove listener from specified elements
           for (const child of Array.from(this.el.querySelectorAll(selector))) {
             child.removeEventListener(
-              eventName, handler
+              eventName, handler,
             )
           }
         } else {
           // Remove global listeners
           document.removeEventListener(
-            eventName, handler
+            eventName, handler,
           )
         }
-      }
+      },
     ) // forEach over all DOM handlers
   }
 }

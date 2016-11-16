@@ -18,7 +18,7 @@ export default class PluginAPI {
 
   trigger(event, ...args) {
     return Promise.all(this.plugins.map(
-      p => p.handle(this.context, event, ...args)
+      p => p.handle(this.context, event, ...args),
     ))
   }
 }

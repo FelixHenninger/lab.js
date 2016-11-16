@@ -68,7 +68,7 @@ export class EventHandler {
     // Return a promise that resolves when
     // the event in question is triggered
     return new Promise(
-      resolve => this.on(event, resolve)
+      resolve => this.on(event, resolve),
     )
   }
 
@@ -83,8 +83,8 @@ export class EventHandler {
     if (callbacks) {
       await Promise.all(
         callbacks.map(
-          c => c.apply(this, args)
-        )
+          c => c.apply(this, args),
+        ),
       )
     }
 
@@ -100,7 +100,7 @@ export class EventHandler {
       console.info(
         `Event %c${ event }%c → arguments [${ args }]`,
         'font-weight: bold', // Event name
-        'font-weight: normal; opacity: 0.5' // Remaining text
+        'font-weight: normal; opacity: 0.5', // Remaining text
       )
     }
 

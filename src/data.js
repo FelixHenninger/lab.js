@@ -5,7 +5,7 @@ import { EventHandler } from './util/eventAPI'
 
 const defaultMetadata = ['sender', 'sender_type', 'sender_id', 'timestamp']
 
-const escapeCsvCell = c => {
+const escapeCsvCell = (c) => {
   // Escape CSV cells as per RFC 4180
 
   if (typeof c === 'string') {
@@ -60,7 +60,7 @@ export class Store extends EventHandler {
           this.state = Object.assign(...this.data)
 
           // Remove metadata from current state
-          defaultMetadata.forEach(key => {
+          defaultMetadata.forEach((key) => {
             if (Object.hasOwnProperty.call(this.state, key)) {
               delete this.state[key]
             }
@@ -141,7 +141,7 @@ export class Store extends EventHandler {
   keys(metadata=defaultMetadata) {
     // Extract all keys from the data collected
     let keys = this.data.map(
-      e => Object.keys(e)
+      e => Object.keys(e),
     )
 
     // Flatten the nested array
@@ -174,10 +174,10 @@ export class Store extends EventHandler {
     // and then extract the column in question
     return this.data
       .filter(
-        e => senderRegExp.test(e.sender)
+        e => senderRegExp.test(e.sender),
       )
       .map(
-        e => e[column]
+        e => e[column],
       )
   }
 
@@ -191,8 +191,8 @@ export class Store extends EventHandler {
     // Export data as csv string
 
     // Extract the data from each entry
-    const rows = this.data.map(e => {
-      const cells = this.keys().map(k => {
+    const rows = this.data.map((e) => {
+      const cells = this.keys().map((k) => {
         if (Object.hasOwnProperty.call(e, k)) {
           return e[k]
         } else {
@@ -225,7 +225,7 @@ export class Store extends EventHandler {
 
     // Convert the so encoded data to a blob object
     const blob = new Blob(
-      [text], { type: 'octet/stream' }
+      [text], { type: 'octet/stream' },
     )
 
     return blob
@@ -261,7 +261,7 @@ export class Store extends EventHandler {
   show() {
     return console.table(
       this.data,
-      this.keys() // Use a neater column order
+      this.keys(), // Use a neater column order
     )
   }
 

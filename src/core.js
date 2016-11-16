@@ -29,7 +29,7 @@ export class Component extends EventHandler {
     // Attach component event handlers
     this.eventHandlers = options.eventHandlers || {}
     Object.keys(this.eventHandlers).forEach(event =>
-      this.on(event, this.eventHandlers[event])
+      this.on(event, this.eventHandlers[event]),
     )
 
     // Setup a document node within which
@@ -132,12 +132,12 @@ export class Component extends EventHandler {
 
     // Setup automatic event handling for responses
     Object.keys(this.responses).forEach(
-      eventString => {
+      (eventString) => {
         this.events[eventString] = () => {
           // Trigger internal response handling
           this.respond(this.responses[eventString])
         }
-      }
+      },
     )
     // Push existing events and el to DomConnection
     this.internals.domConnection.events = this.events
@@ -151,7 +151,7 @@ export class Component extends EventHandler {
       this.on('run', () => {
         this.internals.timeoutTimer = window.setTimeout(
           () => this.end('timeout'),
-          this.timeout
+          this.timeout,
         )
       })
     }
@@ -262,7 +262,7 @@ export class Component extends EventHandler {
             this.internals.timestamps.run,
           time_commit: performance.now(),
           timestamp: new Date().toISOString(),
-        })
+        }),
       )
     }
   }
@@ -288,7 +288,7 @@ export class Component extends EventHandler {
   get aggregateParameters() {
     return extend(
       {}, ...this.parents.map(o => o.parameters),
-      this.parameters
+      this.parameters,
     )
   }
 
