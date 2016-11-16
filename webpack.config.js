@@ -10,7 +10,7 @@ let outputFilename
 if (minimize) {
   outputFilename = 'lab.min.js'
 } else {
-  outputFilename = 'lab.js'
+  outputFilename = 'lab.dev.js'
 }
 
 const banner = [
