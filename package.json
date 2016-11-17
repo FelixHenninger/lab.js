@@ -4,6 +4,10 @@
   "version": "2016.1.0",
   "author": "Felix Henninger <mailbox@felixhenninger.com>",
   "license": "Apache-2.0",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/felixhenninger/lab.js.git"
+  },
   "dependencies": {
     "es6-promise": "^4.0.5",
     "lodash": "^4.14.1",
