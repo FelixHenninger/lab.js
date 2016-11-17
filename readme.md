@@ -18,6 +18,7 @@ library builds on the idea that experiments are constructed from individual
 structure to the experiment.
 
 [![Slack Status](https://slackin-nmbrcrnchrs.herokuapp.com/badge.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
+[![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=stable)](http://labjs.readthedocs.io/en/latest/?badge=latest)
 
 ----
 
