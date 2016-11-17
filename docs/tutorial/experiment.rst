@@ -1,7 +1,5 @@
-.. _examples:
-
-Examples
-========
+Building a working experiment
+=============================
 
 .. note::
   **This documentation page is currently under development. Sorry for that!**

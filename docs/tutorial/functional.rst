@@ -1,6 +1,16 @@
 Simplifying code using functions
 ================================
 
+.. note::
+  **This documentation page is currently under development. Sorry for that!**
+
+  This page is undergoing major revisions and updates, and parts are missing.
+  We're actively working on this, so please check back in a bit. Also, please
+  be invited to send us a line or two, we've probably got at better working
+  version that we can share, or we can help you get started directly.
+
+  Sorry for the trouble!
+
 As you probably noticed in the last section, duplicating and modifying code to
 create elements that differ only in details quickly becomes fairly tedious.
 There must be a better way! Indeed, there is: Computers are very good at

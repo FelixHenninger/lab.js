@@ -1,7 +1,5 @@
-.. _examples:
-
-Examples
-========
+Working with data
+-----------------
 
 .. note::
   **This documentation page is currently under development. Sorry for that!**
