@@ -4,9 +4,9 @@
 
 <p align="center">
   <small>
-    <a href="docs/tutorial/index.rst">Get started</a> ·
-    <a href="docs/index.rst">Documentation</a> ·
-    <a href="docs/meta/contribute.rst">Contribute</a>
+    <a href="https://labjs.readthedocs.io/en/stable/tutorial/index.html">Get started</a> ·
+    <a href="https://labjs.readthedocs.io/en/stable/">Documentation</a> ·
+    <a href="https://labjs.readthedocs.io/en/stable/meta/contribute.html">Contribute</a>
   </small>
 </p>
 
@@ -23,10 +23,12 @@ structure to the experiment.
 
 ###Get started
 
-Everything you need to get started is contained in the *starter kit*, which
-you can download via the [latest release](https://github.com/FelixHenninger/lab.js/releases/latest).
-With that in hand, please be invited to take a look at the tutorial, which will
-walk you through building an experiment.
+Everything you need to get started is contained in the *starter kit*, which you
+can download via the [latest
+release](https://github.com/FelixHenninger/lab.js/releases/latest). With that in
+hand, please be invited to take a look at the
+[tutorial](https://labjs.readthedocs.io/en/stable/tutorial/index.html), which
+will walk you through building an experiment.
 
 If you get stuck or things don't make sense, please don't hesitate to reach out!
 
