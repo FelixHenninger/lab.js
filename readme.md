@@ -4,9 +4,9 @@
 
 <p align="center">
   <small>
-    <a href="https://labjs.readthedocs.io/en/stable/tutorial/index.html">Get started</a> ·
-    <a href="https://labjs.readthedocs.io/en/stable/">Documentation</a> ·
-    <a href="https://labjs.readthedocs.io/en/stable/meta/contribute.html">Contribute</a>
+    <a href="https://labjs.readthedocs.io/en/latest/tutorial/index.html">Get started</a> ·
+    <a href="https://labjs.readthedocs.io/en/latest/">Documentation</a> ·
+    <a href="https://labjs.readthedocs.io/en/latest/meta/contribute.html">Contribute</a>
   </small>
 </p>
 
@@ -18,7 +18,7 @@ library builds on the idea that experiments are constructed from individual
 structure to the experiment.
 
 [![Slack Status](https://slackin-nmbrcrnchrs.herokuapp.com/badge.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
-[![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=stable)](http://labjs.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=latest)](http://labjs.readthedocs.io/en/latest/?badge=latest)
 
 ----
 
@@ -28,7 +28,7 @@ Everything you need to get started is contained in the *starter kit*, which you
 can download via the [latest
 release](https://github.com/FelixHenninger/lab.js/releases/latest). With that in
 hand, please be invited to take a look at the
-[tutorial](https://labjs.readthedocs.io/en/stable/tutorial/index.html), which
+[tutorial](https://labjs.readthedocs.io/en/latest/tutorial/index.html), which
 will walk you through building an experiment.
 
 If you get stuck or things don't make sense, please don't hesitate to reach out!
@@ -62,7 +62,7 @@ release notifications.
 [Ulf Mertens](http://www.psychologie.uni-heidelberg.de/ae/meth/team/mertens/) ·
 [Yury Shevchenko](http://yuryshevchenko.com/)
 
-####Institutional Support
+####Institutional support
 
 [FernUniversität in Hagen](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/) ·
 [GESS, University of Mannheim](http://gess.uni-mannheim.de/) ·
