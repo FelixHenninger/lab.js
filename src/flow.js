@@ -148,13 +148,8 @@ export class Parallel extends Component {
     }
   }
 
-  prepare(directCall) {
-    const p = super.prepare(directCall)
-
-    // Prepare nested items
-    return p.then(
-      () => prepareNested(this.options.content, this),
-    )
+  onPrepare() {
+    prepareNested(this.options.content, this)
   }
 
   // The run method is overwritten at this point,
