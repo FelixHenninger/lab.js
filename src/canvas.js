@@ -21,60 +21,69 @@ const initCanvas = function(options) {
   // it to the dom at runtime.
   // Either way, a canvas is definitely present
   // after the component is prepared.
-  this.canvas = null
-  this.ctxType = options.ctxType || '2d'
-  this.ctx = null
-  this.internals.insertCanvasOnRun = false
+  this.options = {
+    canvas: null,
+    ctxType: '2d',
+    ctx: null,
+    insertCanvasOnRun: false,
+    ...this.options,
+    ...options,
+  }
 }
 
 const prepareCanvas = function() {
   // Initialize a canvas,
   // if this has not already been done
-  if (this.canvas == null) {
-    this.canvas = document.createElement('canvas')
+  if (this.options.canvas == null) {
+    this.options.canvas = document.createElement('canvas')
     // Remember to add the canvas to the DOM later
-    this.internals.insertCanvasOnRun = true
+    this.options.insertCanvasOnRun = true
   }
 }
 
 const insertCanvas = function() {
   // Add the canvas to the DOM if need be
-  if (this.internals.insertCanvasOnRun) {
+  if (this.options.insertCanvasOnRun) {
     // Remove all other content within the HTML tag
     // (note that this could be sped up, as per
     // http://jsperf.com/innerhtml-vs-removechild
     // it seems sufficient for the moment, though)
-    this.el.innerHTML = ''
+    this.options.el.innerHTML = ''
 
     // Adjust the canvas dimensions
     // to match those of the containing element
-    this.canvas.width = this.el.clientWidth
-    this.canvas.height = this.el.clientHeight
+    this.options.canvas.width = this.options.el.clientWidth
+    this.options.canvas.height = this.options.el.clientHeight
 
     // Append the canvas to the DOM
-    this.el.appendChild(this.canvas)
+    this.options.el.appendChild(this.options.canvas)
   }
 }
 
 export class Screen extends Component {
   constructor(options={}) {
     super(options)
-    this.renderFunction = options.renderFunction || (() => null)
+
+    this.options = {
+      renderFunction: (() => null),
+      ...this.options,
+      ...options,
+    }
 
     // Initialize canvas
     initCanvas.apply(this, [options])
 
     // Provide an attribute for tracking
     // redraw requests
-    this.frameRequest = null
+    this.internals.frameRequest = null
   }
 
   render(timestamp) {
-    return this.renderFunction.call(
+    return this.options.renderFunction.call(
       this, // context
       timestamp, // arguments ...
-      this.canvas,
-      this.ctx,
+      this.options.canvas,
+      this.options.ctx,
       this,
     )
   }
@@ -88,14 +97,14 @@ export class Screen extends Component {
     insertCanvas.apply(this)
 
     // Extract the requested context for the canvas
-    this.ctx = this.canvas.getContext(
-      this.ctxType,
+    this.options.ctx = this.options.canvas.getContext(
+      this.options.ctxType,
     )
   }
 
   onRun() {
     // Draw on canvas before the next repaint
-    this.frameRequest = window.requestAnimationFrame(
+    this.internals.frameRequest = window.requestAnimationFrame(
       // Context apparently is lost in the callback
       () => this.render(),
     )
@@ -104,7 +113,7 @@ export class Screen extends Component {
   onEnd() {
     // Attempt to cancel any pending frame requests
     window.cancelAnimationFrame(
-      this.frameRequest,
+      this.internals.frameRequest,
     )
   }
 }
@@ -121,8 +130,8 @@ export class Sequence extends BaseSequence {
     initCanvas.apply(this, [options])
 
     // Push canvas to nested components
-    if (!this.handMeDowns.includes('canvas')) {
-      this.handMeDowns.push('canvas')
+    if (!this.options.handMeDowns.includes('canvas')) {
+      this.options.handMeDowns.push('canvas')
     }
   }
 
@@ -136,7 +145,7 @@ export class Sequence extends BaseSequence {
       e instanceof Screen ||
       e instanceof Sequence
 
-    if (!this.content.every(isCanvasBased)) {
+    if (!this.options.content.every(isCanvasBased)) {
       throw new Error(
         'Content component not a canvas.Screen or canvas.Sequence',
       )

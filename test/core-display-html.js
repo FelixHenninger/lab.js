@@ -12,14 +12,11 @@ describe('HTML-based components', () => {
     })
 
     it('inserts HTML into the document', () => {
-      h.content = '<strong>Hello World!</strong>'
+      h.options.content = '<strong>Hello World!</strong>'
 
-      const p = h.waitFor('run').then(() => {
-        assert.equal(h.el.innerHTML, '<strong>Hello World!</strong>')
+      return h.run().then(() => {
+        assert.equal(h.options.el.innerHTML, '<strong>Hello World!</strong>')
       })
-
-      h.run()
-      return p
     })
 
     it('retrieves content from URL if requested', () => {
@@ -34,42 +31,39 @@ describe('HTML-based components', () => {
       window.fetch.returns(Promise.resolve(content_response))
 
       // Instruct screen to fetch content from url
-      h.contentUrl = 'https://example.com/'
+      h.options.contentUrl = 'https://contrived.example/'
 
       return h.prepare().then(() => {
         assert.equal(
-          h.content,
+          h.options.content,
           'Inserted content'
         )
         assert.ok(
-          window.fetch.withArgs(h.contentUrl).calledOnce
+          window.fetch.withArgs(h.options.contentUrl).calledOnce
         )
         window.fetch.restore()
       })
     })
 
     it('fills template tags in the content using parameters', () => {
-      h.content = 'Hello ${ place }!'
-      h.parameters['place'] = 'World'
+      h.options.content = 'Hello ${ place }!'
+      h.options.parameters['place'] = 'World'
 
       return h.prepare().then(() => {
-        assert.equal(h.content, 'Hello World!')
+        assert.equal(h.options.content, 'Hello World!')
       })
     })
 
     it('accepts changes to parameters before preparation', () => {
-      h.content = 'Hello ${ place }!'
-      h.parameters['place'] = 'World'
+      h.options.content = 'Hello ${ place }!'
+      h.options.parameters['place'] = 'World'
       h.on('before:prepare', function() {
-        this.parameters.place = 'Mars'
+        this.options.parameters.place = 'Mars'
       })
 
-      const o = h.waitFor('run').then(() => {
-        assert.equal(h.content, 'Hello Mars!')
+      return h.run().then(() => {
+        assert.equal(h.options.content, 'Hello Mars!')
       })
-      h.run()
-
-      return o
     })
   })
 
@@ -84,7 +78,7 @@ describe('HTML-based components', () => {
     })
 
     it('serializes input[type="text"] fields', () => {
-      f.el.innerHTML = '' +
+      f.options.el.innerHTML = '' +
         '<form>' +
         '  <input type="text" name="contents" value="text input">' +
         '</form>'
@@ -95,7 +89,7 @@ describe('HTML-based components', () => {
     })
 
     it('serializes input[type="number"] fields', () => {
-      f.el.innerHTML = '' +
+      f.options.el.innerHTML = '' +
         '<form>' +
         '  <input type="number" name="contents" value="123">' +
         '</form>'
@@ -106,7 +100,7 @@ describe('HTML-based components', () => {
     })
 
     it('serializes input[type="hidden"] fields', () => {
-      f.el.innerHTML = '' +
+      f.options.el.innerHTML = '' +
         '<form>' +
         '  <input type="hidden" name="contents" value="hidden input">' +
         '</form>'
@@ -117,7 +111,7 @@ describe('HTML-based components', () => {
     })
 
     it('serializes input[type="checkbox"] fields', () => {
-      f.el.innerHTML = '' +
+      f.options.el.innerHTML = '' +
         '<form>' +
         '  <input type="checkbox" name="checked" value="" checked>' +
         '  <input type="checkbox" name="not_checked" value="">' +
@@ -130,7 +124,7 @@ describe('HTML-based components', () => {
     })
 
     it('serializes input[type="radio"] fields', () => {
-      f.el.innerHTML = '' +
+      f.options.el.innerHTML = '' +
         '<form>' +
         '  <input type="radio" name="radio_1" value="a">' +
         '  <input type="radio" name="radio_1" value="b" checked>' +
@@ -145,7 +139,7 @@ describe('HTML-based components', () => {
     })
 
     it('serializes textareas', () => {
-      f.el.innerHTML = '' +
+      f.options.el.innerHTML = '' +
         '<form>' +
         '  <textarea name="contents">' +
         '   text in textarea' +
@@ -159,7 +153,7 @@ describe('HTML-based components', () => {
     })
 
     it('serializes select fields (exclusive ones)', () => {
-      f.el.innerHTML = '' +
+      f.options.el.innerHTML = '' +
         '<form>' +
         '  <select name="selection">' +
         '   <option value="option_1">Option 1</option>' +
@@ -174,7 +168,7 @@ describe('HTML-based components', () => {
     })
 
     it('serializes select fields (multiple selected)', () => {
-      f.el.innerHTML = '' +
+      f.options.el.innerHTML = '' +
         '<form>' +
         '  <select name="multiple_selection" multiple>' +
         '   <option value="option_1">Option 1</option>' +
@@ -190,7 +184,7 @@ describe('HTML-based components', () => {
     })
 
     it('serializes buttons', () => {
-      f.el.innerHTML = '' +
+      f.options.el.innerHTML = '' +
         '<form>' +
         '  <button name="button" value="value">' +
         '</form>'
@@ -205,8 +199,8 @@ describe('HTML-based components', () => {
       // document node because the virtual
       // elements used above do not deal correctly
       // with the click event used below.
-      f.el = null
-      f.content = '' +
+      f.options.el = null
+      f.options.content = '' +
         '<form>' +
         '  <input type="text" name="text_input" value="text_input_contents">' +
         '  <button name="button" type="submit" value="value">Submit</button>' +
@@ -214,14 +208,6 @@ describe('HTML-based components', () => {
 
       const callback = sinon.spy()
       f.on('end', callback)
-
-      // Submit the form
-      // (note that direct submission via form.submit()
-      // overrides the event handlers and reloads
-      // the page)
-      f.waitFor('run').then(() => {
-        f.el.querySelector('button').click()
-      })
 
       const p = f.waitFor('end').then(() => {
         // Tests
@@ -231,35 +217,42 @@ describe('HTML-based components', () => {
 
         // Remove HTML content from the page
         // when we're done.
-        f.el.innerHTML = ''
+        f.options.el.innerHTML = ''
       })
 
-      f.run()
+      // Submit the form
+      // (note that direct submission via form.submit()
+      // overrides the event handlers and reloads
+      // the page)
+      f.run().then(() => {
+        f.options.el.querySelector('button').click()
+      })
+
       return p
     })
 
     it('validates form input using a validation function', () => {
-      f.el.innerHTML = '' +
+      f.options.el.innerHTML = '' +
         '<form>' +
         '  <input type="text" name="text_input" value="valid">' +
         '</form>'
 
-      f.validator = data => data.text_input == 'valid'
+      f.options.validator = data => data.text_input == 'valid'
       assert.ok(f.validate())
 
-      f.validator = data => data.text_input == 'not_valid'
+      f.options.validator = data => data.text_input == 'not_valid'
       assert.notOk(f.validate())
     })
 
     it('is also sensitive to native form validation', () => {
-      f.el.innerHTML = '' +
+      f.options.el.innerHTML = '' +
         '<form>' +
         '  <input type="text" name="text_input" required>' +
         '</form>'
 
       assert.notOk(f.validate())
 
-      f.el.innerHTML = '' +
+      f.options.el.innerHTML = '' +
         '<form>' +
         '  <input type="text" name="text_input" value="some_value" required>' +
         '</form>'
@@ -296,9 +289,9 @@ describe('HTML-based components', () => {
     it('sets content element correctly', () => {
       return f.prepare().then(() => {
         assert.equal(
-          c.el,
+          c.options.el,
           f.internals.parsedContext.
-            documentElement.querySelector('#' + f.contextId)
+            documentElement.querySelector('#' + f.options.contextId)
         )
       })
     })
@@ -315,13 +308,13 @@ describe('HTML-based components', () => {
       c = new lab.html.Screen({
         content: 'Hello world!'
       })
-      f.content = c
-      f.context = '<strong id="mycontext"></strong>'
-      f.contextId = 'mycontext'
+      f.options.content = c
+      f.options.context = '<strong id="mycontext"></strong>'
+      f.options.contextId = 'mycontext'
 
       return f.run().then(() => {
         assert.equal(
-          f.el.innerHTML,
+          f.options.el.innerHTML,
           '<strong id="mycontext">Hello world!</strong>'
         )
       })

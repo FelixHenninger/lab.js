@@ -14,13 +14,16 @@ export class EventHandler {
     // Collect callbacks
     this.internals.callbacks = {}
 
+    // Define default options
+    this.options = {
+      debug: false,
+      plugins: [],
+      ...options,
+    }
+
     // Add plugin support
     this.plugins = new PluginAPI(this)
-    options.plugins = options.plugins || []
-    options.plugins.map(p => this.plugins.add(p))
-
-    // Debug state
-    this.debug = options.debug || false
+    this.options.plugins.map(p => this.plugins.add(p))
   }
 
   // Basic event handling

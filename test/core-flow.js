@@ -14,29 +14,29 @@ describe('Flow control', () => {
     })
 
     it('distributes hand-me-downs', () => {
-      p.foo = 'bar'
-      b.foo = 'baz'
+      p.options.foo = 'bar'
+      b.options.foo = 'baz'
 
-      p.content = [a, b]
-      p.handMeDowns.push('foo')
+      p.options.content = [a, b]
+      p.options.handMeDowns.push('foo')
 
       return p.prepare().then(() => {
-        assert.equal(a.foo, 'bar')
-        assert.equal(b.foo, 'baz')
+        assert.equal(a.options.foo, 'bar')
+        assert.equal(b.options.foo, 'baz')
       })
     })
 
     it('hand-me-downs do not leak between components', () => {
-      p.handMeDowns.push('foo')
+      p.options.handMeDowns.push('foo')
       const q = new lab.flow.Sequence()
 
       assert.notOk(
-        q.handMeDowns.includes('foo')
+        q.options.handMeDowns.includes('foo')
       )
     })
 
     it('sets parent attribute', () => {
-      p.content = [a, b]
+      p.options.content = [a, b]
       return p.prepare().then(() => {
         assert.equal(a.parent, p)
         assert.equal(b.parent, p)
@@ -44,24 +44,24 @@ describe('Flow control', () => {
     })
 
     it('sets id attribute correctly on nested components', () => {
-      p.content = [a, b]
+      p.options.content = [a, b]
       return p.prepare().then(() => {
-        assert.equal(a.id, '0')
-        assert.equal(b.id, '1')
+        assert.equal(a.options.id, '0')
+        assert.equal(b.options.id, '1')
       })
     })
 
     it('sets id attribute correctly on nested components with id present', () => {
-      p.id = '0'
-      p.content = [a, b]
+      p.options.id = '0'
+      p.options.content = [a, b]
       return p.prepare().then(() => {
-        assert.equal(a.id, '0_0')
-        assert.equal(b.id, '0_1')
+        assert.equal(a.options.id, '0_0')
+        assert.equal(b.options.id, '0_1')
       })
     })
 
     it('runs prepare on nested components', () => {
-      p.content = [a, b]
+      p.options.content = [a, b]
 
       const a_prepare = sinon.spy()
       const b_prepare = sinon.spy()
@@ -81,8 +81,8 @@ describe('Flow control', () => {
       // Nest item and prepare container (automated preparation)
       const a_prepare = sinon.stub(a, 'prepare')
 
-      p.content = [a]
-      p.prepare().then(() => {
+      p.options.content = [a]
+      return p.prepare().then(() => {
         // Prepare should be called on nested components
         // with directCall parameter set to false
         assert.ok(
@@ -103,7 +103,7 @@ describe('Flow control', () => {
       // Setup sequence
       const a = new lab.core.Component()
       const b = new lab.core.Component()
-      s.content = [a, b]
+      s.options.content = [a, b]
 
       // Setup spys
       const a_run = sinon.spy()
@@ -145,16 +145,16 @@ describe('Flow control', () => {
         return o
       })
       // Assign them to the Sequence
-      s.content = content
+      s.options.content = content
 
       // Setup shuffle and prepare Sequence
-      s.shuffle = true
+      s.options.shuffle = true
 
       return s.prepare().then(() => {
         // Test that the content has the correct length,
         // and that the order is not the original one
-        assert.equal(s.content.length, 100)
-        assert.notDeepEqual(content, s.content)
+        assert.equal(s.options.content.length, 100)
+        assert.notDeepEqual(content, s.options.content)
       })
 
       // Output internal counter ids for debugging
@@ -164,7 +164,7 @@ describe('Flow control', () => {
     it('terminates current component when aborted', () => {
       // Setup sequence
       const a = new lab.core.Component()
-      s.content = [a]
+      s.options.content = [a]
 
       // Spy on the nested component's end method
       const a_end = sinon.spy()
@@ -183,7 +183,7 @@ describe('Flow control', () => {
       // Setup sequence
       const a = new lab.core.Component()
       const b = new lab.core.Component()
-      s.content = [a, b]
+      s.options.content = [a, b]
 
       const b_run = sinon.spy()
       b.on('run', b_run)
@@ -212,7 +212,7 @@ describe('Flow control', () => {
       // Setup sequence
       const a = new lab.core.Component()
       const b = new lab.core.Component()
-      s.content = [a, b]
+      s.options.content = [a, b]
 
       // Before everything starts
       assert.equal(s.progress, 0)
@@ -289,7 +289,7 @@ describe('Flow control', () => {
     })
 
     it('implements no-component-left-behind mode (mode=all)', () => {
-      p.mode = 'all'
+      p.options.mode = 'all'
       let p_end = sinon.spy()
       p.on('end', p_end)
 
@@ -316,7 +316,7 @@ describe('Flow control', () => {
       let b = new lab.flow.Sequence({
         content: [b1, b2, b3]
       })
-      p.content = [a, b]
+      p.options.content = [a, b]
 
       p.run()
       assert.equal(p.progress, 0)

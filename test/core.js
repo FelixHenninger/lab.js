@@ -14,7 +14,7 @@ describe('Core', () => {
     describe('Preparation', () => {
       it('skips automated preparation when tardy option is set', () => {
         // Set tardy option: No automated preparation
-        b.tardy = true
+        b.options.tardy = true
 
         // Prepare callback to check whether preparation is run
         const callback = sinon.spy()
@@ -28,7 +28,7 @@ describe('Core', () => {
 
       it('responds to manual preparation when tardy option is set', () => {
         // Set tardy option: No automated preparation
-        b.tardy = true
+        b.options.tardy = true
 
         // Prepare callback to check whether preparation is run
         const callback = sinon.spy()
@@ -76,7 +76,7 @@ describe('Core', () => {
       it('directs output to #labjs-content if no other element is specified', () => {
         return b.prepare().then(() => {
           assert.equal(
-            b.el,
+            b.options.el,
             document.querySelector('#labjs-content')
           )
         })
@@ -181,7 +181,7 @@ describe('Core', () => {
         const clock = sinon.useFakeTimers()
 
         // Set the timeout to 500ms
-        b.timeout = 500
+        b.options.timeout = 500
 
         // Setup a callback to be run
         // when the component ends
@@ -204,7 +204,7 @@ describe('Core', () => {
       it('notes timeout as status if timed out', () => {
         // As above
         const clock = sinon.useFakeTimers()
-        b.timeout = 500
+        b.options.timeout = 500
 
         return b.run().then(() => {
           // Trigger timeout
@@ -222,7 +222,7 @@ describe('Core', () => {
       it('runs event handlers in response to DOM events', () => {
         // Bind a handler to clicks within the document
         const handler = sinon.spy()
-        b.events = {
+        b.options.events = {
           'click': handler
         }
 
@@ -230,7 +230,7 @@ describe('Core', () => {
           assert.notOk(handler.calledOnce)
 
           // Simulate click
-          b.el.click()
+          b.options.el.click()
 
           assert.ok(handler.calledOnce)
         })
@@ -241,10 +241,10 @@ describe('Core', () => {
         // manually at this point so that we
         // can inject content before running
         // .prepare()
-        b.el = document.getElementById('labjs-content')
+        b.options.el = document.getElementById('labjs-content')
 
         // Simulate two buttons
-        b.el.innerHTML = ' \
+        b.options.el.innerHTML = ' \
           <button id="btn-a">Button A</button> \
           <button id="btn-b">Button B</button>'
 
@@ -253,7 +253,7 @@ describe('Core', () => {
         const handler_a = sinon.spy()
         const handler_b = sinon.spy()
 
-        b.events = {
+        b.options.events = {
           'click button#btn-a': handler_a,
           'click button#btn-b': handler_b,
         }
@@ -261,16 +261,16 @@ describe('Core', () => {
         return b.run().then(() => {
           // Simulate clicking both buttons in sequence,
           // and ensure that the associated handlers are triggered
-          b.el.querySelector('button#btn-a').click()
+          b.options.el.querySelector('button#btn-a').click()
           assert.ok(handler_a.calledOnce)
           assert.notOk(handler_b.called)
 
-          b.el.querySelector('button#btn-b').click()
+          b.options.el.querySelector('button#btn-b').click()
           assert.ok(handler_a.calledOnce)
           assert.ok(handler_b.calledOnce)
 
           // Clean up
-          b.el.innerHTML = ''
+          b.options.el.innerHTML = ''
           return b.end()
         })
       })
@@ -278,13 +278,13 @@ describe('Core', () => {
       it('binds event handlers to component', () => {
         // Define a spy and use it as an event handler
         const spy = sinon.spy()
-        b.events = {
+        b.options.events = {
           'click': spy
         }
 
         return b.run().then(() => {
           // Simulate click, triggering handler
-          b.el.click()
+          b.options.el.click()
 
           // Check binding
           assert.ok(spy.calledOn(b))
@@ -350,7 +350,7 @@ describe('Core', () => {
 
     describe('Responses', () => {
       it('maps responses onto event handlers', () => {
-        b.responses = {
+        b.options.responses = {
           'click': 'response_keypress'
         }
 
@@ -361,7 +361,7 @@ describe('Core', () => {
           // Test whether the click triggers
           // a respond method call
           assert.notOk(spy.called)
-          b.el.click()
+          b.options.el.click()
           assert.ok(spy.withArgs('response_keypress').calledOnce)
           assert.ok(spy.calledOnce)
 
@@ -372,7 +372,7 @@ describe('Core', () => {
 
       it('classifies correct responses as such', () => {
         // Define a correct response
-        b.correctResponse = 'foo'
+        b.options.correctResponse = 'foo'
 
         // Run the component
         return b.run().then(() => {
@@ -389,7 +389,7 @@ describe('Core', () => {
 
       it('classifies incorrect responses as such', () => {
         // Same as above
-        b.correctResponse = 'foo'
+        b.options.correctResponse = 'foo'
 
         return b.run().then(() => {
           b.respond('bar')
@@ -416,10 +416,10 @@ describe('Core', () => {
         c.parent = b
 
         // Distribute parameters
-        a.parameters['foo'] = 'bar'
-        a.parameters['baz'] = 'quux'
-        b.parameters['baz'] = 'queer'
-        c.parameters['bar'] = 'bloop'
+        a.options.parameters['foo'] = 'bar'
+        a.options.parameters['baz'] = 'quux'
+        b.options.parameters['baz'] = 'queer'
+        c.options.parameters['bar'] = 'bloop'
 
         // Check whether inheritance works properly
         assert.deepEqual(
@@ -434,21 +434,21 @@ describe('Core', () => {
 
       it('commits parameters alongside data', () => {
         // Parameter inheritance is tested elsewhere
-        b.datastore = new lab.data.Store()
-        b.parameters['foo'] = 'bar'
+        b.options.datastore = new lab.data.Store()
+        b.options.parameters['foo'] = 'bar'
         b.commit()
 
-        assert.equal(b.datastore.state.foo, 'bar')
+        assert.equal(b.options.datastore.state.foo, 'bar')
       })
     })
 
     describe('Data', () => {
       it('commits data if datastore is provided', () => {
-        b.datastore = new lab.data.Store()
+        b.options.datastore = new lab.data.Store()
         b.data['foo'] = 'bar'
         b.commit()
 
-        assert.equal(b.datastore.state.foo, 'bar')
+        assert.equal(b.options.datastore.state.foo, 'bar')
       })
 
       it('commits data automatically when ending', () => {
@@ -457,7 +457,7 @@ describe('Core', () => {
 
         // Supply the Component with a data store
         // (it won't commit otherwise)
-        b.datastore = new lab.data.Store()
+        b.options.datastore = new lab.data.Store()
 
         // Make sure the commit method was run
         return b.run().then(() => {

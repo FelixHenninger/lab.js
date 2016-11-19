@@ -17,32 +17,76 @@ export class Component extends EventHandler {
     // Construct the EventHandler first
     super(options)
 
+    this.options = {
+      // DOM event handlers
+      events: {},
+      // Component event handlers
+      eventHandlers: {},
+
+      // Document node within which
+      // the component operates
+      el: null,
+
+      // Title of the component as well as
+      title: null,
+      // Position in the hierarchy
+      id: null,
+      // Setup 'tardyness'
+      tardy: false,
+      // Set parent, if defined
+      parent: null,
+
+      // Setup parameters
+      parameters: {},
+      // Setup responses
+      responses: {},
+      correctResponse: null,
+
+      // Setup data handling
+      data: {},
+      datastore: null,
+      datacommit: null,
+
+      // There is no timeout by default
+      timeout: null,
+
+      ...this.options,
+      ...options,
+    }
+
     // Setup a storage for internal properties
     // (these are not supposed to be directly
-    // available to users, and will not be documented)
-    this.internals = this.internals || {}
+    // available to users, and will not be
+    // documented in detail)
+    this.internals = {
+      timestamps: {},
+      ...this.internals,
+    }
 
-    // Setup a space for timestamps within
-    // the internal data structure
-    this.internals.timestamps = {}
+    // Component status
+    this.status = status.initialized
+
+    // Setup media handling
+    this.options.media = {
+      images: [],
+      audio: [],
+      ...this.options.media,
+    }
+
+    // Setup additional data
+    this.data = {}
 
     // Attach component event handlers
-    this.eventHandlers = options.eventHandlers || {}
-    Object.keys(this.eventHandlers).forEach(event =>
-      this.on(event, this.eventHandlers[event]),
+    Object.keys(this.options.eventHandlers).forEach(
+      event => this.on(event, this.options.eventHandlers[event]),
     )
-
-    // Setup a document node within which
-    // the component operates
-    this.el = options.el || null
 
     // Add a DomConnection that connects
     // DOM events to internal handlers
     this.internals.domConnection = new DomConnection({
-      el: this.el,
+      el: this.options.el,
       context: this,
     })
-    this.events = options.events || {}
     this.on('run', () => {
       this.internals.domConnection.attach()
       this.triggerMethod('after:event:init')
@@ -52,52 +96,9 @@ export class Component extends EventHandler {
       this.triggerMethod('after:event:remove')
     })
 
-    // Save the title of component as well as
-    // its position in the hierarchy
-    this.title = options.title || null
-    this.id = options.id || null
-
-    // Setup 'tardyness'
-    // If this option is set, the component will
-    // not respond to automated calls to its prepare
-    // method by superordinate components (e.g. a
-    // sequence in which it is nested). Instead,
-    // it will prepare when run or after a manual
-    // .prepare() call.
-    this.tardy = options.tardy || false
-
-    // Save component status
-    this.status = status.initialized
-
-    // Set parent, if defined
-    this.parent = options.parent || null
-
-    // Setup responses
-    this.responses = options.responses || {}
-    this.correctResponse = options.correctResponse || null
-
-    // Setup data handling
-    this.data = options.data || {}
-    this.datastore = options.datastore || null
-    this.datacommit = options.datacommit || null
-
-    // Setup parameters
-    this.parameters = options.parameters || {}
-
-    // Setup media handling
-    this.media = options.media || {}
-    this.media.images = this.media.images || []
-    this.media.audio = this.media.audio || []
-
-    // Set a timeout, if a useful value is provided
-    // (this somewhat convoluted query is necessary
-    // because a zero value evaluates to false in JS)
-    this.timeout = options.timeout || options.timeout === 0 ?
-      options.timeout : null
-
     // Setup console output grouping
     // when the component is run
-    if (this.debug) {
+    if (this.options.debug) {
       this.on('before:run', () => console.group(this.type))
       this.on('after:end', () => console.groupEnd())
     }
@@ -112,8 +113,8 @@ export class Component extends EventHandler {
     // Skip the remainder of the function if the
     // prepare call was automated and the component
     // is labeled as tardy
-    if (this.tardy && !directCall) {
-      if (this.debug) {
+    if (this.options.tardy && !directCall) {
+      if (this.options.debug) {
         console.log('Skipping automated preparation')
       }
       return
@@ -122,50 +123,56 @@ export class Component extends EventHandler {
     // Direct output to the HTML element with the id
     // 'labjs-content', unless a different element
     // has been provided explicitly
-    if (this.debug && this.el == null) {
+    if (this.options.debug && this.options.el == null) {
       console.log('No output element specified, using #labjs-content')
     }
-    this.el = this.el || document.getElementById('labjs-content')
+    this.options.el = this.options.el || document.getElementById('labjs-content')
 
     // Trigger the before:prepare event
     await this.triggerMethod('before:prepare')
 
     // Setup automatic event handling for responses
-    Object.keys(this.responses).forEach(
+    Object.keys(this.options.responses).forEach(
       (eventString) => {
-        this.events[eventString] = () => {
+        this.options.events[eventString] = () => {
           // Trigger internal response handling
-          this.respond(this.responses[eventString])
+          this.respond(this.options.responses[eventString])
         }
       },
     )
     // Push existing events and el to DomConnection
-    this.internals.domConnection.events = this.events
-    this.internals.domConnection.el = this.el
+    this.internals.domConnection.events = this.options.events
+    this.internals.domConnection.el = this.options.el
 
     // Prepare timeout
-    if (this.timeout !== null) {
+    if (this.options.timeout !== null) {
       // Add a timeout to end the component
       // automatically after the specified
       // duration.
       this.on('run', () => {
         this.internals.timeoutTimer = window.setTimeout(
           () => this.end('timeout'),
-          this.timeout,
+          this.options.timeout,
         )
       })
     }
 
     // Setup data storage
     // (unless it has been explicitly disabled)
-    if (this.datastore && this.datacommit !== false) {
-      this.datacommit = true
+    if (this.options.datastore && this.options.datacommit !== false) {
+      this.options.datacommit = true
       this.on('after:end', this.commit)
     }
 
     // Preload media
-    await Promise.all(this.media.images.map(preloadImage))
-    await Promise.all(this.media.audio.map(preloadAudio))
+    await Promise.all(this.options.media.images.map(preloadImage))
+    await Promise.all(this.options.media.audio.map(preloadAudio))
+
+    // Setup data
+    this.data = {
+      ...this.data,
+      ...this.options.data,
+    }
 
     // Trigger related methods
     await this.triggerMethod('prepare', directCall)
@@ -184,7 +191,7 @@ export class Component extends EventHandler {
   async run() {
     // Prepare component if this has not been done
     if (this.status < status.prepared) {
-      if (this.debug) {
+      if (this.options.debug) {
         console.log('Preparing at the last minute')
       }
       await this.prepare()
@@ -208,14 +215,14 @@ export class Component extends EventHandler {
     this.data.response = response
 
     // Save ideal response and response veracity
-    if (this.correctResponse !== null) {
-      this.data.correctResponse = this.correctResponse
+    if (this.options.correctResponse !== null) {
+      this.data.correctResponse = this.options.correctResponse
       this.data.correct =
-        this.data.response === this.correctResponse
+        this.data.response === this.options.correctResponse
     }
 
     // End screen
-    this.end('response')
+    return this.end('response')
   }
 
   async end(reason=null) {
@@ -227,7 +234,7 @@ export class Component extends EventHandler {
     this.status = status.done
 
     // Cancel the timeout timer
-    if (this.timeout !== null) {
+    if (this.options.timeout !== null) {
       window.clearTimeout(this.internals.timeoutTimer)
     }
 
@@ -245,17 +252,17 @@ export class Component extends EventHandler {
   // datacommit option is true, which it is by default)
   commit() {
     // If a data store is defined
-    if (this.datastore) {
+    if (this.options.datastore) {
       // Commit the data collected by this component
-      this.datastore.commit(
+      this.options.datastore.commit(
         // ... plus some additional metadata
         // TODO: Decide whether the data attribute should
         // be extended, or whether the extension here should
         // start from an empty object
         extend({}, this.data, this.aggregateParameters, {
-          sender: this.title,
+          sender: this.options.title,
           sender_type: this.type,
-          sender_id: this.id,
+          sender_id: this.options.id,
           time_run: this.internals.timestamps.run,
           time_end: this.internals.timestamps.end,
           duration: this.internals.timestamps.end -
@@ -287,8 +294,8 @@ export class Component extends EventHandler {
   // Parameters -------------------------------------------
   get aggregateParameters() {
     return extend(
-      {}, ...this.parents.map(o => o.parameters),
-      this.parameters,
+      {}, ...this.parents.map(o => o.options.parameters),
+      this.options.parameters,
     )
   }
 
@@ -327,7 +334,10 @@ export const handMeDowns = [
 // immediately as soon as it is called
 export class Dummy extends Component {
   constructor(options={}) {
-    options.timeout = options.timeout || 0
     super(options)
+    this.options = {
+      timeout: 0,
+      ...this.options,
+    }
   }
 }

@@ -5,20 +5,14 @@ import { domSelect } from './util/domSelect'
 
 // html.Screens display HTML when run
 export class Screen extends Component {
-  constructor(options={}) {
-    super(options)
-    this.content = options.content
-    this.contentUrl = options.contentUrl
-  }
-
   onPrepare() {
     return Promise.resolve().then(() => {
       // Fetch content from URL, if one is given
-      if (this.contentUrl) {
-        return fetch(this.contentUrl).then(
+      if (this.options.contentUrl) {
+        return fetch(this.options.contentUrl).then(
           response => response.text(),
         ).then(
-          text => (this.content = text),
+          text => (this.options.content = text),
         ).catch(
           e => console.log('Error while loading content: ', e),
         )
@@ -28,13 +22,13 @@ export class Screen extends Component {
     }).then(() => {
       // Post-process template by adding
       // placeholders through lodash.template
-      this.content = template(this.content)(this.aggregateParameters)
+      this.options.content = template(this.options.content)(this.aggregateParameters)
     })
   }
 
   onRun() {
     // Insert specified content into element
-    this.el.innerHTML = this.content
+    this.options.el.innerHTML = this.options.content
   }
 }
 
@@ -45,12 +39,13 @@ export class Form extends Screen {
   constructor(options={}) {
     super(options)
 
-    // Add a validator
-    // (inactive by default)
-    this.validator = options.validator || (() => true)
+    this.options = {
+      validator: () => true,
+      ...this.options,
+    }
 
     // Capture form submissions
-    this.events['submit form'] = (e) => {
+    this.options.events['submit form'] = (e) => {
       this.submit(e)
     }
   }
@@ -81,7 +76,7 @@ export class Form extends Screen {
 
   serialize() {
     // Search for forms within the element
-    const forms = domSelect('form', this.el)
+    const forms = domSelect('form', this.options.el)
 
     // Prepare an empty output object
     const output = {}
@@ -154,9 +149,9 @@ export class Form extends Screen {
     // form's validator to the serialized data,
     // and also checking that the browser
     // validation succeeds.
-    const forms = domSelect('form', this.el)
+    const forms = domSelect('form', this.options.el)
 
-    return this.validator(this.serialize()) &&
+    return this.options.validator(this.serialize()) &&
       Array.from(forms).every(form => form.checkValidity())
   }
 }
@@ -166,47 +161,50 @@ Form.module = ['html']
 export class Frame extends Component {
   constructor(options={}) {
     super(options)
-    this.content = options.content
-    this.context = options.context || ''
-    this.contextId = options.contextId || ''
+    this.options = {
+      content: null,
+      context: '',
+      contextId: '',
+      ...this.options,
+    }
   }
 
   onPrepare() {
     // Parse context HTML
     const parser = new DOMParser()
     this.internals.parsedContext = parser.parseFromString(
-      this.context, 'text/html',
+      this.options.context, 'text/html',
     )
 
     // Setup nested component to use the context
-    this.content.el = this.internals
-      .parsedContext.getElementById(this.contextId)
+    this.options.content.options.el = this.internals
+      .parsedContext.getElementById(this.options.contextId)
 
     // Couple the run cycle of the frame to its content
-    this.content.once('after:end', () => this.end())
+    this.options.content.once('after:end', () => this.end())
 
     // Prepare content
-    return this.content.prepare(false) // indicate automated call
+    return this.options.content.prepare(false) // indicate automated call
   }
 
   onRun() {
     // Clear element content, and insert context
-    this.el.innerHTML = ''
+    this.options.el.innerHTML = ''
     Array.from(this.internals.parsedContext.body.children)
-      .forEach(c => this.el.appendChild(c))
+      .forEach(c => this.options.el.appendChild(c))
 
     // Run nested content
-    return this.content.run()
+    return this.options.content.run()
   }
 
   onEnd() {
-    if (this.content.status <= status.done) {
+    if (this.options.content.status <= status.done) {
       // Avoid an infinite loop of
       // frame and content ending one another
-      this.content.off('after:end')
+      this.options.content.off('after:end')
 
       // Again, the content is in focus
-      return this.content.end('abort by frame')
+      return this.options.content.end('abort by frame')
     } else {
       // If the content has already ended,
       // there is nothing left to do

@@ -41,6 +41,7 @@ module.exports = {
         plugins: [
           'add-module-exports',
           'transform-regenerator',
+          'transform-object-rest-spread',
           'lodash',
         ],
         presets: ['es2015'],

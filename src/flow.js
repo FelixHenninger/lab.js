@@ -11,17 +11,17 @@ const prepareNested = function(nested, parent) {
   nested.forEach((c, i) => {
     // For each child, use this component's id
     // and append a counter
-    if (parent.id == null) {
-      c.id = String(i)
+    if (parent.options.id == null) {
+      c.options.id = String(i)
     } else {
-      c.id = [parent.id, i].join('_')
+      c.options.id = [parent.options.id, i].join('_')
     }
   })
 
   // Pass on specified attributes
   nested.forEach((c) => {
-    parent.handMeDowns.forEach((k) => {
-      c[k] = c[k] || parent[k]
+    parent.options.handMeDowns.forEach((k) => {
+      c.options[k] = c.options[k] || parent.options[k]
     })
   })
 
@@ -37,35 +37,36 @@ export class Sequence extends Component {
   constructor(options={}) {
     super(options)
 
-    // Define an array of nested components
-    // to iterate over
-    this.content = options.content || []
-
-    // Shuffle items, if so desired
-    this.shuffle = options.shuffle || false
-
-    // Use default hand-me-downs
-    // unless directed otherwise
-    // (note that the hand-me-downs are copied)
-    this.handMeDowns = options.handMeDowns || [...handMeDowns]
+    this.options = {
+      // Define an array of nested components
+      // to iterate over
+      content: [],
+      // Shuffle items, if so desired
+      shuffle: false,
+      // Use default hand-me-downs
+      // unless directed otherwise
+      // (note that the hand-me-downs are copied)
+      handMeDowns: [...handMeDowns],
+      ...this.options,
+    }
 
     // Set default values for current component and index
-    this.currentComponent = null
-    this.currentPosition = null
+    this.internals.currentComponent = null
+    this.internals.currentPosition = null
   }
 
   async onPrepare() {
     // Shuffle content, if requested
-    if (this.shuffle) {
-      this.content = shuffle(this.content)
+    if (this.options.shuffle) {
+      this.options.content = shuffle(this.options.content)
     }
 
     // Define an iterator over the content
-    this.iterator = this.content.entries()
-    this.stepper = this.step.bind(this)
+    this.internals.iterator = this.options.content.entries()
+    this.internals.stepper = this.step.bind(this)
 
     // Prepare nested items
-    await prepareNested(this.content, this)
+    await prepareNested(this.options.content, this)
   }
 
   async onRun() {
@@ -75,9 +76,9 @@ export class Sequence extends Component {
 
   onEnd() {
     // End prematurely, if necessary
-    if (this.currentComponent.status !== status.done) {
-      this.currentComponent.off('after:end', this.stepper)
-      this.currentComponent.end('abort by sequence')
+    if (this.internals.currentComponent.status !== status.done) {
+      this.internals.currentComponent.off('after:end', this.internals.stepper)
+      this.internals.currentComponent.end('abort by sequence')
     }
   }
 
@@ -87,20 +88,20 @@ export class Sequence extends Component {
     }
 
     // Move through the content
-    const next = this.iterator.next()
+    const next = this.internals.iterator.next()
     if (next.done) {
       return await this.end()
     } else {
-      [this.currentPosition, this.currentComponent] = next.value
-      this.currentComponent.on('after:end', this.stepper)
+      [this.internals.currentPosition, this.internals.currentComponent] = next.value
+      this.internals.currentComponent.on('after:end', this.internals.stepper)
       this.triggerMethod('step')
-      return await this.currentComponent.run()
+      return await this.internals.currentComponent.run()
     }
   }
 
   get progress() {
     return mean(
-      this.content.map(c => c.progress),
+      this.options.content.map(c => c.progress),
     )
   }
 }
@@ -115,14 +116,16 @@ Sequence.module = ['flow']
 // mapping the data onto the factory function.
 export class Loop extends Sequence {
   constructor(options={}) {
-    // Generate the content by applying
-    // the componentFactory function to each
-    // entry in the data array
-    options.content = options.data.map(options.componentFactory)
-
-    // Otherwise, behave exactly
-    // as a sequence would
     super(options)
+
+    this.options = {
+      // Generate the content by applying
+      // the componentFactory function to each
+      // entry in the data array
+      content: options.parameters.map(options.componentFactory),
+      ...this.options,
+    }
+
   }
 }
 
@@ -134,14 +137,15 @@ export class Parallel extends Component {
   constructor(options={}) {
     super(options)
 
-    // The content, in this case,
-    // consists of an array of components
-    // that are run in parallel.
-    this.content = options.content
-
-    // Save options
-    this.mode = options.mode || 'race'
-    this.handMeDowns = options.handMeDowns || [...handMeDowns]
+    this.options = {
+      // The content, in this case,
+      // consists of an array of components
+      // that are run in parallel.
+      content: [],
+      mode: 'race',
+      handMeDowns: [...handMeDowns],
+      ...this.options,
+    }
   }
 
   prepare(directCall) {
@@ -149,7 +153,7 @@ export class Parallel extends Component {
 
     // Prepare nested items
     return p.then(
-      () => prepareNested(this.content, this),
+      () => prepareNested(this.options.content, this),
     )
   }
 
@@ -159,19 +163,19 @@ export class Parallel extends Component {
   onRun() {
     // End this component when all nested components,
     // or a single component, have ended
-    Promise[this.mode](
-      this.content.map(c => c.waitFor('end')),
+    Promise[this.options.mode](
+      this.options.content.map(c => c.waitFor('end')),
     ).then(() => this.end())
 
     // Run all nested components simultaneously
     return Promise.all(
-      this.content.map(c => c.run()),
+      this.options.content.map(c => c.run()),
     )
   }
 
   onEnd() {
     // Cancel remaining running nested components
-    this.content.forEach((c) => {
+    this.options.content.forEach((c) => {
       if (c.status < status.done) {
         c.end('abort by parallel')
       }
@@ -180,7 +184,7 @@ export class Parallel extends Component {
 
   get progress() {
     return mean(
-      this.content.map(c => c.progress),
+      this.options.content.map(c => c.progress),
     )
   }
 }

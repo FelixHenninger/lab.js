@@ -15,20 +15,20 @@ describe('Canvas-based components', () => {
       return c.run().then(() => {
         // Check whether a canvas has been
         // inserted into the page
-        const canvas = c.el.getElementsByTagName('canvas')[0]
+        const canvas = c.options.el.getElementsByTagName('canvas')[0]
         assert.ok(canvas)
-        assert.equal(canvas, c.canvas)
+        assert.equal(canvas, c.options.canvas)
       })
     })
 
     it('Does not insert a canvas if provided with one', () => {
       // Specify a canvas for the Screen
-      c.canvas = document.createElement('canvas')
+      c.options.canvas = document.createElement('canvas')
 
       return c.run().then(() => {
         // The element should be empty
         assert.equal(
-          c.el.getElementsByTagName('canvas').length,
+          c.options.el.getElementsByTagName('canvas').length,
           0
         )
       })
@@ -36,18 +36,18 @@ describe('Canvas-based components', () => {
 
     it('Sets canvas width and height correctly', () => {
       // Set dimensions on the surrounding element
-      c.el.style.height = '200px'
-      c.el.style.width = '300px'
+      c.options.el.style.height = '200px'
+      c.options.el.style.width = '300px'
 
       return c.run().then(() => {
         assert.equal(
-          c.canvas.height,
-          c.el.clientHeight,
+          c.options.canvas.height,
+          c.options.el.clientHeight,
           'canvas height set correctly'
         )
         assert.equal(
-          c.canvas.width,
-          c.el.clientWidth,
+          c.options.canvas.width,
+          c.options.el.clientWidth,
           'canvas width set correctly'
         )
       })
@@ -66,40 +66,40 @@ describe('Canvas-based components', () => {
     })
 
     it('Executes render function when run', () => {
-      c.renderFunction = sinon.spy()
+      c.options.renderFunction = sinon.spy()
 
       // The test here is constructed so that
       // requestAnimationFrame is called at least once.
       // Otherwise, the render function won't be triggered
-      c.timeout = 20
+      c.options.timeout = 20
 
       // Check that the function is called
       return c.run().then(() => {
         return c.waitFor('end')
       }).then(() => {
         assert.ok(
-          c.renderFunction.calledOnce
+          c.options.renderFunction.calledOnce
         )
       })
     })
 
     it('Runs render function in component context', () => {
-      c.renderFunction = sinon.spy()
-      c.timeout = 20
+      c.options.renderFunction = sinon.spy()
+      c.options.timeout = 20
 
       // Check function binding
       return c.run().then(() => {
         return c.waitFor('end')
       }).then(() => {
-        assert.ok(c.renderFunction.calledOnce)
-        assert.ok(c.renderFunction.alwaysCalledOn(c))
+        assert.ok(c.options.renderFunction.calledOnce)
+        assert.ok(c.options.renderFunction.alwaysCalledOn(c))
       })
     })
 
     it('Selects 2d canvas context by default', () => {
       return c.run().then(() => {
         assert.ok(
-          c.ctx instanceof CanvasRenderingContext2D
+          c.options.ctx instanceof CanvasRenderingContext2D
         )
       })
     })
@@ -138,30 +138,30 @@ describe('Canvas-based components', () => {
 
     it('Adds canvas property to hand-me-downs', () => {
       assert.include(
-        s.handMeDowns,
+        s.options.handMeDowns,
         'canvas'
       )
     })
 
     it('Passes its canvas to nested components', () => {
-      s.content = [a, b]
-      s.prepare().then(() => {
+      s.options.content = [a, b]
+      return s.prepare().then(() => {
         // The canvas should be shared
         assert.equal(
-          s.canvas,
-          a.canvas
+          s.options.canvas,
+          a.options.canvas
         )
 
         // Make sure that the canvas is actually a canvas,
         // and not some undefined value.
         assert.ok(
-          b.canvas instanceof HTMLCanvasElement
+          b.options.canvas instanceof HTMLCanvasElement
         )
       })
     })
 
     it('Complains if any nested components are not canvas-based', () => {
-      s.content = [
+      s.options.content = [
         a,
         new lab.html.Screen({
           content: ''
@@ -179,21 +179,21 @@ describe('Canvas-based components', () => {
     })
 
     it('Runs canvas drawing operations in sequence', () => {
-      a.renderFunction = (ts, canvas, ctx, screen) => {
+      a.options.renderFunction = (ts, canvas, ctx, screen) => {
         ctx.rect(0, 0, 10, 10)
         ctx.fill()
       }
-      b.renderFunction = (ts, canvas, ctx, screen) => {
+      b.options.renderFunction = (ts, canvas, ctx, screen) => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.beginPath()
         ctx.rect(10, 0, 10, 10)
         ctx.fill()
       }
 
-      s.content = [a, b]
-      s.canvas = document.createElement('canvas')
-      s.canvas.width = 200
-      s.canvas.height = 200
+      s.options.content = [a, b]
+      s.options.canvas = document.createElement('canvas')
+      s.options.canvas.width = 200
+      s.options.canvas.height = 200
 
       // During testing, we need to introduce delays
       // because the render methods tend to wait for
@@ -211,7 +211,7 @@ describe('Canvas-based components', () => {
           // ... left area should be black
           assert.deepEqual(
             Array.from(
-              s.canvas
+              s.options.canvas
                 .getContext('2d')
                 .getImageData(5, 5, 1, 1)
                 .data
@@ -221,7 +221,7 @@ describe('Canvas-based components', () => {
           // ... right area should be empty/blank
           assert.deepEqual(
             Array.from(
-              s.canvas
+              s.options.canvas
                 .getContext('2d')
                 .getImageData(15, 5, 1, 1)
                 .data
@@ -237,7 +237,7 @@ describe('Canvas-based components', () => {
           // ... left area should be empty
           assert.deepEqual(
             Array.from(
-              s.canvas
+              s.options.canvas
                 .getContext('2d')
                 .getImageData(5, 5, 1, 1)
                 .data
@@ -247,7 +247,7 @@ describe('Canvas-based components', () => {
           // ... right area should be filled
           assert.deepEqual(
             Array.from(
-              s.canvas
+              s.options.canvas
                 .getContext('2d')
                 .getImageData(15, 5, 1, 1)
                 .data
