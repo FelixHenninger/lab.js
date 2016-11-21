@@ -6,7 +6,7 @@ Simplifying code using functions
 
   This page is undergoing major revisions and updates, and parts are missing.
   We're actively working on this, so please check back in a bit. Also, please
-  be invited to send us a line or two, we've probably got at better working
+  be invited to send us a line or two, we've probably got a better working
   version that we can share, or we can help you get started directly.
 
   Sorry for the trouble!
