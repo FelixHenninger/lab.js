@@ -51,7 +51,6 @@ export class Component extends EventHandler {
       timeout: null,
 
       ...this.options,
-      ...options,
     }
 
     // Setup a storage for internal properties
