@@ -49,7 +49,7 @@ With that, let's get started!
    :maxdepth: 1
 
    getting_started.rst
-   experiment.rst
+   study.rst
    style.rst
    data.rst
    functional.rst

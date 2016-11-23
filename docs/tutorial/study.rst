@@ -1,5 +1,5 @@
-Building a working experiment
-=============================
+Building a working study
+========================
 
 .. note::
   **This documentation page is currently under development. Sorry for that!**
@@ -26,7 +26,7 @@ Building a working experiment
 
 .. role:: blue
 
-.. image:: experiment/1-stroop-incongruent.png
+.. image:: study/1-stroop-incongruent.png
    :alt: Stroop task screenshot
    :width: 45%
    :align: right
