@@ -4,9 +4,13 @@ Building a working study
 .. note::
   **This documentation page is currently under development. Sorry for that!**
 
-  We're actively working on this, so please check back in a bit. Also, please
-  be invited to send us a line or two, we've probably got a half-baked working
-  version that we can share, or we can help you get started directly.
+  We're actively working on this, so there might be parts that are missing or
+  incomplete. Please be invited to start with the tutorial nonetheless,
+  the additional parts are coming very soon.
+
+  If you find something awry or missing content, please don't hesitate to send
+  us a line or two, we're happy to explain things further or to give you a
+  personal tutorial via Skype/Hangouts/etc. or in person.
 
   Sorry for the trouble!
 
