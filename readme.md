@@ -5,7 +5,7 @@
 <p align="center">
   <small>
     <a href="https://labjs.readthedocs.io/en/latest/tutorial/index.html">Get started</a> ·
-    <a href="https://labjs.readthedocs.io/en/latest/">Documentation</a> ·
+    <a href="https://labjs.readthedocs.io/en/latest/">Learn more</a> ·
     <a href="https://labjs.readthedocs.io/en/latest/meta/contribute.html">Contribute</a>
   </small>
 </p>
@@ -36,9 +36,9 @@ If you get stuck or things don't make sense, please don't hesitate to reach out!
 ###Find help
 
 The easiest and quickest way to find help is to [join our Slack
-channel](https://slackin-nmbrcrnchrs.herokuapp.com/), where there's often
-someone around to discuss things and help out. You're welcome to just join and
-say hello!
+channel](https://slackin-nmbrcrnchrs.herokuapp.com/), where there's someone
+around to discuss things and help out most of the time. You're welcome to just
+join and say hello!
 
 ###Keep up-to-date
 
