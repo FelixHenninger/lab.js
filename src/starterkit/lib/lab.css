@@ -1,13 +1,14 @@
 /* Basic configuration */
 :root {
   /* Layout */
+  --width-container: 900px;
+  --width-min-container: 400px;
   --height-min-header-footer: 8vh;
   --height-min-main: 400px;
-  --width-min: 850px;
   --padding-internal: 24px;
   /* Typography */
-  --font-family: sans-serif;
-  --font-family-mono: monospace;
+  --font-family: "Arial", sans-serif;
+  --font-family-mono: Droid Mono, Menlo, Consolas, monospace;
   --font-size: 18px;
   --line-height: 1.4em;
   --paragraph-margin-vertical: var(--font-size);
@@ -28,40 +29,29 @@
 
 /* Content layout */
 .container {
-  min-width: var(--width-min);
+  min-width: var(--width-min-container);
   min-height: var(--height-min-header-footer);
-  /* Use page layout by default */
-  margin: 24px auto;
-  width: 900px;
+  /* Use page-style layout by default */
+  margin: var(--padding-internal) auto;
+  width: var(--width-container);
 }
 header, footer, main {
   padding: var(--padding-internal);
-}
-#labjs-content {
-  /* Minimal height */
-  min-height: var(--height-min-main);
 }
 /* Individual parts: Height, borders and background */
 header, footer {
   min-height: var(--height-min-header-footer);
 }
-/* Actual experiment content */
-#labjs-content {
-  min-width: var(--height-min-main);
-}
-/* IE 11 Hack */
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-  div.content {
-    padding: 24px;
-  }
+main {
+  min-height: var(--height-min-main);
 }
 
 /* Fullscreen layout */
 .container.fullscreen {
   /* Full screen minus margins */
-  margin: 24px 16px;
-  min-height: calc(100vh - 48px) !important;
-  width: calc(100vw - 48px) !important;
+  margin: var(--padding-internal) calc(var(--padding-internal) - 8px);
+  min-height: calc(100vh - 2*var(--padding-internal));
+  width: calc(100vw - 2*var(--padding-internal));
   /* Display content using flexboxes */
   display: flex;
   flex-direction: column;
@@ -69,9 +59,6 @@ header, footer {
 .container.fullscreen main {
   /* Flex positioning */
   flex: 1;
-}
-.container.fullscreen #labjs-content {
-  width: var(--height-min-main);
 }
 
 /* Borders and backgrounds */
@@ -104,7 +91,6 @@ hr {
   border-top: 2px solid var(--color-border)
 }
 
-
 /* Special elements: Keyboard buttons */
 kbd {
   /* Positioning */
@@ -114,7 +100,7 @@ kbd {
   padding: 0 0.3em;
   padding-top: 0.15em;
   /* Fonts */
-  font-family: Droid Mono, Menlo, Consolas, monospace;
+  font-family: var(--font-family-mono);
   font-size: 0.9rem;
   text-align: center;
   /* Background and border */
@@ -132,27 +118,34 @@ kbd.big {
 .w-100 {
   width: 100%;
 }
-.content-vertical-center:not(td) {
+/* Block alignment based on flexbox */
+.content-vertical-top,
+.content-vertical-center,
+.content-vertical-bottom,
+.content-horizontal-left,
+.content-horizontal-center,
+.content-horizontal-right {
   display: flex;
+}
+.content-vertical-top {
+  align-items: flex-start;
+}
+.content-vertical-center {
   align-items: center;
 }
-td.content-vertical-center {
-  vertical-align: middle;
+.content-vertical-bottom {
+  align-items: flex-end;
 }
-.content-horizontal-center:not(td) {
-  display: flex;
+.content-horizontal-left {
+  justify-content: flex-start;
+}
+.content-horizontal-center {
   justify-content: center;
 }
-td.content-horizontal-center {
-  text-align: center;
-}
-.content-horizontal-right:not(td) {
-  display: flex;
+.content-horizontal-right {
   justify-content: flex-end;
 }
-td.content-horizontal-right > * {
-  margin-left: auto;
-}
+/* Text alignment */
 .text-left {
   text-align: left;
 }
@@ -279,10 +272,14 @@ table {
 table td, table th {
   padding: 10px 8px 8px;
 }
-table:not(.table-plain) > tr > td, table:not(.table-plain) > tr > th,
-table:not(.table-plain) > tbody > tr > td, table:not(.table-plain) > tbody > tr > th {
+/* Table borders (except for plain) */
+table:not(.table-plain) > tr > td,
+table:not(.table-plain) > tr > th,
+table:not(.table-plain) > tbody > tr > td,
+table:not(.table-plain) > tbody > tr > th {
   border-bottom: 2px solid var(--color-border);
 }
+/* Striped rows */
 table.table-striped tr:nth-child(odd) td {
   background-color: var(--color-border-internal)
 }
