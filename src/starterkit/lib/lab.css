@@ -4,7 +4,6 @@
   --width-container: 900px;
   --width-min-container: 400px;
   --height-min-header-footer: 8vh;
-  --height-min-main: 400px;
   --padding-internal: 24px;
   /* Typography */
   --font-family: "Arial", sans-serif;
@@ -43,7 +42,7 @@ header, footer {
   min-height: var(--height-min-header-footer);
 }
 main {
-  min-height: var(--height-min-main);
+  min-height: var(--height-min-header-footer);
 }
 
 /* Fullscreen layout */
