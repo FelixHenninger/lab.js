@@ -123,7 +123,11 @@ kbd.big {
 .content-vertical-bottom,
 .content-horizontal-left,
 .content-horizontal-center,
-.content-horizontal-right {
+.content-horizontal-right,
+.content-horizontal-space-between,
+.content-vertical-space-between,
+.content-horizontal-space-around,
+.content-vertical-space-around {
   display: flex;
 }
 .content-vertical-top {
@@ -143,6 +147,14 @@ kbd.big {
 }
 .content-horizontal-right {
   justify-content: flex-end;
+}
+.content-horizontal-space-between,
+.content-vertical-space-between {
+  justify-content: space-between;
+}
+.content-horizontal-space-around,
+.content-vertical-space-around {
+  justify-content: space-around;
 }
 /* Text alignment */
 .text-left {
