@@ -21,7 +21,7 @@ Building a working study
       color: blue;
       font-weight: 600;
     }
-    .document img {
+    .document img.screenshot {
       margin-bottom: 5px;
       border: 1px solid #e1e4e5;
       border-radius: 5px;
@@ -34,6 +34,7 @@ Building a working study
    :alt: Stroop task screenshot
    :width: 45%
    :align: right
+   :class: screenshot
 
 **This is where we build our first working study!** Specifically, we're going to
 create an experiment that demonstrates the *Stroop effect*. This effect
@@ -59,3 +60,56 @@ starter kit code, please go back and take a quick look. You're always welcome to
 right now or in any of the following steps.
 
 With that, let's get going!
+
+Thinking about a study's structure
+----------------------------------
+
+**When we build our studies, we'll think about them in a particular way: As a
+sequence of individual building blocks. What does that mean?**
+
+Every *component* performs a particular function -- it might show some
+information onscreen, play a sound, or do some processing in the background.
+Each component *prepares*, often at the beginning of the experiment, readying
+for its task, and will *run* later, to perform its main function.
+
+.. figure:: study/2-component-timeline.svg
+   :alt: Individual component timeline
+   :figwidth: 100%
+   :width: 100%
+   :align: center
+
+As just noted, every component's moment in the spotlight is when it runs. This
+will very often mean showing some information, and then waiting for a response.
+A typical experiment will consist of many such components strung together like
+this:
+
+.. figure:: study/3-multiple-components.svg
+   :alt: Multiple components in sequence
+   :figwidth: 100%
+   :width: 100%
+   :align: center
+
+When we build experiments, components will not only be responsible for
+presenting stimuli and collecting responses. We will use different components to
+tie the structure of our experiment together. For example, the stimuli above are
+shown sequentially, and therefore together constitute a *sequence*.
+Accordingly, we'll use a *sequence component* to group them together.
+
+.. figure:: study/4-sequence.svg
+   :alt: Components nested in a sequence
+   :figwidth: 100%
+   :width: 100%
+   :align: center
+
+In many ways, a sequence component behaves exactly as a standard component
+would: It prepares by signaling all nested components to prepare themselves,
+and it runs by running them in sequence.
+
+A sequence differs from a stimulus component in that it does not provide any new
+information to the viewers. Instead, it is in charge of *flow control*: It makes
+sure that other components run when they are supposed to. These *nested
+components* can then do the actual work of presenting information, or they might
+themselves organize the flow of yet another set of components.
+
+We'll always combine both types, presentational components and flow control
+components, to build studies.
