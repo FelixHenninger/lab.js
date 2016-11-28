@@ -113,3 +113,63 @@ themselves organize the flow of yet another set of components.
 
 We'll always combine both types, presentational components and flow control
 components, to build studies.
+
+Building a Stroop screen
+------------------------
+
+**Knowing what you now know, what might be a good component to start building
+a Stroop experiment?** We're going to start with the main stimulus display
+itself, the part that displays the word and color, and collects the response.
+
+First, let's think about how to design the stimulus. For the purposes of this
+tutorial, we'll use ``HTML`` to tell the browser what we'd like to show
+onscreen [#f1]_. We'd like to show a word, and give it a color. The syntax
+required to do this will probably look somewhat like the following:
+
+.. code-block:: html
+
+   <div style="color: red">
+     blue
+   </div>
+
+Given this content, let's build a component that will make it visible to the
+participants by inserting the ``HTML`` syntax into the page. This is the purpose
+of the :js:class:`html.Screen` component that you may have noticed in the
+starter kit code. By extending our earlier 'hello world' example, we might
+create the following snippet::
+
+  new lab.html.Screen({
+    content: '<div style="color: red"> blue </div>',
+  })
+
+This creates a new :js:class:`html.Screen` with our content. When it runs, the
+short ``HTML`` code will be inserted into the page, specifically into the
+element whose ``id`` attribute is ``labjs-content`` (this default can be
+changed).
+
+There are a few details to note here: First, the screen is constructed using
+options which are supplied in brackets -- and not only regular ones, but also
+curly braces. This is because the options are defined by a dictionary (you
+might also use the term object) which has pairs of keys and values, separated by
+a colon. Right now, only one option is provided: The content in form of our
+``HTML`` text. If we were to add further options, we would need to insert commas
+between them, a fact that is hinted at by the comma behind the option. Second,
+it's worth noting that the the quotation marks around and with the ``HTML`` code
+are different. This is because the simple quotation marks denote the beginning
+and the end of the string, whereas the double quotation marks are part of its
+content. Using single quotation marks within the ``HTML`` code would end the
+string prematurely and cause an error.
+
+If you've changed the code to correspond to the above example and reloaded the
+page in your browser, you should see the word blue on the screen, written in red.
+It's not (yet) as pretty as it could be, but it'll do for the moment: We'll get
+around to :ref:`styling our study <tutorial/style>` later!
+
+.. [#f1] This is not the only way to design the display. If you're used to
+  writing code that draws shapes and text at exact screen coordinates, don't
+  worry: That is also possible using :ref:`canvas-based displays
+  <reference/canvas>`.
+
+  Both approaches have their advantages and disadvantages: We'll discuss these
+  at a later point. For now, we decided to give up some control over the precise
+  display in return for a simpler method of stimulus construction.
