@@ -2,7 +2,9 @@ const path = require('path')
 const webpack = require('webpack')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
-const minimize = process.argv.find(x => x === '-p')
+// Minimize output unless development mode
+// is explicitly specified
+const minimize = !process.argv.find(x => x === '-d')
 
 // Set output file name
 let outputFilename
@@ -18,7 +20,7 @@ const banner = [
   '(c) 2015- Felix Henninger',
 ].join('\n')
 
-module.exports = {
+const config = {
   entry: {
     js: [
       'babel-regenerator-runtime',
@@ -68,3 +70,31 @@ module.exports = {
     umdNamedDefine: true,
   },
 }
+
+// Optimize/minimize output
+// by including the corresponding plugins
+if (minimize) {
+  // TODO: Can we generate this
+  // automatically from the library?
+  const reservedTerms = [
+    'Component', 'Dummy',
+    'Screen', 'Form', 'Frame',
+    'Sequence', 'Parallel',
+  ]
+  config.plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      reserve: reservedTerms,
+      compress: {
+        warnings: false,
+      },
+      mangle: {
+        except: reservedTerms,
+      },
+      minimize: true,
+    }),
+    // eslint-disable-next-line comma-dangle
+    new webpack.optimize.OccurrenceOrderPlugin()
+  )
+}
+
+module.exports = config

@@ -484,6 +484,16 @@ describe('Core', () => {
       })
     })
 
+    describe('Metadata', () => {
+      it('provides a type property', () => {
+        const c = new lab.core.Component()
+        assert.equal(
+          c.type,
+          'core.Component'
+        )
+      })
+    })
+
   }) // Component
 
   describe('Plugin API', () => {
