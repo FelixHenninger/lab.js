@@ -1,4 +1,4 @@
-import { extend } from 'lodash'
+import { extend, cloneDeep } from 'lodash'
 import { EventHandler } from './util/eventAPI'
 import { DomConnection } from './util/domEvents'
 import { preloadImage, preloadAudio } from './util/preload'
@@ -295,6 +295,15 @@ export class Component extends EventHandler {
     return extend(
       {}, ...this.parents.map(o => o.options.parameters),
       this.options.parameters,
+    )
+  }
+
+  // Duplication ------------------------------------------
+  // Return a component of the same type,
+  // with identical options
+  clone() {
+    return new this.constructor(
+      cloneDeep(this.options),
     )
   }
 

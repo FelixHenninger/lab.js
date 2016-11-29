@@ -484,12 +484,23 @@ describe('Core', () => {
       })
     })
 
-    describe('Metadata', () => {
+    describe('Utilities', () => {
       it('provides a type property', () => {
         const c = new lab.core.Component()
         assert.equal(
           c.type,
           'core.Component'
+        )
+      })
+
+      it('creates a clone of itself', () => {
+        const a = new lab.core.Component()
+        a.options.foo = 'bar'
+        const b = a.clone()
+
+        assert.deepEqual(
+          a.options,
+          b.options
         )
       })
     })
