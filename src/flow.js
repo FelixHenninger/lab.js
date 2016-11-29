@@ -84,7 +84,7 @@ export class Sequence extends Component {
 
   async step() {
     if (this.status === status.done) {
-      throw 'Sequence ended, can\'t take any more steps'
+      throw new Error('Sequence ended, can\'t take any more steps')
     }
 
     // Move through the content
