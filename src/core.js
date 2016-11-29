@@ -301,10 +301,11 @@ export class Component extends EventHandler {
   // Duplication ------------------------------------------
   // Return a component of the same type,
   // with identical options
-  clone() {
-    return new this.constructor(
-      cloneDeep(this.options),
-    )
+  clone(options={}) {
+    return new this.constructor({
+      ...cloneDeep(this.options),
+      ...options,
+    })
   }
 
   // Metadata ---------------------------------------------

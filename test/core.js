@@ -503,6 +503,23 @@ describe('Core', () => {
           b.options
         )
       })
+
+      it('incorporates additional options into clones', () => {
+        const a = new lab.core.Component()
+        a.options.constantProperty = 'original'
+        a.options.overwrittenProperty = 'original'
+
+        const b = a.clone({ overwrittenProperty: 'modified' })
+
+        assert.equal(
+          b.options.constantProperty,
+          'original'
+        )
+        assert.equal(
+          b.options.overwrittenProperty,
+          'modified'
+        )
+      })
     })
 
   }) // Component
