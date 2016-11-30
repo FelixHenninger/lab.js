@@ -156,6 +156,22 @@ kbd.big {
 .content-vertical-space-around {
   justify-content: space-around;
 }
+.content-vertical-space-around,
+.content-vertical-space-between {
+  flex-direction: column;
+}
+.content-vertical-space-between.content-horizontal-right,
+.content-vertical-space-around.content-horizontal-right {
+  align-items: flex-start; 
+}
+.content-vertical-space-between.content-horizontal-center,
+.content-vertical-space-around.content-horizontal-center {
+  align-items: center;
+}
+.content-vertical-space-between.content-horizontal-right,
+.content-vertical-space-around.content-horizontal-right {
+  align-items: flex-end;
+}
 /* Text alignment */
 .text-left {
   text-align: left;
