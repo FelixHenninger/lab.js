@@ -93,4 +93,52 @@ describe('Utilities', () => {
     })
 
   })
+
+  describe('fromObject', () => {
+    it('Creates a lab.js component from a base object', () => {
+      const c = lab.util.fromObject({
+        type: 'lab.core.Component'
+      })
+
+      assert.instanceOf(c, lab.core.Component)
+    })
+
+    it('Transfers options to new object', () => {
+      const c = lab.util.fromObject({
+        type: 'lab.core.Dummy',
+        option: 'value',
+      })
+
+      assert.instanceOf(c, lab.core.Dummy)
+      assert.equal(c.options.option, 'value')
+    })
+
+    it('Parses nested components as array', () => {
+      const s = lab.util.fromObject({
+        type: 'lab.flow.Sequence',
+        content: [
+          {
+            type: 'lab.core.Dummy',
+            option: 'value'
+          }
+        ]
+      })
+
+      assert.instanceOf(s.options.content[0], lab.core.Dummy)
+      assert.equal(s.options.content[0].options.option, 'value')
+    })
+
+    it('Parses individual nested components', () => {
+      const f = lab.util.fromObject({
+        type: 'lab.html.Frame',
+        content: {
+          type: 'lab.core.Dummy',
+          option: 'value'
+        }
+      })
+
+      assert.instanceOf(f.options.content, lab.core.Dummy)
+      assert.equal(f.options.content.options.option, 'value')
+    })
+  })
 })

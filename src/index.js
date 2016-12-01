@@ -4,6 +4,7 @@ import { Screen, Form, Frame } from './html'
 import { Sequence, Parallel } from './flow'
 import { Store } from './data'
 import { Random } from './util/random'
+import fromObject from './util/fromObject'
 import Logger from './plugins/log'
 
 const version = '2016.1.0'
@@ -35,5 +36,6 @@ export default {
   },
   util: {
     Random,
+    fromObject,
   },
 }
