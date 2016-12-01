@@ -118,7 +118,10 @@ export class Screen extends Component {
   }
 }
 
-Screen.module = ['canvas']
+Screen.metadata = {
+  module: ['canvas'],
+  nestedComponents: [],
+}
 
 // Canvas-based sequence of components
 // drawing on the same canvas
@@ -165,4 +168,7 @@ export class Sequence extends BaseSequence {
   }
 }
 
-Sequence.module = ['canvas']
+Sequence.metadata = {
+  module: ['canvas'],
+  nestedComponents: ['content'],
+}

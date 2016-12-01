@@ -32,7 +32,10 @@ export class Screen extends Component {
   }
 }
 
-Screen.module = ['html']
+Screen.metadata = {
+  module: ['html'],
+  nestedComponents: [],
+}
 
 // An html.Form can show, validate and serialize a form
 export class Form extends Screen {
@@ -156,7 +159,10 @@ export class Form extends Screen {
   }
 }
 
-Form.module = ['html']
+Form.metadata = {
+  module: ['html'],
+  nestedComponents: [],
+}
 
 export class Frame extends Component {
   constructor(options={}) {
@@ -213,4 +219,7 @@ export class Frame extends Component {
   }
 }
 
-Frame.module = ['html']
+Frame.metadata = {
+  module: ['html'],
+  nestedComponents: ['content'],
+}

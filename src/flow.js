@@ -106,7 +106,10 @@ export class Sequence extends Component {
   }
 }
 
-Sequence.module = ['flow']
+Sequence.metadata = {
+  module: ['flow'],
+  nestedComponents: ['content'],
+}
 
 // A loop functions exactly like a sequence,
 // except that the components in the loop are
@@ -184,4 +187,7 @@ export class Parallel extends Component {
   }
 }
 
-Parallel.module = ['flow']
+Parallel.metadata = {
+  module: ['flow'],
+  nestedComponents: ['content'],
+}

@@ -324,11 +324,17 @@ export class Component extends EventHandler {
   }
 
   get type() {
-    return [...this.constructor.module, this.constructor.name].join('.')
+    return [
+      ...this.constructor.metadata.module,
+      this.constructor.name
+    ].join('.')
   }
 }
 
-Component.module = ['core']
+Component.metadata = {
+  module: ['core'],
+  nestedComponents: [],
+}
 
 // Default options ----------------------------------------
 // Attributes to pass on to nested items (as names)
