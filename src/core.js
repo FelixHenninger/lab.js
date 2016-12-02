@@ -302,10 +302,23 @@ export class Component extends EventHandler {
   // Return a component of the same type,
   // with identical options
   clone(options={}) {
-    return new this.constructor({
+    // Copy local options
+    const cloneOptions = {
       ...cloneDeep(this.options),
       ...options,
+    }
+
+    // Clone any nested components
+    this.constructor.metadata.nestedComponents.forEach(o => {
+      if (Array.isArray(this.options[o])) {
+        cloneOptions[o] = this.options[o].map(c => c.clone())
+      } else {
+        cloneOptions[o] = this.options[o].clone()
+      }
     })
+
+    // Create new component of the same type
+    return new this.constructor(cloneOptions)
   }
 
   // Metadata ---------------------------------------------

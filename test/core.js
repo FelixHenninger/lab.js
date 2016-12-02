@@ -520,6 +520,30 @@ describe('Core', () => {
           'modified'
         )
       })
+
+      it('instantiates directly nested components during cloning', () => {
+        const c = new lab.core.Component()
+        const spy = sinon.spy(c, 'clone')
+
+        const f = new lab.html.Frame({
+          content: c
+        })
+        const f1 = f.clone()
+
+        assert.ok(spy.calledOnce)
+      })
+
+      it('instantiates nested components in list during cloning', () => {
+        const c = new lab.core.Component()
+        const spy = sinon.spy(c, 'clone')
+
+        const s = new lab.flow.Sequence({
+          content: [c]
+        })
+        const s1 = s.clone()
+
+        assert.ok(spy.calledOnce)
+      })
     })
 
   }) // Component
