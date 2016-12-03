@@ -229,6 +229,73 @@ describe('Flow control', () => {
     })
   })
 
+  describe('Loop', () => {
+
+    it('clones template to create content', () => {
+      const t = new lab.core.Component({
+        parameters: {
+          constantParameter: 'original',
+          customParameter: 'original',
+        },
+      })
+      const l = new lab.flow.Loop({
+        template: t,
+        templateParameters: [
+          { customParameter: 'one' },
+          { customParameter: 'two' },
+          { customParameter: 'three' },
+        ],
+      })
+
+      assert.ok(
+        l.options.content.every(c =>
+          c.options.parameters.constantParameter ===
+          t.options.parameters.constantParameter
+        )
+      )
+
+      const expectedValues = ['one', 'two', 'three']
+      assert.ok(
+        l.options.content.every((c, i) =>
+          c.options.parameters.customParameter === expectedValues[i]
+        )
+      )
+    })
+
+    it('uses a template function to generate content', () => {
+      const l = new lab.flow.Loop({
+        template: p => new lab.core.Component({
+          parameters: _.assignIn({ constantParameter: 'constant' }, p),
+        }),
+        templateParameters: [
+          { customParameter: 'one' },
+          { customParameter: 'two' },
+          { customParameter: 'three' },
+        ],
+      })
+
+      assert.ok(
+        l.options.content.every(c =>
+          c.options.parameters.constantParameter === 'constant'
+        )
+      )
+
+      const expectedValues = ['one', 'two', 'three']
+      assert.ok(
+        l.options.content.every((c, i) =>
+          c.options.parameters.customParameter === expectedValues[i]
+        )
+      )
+    })
+
+    it('throws an error if an invalid template is provided', () => {
+      assert.throws(
+        () => new lab.flow.Loop(),
+        'Invalid template passed to Loop'
+      )
+    })
+  })
+
   describe('Parallel', () => {
 
     let p, a, b

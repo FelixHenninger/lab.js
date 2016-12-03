@@ -1,7 +1,7 @@
 import { Component, Dummy } from './core'
 import { Screen as CanvasScreen, Sequence as CanvasSequence } from './canvas'
 import { Screen, Form, Frame } from './html'
-import { Sequence, Parallel } from './flow'
+import { Sequence, Parallel, Loop } from './flow'
 import { Store } from './data'
 import { Random } from './util/random'
 import fromObject from './util/fromObject'
@@ -27,6 +27,7 @@ export default {
   flow: {
     Sequence,
     Parallel,
+    Loop,
   },
   data: {
     Store,
