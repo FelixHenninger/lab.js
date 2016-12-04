@@ -22,17 +22,7 @@ const banner = [
 
 const config = {
   entry: {
-    js: [
-      'babel-regenerator-runtime',
-      'es6-promise',
-      'whatwg-fetch',
-      './src/index',
-    ], /* Temporarily disabled vendorizing (which does not play well with tree-shaking)
-    vendor: [
-      'lodash',
-      'es6-promise',
-      'whatwg-fetch',
-    ] */
+    js: [ './src/index' ],
   },
   module: {
     loaders: [{
@@ -40,22 +30,20 @@ const config = {
       test: /\.js$/,
       include: path.join(__dirname, 'src'),
       query: {
+        presets: [
+          ['es2015', { 'modules': false }],
+          'es2016',
+          'es2017'
+        ],
         plugins: [
-          'add-module-exports',
-          'transform-regenerator',
+          'transform-runtime',
           'transform-object-rest-spread',
           'lodash',
         ],
-        presets: ['es2015'],
       },
     }],
   },
-  plugins: [ /* Vendorizing support disabled, as above
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'lab.vendor.js',
-      minChunks: Infinity
-    }), */
+  plugins: [
     new LodashModuleReplacementPlugin(),
     new webpack.BannerPlugin({
       banner,

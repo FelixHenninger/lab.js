@@ -9,7 +9,7 @@ import Logger from './plugins/log'
 
 const version = '2016.1.0'
 
-export default {
+const lab = {
   version,
   core: {
     Component,
@@ -40,3 +40,13 @@ export default {
     fromObject,
   },
 }
+
+// Export library
+export default lab
+
+// This is for webpack, which does not cope well
+// with es6 exports at the top level, preferring
+// instead to place exports at lab.default.
+// The following line makes the library behave
+// like a standard ES5-style library.
+module.exports = lab

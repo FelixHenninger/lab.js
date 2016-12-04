@@ -1,5 +1,6 @@
 import { assign, difference, flatten, intersection, uniq } from 'lodash'
 import { EventHandler } from './util/eventAPI'
+import 'whatwg-fetch'
 
 // Data saving --------------------------------------------
 
@@ -57,7 +58,7 @@ export class Store extends EventHandler {
         // Fail gracefully if JSON parsing fails
         try {
           this.data = JSON.parse(data)
-          this.state = Object.assign(...this.data)
+          this.state = assign({}, ...this.data)
 
           // Remove metadata from current state
           defaultMetadata.forEach((key) => {

@@ -2,6 +2,7 @@
 import { extend, template } from 'lodash'
 import { Component, status } from './core'
 import { domSelect } from './util/domSelect'
+import 'whatwg-fetch'
 
 // html.Screens display HTML when run
 export class Screen extends Component {

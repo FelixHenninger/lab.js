@@ -1,5 +1,6 @@
 // Flow control components for lab.js
 import { shuffle, mean, isFunction } from 'lodash'
+import { entries } from 'core-js/fn/array'
 import { Component, status, handMeDowns } from './core'
 
 // Helper function to handle nested components
@@ -62,7 +63,7 @@ export class Sequence extends Component {
     }
 
     // Define an iterator over the content
-    this.internals.iterator = this.options.content.entries()
+    this.internals.iterator = entries(this.options.content)
     this.internals.stepper = this.step.bind(this)
 
     // Prepare nested items
