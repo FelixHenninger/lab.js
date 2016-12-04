@@ -75,6 +75,8 @@ insights and sparked ideas through questions and discussions.
 
 ####External libraries
 
+[core-js](https://github.com/zloirock/core-js) ·
+[file-saver](https://github.com/eligrey/FileSaver.js) ·
 [lodash](https://lodash.com/) ·
 [seedrandom.js](https://github.com/davidbau/seedrandom)
 

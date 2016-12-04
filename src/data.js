@@ -1,5 +1,6 @@
 import { assign, difference, flatten, intersection, uniq } from 'lodash'
 import { EventHandler } from './util/eventAPI'
+import FileSaver from 'file-saver'
 import 'whatwg-fetch'
 
 // Data saving --------------------------------------------
@@ -234,28 +235,10 @@ export class Store extends EventHandler {
 
   // Download data in a given format ----------------------
   download(filetype='csv', filename='data.csv') {
-    const blob = this.exportBlob(filetype)
-
-    // Convert this blob, in turn, to a url
-    const url = window.URL.createObjectURL(blob)
-
-    // Create a link containing the url
-    // just computed, and add it to the document
-    const a = document.createElement('a')
-    // FIXME: The following lines fail in Safari
-    a.style = 'display: none'
-    a.href = url
-    a.download = filename
-    document.body.appendChild(a)
-
-    // Simulate a click on the link
-    a.click()
-
-    // Remove the link after a short delay
-    window.setTimeout(() => {
-      window.URL.revokeObjectURL(url)
-      document.body.removeChild(a)
-    }, 100)
+    return FileSaver.saveAs(
+      this.exportBlob(filetype),
+      filename
+    )
   }
 
   // Display data on the console
