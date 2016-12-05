@@ -65,7 +65,8 @@ release notifications.
 The students and teaching assistants in the graduate course *Research Methods
 in Cognitive Psychology* at the University of Koblenz-Landau inspire the
 continued development of this library, and have provided countless valuable
-insights and sparked ideas through questions and discussions.
+insights and sparked many of the ideas embodied in this project through
+questions and discussions.
 
 ####Institutional support
 
@@ -73,13 +74,17 @@ insights and sparked ideas through questions and discussions.
 [GESS, University of Mannheim](http://gess.uni-mannheim.de/) ·
 [University of Koblenz-Landau](https://www.cognition.uni-landau.de/)
 
-####External libraries
-
-[core-js](https://github.com/zloirock/core-js) ·
-[file-saver](https://github.com/eligrey/FileSaver.js) ·
-[lodash](https://lodash.com/) ·
-[seedrandom.js](https://github.com/davidbau/seedrandom)
-
 ### License
 
-`lab.js` is made available under the terms of the [Apache License](/license).
+The two parts of this project are licensed individually:
+
+* The `lab.js` **core library** that is included in your studies is made
+  available under the terms of the [Apache License](/library/license).
+* The **builder**, the graphical interface used to build experiments,
+  is provided under the terms of the [GNU Affero General Public
+  License](/builder/license).
+
+The studies you build based on the library, and those you create using the
+builder, are always your own, and you are free to distribute them as you see
+fit. When studies include the core library files, these files alone are governed
+by the aforementioned licenses.
