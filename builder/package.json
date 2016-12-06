@@ -6,8 +6,12 @@
     "react-scripts": "0.8.4"
   },
   "dependencies": {
+    "bootstrap": "^4.0.0-alpha.5",
     "react": "^15.4.1",
-    "react-dom": "^15.4.1"
+    "react-addons-css-transition-group": "^15.4.1",
+    "react-addons-transition-group": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "reactstrap": "^3.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
