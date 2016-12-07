@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import Layout from '../Layout'
+import Card from '../Card'
 
 class App extends Component {
   render() {
     return (
       <Layout sidebar={ <div>Sidebar</div> }>
-        Main area
+        <Card title="Card">Content</Card>
       </Layout>
     )
   }
