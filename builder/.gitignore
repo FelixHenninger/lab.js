@@ -14,3 +14,4 @@ build
 .env
 npm-debug.log
 public/vendor
+public/vs
