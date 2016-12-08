@@ -12,7 +12,9 @@
     "react-addons-transition-group": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-monaco-editor": "^0.7.1",
+    "react-redux": "^5.0.1",
     "reactstrap": "^3.9.5",
+    "redux": "^3.6.0",
     "webfont-dl": "^0.1.2"
   },
   "scripts": {
