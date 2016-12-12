@@ -1,0 +1,12 @@
+.popover {
+  font-family: 'Fira Sans', sans-serif;
+}
+.popover .popover-title {
+  font-weight: bolder;
+}
+/* Improve the spacing within the popovers somewhat.
+   This might turn out to be a bad idea in practice */
+.popover .popover-title, .popover .popover-content {
+  padding-top: 12px;
+  padding-right: 18px;
+}
