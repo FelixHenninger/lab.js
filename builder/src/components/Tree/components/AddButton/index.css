@@ -1,0 +1,40 @@
+div.addButton {
+  font-size: 0.8rem;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+  border: 1px dashed rgba(0, 0, 0, 0);
+  /* Add a margin to make clear the nestedness */
+  margin-left: 10px;
+  /*
+    Attempts to move the widget slightly
+    above its surroundings so that the hover area
+    is larger without taking up screen space
+  */
+  position: relative;
+  z-index: 10;
+  top: -2px;
+  margin-top: -2px;
+  margin-bottom: -2px;
+  height: 8px;
+  transition: height 0.15s 0.025s, border-color 0.05s 0.025s;
+  overflow-y: hidden;
+}
+div.addButton:hover, div.addButton.addButton-pinned {
+  height: 30px;
+  border: 1px dashed rgba(0, 0, 0, 0.15);
+}
+
+/* Reset the positioning hacks if the button is pinned */
+div.addButton.addButton-pinned {
+  top: 0;
+  margin-top: 4px;
+  margin-bottom: 6px;
+}
+
+/* Button content: plus sign */
+div.addButton > .fa-plus {
+  display: block;
+  position: relative;
+  top: 0.55rem;
+}

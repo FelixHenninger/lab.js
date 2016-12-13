@@ -13,13 +13,19 @@ const defaultState = {
     id: 'Experiment',
     title: 'Experiment',
     type: 'lab.flow.Sequence',
-    children: ['Instruction']
+    children: ['1', '2']
   },
-  'Instruction': {
-    id: 'Instruction',
+  '1': {
+    id: '1',
     title: 'Instruction',
     type: 'lab.html.Screen',
     content: 'This is some content',
+  },
+  '2': {
+    id: '2',
+    title: 'Instruction2.title',
+    type: 'lab.flow.Sequence',
+    content: 'This is some more content',
   },
 }
 
