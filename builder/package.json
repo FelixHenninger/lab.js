@@ -15,7 +15,8 @@
     "react-dnd-html5-backend": "^2.1.2",
     "react-dom": "^15.4.1",
     "react-monaco-editor": "^0.7.1",
-    "react-redux": "^5.0.1",
+    "react-redux": "^4.4.6",
+    "react-redux-form": "^1.5.0",
     "reactstrap": "^3.9.5",
     "redux": "^3.6.0",
     "webfont-dl": "^0.1.2"

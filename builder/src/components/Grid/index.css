@@ -1,0 +1,66 @@
+/* Add spacing above if placed
+   directly underneath a card header
+   (the intermediate div is from a Fieldset) */
+div.card div.card-header + div > table.grid {
+  margin-top: 0.25rem;
+}
+
+/* Remove table's upper border if placed
+   directly underneath a card header */
+div.card div.card-header + div > table.grid thead th {
+  border-top: none;
+}
+
+/* Add border to table bottom */
+div.card table.grid {
+  border-bottom: 2px solid #eceeef;
+}
+
+/* Left- and rightmost columns */
+div.card > table.grid tr td:first-child,
+div.card > table.grid tr th:first-child {
+  padding-left: 0.75rem;
+}
+
+div.card > table.grid tr td:last-child,
+div.card > table.grid tr th:last-child {
+  padding-right: 0.75rem;
+}
+
+/* Interior columns */
+table.grid td, table.grid tfoot td {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+/* Buttons */
+table.grid button.btn {
+  color: rgba(0, 0, 0, 0.2);
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+table.grid button.btn:hover {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+table.grid button.btn i {
+  position: relative;
+  top: 1px;
+}
+
+/* Footer */
+table.grid tfoot td {
+  font-size: 0.8rem;
+  text-align: center;
+}
+table.grid tfoot td {
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  transition: padding-top 0.1s, padding-bottom 0.1s;
+}
+table.grid tfoot:hover td {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+table.grid tfoot:hover button.btn-add {
+  border: 1px dashed rgba(0, 0, 0, 0.15);
+}
