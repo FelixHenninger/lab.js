@@ -8,9 +8,13 @@ class Card extends Component {
       isOpen: props.open !== false
     }
   }
-  
+
   render() {
-    const { title, children } = this.props
+    const { title, children, wrapContent } = this.props
+    const content = wrapContent !== false
+      ? <CardBlock>{ children }</CardBlock>
+      : children
+
     return <BaseCard>
       <CardHeader
         style={{
@@ -20,7 +24,7 @@ class Card extends Component {
       >
         { title }
       </CardHeader>
-      { this.state.isOpen ? <CardBlock>{ children }</CardBlock> : null }
+      { this.state.isOpen ? content : null }
     </BaseCard>
   }
 }
