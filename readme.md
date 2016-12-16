@@ -54,12 +54,13 @@ release notifications.
 
 ####Code / documentation
 
-[Felix Henninger](http://felixhenninger.com)
+[Felix Henninger](http://felixhenninger.com) ·
+[Ulf K. Mertens](http://www.psychologie.uni-heidelberg.de/ae/meth/team/mertens/)
 
-####Ideas and feedback
+####Ideas, feedback and examples
 
+[Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
 [Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/) ·
-[Ulf Mertens](http://www.psychologie.uni-heidelberg.de/ae/meth/team/mertens/) ·
 [Yury Shevchenko](http://yuryshevchenko.com/)
 
 The students and teaching assistants in the graduate course *Research Methods
