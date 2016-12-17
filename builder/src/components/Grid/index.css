@@ -28,7 +28,7 @@ div.card > table.grid tr th:last-child {
 }
 
 /* Interior columns */
-table.grid td, table.grid tfoot td {
+table.grid td, table.grid th, table.grid tfoot td {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
 }
