@@ -20,12 +20,23 @@ const defaultState = {
     title: 'Instruction',
     type: 'lab.html.Screen',
     content: 'This is some content',
+    responses: {
+      rows: [
+        ['red', 'keypress', '', 'r'],
+        ['green', 'keypress', '', 'g'],
+        ['blue', 'keypress', '', 'b'],
+        ['orange', 'keypress', '', 'o'],
+      ]
+    }
   },
   '2': {
     id: '2',
     title: 'Instruction2.title',
     type: 'lab.flow.Sequence',
     content: 'This is some more content',
+    responses: {
+      rows: [ ['', '', '', ''] ],
+    }
   },
 }
 

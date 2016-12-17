@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Card from '../Card'
+import Card from '../../../../Card'
 import MonacoEditor from 'react-monaco-editor'
 import './editor-style-overrides.css'
 
