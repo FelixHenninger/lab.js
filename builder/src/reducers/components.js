@@ -7,13 +7,13 @@ const defaultState = {
     id: 'root',
     title: 'root',
     type: 'lab.flow.Sequence',
-    children: ['Experiment']
+    children: ['Experiment'],
   },
   'Experiment': {
     id: 'Experiment',
     title: 'Experiment',
     type: 'lab.flow.Sequence',
-    children: ['1', '2']
+    children: ['1', '2', '3'],
   },
   '1': {
     id: '1',
@@ -26,7 +26,7 @@ const defaultState = {
         ['green', 'keypress', '', 'g'],
         ['blue', 'keypress', '', 'b'],
         ['orange', 'keypress', '', 'o'],
-      ]
+      ],
     }
   },
   '2': {
@@ -36,7 +36,19 @@ const defaultState = {
     content: 'This is some more content',
     responses: {
       rows: [ ['', '', '', ''] ],
-    }
+    },
+  },
+  '3': {
+    id: '3',
+    title: 'Loop.title',
+    type: 'lab.flow.Loop',
+    responses: {
+      rows: [ ['', '', '', ''] ],
+    },
+    templateParameters: {
+      columns: ['', ''],
+      rows: [ ['', ''] ],
+    },
   },
 }
 

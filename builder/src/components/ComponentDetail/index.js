@@ -1,10 +1,12 @@
 import React from 'react'
 
 import Sequence from './components/screens/flow/Sequence'
+import Loop from './components/screens/flow/Loop'
 import Screen from './components/screens/html/Screen'
 
 const screens = {
   'lab.flow.Sequence': Sequence,
+  'lab.flow.Loop': Loop,
   'lab.html.Screen': Screen,
 }
 

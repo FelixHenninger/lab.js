@@ -4,7 +4,7 @@ import { Col, FormGroup, Label } from 'reactstrap'
 import { Control } from 'react-redux-form'
 
 export default (props) =>
-  <Card title="Sequence" { ...props }>
+  <Card title="Content" { ...props }>
     <Col xs="2" style={{ paddingLeft: '0' }}>Order</Col>
     <Col xs="6">
       <FormGroup check>
