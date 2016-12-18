@@ -37,7 +37,7 @@ const NodeTail = ({ id, children, pinned, vacancies, onNodeClick, onChildAdded }
     }
     {
       children.map((childId, childIndex) =>
-        <NavItem key={ childId }>
+        <NavItem key={ `${ id }_${ childIndex }_${ childId }` }>
           <DraggableNode
             id={ childId }
             parentId={ id } index={ childIndex }
@@ -111,7 +111,7 @@ import { connect } from 'react-redux'
 const ConnectedNode = connect(
   (state, props) => ({
     data: state.components[props.id],
-    // active: props.id === state.componentDetail.viewProps.id,
+    active: props.id === state.componentDetail.viewProps.id,
   })
 )(Node)
 

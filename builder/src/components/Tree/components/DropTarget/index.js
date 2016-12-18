@@ -53,16 +53,17 @@ const targetSpec = {
     // Information from DropTarget
     const { id: newParent, index: newIndex } = targetProps
 
-    console.log(
-      'Moved node', id, 'from', oldParent, 'position', oldIndex,
-      'to', newParent, 'position', newIndex
-    )
+    store.dispatch({
+      type: 'MOVE_COMPONENT',
+      id,
+      oldParent, oldIndex,
+      newParent, newIndex,
+    })
   },
   canDrop: (targetProps, monitor) => {
     // Retrieve dragged node
     const itemProps = monitor.getItem()
     const nestedIds = nestedChildren(itemProps.id, store.getState().components)
-    console.log(itemProps)
 
     return !(
       // The item must not be dropped below the same
