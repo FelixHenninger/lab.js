@@ -8,7 +8,7 @@ export const metadata = {
       type: 'lab.flow.Sequence',
       children: [],
       responses: {
-        rows: ['', '', '', ''],
+        rows: [ ['', '', '', ''] ],
       },
     }
   },
@@ -21,7 +21,7 @@ export const metadata = {
       type: 'lab.flow.Loop',
       children: [],
       responses: {
-        rows: ['', '', '', ''],
+        rows: [ ['', '', '', ''] ],
       },
       templateParameters: {
         columns: ['', ''],
@@ -37,7 +37,7 @@ export const metadata = {
     defaults: {
       type: 'lab.html.Screen',
       responses: {
-        rows: ['', '', '', ''],
+        rows: [ ['', '', '', ''] ],
       },
     },
   },

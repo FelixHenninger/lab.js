@@ -14,7 +14,16 @@ const Sidebar = (props, context) =>
           id: id,
         })
       }
-      onNodeAdded={ (parent, index) => console.log('Node added below', parent, 'at position', index)}
+      onNodeAdded={
+        (parent, index) => context.store.dispatch({
+          type: 'SHOW_MODAL',
+          modalType: 'ADD_COMPONENT',
+          modalProps: {
+            parent: parent,
+            index: index,
+          },
+        })
+      }
     />
   </div>
 
