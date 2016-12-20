@@ -36,9 +36,7 @@ const prepareNested = function(nested, parent) {
 // components and runs them sequentially
 export class Sequence extends Component {
   constructor(options={}) {
-    super(options)
-
-    this.options = {
+    super({
       // Define an array of nested components
       // to iterate over
       content: [],
@@ -48,8 +46,8 @@ export class Sequence extends Component {
       // unless directed otherwise
       // (note that the hand-me-downs are copied)
       handMeDowns: [...handMeDowns],
-      ...this.options,
-    }
+      ...options,
+    })
 
     // Set default values for current component and index
     this.internals.currentComponent = null
@@ -120,12 +118,11 @@ Sequence.metadata = {
 // mapping the data onto the factory function.
 export class Loop extends Sequence {
   constructor(options={}) {
-    super(options)
-
-    this.options = {
+    super({
+      template: null,
       templateParameters: [],
-      ...this.options,
-    }
+      ...options,
+    })
 
     // Generate the content by cloning the template,
     // replacing the parameters each time, or by
@@ -155,17 +152,15 @@ export class Loop extends Sequence {
 // other components simultaneously
 export class Parallel extends Component {
   constructor(options={}) {
-    super(options)
-
-    this.options = {
+    super({
       // The content, in this case,
       // consists of an array of components
       // that are run in parallel.
       content: [],
       mode: 'race',
       handMeDowns: [...handMeDowns],
-      ...this.options,
-    }
+      ...options,
+    })
   }
 
   onPrepare() {

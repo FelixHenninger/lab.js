@@ -10,7 +10,7 @@ import { Sequence as BaseSequence } from './flow'
 // (code is clean, but not necessarily as elegant
 // as possible)
 
-const initCanvas = function(options) {
+const addCanvasDefaults = function(options) {
   // Setup canvas handling:
   // By default, the component does not
   // come bundled with a canvas. Instead,
@@ -21,12 +21,11 @@ const initCanvas = function(options) {
   // it to the dom at runtime.
   // Either way, a canvas is definitely present
   // after the component is prepared.
-  this.options = {
+  return {
     canvas: null,
     ctxType: '2d',
     ctx: null,
     insertCanvasOnRun: false,
-    ...this.options,
     ...options,
   }
 }
@@ -62,16 +61,10 @@ const insertCanvas = function() {
 
 export class Screen extends Component {
   constructor(options={}) {
-    super(options)
-
-    this.options = {
+    super({
       renderFunction: (() => null),
-      ...this.options,
-      ...options,
-    }
-
-    // Initialize canvas
-    initCanvas.apply(this, [options])
+      ...addCanvasDefaults(options),
+    })
 
     // Provide an attribute for tracking
     // redraw requests
@@ -127,10 +120,9 @@ Screen.metadata = {
 // drawing on the same canvas
 export class Sequence extends BaseSequence {
   constructor(options={}) {
-    super(options)
-
-    // Initialize canvas
-    initCanvas.apply(this, [options])
+    super(
+      addCanvasDefaults(options)
+    )
 
     // Push canvas to nested components
     if (!this.options.handMeDowns.includes('canvas')) {

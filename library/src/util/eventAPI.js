@@ -9,21 +9,21 @@ export class EventHandler {
   constructor(options={}) {
     // Internal storage for whatever,
     // not supposed to be accessed by end-users
-    this.internals = {}
-
-    // Collect callbacks
-    this.internals.callbacks = {}
-
-    // Define default options
-    this.options = {
-      debug: false,
-      plugins: [],
-      ...options,
+    this.internals = {
+      // Collect callbacks
+      callbacks: {},
+      // Define default options
+      rawOptions: {
+        debug: false,
+        plugins: [],
+        ...options,
+      },
+      parsedOptions: {},
     }
 
     // Add plugin support
     this.plugins = new PluginAPI(this)
-    this.options.plugins.map(p => this.plugins.add(p))
+    this.internals.rawOptions.plugins.map(p => this.plugins.add(p))
   }
 
   // Basic event handling

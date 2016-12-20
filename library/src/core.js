@@ -1,6 +1,7 @@
 import { extend, cloneDeep } from 'lodash'
 import { EventHandler } from './util/eventAPI'
 import { DomConnection } from './util/domEvents'
+import { parseOption, parseAllOptions } from './util/options'
 import { preloadImage, preloadAudio } from './util/preload'
 
 // Define status codes
@@ -15,9 +16,7 @@ export const status = Object.freeze({
 export class Component extends EventHandler {
   constructor(options={}) {
     // Construct the EventHandler first
-    super(options)
-
-    this.options = {
+    super({
       // DOM event handlers
       events: {},
       // Component event handlers
@@ -50,8 +49,38 @@ export class Component extends EventHandler {
       // There is no timeout by default
       timeout: null,
 
-      ...this.options,
-    }
+      ...options,
+
+      // Setup media handling
+      media: {
+        images: [],
+        audio: [],
+        ...options.media,
+      }
+    })
+
+    // Setup option proxying
+    this.internals.parsedOptions = Object.create(this.internals.rawOptions)
+    this.options = new Proxy(this.internals.rawOptions, {
+      get: (target, key) => this.internals.parsedOptions[key],
+      set: (target, key, value) => {
+        // Always set the raw value
+        this.internals.rawOptions[key] = value
+
+        // Once the component has been prepared,
+        // parse all options as they are set
+        if (this.status >= status.prepared) {
+          this.internals.parsedOptions[key] =
+            parseOption.call(this, key, value, {
+              parameters: this.aggregateParameters,
+              state: this.options.datastore ? this.options.datastore.state : {},
+            })
+        }
+
+        // Acknowledge success
+        return true
+      },
+    })
 
     // Setup a storage for internal properties
     // (these are not supposed to be directly
@@ -64,13 +93,6 @@ export class Component extends EventHandler {
 
     // Component status
     this.status = status.initialized
-
-    // Setup media handling
-    this.options.media = {
-      images: [],
-      audio: [],
-      ...this.options.media,
-    }
 
     // Setup additional data
     this.data = {}
@@ -130,6 +152,17 @@ export class Component extends EventHandler {
     // Trigger the before:prepare event
     await this.triggerMethod('before:prepare')
 
+    // Parse options
+    const parsed_options = parseAllOptions.call(this, this.internals.rawOptions, {
+      parameters: this.aggregateParameters,
+      state: this.options.datastore ? this.options.datastore.state : {},
+    })
+
+    this.internals.parsedOptions = extend(
+      Object.create(this.internals.rawOptions),
+      parsed_options
+    )
+
     // Setup automatic event handling for responses
     Object.keys(this.options.responses).forEach(
       (eventString) => {
@@ -178,13 +211,6 @@ export class Component extends EventHandler {
 
     // Update status
     this.status = status.prepared
-
-    // TODO: Need to reflect on the order of the last
-    // two operations. A problem emerged that calls
-    // to 'run' in a prepare handler would lead to
-    // double preparation, therefore the current order
-    // was chosen. However, this might be revised
-    // at some later point for clearer semantics.
   }
 
   async run() {
@@ -302,18 +328,20 @@ export class Component extends EventHandler {
   // Return a component of the same type,
   // with identical options
   clone(options={}) {
+    const rawOptions = this.internals.rawOptions
+
     // Copy local options
     const cloneOptions = {
-      ...cloneDeep(this.options),
+      ...cloneDeep(rawOptions),
       ...options,
     }
 
     // Clone any nested components
     this.constructor.metadata.nestedComponents.forEach(o => {
-      if (Array.isArray(this.options[o])) {
-        cloneOptions[o] = this.options[o].map(c => c.clone())
+      if (Array.isArray(rawOptions[o])) {
+        cloneOptions[o] = rawOptions[o].map(c => c.clone())
       } else {
-        cloneOptions[o] = this.options[o].clone()
+        cloneOptions[o] = rawOptions[o].clone()
       }
     })
 
@@ -347,6 +375,10 @@ export class Component extends EventHandler {
 Component.metadata = {
   module: ['core'],
   nestedComponents: [],
+  parsableOptions: {
+    correctResponse: ['string'],
+    timeout:         ['number'],
+  },
 }
 
 // Default options ----------------------------------------
@@ -362,10 +394,9 @@ export const handMeDowns = [
 // immediately as soon as it is called
 export class Dummy extends Component {
   constructor(options={}) {
-    super(options)
-    this.options = {
+    super({
       timeout: 0,
-      ...this.options,
-    }
+      ...options,
+    })
   }
 }

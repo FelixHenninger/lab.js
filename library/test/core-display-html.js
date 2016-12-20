@@ -46,7 +46,7 @@ describe('HTML-based components', () => {
     })
 
     it('fills template tags in the content using parameters', () => {
-      h.options.content = 'Hello ${ place }!'
+      h.options.content = 'Hello ${ parameters.place }!'
       h.options.parameters['place'] = 'World'
 
       return h.prepare().then(() => {
@@ -55,7 +55,7 @@ describe('HTML-based components', () => {
     })
 
     it('accepts changes to parameters before preparation', () => {
-      h.options.content = 'Hello ${ place }!'
+      h.options.content = 'Hello ${ parameters.place }!'
       h.options.parameters['place'] = 'World'
       h.on('before:prepare', function() {
         this.options.parameters.place = 'Mars'

@@ -6,6 +6,14 @@ import 'whatwg-fetch'
 
 // html.Screens display HTML when run
 export class Screen extends Component {
+  constructor(options) {
+    super({
+      content: null,
+      contentUrl: null,
+      ...options,
+    })
+  }
+
   onPrepare() {
     return Promise.resolve().then(() => {
       // Fetch content from URL, if one is given
@@ -20,10 +28,6 @@ export class Screen extends Component {
       } else {
         return null
       }
-    }).then(() => {
-      // Post-process template by adding
-      // placeholders through lodash.template
-      this.options.content = template(this.options.content)(this.aggregateParameters)
     })
   }
 
@@ -36,17 +40,18 @@ export class Screen extends Component {
 Screen.metadata = {
   module: ['html'],
   nestedComponents: [],
+  parsableOptions: {
+    content: ['string'],
+  }
 }
 
 // An html.Form can show, validate and serialize a form
 export class Form extends Screen {
   constructor(options={}) {
-    super(options)
-
-    this.options = {
+    super({
       validator: () => true,
-      ...this.options,
-    }
+      ...options,
+    })
 
     // Capture form submissions
     this.options.events['submit form'] = (e) => {
@@ -167,13 +172,12 @@ Form.metadata = {
 
 export class Frame extends Component {
   constructor(options={}) {
-    super(options)
-    this.options = {
+    super({
       content: null,
       context: '',
       contextId: '',
-      ...this.options,
-    }
+      ...options,
+    })
   }
 
   onPrepare() {
@@ -223,4 +227,7 @@ export class Frame extends Component {
 Frame.metadata = {
   module: ['html'],
   nestedComponents: ['content'],
+  parsableOptions: {
+    context: ['string'],
+  }
 }
