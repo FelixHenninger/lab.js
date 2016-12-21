@@ -442,6 +442,144 @@ describe('Core', () => {
       })
     })
 
+    describe('Options', () => {
+      it('mirrors options to internals.rawOptions', () => {
+        const c = new lab.core.Component({
+          demoOption: 'demo value',
+        })
+        assert.equal(c.internals.rawOptions.demoOption, 'demo value')
+
+        c.options.demoOption = 'changed value'
+        assert.equal(c.internals.rawOptions.demoOption, 'changed value')
+      })
+
+      it('retrieves options via internals.parsedOptions', () => {
+        const c = new lab.core.Component({
+          demoOption: 'demo value',
+        })
+        assert.equal(c.options.demoOption, 'demo value')
+
+        c.internals.parsedOptions.demoOption = 'substituted value'
+        assert.equal(c.options.demoOption, 'substituted value')
+      })
+
+      it('parses options that are included in parsableOptions during prepare', () => {
+        // As below, this would be more cleanly
+        // tested using a custom component class.
+        c = new lab.core.Component({
+          correctResponse: '${ parameters.correctResponse }',
+          parameters: {
+            correctResponse: 'inserted value',
+          },
+        })
+
+        assert.notEqual(
+          c.options.correctResponse, 'inserted value'
+        )
+
+        return c.prepare().then(() => {
+          assert.equal(
+            c.options.correctResponse, 'inserted value'
+          )
+        })
+      })
+
+      it('doesn\'t parse options that are not included in parsableOptions', () => {
+        c = new lab.core.Component({
+          foo: '${ parameters.foo }',
+          parameters: {
+            foo: 'bar',
+          }
+        })
+
+        return c.prepare().then(() => {
+          assert.equal(c.options.foo, '${ parameters.foo }')
+        })
+      })
+
+      it('coerces types where requested', () => {
+        c = new lab.core.Component({
+          timeout: '${ parameters.timeout }',
+          parameters: {
+            timeout: '123',
+          },
+        })
+
+        c.prepare().then(() => {
+          assert.equal(
+            c.options.timeout, 123
+          )
+          assert.equal(
+            typeof c.options.timeout, 'number'
+          )
+        })
+      })
+
+      it('collects parsableOptions via prototype chain', () => {
+        // This is awkward to test, since the parsableOptions
+        // are not exposed on components. An alternative would
+        // be to construct an artificial component prototype
+        // chain, but this is not easy without resorting to es6
+        // classes (which won't run in all browsers without
+        // transpiling).
+        const s = new lab.html.Screen({
+          correctResponse: 'Hello ${ parameters.place }!',
+          parameters: {
+            place: 'world',
+          },
+        })
+
+        // Test that correctResponse is parsed even though it
+        // is not included in the screen's parsableOptions
+        assert.notOk(
+          Object.keys(s.constructor.metadata.parsableOptions)
+            .includes('correctResponse')
+        )
+
+        return s.prepare().then(() => {
+          assert.equal(s.options.correctResponse, 'Hello world!')
+        })
+      })
+
+      it('makes available component while parsing (through this)', () => {
+        const c = new lab.core.Component({
+          correctResponse: '${ this.foo }',
+        })
+        c.foo = 'Hooray!'
+
+        return c.prepare().then(() => {
+          assert.equal(c.options.correctResponse, 'Hooray!')
+        })
+      })
+
+      it('does not allow code execution in template', () => {
+        const c = new lab.core.Component({
+          correctResponse: '<% print("I am evil"); %>!',
+        })
+
+        return c.prepare().then(() => {
+          assert.notEqual(c.options.correctResponse, 'I am evil!')
+        })
+      })
+
+      it('automatically parses options set after preparing', () => {
+        c = new lab.core.Component({
+          parameters: {
+            foo: 'bar',
+          },
+        })
+
+        assert.equal(c.options.correctResponse, null)
+
+        return c.prepare().then(() => {
+          c.options.correctResponse = '${ parameters.foo }'
+          assert.equal(c.internals.rawOptions.correctResponse, '${ parameters.foo }')
+          assert.equal(c.internals.parsedOptions.correctResponse, 'bar')
+          assert.equal(c.options.correctResponse, 'bar')
+        })
+      })
+    })
+
     describe('Data', () => {
       it('commits data if datastore is provided', () => {
         b.options.datastore = new lab.data.Store()
