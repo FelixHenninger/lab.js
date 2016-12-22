@@ -1,10 +1,18 @@
 import React from 'react'
-import Tree from '../Tree'
 
+import Toolbar from '../Toolbar'
+import Tree from '../Tree'
 import Node from '../Tree/components/Node'
+
+import logo from '../../../public/logo.blue.png'
 
 const Sidebar = (props, context) =>
   <div>
+    <div style={{ textAlign: 'center' }}>
+      <img src={ logo } style={{ width: '115px', marginBottom: '24px' }} />
+    </div>
+    <Toolbar />
+    <hr style={{ marginBottom: '14px' }} />
     <Tree
       Node={ Node }
       rootId="root"

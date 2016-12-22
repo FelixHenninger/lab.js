@@ -1,0 +1,13 @@
+.toolbar {
+  text-align: center !important;
+}
+
+.toolbar button .fa {
+  position: relative;
+  top: 0.1rem;
+}
+
+.toolbar button .fa-folder-open-o {
+  position: relative;
+  top: 0.175rem;
+}
