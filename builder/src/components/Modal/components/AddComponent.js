@@ -8,7 +8,7 @@ const AddComponentModal = ({ parent, index, closeHandler }, context) =>
     <ModalHeader
       toggle={ closeHandler }
     >
-      Add Component
+      Add Component&nbsp;
       <small className="text-muted">
         Parent: {parent}, Index: {index}
       </small>
