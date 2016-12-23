@@ -173,6 +173,9 @@ export default (state=defaultState, action) => {
         }
       }
 
+    case 'RESET_STATE':
+      return defaultState
+
     default:
       return state
   }

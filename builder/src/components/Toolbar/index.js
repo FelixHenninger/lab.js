@@ -3,7 +3,7 @@ import { ButtonGroup, Button } from 'reactstrap'
 
 import './styles.css'
 
-export default () =>
+const Toolbar = (props, context) =>
   <div className="toolbar">
     <ButtonGroup>
       <Button color="primary">
@@ -11,7 +11,14 @@ export default () =>
       </Button>
     </ButtonGroup>{' '}
     <ButtonGroup>
-      <Button>
+      <Button
+        onClick={() => {
+          if (window.confirm('Do you really want to reset the study?')) {
+            context.store.dispatch({ type: 'RESET_STATE' })
+            context.store.dispatch({ type: 'SHOW_COMPONENT_DETAIL', id: null })
+          }
+        }}
+      >
         <i className="fa fa-file-o" aria-hidden="true"></i>
       </Button>
       <Button>
@@ -30,3 +37,9 @@ export default () =>
       </Button>
     </ButtonGroup>
   </div>
+
+Toolbar.contextTypes = {
+  store: React.PropTypes.object
+}
+
+export default Toolbar
