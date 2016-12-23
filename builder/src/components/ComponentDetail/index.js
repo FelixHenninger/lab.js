@@ -3,6 +3,7 @@ import React from 'react'
 import Sequence from './components/screens/flow/Sequence'
 import Loop from './components/screens/flow/Loop'
 import Screen from './components/screens/html/Screen'
+import Fallback from './components/screens/Fallback'
 
 const screens = {
   'lab.flow.Sequence': Sequence,
@@ -11,7 +12,12 @@ const screens = {
 }
 
 const componentDetail = (props) => {
-  const Screen = screens[props.type]
+  let Screen
+  if (props.type !== undefined) {
+    Screen = screens[props.type]
+  } else {
+    Screen = Fallback
+  }
   return <Screen id={ props.id } />
 }
 
