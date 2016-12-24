@@ -15,7 +15,9 @@ class Card extends Component {
       ? <CardBlock>{ children }</CardBlock>
       : children
 
-    return <BaseCard>
+    return <BaseCard
+        style={ this.props.style }
+      >
       <CardHeader
         style={{
           borderBottomStyle: (this.state.isOpen ? 'solid' : 'none')
