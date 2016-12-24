@@ -9,7 +9,11 @@ import logo from '../../../public/logo.blue.png'
 const Sidebar = (props, context) =>
   <div>
     <div style={{ textAlign: 'center' }}>
-      <img src={ logo } style={{ width: '115px', marginBottom: '24px' }} />
+      <img
+        src={ logo }
+        alt="lab.js logo"
+        style={{ width: '115px', marginBottom: '24px' }}
+      />
     </div>
     <Toolbar />
     <hr style={{ marginBottom: '14px' }} />

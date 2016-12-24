@@ -505,13 +505,9 @@ describe('Core', () => {
           },
         })
 
-        c.prepare().then(() => {
-          assert.equal(
-            c.options.timeout, 123
-          )
-          assert.equal(
-            typeof c.options.timeout, 'number'
-          )
+        return c.prepare().then(() => {
+          assert.equal(c.options.timeout, 123)
+          assert.equal(typeof c.options.timeout, 'number')
         })
       })
 

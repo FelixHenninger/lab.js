@@ -4,9 +4,9 @@
   "version": "2016.1.0",
   "author": "Felix Henninger <mailbox@felixhenninger.com>",
   "license": "Apache-2.0",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/felixhenninger/lab.js.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/felixhenninger/lab.js.git"
   },
   "dependencies": {
     "babel-polyfill": "^6.20.0",
