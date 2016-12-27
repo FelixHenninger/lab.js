@@ -338,7 +338,6 @@ describe('HTML-based components', () => {
         assert.notOk(spy.calledOnce)
         return f.end()
       }).then(() => {
-        console.log('c status', c.status)
         assert.ok(spy.calledOnce)
         assert.ok(spy.calledWith('abort by frame'))
       })
