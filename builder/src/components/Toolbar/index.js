@@ -1,14 +1,13 @@
 import React from 'react'
 import { ButtonGroup, Button } from 'reactstrap'
 
+import PreviewButton from './components/PreviewButton'
 import './styles.css'
 
 const Toolbar = (props, context) =>
   <div className="toolbar">
     <ButtonGroup>
-      <Button color="primary">
-        <i className="fa fa-play" aria-hidden="true"></i>
-      </Button>
+      <PreviewButton />
     </ButtonGroup>{' '}
     <ButtonGroup>
       <Button

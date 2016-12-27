@@ -15,6 +15,27 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <!--
+      Activate service worker for preview
+    -->
+    <script type="text/javascript">
+      if ('serviceWorker' in navigator) {
+        // Compute root URL by removing filename from path, if present
+        const rootUrl = window.location.pathname.substring(
+          0, window.location.pathname.lastIndexOf('/') + 1
+        )
+
+        // Register service worker
+        navigator.serviceWorker
+          .register('worker.js', { scope: rootUrl })
+          .then(() => console.log('Service worker registered successfully'))
+          .catch(() => console.log('Error during service worker registration'))
+      } else {
+        // Alert the user to the fact that their browser
+        // does not support service workers
+        console.log('Service workers not available, preview will be disabled')
+      }
+    </script>
     <title>Builder · lab.js</title>
   </head>
   <body>
