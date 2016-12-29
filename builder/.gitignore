@@ -15,3 +15,4 @@ build
 npm-debug.log
 public/vendor
 public/vs
+public/api/_defaultStatic

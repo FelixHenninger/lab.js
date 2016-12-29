@@ -152,11 +152,27 @@ toolbox.router.get('api/:instance/preview/script.js', (request, values) => {
     .catch(e => new Response('Error ' + e, { status: 500 }))
 })
 
-toolbox.router.get('api/:instance([a-zA-Z\d-]+)/preview/:path(.+)', (request, values) => {
+toolbox.router.get('api/:instance([a-zA-Z\d_]+)/preview/:path(.+)', (request, values) => {
   console.log(`Accessing (presumably static) file ${ values.path }`)
-  if (!values.instance.startsWith('_')) {
-    const newPath = `${ root }api/_defaultStatic/${ values.path }`
-    console.log(`Redirecting request from ${ request.url } to ${ newPath }`)
-    return Response.redirect(newPath)
+  if (values.instance.startsWith('_')) {
+    return
+  } else {
+    return localforage.getItem(values.instance)
+      .then(r => r.files)
+      .then(files => {
+        if (Object.keys(files.files).includes(values.path)) {
+          const headers = new Headers()
+          headers.append("Content-type", files.files[values.path].type)
+          return new Response(
+            files.files[values.path].content, { status: 200, headers }
+          )
+        } else if (Object.keys(files.bundledFiles).includes(values.path)) {
+          const newPath = `${ root }api/_defaultStatic/${ values.path }`
+          console.log(`Redirecting request from ${ request.url } to ${ newPath }`)
+          return Response.redirect(newPath)
+        } else {
+          return new Response('Couldn\'t find requested file', { status: 404 })
+        }
+      })
   }
 })

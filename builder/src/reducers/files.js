@@ -8,7 +8,7 @@ const index_html = `<!doctype html>
   <link rel="stylesheet" href="lib/lab.css">
   <!-- study code and styles -->
   <script defer src="script.js"></script>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- If you're looking to fill all available browser space,

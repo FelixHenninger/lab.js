@@ -20,7 +20,7 @@ export default class PreviewButton extends Component {
   }
 
   clickHandler() {
-    const { components } = this.context.store.getState()
+    const { components, files } = this.context.store.getState()
 
     // TODO: The interaction with the API should
     // probably be wrapped and placed with the
@@ -30,6 +30,7 @@ export default class PreviewButton extends Component {
       body: JSON.stringify({
         version: 0.1,
         components,
+        files,
       }),
     }).then(response => {
       console.log(`Sent study data to API, received status ${ response.status }`)
