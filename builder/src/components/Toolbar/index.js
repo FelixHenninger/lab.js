@@ -31,7 +31,17 @@ const Toolbar = (props, context) =>
       <Button>
         <i className="fa fa-file-archive-o" aria-hidden="true"></i>
       </Button>
-      <Button>
+      <Button
+        onClick={
+          () => context.store.dispatch({
+            type: 'SHOW_MODAL',
+            modalType: 'OPTIONS',
+            modalProps: {
+              large: true,
+            },
+          })
+        }
+      >
         <i className="fa fa-sliders" aria-hidden="true"></i>
       </Button>
     </ButtonGroup>

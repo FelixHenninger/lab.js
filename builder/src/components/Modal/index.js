@@ -1,11 +1,14 @@
 import React from 'react'
 import Modal from 'react-modal'
+import classnames from 'classnames'
 
 // Individual, task-specific modal content
 import AddComponentModal from './components/AddComponent'
+import OptionsModal from './components/Options'
 
 const MODAL_COMPONENTS = {
   'ADD_COMPONENT': AddComponentModal,
+  'OPTIONS': OptionsModal,
 }
 
 // Overall general-purpose modal container
@@ -18,7 +21,10 @@ const CustomModal = ({ modalType, modalProps }, context) => {
   return (
     <Modal
       isOpen={ modalType !== null }
-      className="modal-dialog"
+      className={ classnames({
+        'modal-dialog': true,
+        'modal-lg': modalProps.large,
+      }) }
       overlayClassName="modal fade in"
       contentLabel="App Modal"
       style={{
