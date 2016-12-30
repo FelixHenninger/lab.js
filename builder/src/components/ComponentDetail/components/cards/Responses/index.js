@@ -58,7 +58,7 @@ export default (props) =>
             title="Correct response"
             className="pull-right" style={{ paddingTop: '0.5rem' }}
           >
-            End component automatically after this interval
+            Label of the response classified as correct.
           </Hint>
         </Col>
         <Col xs="10">
