@@ -7,48 +7,7 @@ const defaultState = {
     id: 'root',
     title: 'root',
     type: 'lab.flow.Sequence',
-    children: ['Experiment'],
-  },
-  'Experiment': {
-    id: 'Experiment',
-    title: 'Experiment',
-    type: 'lab.flow.Sequence',
-    children: ['1', '2', '3'],
-  },
-  '1': {
-    id: '1',
-    title: 'Instruction',
-    type: 'lab.html.Screen',
-    content: 'This is some content',
-    responses: {
-      rows: [
-        ['red', 'keypress', '', 'r'],
-        ['green', 'keypress', '', 'g'],
-        ['blue', 'keypress', '', 'b'],
-        ['orange', 'keypress', '', 'o'],
-      ],
-    }
-  },
-  '2': {
-    id: '2',
-    title: 'Instruction2.title',
-    type: 'lab.flow.Sequence',
-    content: 'This is some more content',
-    responses: {
-      rows: [ ['', '', '', ''] ],
-    },
-  },
-  '3': {
-    id: '3',
-    title: 'Loop.title',
-    type: 'lab.flow.Loop',
-    responses: {
-      rows: [ ['', '', '', ''] ],
-    },
-    templateParameters: {
-      columns: ['', ''],
-      rows: [ ['', ''] ],
-    },
+    children: [],
   },
 }
 
