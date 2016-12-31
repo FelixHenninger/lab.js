@@ -1,7 +1,7 @@
 /* Navigation pill styles */
 .tree-node a.nav-link {
   color: rgb(2, 117, 216);
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
   border-radius: 0.25rem;
 }
 .tree-node a.nav-link:hover {
@@ -20,4 +20,16 @@
 }
 .tree-node li.nav-item ul.nav-pills {
   margin-left: 0.75rem;
+}
+
+/* Delete button */
+.tree-node a.nav-link button.delete {
+  display: none !important;
+}
+.tree-node a.nav-link:hover button.delete,
+.tree-node a.nav-link.active button.delete {
+  display: inline !important;
+}
+.tree-node a.nav-link.active:hover button.delete {
+  color: white
 }

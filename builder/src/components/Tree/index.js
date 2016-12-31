@@ -1,11 +1,12 @@
 import React from 'react'
 
-const Tree = ({ Node, rootId, onNodeClick, onNodeAdded }) =>
+const Tree = ({ Node, rootId, onNodeClick, onNodeDelete, onNodeAdded }) =>
   <Node
     id={ rootId }
     renderBody={ false }
     parentId={ null }
     onClick={ onNodeClick }
+    onDelete={ onNodeDelete }
     onChildAdded={ onNodeAdded }
   />
 

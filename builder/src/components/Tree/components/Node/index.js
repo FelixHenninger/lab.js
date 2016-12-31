@@ -1,5 +1,5 @@
 import React from 'react'
-import { Nav, NavItem, NavLink } from 'reactstrap'
+import { Nav, NavItem, NavLink, Button } from 'reactstrap'
 
 import AddButton from '../AddButton'
 import DropTarget from '../DropTarget'
@@ -7,16 +7,23 @@ import DropTarget from '../DropTarget'
 import { metadata } from '../../../../logic/components'
 import './index.css'
 
-const NodeBody = ({ id, active, onClick, children }) =>
+const NodeBody = ({ id, parent, active, onClick, onDelete, children }) =>
   <NavLink
     href="#" active={ active }
     style={{ cursor: 'move' }}
     onClick={ () => onClick(id) }
   >
     { children }
+    <Button
+      onClick={ () => onDelete(id, parent) }
+      className="delete pull-right"
+      size="sm" color="link"
+    >
+      <i className="fa fa-trash"></i>
+    </Button>
   </NavLink>
 
-const NodeTail = ({ id, children, pinned, vacancies, onNodeClick, onChildAdded }) =>
+const NodeTail = ({ id, children, pinned, vacancies, onNodeClick, onNodeDelete, onChildAdded }) =>
   <Nav pills stacked>
     {
       !vacancies ? null :
@@ -42,6 +49,7 @@ const NodeTail = ({ id, children, pinned, vacancies, onNodeClick, onChildAdded }
             id={ childId }
             parentId={ id } index={ childIndex }
             onClick={ onNodeClick }
+            onDelete={ onNodeDelete }
             onChildAdded={ onChildAdded }
           />
           {
@@ -62,7 +70,7 @@ const NodeTail = ({ id, children, pinned, vacancies, onNodeClick, onChildAdded }
     }
   </Nav>
 
-const Node = ({ id, data, active, renderBody, onClick, onChildAdded, connectDragSource }) => {
+const Node = ({ id, parentId, data, active, renderBody, onClick, onDelete, onChildAdded, connectDragSource }) => {
   const { type } = data
   const { minChildren, maxChildren } = metadata[type]
 
@@ -84,8 +92,10 @@ const Node = ({ id, data, active, renderBody, onClick, onChildAdded, connectDrag
           connectDragSource(<div>
             <NodeBody
               id={ id }
+              parent={ parentId }
               active={ active }
               onClick={ onClick }
+              onDelete={ onDelete }
             >
               { data.title }
             </NodeBody>
@@ -98,6 +108,7 @@ const Node = ({ id, data, active, renderBody, onClick, onChildAdded, connectDrag
         pinned={ tailPinned }
         vacancies={ tailVacancies }
         onNodeClick={ onClick }
+        onNodeDelete={ onDelete }
         onChildAdded={ onChildAdded }
       />
     </div>

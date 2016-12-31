@@ -26,6 +26,12 @@ const Sidebar = (props, context) =>
           id: id,
         })
       }
+      onNodeDelete={
+        (id, parent) => context.store.dispatch({
+          type: 'DELETE_COMPONENT',
+          id, parent,
+        })
+      }
       onNodeAdded={
         (parent, index) => context.store.dispatch({
           type: 'SHOW_MODAL',
