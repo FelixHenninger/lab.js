@@ -24,12 +24,12 @@ const createResponsePair = (r) =>
   // { label: 'label', event: 'keypress', ...}
   // into an array with two parts: a label,
   // and an event definition, such as
-  // ['red', 'keypress(r)']
+  // ['keypress(r)', 'red']
   [
-    r.label.trim(),
     `${ r.event }` +
       `${ r.filter ? `(${ r.filter.trim() })` : ''}` +
-      `${ r.target ? ` ${ r.target.trim() }`  : ''}`
+      `${ r.target ? ` ${ r.target.trim() }`  : ''}`,
+    r.label.trim()
   ]
 
 // Process individual fields
@@ -38,8 +38,10 @@ const processResponses = (responses) => {
   // of objects that contain the individual parts
   const grid = processGrid(responses, ['label', 'event', 'target', 'filter'])
   // Process each of these objects into an array
-  // of [label, responseParams] pairs
+  // of [responseParams, label] pairs
   const pairs = grid.map(createResponsePair)
+  // Finally, create an object of
+  // { responseParams: label } mappings
   return _.fromPairs(pairs)
 }
 
