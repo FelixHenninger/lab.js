@@ -2,6 +2,7 @@ import React from 'react'
 import { ButtonGroup, Button } from 'reactstrap'
 
 import PreviewButton from './components/PreviewButton'
+import { stateToDownload } from '../../logic/export'
 import './styles.css'
 
 const Toolbar = (props, context) =>
@@ -23,7 +24,11 @@ const Toolbar = (props, context) =>
       <Button>
         <i className="fa fa-folder-open-o" aria-hidden="true"></i>
       </Button>
-      <Button>
+      <Button
+        onClick={
+          () => stateToDownload(context.store.getState())
+        }
+      >
         <i className="fa fa-save" aria-hidden="true"></i>
       </Button>
     </ButtonGroup>{' '}

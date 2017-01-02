@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button } from 'reactstrap'
 
+import { stateToJSON } from '../../../logic/export.js'
 import PreviewWindow from '../../../logic/PreviewWindow'
 
 export default class PreviewButton extends Component {
@@ -20,18 +21,12 @@ export default class PreviewButton extends Component {
   }
 
   clickHandler() {
-    const { components, files } = this.context.store.getState()
-
     // TODO: The interaction with the API should
     // probably be wrapped and placed with the
     // other application logic-related code.
     return fetch('api/labjs_preview/update', {
       method: 'POST',
-      body: JSON.stringify({
-        version: 0.1,
-        components,
-        files,
-      }),
+      body: stateToJSON(this.context.store.getState()),
     }).then(response => {
       console.log(`Sent study data to API, received status ${ response.status }`)
     }).then(
