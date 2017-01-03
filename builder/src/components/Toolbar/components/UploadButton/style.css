@@ -1,0 +1,21 @@
+/*
+  This is a hack for including a div
+  with the class btn-surrogate, which
+  itself contains a regular button,
+  in a bootstrap btn-group
+*/
+.btn-group .btn-surrogate {
+  display: inline-block;
+  margin-left: -1px;
+  position: relative;
+  float: left;
+  margin-bottom: 0;
+  background-color: red;
+  z-index: 2;
+}
+.btn-group .btn-surrogate .btn {
+  border-radius: 0px;
+}
+.btn-group .btn-surrogate + .btn {
+  margin-left: -1px;
+}
