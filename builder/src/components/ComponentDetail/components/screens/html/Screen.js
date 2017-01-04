@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { LocalForm } from 'react-redux-form'
+import { omit } from 'lodash'
 
 import { wrapScreen, updateComponent } from '../util'
 import MetadataCard from '../../cards/Metadata'
@@ -12,7 +13,7 @@ class Screen extends Component {
     const { id, data } = this.props
     const context = this.context
     return <LocalForm
-      initialState={ data }
+      initialState={ omit(data, ['content']) /* Leave the content to monaco */ }
       onChange={ newData => updateComponent(context.store, id, newData) }
       getDispatch={ dispatch => this.formDispatch = dispatch }
       >
