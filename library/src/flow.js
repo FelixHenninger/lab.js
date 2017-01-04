@@ -148,6 +148,11 @@ export class Loop extends Sequence {
   }
 }
 
+Loop.metadata = {
+  module: ['flow'],
+  nestedComponents: ['template'],
+}
+
 // A parallel component executes multiple
 // other components simultaneously
 export class Parallel extends Component {
