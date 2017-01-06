@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { LocalForm } from 'react-redux-form'
+import { pick } from 'lodash'
 
 import { wrapScreen, updateComponent } from '../util'
 import MetadataCard from '../../cards/Metadata'
@@ -11,7 +12,18 @@ class Loop extends Component {
   render() {
     const { id, data } = this.props
     return <LocalForm
-      initialState={ data }
+      initialState={
+        /* Select only relevant fields to avoid interactions
+           between form and the remaining UI */
+        pick(data, [
+          'title', 'notes',
+          'templateParameters',
+          'shuffle',
+          'responses',
+          'correctResponse', 'timeout',
+          'tardy',
+        ])
+      }
       onChange={ newData => updateComponent(this.context.store, id, newData) }
       getDispatch={ dispatch => this.formDispatch = dispatch }
     >

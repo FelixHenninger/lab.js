@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { LocalForm } from 'react-redux-form'
-import { omit } from 'lodash'
+import { pick } from 'lodash'
 
 import { wrapScreen, updateComponent } from '../util'
 import MetadataCard from '../../cards/Metadata'
@@ -13,7 +13,16 @@ class Screen extends Component {
     const { id, data } = this.props
     const context = this.context
     return <LocalForm
-      initialState={ omit(data, ['content']) /* Leave the content to monaco */ }
+      initialState={
+        /* Select only relevant fields to avoid interactions
+           between form and the remaining UI */
+        pick(data, [
+          'title', 'notes',
+          'responses',
+          'correctResponse', 'timeout',
+          'tardy',
+        ])
+      }
       onChange={ newData => updateComponent(context.store, id, newData) }
       getDispatch={ dispatch => this.formDispatch = dispatch }
       >
