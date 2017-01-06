@@ -1,7 +1,7 @@
 const defaultState = {
   viewType: 'COMPONENT_DETAIL',
   viewProps: {
-    id: null,
+    id: 'welcome',
   },
 }
 

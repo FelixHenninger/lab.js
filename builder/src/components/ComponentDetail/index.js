@@ -4,6 +4,7 @@ import Sequence from './components/screens/flow/Sequence'
 import Loop from './components/screens/flow/Loop'
 import Screen from './components/screens/html/Screen'
 import Fallback from './components/screens/Fallback'
+import Welcome from './components/screens/Welcome'
 
 const screens = {
   'lab.flow.Sequence': Sequence,
@@ -16,7 +17,14 @@ const componentDetail = (props) => {
   if (props.type !== undefined) {
     Screen = screens[props.type]
   } else {
-    Screen = Fallback
+    if (props.id === 'welcome') {
+      // TODO: This is a huge hack;
+      // the welcome screen should exist outside
+      // of the component detail screen
+      Screen = Welcome
+    } else {
+      Screen = Fallback
+    }
   }
   return <Screen id={ props.id } />
 }
