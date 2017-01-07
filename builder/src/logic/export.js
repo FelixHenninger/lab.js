@@ -16,7 +16,7 @@ export const stateToDownload = (state, fileprefix='study', filenameOverride=null
   // Determine filename if not set explicitly
   let filename
   if (!filenameOverride) {
-    const timestamp = moment().format('YYYY-MM-DD--HH:MM')
+    const timestamp = moment().format('YYYY-MM-DD--HH:mm')
     filename = `${ fileprefix }-${ timestamp }.study.json`
   } else {
     filename = filenameOverride
