@@ -289,10 +289,16 @@ describe('Flow control', () => {
     })
 
     it('throws an error if an invalid template is provided', () => {
-      assert.throws(
-        () => new lab.flow.Loop(),
-        'Invalid template passed to Loop'
-      )
+      // This should someday be replaced by chai-as-promised
+      let message = ''
+      return new lab.flow.Loop().prepare()
+        .then(() => message = 'done')
+        .catch(e => message = e.message)
+        .then(() => {
+          assert.equal(
+            message, 'Invalid template found in Loop'
+          )
+        })
     })
   })
 

@@ -123,14 +123,16 @@ export class Loop extends Sequence {
       templateParameters: [],
       ...options,
     })
+  }
 
+  onPrepare() {
     // Generate the content by cloning the template,
     // replacing the parameters each time, or by
     // mapping the parameters onto a function that
     // returns a component.
-    if (options.template instanceof Component) {
-      this.options.content = options.templateParameters.map((p) => {
-        const c = options.template.clone()
+    if (this.options.template instanceof Component) {
+      this.options.content = this.options.templateParameters.map((p) => {
+        const c = this.options.template.clone()
         // Extend parameters
         c.options.parameters = {
           ...c.options.parameters,
@@ -139,12 +141,14 @@ export class Loop extends Sequence {
         return c
       })
     } else if (isFunction(this.options.template)) {
-      this.options.content = options.templateParameters.map(
-        p => options.template(p, this),
+      this.options.content = this.options.templateParameters.map(
+        p => this.options.template(p, this),
       )
     } else {
-      throw new Error('Invalid template passed to Loop')
+      throw new Error('Invalid template found in Loop')
     }
+
+    return super.onPrepare()
   }
 }
 
