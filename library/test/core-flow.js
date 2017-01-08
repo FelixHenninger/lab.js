@@ -137,6 +137,14 @@ describe('Flow control', () => {
       })
     })
 
+    it('doesn\'t choke on empty content', () => {
+      s.options.content = []
+
+      return s.run().then(() => {
+        assert.equal(s.status, 3)
+      })
+    })
+
     it('shuffles content if requested', () => {
       // Generate 100 dummy components as content
       const content = _.range(100).map((i) => {
@@ -299,6 +307,16 @@ describe('Flow control', () => {
             message, 'Invalid template found in Loop'
           )
         })
+    })
+
+    it('doesn\'t choke when parameters are empty', () => {
+      const l = new lab.flow.Loop({
+        template: new lab.core.Component()
+      })
+
+      return l.run().then(() => {
+        assert.equal(l.status, 3)
+      })
     })
   })
 

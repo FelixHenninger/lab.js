@@ -75,7 +75,10 @@ export class Sequence extends Component {
 
   onEnd() {
     // End prematurely, if necessary
-    if (this.internals.currentComponent.status !== status.done) {
+    // (check whether there is an active component,
+    // and if so, whether it has finished)
+    if (this.internals.currentComponent &&
+      this.internals.currentComponent.status !== status.done) {
       this.internals.currentComponent.off('after:end', this.internals.stepper)
       this.internals.currentComponent.end('abort by sequence')
     }
