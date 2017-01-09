@@ -296,16 +296,18 @@ describe('Flow control', () => {
       )
     })
 
-    it('throws an error if an invalid template is provided', () => {
+    it('issues warning if no template, or an invalid one, is provided', () => {
+      sinon.stub(console, 'warn')
+
       // This should someday be replaced by chai-as-promised
-      let message = ''
       return new lab.flow.Loop().prepare()
-        .then(() => message = 'done')
-        .catch(e => message = e.message)
         .then(() => {
-          assert.equal(
-            message, 'Invalid template found in Loop'
+          assert.ok(
+            console.warn.withArgs(
+              'Missing or invalid template in loop, no content generated'
+            ).calledOnce
           )
+          console.warn.restore()
         })
     })
 

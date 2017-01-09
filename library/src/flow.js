@@ -148,7 +148,7 @@ export class Loop extends Sequence {
         p => this.options.template(p, this),
       )
     } else {
-      throw new Error('Invalid template found in Loop')
+      console.warn('Missing or invalid template in loop, no content generated')
     }
 
     return super.onPrepare()
