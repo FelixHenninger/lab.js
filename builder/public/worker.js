@@ -50,7 +50,13 @@ const processTemplateParameters = grid => processGrid(grid)
 
 // Process any single node in isolation
 const processNode = (node) => {
-  return Object.assign({}, node, {
+  // TODO: This filters empty string values, which are
+  // created by empty form fields in the builder. This is
+  // hackish, and may not work indefinately -- it might
+  // have to be solved on the input side, or by making
+  // the library more resilient to malformed input.
+  // Either way, this is probably not the final solution.
+  return Object.assign({}, _.pickBy(node, value => value !== ''), {
     responses: node.responses ? processResponses(node.responses) : {},
     templateParameters: node.templateParameters
       ? processTemplateParameters(node.templateParameters)
