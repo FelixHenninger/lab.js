@@ -26,6 +26,19 @@ const fromObject = (options) => {
     }
   })
 
+  // Parse plugins separately
+  // (this might also someday be replaced
+  // by a more general mechanism, but for now
+  // there is no need for e.g. nested hierarchies)
+  if (options.plugins) {
+    options.plugins = options.plugins.map((pluginOptions) => {
+      const pluginPath = pluginOptions.type.split('.').slice(1)
+      const pluginConstructor = retrieveNested(pluginPath, lab)
+      return new pluginConstructor(pluginOptions)
+    })
+  }
+
+  // Create a new component from the preprocessed options
   return new constructor(options)
 }
 
