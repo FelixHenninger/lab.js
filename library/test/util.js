@@ -140,5 +140,20 @@ describe('Utilities', () => {
       assert.instanceOf(f.options.content, lab.core.Dummy)
       assert.equal(f.options.content.options.option, 'value')
     })
+
+    it('Parses plugins', () => {
+      const pluginArgs = {
+        type: 'lab.plugins.Debug',
+      }
+
+      const c = lab.util.fromObject({
+        type: 'lab.core.Component',
+        plugins: [ pluginArgs ],
+      })
+
+      assert.ok(
+        c.plugins.plugins[0] instanceof lab.plugins.Debug
+      )
+    })
   })
 })
