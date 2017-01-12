@@ -5,6 +5,7 @@ import { Sequence, Parallel, Loop } from './flow'
 import { Store } from './data'
 import { Random } from './util/random'
 import fromObject from './util/fromObject'
+import Debug from './plugins/debug'
 import Logger from './plugins/log'
 
 const version = '2016.1.0'
@@ -33,6 +34,7 @@ const lab = {
     Store,
   },
   plugins: {
+    Debug,
     Logger,
   },
   util: {
