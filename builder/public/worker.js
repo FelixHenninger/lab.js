@@ -109,6 +109,13 @@ study.options.datastore = new lab.data.Store()
 study.run()`
 
 const processStudy = studyObject => {
+  // Add debug plugin to root component
+  // (this might be made optional at some point)
+  studyObject.components.root.plugins = [
+    { type: 'lab.plugins.Debug' }
+  ]
+
+  // Process study tree
   const componentTree = makeComponentTree(studyObject.components, 'root')
   const studyTreeJSON = JSON.stringify(componentTree, null, 2)
   return makeStudyScript(studyTreeJSON)
