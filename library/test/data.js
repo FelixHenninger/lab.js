@@ -145,6 +145,24 @@ describe('Data handling', () => {
           ['sender', 'abc']
         )
       })
+
+      it('can include state keys if requested', () => {
+        ds.commit({
+          'one': 1,
+          'two': 2
+        })
+        ds.set('three', 3)
+
+        assert.deepEqual(
+          ds.keys(),
+          ['one', 'two']
+        )
+
+        assert.deepEqual(
+          ds.keys(true),
+          ['one', 'three', 'two']
+        )
+      })
     })
 
     describe('Reset', () => {

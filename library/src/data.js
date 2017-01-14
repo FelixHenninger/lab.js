@@ -140,11 +140,16 @@ export class Store extends EventHandler {
   }
 
   // Extracting data --------------------------------------
-  keys(metadata=defaultMetadata) {
+  keys(includeState=false, metadata=defaultMetadata) {
     // Extract all keys from the data collected
     let keys = this.data.map(
       e => Object.keys(e),
     )
+
+    // Include keys from state
+    if (includeState) {
+      keys.push(Object.keys(this.state))
+    }
 
     // Flatten the nested array
     keys = flatten(keys)
