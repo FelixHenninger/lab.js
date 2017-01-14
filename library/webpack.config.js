@@ -67,7 +67,7 @@ if (minimize) {
   const reservedTerms = [
     'Component', 'Dummy',
     'Screen', 'Form', 'Frame',
-    'Sequence', 'Parallel',
+    'Sequence', 'Loop', 'Parallel',
   ]
   config.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
