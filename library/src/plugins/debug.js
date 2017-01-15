@@ -32,7 +32,7 @@ const payload = `<style type="text/css">
     font-family: "Arial", sans-serif;
     /* Box formatting */
     width: 100vw;
-    height: 20vh;
+    height: 30vh;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -43,11 +43,19 @@ const payload = `<style type="text/css">
     overflow: scroll;
   }
 
+  #labjs-debug.labjs-debug-large .labjs-debug-overlay {
+    height: 100vh;
+  }
+
   .labjs-debug-overlay-menu {
     font-size: 0.8rem;
     color: #8d8d8d;
     padding: 8px 12px 6px;
     border-bottom: 1px solid #e5e5e5;
+  }
+
+  .labjs-debug-overlay-menu a {
+    color: #8d8d8d;
   }
 
   .labjs-debug-overlay-menu .pull-right {
@@ -78,7 +86,9 @@ const payload = `<style type="text/css">
     <div class="pull-right">
       <span class="labjs-debug-toggle">&times;</span>
     </div>
-    <code>lab.js</code> · data preview
+    <code>lab.js</code> ·
+    data preview ·
+    <a href="#" class="labjs-debug-data-download">download csv</a>
   </div>
   <div class="labjs-debug-overlay-contents">
     Contents
@@ -157,6 +167,27 @@ export default class Debug {
       .querySelectorAll('.labjs-debug-toggle')
       .forEach(
         e => e.addEventListener('click', () => this.toggle()),
+      )
+
+    this.container
+      .querySelector('.labjs-debug-overlay-menu')
+      .addEventListener(
+        'dblclick',
+        () => this.container.classList.toggle('labjs-debug-large'),
+      )
+
+    this.container
+      .querySelector('.labjs-debug-data-download')
+      .addEventListener(
+        'click',
+        (e) => {
+          e.preventDefault()
+          if (this.context.options.datastore) {
+            this.context.options.datastore.download()
+          } else {
+            alert('No datastore to download from')
+          }
+        },
       )
 
     // Add payload code to document
