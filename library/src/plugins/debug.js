@@ -1,23 +1,23 @@
 const payload = `<style type="text/css">
   .labjs-debug-opener {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     color: #8d8d8d;
     /* Box formatting */
-    width: 30px;
-    height: 30px;
-    padding: 4px;
+    width: 40px;
+    height: 32px;
+    padding: 6px 8px;
     border-radius: 3px;
+    border: 1px solid #e5e5e5;
     z-index: 3;
     background-color: white;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
     /* Fixed position */
     position: fixed;
     bottom: 36px;
-    right: 36px;
+    right: -5px;
     /* Content centering */
     display: flex;
-    align-content: center;
-    justify-content: center;
+    align-items: center;
+    justify-content: left;
   }
 
   .labjs-debug-toggle {
@@ -40,10 +40,7 @@ const payload = `<style type="text/css">
     background-color: white;
     border-top: 2px solid #e5e5e5;
     display: none;
-  }
-
-  .labjs-debug-overlay-contents {
-    padding: 12px;
+    overflow: scroll;
   }
 
   .labjs-debug-overlay-menu {
@@ -61,6 +58,19 @@ const payload = `<style type="text/css">
   body.labjs-debugtools-visible .labjs-debug-overlay {
     display: block;
   }
+
+  .labjs-debug-overlay-contents {
+    padding: 12px;
+    overflow-y: auto;
+  }
+
+  .labjs-debug-overlay-contents table {
+    font-size: 0.8rem;
+  }
+
+  .labjs-debug-overlay-contents table tr.labjs-debug-state {
+    background-color: #f8f8f8;
+  }
 </style>
 <div class="labjs-debug-opener labjs-debug-toggle"><div>≡</div></div>
 <div class="labjs-debug-overlay">
@@ -68,7 +78,7 @@ const payload = `<style type="text/css">
     <div class="pull-right">
       <span class="labjs-debug-toggle">&times;</span>
     </div>
-    <code>lab.js</code> · debug tools
+    <code>lab.js</code> · data preview
   </div>
   <div class="labjs-debug-overlay-contents">
     Contents
@@ -80,6 +90,46 @@ const makeMessage = msg => `
     ${ msg }
   </div>`
 
+const parseCell = (contents) => {
+  switch (typeof contents) {
+    case 'number':
+      if (contents > 150) {
+        return contents.toFixed(0)
+      } else {
+        return contents.toFixed(2)
+      }
+    case 'undefined':
+      return ''
+    default:
+      return contents
+  }
+}
+
+const renderStore = datastore => {
+  // Export keys including state
+  const keys = datastore.keys(true)
+
+  // Render header row
+  const header = keys.map(k => `<th>${ k }</th>`)
+
+  // Render state and store
+  const state = keys.map(k => `<td>${ parseCell(datastore.state[k]) }</td>`)
+  const store = datastore.data
+    .slice().reverse() // copy before reversing in place
+    .map(
+      row => `<tr> ${ keys.map(k => `<td>${ parseCell(row[k]) }</td>`).join('') } </tr>`,
+    ).join('\n')
+
+  // Export table
+  return `
+    <table>
+      <tr>${ header.join('\n') }</tr>
+      <tr class="labjs-debug-state">${ state.join('\n') }</tr>
+      ${ store }
+    </table>
+  `
+}
+
 export default class Debug {
   handle(context, event) {
     switch (event) {
@@ -88,15 +138,14 @@ export default class Debug {
       case 'prepare':
         return this.onPrepare()
       default:
-        return
+        return null
     }
   }
 
   onInit(context) {
     // Prepare internal state
-    this.visible = false
+    this.isVisible = false
     this.context = context
-    console.log('context', context)
 
     // Prepare container element for debug tools
     this.container = document.createElement('div')
@@ -110,30 +159,38 @@ export default class Debug {
         e => e.addEventListener('click', () => this.toggle()),
       )
 
-
     // Add payload code to document
     document.body.appendChild(this.container)
   }
 
   onPrepare() {
-    this.render()
+    // TODO: The view could also update
+    // when state variables are set, but there currently
+    // is no trigger in the data store
+    if (this.context.options.datastore) {
+      this.context.options.datastore
+        .on('commit', () => this.render())
+    }
   }
 
   toggle() {
-    this.visible = !this.visible
+    this.isVisible = !this.isVisible
+    this.render()
     document.body.classList.toggle('labjs-debugtools-visible')
   }
 
   render() {
-    let contents
-    if (!this.context.options.datastore) {
-      contents = makeMessage('No data store found in component')
-    } else {
-      contents = 'foo'
-    }
+    if (this.isVisible) {
+      let contents
+      if (!this.context.options.datastore) {
+        contents = makeMessage('No data store found in component')
+      } else {
+        contents = renderStore(this.context.options.datastore)
+      }
 
-    this.container
-      .querySelector('.labjs-debug-overlay-contents')
-      .innerHTML = contents
+      this.container
+        .querySelector('.labjs-debug-overlay-contents')
+        .innerHTML = contents
+    }
   }
 }
