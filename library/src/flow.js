@@ -92,7 +92,7 @@ export class Sequence extends Component {
     // Move through the content
     const next = this.internals.iterator.next()
     if (next.done) {
-      return await this.end()
+      return await this.end('completion')
     } else {
       [this.internals.currentPosition, this.internals.currentComponent] = next.value
       this.internals.currentComponent.on('after:end', this.internals.stepper)
