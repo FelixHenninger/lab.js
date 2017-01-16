@@ -1,14 +1,16 @@
 import React from 'react'
 
-import Sequence from './components/screens/flow/Sequence'
 import Loop from './components/screens/flow/Loop'
+import Sequence from './components/screens/flow/Sequence'
+import Form from './components/screens/html/Form'
 import Screen from './components/screens/html/Screen'
 import Fallback from './components/screens/Fallback'
 import Welcome from './components/screens/Welcome'
 
 const screens = {
-  'lab.flow.Sequence': Sequence,
   'lab.flow.Loop': Loop,
+  'lab.flow.Sequence': Sequence,
+  'lab.html.Form': Form,
   'lab.html.Screen': Screen,
 }
 
