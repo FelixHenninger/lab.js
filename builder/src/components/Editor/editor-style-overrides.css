@@ -1,8 +1,19 @@
+/* Line numbers */
 .monaco-editor .line-numbers {
   color: #818a91 !important;
   font-size: 12px;
   top: 2px;
 }
+
+/* Active line highlight */
+.monaco-editor .current-line {
+  border: none !important;
+}
+.monaco-editor .view-overlays.focused .current-line {
+  border: 2px solid #eee !important;
+}
+
+/* Syntax highlighting */
 .monaco-editor .token.tag {
   padding: 0;
   font-size: 100%;
@@ -10,7 +21,8 @@
 }
 .monaco-editor .token.attribute.name,
 .monaco-editor .token.metatag.content,
-.monaco-editor .token.property-name {
+.monaco-editor .token.property-name,
+.monaco-editor .token.keyword {
   color: #0275d8 !important;
 }
 .monaco-editor .token.attribute.value {
