@@ -3,6 +3,7 @@ import { Fieldset, actions } from 'react-redux-form'
 import { Button } from 'reactstrap'
 
 import { uniqueId } from 'lodash'
+import classnames from 'classnames'
 
 import './index.css'
 
@@ -17,13 +18,20 @@ export default class Grid extends Component {
     const headerCell = this.props.headerCell || (content => content)
     const bodyCell = this.props.bodyCell || (content => content)
 
+    const showHeader = this.props.showHeader === false ? false : true
     const addColumns = this.props.addColumns || false
     const columnWidths = this.props.columnWidths ||
       columns.map(() => 90 / columns.length)
 
     return (
       <Fieldset model={ model }>
-        <table className="table grid">
+        <table
+          className={ classnames({
+            'table': true,
+            'grid': true,
+            'no-header': this.props.showHeader === false
+          }) }
+        >
           <colgroup>
             <col style={{ width: '5%' }} />
             {

@@ -7,13 +7,26 @@ div.card div.card-header + div > table.grid {
 
 /* Remove table's upper border if placed
    directly underneath a card header */
-div.card div.card-header + div > table.grid thead th {
+div.card div.card-header + div > table.grid thead th,
+div.card table.grid.no-header tbody tr:first-child td {
   border-top: none;
+}
+
+/* Remove lower border if last element in
+   a card */
+div.card table.grid:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
 }
 
 /* Add border to table bottom */
 div.card table.grid {
   border-bottom: 2px solid #eceeef;
+}
+
+/* Hide header if requested */
+div.card table.grid.no-header thead {
+  display: none;
 }
 
 /* Left- and rightmost columns */
