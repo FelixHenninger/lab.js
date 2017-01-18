@@ -2,7 +2,7 @@
 // hierarchy, given a path
 const retrieveNested = (path, object) => {
   let current = object
-  for (let level of path) {
+  for (const level of path) {
     current = current[level]
   }
   return current
