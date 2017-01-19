@@ -342,10 +342,10 @@ describe('Core', () => {
         assert.ok(spyOnce.calledOnce)
       })
 
-      it('accepts internal event handlers via the eventHandlers option', () => {
+      it('accepts internal event handlers via the messageHandlers option', () => {
         const handler = () => null
         b = new lab.core.Component({
-          eventHandlers: {
+          messageHandlers: {
             'someEvent': handler
           }
         })

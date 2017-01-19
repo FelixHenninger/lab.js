@@ -20,7 +20,7 @@ export class Component extends EventHandler {
       // DOM event handlers
       events: {},
       // Component event handlers
-      eventHandlers: {},
+      messageHandlers: {},
 
       // Document node within which
       // the component operates
@@ -98,8 +98,8 @@ export class Component extends EventHandler {
     this.data = {}
 
     // Attach component event handlers
-    Object.keys(this.options.eventHandlers).forEach(
-      event => this.on(event, this.options.eventHandlers[event]),
+    Object.keys(this.options.messageHandlers).forEach(
+      event => this.on(event, this.options.messageHandlers[event]),
     )
 
     // Add a DomConnection that connects
