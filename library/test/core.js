@@ -323,6 +323,25 @@ describe('Core', () => {
         })
       })
 
+      it('runs internal event handlers only once if requested', () => {
+        const spy = sinon.spy()
+        const spyOnce = sinon.spy()
+
+        const c = new lab.core.Component()
+        c.on('event', spy)
+        c.once('event', spyOnce)
+
+        // First event: Should trigger both spies
+        c.trigger('event')
+        assert.ok(spy.calledOnce)
+        assert.ok(spyOnce.calledOnce)
+
+        // Second event: Single-call spy should not be called
+        c.trigger('event')
+        assert.notOk(spy.calledOnce)
+        assert.ok(spyOnce.calledOnce)
+      })
+
       it('accepts internal event handlers via the eventHandlers option', () => {
         const handler = () => null
         b = new lab.core.Component({
