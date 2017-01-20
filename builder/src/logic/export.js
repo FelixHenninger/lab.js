@@ -4,7 +4,7 @@ import FileSaver from 'file-saver'
 export const stateToJSON = (state) => {
   const { components, files } = state
   return JSON.stringify({
-    version: [2017, 0, 1],
+    version: [2017, 0, 2],
     components,
     files,
   }, null, 2)

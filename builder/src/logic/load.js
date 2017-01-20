@@ -1,5 +1,9 @@
 import { omit } from 'lodash'
+import upgrade from './upgradeFile.js'
 
 export const fromJSON = (input) => {
-  return omit(JSON.parse(input), ['version'])
+  return omit(
+    upgrade(JSON.parse(input)),
+    ['version']
+  )
 }

@@ -7,12 +7,15 @@ export const metadata = {
     defaults: {
       type: 'lab.flow.Loop',
       children: [],
-      responses: {
-        rows: [ ['', '', '', ''] ],
-      },
       templateParameters: {
         columns: ['', ''],
         rows: [ ['', ''] ],
+      },
+      responses: {
+        rows: [ ['', '', '', ''] ],
+      },
+      messageHandlers: {
+        rows: [ [ { title: '', message: '', code: '' }, ], ],
       },
     }
   },
@@ -27,6 +30,9 @@ export const metadata = {
       responses: {
         rows: [ ['', '', '', ''] ],
       },
+      messageHandlers: {
+        rows: [ [ { title: '', message: '', code: '' }, ], ],
+      },
     }
   },
   'lab.html.Form': {
@@ -39,6 +45,9 @@ export const metadata = {
       responses: {
         rows: [ ['', '', '', ''] ],
       },
+      messageHandlers: {
+        rows: [ [ { title: '', message: '', code: '' }, ], ],
+      },
     },
   },
   'lab.html.Screen': {
@@ -50,6 +59,9 @@ export const metadata = {
       type: 'lab.html.Screen',
       responses: {
         rows: [ ['', '', '', ''] ],
+      },
+      messageHandlers: {
+        rows: [ [ { title: '', message: '', code: '' }, ], ],
       },
     },
   },
