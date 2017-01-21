@@ -1,6 +1,7 @@
 importScripts('vendor/sw-toolbox.js')
 importScripts('vendor/localforage.min.js')
 importScripts('vendor/lodash.min.js')
+importScripts('vendor/serialize-javascript.js')
 
 // Utilities -------------------------------------------------------------------
 
@@ -19,7 +20,18 @@ const processGrid = (grid, colnames=null) =>
     // use those, otherwise rely on the grid object
     .map( r => _.fromPairs(_.zip(colnames || grid.columns, r)) )
 
-const createResponsePair = (r) =>
+const processMessageHandlers = (messageHandlers) => {
+  const handlers = _.fromPairs(
+    messageHandlers.rows
+      .map(r => r[0])
+      .filter(h => h.message.trim() !== '' && h.code.trim() !== '')
+      .map(h => [h.message, new Function(h.code)])
+  )
+
+  return handlers
+}
+
+const createResponsePair = r =>
   // Process an object with the structure
   // { label: 'label', event: 'keypress', ...}
   // into an array with two parts: a label,
@@ -57,7 +69,12 @@ const processNode = (node) => {
   // the library more resilient to malformed input.
   // Either way, this is probably not the final solution.
   return Object.assign({}, _.pickBy(node, value => value !== ''), {
-    responses: node.responses ? processResponses(node.responses) : {},
+    messageHandlers: node.messageHandlers
+      ? processMessageHandlers(node.messageHandlers)
+      : node.messageHandlers,
+    responses: node.responses
+      ? processResponses(node.responses)
+      : {},
     templateParameters: node.templateParameters
       ? processTemplateParameters(node.templateParameters)
       : node.templateParameters,
@@ -117,7 +134,7 @@ const processStudy = studyObject => {
 
   // Process study tree
   const componentTree = makeComponentTree(studyObject.components, 'root')
-  const studyTreeJSON = JSON.stringify(componentTree, null, 2)
+  const studyTreeJSON = serialize(componentTree, { space: 2 })
   return makeStudyScript(studyTreeJSON)
 }
 

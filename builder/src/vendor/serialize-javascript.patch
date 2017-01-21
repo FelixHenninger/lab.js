@@ -1,0 +1,8 @@
+9c9
+< var isRegExp = require('util').isRegExp;
+---
+> var isRegExp = _.isRegExp;
+32c32
+< module.exports = function serialize(obj, options) {
+---
+> function serialize(obj, options) {
