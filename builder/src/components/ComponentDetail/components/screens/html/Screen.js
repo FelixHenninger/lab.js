@@ -6,6 +6,7 @@ import { wrapScreen, updateComponent } from '../util'
 import MetadataCard from '../../cards/Metadata'
 import MonacoCard from '../../cards/Monaco'
 import ResponsesCard from '../../cards/Responses'
+import ScriptCard from '../../cards/Scripts'
 import AdvancedOptionsCard from '../../cards/Advanced'
 
 class Screen extends Component {
@@ -20,6 +21,7 @@ class Screen extends Component {
           'title', 'notes',
           'responses',
           'correctResponse', 'timeout',
+          'messageHandlers',
           'tardy',
         ])
       }
@@ -37,6 +39,10 @@ class Screen extends Component {
       />
       <ResponsesCard
         data={ data.responses }
+        formDispatch={ this.formDispatch }
+      />
+      <ScriptCard
+        data={ data.messageHandlers }
         formDispatch={ this.formDispatch }
       />
       <AdvancedOptionsCard />

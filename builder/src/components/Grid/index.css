@@ -14,7 +14,7 @@ div.card table.grid.no-header tbody tr:first-child td {
 
 /* Remove lower border if last element in
    a card */
-div.card table.grid:last-child {
+div.card > div:last-child table.grid {
   border-bottom: none;
   margin-bottom: 0;
 }

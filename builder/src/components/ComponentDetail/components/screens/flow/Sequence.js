@@ -6,6 +6,7 @@ import { wrapScreen, updateComponent } from '../util'
 import MetadataCard from '../../cards/Metadata'
 import SequenceCard from './cards/Sequence'
 import ResponsesCard from '../../cards/Responses'
+import ScriptCard from '../../cards/Scripts'
 import AdvancedOptionsCard from '../../cards/Advanced'
 
 class Sequence extends Component {
@@ -20,6 +21,7 @@ class Sequence extends Component {
           'shuffle',
           'responses',
           'correctResponse', 'timeout',
+          'messageHandlers',
           'tardy',
         ])
       }
@@ -32,6 +34,10 @@ class Sequence extends Component {
         data={ data.responses }
         formDispatch={ this.formDispatch }
         open={ false }
+      />
+      <ScriptCard
+        data={ data.messageHandlers }
+        formDispatch={ this.formDispatch }
       />
       <AdvancedOptionsCard />
     </LocalForm>

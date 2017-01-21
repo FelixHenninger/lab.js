@@ -14,11 +14,12 @@ export default class Grid extends Component {
   }
 
   render() {
-    const { model, data, columns, formDispatch } = this.props
+    // TODO: Attempt to move formDispatch into
+    //   context to reduce handing-down of data
+    const { model, data, columns, defaultRow, formDispatch } = this.props
     const headerCell = this.props.headerCell || (content => content)
     const bodyCell = this.props.bodyCell || (content => content)
 
-    const showHeader = this.props.showHeader === false ? false : true
     const addColumns = this.props.addColumns || false
     const columnWidths = this.props.columnWidths ||
       columns.map(() => 90 / columns.length)
@@ -98,7 +99,8 @@ export default class Grid extends Component {
                           bodyCell(
                             cellData,
                             rowIndex, colIndex,
-                            columns[colIndex]
+                            columns[colIndex],
+                            formDispatch
                           )
                         }
                       </td>
@@ -136,7 +138,7 @@ export default class Grid extends Component {
                         `local${model}.rows`,
                         [
                           ...data,
-                          Array // Create array of empty strings
+                          defaultRow || Array // Create array of empty strings
                             .apply(null, Array(data[0] ? data[0].length : columns.length))
                             .map(String.prototype.valueOf, "")
                         ]

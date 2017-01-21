@@ -1,0 +1,23 @@
+div.card.editor-field {
+  margin-top: 0.5rem;
+}
+/* Match border to form fields */
+div.card.editor-field.card-outline-secondary {
+  border-color: rgba(0, 0, 0, 0.15);
+}
+/* Add some padding so that the editor
+   does not overlap the rounded corners */
+div.card.editor-field .react-monaco-editor-container {
+  margin: 0.25rem 0;
+}
+/* If there are warnings, render the card in the style
+   of a warning-level alert rather than a warning card
+   (the yellow is slightly lighter) */
+div.card.editor-field.card-outline-warning,
+div.card.editor-field.card-outline-warning .card-footer {
+  border-color: #faf2cc;
+}
+div.card.editor-field.card-outline-warning .card-footer {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+}

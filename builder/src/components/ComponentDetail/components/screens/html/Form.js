@@ -6,6 +6,7 @@ import { wrapScreen, updateComponent } from '../util'
 import MetadataCard from '../../cards/Metadata'
 import MonacoCard from '../../cards/Monaco'
 import ResponsesCard from '../../cards/Responses'
+import ScriptCard from '../../cards/Scripts'
 import AdvancedOptionsCard from '../../cards/Advanced'
 
 // TODO: This is almost entirely copy-pasted from the
@@ -26,6 +27,7 @@ class Form extends Component {
           'title', 'notes',
           'responses',
           'correctResponse', 'timeout',
+          'messageHandlers',
           'tardy',
         ])
       }
@@ -45,6 +47,10 @@ class Form extends Component {
         data={ data.responses }
         formDispatch={ this.formDispatch }
         open={ false }
+      />
+      <ScriptCard
+        data={ data.messageHandlers }
+        formDispatch={ this.formDispatch }
       />
       <AdvancedOptionsCard />
     </LocalForm>
