@@ -4,3 +4,7 @@ body {
   font-family: 'Fira Sans', sans-serif;
   overflow-y: scroll;
 }
+
+.input-group-addon {
+  background-color: white;
+}

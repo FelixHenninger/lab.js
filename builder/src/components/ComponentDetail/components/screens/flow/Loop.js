@@ -29,7 +29,9 @@ class Loop extends Component {
       onChange={ newData => updateComponent(this.context.store, id, newData) }
       getDispatch={ dispatch => this.formDispatch = dispatch }
     >
-      <MetadataCard />
+      <MetadataCard
+        icon="repeat"
+      />
       <LoopCard
         data={ data.templateParameters }
         formDispatch={ this.formDispatch }

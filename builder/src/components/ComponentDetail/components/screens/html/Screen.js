@@ -28,7 +28,9 @@ class Screen extends Component {
       onChange={ newData => updateComponent(context.store, id, newData) }
       getDispatch={ dispatch => this.formDispatch = dispatch }
       >
-      <MetadataCard />
+      <MetadataCard
+        icon="window-maximize"
+      />
       <MonacoCard
         title="Content"
         language="html"
