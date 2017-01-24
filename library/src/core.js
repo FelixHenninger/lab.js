@@ -297,6 +297,7 @@ export class Component extends EventHandler {
         }),
       )
     }
+    return this.triggerMethod('commit')
   }
 
   // Timekeeping ------------------------------------------

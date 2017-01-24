@@ -77,6 +77,7 @@ const gridCell = (cellData, rowIndex, colIndex, colName, formDispatch) =>
           <option value="run">run</option>
           <option value="end">end</option>
           <option value="after:end">after:end</option>
+          <option value="commit">commit</option>
         </Control.select>
       </Col>
     </Row>
