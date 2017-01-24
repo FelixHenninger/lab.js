@@ -91,7 +91,7 @@ export class Store extends EventHandler {
   }
 
   // Get and set individual values ------------------------
-  set(key, value) {
+  set(key, value, fromCommit=false) {
     let attrs = {}
     if (typeof key === 'object') {
       attrs = key
@@ -101,6 +101,10 @@ export class Store extends EventHandler {
 
     this.state = assign(this.state, attrs)
     this.staging = assign(this.staging, attrs)
+
+    if (!fromCommit) {
+      this.triggerMethod('set')
+    }
   }
 
   get(key) {
@@ -109,7 +113,7 @@ export class Store extends EventHandler {
 
   // Commit data to storage -------------------------------
   commit(key={}, value) {
-    this.set(key, value)
+    this.set(key, value, true)
     this.data.push(this.staging)
     this.staging = {}
 
@@ -118,6 +122,19 @@ export class Store extends EventHandler {
       this.storage.setItem('lab.js-data', JSON.stringify(this.data))
     }
 
+    // TODO: The differentiation of set and commit
+    // events is not entirely clean. In particular,
+    // data can be changed from a call to the commit
+    // method, and the set method is called regardless
+    // of whether new data are supplied.
+    // Presently, the set trigger is not called if
+    // new data are provided to commit rather than
+    // via the set method directly.
+    // Possibly, the set call should be made contingent
+    // upon the presence of to-be-updated data, so
+    // that the set event occurs only if new values
+    // are actually set. These changes should also be
+    // reflected in the debug plugin.
     this.triggerMethod('commit')
   }
 

@@ -195,10 +195,14 @@ export default class Debug {
   }
 
   onPrepare() {
-    // TODO: The view could also update
-    // when state variables are set, but there currently
-    // is no trigger in the data store
     if (this.context.options.datastore) {
+      // The display needs to be rerendered both
+      // when variable values are set and when data
+      // are committed, because the set event is not
+      // triggered when data are committed, even if
+      // data are changed.
+      this.context.options.datastore
+        .on('set', () => this.render())
       this.context.options.datastore
         .on('commit', () => this.render())
     }
