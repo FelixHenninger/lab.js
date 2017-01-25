@@ -1,0 +1,21 @@
+.card.add-component-card .card-block {
+  cursor: pointer;
+}
+.card.add-component-card:hover .card-header {
+  color: white;
+  background-color: #0275d8;
+}
+
+.card.add-component-card .card-header {
+  padding: 1.5rem;
+}
+.card.add-component-card .card-header i.fa {
+  font-size: 2rem;
+}
+
+.card.add-component-card .card-block {
+  text-align: center;
+}
+.card.add-component-card .card-block h6.card-subtitle:last-child {
+  margin-bottom: 0 !important;
+}

@@ -2,6 +2,7 @@ export const metadata = {
   'lab.flow.Loop': {
     name: 'Loop',
     category: 'Flow',
+    icon: 'repeat',
     minChildren: 1,
     maxChildren: 1,
     defaults: {
@@ -22,6 +23,7 @@ export const metadata = {
   'lab.flow.Sequence': {
     name: 'Sequence',
     category: 'Flow',
+    icon: 'sort-amount-asc',
     minChildren: 1,
     maxChildren: Infinity,
     defaults: {
@@ -38,6 +40,7 @@ export const metadata = {
   'lab.html.Form': {
     name: 'Form',
     category: 'HTML',
+    icon: 'list-alt',
     minChildren: 0,
     maxChildren: 0,
     defaults: {
@@ -53,6 +56,7 @@ export const metadata = {
   'lab.html.Screen': {
     name: 'Screen',
     category: 'HTML',
+    icon: 'window-maximize',
     minChildren: 0,
     maxChildren: 0,
     defaults: {
