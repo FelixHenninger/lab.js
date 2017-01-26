@@ -152,3 +152,43 @@ it('moves a component backwards within a parent component', () => {
     }
   )
 })
+
+it('clones a component to a new parent', () => {
+  expect(updateComponent(
+    initialState,
+    {
+      type: 'CLONE_COMPONENT',
+      id: 'A',
+      parent: 'C',
+      index: 0,
+    }
+  )).toEqual(
+    {
+      ...initialState,
+      C: {
+        ...initialState.C,
+        children: ['A']
+      }
+    }
+  )
+})
+
+it('clones a component within a parent', () => {
+  expect(updateComponent(
+    initialState,
+    {
+      type: 'CLONE_COMPONENT',
+      id: 'A',
+      parent: 'root',
+      index: 2,
+    }
+  )).toEqual(
+    {
+      ...initialState,
+      root: {
+        ...initialState.root,
+        children: ['A', 'B', 'A', 'C']
+      }
+    }
+  )
+})

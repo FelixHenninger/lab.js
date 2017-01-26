@@ -123,6 +123,20 @@ export default (state=defaultState, action) => {
       }
 
       return output
+
+    case 'CLONE_COMPONENT':
+      return {
+        ...state,
+        [action.parent]: {
+          ...state[action.parent],
+          children: !state[action.parent].children ? [action.id] : [
+              ...state[action.parent].children.slice(0, action.index),
+              action.id,
+              ...state[action.parent].children.slice(action.index),
+            ]
+        }
+      }
+
     case 'UPDATE_COMPONENT':
       return {
         ...state,
