@@ -112,7 +112,9 @@ export default (state=defaultState, action) => {
         ...state,
         [action.parent]: {
           ...state[action.parent],
-          children: state[action.parent].children.filter(x => x !== action.id)
+          children: state[action.parent].children.filter(
+            (id, index) => !(id === action.id && index === action.index)
+          )
         }
       }
 

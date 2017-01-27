@@ -27,11 +27,11 @@ const Sidebar = (props, context) =>
         })
       }
       onNodeDelete={
-        (id, parent) => {
+        (id, parent, index) => {
           if (confirm('Do you really want to delete this component?')) {
             context.store.dispatch({
               type: 'DELETE_COMPONENT',
-              id, parent,
+              id, parent, index,
             })
           }
         }

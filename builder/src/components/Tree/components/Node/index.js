@@ -7,7 +7,7 @@ import DropTarget from '../DropTarget'
 import { metadata } from '../../../../logic/components'
 import './index.css'
 
-const NodeBody = ({ id, parent, active, onClick, onDelete, children }) =>
+const NodeBody = ({ id, parent, index, active, onClick, onDelete, children }) =>
   <NavLink
     href="#" active={ active }
     style={{ cursor: 'move' }}
@@ -15,7 +15,7 @@ const NodeBody = ({ id, parent, active, onClick, onDelete, children }) =>
   >
     { children }
     <Button
-      onClick={ () => onDelete(id, parent) }
+      onClick={ () => onDelete(id, parent, index) }
       className="delete pull-right"
       size="sm" color="link"
     >
@@ -70,7 +70,7 @@ const NodeTail = ({ id, children, pinned, vacancies, onNodeClick, onNodeDelete, 
     }
   </Nav>
 
-const Node = ({ id, parentId, data, active, renderBody, onClick, onDelete, onChildAdded, connectDragSource }) => {
+const Node = ({ id, parentId, index, data, active, renderBody, onClick, onDelete, onChildAdded, connectDragSource }) => {
   const { type } = data
   const { minChildren, maxChildren } = metadata[type]
 
@@ -93,6 +93,7 @@ const Node = ({ id, parentId, data, active, renderBody, onClick, onDelete, onChi
             <NodeBody
               id={ id }
               parent={ parentId }
+              index={ index }
               active={ active }
               onClick={ onClick }
               onDelete={ onDelete }

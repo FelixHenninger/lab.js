@@ -41,6 +41,7 @@ it('deletes a component that occurs only a single time', () => {
     {
       type: 'DELETE_COMPONENT',
       id: 'B',
+      index: 1,
       parent: 'root',
     }
   )).toEqual(
@@ -74,6 +75,7 @@ it('removes only the reference if a component occurs more than once', () => {
       type: 'DELETE_COMPONENT',
       id: 'C',
       parent: 'A',
+      index: 0,
     }
   )).toEqual(
     {
