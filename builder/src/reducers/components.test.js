@@ -194,3 +194,69 @@ it('clones a component within a parent', () => {
     }
   )
 })
+
+it('copies a component', () => {
+  expect(updateComponent(
+    initialState,
+    {
+      type: 'COPY_COMPONENT',
+      id: 'A',
+      parent: 'B',
+      index: 0,
+    }
+  )).toEqual(
+    {
+      ...initialState,
+      B: {
+        children: ['1'],
+      },
+      '1': {},
+    }
+  )
+})
+
+it('copies a component with children', () => {
+  const state = {
+    root: {
+      children: ['A', 'B'],
+    },
+    A: {
+      children: ['C'],
+      thisIs: 'A'
+    },
+    B: {},
+    C: {
+      thisIs: 'C'
+    },
+  }
+
+  // TODO: This is not ideal, because it relies on
+  // the unique id function being called in a specific
+  // order, so that the id 1 is created in the preceding
+  // test, and 2 and 3 are created here. Ideally,
+  // the uniqueId function would be injected into the
+  // reducer, or something similar.
+  expect(updateComponent(
+    state,
+    {
+      type: 'COPY_COMPONENT',
+      id: 'A',
+      parent: 'B',
+      index: 0,
+    }
+  )).toEqual(
+    {
+      ...state,
+      B: {
+        children: ['2'],
+      },
+      '2': {
+        children: ['3'],
+        thisIs: 'A',
+      },
+      '3': {
+        thisIs: 'C',
+      },
+    }
+  )
+})

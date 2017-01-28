@@ -139,6 +139,31 @@ export default (state=defaultState, action) => {
         }
       }
 
+    case 'COPY_COMPONENT':
+      const o = { ...state }
+
+      const copy = id => {
+        const copiedComponent = { ...o[id] }
+        const newId = uniqueId(o)
+        if (copiedComponent.children) {
+          copiedComponent.children =
+            copiedComponent.children.map(copy)
+        }
+        o[newId] = copiedComponent
+        return newId
+      }
+
+      o[action.parent] = {
+        ...o[action.parent],
+        children: !o[action.parent].children ? [copy(action.id)] : [
+          ...o[action.parent].children.slice(0, action.index),
+          copy(action.id),
+          ...o[action.parent].children.slice(action.index),
+        ]
+      }
+
+      return o
+
     case 'UPDATE_COMPONENT':
       return {
         ...state,
