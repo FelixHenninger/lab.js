@@ -1,4 +1,4 @@
-.card.add-component-card .card-block {
+.card.add-component-card {
   cursor: pointer;
 }
 .card.add-component-card:hover .card-header {

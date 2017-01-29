@@ -70,3 +70,11 @@ export const metadata = {
     },
   },
 }
+
+// TODO: This is awkwardly named
+export const defaults = [
+  'lab.html.Screen',
+  'lab.html.Form',
+  'lab.flow.Sequence',
+  'lab.flow.Loop',
+]

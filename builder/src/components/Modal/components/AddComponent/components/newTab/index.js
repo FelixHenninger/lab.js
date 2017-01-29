@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Card, CardBlock, CardGroup, CardHeader } from 'reactstrap'
-import { metadata } from '../../../../../../logic/components'
+import { metadata, defaults } from '../../../../../../logic/components'
 
 import './style.css'
 
@@ -36,7 +36,7 @@ const ComponentDisplay = ({ value, parent, index }, context) =>
       ></i>
     </CardHeader>
     <CardBlock>
-      <h5 className="card-title">{ value.name }</h5>
+      <h5 className="card-title font-weight-bold">{ value.name }</h5>
       <h6 className="card-subtitle mb-2 text-muted">{ value.category }</h6>
     </CardBlock>
   </Card>
@@ -48,7 +48,7 @@ ComponentDisplay.contextTypes = {
 export default ({ parent, index }) =>
   <CardGroup>
     {
-      Object.entries(metadata).map(([key, value]) =>
+      defaults.map(c => [c, metadata[c]]).map(([key, value]) =>
         <ComponentDisplay
           key={ key }
           value={ value }
