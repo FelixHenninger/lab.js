@@ -1,0 +1,18 @@
+.copy-component-tab select {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+/* TODO: The buttons overlay the control border when it's active */
+.copy-component-tab select:focus {
+  z-index: 2 !important;
+}
+.copy-component-tab .btn-group {
+  width: calc(100% + 1px);
+  position: relative;
+  top: -1px;
+}
+.copy-component-tab button {
+  width: 50%;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

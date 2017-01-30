@@ -4,6 +4,7 @@ import { Button, ModalBody, ModalFooter, Nav, NavItem, NavLink } from 'reactstra
 import classnames from 'classnames'
 
 import NewTab from './components/newTab'
+import CopyTab from './components/copyTab'
 
 class AddComponentModal extends Component {
   constructor(props) {
@@ -27,6 +28,11 @@ class AddComponentModal extends Component {
     switch(this.state.activeTab) {
       case 'new':
         return <NewTab
+          parent={ parent }
+          index={ index }
+        />
+      case 'copy':
+        return <CopyTab
           parent={ parent }
           index={ index }
         />
