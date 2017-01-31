@@ -1,5 +1,5 @@
-Reference
-=========
+Library reference
+=================
 
 This section provides documentation and reference for all library components.
 Keep this under your pillow!

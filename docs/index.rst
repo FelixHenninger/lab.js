@@ -49,8 +49,11 @@ A `full list of contributors`_ is provided in the repository.
    :caption: Learn
    :hidden:
 
-   tutorial/index.rst
-   examples/index.rst
+   learn/builder/index.rst
+   learn/code/index.rst
+   learn/style.rst
+   learn/data.rst
+   learn/examples/index.rst
 
 .. toctree::
    :caption: Use
@@ -60,7 +63,10 @@ A `full list of contributors`_ is provided in the repository.
    genindex.rst
 
 .. toctree::
-   :caption: Contribute
+   :caption: Meta
    :hidden:
 
-   meta/index.rst
+   meta/contribute.rst
+   meta/teach.rst
+   meta/roadmap.rst
+   meta/philosophy.rst

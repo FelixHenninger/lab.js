@@ -1,7 +1,7 @@
 .. _teach:
 
-Teaching with lab.js
-====================
+Teach with lab.js
+=================
 
 One of the original motivations in building lab.js was to provide a tool for
 teaching: It was initially designed as part of the first author's course on

@@ -1,7 +1,7 @@
 .. _tutorial:
 
-Tutorial
-========
+Working with code
+=================
 
 **Welcome to the lab.js tutorial, and thank you for checking out our library!**
 We hope you like it, and are excited to see how you are going to use it in your
@@ -50,6 +50,4 @@ With that, let's get started!
 
    getting_started.rst
    study.rst
-   style.rst
-   data.rst
    functional.rst

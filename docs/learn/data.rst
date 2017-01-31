@@ -1,5 +1,5 @@
-Working with data
------------------
+Collecting data
+---------------
 
 .. note::
   **This documentation page is currently under development. Sorry for that!**
