@@ -69,4 +69,3 @@ A `full list of contributors`_ is provided in the repository.
    meta/contribute.rst
    meta/teach.rst
    meta/roadmap.rst
-   meta/philosophy.rst
