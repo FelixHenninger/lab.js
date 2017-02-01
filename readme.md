@@ -10,12 +10,11 @@
   </small>
 </p>
 
-**`lab.js` is a toolkit for constructing browser-based online experiments in
-Javascript.** It vastly simplifies the construction of experiments by taking
-care of stimulus display and timing, response collection, and data storage. The
-library builds on the idea that experiments are constructed from individual
-*components*: The stimuli themselves, and sequences and loops that provide
-structure to the experiment.
+**`lab.js` is a tool for constructing browser-based studies** built for (but
+not limited to) the social and cognitive sciences. Studies can be assembled
+using a graphical builder, or through code. In either case, `lab.js` takes care
+of study presentation, response collection and data storage, while providing
+the greatest possible flexibility with regard to study design.
 
 [![Slack Status](https://slackin-nmbrcrnchrs.herokuapp.com/badge.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
 [![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=latest)](http://labjs.readthedocs.io/en/latest/?badge=latest)
@@ -24,26 +23,30 @@ structure to the experiment.
 
 ###Get started
 
-Everything you need to get started is contained in the *starter kit*, which you
-can download via the [latest
-release](https://github.com/FelixHenninger/lab.js/releases/latest). With that in
-hand, please be invited to take a look at the
-[tutorial](https://labjs.readthedocs.io/en/latest/tutorial/index.html), which
-will walk you through building an experiment.
+The [**graphical builder interface**](https://labjs.felixhenninger.com) is the
+easiest way to create studies, and the best place to start. The tutorial
+will walk you through [building your first study, step by
+step](https://labjs.readthedocs.io/en/latest/tutorial/index.html).
+
+If you prefer working directly with code, you can build studies using the
+[**JavaScript library**](https://labjs.readthedocs.io/en/latest/reference/index.html).
+Everything you need is bundled in the *starter kit*, which is [provided with
+every release](https://github.com/FelixHenninger/lab.js/releases/latest).
+There is also a tutorial to [help you get started](https://labjs.readthedocs.io/en/latest/tutorial/index.html).
 
 If you get stuck or things don't make sense, please don't hesitate to reach out!
 
 ###Find help
 
-The easiest and quickest way to find help is to [join our Slack
-channel](https://slackin-nmbrcrnchrs.herokuapp.com/), where there's someone
+The easiest and quickest way to find help is to [join our **Slack
+channel**](https://slackin-nmbrcrnchrs.herokuapp.com/), where there's someone
 around to discuss things and help out most of the time. You're welcome to just
 join and say hello!
 
 ###Keep up-to-date
 
 If you'd like to keep in the loop regarding the development, please [join our
-newsletter](http://eepurl.com/co0K9r) to receive very occasional updates and
+**newsletter**](http://eepurl.com/co0K9r) to receive very occasional updates and
 release notifications.
 
 ----
@@ -75,6 +78,27 @@ questions and discussions.
 [GESS, University of Mannheim](http://gess.uni-mannheim.de/) ·
 [University of Koblenz-Landau](https://www.cognition.uni-landau.de/)
 
+#### Join in!
+
+**We would love to have you as part of this project** — whether you have new
+ideas, suggestions, or would just like to muck in, please be warmly invited to
+do so: This is an open project! We'd be glad to hear from you, to discuss ideas
+and approaches, and to get you going. There's an [overview of the code and
+intro to the build
+process](https://labjs.readthedocs.io/en/latest/meta/contribute.html) in the
+documentation, but as always, we'd be happy to help.
+
+If you're searching for a place to contribute, please also let us know: There's
+always things to do, and we'd be glad to help you find something that fits your
+interests and resources. If you're writing a tool that might interoperate with
+or extend this one, we'd be thrilled to be a stepping stone for you!
+
+We expect all contributors to conform to the [Software Carpentry Code of
+Conduct](https://software-carpentry.org/conduct/), and be excellent to one
+another.
+
+----
+
 ### License
 
 The two parts of this project are licensed individually:
@@ -88,4 +112,4 @@ The two parts of this project are licensed individually:
 The studies you build based on the library, and those you create using the
 builder, are always your own, and you are free to distribute them as you see
 fit. When studies include the core library files, these files alone are governed
-by the aforementioned licenses.
+by the aforementioned license.
