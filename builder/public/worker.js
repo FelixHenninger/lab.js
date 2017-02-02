@@ -11,10 +11,27 @@ const root = (() => {
   return tokens.join('/');
 })()
 
-const processGrid = (grid, colnames=null) =>
+const processGrid = (grid, colnames=null, types=undefined) =>
   grid.rows
     // Filter rows without data
     .filter( r => !r.every( c => c.trim() === '' ))
+    // Convert types if requested
+    .map( r => r.map( (c, i) => {
+      if (types === undefined) {
+        // Return value unchanged
+        return c
+      } else {
+        // Convert types
+        switch(types[i]) {
+          case 'string':
+            return _.toString(c)
+          case 'number':
+            return c.trim() === '' ? null : _.toNumber(c)
+          default:
+            return undefined
+        }
+      }
+    }) )
     // Use column names to create array of row objects.
     // If column names are passed as a parameter,
     // use those, otherwise rely on the grid object
@@ -57,11 +74,18 @@ const processResponses = (responses) => {
   return _.fromPairs(pairs)
 }
 
-// Template parameters are just a regular grid
-const processTemplateParameters = grid => processGrid(grid)
+// Template parameters are also a grid,
+// but column names and data types are defined
+// as properties of an object.
+const processTemplateParameters = grid =>
+  processGrid(
+    grid,
+    grid.columns.map(c => c.name),
+    grid.columns.map(c => c.type)
+  )
 
 // Process any single node in isolation
-const processNode = (node) => {
+const processNode = node => {
   // TODO: This filters empty string values, which are
   // created by empty form fields in the builder. This is
   // hackish, and may not work indefinately -- it might

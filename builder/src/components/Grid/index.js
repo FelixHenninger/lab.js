@@ -21,6 +21,7 @@ export default class Grid extends Component {
     const bodyCell = this.props.bodyCell || (content => content)
 
     const addColumns = this.props.addColumns || false
+    const defaultColumn = this.props.defaultColumn || ''
     const columnWidths = this.props.columnWidths ||
       columns.map(() => 90 / columns.length)
 
@@ -70,7 +71,7 @@ export default class Grid extends Component {
                         actions.change(
                           `local${model}`,
                           {
-                            columns: [...columns, ''],
+                            columns: [...columns, defaultColumn],
                             rows: data.map(row => [...row, '']),
                           }
                         )

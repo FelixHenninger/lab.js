@@ -9,7 +9,7 @@ export const metadata = {
       type: 'lab.flow.Loop',
       children: [],
       templateParameters: {
-        columns: ['', ''],
+        columns: [{ name: '', type: 'string' }, { name: '', type: 'string' }],
         rows: [ ['', ''] ],
       },
       responses: {
