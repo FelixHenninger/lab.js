@@ -24,7 +24,7 @@ const NodeBody = ({ id, parent, index, active, onClick, onDelete, children }) =>
   </NavLink>
 
 const NodeTail = ({ id, children, pinned, vacancies, onNodeClick, onNodeDelete, onChildAdded }) =>
-  <Nav pills stacked>
+  <Nav pills className="flex-column">
     {
       !vacancies ? null :
         <div>

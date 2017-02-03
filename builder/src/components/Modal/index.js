@@ -25,12 +25,13 @@ const CustomModal = ({ modalType, modalProps }, context) => {
         'modal-dialog': true,
         'modal-lg': modalProps.large,
       }) }
-      overlayClassName="modal fade in"
+      overlayClassName="modal fade show"
       contentLabel="App Modal"
       style={{
         overlay: {
           display: 'block',
           backgroundColor : 'rgba(0, 0, 0, 0.5)',
+          opacity: '1',
           overflowX: 'hidden',
           overflowY: 'auto',
         }

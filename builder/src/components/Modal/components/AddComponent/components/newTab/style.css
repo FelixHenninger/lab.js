@@ -15,6 +15,7 @@
 
 .card.add-component-card .card-block {
   text-align: center;
+  padding: 1.25rem 0.75rem; /* Reduce padding on the sides to make more room */
 }
 .card.add-component-card .card-block h6.card-subtitle:last-child {
   margin-bottom: 0 !important;

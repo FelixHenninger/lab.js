@@ -23,8 +23,6 @@ export default (props) =>
                 style={{
                   textAlign: 'center',
                   minWidth: '20px',
-                  position: 'relative',
-                  top: '2px',
                 }}
               ></i>
             </InputGroupAddon>

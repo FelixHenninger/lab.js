@@ -61,14 +61,21 @@ class AddComponentModal extends Component {
             <i className="fa fa-clone" aria-hidden="true"></i>
           </NavLink>
         </NavItem>
-        <button
-          type="button"
-          className="close"
-          aria-label="Close"
-          onClick={ closeHandler }
+        <NavItem
+          className="ml-auto"
+          style={{
+            padding: '0.25em 0',
+          }}
         >
-          <span aria-hidden="true">&times;</span>
-        </button>
+          <button
+            type="button"
+            className="close"
+            aria-label="Close"
+            onClick={ closeHandler }
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </NavItem>
       </Nav>
       <ModalBody>
         { this.tabContent() }

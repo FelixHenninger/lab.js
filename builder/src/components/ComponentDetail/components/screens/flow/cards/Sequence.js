@@ -5,17 +5,28 @@ import { Control } from 'react-redux-form'
 
 export default (props) =>
   <Card title="Content" { ...props }>
-    <Col xs="2" style={{ paddingLeft: '0' }}>Order</Col>
-    <Col xs="6">
-      <FormGroup check>
-        <Label check>
-          <Control.checkbox
-            model=".shuffle"
-            className="form-check-input"
-          />
-          &thinsp;
-          Shuffle
+    <FormGroup row>
+      <Col xs={2}>
+        <Label
+          xs={2}
+          style={{
+            paddingTop: '0', // This is a hack to override .col-form-label
+          }}
+        >
+          Order
         </Label>
-      </FormGroup>
-    </Col>
+      </Col>
+      <Col xs={10}>
+        <FormGroup check>
+          <Label check>
+            <Control.checkbox
+              model=".shuffle"
+              className="form-check-input"
+            />
+            &thinsp;
+            Shuffle
+          </Label>
+        </FormGroup>
+      </Col>
+    </FormGroup>
   </Card>

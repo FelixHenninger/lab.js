@@ -54,7 +54,7 @@ export default (props) =>
     />
     <CardBlock>
       <FormGroup row>
-        <Col xs="2" style={{ paddingLeft: '0', paddingRight: '10px' }}>
+        <Col xs="2">
           <Label for="correctResponse" xs={2}>Correct</Label>
           <Hint
             title="Correct response"
@@ -73,7 +73,7 @@ export default (props) =>
         </Col>
       </FormGroup>
       <FormGroup row>
-        <Col xs="2" style={{ paddingLeft: '0', paddingRight: '10px' }}>
+        <Col xs="2">
           <Label for="timeout" xs={2}>Timeout</Label>
           <Hint
             title="Timeout"

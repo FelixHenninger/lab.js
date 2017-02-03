@@ -17,6 +17,7 @@ class Card extends Component {
 
     return <BaseCard
         style={ this.props.style }
+        className="mb-3"
       >
       <CardHeader
         style={{

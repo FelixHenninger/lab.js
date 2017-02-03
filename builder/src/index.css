@@ -5,6 +5,10 @@ body {
   overflow-y: scroll;
 }
 
+input, button, textarea, select {
+  font-family: 'Fira Sans', sans-serif;
+}
+
 .input-group-addon {
   background-color: white;
 }
