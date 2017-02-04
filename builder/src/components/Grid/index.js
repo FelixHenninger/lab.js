@@ -51,7 +51,10 @@ export default class Grid extends Component {
               <th>
                 {/* TODO: This is a hack to avoid the collapse
                     of the first column. There must be a better way! */}
-                <Button block style={{ visibility: 'hidden' }}>
+                <Button
+                  className="btn-muted" block
+                  style={{ visibility: 'hidden' }}
+                >
                   <i className="fa fa-bars"></i>
                 </Button>
               </th>
@@ -59,13 +62,14 @@ export default class Grid extends Component {
                 columns.map(
                   (key, index) =>
                     <th key={ `grid_${this.uniqueId}_column_${index}` }>
-                      { headerCell(key, index) }
+                      { headerCell(key, index, formDispatch) }
                     </th>
                 )
               }
               <th>
                 {
                   !addColumns ? null : <Button block
+                    className="btn-muted"
                     onClick={ // Add additional column to data
                       () => formDispatch(
                         actions.change(
@@ -89,7 +93,9 @@ export default class Grid extends Component {
               data.map((rowData, rowIndex) =>
                 <tr key={ `grid_${this.uniqueId}_row_${rowIndex}` }>
                   <td>
-                    <Button block>
+                    <Button
+                      className="btn-muted" block
+                    >
                       <i className="fa fa-bars"></i>
                     </Button>
                   </td>
@@ -110,6 +116,7 @@ export default class Grid extends Component {
                   <td>
                     <Button
                       block
+                      className="btn-muted"
                       onClick={
                         () => formDispatch(
                           actions.change(
@@ -132,7 +139,7 @@ export default class Grid extends Component {
               <td colSpan={ columns.length }>
                 <Button
                   size="sm" block
-                  className="btn-add"
+                  className="btn-add btn-muted"
                   onClick={
                     () => formDispatch(
                       actions.change(

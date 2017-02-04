@@ -47,14 +47,29 @@ table.grid td, table.grid th, table.grid tfoot td {
 }
 
 /* Buttons */
+/* TODO: There are some weird things going on with
+   transition states -- buttons may assume a gray
+   background while transitioning from active to
+   normal state, which is (minimally) annoying.
+   If these issues are solved, the styles might
+   be moved into the global stylesheet.
+   (then again, the toolbar buttons look different) */
 table.grid button.btn {
+  background-color: white;
+}
+table.grid button.btn:active, table.grid button.btn:focus {
+  background-color: white;
+}
+/* Muted variant */
+table.grid button.btn.btn-muted {
   color: rgba(0, 0, 0, 0.2);
-  background-color: transparent;
-  border: 1px solid transparent;
+  border-color: transparent;
 }
-table.grid button.btn:hover {
-  border: 1px solid rgba(0, 0, 0, 0.15);
+table.grid button.btn.btn-muted:hover {
+  color: rgb(41, 43, 44);
+  border-color: rgb(204, 204, 204);
 }
+/* Icon placement */
 table.grid button.btn i {
   position: relative;
   top: 1px;
