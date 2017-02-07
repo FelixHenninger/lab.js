@@ -60,13 +60,26 @@ class CellTypeSelector extends Component {
           >
             Boolean <span className="text-muted">(binary)</span>
           </DropdownItem>
+          <DropdownItem divider />
+          <DropdownItem header>
+            Actions
+          </DropdownItem>
+          <DropdownItem
+            onClick={ () => {
+              if (confirm('Are you sure you want to delete this column?')) {
+                this.props.delete()
+              }
+            } }
+          >
+            Delete
+          </DropdownItem>
         </DropdownMenu>
       </ButtonDropdown>
     );
   }
 }
 
-export const headerCell = (data, index, formDispatch) =>
+export const headerCell = (data, index, formDispatch, deleteColumn) =>
   <InputGroup>
     <Control.text
       model={ `.columns[${ index }]['name']` }
@@ -87,6 +100,7 @@ export const headerCell = (data, index, formDispatch) =>
             )
           )
         }
+        delete={ deleteColumn }
       />
     </InputGroupButton>
   </InputGroup>

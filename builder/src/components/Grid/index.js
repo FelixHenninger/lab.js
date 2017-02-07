@@ -25,6 +25,19 @@ export default class Grid extends Component {
     const columnWidths = this.props.columnWidths ||
       columns.map(() => 90 / columns.length)
 
+    const deleteColumn = index =>
+      formDispatch(
+        actions.change(
+          `local${model}`,
+          {
+            columns: columns.filter( (_, i) => i !== index ),
+            rows: data.map(
+              r => r.filter( (_, i) => i !== index)
+            )
+          }
+        )
+      )
+
     return (
       <Fieldset model={ model }>
         <table
@@ -62,7 +75,13 @@ export default class Grid extends Component {
                 columns.map(
                   (key, index) =>
                     <th key={ `grid_${this.uniqueId}_column_${index}` }>
-                      { headerCell(key, index, formDispatch) }
+                      {
+                        headerCell(
+                          key, index,
+                          formDispatch,
+                          () => deleteColumn(index)
+                        )
+                      }
                     </th>
                 )
               }
