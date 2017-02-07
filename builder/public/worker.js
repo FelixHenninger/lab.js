@@ -22,13 +22,24 @@ const processGrid = (grid, colnames=null, types=undefined) =>
         return c
       } else {
         // Convert types
-        switch(types[i]) {
+        switch (types[i]) {
           case 'string':
-            return _.toString(c)
+            // Trim strings to avoid problems
+            // caused by invisible spaces
+            return _.toString(c).trim()
           case 'number':
             return c.trim() === '' ? null : _.toNumber(c)
+          case 'boolean':
+            // Only 'true' and 'false' are
+            // accepted as values.
+            switch (c.trim()) {
+              case 'true':
+                return true
+              case 'false':
+                return false
+            }
           default:
-            return undefined
+            return null
         }
       }
     }) )

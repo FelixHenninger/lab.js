@@ -39,6 +39,7 @@ class CellTypeSelector extends Component {
               'fa': true,
               'fa-font': this.props.type === 'string',
               'fa-tachometer': this.props.type === 'number',
+              'fa-adjust': this.props.type === 'boolean',
             }) }
           />
         </DropdownToggle>
@@ -53,6 +54,11 @@ class CellTypeSelector extends Component {
             onClick={ () => this.props.setType('number') }
           >
             Number <span className="text-muted">(continuous)</span>
+          </DropdownItem>
+          <DropdownItem
+            onClick={ () => this.props.setType('boolean') }
+          >
+            Boolean <span className="text-muted">(binary)</span>
           </DropdownItem>
         </DropdownMenu>
       </ButtonDropdown>
