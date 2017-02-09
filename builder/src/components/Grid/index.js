@@ -23,7 +23,9 @@ export default class Grid extends Component {
     const addColumns = this.props.addColumns || false
     const defaultColumn = this.props.defaultColumn || ''
     const columnWidths = this.props.columnWidths ||
-      columns.map(() => 90 / columns.length)
+      columns.length > 0
+        ? columns.map(() => 90 / columns.length)
+        : [90]
 
     const deleteColumn = index =>
       formDispatch(
@@ -72,18 +74,20 @@ export default class Grid extends Component {
                 </Button>
               </th>
               {
-                columns.map(
-                  (key, index) =>
-                    <th key={ `grid_${this.uniqueId}_column_${index}` }>
-                      {
-                        headerCell(
-                          key, index,
-                          formDispatch,
-                          () => deleteColumn(index)
-                        )
-                      }
-                    </th>
-                )
+                columns.length > 0
+                  ? columns.map(
+                      (key, index) =>
+                        <th key={ `grid_${this.uniqueId}_column_${index}` }>
+                          {
+                            headerCell(
+                              key, index,
+                              formDispatch,
+                              () => deleteColumn(index)
+                            )
+                          }
+                        </th>
+                    )
+                  : <th/>
               }
               <th>
                 {
@@ -119,18 +123,20 @@ export default class Grid extends Component {
                     </Button>
                   </td>
                   {
-                    rowData.map((cellData, colIndex) =>
-                      <td key={ `grid_${this.uniqueId}_cell_${rowIndex}_${colIndex}` }>
-                        {
-                          bodyCell(
-                            cellData,
-                            rowIndex, colIndex,
-                            columns[colIndex],
-                            formDispatch
-                          )
-                        }
-                      </td>
-                    )
+                    rowData.length > 0
+                      ? rowData.map((cellData, colIndex) =>
+                          <td key={ `grid_${this.uniqueId}_cell_${rowIndex}_${colIndex}` }>
+                            {
+                              bodyCell(
+                                cellData,
+                                rowIndex, colIndex,
+                                columns[colIndex],
+                                formDispatch
+                              )
+                            }
+                          </td>
+                        )
+                      : <td/>
                   }
                   <td>
                     <Button
