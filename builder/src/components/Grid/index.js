@@ -46,6 +46,7 @@ export default class Grid extends Component {
           className={ classnames({
             'table': true,
             'grid': true,
+            'grid-slim': columns.length > 4,
             'no-header': this.props.showHeader === false
           }) }
         >

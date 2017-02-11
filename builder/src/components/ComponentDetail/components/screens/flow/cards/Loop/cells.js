@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Control, actions } from 'react-redux-form'
 
+import './style.css'
+
 export const gridCell = (cellData, rowIndex, colIndex, colName) =>
   <Control.text
     model={ `.rows[${ rowIndex }][${ colIndex }]` }
