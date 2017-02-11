@@ -48,16 +48,25 @@ class CellTypeSelector extends Component {
         <DropdownMenu>
           <DropdownItem header>Data type</DropdownItem>
           <DropdownItem
+            className={ classnames({
+              'dropdown-item-active': this.props.type === 'string'
+            }) }
             onClick={ () => this.props.setType('string') }
           >
             Text <span className="text-muted">(categorical)</span>
           </DropdownItem>
           <DropdownItem
+            className={ classnames({
+              'dropdown-item-active': this.props.type === 'number'
+            }) }
             onClick={ () => this.props.setType('number') }
           >
             Number <span className="text-muted">(continuous)</span>
           </DropdownItem>
           <DropdownItem
+            className={ classnames({
+              'dropdown-item-active': this.props.type === 'boolean'
+            }) }
             onClick={ () => this.props.setType('boolean') }
           >
             Boolean <span className="text-muted">(binary)</span>
