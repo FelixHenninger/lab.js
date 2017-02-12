@@ -11,6 +11,7 @@ export default (props) =>
     <Grid
       model=".templateParameters"
       addColumns
+      maxColumns={10}
       defaultColumn={ { name: '', type: 'string' } }
       bodyCell={ gridCell }
       headerCell={ headerCell }

@@ -21,7 +21,9 @@ export default class Grid extends Component {
     const bodyCell = this.props.bodyCell || (content => content)
 
     const addColumns = this.props.addColumns || false
+    const maxColumns = this.props.maxColumns || Infinity
     const defaultColumn = this.props.defaultColumn || ''
+
     const columnWidths = this.props.columnWidths ||
       columns.length > 0
         ? columns.map(() => 90 / columns.length)
@@ -92,20 +94,22 @@ export default class Grid extends Component {
               }
               <th>
                 {
-                  !addColumns ? null : <Button block
-                    className="btn-muted"
-                    onClick={ // Add additional column to data
-                      () => formDispatch(
-                        actions.change(
-                          `local${model}`,
-                          {
-                            columns: [...columns, defaultColumn],
-                            rows: data.map(row => [...row, '']),
-                          }
-                        )
-                      )
-                    }
-                  >
+                  !(addColumns && columns.length < maxColumns)
+                    ? null
+                    : <Button block
+                        className="btn-muted"
+                        onClick={ // Add additional column to data
+                          () => formDispatch(
+                            actions.change(
+                              `local${model}`,
+                              {
+                                columns: [...columns, defaultColumn],
+                                rows: data.map(row => [...row, '']),
+                              }
+                            )
+                          )
+                        }
+                      >
                     <i className="fa fa-plus"></i>
                   </Button>
                 }
