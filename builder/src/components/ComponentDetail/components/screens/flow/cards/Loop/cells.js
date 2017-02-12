@@ -61,7 +61,7 @@ class CellTypeSelector extends Component {
             }) }
             onClick={ () => this.props.setType('number') }
           >
-            Number <span className="text-muted">(continuous)</span>
+            Numerical <span className="text-muted">(continuous)</span>
           </DropdownItem>
           <DropdownItem
             className={ classnames({
