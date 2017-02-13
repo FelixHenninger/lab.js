@@ -45,9 +45,9 @@ join and say hello!
 
 ###Keep up-to-date
 
-If you'd like to keep in the loop regarding the development, please [join our
-**newsletter**](http://eepurl.com/co0K9r) to receive very occasional updates and
-release notifications.
+If you'd like to keep in the loop regarding the development, please [subscribe
+to our **newsletter**](http://eepurl.com/co0K9r) to receive very occasional
+updates and release notifications.
 
 ----
 
@@ -94,7 +94,7 @@ interests and resources. If you're writing a tool that might interoperate with
 or extend this one, we'd be thrilled to be a stepping stone for you!
 
 We expect all contributors to conform to the [Software Carpentry Code of
-Conduct](https://software-carpentry.org/conduct/), and be excellent to one
+Conduct](https://software-carpentry.org/conduct/), and to be excellent to one
 another.
 
 ----

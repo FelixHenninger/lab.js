@@ -27,7 +27,7 @@ encourage contributors to `'sign off' patches`_ as the Linux kernel developers
 do.
 
 .. _Developer Certificate of Origin: http://developercertificate.org/
-.. _'sign off' patches: http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches#n409
+.. _'sign off' patches: https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst#n416
 
 ----
 

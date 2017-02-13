@@ -39,11 +39,9 @@ help and suggestions are very much appreciated!
 Contributors
 ------------
 
-* Felix Henninger · http://felixhenninger.com
+All `contributors`_ are listed in the repository.
 
-A `full list of contributors`_ is provided in the repository.
-
-.. _full list of contributors: https://github.com/FelixHenninger/lab.js#contributors
+.. _contributors: https://github.com/FelixHenninger/lab.js#contributors
 
 .. toctree::
    :caption: Learn
