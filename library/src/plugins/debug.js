@@ -30,6 +30,7 @@ const payload = `<style type="text/css">
 
   .labjs-debug-overlay {
     font-family: "Arial", sans-serif;
+    color: black;
     /* Box formatting */
     width: 100vw;
     height: 30vh;
