@@ -22,10 +22,12 @@ class Form extends Component {
     return <LocalForm
       initialState={
         /* Select only relevant fields to avoid interactions
-           between form and the remaining UI */
+           between form and the remaining UI.
+           TODO: This selects basically every field.
+           Maybe we can do without? */
         pick(data, [
           'title', 'notes',
-          'responses',
+          'content', 'responses',
           'correctResponse', 'timeout',
           'messageHandlers',
           'tardy',
@@ -38,12 +40,10 @@ class Form extends Component {
         icon="list-alt"
       />
       <MonacoCard
+        model=".content"
         title="Content"
         language="html"
-        value={ data.content }
-        onChange={ newContent => updateComponent(
-          context.store, id, { content: newContent }
-        ) }
+        height={ 600 }
       />
       <ResponsesCard
         data={ data.responses }
