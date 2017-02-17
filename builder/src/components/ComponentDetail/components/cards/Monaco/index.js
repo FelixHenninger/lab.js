@@ -13,6 +13,7 @@ export default (props) => {
         language: props.language,
         height: props.height || 200,
       }}
+      debounce={ 300 }
     />
   </Card>
 }
