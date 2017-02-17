@@ -38,6 +38,6 @@ export default (props) =>
         style={{
           padding: '0.5rem 0.75rem',
         }}
-        />
+      />
     </FormGroup>
   </Card>
