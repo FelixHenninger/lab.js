@@ -13,6 +13,12 @@
   border: 2px solid #eee !important;
 }
 
+/* Bracket matching (disable when editor is not focussed) */
+.monaco-editor .view-overlays:not(.focused) .bracket-match {
+  border: none;
+  background-color: transparent;
+}
+
 /* Syntax highlighting */
 .monaco-editor .token.tag {
   padding: 0;
