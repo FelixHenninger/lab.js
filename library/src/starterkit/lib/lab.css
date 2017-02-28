@@ -111,7 +111,7 @@ kbd {
   padding-top: 0.15em;
   /* Fonts */
   font-family: var(--font-family-mono);
-  font-size: 0.9rem;
+  font-size: 0.9em;
   text-align: center;
   /* Background and border */
   background-color: white;
@@ -119,7 +119,7 @@ kbd {
   border: 1px solid rgb(180, 180, 180);
 }
 kbd.big {
-  font-size: 1.4rem;
+  font-size: 1.4em;
   padding-top: 0.375em;
   border-radius: 0.125em;
 }
