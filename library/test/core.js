@@ -219,6 +219,30 @@ describe('Core', () => {
     })
 
     describe('Event handlers', () => {
+
+      // Simulate key presses
+      // (cf. https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent)
+      const simulateKeyPress = (key, target) => {
+        const event = new KeyboardEvent('keypress', {
+          bubbles: true, // Event bubbles up document hierarchy
+          key: key, // Define the key that was pressed
+        })
+
+        // The library logic depends on the 'which' property,
+        // that returns the charcode of the key that was pressed.
+        // The property is not included in artificial events,
+        // so it is simulated as an object property here.
+        // (this hack is adapted from a Stack Overflow entry at
+        // https://stackoverflow.com/questions/10455626/#10520017 )
+        Object.defineProperty(event,
+          'which', { get: () => key.charCodeAt(0) }
+        )
+
+        // Dispatch event
+        target.dispatchEvent(event)
+        return event
+      }
+
       it('runs event handlers in response to DOM events', () => {
         // Bind a handler to clicks within the document
         const handler = sinon.spy()
@@ -271,6 +295,39 @@ describe('Core', () => {
 
           // Clean up
           b.options.el.innerHTML = ''
+          return b.end()
+        })
+      })
+
+      it('accepts multiple options for events', () => {
+        // Use an actual element in the page for testing
+        // (keyboard event listeners are typically
+        // located at the document level, and the
+        // event bubbles up the hierarchy)
+        b.options.el = document.getElementById('labjs-content')
+
+        // Create a spy as a substitute
+        // for an event handler
+        const handler = sinon.spy()
+
+        // Bind spy to document events
+        b.options.events = {
+          'keypress(a,b)': handler,
+        }
+
+        // Check that the handler is called
+        // when either key is pressed, and
+        // that the event is passed as an argument
+        return b.run().then(() => {
+          const b_pressed = simulateKeyPress('b', b.options.el)
+          assert.ok(handler.calledOnce)
+          assert.ok(handler.firstCall.calledWith(b_pressed))
+
+          const a_pressed = simulateKeyPress('a', b.options.el)
+          assert.ok(handler.calledTwice)
+          assert.ok(handler.secondCall.calledWith(a_pressed))
+
+          // Clean up
           return b.end()
         })
       })

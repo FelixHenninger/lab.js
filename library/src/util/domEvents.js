@@ -14,7 +14,7 @@ const splitEventString = function(eventString) {
     [, eventName, selector] = directHandlerRegEx.exec(eventString)
   } else if (wrappedHandlerRegEx.test(eventString)) {
     [, eventName, options, selector] = wrappedHandlerRegEx.exec(eventString)
-    options = options.split(' ')
+    options = options.split(',')
   } else {
     console.log('Can\'t interpret event string ', eventString)
   }
