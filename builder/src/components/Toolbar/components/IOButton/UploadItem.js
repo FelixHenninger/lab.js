@@ -1,17 +1,10 @@
 import React, { Component } from 'react'
+import { DropdownItem } from 'reactstrap'
 
-import './style.css'
-
-class UploadButton extends Component {
+class UploadItem extends Component {
   handleClick() {
     this.inputField.value = null
     this.inputField.click()
-    // When the window comes back into focus,
-    // (i.e. when the selection window is
-    // closed), blur the button
-    window.addEventListener(
-      'focus', () => this.button.blur(), { once: true }
-    )
   }
 
   checkFile(file) {
@@ -37,17 +30,10 @@ class UploadButton extends Component {
   }
 
   render() {
-    return <div
-      className="btn-surrogate"
+    return <DropdownItem
+      onClick={ () => this.handleClick() }
     >
-      {/* TODO: It would be nice to use reactstrap for the button */}
-      <button
-        className="btn btn-secondary"
-        onClick={ () => this.handleClick() }
-        ref={ button => this.button = button }
-      >
-        <i className="fa fa-folder-open-o" aria-hidden="true"></i>
-      </button>
+      Open
       <input
         type="file" id="fileElem"
         accept={ this.props.accept }
@@ -55,8 +41,8 @@ class UploadButton extends Component {
         style={{ display: 'none' }}
         ref={ field => this.inputField = field }
       />
-    </div>
+    </DropdownItem>
   }
 }
 
-export default UploadButton
+export default UploadItem
