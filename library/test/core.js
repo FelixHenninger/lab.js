@@ -332,6 +332,32 @@ describe('Core', () => {
         })
       })
 
+      it('triggers all applicable events', () => {
+        // See above for a fully commented, very similar test
+        b.options.el = document.getElementById('labjs-content')
+
+        const handler_specific = sinon.spy()
+        const handler_general = sinon.spy()
+        b.options.events = {
+          'keypress(a,b)': handler_general,
+          'keypress(a)': handler_specific,
+        }
+
+        return b.run().then(() => {
+          const b_pressed = simulateKeyPress('b', b.options.el)
+          assert.ok(handler_general.calledOnce)
+          assert.ok(handler_general.firstCall.calledWith(b_pressed))
+
+          const a_pressed = simulateKeyPress('a', b.options.el)
+          assert.ok(handler_specific.calledOnce)
+          assert.ok(handler_specific.firstCall.calledWith(a_pressed))
+          assert.ok(handler_general.calledTwice)
+          assert.ok(handler_general.secondCall.calledWith(a_pressed))
+
+          return b.end()
+        })
+      })
+
       it('deals with spaces in event string options', () => {
         b.options.el = document.getElementById('labjs-content')
 
