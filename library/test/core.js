@@ -332,6 +332,20 @@ describe('Core', () => {
         })
       })
 
+      it('deals with spaces in event string options', () => {
+        b.options.el = document.getElementById('labjs-content')
+
+        const handler = sinon.spy()
+        b.options.events = {
+          'keypress( a,b )': handler,
+        }
+
+        return b.run().then(() => {
+          simulateKeyPress('b', b.options.el)
+          assert.ok(handler.calledOnce)
+        })
+      })
+
       it('binds event handlers to component', () => {
         // Define a spy and use it as an event handler
         const spy = sinon.spy()

@@ -4,7 +4,7 @@ const splitEventString = function(eventString) {
   // into selector ('div > button'), event type ('click')
   // and additional options ('0')
   const directHandlerRegEx = /^(\w+)\s*([^()]*)$/
-  const wrappedHandlerRegEx = /^(\w+)\(([\w,]+)\)\s*(.*)$/
+  const wrappedHandlerRegEx = /^(\w+)\(([\w\s,]+)\)\s*(.*)$/
 
   let eventName = null
   let options = null
@@ -14,7 +14,7 @@ const splitEventString = function(eventString) {
     [, eventName, selector] = directHandlerRegEx.exec(eventString)
   } else if (wrappedHandlerRegEx.test(eventString)) {
     [, eventName, options, selector] = wrappedHandlerRegEx.exec(eventString)
-    options = options.split(',')
+    options = options.split(',').map(o => o.trim())
   } else {
     console.log('Can\'t interpret event string ', eventString)
   }
