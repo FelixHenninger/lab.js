@@ -23,14 +23,18 @@ const splitEventString = function(eventString) {
 }
 
 const keycodeLabels = {
-  space: 32,
-  enter: 13,
-  tab: 19,
-  backspace: 8,
-  left: 37,
-  up: 38,
-  right: 39,
-  down: 40,
+  ' ': 32,
+  Enter: 13,
+  Tab: 19,
+  Backspace: 8,
+  ArrowLeft: 37,
+  ArrowUp: 38,
+  ArrowRight: 39,
+  ArrowDown: 40,
+}
+
+const keyValues = {
+  Space: ' ',
 }
 
 // Provide basic automatic wrapping for event handlers
@@ -52,17 +56,46 @@ const wrapHandler = function(handler, eventName, options=null, context=null) {
     // depending on the event type
     switch (eventName) {
       case 'keypress':
-        // Options filter defined keys
+        // Options define keys that trigger the handler
+        // Keys, in turn, are defined in terms of the
+        // key event values supplied by the browser
+        // (cf. https://w3.org/TR/DOM-Level-3-Events-key).
+        // However, not all browsers support the
+        // key property (yet), so we provide a fallback
+        // based on key codes for the time being. The
+        // fallback is not complete in that it does not
+        // support the full range of keys defined in the
+        // spec, but rather those which we anticipate
+        // will be used most frequently.
+        // (enter, tab, backspace, and arrow keys)
 
-        // Look up keycode for each key
-        const keycodes = options.map(
+        // Translate some keys that we choose
+        // to represent differently (i.e. the
+        // space key, which is a litteral space
+        // character in the spec, but would be
+        // trimmed here)
+        const keys = options.map(
+          key => keyValues[key] || key
+        )
+
+        // Look up keycode for each key,
+        // in case the browser does not support the key
+        // property. This fallback will be removed as
+        // more browsers support the w3c standard referenced
+        // referenced above (specifically, Safari), c.f.
+        // https://caniuse.com/#feat=keyboardevent-key
+        const keycodes = keys.map(
           key => keycodeLabels[key] || key.charCodeAt(0),
         )
 
         // Wrap the handler to fire only
-        // when one of the codes is seen
+        // if the key pressed matches one
+        // of those specified in the options
         return function(e) {
-          if (keycodes.includes(e.which)) {
+          if (
+            (e.key && keys.includes(e.key)) ||
+            (e.which && keycodes.includes(e.which))
+          ) {
             return handler(e)
           } else {
             return null
