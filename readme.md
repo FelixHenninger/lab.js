@@ -58,18 +58,18 @@ updates and release notifications.
 ####Code / documentation
 
 [Felix Henninger](http://felixhenninger.com) ·
-[Ulf K. Mertens](http://www.psychologie.uni-heidelberg.de/ae/meth/team/mertens/)
+[Ulf K. Mertens](http://www.psychologie.uni-heidelberg.de/ae/meth/team/mertens/) ·
+[Yury Shevchenko](http://yuryshevchenko.com/)
 
 ####Ideas, feedback and examples
 
 [Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
-[Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/) ·
-[Yury Shevchenko](http://yuryshevchenko.com/)
+[Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/)
 
 The students and teaching assistants in the graduate course *Research Methods
 in Cognitive Psychology* at the University of Koblenz-Landau inspire the
-continued development of this library, and have provided countless valuable
-insights and sparked many of the ideas embodied in this project through
+continued development of this software, have provided countless valuable
+insights, and sparked many of the ideas embodied in this project through
 questions and discussions.
 
 ####Institutional support
@@ -77,6 +77,12 @@ questions and discussions.
 [FernUniversität in Hagen](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/) ·
 [GESS, University of Mannheim](http://gess.uni-mannheim.de/) ·
 [University of Koblenz-Landau](https://www.cognition.uni-landau.de/)
+
+If you would like to support development, the easiest way is to **host a
+workshop**. We'll gladly show you and your colleagues how to build experiments
+using this software, and build your favorite paradigm together! We are also open
+to **consulting** if you are looking for a particular feature — please don't
+hesitate to get in touch so that we can discuss things in more detail.
 
 #### Join in!
 
@@ -86,7 +92,8 @@ do so: This is an open project! We'd be glad to hear from you, to discuss ideas
 and approaches, and to get you going. There's an [overview of the code and
 intro to the build
 process](https://labjs.readthedocs.io/en/latest/meta/contribute.html) in the
-documentation, but as always, we'd be happy to help.
+documentation if you're interested, but as always, we'd be happy to help you get
+started.
 
 If you're searching for a place to contribute, please also let us know: There's
 always things to do, and we'd be glad to help you find something that fits your
