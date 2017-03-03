@@ -30,6 +30,6 @@
 .tree-node a.nav-link.active button.delete {
   display: inline !important;
 }
-.tree-node a.nav-link.active:hover button.delete {
-  color: white
+.tree-node a.nav-link:not(.active):hover button.delete {
+  color: rgb(1, 76, 140);
 }
