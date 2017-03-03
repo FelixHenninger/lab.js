@@ -102,7 +102,10 @@ export class Sequence extends Component {
   }
 
   get progress() {
-    return mean(
+    // If the sequence has ended,
+    // report it as completed
+    // (even if content was skipped)
+    return this.status === status.done ? 1 : mean(
       this.options.content.map(c => c.progress),
     )
   }
@@ -205,7 +208,10 @@ export class Parallel extends Component {
   }
 
   get progress() {
-    return mean(
+    // If the parallel has ended,
+    // report it as completed
+    // (even if content was skipped),
+    return this.status === status.done ? 1 : mean(
       this.options.content.map(c => c.progress),
     )
   }

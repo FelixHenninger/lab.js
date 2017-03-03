@@ -120,6 +120,45 @@ describe('Core', () => {
           assert.equal(b.progress, 1)
         })
       })
+
+      it('skips run if requested', () => {
+        b.options.skip = true
+
+        spy_run = sinon.spy()
+        b.on('run', spy_run)
+
+        spy_end = sinon.spy()
+        b.on('end', spy_end)
+
+        return b.run()
+          .then(() => {
+            assert.notOk(spy_run.called)
+
+            assert.ok(spy_end.called)
+            assert.equal(
+              b.data.ended_on,
+              'skipped'
+            )
+          })
+      })
+
+      it('reports progress even if nested content was skipped', () => {
+        const a = new lab.core.Component()
+
+        const spy = sinon.spy()
+        a.on('run', spy)
+
+        const s = new lab.flow.Sequence({
+          content: [ a ],
+          skip: true,
+        })
+
+        return s.run().then(() => {
+          assert.notOk(spy.called)
+          assert.equal(a.progress, 0)
+          assert.equal(s.progress, 1)
+        })
+      })
     })
 
     describe('Timers', () => {

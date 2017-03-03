@@ -231,6 +231,11 @@ export class Component extends EventHandler {
     // Note the time
     this.internals.timestamps.run = performance.now()
 
+    // Skip actual content if so instructed
+    if (this.options.skip) {
+      return this.end('skipped')
+    }
+
     // Run a component by showing it
     return this.triggerMethod('run')
   }
