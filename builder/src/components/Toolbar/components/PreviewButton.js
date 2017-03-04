@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button } from 'reactstrap'
 
-import { stateToJSON } from '../../../logic/export.js'
+import { stateToJSON } from '../../../logic/io/save.js'
 import PreviewWindow from '../../../logic/PreviewWindow'
 
 export default class PreviewButton extends Component {

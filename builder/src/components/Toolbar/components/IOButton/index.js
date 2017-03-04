@@ -3,8 +3,8 @@ import { Button, ButtonDropdown,
   DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 import UploadItem from './UploadItem'
-import { fromJSON } from '../../../../logic/load'
-import { stateToDownload } from '../../../../logic/export'
+import { fromJSON } from '../../../../logic/io/load'
+import { stateToDownload } from '../../../../logic/io/save'
 
 class IOButton extends Component {
   constructor(props) {

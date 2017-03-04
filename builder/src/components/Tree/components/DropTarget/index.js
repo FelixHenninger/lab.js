@@ -43,7 +43,7 @@ const TreeDropTarget = (props) =>
 //   Possibly the necessary data can be accessed through props,
 //   but this needs to be investigated further
 import store from '../../../../store'
-import { nestedChildren } from '../../util'
+import { nestedChildren } from '../../../../logic/tree'
 
 const targetSpec = {
   drop: (targetProps, monitor, component) => {

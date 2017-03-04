@@ -1,5 +1,5 @@
 import { omit } from 'lodash'
-import upgrade from './upgradeFile.js'
+import upgrade from './upgrade'
 
 export const fromJSON = (input) => {
   return omit(
