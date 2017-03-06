@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button } from 'reactstrap'
 
 import { stateToJSON } from '../../../logic/io/save.js'
-import PreviewWindow from '../../../logic/PreviewWindow'
+import PreviewWindow from '../../../logic/preview/PreviewWindow'
 
 export default class PreviewButton extends Component {
   constructor(props) {
@@ -30,6 +30,15 @@ export default class PreviewButton extends Component {
     }).then(response => {
       console.log(`Sent study data to API, received status ${ response.status }`)
     }).then(
+      // TODO: This code triggers the popup
+      // blocker in modern browsers, because,
+      // the command does not result from a
+      // direct user interaction, but is
+      // included in a promise chain. The
+      // window should probably be opened
+      // directly in the click handler, and
+      // populated later when the backend
+      // update is complete.
       () => this.previewWindow.openOrReload()
     ).catch(error => {
       console.log(`Received error while sending study data to API: ${ error }`)

@@ -16,11 +16,28 @@ export default class Preview {
       'labjs_preview',
       'menubar=no,location=no,resizable=yes,scrollbars=yes,status=no'
     )
-    this.window.addEventListener(
-      'unload', () => this.checkWindow()
-    )
-    // Trigger callback
-    this.stateChangeCallback('opened')
+    if (this.window) {
+      this.window.addEventListener(
+        'unload', () => this.checkWindow()
+      )
+      // Trigger callback
+      this.stateChangeCallback('opened')
+    } else {
+      // TODO: This catches failed calls to window.open
+      // due to a popup blocker or the like. Note that
+      // it is not a complete solution: If a popup is
+      // blocked, the call will fail silently, without
+      // allocating the window property.
+      // This is why, when a popup blocker is active,
+      // the preview button does not change into a reload
+      // button immediately -- only when the reload is
+      // no longer blocked (usually on the second refresh),
+      // does the icon change.
+      console.log(
+        'Window.open did not result in a window object.',
+        'Probably there is a popup blocker active?'
+      )
+    }
   }
 
   close() {
