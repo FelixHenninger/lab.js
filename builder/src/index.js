@@ -13,6 +13,19 @@ import HTML5DragDropBackend from 'react-dnd-html5-backend'
 import App from './components/App'
 import './index.css'
 
+// Raven / Sentry error reporting for production releases
+// (if a DSN is specified as an environment parameter, that is)
+import Raven from 'raven-js'
+
+if (
+  process.env.NODE_ENV === 'production' &&
+  process.env.REACT_APP_RAVEN_DSN
+) {
+  Raven
+    .config(process.env.REACT_APP_RAVEN_DSN)
+    .install()
+}
+
 // Wrap main app component
 const WrappedApp = DragDropContext(HTML5DragDropBackend)(App)
 
