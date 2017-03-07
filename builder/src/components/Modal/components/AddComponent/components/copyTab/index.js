@@ -1,6 +1,7 @@
 import React from 'react'
 import { repeat } from 'lodash'
 import { Button, ButtonGroup, Input } from 'reactstrap'
+import { nestedChildren } from '../../../../../../logic/tree'
 
 import './style.css'
 
@@ -9,7 +10,7 @@ const flatTree = (nodes, id='root', level=0) => {
   if (nodes[id].children) {
     nodes[id].children.forEach(
       c => output.push(
-        [ c, level, nodes[c]],
+        [ c, level, nodes[c] ],
         ...flatTree(nodes, c, level + 1)
       )
     )
@@ -29,8 +30,8 @@ const CopyTab = ({ parent, index }, context) => {
     >
       {
         flatTree(context.store.getState().components).map(
-          ([id, level, data]) =>
-            <option value={ id } key={ id }>
+          ([id, level, data], index) =>
+            <option value={ id } key={ index }>
               { level > 0 ? repeat(' ', level - 1) + '∙ ' : '' }
               { data.title }
             </option>
@@ -40,30 +41,53 @@ const CopyTab = ({ parent, index }, context) => {
     <ButtonGroup>
       <Button
         onClick={ () => {
-          context.store.dispatch({
-            type: 'COPY_COMPONENT',
-            id: sourceSelect.value,
-            parent, index,
-          })
-          // TODO: Show the new component
-          context.store.dispatch({
-            type: 'HIDE_MODAL',
-          })
+          if (sourceSelect.value !== '') {
+            context.store.dispatch({
+              type: 'COPY_COMPONENT',
+              id: sourceSelect.value,
+              parent, index,
+            })
+            // TODO: Show the new component
+            context.store.dispatch({
+              type: 'HIDE_MODAL',
+            })
+          }
         } }
       >
         Copy
       </Button>
       <Button
         onClick={ () => {
-          context.store.dispatch({
-            type: 'CLONE_COMPONENT',
-            id: sourceSelect.value,
-            parent, index,
-          })
-          // TODO: Show the new component
-          context.store.dispatch({
-            type: 'HIDE_MODAL',
-          })
+          if (sourceSelect.value !== '') {
+            // Check whether a component is being
+            // cloned into itself, thus creating
+            // and infinite recursion.
+            const sourceChildren = [
+              sourceSelect.value,
+              ...nestedChildren(
+                sourceSelect.value,
+                context.store.getState().components
+              ),
+            ]
+            if (sourceChildren.includes(parent)) {
+              alert(
+                'I\'m sorry, I\'m afraid I can\'t do that: ' +
+                'Cloning a component inside itself would create ' +
+                'an endless chain of nested components. ' +
+                'Please use a regular copy instead.'
+              )
+              return
+            }
+            context.store.dispatch({
+              type: 'CLONE_COMPONENT',
+              id: sourceSelect.value,
+              parent, index,
+            })
+            // TODO: Show the new component
+            context.store.dispatch({
+              type: 'HIDE_MODAL',
+            })
+          }
         } }
       >
         Clone
