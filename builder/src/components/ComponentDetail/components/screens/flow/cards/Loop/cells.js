@@ -86,7 +86,7 @@ class CellTypeSelector extends Component {
           </DropdownItem>
         </DropdownMenu>
       </ButtonDropdown>
-    );
+    )
   }
 }
 

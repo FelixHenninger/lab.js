@@ -84,7 +84,7 @@ using this software, and build your favorite paradigm together! We are also open
 to **consulting** if you are looking for a particular feature — please don't
 hesitate to get in touch so that we can discuss things in more detail.
 
-#### Join in!
+### Join in!
 
 **We would love to have you as part of this project** — whether you have new
 ideas, suggestions, or would just like to muck in, please be warmly invited to

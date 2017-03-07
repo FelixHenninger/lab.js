@@ -32,6 +32,8 @@ export class Component extends EventHandler {
       id: null,
       // Setup 'tardyness'
       tardy: false,
+      // Skip if so desired
+      skip: false,
       // Set parent, if defined
       parent: null,
 

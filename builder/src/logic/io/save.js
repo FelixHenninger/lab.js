@@ -17,6 +17,7 @@ export const stateToJSON = (state, rootId='root') => {
   // but ideally there should be a
   // proper renaming step here.
   components['root'] = allComponents[rootId]
+  components['root'].id = 'root'
 
   return JSON.stringify({
     version: [2017, 0, 4],
