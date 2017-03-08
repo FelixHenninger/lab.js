@@ -98,15 +98,19 @@ export default (state=defaultState, action) => {
         }
       }
     case 'DELETE_COMPONENT':
-      // TODO: This doesn't account for the possibility
-      // that the same component might be duplicated
-      // within the same parent component -- but that's
-      // pretty much hypothetical for now.
-      // Solving this will require passing the index
-      // along with the parent
-      const componentInUse = Object.entries(state)
-        .filter(([id, c]) => c.children && c.children.includes(action.id))
-        .length > 1
+      // Check whether the the component is
+      // in use in more than one place.
+      // TODO: The following lines count the
+      // instances of a given id in the entire
+      // study, and might profitably be extracted
+      // into the app logic (e.g. as a
+      // componentInstances function), someday.
+      const componentInUse = 1 < Object.entries(state)
+        .reduce(
+          (count, [id, c]) => count +
+            (c.children ? c.children.filter(x => x === action.id).length : 0),
+          0
+        )
 
       const output = {
         ...state,

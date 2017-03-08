@@ -65,26 +65,28 @@ it('removes only the reference if a component occurs more than once', () => {
       children: ['C'],
     },
     B: {
-      children: ['C'],
+      children: ['C', 'D', 'C', 'D'],
     },
     C: {},
+    D: {},
   }
   expect(updateComponent(
     state,
     {
       type: 'DELETE_COMPONENT',
       id: 'C',
-      parent: 'A',
-      index: 0,
+      parent: 'B',
+      index: 2,
     }
   )).toEqual(
     {
       root: state.root,
-      A: {
-        children: [],
+      A: state.A,
+      B: {
+        children: ['C', 'D', 'D']
       },
-      B: state.B,
       C: state.C,
+      D: state.D,
     }
   )
 })
