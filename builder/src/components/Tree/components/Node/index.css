@@ -1,35 +1,36 @@
 /* Navigation pill styles */
 .tree-node a.nav-link {
-  color: rgb(2, 117, 216);
-  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  padding: 0;
   border-radius: 0.25rem;
-}
-.tree-node a.nav-link:hover {
-  color: rgb(1, 76, 140);
-  background-color: rgb(248, 248, 248);
+  border: 1px solid transparent;
 }
 .tree-node a.nav-link.active {
   color: rgb(2, 117, 216);
-  background-color: rgb(248, 248, 248);
-  border-right: 3px solid rgb(2, 117, 216);
+  background-color: rgb(247, 247, 249);
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+.tree-node a.nav-link.isDragging {
+  background-color: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
-/* Tree spacing and indentation */
-.tree-node li.nav-item a.nav-link.active + ul.nav.nav-pills {
-  margin-top: 0.4rem;
+/* Content spacing */
+.tree-node a.nav-link {
+  display: flex;
 }
+.tree-node a.nav-link div.nav-link-main {
+  flex-grow: 1;
+  padding-top: calc(0.5rem + 2px); /* Vertical baseline alignment */
+  cursor: move;
+}
+.tree-node a.nav-link > div {
+  padding: 0.5rem;
+}
+.tree-node a.nav-link > div:first-child {
+  padding-left: 1rem;
+}
+
+/* Tree indentation */
 .tree-node li.nav-item ul.nav-pills {
   margin-left: 0.75rem;
-}
-
-/* Delete button */
-.tree-node a.nav-link button.delete {
-  display: none !important;
-}
-.tree-node a.nav-link:hover button.delete,
-.tree-node a.nav-link.active button.delete {
-  display: inline !important;
-}
-.tree-node a.nav-link:not(.active):hover button.delete {
-  color: rgb(1, 76, 140);
 }

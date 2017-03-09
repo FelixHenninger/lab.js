@@ -1,0 +1,16 @@
+/* Hide dropdown if the pill is not
+   active or hovered */
+.tree-node a.nav-link div.dropdown {
+  visibility: hidden;
+}
+.tree-node a.nav-link.active div.dropdown {
+  visibility: visible;
+}
+/* Disable visibility animation */
+.tree-node a.nav-link button.dropdown-toggle {
+  transition: visiblity 0s !important;
+}
+/* Fix vertical spacing for caret */
+.tree-node a.nav-link div.dropdown > button.dropdown-toggle::after {
+  margin: 0;
+}

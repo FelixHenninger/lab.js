@@ -1,26 +1,36 @@
 import React from 'react'
-import { Nav, NavItem, NavLink, Button } from 'reactstrap'
+import { Nav, NavItem, NavLink } from 'reactstrap'
 
 import AddButton from '../AddButton'
 import DropTarget from '../DropTarget'
 
 import { metadata } from '../../../../logic/components'
+import NodeDropDown from './dropdown'
+
+import classnames from 'classnames'
 import './index.css'
 
-const NodeBody = ({ id, parent, index, active, onClick, onDelete, children }) =>
+const NodeBody = ({ id, parent, index, active, onClick, onDelete, isDragging, children }) =>
   <NavLink
     href="#" active={ active }
-    style={{ cursor: 'move' }}
-    onClick={ () => onClick(id) }
+    className={ classnames({
+      isDragging,
+    }) }
   >
-    { children }
-    <Button
-      onClick={ () => onDelete(id, parent, index) }
-      className="delete pull-right"
-      size="sm" color="link"
+    <div
+      className="nav-link-main"
+      onClick={ () => onClick(id) }
     >
-      <i className="fa fa-trash"></i>
-    </Button>
+      { children }
+    </div>
+    <div className="nav-link-tools">
+      <NodeDropDown
+        id={ id }
+        parent={ parent }
+        index={ index }
+        onDelete={ onDelete }
+      />
+    </div>
   </NavLink>
 
 const NodeTail = ({ id, children, pinned, vacancies, onNodeClick, onNodeDelete, onChildAdded }) =>
@@ -70,7 +80,9 @@ const NodeTail = ({ id, children, pinned, vacancies, onNodeClick, onNodeDelete, 
     }
   </Nav>
 
-const Node = ({ id, parentId, index, data, active, renderBody, onClick, onDelete, onChildAdded, connectDragSource }) => {
+const Node = ({ id, parentId, index, data, active, renderBody,
+  onClick, onDelete, onChildAdded,
+  isDragging, connectDragSource }) => {
   const { type } = data
   const { minChildren, maxChildren } = metadata[type]
 
@@ -97,6 +109,7 @@ const Node = ({ id, parentId, index, data, active, renderBody, onClick, onDelete
               active={ active }
               onClick={ onClick }
               onDelete={ onDelete }
+              isDragging={ isDragging }
             >
               { data.title }
             </NodeBody>

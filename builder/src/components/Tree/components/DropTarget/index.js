@@ -17,7 +17,7 @@ const dropTargetStyles = {
   },
   hover: {
     height: '2rem',
-    border: '2px dashed rgba(0, 0, 0, 0.1)',
+    border: '1px dashed rgba(0, 0, 0, 0.15)',
   }
 }
 
