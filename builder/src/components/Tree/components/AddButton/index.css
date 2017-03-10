@@ -1,9 +1,9 @@
 div.addButton {
   font-size: 0.8rem;
   text-align: center;
-  color: rgba(0, 0, 0, 0.175);
+  color: rgba(0, 0, 0, 0.2);
   border-radius: 0.25rem;
-  border: 1px dashed rgba(0, 0, 0, 0);
+  border: 1px solid rgba(0, 0, 0, 0);
   /*
     Attempts to move the widget slightly
     above its surroundings so that the hover area
@@ -20,7 +20,7 @@ div.addButton {
 }
 div.addButton:hover, div.addButton.addButton-pinned {
   height: 30px;
-  border: 1px dashed rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* Reset the positioning hacks if the button is pinned */
