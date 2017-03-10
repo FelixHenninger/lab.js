@@ -105,6 +105,9 @@ export default (state=defaultState, action) => {
       // study, and might profitably be extracted
       // into the app logic (e.g. as a
       // componentInstances function), someday.
+      // TODO: This does not remove nested
+      // components, however they are filtered
+      // when the study is saved.
       const componentInUse = 1 < Object.entries(state)
         .reduce(
           (count, [id, c]) => count +

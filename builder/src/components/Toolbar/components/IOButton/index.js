@@ -8,18 +8,18 @@ import { stateToDownload } from '../../../../logic/io/save'
 
 class IOButton extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.toggle = this.toggle.bind(this);
+    this.toggle = this.toggle.bind(this)
     this.state = {
       dropdownOpen: false
-    };
+    }
   }
 
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
-    });
+    })
   }
 
   render() {
