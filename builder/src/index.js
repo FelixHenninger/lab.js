@@ -26,6 +26,10 @@ if (
     .install()
 }
 
+// Enable preview service worker
+import installPreviewWorker from './logic/preview/worker'
+installPreviewWorker()
+
 // Wrap main app component
 const WrappedApp = DragDropContext(HTML5DragDropBackend)(App)
 
