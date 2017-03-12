@@ -5,7 +5,7 @@ Welcome to the **lab.js** documentation!
 About
 -----
 
-.. image:: ci/flask_s.png
+.. image:: media/logo/yellow/flask_150.png
     :align: right
 
 **lab.js is a toolkit of components for constructing client-side online

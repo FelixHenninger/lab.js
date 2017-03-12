@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="docs/ci/flask_s.png">
+  <img src="docs/media/logo/yellow/dot_200.png">
 </div><br>
 
 <p align="center">
@@ -19,9 +19,13 @@ the greatest possible flexibility with regard to study design.
 [![Slack Status](https://slackin-nmbrcrnchrs.herokuapp.com/badge.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
 [![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=latest)](http://labjs.readthedocs.io/en/latest/?badge=latest)
 
+<div align="center">
+  <img src="docs/media/promo/builder_teaser.png">
+</div>
+
 ----
 
-###Get started
+### Get started
 
 The [**graphical builder interface**](https://labjs.felixhenninger.com) is the
 easiest way to create studies, and the best place to start. The tutorial
@@ -36,14 +40,14 @@ There is also a tutorial to [help you get started](https://labjs.readthedocs.io/
 
 If you get stuck or things don't make sense, please don't hesitate to reach out!
 
-###Find help
+### Find help
 
 The easiest and quickest way to find help is to [join our **Slack
 channel**](https://slackin-nmbrcrnchrs.herokuapp.com/), where there's someone
 around to discuss things and help out most of the time. You're welcome to just
 join and say hello!
 
-###Keep up-to-date
+### Keep up-to-date
 
 If you'd like to keep in the loop regarding the development, please [subscribe
 to our **newsletter**](http://eepurl.com/co0K9r) to receive very occasional
@@ -51,17 +55,17 @@ updates and release notifications.
 
 ----
 
-###Contributors
+### Contributors
 
 (in alphabetical order)
 
-####Code / documentation
+#### Code / documentation
 
 [Felix Henninger](http://felixhenninger.com) ·
 [Ulf K. Mertens](http://www.psychologie.uni-heidelberg.de/ae/meth/team/mertens/) ·
 [Yury Shevchenko](http://yuryshevchenko.com/)
 
-####Ideas, feedback and examples
+#### Ideas, feedback and examples
 
 [Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
 [Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/)
@@ -72,7 +76,7 @@ continued development of this software, have provided countless valuable
 insights, and sparked many of the ideas embodied in this project through
 questions and discussions.
 
-####Institutional support
+#### Institutional support
 
 [FernUniversität in Hagen](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/) ·
 [GESS, University of Mannheim](http://gess.uni-mannheim.de/) ·
@@ -95,13 +99,15 @@ process](https://labjs.readthedocs.io/en/latest/meta/contribute.html) in the
 documentation if you're interested, but as always, we'd be happy to help you get
 started.
 
-If you're searching for a place to contribute, please also let us know: There's
-always things to do, and we'd be glad to help you find something that fits your
-interests and resources. If you're writing a tool that might interoperate with
-or extend this one, we'd be thrilled to be a stepping stone for you!
+**If you're searching for a place to contribute, please do let us know**:
+There's always things to do, and we'd be glad to help you find something that
+fits your interests and resources. If you're writing a tool that might
+interoperate with this one, we're more than happy to link things up; if you're
+looking to extend or build on this project, we'd be thrilled to provide a
+stepping stone for you!
 
-We expect all contributors to conform to the [Software Carpentry Code of
-Conduct](https://software-carpentry.org/conduct/), and to be excellent to one
+We expect all contributors to conform to the [Software Carpentry **Code of
+Conduct**](https://software-carpentry.org/conduct/), and to be excellent to one
 another.
 
 ----
