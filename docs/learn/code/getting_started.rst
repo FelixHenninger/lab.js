@@ -88,8 +88,9 @@ things you might notice:
 * Within the container div, the content is subdivided into ``header``, ``main``,
   and ``footer`` elements. These correspond to the three areas on the page. Feel
   free to adjust the content as you see fit!
-* Finally, inside the ``main`` element, there's a ``div`` with an ``id`` of
-  ``labjs-content``. That's where the actual experimental content will go.
+* Finally, inside the ``main`` element, there's a ``div`` with an attribute
+  ``data-labjs-section`` with the value ``main``. That's where the actual
+  experimental content will go.
 
 With that, let's go get this experiment to work!
 

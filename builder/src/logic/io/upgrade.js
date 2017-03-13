@@ -74,6 +74,18 @@ const updates = {
       return c
     }),
   }),
+  '2017.0.4': data => {
+    if (data.files.files['index.html']) {
+      data.files.files['index.html'].content =
+        data.files.files['index.html'].content.replace(
+          'id="labjs-content"',
+          'data-labjs-section="main"',
+        )
+    }
+
+    data.version = [2017, 0, 5]
+    return data
+  }
 }
 
 export default (data) => {

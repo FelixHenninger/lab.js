@@ -143,13 +143,14 @@ export class Component extends EventHandler {
       return
     }
 
-    // Direct output to the HTML element with the id
-    // 'labjs-content', unless a different element
+    // Direct output to the HTML element with the attribute
+    // data-labjs-section="main", unless a different element
     // has been provided explicitly
     if (this.options.debug && this.options.el == null) {
-      console.log('No output element specified, using #labjs-content')
+      console.log('No output element specified, using main section')
     }
-    this.options.el = this.options.el || document.getElementById('labjs-content')
+    this.options.el =
+      this.options.el || document.querySelector('[data-labjs-section="main"]')
 
     // Trigger the before:prepare event
     await this.triggerMethod('before:prepare')

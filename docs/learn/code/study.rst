@@ -144,7 +144,7 @@ create the following snippet::
 
 This creates a new :js:class:`html.Screen` with our content. When it runs, the
 short ``HTML`` code will be inserted into the page, specifically into the
-element whose ``id`` attribute is ``labjs-content`` (this default can be
+element whose ``data-labjs-section`` attribute is ``main`` (this default can be
 changed).
 
 There are a few details to note here: First, the screen is constructed using

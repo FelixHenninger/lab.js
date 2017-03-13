@@ -20,7 +20,7 @@ export const stateToJSON = (state, rootId='root') => {
   components['root'].id = 'root'
 
   return JSON.stringify({
-    version: [2017, 0, 4],
+    version: [2017, 0, 5],
     components,
     files,
   }, null, 2)

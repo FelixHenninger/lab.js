@@ -31,16 +31,16 @@ as a :js:class:`core.Component` does.
 
     const screen = new lab.html.Screen({
       content: '<p>Hello world!</p>',
-      el: document.getElementById('labjs-content'),
+      el: document.querySelector('[data-labjs-section="main"]'),
     })
 
     screen.run()
 
   When this code is run, a single screen is shown, that is, the content string
   supplied is inserted into the the element specified in the options. In this
-  case, the element with the id ``labjs-content`` is used to display the
-  content. This is the default value for the :js:attr:`el` attribute, so we omit
-  it in the following.
+  case, the element with the attribute ``data-labjs-section="main"`` is used to
+  contain the content. This is the default value for the :js:attr:`el`
+  attribute, so we omit it in the following.
 
   **Using placeholders and parameters**
 

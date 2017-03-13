@@ -73,11 +73,11 @@ describe('Core', () => {
         })
       })
 
-      it('directs output to #labjs-content if no other element is specified', () => {
+      it('directs output to default section if no other element is specified', () => {
         return b.prepare().then(() => {
           assert.equal(
             b.options.el,
-            document.querySelector('#labjs-content')
+            document.querySelector('[data-labjs-section="main"]')
           )
         })
       })
@@ -304,7 +304,7 @@ describe('Core', () => {
         // manually at this point so that we
         // can inject content before running
         // .prepare()
-        b.options.el = document.getElementById('labjs-content')
+        b.options.el = document.querySelector('[data-labjs-section="main"]')
 
         // Simulate two buttons
         b.options.el.innerHTML = ' \
@@ -343,7 +343,7 @@ describe('Core', () => {
         // (keyboard event listeners are typically
         // located at the document level, and the
         // event bubbles up the hierarchy)
-        b.options.el = document.getElementById('labjs-content')
+        b.options.el = document.querySelector('[data-labjs-section="main"]')
 
         // Create a spy as a substitute
         // for an event handler
@@ -373,7 +373,7 @@ describe('Core', () => {
 
       it('triggers all applicable events', () => {
         // See above for a fully commented, very similar test
-        b.options.el = document.getElementById('labjs-content')
+        b.options.el = document.querySelector('[data-labjs-section="main"]')
 
         const handler_specific = sinon.spy()
         const handler_general = sinon.spy()
@@ -398,7 +398,7 @@ describe('Core', () => {
       })
 
       it('deals with spaces in event string options', () => {
-        b.options.el = document.getElementById('labjs-content')
+        b.options.el = document.querySelector('[data-labjs-section="main"]')
 
         const handler = sinon.spy()
         b.options.events = {
