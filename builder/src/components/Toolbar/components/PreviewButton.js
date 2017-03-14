@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button } from 'reactstrap'
 
-import { stateToJSON } from '../../../logic/io/save.js'
+import { populateCache } from '../../../logic/preview/io'
 import PreviewWindow from '../../../logic/preview/PreviewWindow'
 
 export default class PreviewButton extends Component {
@@ -24,12 +24,9 @@ export default class PreviewButton extends Component {
     // TODO: The interaction with the API should
     // probably be wrapped and placed with the
     // other application logic-related code.
-    return fetch('api/labjs_preview/update', {
-      method: 'POST',
-      body: stateToJSON(this.context.store.getState()),
-    }).then(response => {
-      console.log(`Sent study data to API, received status ${ response.status }`)
-    }).then(
+    return populateCache(
+      this.context.store.getState()
+    ).then(
       // TODO: This code triggers the popup
       // blocker in modern browsers, because,
       // the command does not result from a

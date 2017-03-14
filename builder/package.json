@@ -10,7 +10,7 @@
     "classnames": "^2.2.5",
     "file-saver": "^1.3.3",
     "font-awesome": "^4.7.0",
-    "localforage": "^1.5.0",
+    "jszip": "^3.1.3",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "raven-js": "^3.12.0",
@@ -28,7 +28,6 @@
     "redux": "^3.6.0",
     "requirejs": "^2.3.2",
     "serialize-javascript": "^1.3.0",
-    "sw-toolbox": "^3.4.0",
     "webfont-dl": "^0.1.2"
   },
   "scripts": {
@@ -38,12 +37,8 @@
     "eject": "react-scripts eject",
     "postinstall": "npm run static:fa && npm run static:fira && npm run static:localforage && npm run static:lodash && npm run static:monaco && npm run static:requirejs && npm run static:serialize-javascript && npm run static:sw-toolbox",
     "static:fa": "mkdir -p public/vendor/font-awesome && cp -r node_modules/font-awesome/css node_modules/font-awesome/fonts public/vendor/font-awesome/",
-    "static:localforage": "cp node_modules/localforage/dist/localforage.min.js public/vendor",
-    "static:lodash": "cp node_modules/lodash/lodash.min.js public/vendor",
     "static:fira": "webfont-dl 'https://fonts.googleapis.com/css?family=Fira+Mono|Fira+Sans' --woff2=link --woff1=omit --svg=omit --ttf=omit --eot=omit --out=public/vendor/fira/fira.css",
     "static:monaco": "cp -R node_modules/monaco-editor/min/vs/ public/vs",
-    "static:requirejs": "cp node_modules/requirejs/require.js public/vendor",
-    "static:serialize-javascript": "patch node_modules/serialize-javascript/index.js -i src/vendor/serialize-javascript.patch -o public/vendor/serialize-javascript.js",
-    "static:sw-toolbox": "cp -R node_modules/sw-toolbox/sw-toolbox.js public/vendor"
+    "static:requirejs": "cp node_modules/requirejs/require.js public/vendor"
   }
 }

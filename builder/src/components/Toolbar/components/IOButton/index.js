@@ -5,6 +5,7 @@ import { Button, ButtonDropdown,
 import UploadItem from './UploadItem'
 import { fromJSON } from '../../../../logic/io/load'
 import { stateToDownload } from '../../../../logic/io/save'
+import { exportStatic } from '../../../../logic/io/export'
 
 class IOButton extends Component {
   constructor(props) {
@@ -72,7 +73,12 @@ class IOButton extends Component {
             Save
           </DropdownItem>
           <DropdownItem divider/>
-          <DropdownItem header>Export</DropdownItem>
+          <DropdownItem header>Export as bundle</DropdownItem>
+          <DropdownItem
+            onClick={ () => exportStatic(this.context.store.getState()) }
+          >
+            Plain <span className="text-muted">(no backend)</span>
+          </DropdownItem>
           <DropdownItem disabled>
             PHP backend
           </DropdownItem>

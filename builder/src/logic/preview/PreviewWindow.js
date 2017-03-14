@@ -12,7 +12,7 @@ export default class Preview {
   // Open, close, reload, ... the preview window
   open() {
     this.window = window.open(
-      `api/${ this.instanceId }/preview/index.html`,
+      `api/${ this.instanceId }/index.html`,
       'labjs_preview',
       'menubar=no,location=no,resizable=yes,scrollbars=yes,status=no'
     )
