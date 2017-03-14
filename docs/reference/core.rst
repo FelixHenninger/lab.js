@@ -423,11 +423,8 @@ Usage
 Dummy
 -----
 
-The :js:class:`core.Dummy` component is a stand-in component that calls
-:js:func:`end` immediately when the component is run. We use it for tests and
-demonstrations, and very rarely in experiments.
+The :js:class:`core.Dummy` component is a stand-in component that calls :js:func:`end` immediately when the component is run. We use it for tests and demonstrations, and only very rarely in experiments.
 
 .. js:class:: core.Dummy([options])
 
-  Direct descendant of the :js:class:`core.Component` class, with the single
-  difference that the :js:attr:`timeout` is set to zero by default.
+  Direct descendant of the :js:class:`core.Component` class, with the single difference that the :js:attr:`skip` option is set to ``true`` by default.

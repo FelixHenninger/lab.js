@@ -404,7 +404,7 @@ export const handMeDowns = [
 export class Dummy extends Component {
   constructor(options={}) {
     super({
-      timeout: 0,
+      skip: true,
       ...options,
     })
   }
