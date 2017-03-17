@@ -11,15 +11,15 @@ Collected data can have many origins and takes many forms. Different types of
 data are separated into different **variables**, each of which can save a
 different indicator or type of data. For example, many experiments will require
 collection of observed behavior, decisions, or judgments alongside the time
-required to respond to the stimuli presented.
+participants needed to respond to the stimuli presented.
 Each variable, in turn, can vary over time, taking on different **values** as
 the experiment proceeds. In many cases, variables will change from screen to
 screen, as every new display elicits new data to be recorded.
 
-Data stores provide two central functions. First, they maintain the **state** of
-the experiment, which is comprised of the latest value of each variable. Second,
-a store archives the **history** of all variables over the entire course of an
-experiment.
+A :js:class:`data.Store` provides two central functions. First, it maintains the
+**state** of the experiment, which is comprised of the latest value of each
+variable. Second, a store archives the **history** of all variables over the
+entire course of an experiment.
 
 The entire history in ``lab.js`` is represented as a *long-form* dataset, in
 which each variable is contained in a column, and the values over time are
@@ -31,19 +31,20 @@ data.
 
 .. js:class:: data.Store([options])
 
-  If a record of the generated data is required, a :js:class:`data.Store` object
-  is passed to the component whose data should be captured. This component will
+  If a record of the generated data is required, a :js:class:`data.Store`
+  object is passed to the component whose data should be captured via the
+  :js:attr:`datastore <options.datastore>` option. This component will then
   commit its internal data to the store when it ends (unless instructed
-  otherwise). :ref:`Flow control components <reference/flow/sequence>`
-  automatically pass this setting on to their descendants (see
-  :js:attr:`handMeDowns`).
+  otherwise). :ref:`Flow control components <reference/flow>` automatically
+  pass this setting on to nested components (see :js:attr:`handMeDowns
+  <options.handMeDowns>`).
 
   Thus, the simplest possible way to use a data store is the following::
 
     // Create a new DataStore
-    var ds = new lab.data.Store()
+    const ds = new lab.data.Store()
 
-    var screen = new lab.html.Screen({
+    const screen = new lab.html.Screen({
       content: 'Some information to display',
       // DataStore to send data to
       datastore: ds,
@@ -53,7 +54,7 @@ data.
       },
       // The response will be saved automatically
       responses: {
-        'keypress(space)': 'done'
+        'keypress(Space)': 'done'
       }
     })
 
@@ -66,13 +67,13 @@ data.
 
     // Download the data after the screen
     // has run its course.
+    screen.on('end', () => ds.download())
     screen.run()
-      .then(ds.download)
 
-  This command sequence runs the screen, and executes the ``download`` method on
-  the :js:class:`data.Store` upon completion, causing a csv file with the data
-  to be offered for download at this point. Further methods and options are
-  illustrated in the following.
+  This command sequence runs the screen, and executes the :js:func:`download`
+  method on the :js:class:`data.Store` upon completion, causing a csv file with
+  the data to be offered for download at this point. Further methods and
+  options are illustrated in the following.
 
   **Data storage**
 
@@ -80,8 +81,8 @@ data.
 
     Set the value of a variable or a set of variables
 
-    The ``set`` method will assign the included value to the variable with the
-    name specified in the first argument::
+    The :js:func:`set` method will assign the included value to the variable
+    with the name specified in the first argument::
 
       ds.set('condition', 'control')
 
@@ -109,7 +110,7 @@ data.
 
     In addition, any values passed via the key and value parameters will be
     added to the dataset before this takes place. Arguments are treated as in
-    the ``set`` method.
+    the :js:func:`set` method.
 
   **Data retrieval**
 
@@ -139,10 +140,10 @@ data.
 
     The optional argument ``senderRegExp`` takes a string or regular expression
     that is compared to the ``sender`` column in the data set (which contains
-    the ``title`` attribute of the element that contributed the corresponding
-    set of data). If this option is a string, an exact match is performed. If it
-    contains a regular expression, this is compared to the values in the
-    ``sender`` column.
+    the :js:attr:`title <options.title>` attribute of the element that
+    contributed the corresponding set of data). If this option is a string, an
+    exact match is performed. If it contains a regular expression, this is
+    compared to the values in the ``sender`` column.
 
   **Data export**
 
@@ -182,8 +183,11 @@ data.
     Initiates a download of the data in a specified format (see above) with a
     given file name.
 
-    In the background, this appends a link to the document body and simulates a
-    click on it in order to trigger a file download.
+    .. caution::
+
+      Direct data download is **not available on all browsers** due to browser-side bugs and incompatibilities. We rely on ``FileSaver.js`` for this functionality, which excellent, but not perfect. Please consult the `FileSaver.js documentation`_ for information regarding browser support.
+
+      .. _FileSaver.js documentation: https://github.com/eligrey/FileSaver.js/#supported-browsers
 
   **Data transmission**
 
@@ -210,8 +214,8 @@ data.
     way similar to the following example::
 
       // Define server URL and metadata for the current dataset
-      let storage_endpoint = 'https://awesome_lab.prestigious.edu/study/storage.php'
-      let storage_metadata = {
+      const storage_endpoint = 'https://awesome_lab.prestigious.edu/study/storage.php'
+      const storage_metadata = {
         'participant_id': 77
       }
 
