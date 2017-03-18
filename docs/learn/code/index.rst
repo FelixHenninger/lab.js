@@ -1,4 +1,4 @@
-.. _tutorial:
+.. _tutorial/code:
 
 Working with code
 =================
