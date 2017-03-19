@@ -19,6 +19,7 @@ With that, **let's get started!**
    :maxdepth: 1
 
    1-overview.rst
+   2-screen.rst
 
 .. hint::
 
