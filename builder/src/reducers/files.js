@@ -11,9 +11,9 @@ const index_html = `<!doctype html>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- If you're looking to fill all available browser space,
-       try replacing the class below with "container fullscreen" -->
-  <div class="container" data-labjs-section="main">
+  <!-- If you'd rather have a container with a fixed width
+       and variable height, try removing the fullscreen class below -->
+  <div class="container fullscreen" data-labjs-section="main">
     <main class="content-vertical-center content-horizontal-center">
       <div>
         <h2>Loading Experiment</h2>
