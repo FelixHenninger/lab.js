@@ -1,4 +1,4 @@
-import { toString, toNumber, fromPairs, zip, pickBy } from 'lodash'
+import { toString, toNumber, fromPairs, zip, pickBy, cloneDeep } from 'lodash'
 import serialize from 'serialize-javascript'
 
 // Generic grid processing
@@ -158,15 +158,12 @@ study.options.datastore = new lab.data.Store()
 // Let's go!
 study.run()`
 
-export const processStudy = studyObject => {
-  // Add debug plugin to root component
-  // (this might be made optional at some point)
-  studyObject.components.root.plugins = [
-    { type: 'lab.plugins.Debug' }
-  ]
+export const processStudy = (state, modifier=state => state) => {
+  // Apply modifier function to (a copy of) the study object
+  const study = modifier(cloneDeep(state))
 
   // Process study tree
-  const componentTree = makeComponentTree(studyObject.components, 'root')
+  const componentTree = makeComponentTree(study.components, 'root')
   const studyTreeJSON = serialize(componentTree, { space: 2 })
   return makeStudyScript(studyTreeJSON)
 }

@@ -2,6 +2,13 @@ import JSZip from 'jszip'
 import FileSaver from 'file-saver'
 import Raven from 'raven-js'
 
+// TODO: Rethink the data flows here.
+// There should (ideally) be a single path for both
+// preview and study export. The modifier function
+// is a good idea, but it shouldn't be passed through
+// the entire build process -- there should be an
+// early clone at the entry point.
+
 export const staticFiles = [
   'lib/lab.css',
   'lib/lab.min.js',
@@ -12,20 +19,20 @@ import { processStudy } from './build'
 
 // Map paths onto file contents
 // (and some metadata)
-export const dynamicFiles = (state) => ({
+export const dynamicFiles = (state, modifier) => ({
   ...state.files.files,
   'script.js': {
-    content: processStudy(state),
+    content: processStudy(state, modifier),
     type: 'application/javascript',
   }
 })
 
 // Bundle all files into a zip archive
-export const exportStatic = (state) => {
+export const exportStatic = (state, modifier) => {
   const zip = new JSZip()
 
   // Include static files specific to the study
-  Object.entries(dynamicFiles(state)).forEach(
+  Object.entries(dynamicFiles(state, modifier)).forEach(
     ([filename, data]) => zip.file(filename, data.content)
   )
 

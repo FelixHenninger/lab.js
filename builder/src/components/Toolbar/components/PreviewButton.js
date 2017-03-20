@@ -4,6 +4,15 @@ import { Button } from 'reactstrap'
 import { populateCache } from '../../../logic/preview/io'
 import PreviewWindow from '../../../logic/preview/PreviewWindow'
 
+const addDebugPlugin = (state) => {
+  // Add debug plugin to root component
+  state.components.root.plugins = [
+    { type: 'lab.plugins.Debug' }
+  ]
+
+  return state
+}
+
 export default class PreviewButton extends Component {
   constructor(props) {
     super(props)
@@ -21,11 +30,9 @@ export default class PreviewButton extends Component {
   }
 
   clickHandler() {
-    // TODO: The interaction with the API should
-    // probably be wrapped and placed with the
-    // other application logic-related code.
     return populateCache(
-      this.context.store.getState()
+      this.context.store.getState(),
+      addDebugPlugin,
     ).then(
       // TODO: This code triggers the popup
       // blocker in modern browsers, because,

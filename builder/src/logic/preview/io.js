@@ -40,11 +40,11 @@ export const prePopulateCache = () =>
     )
   )
 
-export const populateCache = (state) =>
+export const populateCache = (state, modifier) =>
   caches.open(cacheName).then(cache =>
     Promise.all([
       // Place generated study files into the cache
-      put(cache, dynamicFiles(state)),
+      put(cache, dynamicFiles(state, modifier)),
       // Update links to static library files
       ...staticFiles.map( path => linkStatic(path, cache) )
     ])
