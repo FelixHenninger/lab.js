@@ -1,23 +1,28 @@
 import { pick } from 'lodash'
 import { nestedChildren } from '../tree'
 
-export const stateToJSON = (state, rootId='root') => {
+export const stateToJSON = (state, exportedComponent='root') => {
   const { components: allComponents, files } = state
 
   // From all available components,
-  // pick only those nested below the
-  // designated root component
+  // include only the root, and those
+  // nested below any exported component
   const components = pick(
     allComponents,
-    nestedChildren(rootId, allComponents)
+    [
+      'root', // Include root in any case
+      exportedComponent, // Additionally, include exported component (or root)
+      ...nestedChildren(exportedComponent, allComponents) // Add children
+    ]
   )
-  // TODO: This assumes that there
-  // cannot be a non-root component
-  // named 'root'. This is reasonable,
-  // but ideally there should be a
-  // proper renaming step here.
-  components['root'] = allComponents[rootId]
-  components['root'].id = 'root'
+
+  // Per default, include all children
+  // of the root component as before.
+  // If a component is exported, make it
+  // the single child of the root component.
+  components['root'].children = exportedComponent === 'root'
+    ? allComponents['root'].children
+    : [ exportedComponent ]
 
   return JSON.stringify({
     version: [2017, 0, 5],
@@ -29,9 +34,9 @@ export const stateToJSON = (state, rootId='root') => {
 import moment from 'moment'
 import FileSaver from 'file-saver'
 
-export const stateToDownload = (state, rootComponent='root',
+export const stateToDownload = (state, exportedComponent='root',
   fileprefix='study', filenameOverride=null) => {
-  const stateJSON = stateToJSON(state, rootComponent)
+  const stateJSON = stateToJSON(state, exportedComponent)
 
   // Determine filename if not set explicitly
   let filename

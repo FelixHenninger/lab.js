@@ -1,3 +1,13 @@
+// Define a default app state
+export const defaultState = {
+  'root': {
+    id: 'root',
+    title: 'root',
+    type: 'lab.flow.Sequence',
+    children: [],
+  },
+}
+
 export const metadata = {
   'lab.flow.Loop': {
     name: 'Loop',

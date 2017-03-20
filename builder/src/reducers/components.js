@@ -1,15 +1,4 @@
-// Define a default app state
-// TODO: Think about removing the id property
-// on the components; it's superfluous, but
-// might be handy in the app
-const defaultState = {
-  'root': {
-    id: 'root',
-    title: 'root',
-    type: 'lab.flow.Sequence',
-    children: [],
-  },
-}
+import { defaultState } from '../logic/components'
 
 // Provide unique ids for individual components
 let idCounter = 0
