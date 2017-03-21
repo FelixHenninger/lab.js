@@ -1,7 +1,7 @@
+.. _reference/flow:
+
 Flow control
 ============
-
-.. _reference/flow:
 
 This part of the library provides components that control the sequence of events during the experiment. It is thus responsible for the *flow* of Components throughout the experiment. For example, a :js:class:`flow.Sequence` groups several components together to be run sequentially, a :js:class:`flow.Loop` repeats single components, and a :js:class:`flow.Parallel` runs multiple components in parallel.
 

@@ -340,7 +340,7 @@ Because the presentation of components is prepared when :js:func:`prepare` is ca
 
   Store for any generated data (``null`` by default)
 
-  A :ref:`DataStore` object to handle data collection (and export). If this is not set, the data will not be collected in a central location outside the component itself.
+  A :js:class:`data.Store` object to handle data collection (and export). If this is not set, the data will not be collected in a central location outside the component itself.
 
 .. js:attribute:: options.datacommit
 

@@ -1,7 +1,7 @@
 .. _examples:
 
-Examples
-========
+Examples & recipes
+==================
 
 .. note::
   **This documentation page is currently under development. Sorry for that!**

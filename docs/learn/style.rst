@@ -1,7 +1,7 @@
+.. _tutorial/style:
+
 Styling your study
 ==================
-
-.. _tutorial/style:
 
 **Making a study look neat is helpful in several ways: A clear design helps
 participants navigate through the study, and it shows the professionalism of its
