@@ -13,3 +13,4 @@ Keep this under your pillow!
    data.rst
    html.rst
    canvas.rst
+   plugins.rst

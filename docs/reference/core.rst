@@ -60,6 +60,8 @@ Instantiation
 
   All other options can be modified later using the same mechanism. However, options are assumed to be fixed when a component is prepared.
 
+.. _reference/core/events:
+
 Event API
 """""""""
 
@@ -371,6 +373,20 @@ Because the presentation of components is prepared when :js:func:`prepare` is ca
   .. caution::
     This is an **experimental feature** and might change at some later point.
     That's because we are still gathering experience with it, and because we foresee that new browser technology may change the implementation.
+
+**Plugins**
+
+.. js:attribute:: options.plugins
+
+  Array of :ref:`plugins <reference/plugins>` that interact with the component, and are automatically notified of :ref:`events <reference/core/events>`. For example, adding a :js:class:`plugins.Logger` instance will log event notifications onto the console::
+
+    const c = new lab.core.Component({
+      plugins: [
+        new lab.plugins.Logger(),
+      ],
+    })
+
+  Similarly, :js:class:`plugins.Debug` provides the interface for data checking and debugging used in the builder preview.
 
 **Advanced options**
 

@@ -1,3 +1,5 @@
+.. _reference/html:
+
 HTML-based displays
 ===================
 
