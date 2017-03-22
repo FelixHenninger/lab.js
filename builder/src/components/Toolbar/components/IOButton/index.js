@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, ButtonDropdown,
   DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
-import UploadItem from './UploadItem'
+import Uploader from '../../../Uploader'
 import { fromJSON } from '../../../../logic/io/load'
 import { stateToDownload } from '../../../../logic/io/save'
 import { exportStatic } from '../../../../logic/io/export'
@@ -44,7 +44,7 @@ class IOButton extends Component {
           >
             New
           </DropdownItem>
-          <UploadItem
+          <Uploader
             accept="application/json"
             maxSize={ 1024 ** 2 }
             onUpload={
@@ -64,7 +64,11 @@ class IOButton extends Component {
                 }
               }
             }
-          />
+          >
+            <DropdownItem>
+              Open
+            </DropdownItem>
+          </Uploader>
           <DropdownItem
             onClick={
               () => stateToDownload(this.context.store.getState())

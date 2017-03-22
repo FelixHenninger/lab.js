@@ -141,6 +141,7 @@ export default (state=defaultState, action) => {
       const copy = id => {
         const copiedComponent = { ...o[id] }
         const newId = uniqueId(o)
+        if (copiedComponent.id) copiedComponent.id = newId
         if (copiedComponent.children) {
           copiedComponent.children =
             copiedComponent.children.map(copy)
@@ -159,6 +160,36 @@ export default (state=defaultState, action) => {
       }
 
       return o
+
+    case 'IMPORT_COMPONENT':
+      const oImport = { ...state }
+
+      // TODO: Technical debt: This is
+      // copy-pasted from above with only
+      // minor modifications, and should
+      // be refactored properly
+      const importComponent = id => {
+        const copiedComponent = { ...action.source[id] }
+        const newId = uniqueId(oImport)
+        if (copiedComponent.id) copiedComponent.id = newId
+        if (copiedComponent.children) {
+          copiedComponent.children =
+            copiedComponent.children.map(importComponent)
+        }
+        oImport[newId] = copiedComponent
+        return newId
+      }
+
+      oImport[action.parent] = {
+        ...oImport[action.parent],
+        children: !oImport[action.parent].children ? [importComponent(action.id)] : [
+          ...oImport[action.parent].children.slice(0, action.index),
+          importComponent(action.id),
+          ...oImport[action.parent].children.slice(action.index),
+        ]
+      }
+
+      return oImport
 
     case 'UPDATE_COMPONENT':
       return {

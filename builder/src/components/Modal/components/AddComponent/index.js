@@ -5,6 +5,7 @@ import classnames from 'classnames'
 
 import NewTab from './components/newTab'
 import CopyTab from './components/copyTab'
+import ImportTab from './components/importTab'
 
 class AddComponentModal extends Component {
   constructor(props) {
@@ -36,6 +37,11 @@ class AddComponentModal extends Component {
           parent={ parent }
           index={ index }
         />
+      case 'import':
+        return <ImportTab
+          parent={ parent }
+          index={ index }
+        />
       default:
         return <div>Requested tab not found</div>
     }
@@ -59,6 +65,14 @@ class AddComponentModal extends Component {
             onClick={() => { this.toggle('copy'); }}
           >
             <i className="fa fa-clone" aria-hidden="true"></i>
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: this.state.activeTab === 'import' })}
+            onClick={() => { this.toggle('import'); }}
+          >
+            <i className="fa fa-folder-open-o" aria-hidden="true"></i>
           </NavLink>
         </NavItem>
         <NavItem

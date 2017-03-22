@@ -262,3 +262,59 @@ it('copies a component with children', () => {
     }
   )
 })
+
+it('imports component data from external tree', () => {
+  expect(updateComponent(
+    initialState,
+    {
+      type: 'IMPORT_COMPONENT',
+      parent: 'root',
+      index: 1,
+      id: 'target',
+      source: {
+        target: {},
+      },
+    }
+  )).toEqual({
+    ...initialState,
+    root: {
+      children: ['A', '4', 'B', 'C'],
+    },
+    '4': {}
+  })
+})
+
+it('imports nested components from external tree', () => {
+  expect(updateComponent(
+    initialState,
+    {
+      type: 'IMPORT_COMPONENT',
+      parent: 'root',
+      index: 1,
+      id: 'target',
+      source: {
+        target: {
+          children: ['targetA', 'targetB'],
+        },
+        targetA: {
+          children: ['targetC'],
+        },
+        targetB: {},
+        targetC: {},
+      },
+    }
+  )).toEqual({
+    ...initialState,
+    root: {
+      children: ['A', '5', 'B', 'C'],
+    },
+    '5': {
+      children: ['6', '8'],
+    },
+    '6': {
+      children: ['7'],
+    },
+    '7': {},
+    '8': {},
+  })
+})

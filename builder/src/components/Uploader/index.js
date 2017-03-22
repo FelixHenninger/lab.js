@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { DropdownItem } from 'reactstrap'
 
-class UploadItem extends Component {
+class Uploader extends Component {
   handleClick() {
     this.inputField.value = null
     this.inputField.click()
@@ -30,10 +29,10 @@ class UploadItem extends Component {
   }
 
   render() {
-    return <DropdownItem
+    return <div
       onClick={ () => this.handleClick() }
     >
-      Open
+      { this.props.children }
       <input
         type="file" id="fileElem"
         accept={ this.props.accept }
@@ -41,8 +40,8 @@ class UploadItem extends Component {
         style={{ display: 'none' }}
         ref={ field => this.inputField = field }
       />
-    </DropdownItem>
+    </div>
   }
 }
 
-export default UploadItem
+export default Uploader
