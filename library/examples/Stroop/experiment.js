@@ -47,7 +47,7 @@ var trialTemplate = new lab.flow.Sequence({
       timeout: 1500,
       // Because the color is set dynamically,
       // we need to set the correct response by hand
-      eventHandlers: {
+      messageHandlers: {
         'before:prepare': function() {
           // Set the correct response
           // before the component is prepared
@@ -69,7 +69,7 @@ var trialTemplate = new lab.flow.Sequence({
       // is prepared at the last possible moment.
       tardy: true,
       // Generate feedback
-      eventHandlers: {
+      messageHandlers: {
         'before:prepare': function() {
           if (this.aggregateParameters.feedback) {
             // Generate feedback if requested
@@ -126,14 +126,14 @@ var experiment = new lab.flow.Sequence({
     new lab.html.Screen({
       contentUrl: 'pages/1-welcome.html',
       responses: {
-        'keypress(space)': 'continue'
+        'keypress(Space)': 'continue'
       },
     }),
     // Instruction summary
     new lab.html.Screen({
       contentUrl: 'pages/2-summary.html',
       responses: {
-        'keypress(space)': 'continue'
+        'keypress(Space)': 'continue'
       },
     }),
     // Practice trials
@@ -149,7 +149,7 @@ var experiment = new lab.flow.Sequence({
     new lab.html.Screen({
       contentUrl: 'pages/4-interlude.html',
       responses: {
-        'keypress(space)': 'continue',
+        'keypress(Space)': 'continue',
       },
     }),
     // Actual trials
