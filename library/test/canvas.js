@@ -179,6 +179,12 @@ describe('Canvas-based components', () => {
     })
 
     it('Runs canvas drawing operations in sequence', () => {
+      // Stub out window.requestAnimationFrame
+      // to speed up the test, and to avoid
+      // probabilistic failures due to frame
+      // timing during testing.
+      sinon.stub(window, 'requestAnimationFrame', fn => fn())
+
       a.options.renderFunction = (ts, canvas, ctx, screen) => {
         ctx.rect(0, 0, 10, 10)
         ctx.fill()
@@ -195,17 +201,7 @@ describe('Canvas-based components', () => {
       s.options.canvas.width = 200
       s.options.canvas.height = 200
 
-      // During testing, we need to introduce delays
-      // because the render methods tend to wait for
-      // a new frame before running
-      const promise_timeout = (delay) => {
-        return new Promise((resolve, reject) => {
-          window.setTimeout(resolve, delay)
-        })
-      }
-
       return s.run()
-        .then(() => promise_timeout(10))
         .then(() => {
           // After drawing the first screen ...
           // ... left area should be black
@@ -231,7 +227,6 @@ describe('Canvas-based components', () => {
           return a.end()
         })
         .then(() => b.run())
-        .then(() => promise_timeout(10))
         .then(() => {
           // After drawing the second screen ...
           // ... left area should be empty
@@ -254,6 +249,8 @@ describe('Canvas-based components', () => {
             ),
             [0, 0, 0, 255]
           )
+
+          window.requestAnimationFrame.reset()
         })
     })
   })
