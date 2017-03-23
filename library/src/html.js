@@ -14,7 +14,7 @@ export class Screen extends Component {
     })
   }
 
-  onPrepare() {
+  onBeforePrepare() {
     return Promise.resolve().then(() => {
       // Fetch content from URL, if one is given
       if (this.options.contentUrl) {

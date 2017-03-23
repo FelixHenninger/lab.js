@@ -21,11 +21,12 @@ describe('HTML-based components', () => {
 
     it('retrieves content from URL if requested', () => {
       // Stub window.fetch to return a predefined response
-      const content_response = new window.Response('Inserted content', {
+      const content_response = new window.Response(
+        'Inserted content', {
         status: 200,
         headers: {
-          'Content-type': 'text/html'
-        }
+          'Content-type': 'text/html',
+        },
       })
       sinon.stub(window, 'fetch')
       window.fetch.returns(Promise.resolve(content_response))
@@ -63,6 +64,30 @@ describe('HTML-based components', () => {
 
       return h.run().then(() => {
         assert.equal(h.options.content, 'Hello Mars!')
+      })
+    })
+
+    it('inserts parameters if content comes from external url', () => {
+      // Stub window.fetch to return a predefined response
+      const content_response = new window.Response(
+        'Hello ${ parameters.place }!', {
+        status: 200,
+        headers: {
+          'Content-type': 'text/html',
+        },
+      })
+      sinon.stub(window, 'fetch')
+      window.fetch.returns(Promise.resolve(content_response))
+      h.options.contentUrl = 'https://contrived.example/'
+
+      h.options.parameters['place'] = 'Pluto'
+
+      return h.prepare().then(() => {
+        assert.equal(
+          h.options.content,
+          'Hello Pluto!'
+        )
+        window.fetch.restore()
       })
     })
   })
