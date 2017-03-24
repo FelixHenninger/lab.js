@@ -29,6 +29,12 @@
 .tree-node a.nav-link > div:first-child {
   padding-left: 1rem;
 }
+/* If there is no hidden button or drop target,
+   nevertheless use equal spacing.
+   TODO: There should be a spacer in every case */
+.tree-node .nav.nav-pills li.nav-item:first-child {
+  margin-top: 4px;
+}
 
 /* Tree indentation */
 .tree-node li.nav-item ul.nav-pills {
