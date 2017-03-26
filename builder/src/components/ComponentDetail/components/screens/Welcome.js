@@ -43,12 +43,5 @@ export default () =>
         href="https://github.com/FelixHenninger/lab.js/issues">let us
         know</a>, we'd be glad to fix things and make them work for you.
       </p>
-      <p className="small text-muted">
-        Please remember: We do our very best, but as much as we try, there might
-        still be some bugs left over &ndash; this is beta-level software still.
-        To minimize frustration, please save your work periodically, and again,
-        please <a href="https://github.com/FelixHenninger/lab.js/issues">help us
-        find and fix any outstanding issues</a> that you find.
-      </p>
     </Card>
   </div>
