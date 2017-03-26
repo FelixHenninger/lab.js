@@ -1,10 +1,12 @@
 <div align="center">
   <img src="docs/media/logo/yellow/dot_200.png">
-</div><br>
+  <h1>lab.js</h1>
+</div>
 
 <p align="center">
   <small>
-    <a href="https://labjs.readthedocs.io/en/latest/tutorial/index.html">Get started</a> ·
+    <a href="https://labjs.readthedocs.io/en/latest/learn/builder">Get started</a> ·
+    <a href="https://labjs.felixhenninger.com/">Open the builder</a> ·
     <a href="https://labjs.readthedocs.io/en/latest/">Learn more</a> ·
     <a href="https://labjs.readthedocs.io/en/latest/meta/contribute.html">Contribute</a>
   </small>
@@ -30,13 +32,13 @@ the greatest possible flexibility with regard to study design.
 The [**graphical builder interface**](https://labjs.felixhenninger.com) is the
 easiest way to create studies, and the best place to start. The tutorial
 will walk you through [building your first study, step by
-step](https://labjs.readthedocs.io/en/latest/tutorial/index.html).
+step](https://labjs.readthedocs.io/en/latest/learn/builder/).
 
 If you prefer working directly with code, you can build studies using the
-[**JavaScript library**](https://labjs.readthedocs.io/en/latest/reference/index.html).
+[**JavaScript library**](https://labjs.readthedocs.io/en/latest/reference/).
 Everything you need is bundled in the *starter kit*, which is [provided with
 every release](https://github.com/FelixHenninger/lab.js/releases/latest).
-There is also a tutorial to [help you get started](https://labjs.readthedocs.io/en/latest/tutorial/index.html).
+There is also a tutorial to [help you get started](https://labjs.readthedocs.io/en/latest/learn/code/).
 
 If you get stuck or things don't make sense, please don't hesitate to reach out!
 
