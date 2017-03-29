@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import React from 'react'
+import Dropdown from '../../../../Dropdown'
+import { DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 /* TODO: Importing an external helper like this totally breaks
    the idea of decoupled components. For the moment, however,
@@ -9,51 +10,29 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import { stateToDownload } from '../../../../../logic/io/save'
 import './index.css'
 
-export default class NodeDropDown extends Component {
-  constructor(props) {
-    super(props)
-
-    this.toggle = this.toggle.bind(this)
-    this.state = {
-      dropdownOpen: false
-    }
-  }
-
-  toggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    })
-  }
-
-  render() {
-    const { id, parent, index, onDelete } = this.props
-    return (
-      <Dropdown
-        isOpen={this.state.dropdownOpen}
-        toggle={this.toggle}
+const NodeDropdown = ({ id, parent, index, onDelete }, context) =>
+  <Dropdown>
+    <DropdownToggle caret size="sm" />
+    <DropdownMenu right>
+      <DropdownItem header>Actions</DropdownItem>
+      <DropdownItem
+        onClick={ () => stateToDownload(
+          context.store.getState(),
+          id
+        ) }
       >
-        <DropdownToggle caret size="sm" />
-        <DropdownMenu right>
-          <DropdownItem header>Actions</DropdownItem>
-          <DropdownItem
-            onClick={ () => stateToDownload(
-              this.context.store.getState(),
-              id
-            ) }
-          >
-            Export
-          </DropdownItem>
-          <DropdownItem
-            onClick={ () => onDelete(id, parent, index) }
-          >
-            Delete
-          </DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-    )
-  }
-}
+        Export
+      </DropdownItem>
+      <DropdownItem
+        onClick={ () => onDelete(id, parent, index) }
+      >
+        Delete
+      </DropdownItem>
+    </DropdownMenu>
+  </Dropdown>
 
-NodeDropDown.contextTypes = {
+NodeDropdown.contextTypes = {
   store: React.PropTypes.object
 }
+
+export default NodeDropdown
