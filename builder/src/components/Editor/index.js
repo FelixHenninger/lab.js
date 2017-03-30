@@ -13,7 +13,11 @@ export default (props) => {
     url: process.env.PUBLIC_URL + '/vendor/require.js',
     paths: {
       'vs': process.env.PUBLIC_URL + '/vs'
-    }
+    },
+    // Give the (large) editor script more time to load
+    // (the default is 7 seconds, 30 should
+    // be enough even for a 2G connection)
+    waitSeconds: 30,
   }
   return <MonacoEditor
     width="100%" height="600"
