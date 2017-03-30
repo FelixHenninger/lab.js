@@ -36,7 +36,7 @@ const Sidebar = (props, context) =>
           }
         }
       }
-      onNodeAdded={
+      onNodeAdd={
         (parent, index) => context.store.dispatch({
           type: 'SHOW_MODAL',
           modalType: 'ADD_COMPONENT',

@@ -1,17 +1,29 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-const Tree = ({ Node, rootId, onNodeClick, onNodeDelete, onNodeAdded }) =>
-  <Node
-    id={ rootId }
-    renderBody={ false }
-    parentId={ null }
-    onClick={ onNodeClick }
-    onDelete={ onNodeDelete }
-    onChildAdded={ onNodeAdded }
-  />
+class Tree extends Component {
+  getChildContext() {
+    return {
+      onNodeClick: this.props.onNodeClick,
+      onNodeAdd: this.props.onNodeAdd,
+      onNodeDelete: this.props.onNodeDelete,
+    }
+  }
 
-// TODO: See if the handlers can be moved into
-// context, to reduce the amount of passed-down
-// parameters
+  render() {
+    const { Node, rootId } = this.props
+
+    return <Node
+      id={ rootId }
+      renderBody={ false }
+      parentId={ null }
+    />
+  }
+}
+
+Tree.childContextTypes = {
+  onNodeClick: React.PropTypes.func,
+  onNodeAdd: React.PropTypes.func,
+  onNodeDelete: React.PropTypes.func,
+};
 
 export default Tree
