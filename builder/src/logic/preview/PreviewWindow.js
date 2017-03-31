@@ -1,6 +1,6 @@
 export default class Preview {
-  constructor(instanceId, stateChangeCallback) {
-    this.instanceId = instanceId
+  constructor(url, stateChangeCallback) {
+    this.url = url
     this.stateChangeCallback = stateChangeCallback
 
     this.window = null
@@ -12,32 +12,20 @@ export default class Preview {
   // Open, close, reload, ... the preview window
   open() {
     this.window = window.open(
-      `api/${ this.instanceId }/index.html`,
-      'labjs_preview',
+      this.url, 'labjs_preview',
       'menubar=no,location=no,resizable=yes,scrollbars=yes,status=no'
     )
-    if (this.window) {
-      this.window.addEventListener(
-        'unload', () => this.checkWindow()
-      )
-      // Trigger callback
-      this.stateChangeCallback('opened')
-    } else {
-      // TODO: This catches failed calls to window.open
-      // due to a popup blocker or the like. Note that
-      // it is not a complete solution: If a popup is
-      // blocked, the call will fail silently, without
-      // allocating the window property.
-      // This is why, when a popup blocker is active,
-      // the preview button does not change into a reload
-      // button immediately -- only when the reload is
-      // no longer blocked (usually on the second refresh),
-      // does the icon change.
-      console.log(
-        'Window.open did not result in a window object.',
-        'Probably there is a popup blocker active?'
-      )
-    }
+    // Catching an edge case here, where the window
+    // would open to about:blank, and not move from
+    // there if the content was reloaded
+    this.window.addEventListener(
+      'load', () => (this.window.location = this.url), { once: true }
+    )
+    this.window.addEventListener(
+      'unload', () => this.checkWindow(), { once: true }
+    )
+    // Trigger callback
+    this.stateChangeCallback('opened')
   }
 
   close() {
@@ -51,11 +39,9 @@ export default class Preview {
     this.window.focus()
   }
 
-  openOrReload() {
+  openIfNecessary() {
     if (this.window === null || this.window.closed) {
       this.open()
-    } else {
-      this.reload()
     }
   }
 
@@ -72,10 +58,10 @@ export default class Preview {
       } else {
         // Window is still open, renew unload listener
         this.window.addEventListener(
-          'unload', () => this.checkWindow()
+          'unload', () => this.checkWindow(), { once: true }
         )
       }
-    }, 250)
+    }, 25)
   }
 
 }

@@ -24,26 +24,21 @@ export default class PreviewButton extends Component {
     // of the window state, and provides a
     // callback for status updates
     this.previewWindow = new PreviewWindow(
-      'labjs_preview',
+      // TODO: When we enable multiple
+      // parallel instances, change labjs_preview
+      // with a variable instance identifier
+      `${ process.env.PUBLIC_URL }/api/labjs_preview/index.html`,
       windowState => this.setState({ windowState })
     )
   }
 
   clickHandler() {
+    this.previewWindow.openIfNecessary()
+
     return populateCache(
-      this.context.store.getState(),
-      addDebugPlugin,
+      this.context.store.getState(), addDebugPlugin,
     ).then(
-      // TODO: This code triggers the popup
-      // blocker in modern browsers, because,
-      // the command does not result from a
-      // direct user interaction, but is
-      // included in a promise chain. The
-      // window should probably be opened
-      // directly in the click handler, and
-      // populated later when the backend
-      // update is complete.
-      () => this.previewWindow.openOrReload()
+      () => this.previewWindow.reload()
     ).catch(error => {
       console.log(`Received error while sending study data to API: ${ error }`)
     })
