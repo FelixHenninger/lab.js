@@ -115,7 +115,6 @@ export class Store extends EventHandler {
   commit(key={}, value) {
     this.set(key, value, true)
     this.data.push(this.staging)
-    this.staging = {}
 
     // Make persistent data copy if desired
     if (this.storage) {
@@ -136,6 +135,8 @@ export class Store extends EventHandler {
     // are actually set. These changes should also be
     // reflected in the debug plugin.
     this.triggerMethod('commit')
+
+    this.staging = {}
   }
 
   // Erase collected data ---------------------------------
