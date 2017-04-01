@@ -1,3 +1,5 @@
+import { isObject } from 'lodash'
+
 // Retrieve an entry from a nested object
 // hierarchy, given a path
 const retrieveNested = (path, object) => {
@@ -19,10 +21,20 @@ const fromObject = (options) => {
 
   // Parse any nested components
   constructor.metadata.nestedComponents.forEach(o => {
-    if (Array.isArray(options[o])) {
-      options[o] = options[o].map(fromObject)
-    } else {
-      options[o] = fromObject(options[o])
+    // ... if the associated option exists ...
+    if (options[o]) {
+      if (Array.isArray(options[o])) {
+        // ... and it is an array ...
+        options[o] = options[o].map(fromObject)
+      } else if (isObject(options[o])) {
+        // ... or an object ...
+        options[o] = fromObject(options[o])
+      }
+      // ... otherwise ignore it.
+      // (another option would be to delete
+      // the option, but I think that would
+      // lead to weird errors -- the goal
+      // here is to avoid errors in conversion)
     }
   })
 
