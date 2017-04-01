@@ -1,5 +1,5 @@
 // HTML-based displays for lab.js
-import { extend, template } from 'lodash'
+import { extend } from 'lodash'
 import { Component, status } from './core'
 import { domSelect } from './util/domSelect'
 import 'whatwg-fetch'
