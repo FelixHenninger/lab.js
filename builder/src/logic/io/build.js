@@ -1,4 +1,4 @@
-import { toString, toNumber, fromPairs, zip, pickBy, cloneDeep } from 'lodash'
+import { toString, toNumber, fromPairs, zip, pickBy, isEmpty, cloneDeep } from 'lodash'
 import serialize from 'serialize-javascript'
 
 // Generic grid processing
@@ -126,7 +126,9 @@ const makeComponentTree = (data, root) => {
           break
         case 'lab.flow.Loop':
           // A loop has a single template
-          output.template = makeComponentTree(data, currentNode.children[0])
+          if (!isEmpty(currentNode.children)) {
+            output.template = makeComponentTree(data, currentNode.children[0])
+          }
           break
         default:
           // TODO: This won't catch canvas-based
