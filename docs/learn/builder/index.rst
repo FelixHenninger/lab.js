@@ -20,6 +20,7 @@ With that, **let's get started!**
 
    1-overview.rst
    2-screen.rst
+   3-responses.rst
 
 .. hint::
 
