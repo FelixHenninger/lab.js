@@ -56,6 +56,8 @@ const wrapHandler = function(handler, eventName, options=null, context=null) {
     // depending on the event type
     switch (eventName) {
       case 'keypress':
+      case 'keydown':
+      case 'keyup':
         // Options define keys that trigger the handler
         // Keys, in turn, are defined in terms of the
         // key event values supplied by the browser
@@ -103,6 +105,8 @@ const wrapHandler = function(handler, eventName, options=null, context=null) {
         }
 
       case 'click':
+      case 'mousedown':
+      case 'mouseup':
         // Filter clicks on a certain button
         const buttons = options.map(
           button => parseInt(button),

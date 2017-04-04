@@ -17,7 +17,11 @@ const gridCell = (cellData, rowIndex, colIndex, colName) => {
     >
       <option value="">undefined</option>
       <option value="keypress">keypress</option>
+      <option value="keydown">keydown</option>
+      <option value="keyup">keyup</option>
       <option value="click">click</option>
+      <option value="mousedown">mousedown</option>
+      <option value="mouseup">mouseup</option>
     </Control.select>
   } else {
     const placeholder = colIndex === 2 ? 'window' : ''
