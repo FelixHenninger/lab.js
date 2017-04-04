@@ -85,7 +85,11 @@ const updates = {
 
     data.version = [2017, 0, 5]
     return data
-  }
+  },
+  '2017.0.5': data => ({
+    ...data,
+    version: [2017, 1, 0],
+  })
 }
 
 export default (data) => {

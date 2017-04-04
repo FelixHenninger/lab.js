@@ -8,7 +8,7 @@ import fromObject from './util/fromObject'
 import Debug from './plugins/debug'
 import Logger from './plugins/log'
 
-const version = '2016.1.0'
+const version = '2017.1.0'
 
 const lab = {
   version,
