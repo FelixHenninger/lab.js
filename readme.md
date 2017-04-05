@@ -20,6 +20,7 @@ the greatest possible flexibility with regard to study design.
 
 [![Slack Status](https://slackin-nmbrcrnchrs.herokuapp.com/badge.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
 [![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=latest)](http://labjs.readthedocs.io/en/latest/?badge=latest)
+[![DOI](https://zenodo.org/badge/47625723.svg)](https://zenodo.org/badge/latestdoi/47625723)
 
 <div align="center">
   <img src="docs/media/promo/builder_teaser.png">
@@ -111,6 +112,16 @@ stepping stone for you!
 We expect all contributors to conform to the [Software Carpentry **Code of
 Conduct**](https://software-carpentry.org/conduct/), and to be excellent to one
 another.
+
+----
+
+### Citation
+
+We kindly request that you cite ``lab.js`` if you use it in your research. Here's how:
+
+> Henninger, F., Mertens, U. K., Shevchenko, Y., & Hilbig, B. E. (2017). lab.js: browser-based behavioral research (version 2017.1.0). doi: [10.5281/zenodo.495220](https://doi.org/10.5281/zenodo.495220)
+
+(<a href="https://zenodo.org/record/495220/export/hx">BibTeX</a> record)
 
 ----
 
