@@ -49,6 +49,7 @@ export default class PreviewButton extends Component {
     return <Button
       color="primary"
       onClick={ () => this.clickHandler() }
+      disabled={ !('serviceWorker' in navigator) }
     >
       <i
         className={ `fa fa-${ windowState === 'closed' ? 'play' : 'refresh'}` }

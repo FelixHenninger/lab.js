@@ -7,12 +7,9 @@ import './styles.css'
 
 const Toolbar = (props, context) =>
   <div className="toolbar">
-    {
-      // Show preview button only if worker is available
-      'serviceWorker' in navigator
-        ? <ButtonGroup><PreviewButton /></ButtonGroup>
-        : ''
-    }{' '}
+    <ButtonGroup>
+      <PreviewButton />
+    </ButtonGroup>{' '}
     <ButtonGroup>
       <IOButton />
     </ButtonGroup>{' '}

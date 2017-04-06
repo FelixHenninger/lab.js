@@ -1,7 +1,7 @@
 import Raven from 'raven-js'
 import { prePopulateCache } from './io'
 
-export default () => {
+export default (store) => {
   if ('serviceWorker' in navigator) {
     // Compute root URL by removing filename from path, if present
     const rootUrl = window.location.pathname.substring(
@@ -28,8 +28,14 @@ export default () => {
     // Prepopulate cache with library files
     prePopulateCache()
   } else {
-    // Alert the user to the fact that their browser
+    // Alert users to the fact that their browser
     // does not support service workers
-    console.log('Service workers not available, preview will be disabled')
+    store.dispatch({
+      type: 'SHOW_MODAL',
+      modalType: 'SYSTEM_COMPATIBILITY',
+      modalProps: {
+        large: false,
+      },
+    })
   }
 }

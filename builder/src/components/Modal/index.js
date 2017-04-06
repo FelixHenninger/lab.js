@@ -5,10 +5,12 @@ import classnames from 'classnames'
 // Individual, task-specific modal content
 import AddComponentModal from './components/AddComponent'
 import OptionsModal from './components/Options'
+import SystemCompatibilityModal from './components/SystemCompatibility'
 
 const MODAL_COMPONENTS = {
   'ADD_COMPONENT': AddComponentModal,
   'OPTIONS': OptionsModal,
+  'SYSTEM_COMPATIBILITY': SystemCompatibilityModal,
 }
 
 // Overall general-purpose modal container
