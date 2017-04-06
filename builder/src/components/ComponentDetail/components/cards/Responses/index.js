@@ -90,7 +90,7 @@ export default (props) =>
           <div className="input-group">
             <Control
               model=".timeout"
-              type="number"
+              pattern="(\d+)|(\$\{.*\})" // Accept number or placeholder
               className="form-control" id="timeout"
               placeholder="Never"
             />
