@@ -3,7 +3,7 @@ import { Control, actions } from 'react-redux-form'
 
 import './style.css'
 
-export const gridCell = (cellData, rowIndex, colIndex, colName) =>
+export const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
   <Control.text
     model={ `.rows[${ rowIndex }][${ colIndex }]` }
     className="form-control"
@@ -71,7 +71,7 @@ const CellTypeSelector = ({ type, setType, delete: deleteHandler }) =>
     </DropdownMenu>
   </Dropdown>
 
-export const headerCell = (data, index, formDispatch, deleteColumn) =>
+export const HeaderCell = ({ columnData, index, deleteColumn }, { formDispatch }) =>
   <InputGroup>
     <Control.text
       model={ `.columns[${ index }]['name']` }
@@ -83,7 +83,7 @@ export const headerCell = (data, index, formDispatch, deleteColumn) =>
     />
     <InputGroupButton>
       <CellTypeSelector
-        type={ data.type }
+        type={ columnData.type }
         setType={
           value => formDispatch(
             actions.change(
@@ -96,3 +96,7 @@ export const headerCell = (data, index, formDispatch, deleteColumn) =>
       />
     </InputGroupButton>
   </InputGroup>
+
+HeaderCell.contextTypes = {
+  formDispatch: React.PropTypes.func,
+}

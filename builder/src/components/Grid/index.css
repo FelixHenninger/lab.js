@@ -90,5 +90,6 @@ table.grid tfoot:hover td {
   padding-bottom: 0.75rem;
 }
 table.grid tfoot:hover button.btn-add {
-  border: 1px dashed rgba(0, 0, 0, 0.15);
+  color: black;
+  border-color: rgba(0, 0, 0, 0.15);
 }

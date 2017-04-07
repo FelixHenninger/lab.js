@@ -5,7 +5,7 @@ import Grid from '../../../../Grid'
 import { CardBlock, FormGroup, Col, Label } from 'reactstrap'
 import { Control } from 'react-redux-form'
 
-const gridCell = (cellData, rowIndex, colIndex, colName) => {
+const GridCell = ({ cellData, rowIndex, colIndex, colName }) => {
   if (colIndex === 1) {
     return <Control.select
       model={ `.rows[${ rowIndex }][${ colIndex }]` }
@@ -36,24 +36,24 @@ const gridCell = (cellData, rowIndex, colIndex, colName) => {
   }
 }
 
-const headerCell = (title) =>
+const HeaderCell = ({ columnData }) =>
   <span
     style={{
       paddingLeft: '0.25rem',
     }}
   >
-    { title }
+    { columnData }
   </span>
 
 export default (props) =>
   <Card title="Responses" { ...props } wrapContent={false}>
     <Grid
       model=".responses"
-      bodyCell={ gridCell }
-      headerCell={ headerCell }
-      columnWidths={ [30, 20, 20, 20] }
-      columns={ ['label', 'type', 'target', 'filter'] }
       data={ props.data.rows }
+      columns={ ['label', 'type', 'target', 'filter'] }
+      columnWidths={ [30, 20, 20, 20] }
+      HeaderContent={ HeaderCell }
+      BodyContent={ GridCell }
       formDispatch={ props.formDispatch }
     />
     <CardBlock>

@@ -46,10 +46,10 @@ const parsingErrors = (code) => {
   }
 }
 
-const headerCell = props =>
+const HeaderCell = () =>
   <div></div>
 
-const gridCell = (cellData, rowIndex, colIndex, colName, formDispatch) =>
+const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
   <div>
     <Row>
       <Col xs="6" style={{ paddingRight: '0.25rem' }}>
@@ -98,8 +98,8 @@ export default (props) =>
   <Card title="Scripts" open={false} { ...props } wrapContent={false}>
     <Grid
       model=".messageHandlers"
-      bodyCell={ gridCell }
-      headerCell={ headerCell }
+      HeaderContent={ HeaderCell }
+      BodyContent={ GridCell }
       showHeader={ false }
       columnWidths={ [ 90 ] }
       columns={ ['label'] }

@@ -4,7 +4,7 @@ import Grid from '../../../../../../Grid'
 import { Col, CardBlock, FormGroup, Label } from 'reactstrap'
 import { Control } from 'react-redux-form'
 
-import { gridCell, headerCell } from './cells'
+import { GridCell, HeaderCell } from './cells'
 
 export default (props) =>
   <Card title="Loop" { ...props } wrapContent={false}>
@@ -13,8 +13,8 @@ export default (props) =>
       addColumns
       maxColumns={10}
       defaultColumn={ { name: '', type: 'string' } }
-      bodyCell={ gridCell }
-      headerCell={ headerCell }
+      BodyContent={ GridCell }
+      HeaderContent={ HeaderCell }
       columns={ props.data.columns }
       data={ props.data.rows }
       formDispatch={ props.formDispatch }
