@@ -2,10 +2,13 @@ import React from 'react'
 import { Button } from 'reactstrap'
 import { actions } from 'react-redux-form'
 
-const Footer = ({ columns, data, defaultRow, model }, { uniqueId, formDispatch }) =>
+const Footer = (
+  { columns, data, defaultRow, model },
+  { formDispatch }
+) =>
   <tfoot>
     <tr>
-      <td></td>
+      <td />
       <td colSpan={ columns.length }>
         <Button
           size="sm" block
@@ -30,13 +33,12 @@ const Footer = ({ columns, data, defaultRow, model }, { uniqueId, formDispatch }
           <i className="fa fa-plus"></i>
         </Button>
       </td>
-      <td></td>
+      <td />
     </tr>
   </tfoot>
 
 Footer.contextTypes = {
   formDispatch: React.PropTypes.func,
-  uniqueId: React.PropTypes.string,
 }
 
 export default Footer

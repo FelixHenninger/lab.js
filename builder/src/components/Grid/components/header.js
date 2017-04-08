@@ -10,13 +10,7 @@ const Header = (
 ) =>
   <thead>
     <tr>
-      {/* TODO: This is a hack to avoid the collapse
-          of the first column. There must be a better way! */}
-      <ButtonCell
-        type="th"
-        icon="bars"
-        style={{ visibility: 'hidden' }}
-      />
+      <th />
       {
         columns.length > 0
           ? columns.map(

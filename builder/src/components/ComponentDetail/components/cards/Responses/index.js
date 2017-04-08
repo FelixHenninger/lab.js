@@ -1,8 +1,10 @@
 import React from 'react'
 import Card from '../../../../Card'
 import Hint from '../../../../Hint'
+
 import Grid from '../../../../Grid'
 import { CardBlock, FormGroup, Col, Label } from 'reactstrap'
+
 import { Control } from 'react-redux-form'
 
 const GridCell = ({ cellData, rowIndex, colIndex, colName }) => {
