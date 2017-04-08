@@ -83,7 +83,7 @@ table.grid tfoot td {
 table.grid tfoot td {
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
-  transition: padding-top 0.1s, padding-bottom 0.1s;
+  transition: padding-top 0.20s, padding-bottom 0.20s;
 }
 table.grid tfoot:hover td {
   padding-top: 0.75rem;
