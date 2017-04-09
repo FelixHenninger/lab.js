@@ -1,10 +1,11 @@
 import React from 'react'
 import Card from '../../../../../../Card'
-import Grid from '../../../../../../Grid'
 import { Col, CardBlock, FormGroup, Label } from 'reactstrap'
 import { Control } from 'react-redux-form'
 
+import Grid from '../../../../../../Grid'
 import { GridCell, HeaderCell } from './cells'
+import { Footer } from './footer'
 
 export default (props) =>
   <Card title="Loop" { ...props } wrapContent={false}>
@@ -15,6 +16,7 @@ export default (props) =>
       defaultColumn={ { name: '', type: 'string' } }
       BodyContent={ GridCell }
       HeaderContent={ HeaderCell }
+      Footer={ Footer }
       columns={ props.data.columns }
       data={ props.data.rows }
       formDispatch={ props.formDispatch }

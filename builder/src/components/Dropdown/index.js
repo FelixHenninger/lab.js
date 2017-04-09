@@ -23,8 +23,9 @@ export default class CustomDropdown extends Component {
       : Dropdown
 
     return <WrappedDropdown
-      isOpen={this.state.dropdownOpen}
-      toggle={this.toggle}
+      isOpen={ this.state.dropdownOpen }
+      toggle={ this.toggle }
+      style={ this.props.style }
     >
       { this.props.children }
     </WrappedDropdown>

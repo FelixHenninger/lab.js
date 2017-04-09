@@ -7,7 +7,7 @@ import classnames from 'classnames'
 import ColGroup from './components/colgroup'
 import Header from './components/header'
 import Body from './components/body'
-import Footer from './components/footer'
+import DefaultFooter from './components/footer'
 
 import './index.css'
 
@@ -28,6 +28,7 @@ class Grid extends Component {
     const { model, data, columns, defaultRow } = this.props
     const HeaderContent = this.props.HeaderContent || (content => content)
     const BodyContent = this.props.BodyContent || (content => content)
+    const Footer = this.props.Footer || DefaultFooter
 
     const addColumns = this.props.addColumns || false
     const maxColumns = this.props.maxColumns || Infinity

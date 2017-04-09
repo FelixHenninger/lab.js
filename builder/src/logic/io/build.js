@@ -1,41 +1,15 @@
-import { toString, toNumber, fromPairs, zip, pickBy, isEmpty, cloneDeep } from 'lodash'
+import { fromPairs, zip, pickBy, isEmpty, cloneDeep } from 'lodash'
 import serialize from 'serialize-javascript'
+
+import { makeType } from '../util/makeType'
 
 // Generic grid processing
 const processGrid = (grid, colnames=null, types=undefined) =>
   grid.rows
     // Filter rows without data
-    .filter( r => !r.every( c => c.trim() === '' ))
+    .filter( r => !r.every( c => c.trim() === '' ) )
     // Convert types if requested
-    .map( r => r.map( (c, i) => {
-      if (types === undefined) {
-        // Return value unchanged
-        return c
-      } else {
-        // Convert types
-        switch (types[i]) {
-          case 'string':
-            // Trim strings to avoid problems
-            // caused by invisible spaces
-            return toString(c).trim()
-          case 'number':
-            return c.trim() === '' ? null : toNumber(c)
-          case 'boolean':
-            // Only 'true' and 'false' are
-            // accepted as values.
-            // eslint-disable-next-line default-case
-            switch (c.trim()) {
-              case 'true':
-                return true
-              case 'false':
-                return false
-            }
-          // eslint-disable-next-line no-fallthrough
-          default:
-            return null
-        }
-      }
-    }) )
+    .map( r => r.map( (c, i) => makeType(c, types ? types[i] : undefined) ) )
     // Use column names to create array of row objects.
     // If column names are passed as a parameter,
     // use those, otherwise rely on the grid object
