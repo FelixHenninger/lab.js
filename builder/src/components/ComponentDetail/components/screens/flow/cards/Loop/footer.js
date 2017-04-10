@@ -4,7 +4,9 @@ import Dropdown from '../../../../../../Dropdown'
 import { actions } from 'react-redux-form'
 
 import { makeType, escapeCsvCell } from '../../../../../../../logic/util/makeType'
+import Uploader from '../../../../../../Uploader'
 import FileSaver from 'file-saver'
+import { parse } from 'papaparse'
 
 const exportGrid = (data, columns) => {
   const output = [
@@ -79,11 +81,45 @@ export const Footer = (
           />
           <DropdownMenu right>
             <DropdownItem header>CSV</DropdownItem>
-            <DropdownItem
-              disabled
+            <Uploader
+              accept='text/csv'
+              maxSize={ 1024 ** 2 }
+              onUpload={
+                fileContents => {
+                  const parseResult = parse(
+                    fileContents.trim(),
+                    { header: true }
+                  )
+
+                  if (parseResult.errors.length === 0) {
+                    formDispatch(
+                      actions.change(
+                        `local${ model }`,
+                        {
+                          columns: Object.keys(parseResult.data[0])
+                            .map(c => ({ name: c, type: 'string' })),
+                          rows: parseResult.data.map(r => Object.values(r))
+                        }
+                      )
+                    )
+                  } else {
+                    console.log(
+                      'CSV import found errors: ',
+                      parseResult.errors
+                    )
+                    alert(
+                      'Sorry, I couldn\'t parse that CSV file. ' +
+                      'There seems to be an error. ' +
+                      'Could you check it, please?'
+                    )
+                  }
+                }
+              }
             >
-              Import
-            </DropdownItem>
+              <DropdownItem>
+                Import
+              </DropdownItem>
+            </Uploader>
             <DropdownItem
               onClick={ () => exportGrid(data, columns) }
             >
