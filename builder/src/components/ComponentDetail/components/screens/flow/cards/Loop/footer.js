@@ -3,26 +3,15 @@ import { Button, DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap'
 import Dropdown from '../../../../../../Dropdown'
 import { actions } from 'react-redux-form'
 
-import { makeType, escapeCsvCell } from '../../../../../../../logic/util/makeType'
 import Uploader from '../../../../../../Uploader'
 import FileSaver from 'file-saver'
-import { parse } from 'papaparse'
+import { parse, unparse } from 'papaparse'
 
 const exportGrid = (data, columns) => {
-  const output = [
-    // CSV header
-    columns.map(
-      c => escapeCsvCell(c.name)
-    ).join(','),
-    // CSV content
-    ...data.map(
-      row => row.map(
-        (x, i) => makeType(x, columns[i].type)
-      ).map(
-        (x) => escapeCsvCell(x)
-      ).join(',')
-    )
-  ].join('\n')
+  const output = unparse({
+    fields: columns.map(c => c.name),
+    data
+  })
 
   return FileSaver.saveAs(
     new Blob(

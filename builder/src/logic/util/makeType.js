@@ -29,22 +29,3 @@ export const makeType = (value, type) => {
     }
   }
 }
-
-// This is copied from the lab.js library code
-export const escapeCsvCell = (c) => {
-  // Escape CSV cells as per RFC 4180
-
-  if (typeof c === 'string') {
-    // Replace double quotation marks by
-    // double double quotation marks
-    c = c.replace(/"/, '""')
-
-    // Surround a cell if it contains a comma,
-    // (double) quotation marks, or a line break
-    if (/[,"\n]+/.test(c)) {
-      c = `"${ c }"`
-    }
-  }
-
-  return c
-}
