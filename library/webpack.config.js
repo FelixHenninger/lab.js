@@ -65,9 +65,12 @@ if (minimize) {
   // TODO: Can we generate this
   // automatically from the library?
   const reservedTerms = [
+    // Components
     'Component', 'Dummy',
     'Screen', 'Form', 'Frame',
     'Sequence', 'Loop', 'Parallel',
+    // Plugins
+    'Debug', 'Logger', 'Transmit',
   ]
   config.plugins.push(
     new webpack.optimize.UglifyJsPlugin({

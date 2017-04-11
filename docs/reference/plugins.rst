@@ -50,6 +50,10 @@ Built-in plugins
 
   This plugin provides a debug overlay for any study, specifically a real-time view of the study state and the collected data. It is added in the builder preview to provide a means of checking the data.
 
+.. js:class:: plugins.Transmit([options])
+
+  Transmits collected data over the course of the study. Whenever new data are :js:func:`committed <commit>`, all changed columns are :js:func:`transmit` to a ``url`` supplied in the options (required), along with any ``metadata``, which can be specified in the options as an object (optionally). At the :js:func:`end` of the component, the entire dataset is saved in the same way.
+
 ----
 
 User-defined plugins

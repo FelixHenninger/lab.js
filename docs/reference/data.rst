@@ -282,3 +282,8 @@ data.
             experiment.end()
           })
         )
+
+    .. hint::
+      If you're looking to transmit data automatically during a study, you might
+      want to look at the :js:class:`plugins.Transmit` plugin, which sets this
+      up for you.
