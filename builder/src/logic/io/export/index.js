@@ -15,7 +15,7 @@ export const staticFiles = [
   'lib/loading.svg',
 ]
 
-import { processStudy } from './build'
+import { processStudy } from '../build'
 
 // Map paths onto file contents
 // (and some metadata)
@@ -28,13 +28,16 @@ export const dynamicFiles = (state, modifier) => ({
 })
 
 // Bundle all files into a zip archive
-export const exportStatic = (state, modifier) => {
+export const exportStatic = (state, modifier, additionalFiles) => {
   const zip = new JSZip()
 
-  // Include static files specific to the study
-  Object.entries(dynamicFiles(state, modifier)).forEach(
-    ([filename, data]) => zip.file(filename, data.content)
-  )
+  const addFile = ([filename, data]) => zip.file(filename, data.content)
+
+  // Include standard set of files specific to the study
+  Object.entries(dynamicFiles(state, modifier)).forEach(addFile)
+
+  // Include additional files
+  Object.entries(additionalFiles).forEach(addFile)
 
   // Include library static files
   Promise.all(

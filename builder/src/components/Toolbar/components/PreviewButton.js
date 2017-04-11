@@ -2,16 +2,8 @@ import React, { Component } from 'react'
 import { Button } from 'reactstrap'
 
 import { populateCache } from '../../../logic/preview/io'
+import { addDebugPlugin } from '../../../logic/io/export/modifiers/preview'
 import PreviewWindow from '../../../logic/preview/PreviewWindow'
-
-const addDebugPlugin = (state) => {
-  // Add debug plugin to root component
-  state.components.root.plugins = [
-    { type: 'lab.plugins.Debug' }
-  ]
-
-  return state
-}
 
 export default class PreviewButton extends Component {
   constructor(props) {
