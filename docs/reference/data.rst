@@ -191,15 +191,15 @@ data.
 
   **Data transmission**
 
-  .. js:function:: transmit(url, metadata={})
+  .. js:function:: transmit(url, metadata={}, payload='full')
 
     Transmit data to a given url
 
-    Sends a HTTP ``POST`` request to the specified URL, containing the stored
-    data in JSON format. The request body contains, encoded as a JSON string,
-    the contents of the datastore (under the key ``data``), the current page URL
-    (as ``url``), and any additional metadata specified in the argument of the
-    same name.
+    Sends a HTTP ``POST`` request to the specified URL, with either the full
+    dataset (default), or the currently staged data (if the ``payload`` argument
+    is set to ``'staging'``) encoded as a JSON string, (under the key ``data``),
+    the current page URL (as ``url``), and any additional ``metadata``
+    specified in the field of the same name.
 
     This method returns a promise that originates from the underlying ``fetch``
     call. The promise will be rejected if no connection can be established, but
@@ -209,6 +209,12 @@ data.
     ``response.code``. Please consult the `Fetch API documentation
     <https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API>`_ for
     additional details.
+
+    .. caution::
+      **The signature of this method may change in one of the next major
+      versions** (it might be replaced with an options object, but that's not
+      yet decided). We aren't quite happy with its current state -- if you have
+      ideas, we'd love to hear them!
 
     For the most part, you will probably interact with the transmit method in a
     way similar to the following example::

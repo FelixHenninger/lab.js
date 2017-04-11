@@ -273,7 +273,7 @@ export class Store extends EventHandler {
   }
 
   // Send data via POST request ---------------------------
-  transmit(url, metadata={}) {
+  transmit(url, metadata={}, payload='full') {
     this.triggerMethod('transmit')
 
     return fetch(url, {
@@ -283,9 +283,9 @@ export class Store extends EventHandler {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        meta: metadata,
+        metadata: metadata,
         url: window.location.href,
-        data: this.data,
+        data: payload === 'staging' ? this.staging : this.data,
       }),
     })
   }
