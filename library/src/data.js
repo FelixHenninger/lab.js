@@ -287,6 +287,7 @@ export class Store extends EventHandler {
         url: window.location.href,
         data: payload === 'staging' ? this.staging : this.data,
       }),
+      credentials: 'include',
     })
   }
 }
