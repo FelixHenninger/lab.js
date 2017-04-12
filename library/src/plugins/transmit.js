@@ -17,7 +17,7 @@ export default class Transmit {
           )
         })
         break
-      case 'end':
+      case 'after:end':
         // Transmit the entire data set
         context.options.datastore.transmit(
           url, { payload: 'full', ...metadata },
