@@ -18,7 +18,7 @@ using a graphical builder, or through code. In either case, `lab.js` takes care
 of study presentation, response collection and data storage, while providing
 the greatest possible flexibility with regard to study design.
 
-[![Slack Status](https://slackin-nmbrcrnchrs.herokuapp.com/badge.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
+[![Slack Status](https://img.shields.io/badge/slack-online-orange.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
 [![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=latest)](http://labjs.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/47625723.svg)](https://zenodo.org/badge/latestdoi/47625723)
 
@@ -119,7 +119,7 @@ another.
 
 We kindly request that you cite ``lab.js`` if you use it in your research. Here's how:
 
-> Henninger, F., Mertens, U. K., Shevchenko, Y., & Hilbig, B. E. (2017). lab.js: browser-based behavioral research (version 2017.1.0). doi: [10.5281/zenodo.495220](https://doi.org/10.5281/zenodo.495220)
+> Henninger, F., Mertens, U. K., Shevchenko, Y., & Hilbig, B. E. (2017). lab.js: Browser-based behavioral research (version 2017.1.0). doi: [10.5281/zenodo.495220](https://doi.org/10.5281/zenodo.495220)
 
 (<a href="https://zenodo.org/record/495220/export/hx">BibTeX</a> record)
 
