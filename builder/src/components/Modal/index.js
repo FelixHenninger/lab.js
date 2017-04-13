@@ -40,7 +40,7 @@ const CustomModal = ({ modalType, modalProps }, context) => {
       }}
     >
       <SpecificModal
-        {...modalProps}
+        { ...modalProps }
         closeHandler={() => {
           context.store.dispatch({
             type: 'HIDE_MODAL',

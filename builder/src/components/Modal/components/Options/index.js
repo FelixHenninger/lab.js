@@ -7,7 +7,7 @@ import './style.css'
 
 class OptionsModal extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       activeTab: 'html'

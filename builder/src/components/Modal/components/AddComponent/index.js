@@ -9,7 +9,7 @@ import ImportTab from './components/importTab'
 
 class AddComponentModal extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       activeTab: 'new'
