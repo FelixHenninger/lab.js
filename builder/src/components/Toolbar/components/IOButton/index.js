@@ -69,12 +69,19 @@ const IOButton = (_, context) =>
       >
         Plain <span className='text-muted'>(no backend)</span>
       </DropdownItem>
-      <DropdownItem disabled>
+      <DropdownItem
+        onClick={
+          () => context.store.dispatch({
+            type: 'SHOW_MODAL',
+            modalType: 'EXPORT_PHP',
+            modalProps: {},
+          })
+        }
+      >
         PHP backend
       </DropdownItem>
     </DropdownMenu>
   </Dropdown>
-
 
 IOButton.contextTypes = {
   store: React.PropTypes.object
