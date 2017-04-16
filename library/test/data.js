@@ -420,28 +420,30 @@ describe('Data handling', () => {
         // Make a mock request and ensure that it works
         // (i.e. that a promise is returned, and that the
         // response passed with it is ok)
-        const output = ds.transmit('https://random.example').then((response) => {
-          assert.ok(response.ok)
-        })
+        const output = ds
+          .transmit('https://random.example')
+          .then((response) => {
+            // Check that response was received
+            assert.ok(response.ok)
 
-        // Make sure fetch has been called with the correct options
-        assert.ok(fake_fetch.withArgs(
-          'https://random.example',
-          {
-            method: 'post',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              meta: {},
-              url: window.location.href,
-              data: ds.data
-            })
-          }
-        ).calledOnce)
-        // TODO: There must be a better way than just checking
-        // whether the arguments were passed correctly, no?
+            // Make sure fetch has been called with the correct options
+            assert.ok(fake_fetch.withArgs(
+              'https://random.example', {
+              method: 'post',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                metadata: {},
+                url: window.location.href,
+                data: ds.data,
+              }),
+              credentials: 'include',
+            }).calledOnce)
+            // TODO: There must be a better way than just checking
+            // whether the arguments were passed correctly, no?
+          })
 
         // Restore window.fetch
         window.fetch.restore()
