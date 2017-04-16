@@ -71,7 +71,8 @@ updates and release notifications.
 #### Ideas, feedback and examples
 
 [Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
-[Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/)
+[Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/) ·
+[Andrew White](https://github.com/shiroandy)
 
 The students and teaching assistants in the graduate course *Research Methods
 in Cognitive Psychology* at the University of Koblenz-Landau inspire the
