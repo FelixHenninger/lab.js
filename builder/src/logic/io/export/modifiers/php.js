@@ -14,7 +14,7 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $db->exec(
   'CREATE TABLE IF NOT EXISTS labjs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user TEXT,
+    session TEXT,
     timestamp TEXT,
     url TEXT,
     metadata TEXT,
@@ -37,13 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (is_array($data)) {
     // Setup prepared statement
     $insert =
-      'INSERT INTO labjs (user, timestamp, url, metadata, data)
-       VALUES (:user, :timestamp, :url, :metadata, :data)';
+      'INSERT INTO labjs (session, timestamp, url, metadata, data)
+       VALUES (:session, :timestamp, :url, :metadata, :data)';
     $stmt = $db->prepare($insert);
 
     // Insert data
     $stmt->execute(array(
-      ':user' => session_id() ?: 'unknown',
+      ':session' => session_id() ?: 'unknown',
       ':timestamp' => date('c'),
       ':url' => isset($data['url']) ? $data['url'] : 'none',
       ':metadata' => isset($data['metadata']) ? json_encode($data['metadata']) : 'none',
