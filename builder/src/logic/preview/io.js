@@ -1,3 +1,5 @@
+import Raven from 'raven-js'
+
 const cacheName = 'labjs-preview'
 
 // Drop a single file into cache
@@ -51,5 +53,8 @@ export const populateCache = (state, modifier) =>
   ).then(
     () => console.log('Preview cache updated successfully')
   ).catch(
-    error => console.log(`Error during preview cache update: ${ error }`)
+    error => {
+      Raven.captureException(error)
+      console.log(`Error during preview cache update: ${ error }`)
+    }
   )
