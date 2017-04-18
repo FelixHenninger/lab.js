@@ -8,9 +8,9 @@ export const uuid4 = (random=Math.random) =>
   // (there are faster and shorter implemen-
   // tations, but this one is the clearest)
   '00000000-0000-4000-8000-000000000000'.replace(
-      /[08]/g,
-      v => (v ^ (random() * 16 >> v / 4)).toString(16),
-    )
+    /[08]/g,
+    v => (v ^ (random() * 16 >> v / 4)).toString(16),
+  )
 
 export class Random {
   constructor(options={}) {
