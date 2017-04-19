@@ -10,9 +10,10 @@ const ExportPHP = ({ closeHandler }, { store }) =>
   <Confirm
     title={ <span>Export with <code>PHP</code> backend</span> }
     confirmLabel="Continue with download"
-    confirmHandler={ () => exportStatic(
-      store.getState(), addTransmitPlugin, phpBackendStatic
-    ) }
+    confirmHandler={ () => {
+      exportStatic(store.getState(), addTransmitPlugin, phpBackendStatic)
+      closeHandler()
+    } }
     closeHandler={ closeHandler }
   >
     <p><strong>You are about to download the study with at <code>PHP</code> backend.</strong> It contains code that will run on your server and collect the data as it accumulates.</p>
