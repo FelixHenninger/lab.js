@@ -29,7 +29,7 @@ export const dynamicFiles = (state, modifier) => ({
 })
 
 // Bundle all files into a zip archive
-export const exportStatic = (state, modifier, additionalFiles) => {
+export const exportStatic = (state, modifier, additionalFiles={}) => {
   const zip = new JSZip()
 
   const addFile = ([filename, data]) => zip.file(filename, data.content)
