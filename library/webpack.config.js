@@ -43,6 +43,7 @@ const config = {
       },
     }],
   },
+  devtool: minimize ? 'source-map' : 'inline-source-map',
   plugins: [
     new LodashModuleReplacementPlugin(),
     new webpack.BannerPlugin({
@@ -82,6 +83,7 @@ if (minimize) {
         except: reservedTerms,
       },
       minimize: true,
+      sourceMap: true,
     }),
     // eslint-disable-next-line comma-dangle
     new webpack.optimize.OccurrenceOrderPlugin()
