@@ -26,6 +26,10 @@ if (
     .install()
 }
 
+// Check browser compatibility
+import { check } from './logic/util/compatibility'
+check(store)
+
 // Enable preview service worker
 import installPreviewWorker from './logic/preview/worker'
 installPreviewWorker(store)

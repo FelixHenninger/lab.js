@@ -27,15 +27,5 @@ export default (store) => {
 
     // Prepopulate cache with library files
     prePopulateCache()
-  } else {
-    // Alert users to the fact that their browser
-    // does not support service workers
-    store.dispatch({
-      type: 'SHOW_MODAL',
-      modalType: 'SYSTEM_COMPATIBILITY',
-      modalProps: {
-        large: false,
-      },
-    })
   }
 }
