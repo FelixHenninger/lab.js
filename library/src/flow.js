@@ -4,7 +4,7 @@ import { entries } from 'core-js/fn/array'
 import { Component, status, handMeDowns } from './core'
 
 // Helper function to handle nested components
-const prepareNested = function(nested, parent) {
+export const prepareNested = function(nested, parent) {
   // Setup parent links on nested components
   nested.forEach(c => (c.parent = parent))
 

@@ -170,17 +170,21 @@ Form.metadata = {
   nestedComponents: [],
 }
 
+import { prepareNested } from './flow'
+import { handMeDowns } from './core'
+
 export class Frame extends Component {
   constructor(options={}) {
     super({
       content: null,
       context: '',
-      contextId: '',
+      contextSelector: '',
+      handMeDowns: [...handMeDowns],
       ...options,
     })
   }
 
-  onPrepare() {
+  async onPrepare() {
     // Parse context HTML
     const parser = new DOMParser()
     this.internals.parsedContext = parser.parseFromString(
@@ -189,30 +193,37 @@ export class Frame extends Component {
 
     // Setup nested component to use the context
     this.options.content.options.el = this.internals
-      .parsedContext.getElementById(this.options.contextId)
+      .parsedContext.querySelector(this.options.contextSelector)
 
     // Couple the run cycle of the frame to its content
-    this.options.content.once('after:end', () => this.end())
+    this.internals.contentEndHandler = () => this.end()
+    this.options.content.on(
+      'after:end',
+      this.internals.contentEndHandler
+    )
 
     // Prepare content
-    return this.options.content.prepare(false) // indicate automated call
+    await prepareNested([this.options.content], this)
   }
 
-  onRun() {
+  async onRun() {
     // Clear element content, and insert context
     this.options.el.innerHTML = ''
     Array.from(this.internals.parsedContext.body.children)
       .forEach(c => this.options.el.appendChild(c))
 
     // Run nested content
-    return this.options.content.run()
+    await this.options.content.run()
   }
 
   onEnd() {
-    if (this.options.content.status <= status.done) {
+    if (this.options.content.status < status.done) {
       // Avoid an infinite loop of
       // frame and content ending one another
-      this.options.content.off('after:end')
+      this.options.content.off(
+        'after:end',
+        this.internals.contentEndHandler
+      )
 
       // Again, the content is in focus
       return this.options.content.end('abort by frame')

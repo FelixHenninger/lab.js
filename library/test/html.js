@@ -296,7 +296,7 @@ describe('HTML-based components', () => {
         el: el,
         content: c,
         context: '<div id="labjs-context"></div>',
-        contextId: 'labjs-context'
+        contextSelector: '#labjs-context'
       })
     })
 
@@ -316,7 +316,7 @@ describe('HTML-based components', () => {
         assert.equal(
           c.options.el,
           f.internals.parsedContext.
-            documentElement.querySelector('#' + f.options.contextId)
+            documentElement.querySelector(f.options.contextSelector)
         )
       })
     })
@@ -335,7 +335,7 @@ describe('HTML-based components', () => {
       })
       f.options.content = c
       f.options.context = '<strong id="mycontext"></strong>'
-      f.options.contextId = 'mycontext'
+      f.options.contextSelector = '#mycontext'
 
       return f.run().then(() => {
         assert.equal(
