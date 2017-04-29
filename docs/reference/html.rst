@@ -171,3 +171,53 @@ The above screen, inserted into an experiment, will display the form, and wait f
     The function is also responsible for generating an error message and showing it to the user, if this is desired.
 
     The :js:attr:`validator <options.validator>` option defaults to a function that always returns ``true``, regardless of form content.
+
+----
+
+.. _reference/html/Frame:
+
+Frame
+-----
+
+The :js:class:`html.Frame` inserts pre-defined ``HTML`` content into the page like a :js:class:`html.Screen` does, but then :js:func:`runs <run>` a nested :js:class:`component <core.Component>` within this new context, passing on control over a subsection of the screen. It thereby provides a 'frame' around the content of a subordinate :js:class:`component <core.Component>`.
+
+.. js:class:: html.Frame([options])
+
+  A :js:class:`html.Frame` provides a ``HTML`` surrounding, a :js:attr:`context <options.context>`, for nested components, its :js:attr:`content <options.content>`. This has two main use-cases:
+
+  * **Simplicity**: Any content common to all nested components can be moved to the superordinate :js:class:`frame <html.Frame>` and need not be repeated.
+  * **Speed**: Instead of exchanging the entire screen content, nested components swap out only a small part of the page, reducing the load on the browser and ensuring more consistent performance. A :js:class:`frame <html.Frame>` can also embed `canvas-based components <reference/canvas>`_ so that the most timing-critical parts of the screen, or visually complex and interactive stimuli, can be rendered through the more performant canvas.
+
+  A common application is when stimuli make up only a small part of the total screen content::
+
+    const stimuli = new lab.flow.Loop({
+      /* ... */
+    })
+
+    const frame = new lab.html.Frame({
+      context: `
+        <header>
+          You have one job to do
+        </header>
+        <main>
+          <!-- this is where stimuli will be inserted -->
+        </main>
+        <footer>
+          You better / push the button / let me know.
+        </footer>
+      `,
+      contextSelector: 'main',
+      content: stimuli,
+    })
+
+  .. js:attribute:: options.context
+
+    ``HTML`` code in which the nested :js:attr:`content <options.content>` is embedded (required).
+
+  .. js:attribute:: options.contextSelector
+
+    ``CSS`` selector (as ``string``, required) which specifies the element inside the :js:attr:`context <options.context>` within which the content is shown. It is passed onto the nested component as :js:attr:`el <options.el>` attribute.
+
+  .. js:attribute:: options.content
+
+    Single :js:class:`component <core.Component>` (required) that is run within the content provided by the :js:attr:`context <options.context>`, and given control of the ``HTML`` element defined by the :js:attr:`selector <options.selector>`.
