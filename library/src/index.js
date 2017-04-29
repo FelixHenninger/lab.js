@@ -16,48 +16,41 @@ import Debug from './plugins/debug'
 import Logger from './plugins/log'
 import Transmit from './plugins/transmit'
 
-const version = '2017.1.0'
+export const version = '2017.1.0'
 
-const lab = {
-  version,
-  core: {
-    Component,
-    Dummy,
-  },
-  canvas: {
-    Screen: CanvasScreen,
-    Sequence: CanvasSequence,
-  },
-  html: {
-    Screen,
-    Form,
-    Frame,
-  },
-  flow: {
-    Sequence,
-    Parallel,
-    Loop,
-  },
-  data: {
-    Store,
-  },
-  plugins: {
-    Debug,
-    Logger,
-    Transmit,
-  },
-  util: {
-    Random,
-    fromObject,
-  },
+export const core = {
+  Component,
+  Dummy,
 }
 
-// Export library
-export default lab
+export const canvas = {
+  Screen: CanvasScreen,
+  Sequence: CanvasSequence,
+}
 
-// This is for webpack, which does not cope well
-// with es6 exports at the top level, preferring
-// instead to place exports at lab.default.
-// The following line makes the library behave
-// like a standard ES5-style library.
-module.exports = lab
+export const html = {
+  Screen,
+  Form,
+  Frame,
+}
+
+export const flow = {
+  Sequence,
+  Parallel,
+  Loop,
+}
+
+export const plugins = {
+  Debug,
+  Logger,
+  Transmit,
+}
+
+export const data = {
+  Store,
+}
+
+export const util = {
+  Random,
+  fromObject,
+}

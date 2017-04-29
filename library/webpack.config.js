@@ -22,7 +22,7 @@ const banner = [
 
 const config = {
   entry: {
-    js: [ './src/index' ],
+    js: [ './src/index.js' ],
   },
   module: {
     loaders: [{
@@ -31,9 +31,7 @@ const config = {
       include: path.join(__dirname, 'src'),
       query: {
         presets: [
-          ['es2015', { 'modules': false }],
-          'es2016',
-          'es2017'
+          ['env', { modules: false }],
         ],
         plugins: [
           'transform-runtime',
@@ -72,6 +70,8 @@ if (minimize) {
     'Sequence', 'Loop', 'Parallel',
     // Plugins
     'Debug', 'Logger', 'Transmit',
+    // Utilities
+    'Random', 'fromObject',
   ]
   config.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
