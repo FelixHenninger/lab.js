@@ -352,7 +352,7 @@ Because the presentation of components is prepared when :js:func:`prepare` is ca
 
 .. js:attribute:: options.media
 
-  Media files to preload ({})
+  Media files to preload (``{}``)
 
   Images and audio files can be preloaded in the background during the prepare phase, to reduce load times later during the experiment. To achieve this, supply an object containing the urls of the files in question, split into images and audio files as follows::
 
