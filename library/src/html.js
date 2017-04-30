@@ -1,8 +1,10 @@
 // HTML-based displays for lab.js
 import { extend } from 'lodash'
-import { Component, status } from './core'
-import { domSelect } from './util/domSelect'
 import 'whatwg-fetch'
+
+import { Component, status, handMeDowns } from './core'
+import { domSelect } from './util/domSelect'
+import { prepareNested } from './flow'
 
 // html.Screens display HTML when run
 export class Screen extends Component {
@@ -42,7 +44,7 @@ Screen.metadata = {
   nestedComponents: [],
   parsableOptions: {
     content: ['string'],
-  }
+  },
 }
 
 // An html.Form can show, validate and serialize a form
@@ -170,9 +172,6 @@ Form.metadata = {
   nestedComponents: [],
 }
 
-import { prepareNested } from './flow'
-import { handMeDowns } from './core'
-
 export class Frame extends Component {
   constructor(options={}) {
     super({
@@ -199,7 +198,7 @@ export class Frame extends Component {
     this.internals.contentEndHandler = () => this.end()
     this.options.content.on(
       'after:end',
-      this.internals.contentEndHandler
+      this.internals.contentEndHandler,
     )
 
     // Prepare content
@@ -222,7 +221,7 @@ export class Frame extends Component {
       // frame and content ending one another
       this.options.content.off(
         'after:end',
-        this.internals.contentEndHandler
+        this.internals.contentEndHandler,
       )
 
       // Again, the content is in focus
@@ -240,5 +239,5 @@ Frame.metadata = {
   nestedComponents: ['content'],
   parsableOptions: {
     context: ['string'],
-  }
+  },
 }

@@ -16,11 +16,14 @@ const retrieveNested = (path, object) => {
 // and a type field that specifies the
 // component type (e.g. 'lab.html.Screen')
 const fromObject = (options) => {
+  // We assume that the library
+  // is available as a global variable
+  /* global lab:false */
   const typePath = options.type.split('.').slice(1)
   const constructor = retrieveNested(typePath, lab)
 
   // Parse any nested components
-  constructor.metadata.nestedComponents.forEach(o => {
+  constructor.metadata.nestedComponents.forEach((o) => {
     // ... if the associated option exists ...
     if (options[o]) {
       if (Array.isArray(options[o])) {
@@ -45,8 +48,8 @@ const fromObject = (options) => {
   if (options.plugins) {
     options.plugins = options.plugins.map((pluginOptions) => {
       const pluginPath = pluginOptions.type.split('.').slice(1)
-      const pluginConstructor = retrieveNested(pluginPath, lab)
-      return new pluginConstructor(pluginOptions)
+      const PluginConstructor = retrieveNested(pluginPath, lab)
+      return new PluginConstructor(pluginOptions)
     })
   }
 

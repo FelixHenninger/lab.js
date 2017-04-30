@@ -14,11 +14,11 @@ const parsableOptions = function parsableOptions() {
   // Collect parsable options from the static property metadata
   return extend(
     {},
-    ...prototypeChain.map((p) => {
-      return p.constructor.metadata
+    ...prototypeChain.map(p => (
+      p.constructor.metadata
         ? p.constructor.metadata.parsableOptions
         : undefined
-    }),
+    )),
   )
 }
 
@@ -48,8 +48,8 @@ export const parseOption = function parseOption(key, value, context, metadata=un
     // TODO: Also decide whether to block escaping/evaluating
     // template code at this point
     const output = template(value, {
-      'escape': '',
-      'evaluate': '',
+      escape: '',
+      evaluate: '',
     }).call(this, context)
 
     // Cooerce type if necessary

@@ -26,6 +26,7 @@ export default class Transmit {
           url, { payload: 'full', ...metadata },
         )
         break
+      default:
     }
   }
 }

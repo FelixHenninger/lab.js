@@ -58,7 +58,7 @@ export class Component extends EventHandler {
         images: [],
         audio: [],
         ...options.media,
-      }
+      },
     })
 
     // Setup option proxying
@@ -156,14 +156,14 @@ export class Component extends EventHandler {
     await this.triggerMethod('before:prepare')
 
     // Parse options
-    const parsed_options = parseAllOptions.call(this, this.internals.rawOptions, {
+    const parsedOptions = parseAllOptions.call(this, this.internals.rawOptions, {
       parameters: this.aggregateParameters,
       state: this.options.datastore ? this.options.datastore.state : {},
     })
 
     this.internals.parsedOptions = extend(
       Object.create(this.internals.rawOptions),
-      parsed_options
+      parsedOptions,
     )
 
     // Setup automatic event handling for responses
@@ -346,7 +346,7 @@ export class Component extends EventHandler {
     }
 
     // Clone any nested components
-    this.constructor.metadata.nestedComponents.forEach(o => {
+    this.constructor.metadata.nestedComponents.forEach((o) => {
       if (Array.isArray(rawOptions[o])) {
         cloneOptions[o] = rawOptions[o].map(c => c.clone())
       } else {
@@ -376,7 +376,7 @@ export class Component extends EventHandler {
   get type() {
     return [
       ...this.constructor.metadata.module,
-      this.constructor.name
+      this.constructor.name,
     ].join('.')
   }
 }

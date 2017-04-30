@@ -77,7 +77,7 @@ const wrapHandler = function(handler, eventName, options=null, context=null) {
         // character in the spec, but would be
         // trimmed here)
         const keys = options.map(
-          key => keyValues[key] || key
+          key => keyValues[key] || key,
         )
 
         // Look up keycode for each key,

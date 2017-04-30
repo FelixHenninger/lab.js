@@ -121,7 +121,7 @@ Screen.metadata = {
 export class Sequence extends BaseSequence {
   constructor(options={}) {
     super(
-      addCanvasDefaults(options)
+      addCanvasDefaults(options),
     )
 
     // Push canvas to nested components

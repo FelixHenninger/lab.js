@@ -1,7 +1,8 @@
-import { assign, difference, flatten, intersection, uniq } from 'lodash'
-import { EventHandler } from './util/eventAPI'
 import FileSaver from 'file-saver'
 import 'whatwg-fetch'
+
+import { assign, difference, flatten, intersection, uniq } from 'lodash'
+import { EventHandler } from './util/eventAPI'
 
 // Data saving --------------------------------------------
 
@@ -260,7 +261,7 @@ export class Store extends EventHandler {
   download(filetype='csv', filename='data.csv') {
     return FileSaver.saveAs(
       this.exportBlob(filetype),
-      filename
+      filename,
     )
   }
 
@@ -283,7 +284,7 @@ export class Store extends EventHandler {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        metadata: metadata,
+        metadata,
         url: window.location.href,
         data: payload === 'staging' ? this.staging : this.data,
       }),

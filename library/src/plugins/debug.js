@@ -116,7 +116,7 @@ const parseCell = (contents) => {
   }
 }
 
-const renderStore = datastore => {
+const renderStore = (datastore) => {
   // Export keys including state
   const keys = datastore.keys(true)
 
