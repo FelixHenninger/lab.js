@@ -89,7 +89,28 @@ const updates = {
   '2017.0.5': data => ({
     ...data,
     version: [2017, 1, 0],
-  })
+  }),
+  '2017.1.0': data => {
+    // Move library to lab.js (instead of lab.min.js),
+    // include source map
+    if (data.files.files['index.html']) {
+      data.files.files['index.html'].content =
+        data.files.files['index.html'].content.replace(
+          'src="lib/lab.min.js"',
+          'src="lib/lab.js"',
+        )
+    }
+
+    if (data.files.bundledFiles['lib/lab.min.js']) {
+      delete data.files.bundledFiles['lib/lab.min.js']
+    }
+
+    data.files.bundledFiles['lib/lab.js'] = { type: 'application/javascript' }
+    data.files.bundledFiles['lib/lab.js.map'] = { type: 'text/plain' }
+
+    data.version = [2017, 1, 1]
+    return data
+  },
 }
 
 export default (data) => {

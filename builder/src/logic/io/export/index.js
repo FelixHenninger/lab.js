@@ -11,8 +11,8 @@ import Raven from 'raven-js'
 
 export const staticFiles = [
   'lib/lab.css',
-  'lib/lab.min.js',
-  'lib/lab.min.js.map',
+  'lib/lab.js',
+  'lib/lab.js.map',
   'lib/loading.svg',
 ]
 

@@ -4,7 +4,7 @@ const index_html = `<!doctype html>
   <meta charset="utf-8">
   <title>Experiment</title>
   <!-- lab.js library and default styles -->
-  <script src="lib/lab.min.js"></script>
+  <script src="lib/lab.js"></script>
   <link rel="stylesheet" href="lib/lab.css">
   <!-- study code and styles -->
   <script defer src="script.js"></script>
@@ -39,8 +39,11 @@ const defaultState = {
     }
   },
   bundledFiles: {
-    'lib/lab.min.js': {
+    'lib/lab.js': {
       type: 'application/javascript',
+    },
+    'lib/lab.js.map': {
+      type: 'text/plain',
     },
     'lib/lab.css': {
       type: 'text/css',

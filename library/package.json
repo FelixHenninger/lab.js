@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/felixhenninger/lab.js.git"
   },
-  "main": "dist/lab.min.js",
+  "main": "dist/lab.js",
   "module": "src/index.js",
   "dependencies": {
     "babel-polyfill": "^6.23.0",
@@ -70,7 +70,7 @@
     "build:js:production": "webpack",
     "build:js": "npm run build:js:development && npm run build:js:production",
     "build:starterkit:css": "postcss --local-plugins -u postcss-cssnext -o dist/labjs-starterkit/lib/lab.css src/starterkit/lib/lab.css",
-    "build:starterkit:static": "cp src/starterkit/index.html dist/labjs-starterkit && cp src/starterkit/experiment.js dist/labjs-starterkit && cp dist/lab.dev.js dist/labjs-starterkit/lib && cp dist/lab.min.js dist/labjs-starterkit/lib && cp dist/lab.min.js.map dist/labjs-starterkit/lib && cp src/starterkit/lib/loading.svg dist/labjs-starterkit/lib",
+    "build:starterkit:static": "cp src/starterkit/index.html dist/labjs-starterkit && cp src/starterkit/experiment.js dist/labjs-starterkit && cp dist/lab.dev.js dist/labjs-starterkit/lib && cp dist/lab.js dist/labjs-starterkit/lib && cp dist/lab.js.map dist/labjs-starterkit/lib && cp src/starterkit/lib/loading.svg dist/labjs-starterkit/lib",
     "build:starterkit:bundle": "cd dist && zip -r labjs-starterkit.zip labjs-starterkit",
     "build:starterkit": "npm run build:js && npm run build:starterkit:css && npm run build:starterkit:static && npm run build:starterkit:bundle",
     "clean:docs": "cd docs && make clean",

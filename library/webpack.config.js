@@ -10,7 +10,7 @@ const minimize = !process.argv.find(x => x === '-d')
 let outputFilename
 
 if (minimize) {
-  outputFilename = 'lab.min.js'
+  outputFilename = 'lab.js'
 } else {
   outputFilename = 'lab.dev.js'
 }
