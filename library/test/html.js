@@ -256,6 +256,12 @@ describe('HTML-based components', () => {
       return p
     })
 
+    // Validation --------------------------------------------------------------
+    const minimalInvalidForm = '' +
+      '<form>' +
+      '  <input type="text" name="text_input" required>' +
+      '</form>'
+
     it('validates form input using a validation function', () => {
       f.options.el.innerHTML = '' +
         '<form>' +
@@ -270,10 +276,7 @@ describe('HTML-based components', () => {
     })
 
     it('is also sensitive to native form validation', () => {
-      f.options.el.innerHTML = '' +
-        '<form>' +
-        '  <input type="text" name="text_input" required>' +
-        '</form>'
+      f.options.el.innerHTML = minimalInvalidForm
 
       assert.notOk(f.validate())
 
@@ -283,6 +286,19 @@ describe('HTML-based components', () => {
         '</form>'
 
       assert.ok(f.validate())
+    })
+
+    it('adds data-labjs-validated attribute after failed validation', () => {
+      f.options.content = minimalInvalidForm
+
+      return f.run().then(() => {
+        f.submit()
+        assert.equal(
+          f.options.el.querySelector('form')
+            .getAttribute('data-labjs-validated'),
+          '',
+        )
+      })
     })
   })
 

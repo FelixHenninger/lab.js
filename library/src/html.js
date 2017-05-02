@@ -76,6 +76,11 @@ export class Form extends Screen {
 
       // Bye!
       this.end('form submission')
+    } else {
+      // Mark form(s) as validated, but leave
+      // the display unchanged otherwise
+      this.options.el.querySelectorAll('form')
+        .forEach(f => f.setAttribute('data-labjs-validated', ''))
     }
 
     // Prevent default form behavior
