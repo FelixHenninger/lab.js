@@ -219,41 +219,55 @@ describe('HTML-based components', () => {
       })
     })
 
-    it('reacts to form submission', () => {
+    const exampleForm = '' +
+      '<form>' +
+      '  <input type="text" name="text_input" value="text_input_contents">' +
+      '  <button name="button" type="submit" value="value">Submit</button>' +
+      '</form>'
+
+    it('catches form submission', () => {
       // In this test, we are using an actual
       // document node because the virtual
       // elements used above do not deal correctly
       // with the click event used below.
       f.options.el = null
-      f.options.content = '' +
-        '<form>' +
-        '  <input type="text" name="text_input" value="text_input_contents">' +
-        '  <button name="button" type="submit" value="value">Submit</button>' +
-        '</form>'
+      f.options.content = exampleForm
 
-      const callback = sinon.spy()
-      f.on('end', callback)
-
-      const p = f.waitFor('end').then(() => {
-        // Tests
-        assert.ok(callback.calledOnce)
-        assert.equal(f.data.text_input, 'text_input_contents')
-        assert.equal(f.data.button, 'value')
-
-        // Remove HTML content from the page
-        // when we're done.
-        f.options.el.innerHTML = ''
-      })
+      const spy = sinon.spy(f, 'submit')
 
       // Submit the form
       // (note that direct submission via form.submit()
       // overrides the event handlers and reloads
       // the page)
-      f.run().then(() => {
+      return f.run().then(() => {
         f.options.el.querySelector('button').click()
-      })
+        assert.ok(spy.calledOnce)
 
-      return p
+        // Clean up content
+        f.options.el.innerHTML = ''
+      })
+    })
+
+    it('ends after successful submission', () => {
+      f.options.content = exampleForm
+
+      const spy = sinon.spy(f, 'end')
+
+      return f.run().then(() => {
+        f.submit()
+        assert.equal(f.status, 3)
+        assert.ok(spy.calledOnce)
+      })
+    })
+
+    it('saves form data to store', () => {
+      f.options.content = exampleForm
+
+      return f.run().then(() => {
+        f.submit()
+        assert.equal(f.data.text_input, 'text_input_contents')
+        assert.equal(f.data.button, 'value')
+      })
     })
 
     // Validation --------------------------------------------------------------
@@ -286,6 +300,15 @@ describe('HTML-based components', () => {
         '</form>'
 
       assert.ok(f.validate())
+    })
+
+    it('doesn\'t end on submission if the form data is invalid', () => {
+      f.options.content = minimalInvalidForm
+
+      return f.run().then(() => {
+        f.submit()
+        assert.equal(f.status, 2) // Still running
+      })
     })
 
     it('adds data-labjs-validated attribute after failed validation', () => {
