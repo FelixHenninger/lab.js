@@ -3,7 +3,6 @@ import { extend } from 'lodash'
 import 'whatwg-fetch'
 
 import { Component, status, handMeDowns } from './core'
-import { domSelect } from './util/domSelect'
 import { prepareNested } from './flow'
 
 // html.Screens display HTML when run
@@ -56,9 +55,7 @@ export class Form extends Screen {
     })
 
     // Capture form submissions
-    this.options.events['submit form'] = (e) => {
-      this.submit(e)
-    }
+    this.options.events['submit form'] = e => this.submit(e)
   }
 
   submit(e=null) {
@@ -87,7 +84,7 @@ export class Form extends Screen {
 
   serialize() {
     // Search for forms within the element
-    const forms = domSelect('form', this.options.el)
+    const forms = this.options.el.querySelectorAll('form')
 
     // Prepare an empty output object
     const output = {}
@@ -160,7 +157,7 @@ export class Form extends Screen {
     // form's validator to the serialized data,
     // and also checking that the browser
     // validation succeeds.
-    const forms = domSelect('form', this.options.el)
+    const forms = this.options.el.querySelectorAll('form')
 
     return this.options.validator(this.serialize()) &&
       Array.from(forms).every(form => form.checkValidity())
