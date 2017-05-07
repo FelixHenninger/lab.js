@@ -2,7 +2,7 @@ describe('Flow control', () => {
 
   describe('prepare_nested', () => {
     // This is not ideal because the function
-    // is not tested directly. However, the function
+    // is not tested directly. Then again, it
     // is not public, so it's difficult to test
     // directly
 
@@ -187,7 +187,22 @@ describe('Flow control', () => {
       })
     })
 
-    it('Abort does not trigger outstanding components', () => {
+    it('permits terminated component to log data', () => {
+      const a = new lab.core.Component({ data: { foo: 'bar' } })
+      s.options.content = [a]
+      s.options.datastore = new lab.data.Store()
+
+      return s.run().then(() => {
+        return s.end()
+      }).then(() => {
+        assert.equal(
+          s.options.datastore.get('foo'),
+          'bar',
+        )
+      })
+    })
+
+    it('abort does not trigger outstanding components', () => {
       // Setup sequence
       const a = new lab.core.Component()
       const b = new lab.core.Component()
@@ -429,7 +444,6 @@ describe('Flow control', () => {
       b3.end()
       assert.equal(p.progress, 1)
     })
-
   })
 
 })
