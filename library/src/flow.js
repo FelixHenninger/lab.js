@@ -148,7 +148,7 @@ export class Loop extends Sequence {
       })
     } else if (isFunction(this.options.template)) {
       this.options.content = this.options.templateParameters.map(
-        p => this.options.template(p, this),
+        (p, i) => this.options.template(p, i, this),
       )
     } else {
       console.warn('Missing or invalid template in loop, no content generated')

@@ -92,7 +92,7 @@ Loop
     There are several ways in which this option can be used:
 
     * First it can be a **single component** of any type, an :js:class:`html.Screen`, (most likely) a :js:class:`flow.Sequence` or even another :js:class:`flow.Loop`. This component will be :js:func:`cloned <clone>` for each iteration, and the :js:attr:`parameters <options.parameters>` substituted on each copy so that the repetitions can differ from another.
-    * Second, it can be a **function** that creates and returns the component for each iteration. This function will receive each set of :js:attr:`templateParameters <options.templateParameters>` in turn as a first argument (and, optionally, the index as a second argument). The advantage of this method is a greater flexibility: More logic can be used at every step to customize every iteration.
+    * Second, it can be a **function** that creates and returns the component for each iteration. This function will receive each set of :js:attr:`templateParameters <options.templateParameters>` in turn as a first argument (and, optionally, the index as a second argument, and the loop component itself as a third). The advantage of this method is a greater flexibility: Additional logic can be used at every step to customize every iteration.
 
   .. js:attribute:: options.templateParameters
 
