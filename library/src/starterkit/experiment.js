@@ -9,7 +9,7 @@ var experiment = new lab.flow.Sequence({
 })
 
 // Collect data in a central data store
-experiment.datastore = new lab.data.Store()
+experiment.options.datastore = new lab.data.Store()
 
 // Start the experiment
 // (uncomment to run)
