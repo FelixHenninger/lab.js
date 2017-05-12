@@ -110,9 +110,10 @@ interoperate with this one, we're more than happy to link things up; if you're
 looking to extend or build on this project, we'd be thrilled to provide a
 stepping stone for you!
 
-We expect all contributors to conform to the [Software Carpentry **Code of
-Conduct**](https://software-carpentry.org/conduct/), and to be excellent to one
-another.
+We expect all members of our community to conform to our [**code of
+conduct**](code-of-conduct.md), and to be excellent to one another. We strive to
+meet the [Apache Foundation's guidelines](https://www.apache.org/foundation/policies/conduct)
+in our work together.
 
 ----
 
