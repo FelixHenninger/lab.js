@@ -18,7 +18,7 @@ using a graphical builder, or through code. In either case, `lab.js` takes care
 of study presentation, response collection and data storage, while providing
 the greatest possible flexibility with regard to study design.
 
-[![Slack Status](https://img.shields.io/badge/slack-online-orange.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
+[![Slack Status](https://img.shields.io/badge/slack-online-brightgreen.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
 [![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=latest)](http://labjs.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/47625723.svg)](https://zenodo.org/badge/latestdoi/47625723)
 
