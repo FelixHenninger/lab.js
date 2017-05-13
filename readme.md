@@ -94,26 +94,11 @@ hesitate to get in touch so that we can discuss things in more detail.
 
 ### Join in!
 
-**We would love to have you as part of this project** — whether you have new
-ideas, suggestions, or would just like to muck in, please be warmly invited to
-do so: This is an open project! We'd be glad to hear from you, to discuss ideas
-and approaches, and to get you going. There's an [overview of the code and
-intro to the build
-process](https://labjs.readthedocs.io/en/latest/meta/contribute.html) in the
-documentation if you're interested, but as always, we'd be happy to help you get
-started.
-
-**If you're searching for a place to contribute, please do let us know**:
-There's always things to do, and we'd be glad to help you find something that
-fits your interests and resources. If you're writing a tool that might
-interoperate with this one, we're more than happy to link things up; if you're
-looking to extend or build on this project, we'd be thrilled to provide a
-stepping stone for you!
-
-We expect all members of our community to conform to our [**code of
-conduct**](code-of-conduct.md), and to be excellent to one another. We strive to
-meet the [Apache Foundation's guidelines](https://www.apache.org/foundation/policies/conduct)
-in our work together.
+**We would love to have you as part of this project!** Please visit our
+[contributor's guide](contributing.md) to see how you can help. We warmly
+welcome ideas and suggestions, bug reports and code contributions — do also let
+us know if you'd like to join in but are unsure how, we'd be glad to help you
+find something that suits your interests and resources.
 
 ----
 
