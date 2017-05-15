@@ -36,7 +36,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "postinstall": "npm run static:fa && npm run static:fira && npm run static:localforage && npm run static:lodash && npm run static:monaco && npm run static:requirejs && npm run static:serialize-javascript && npm run static:sw-toolbox",
+    "postinstall": "npm run static:fa && npm run static:fira && npm run static:monaco && npm run static:requirejs",
     "static:fa": "mkdir -p public/vendor/font-awesome && cp -r node_modules/font-awesome/css node_modules/font-awesome/fonts public/vendor/font-awesome/",
     "static:fira": "webfont-dl 'https://fonts.googleapis.com/css?family=Fira+Mono|Fira+Sans' --woff2=link --woff1=omit --svg=omit --ttf=omit --eot=omit --out=public/vendor/fira/fira.css",
     "static:monaco": "cp -R node_modules/monaco-editor/min/vs/ public/vs",
