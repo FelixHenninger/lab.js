@@ -10,6 +10,7 @@ import { Store } from './data'
 // Utilities
 import { Random } from './util/random'
 import fromObject from './util/fromObject'
+import { launch, exit } from './util/fullscreen'
 
 // Plugins
 import Debug from './plugins/debug'
@@ -53,4 +54,7 @@ export const data = {
 export const util = {
   Random,
   fromObject,
+  fullscreen: {
+    launch, exit,
+  },
 }
