@@ -70,7 +70,6 @@ const payload = `<style type="text/css">
 
   .labjs-debug-overlay-contents {
     padding: 12px;
-    overflow-y: auto;
   }
 
   .labjs-debug-overlay-contents table {
@@ -79,6 +78,15 @@ const payload = `<style type="text/css">
 
   .labjs-debug-overlay-contents table tr.labjs-debug-state {
     background-color: #f8f8f8;
+  }
+
+  /* Truncated cells */
+  .labjs-debug-trunc {
+    min-width: 200px;
+  }
+  .labjs-debug-trunc::after {
+    content: "...";
+    opacity: 0.5;
   }
 </style>
 <div class="labjs-debug-opener labjs-debug-toggle"><div>≡</div></div>
@@ -109,12 +117,24 @@ const parseCell = (contents) => {
       } else {
         return contents.toFixed(2)
       }
+    case 'string':
+      // Restrict string length
+      const c = contents.length > 80
+        ? `<div class="labjs-debug-trunc">${ contents.substr(0, 100) }</div>`
+        : contents
+
+      // Insert invisible space after commas,
+      // allowing for line break
+      return c.replace(/,/g, ',&#8203;')
     case 'undefined':
       return ''
     default:
       return contents
   }
 }
+
+const formatCell = c =>
+  `<td>${ parseCell(c) }</td>`
 
 const renderStore = (datastore) => {
   // Export keys including state
@@ -124,19 +144,19 @@ const renderStore = (datastore) => {
   const header = keys.map(k => `<th>${ k }</th>`)
 
   // Render state and store
-  const state = keys.map(k => `<td>${ parseCell(datastore.state[k]) }</td>`)
+  const state = keys.map(k => formatCell(datastore.state[k]))
   const store = datastore.data
     .slice().reverse() // copy before reversing in place
     .map(
-      row => `<tr> ${ keys.map(k => `<td>${ parseCell(row[k]) }</td>`).join('') } </tr>`,
-    ).join('\n')
+      row => `<tr> ${ keys.map(k => formatCell(row[k])).join('') } </tr>`,
+    )
 
   // Export table
   return `
     <table>
       <tr>${ header.join('\n') }</tr>
       <tr class="labjs-debug-state">${ state.join('\n') }</tr>
-      ${ store }
+      ${ store.join('\n') }
     </table>
   `
 }
