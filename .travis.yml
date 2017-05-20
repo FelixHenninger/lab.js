@@ -6,4 +6,5 @@ install:
   - (cd library && npm install)
   - (cd builder && npm install)
 script:
-  - sleep 1
+  - (cd library && npm run build:starterkit)
+  - (cd builder && npm run build)
