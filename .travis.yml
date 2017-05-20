@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "node"
+  - "7"
+install:
+  - (cd library && npm install)
+  - (cd builder && npm install)
+script:
+  - sleep 1
