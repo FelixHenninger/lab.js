@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Button } from 'reactstrap'
 import { actions } from 'react-redux-form'
 
@@ -38,7 +39,7 @@ const Footer = (
   </tfoot>
 
 Footer.contextTypes = {
-  formDispatch: React.PropTypes.func,
+  formDispatch: PropTypes.func,
 }
 
 export default Footer

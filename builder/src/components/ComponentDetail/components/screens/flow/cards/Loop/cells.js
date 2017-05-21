@@ -1,7 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Control, actions } from 'react-redux-form'
 
 import './style.css'
+
+import Dropdown from '../../../../../../Dropdown'
+import { DropdownToggle, DropdownMenu, DropdownItem,
+         InputGroup, InputGroupButton } from 'reactstrap'
+import classnames from 'classnames'
 
 export const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
   <Control.text
@@ -11,11 +17,6 @@ export const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
       fontFamily: 'Fira Mono',
     }}
   />
-
-import Dropdown from '../../../../../../Dropdown'
-import { DropdownToggle, DropdownMenu, DropdownItem,
-         InputGroup, InputGroupButton } from 'reactstrap'
-import classnames from 'classnames'
 
 const CellTypeSelector = ({ type, setType, delete: deleteHandler }) =>
   <Dropdown type='button'>
@@ -61,7 +62,7 @@ const CellTypeSelector = ({ type, setType, delete: deleteHandler }) =>
       </DropdownItem>
       <DropdownItem
         onClick={ () => {
-          if (confirm('Are you sure you want to delete this column?')) {
+          if (window.confirm('Are you sure you want to delete this column?')) {
             deleteHandler()
           }
         } }
@@ -98,5 +99,5 @@ export const HeaderCell = ({ columnData, index, deleteColumn }, { formDispatch }
   </InputGroup>
 
 HeaderCell.contextTypes = {
-  formDispatch: React.PropTypes.func,
+  formDispatch: PropTypes.func,
 }

@@ -1,4 +1,5 @@
 import Raven from 'raven-js'
+import { dynamicFiles, staticFiles } from '../io/export'
 
 const cacheName = 'labjs-preview'
 
@@ -29,8 +30,6 @@ const linkStatic = (path, cache, previewPath='labjs_preview') =>
       new Request(`/api/${ previewPath }/${ path }`),
       response
     ))
-
-import { dynamicFiles, staticFiles } from '../io/export'
 
 export const prePopulateCache = () =>
   // Add static files to cache directly

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Button, DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap'
 import Dropdown from '../../../../../../Dropdown'
 import { actions } from 'react-redux-form'
@@ -122,5 +123,5 @@ export const Footer = (
   </tfoot>
 
 Footer.contextTypes = {
-  formDispatch: React.PropTypes.func,
+  formDispatch: PropTypes.func,
 }

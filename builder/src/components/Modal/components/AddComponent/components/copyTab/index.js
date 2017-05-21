@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { repeat } from 'lodash'
 import { Button, ButtonGroup, Input } from 'reactstrap'
 import { nestedChildren } from '../../../../../../logic/tree'
@@ -97,7 +98,7 @@ const CopyTab = ({ parent, index }, context) => {
 }
 
 CopyTab.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 }
 
 export default CopyTab

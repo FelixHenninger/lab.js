@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Alert } from 'reactstrap'
 import Confirm from '../Confirm'
 
@@ -23,7 +24,7 @@ const ExportPHP = ({ closeHandler }, { store }) =>
   </Confirm>
 
 ExportPHP.contextTypes = {
-  store: React.PropTypes.object
+  store: PropTypes.object
 }
 
 export default ExportPHP

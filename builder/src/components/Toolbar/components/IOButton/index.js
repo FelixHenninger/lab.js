@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Dropdown from '../../../Dropdown'
 import { Button, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
@@ -84,7 +85,7 @@ const IOButton = (_, context) =>
   </Dropdown>
 
 IOButton.contextTypes = {
-  store: React.PropTypes.object
+  store: PropTypes.object
 }
 
 export default IOButton

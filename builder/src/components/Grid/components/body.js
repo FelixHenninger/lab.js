@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { actions } from 'react-redux-form'
 
 import ButtonCell from './buttonCell'
@@ -52,8 +53,8 @@ const Row = (
   </tr>
 
 Row.contextTypes = {
-  formDispatch: React.PropTypes.func,
-  uniqueId: React.PropTypes.string,
+  formDispatch: PropTypes.func,
+  uniqueId: PropTypes.string,
 }
 
 const Body = (props, { uniqueId }) =>
@@ -71,7 +72,7 @@ const Body = (props, { uniqueId }) =>
   </tbody>
 
 Body.contextTypes = {
-  uniqueId: React.PropTypes.string,
+  uniqueId: PropTypes.string,
 }
 
 export default Body

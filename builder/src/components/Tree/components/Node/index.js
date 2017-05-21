@@ -1,4 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { DragSource } from 'react-dnd'
 import { Nav, NavItem, NavLink } from 'reactstrap'
 
 import AddButton from '../AddButton'
@@ -37,8 +40,8 @@ const NodeBody = (
   </NavLink>
 
 NodeBody.contextTypes = {
-  onNodeClick: React.PropTypes.func,
-  onNodeDelete: React.PropTypes.func,
+  onNodeClick: PropTypes.func,
+  onNodeDelete: PropTypes.func,
 }
 
 const NodeTail = ({ id, children, pinned, vacancies }, { onNodeAdd }) =>
@@ -86,7 +89,7 @@ const NodeTail = ({ id, children, pinned, vacancies }, { onNodeAdd }) =>
   </Nav>
 
 NodeTail.contextTypes = {
-  onNodeAdd: React.PropTypes.func,
+  onNodeAdd: PropTypes.func,
 }
 
 const Node = ({ id, parentId, index, data, active, renderBody,
@@ -133,9 +136,6 @@ const Node = ({ id, parentId, index, data, active, renderBody,
 }
 
 // Redux integration
-
-import { connect } from 'react-redux'
-
 const ConnectedNode = connect(
   (state, props) => ({
     data: state.components[props.id],
@@ -144,9 +144,6 @@ const ConnectedNode = connect(
 )(Node)
 
 // Dnd integration
-
-import { DragSource } from 'react-dnd'
-
 const nodeSource = {
   beginDrag(props) {
     // Extract identifying data from the

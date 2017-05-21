@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import Loop from './components/screens/flow/Loop'
 import Sequence from './components/screens/flow/Sequence'
@@ -32,8 +33,6 @@ const componentDetail = (props) => {
 }
 
 // Redux integration
-import { connect } from 'react-redux'
-
 const mapStateToProps = (state) => {
   const id = state.componentDetail.viewProps.id
   const type = state.components[id] ? state.components[id].type : undefined

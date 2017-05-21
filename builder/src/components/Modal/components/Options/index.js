@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { ModalBody, ModalFooter, Nav, NavItem, NavLink, Button } from 'reactstrap'
 import Editor from '../../../Editor'
 import classnames from 'classnames'
@@ -110,11 +111,10 @@ class OptionsModal extends Component {
       </ModalFooter>
     </div>
   }
-
 }
 
 OptionsModal.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 }
 
 export default OptionsModal

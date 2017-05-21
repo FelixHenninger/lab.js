@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { LocalForm } from 'react-redux-form'
 import { pick } from 'lodash'
 
@@ -51,7 +52,7 @@ class Loop extends Component {
 }
 
 Loop.contextTypes = {
-  store: React.PropTypes.object
+  store: PropTypes.object
 }
 
 export default wrapScreen(Loop)

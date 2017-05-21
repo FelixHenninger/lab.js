@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { Card, CardBlock, CardGroup, CardHeader } from 'reactstrap'
 import { metadata, defaults } from '../../../../../../logic/components'
@@ -42,7 +43,7 @@ const ComponentDisplay = ({ value, parent, index }, context) =>
   </Card>
 
 ComponentDisplay.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 }
 
 export default ({ parent, index }) =>

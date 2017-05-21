@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 class Tree extends Component {
   getChildContext() {
@@ -21,9 +22,9 @@ class Tree extends Component {
 }
 
 Tree.childContextTypes = {
-  onNodeClick: React.PropTypes.func,
-  onNodeAdd: React.PropTypes.func,
-  onNodeDelete: React.PropTypes.func,
+  onNodeClick: PropTypes.func,
+  onNodeAdd: PropTypes.func,
+  onNodeDelete: PropTypes.func,
 };
 
 export default Tree

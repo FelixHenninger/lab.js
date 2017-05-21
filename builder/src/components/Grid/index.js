@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Fieldset, actions } from 'react-redux-form'
 
 import { uniqueId } from 'lodash'
@@ -94,8 +95,8 @@ class Grid extends Component {
 }
 
 Grid.childContextTypes = {
-  formDispatch: React.PropTypes.func,
-  uniqueId: React.PropTypes.string,
+  formDispatch: PropTypes.func,
+  uniqueId: PropTypes.string,
 }
 
 export default Grid

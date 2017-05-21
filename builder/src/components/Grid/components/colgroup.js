@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const ColGroup = ({ columnWidths }, { uniqueId }) =>
   <colgroup>
@@ -15,8 +16,8 @@ const ColGroup = ({ columnWidths }, { uniqueId }) =>
   </colgroup>
 
 ColGroup.contextTypes = {
-  formDispatch: React.PropTypes.func,
-  uniqueId: React.PropTypes.string,
+  formDispatch: PropTypes.func,
+  uniqueId: PropTypes.string,
 }
 
 export default ColGroup

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Button } from 'reactstrap'
 
 import { populateCache } from '../../../logic/preview/io'
@@ -52,5 +53,5 @@ export default class PreviewButton extends Component {
 }
 
 PreviewButton.contextTypes = {
-  store: React.PropTypes.object
+  store: PropTypes.object
 }

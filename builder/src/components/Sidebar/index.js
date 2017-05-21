@@ -1,10 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Toolbar from '../Toolbar'
 import Tree from '../Tree'
 import Node from '../Tree/components/Node'
 
-import logo from '../../../public/logo.blue.png'
+import logo from '../../static/logo.blue.png'
 
 const Sidebar = (props, context) =>
   <div>
@@ -28,7 +29,7 @@ const Sidebar = (props, context) =>
       }
       onNodeDelete={
         (id, parent, index) => {
-          if (confirm('Do you really want to delete this component?')) {
+          if (window.confirm('Do you really want to delete this component?')) {
             context.store.dispatch({
               type: 'DELETE_COMPONENT',
               id, parent, index,
@@ -50,7 +51,7 @@ const Sidebar = (props, context) =>
   </div>
 
 Sidebar.contextTypes = {
-  store: React.PropTypes.object
+  store: PropTypes.object
 }
 
 export default Sidebar

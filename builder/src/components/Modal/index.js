@@ -1,5 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Modal from 'react-modal'
+import { connect } from 'react-redux'
 import classnames from 'classnames'
 
 // Individual, task-specific modal content
@@ -8,15 +10,15 @@ import OptionsModal from './components/Options'
 import SystemCompatibilityModal from './components/SystemCompatibility'
 import ExportPHPModal from './components/ExportPHP'
 
+// Overall general-purpose modal container style
+import './index.css'
+
 const MODAL_COMPONENTS = {
   'ADD_COMPONENT': AddComponentModal,
   'OPTIONS': OptionsModal,
   'SYSTEM_COMPATIBILITY': SystemCompatibilityModal,
   'EXPORT_PHP': ExportPHPModal,
 }
-
-// Overall general-purpose modal container
-import './index.css'
 
 // TODO: See if the Modal component from react-modal
 // can be replaced by its counterpart from reactstrap
@@ -54,10 +56,8 @@ const CustomModal = ({ modalType, modalProps }, context) => {
 }
 
 // Redux integration
-import { connect } from 'react-redux'
-
 CustomModal.contextTypes = {
-  store: React.PropTypes.object
+  store: PropTypes.object
 }
 
 const ConnectedModal = connect(

@@ -1,4 +1,7 @@
 import { pick } from 'lodash'
+import moment from 'moment'
+import FileSaver from 'file-saver'
+
 import { nestedChildren } from '../tree'
 
 export const stateToJSON = (state, exportedComponent='root') => {
@@ -30,9 +33,6 @@ export const stateToJSON = (state, exportedComponent='root') => {
     files,
   }, null, 2)
 }
-
-import moment from 'moment'
-import FileSaver from 'file-saver'
 
 export const stateToDownload = (state, exportedComponent='root',
   fileprefix='study', filenameOverride=null) => {

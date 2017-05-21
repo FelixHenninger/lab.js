@@ -1,6 +1,12 @@
 import React from 'react'
 import { DropTarget } from 'react-dnd'
 
+// TODO: There must be a better way of passing through the store?
+//   Possibly the necessary data can be accessed through props,
+//   but this needs to be investigated further
+import store from '../../../../store'
+import { nestedChildren } from '../../../../logic/tree'
+
 // TODO: Move this into a CSS file
 const dropTargetStyles = {
   base: {
@@ -38,13 +44,6 @@ const TreeDropTarget = (props) =>
   )
 
 // Wrap everything up  to conform to react-dnd ---------------------------------
-
-// TODO: There must be a better way of passing through the store?
-//   Possibly the necessary data can be accessed through props,
-//   but this needs to be investigated further
-import store from '../../../../store'
-import { nestedChildren } from '../../../../logic/tree'
-
 const targetSpec = {
   drop: (targetProps, monitor, component) => {
     // Information from DropSource

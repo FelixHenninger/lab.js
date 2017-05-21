@@ -9,14 +9,14 @@ import Raven from 'raven-js'
 // the entire build process -- there should be an
 // early clone at the entry point.
 
+import { processStudy } from '../build'
+
 export const staticFiles = [
   'lib/lab.css',
   'lib/lab.js',
   'lib/lab.js.map',
   'lib/loading.svg',
 ]
-
-import { processStudy } from '../build'
 
 // Map paths onto file contents
 // (and some metadata)

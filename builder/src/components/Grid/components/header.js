@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { actions } from 'react-redux-form'
 
 import ButtonCell from './buttonCell'
@@ -48,8 +49,8 @@ const Header = (
   </thead>
 
 Header.contextTypes = {
-  formDispatch: React.PropTypes.func,
-  uniqueId: React.PropTypes.string,
+  formDispatch: PropTypes.func,
+  uniqueId: PropTypes.string,
 }
 
 export default Header

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { LocalForm } from 'react-redux-form'
 import { pick } from 'lodash'
 
@@ -47,7 +48,7 @@ class Sequence extends Component {
 }
 
 Sequence.contextTypes = {
-  store: React.PropTypes.object
+  store: PropTypes.object
 }
 
 export default wrapScreen(Sequence)

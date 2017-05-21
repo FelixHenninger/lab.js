@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Button } from 'reactstrap'
 import Uploader from '../../../../../Uploader'
 import { fromJSON } from '../../../../../../logic/io/load'
@@ -38,7 +39,7 @@ const ImportTab = ({ parent, index }, context) =>
 
 
 ImportTab.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 }
 
 export default ImportTab

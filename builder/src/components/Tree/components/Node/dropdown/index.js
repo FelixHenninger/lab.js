@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Dropdown from '../../../../Dropdown'
 import { DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
@@ -32,7 +33,7 @@ const NodeDropdown = ({ id, parent, index, onDelete }, context) =>
   </Dropdown>
 
 NodeDropdown.contextTypes = {
-  store: React.PropTypes.object
+  store: PropTypes.object
 }
 
 export default NodeDropdown

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { ButtonGroup, Button } from 'reactstrap'
 
 import PreviewButton from './components/PreviewButton'
@@ -31,7 +32,7 @@ const Toolbar = (props, context) =>
   </div>
 
 Toolbar.contextTypes = {
-  store: React.PropTypes.object
+  store: PropTypes.object
 }
 
 export default Toolbar

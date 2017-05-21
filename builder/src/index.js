@@ -27,10 +27,12 @@ if (
 }
 
 // Check browser compatibility
+// eslint-disable-next-line import/first
 import { check } from './logic/util/compatibility'
 check(store)
 
 // Enable preview service worker
+// eslint-disable-next-line import/first
 import installPreviewWorker from './logic/preview/worker'
 installPreviewWorker(store)
 
