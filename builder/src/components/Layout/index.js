@@ -4,6 +4,12 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import { Container, Row, Col } from 'reactstrap'
 
+// Font Awesome
+import 'font-awesome/css/font-awesome.css'
+
+// Fira
+import 'fira/fira.css'
+
 export default ({ sidebar, children }) =>
   <Container style={{ minWidth: '992px' }}>
     <Row>
