@@ -1,6 +1,10 @@
 language: node_js
 node_js:
   - "node"
+cache:
+  directories:
+    - library/node_modules
+    - builder/node_modules
 install:
   - (cd library && npm install)
   - (cd builder && npm install)
