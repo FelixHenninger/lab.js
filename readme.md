@@ -81,22 +81,27 @@ continued development of this software, have provided countless valuable
 insights, and sparked many of the ideas embodied in this project through
 questions and discussions.
 
-#### Institutional support
+#### Sponsors and supporters
+
+We are wholeheartedly grateful to our generous sponsors for making possible the
+development of this tool:
 
 [FernUniversität in Hagen](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/) ·
 [GESS, University of Mannheim](http://gess.uni-mannheim.de/) ·
+[Rational Altruists Mannheim](http://www.ram-ev.de/) ·
 [University of Koblenz-Landau](https://www.cognition.uni-landau.de/)
 
-If you would like to support development, the easiest way is to **host a
-workshop**. We'll gladly show you and your colleagues how to build experiments
-using this software, and build your favorite paradigm together! We are also open
-to **consulting** if you are looking for a particular feature — please don't
-hesitate to get in touch so that we can discuss things in more detail.
+If you would like to support development as a scientific institution, the
+easiest way is to **host a workshop**. We'll gladly show you and your
+colleagues how to build experiments using this software, and build your
+favorite paradigm together! We are also open to **consulting** if you are
+looking for a particular feature — please don't hesitate to get in touch so
+that we can discuss things in more detail.
 
 ### Join in!
 
 **We would love to have you as part of this project!** Please visit our
-[contributor's guide](contributing.md) to see how you can help. We warmly
+[**contributor's guide**](contributing.md) to see how you can help. We warmly
 welcome ideas and suggestions, bug reports and code contributions — do also let
 us know if you'd like to join in but are unsure how, we'd be glad to help you
 find something that suits your interests and resources.
