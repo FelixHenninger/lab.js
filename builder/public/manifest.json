@@ -1,0 +1,16 @@
+{
+  "short_name": "lab.js",
+  "name": "lab.js builder",
+  "description": "Create, run and share experiments in your browser",
+  "icons": [
+    {
+      "src": "labjs_icon_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#025aa5",
+  "background_color": "#ffffff"
+}

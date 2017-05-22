@@ -46,3 +46,8 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
+
+// Setup progressive content caching
+// eslint-disable-next-line import/first
+import registerServiceWorker from './registerServiceWorker'
+registerServiceWorker()
