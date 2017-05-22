@@ -37,8 +37,15 @@ const ComponentDisplay = ({ value, parent, index }, context) =>
       ></i>
     </CardHeader>
     <CardBlock>
-      <h5 className="card-title font-weight-bold">{ value.name }</h5>
-      <h6 className="card-subtitle mb-2 text-muted">{ value.category }</h6>
+      <h5 className="card-title" style={{ fontWeight: '500 '}}>
+        { value.name }
+      </h5>
+      <h6
+        className="card-subtitle mb-2 text-muted"
+        style={{ fontWeight: '400' }}
+      >
+        { value.category }
+      </h6>
     </CardBlock>
   </Card>
 

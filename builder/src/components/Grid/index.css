@@ -24,6 +24,11 @@ div.card table.grid {
   border-bottom: 2px solid #eceeef;
 }
 
+/* Header styles */
+div.card table.grid thead th {
+  font-weight: 500;
+}
+
 /* Hide header if requested */
 div.card table.grid.no-header thead {
   display: none;

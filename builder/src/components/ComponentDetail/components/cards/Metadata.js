@@ -12,7 +12,7 @@ export default (props) =>
           placeholder="Title"
           className="form-control form-control-lg"
           style={{
-            fontWeight: 'bold',
+            fontWeight: '500',
             padding: '0.5rem 0.75rem',
           }}
         />

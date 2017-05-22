@@ -80,6 +80,7 @@ export const HeaderCell = ({ columnData, index, deleteColumn }, { formDispatch }
       className="form-control"
       style={{
         fontFamily: 'Fira Mono',
+        fontWeight: 'bold',
       }}
     />
     <InputGroupButton>
