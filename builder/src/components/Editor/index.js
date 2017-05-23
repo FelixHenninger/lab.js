@@ -8,35 +8,61 @@ import './editor-style-overrides.css'
 // It would be nice to be able to move it into the
 // /vendor directory
 
-export default (props) => {
-  const requireConfig = {
-    url: process.env.PUBLIC_URL + '/vendor/require.js',
-    paths: {
-      'vs': process.env.PUBLIC_URL + '/vs'
-    },
-    // Give the (large) editor script more time to load
-    // (the default is 7 seconds, 30 should
-    // be enough even for a 2G connection)
-    waitSeconds: 30,
+export default class Editor extends React.Component {
+  editorWillMount(monaco) {
+    monaco.editor.defineTheme('labjs', {
+      base: 'vs', inherit: true,
+      rules: [
+        { token: 'attribute.name', foreground: '0275d8' },
+        { token: 'attribute.value', foreground: '569cd6' },
+        { token: 'attribute.value.html', foreground: '569cd6' },
+        { token: 'comment', foreground: '999999' },
+        { token: 'comment.content', foreground: '999999' },
+        { token: 'comment.html', foreground: '999999' },
+        { token: 'comment.content.html', foreground: '999999' },
+        { token: 'keyword', foreground: '0275d8' },
+        { token: 'metatag.content', foreground: '0275d8' },
+        { token: 'metatag.content.html', foreground: '0275d8' },
+        { token: 'metatag.html', foreground: '999999' },
+        { token: 'property-name', foreground: '0275d8' },
+        { token: 'token.content', foreground: '0275d8' },
+      ]
+    })
   }
-  return <MonacoEditor
-    width="100%" height="600"
-    language="html" value={''}
-    requireConfig={ requireConfig }
-    options={{
-      // Behavior
-      contextmenu: false,
-      lineNumbers: true,
-      lineNumbersMinChars: 4,
-      overviewRulerLanes: 0,
-      rulers: [80],
-      scrollBeyondLastLine: false,
-      wrappingColumn: 0,
-      // Style
-      fontFamily: 'Fira Mono',
-      fontSize: 18,
-      lineHeight: 26,
-    }}
-    {...props}
-  />
+
+  render() {
+    const requireConfig = {
+      url: process.env.PUBLIC_URL + '/vendor/require.js',
+      paths: {
+        'vs': process.env.PUBLIC_URL + '/vs'
+      },
+      // Give the (large) editor script more time to load
+      // (the default is 7 seconds, 30 should
+      // be enough even for a 2G connection)
+      waitSeconds: 30,
+    }
+    return <MonacoEditor
+      width="100%" height="600"
+      language="html" value={''}
+      theme="labjs"
+      requireConfig={ requireConfig }
+      editorWillMount={ this.editorWillMount }
+      options={{
+        // Behavior
+        contextmenu: false,
+        cursorBlinking: 'solid',
+        lineNumbers: true,
+        lineNumbersMinChars: 4,
+        overviewRulerLanes: 0,
+        rulers: [80],
+        scrollBeyondLastLine: false,
+        wrappingColumn: 0,
+        // Style
+        fontFamily: 'Fira Mono',
+        fontSize: 18,
+        lineHeight: 26,
+      }}
+      {...this.props}
+    />
+  }
 }
