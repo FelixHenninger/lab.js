@@ -57,6 +57,14 @@ If you'd like to keep in the loop regarding the development, please [subscribe
 to our **newsletter**](http://eepurl.com/co0K9r) to receive very occasional
 updates and release notifications.
 
+### Help improve `lab.js`!
+
+**We would love to have you as part of this project!** We warmly welcome ideas
+and suggestions, bug reports and code contributions — please also let us know if
+you'd like to join in but are unsure how, we'd be glad to help you find
+something that suits your interests and resources. The [**contributor's
+guide**](contributing.md) also provides further information.
+
 ----
 
 ### Contributors
@@ -97,14 +105,6 @@ colleagues how to build experiments using this software, and build your
 favorite paradigm together! We are also open to **consulting** if you are
 looking for a particular feature — please don't hesitate to get in touch so
 that we can discuss things in more detail.
-
-### Join in!
-
-**We would love to have you as part of this project!** Please visit our
-[**contributor's guide**](contributing.md) to see how you can help. We warmly
-welcome ideas and suggestions, bug reports and code contributions — do also let
-us know if you'd like to join in but are unsure how, we'd be glad to help you
-find something that suits your interests and resources.
 
 ----
 
