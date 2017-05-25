@@ -79,8 +79,9 @@ guide**](contributing.md) also provides further information.
 
 #### Ideas, feedback and examples
 
-[Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
+[Jeffrey Fisher](https://github.com/jeffslofish) ·
 [Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/) ·
+[Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
 [Andrew White](https://github.com/shiroandy)
 
 The students and teaching assistants in the graduate course *Research Methods

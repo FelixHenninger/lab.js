@@ -3,6 +3,7 @@
   "version": "2017.1.0",
   "private": true,
   "devDependencies": {
+    "glob": "^7.1.2",
     "react-scripts": "1.0.2"
   },
   "dependencies": {
@@ -33,7 +34,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && node scripts/postprocess_build.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "postinstall": "npm run static:monaco && npm run static:requirejs",

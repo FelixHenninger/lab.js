@@ -17,7 +17,9 @@ export default (store) => {
         )
       ).then(() =>
         // Setup new worker
-        navigator.serviceWorker.register('api/worker.js', { scope: rootUrl })
+        navigator.serviceWorker.register(
+          process.env.PUBLIC_URL + '/api/worker.js', { scope: rootUrl }
+        )
       ).then(() =>
         console.log(`Service worker registered successfully at ${ rootUrl }`)
       ).catch(e => {
