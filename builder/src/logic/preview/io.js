@@ -1,6 +1,8 @@
 import Raven from 'raven-js'
 import { dynamicFiles, staticFiles } from '../io/export'
 
+import { blobFromDataURI } from '../util/dataURI'
+
 const cacheName = 'labjs-preview'
 
 // Drop a single file into cache
@@ -8,12 +10,7 @@ const cacheName = 'labjs-preview'
 const putFile = (cache, [path, { content, type }], previewPath) =>
   cache.put(
     new Request(`/api/${ previewPath }/${ path }`),
-    new Response(
-      content, {
-      headers: new Headers({
-        'Content-Type' : type,
-      })
-    }),
+    new Response(blobFromDataURI(content)),
   )
 
 // Drop a set of files into cache
@@ -23,16 +20,8 @@ const put = (cache, files, previewPath='labjs_preview') =>
     Object.entries(files).map( file => putFile(cache, file, previewPath) )
   )
 
-// Create links to default static files
-const linkStatic = (path, cache, previewPath='labjs_preview') =>
-  cache.match(`/api/_defaultStatic/${ path }`)
-    .then(response => cache.put(
-      new Request(`/api/${ previewPath }/${ path }`),
-      response
-    ))
-
+// Add default static files to cache directly
 export const prePopulateCache = () =>
-  // Add static files to cache directly
   caches.open(cacheName).then(
     cache => cache.addAll(
       staticFiles.map(
@@ -41,8 +30,24 @@ export const prePopulateCache = () =>
     )
   )
 
+// Create links to default static files in preview location
+const linkStatic = (path, cache, previewPath='labjs_preview') =>
+  cache.match(`/api/_defaultStatic/${ path }`)
+    .then(response => cache.put(
+      new Request(`/api/${ previewPath }/${ path }`),
+      response
+    ))
+
+// Setup study preview
 export const populateCache = (state, modifier) =>
   caches.open(cacheName).then(cache =>
+    // Empty cache
+    cache.keys().then(keylist => Promise.all(
+      keylist.map(
+        key => !key.url.includes('_defaultStatic') ? cache.delete(key) : null
+      )
+    )).then(() => cache)
+  ).then(cache =>
     Promise.all([
       // Place generated study files into the cache
       put(cache, dynamicFiles(state, modifier)),

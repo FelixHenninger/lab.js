@@ -35,12 +35,10 @@ fs.readFile('build/service-worker.js', 'utf8', (err, data) => {
   )
 
   // Exclude previews from being covered by
-  // progressive app service worker
-  // (all paths below /api/ that do not
-  // begin with an underscore)
+  // progressive app service worker (all paths below /api/)
   output = output.replace(
     /isPathWhitelisted\(\[/g,
-    'isPathWhitelisted(["^(?!\\\\/api\\\\/[^_]).*",'
+    'isPathWhitelisted(["^(?!\\\\/api\\\\/).*",'
   )
 
   fs.writeFile('build/service-worker.js', output, 'utf8', (err) => {

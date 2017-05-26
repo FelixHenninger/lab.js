@@ -10,6 +10,7 @@ import Raven from 'raven-js'
 // early clone at the entry point.
 
 import { processStudy } from '../build'
+import { makeDataURI, readDataURI } from '../../util/dataURI'
 
 export const staticFiles = [
   'lib/lab.css',
@@ -23,8 +24,10 @@ export const staticFiles = [
 export const dynamicFiles = (state, modifier) => ({
   ...state.files.files,
   'script.js': {
-    content: processStudy(state, modifier),
-    type: 'application/javascript',
+    content: makeDataURI(
+      processStudy(state, modifier),
+      'application/javascript',
+    )
   }
 })
 
@@ -32,7 +35,10 @@ export const dynamicFiles = (state, modifier) => ({
 export const exportStatic = (state, modifier, additionalFiles={}) => {
   const zip = new JSZip()
 
-  const addFile = ([filename, data]) => zip.file(filename, data.content)
+  const addFile = ([filename, payload]) => {
+    const { data, base64 } = readDataURI(payload.content)
+    zip.file( filename, data, { base64 } )
+  }
 
   // Include standard set of files specific to the study
   Object.entries(dynamicFiles(state, modifier)).forEach(addFile)

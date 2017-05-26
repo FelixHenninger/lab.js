@@ -1,3 +1,5 @@
+import { makeDataURI } from '../logic/util/dataURI'
+
 const index_html = `<!doctype html>
 <html>
 <head>
@@ -30,12 +32,12 @@ const style_css = `/* Please define your custom styles here */`
 const defaultState = {
   files: {
     'index.html': {
-      content: index_html,
-      type: 'text/html',
+      content: makeDataURI(index_html, 'text/html'),
+      permanent: true,
     },
     'style.css': {
-      content: style_css,
-      type: 'text/css',
+      content: makeDataURI(style_css, 'text/css'),
+      permanent: true,
     }
   },
   bundledFiles: {
@@ -56,6 +58,14 @@ const defaultState = {
 
 export default (state=defaultState, action) => {
   switch (action.type) {
+    case 'ADD_FILE':
+      return {
+        ...state,
+        files: {
+          ...state.files,
+          [action.file]: action.data
+        }
+      }
     case 'UPDATE_FILE':
       return {
         ...state,

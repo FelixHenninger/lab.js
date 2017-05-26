@@ -1,3 +1,4 @@
+import { makeDataURI } from '../../../util/dataURI'
 
 const backend_php = `<?php
 
@@ -64,12 +65,10 @@ const htaccess = `Deny from all`
 
 export const phpBackendStatic = {
   'backend.php': {
-    content: backend_php,
-    type: 'application/php',
+    content: makeDataURI(backend_php, 'application/php'),
   },
   'data/.htaccess': {
-    content: htaccess,
-    type: 'text/plain',
+    content: makeDataURI(htaccess, 'text/plain'),
   },
 }
 

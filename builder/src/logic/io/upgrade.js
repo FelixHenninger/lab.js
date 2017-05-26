@@ -1,4 +1,5 @@
 import { mapValues } from 'lodash'
+import { makeDataURI } from '../util/dataURI'
 
 const updates = {
   '2017.0.1': data => ({
@@ -111,11 +112,26 @@ const updates = {
     data.version = [2017, 1, 1]
     return data
   },
+  '2017.1.1': data => {
+    // Convert files to data URIs and
+    // mark internal files as permanent
+    Object.entries(data.files.files).forEach(([filename, payload]) => {
+      data.files.files[filename] = {
+        content: makeDataURI(payload.content, payload.type)
+      }
+      if (['index.html', 'style.css'].includes(filename)) {
+        data.files.files[filename].permanent = true
+      }
+    })
+
+    data.version = [2017, 1, 2]
+    return data
+  }
 }
 
 export default (data) => {
   let output = data
-  // console.log('input', data)
+
   while (output.version.join('.') in updates) {
     console.log(`Updating file from ${ output.version.join('.') }`)
     try {
@@ -125,6 +141,6 @@ export default (data) => {
     }
     console.log('update complete')
   }
-  // console.log('output', output)
+
   return output
 }

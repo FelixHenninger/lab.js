@@ -4,6 +4,7 @@ import { ModalBody, ModalFooter, Nav, NavItem, NavLink, Button } from 'reactstra
 import Editor from '../../../Editor'
 import classnames from 'classnames'
 
+import { makeDataURI, readDataURI } from '../../../../logic/util/dataURI'
 import './style.css'
 
 class OptionsModal extends Component {
@@ -30,13 +31,13 @@ class OptionsModal extends Component {
         return <Editor
           key="html"
           height="400"
-          value={ files['index.html'].content }
+          value={ readDataURI(files['index.html'].content).data }
           onChange={
             newContent => this.context.store.dispatch({
               type: 'UPDATE_FILE',
               file: 'index.html',
               data: {
-                content: newContent
+                content: makeDataURI(newContent, 'text/html')
               }
             })
           }
@@ -46,13 +47,13 @@ class OptionsModal extends Component {
           key="css"
           height="400"
           language="css"
-          value={ files['style.css'].content }
+          value={ readDataURI(files['style.css'].content).data }
           onChange={
             newContent => this.context.store.dispatch({
               type: 'UPDATE_FILE',
               file: 'style.css',
               data: {
-                content: newContent
+                content: makeDataURI(newContent, 'text/css')
               }
             })
           }
