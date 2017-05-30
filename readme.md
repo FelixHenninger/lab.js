@@ -1,6 +1,5 @@
 <div align="center">
-  <img src="docs/media/logo/yellow/dot_200.png">
-  <h1>lab.js</h1>
+  <img src="docs/media/promo/readme_header.jpg">
 </div>
 
 <p align="center">
