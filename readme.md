@@ -21,7 +21,7 @@ the greatest possible flexibility with regard to study design.
 [![Slack Status](https://img.shields.io/badge/slack-online-brightgreen.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
 [![Build Status](https://travis-ci.org/FelixHenninger/lab.js.svg?branch=master)](https://travis-ci.org/FelixHenninger/lab.js)
 [![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=latest)](http://labjs.readthedocs.io/en/latest/?badge=latest)
-[![DOI](https://zenodo.org/badge/47625723.svg)](https://zenodo.org/badge/latestdoi/47625723)
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.597045.svg)](https://doi.org/10.5281/zenodo.597045)
 
 <div align="center">
   <img src="docs/media/promo/builder_teaser.png">
@@ -113,7 +113,7 @@ that we can discuss things in more detail.
 
 We kindly request that you cite ``lab.js`` if you use it in your research. Here's how:
 
-> Henninger, F., Mertens, U. K., Shevchenko, Y., & Hilbig, B. E. (2017). lab.js: Browser-based behavioral research (version 2017.1.0). doi: [10.5281/zenodo.495220](https://doi.org/10.5281/zenodo.495220)
+> Henninger, F., Mertens, U. K., Shevchenko, Y., & Hilbig, B. E. (2017). lab.js: Browser-based behavioral research. doi: [10.5281/zenodo.597045](https://doi.org/10.5281/zenodo.597045)
 
 (<a href="https://zenodo.org/record/495220/export/hx">BibTeX</a> record)
 
