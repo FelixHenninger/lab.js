@@ -16,6 +16,7 @@ export const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
     style={{
       fontFamily: 'Fira Mono',
     }}
+    debounce={ 300 }
   />
 
 const CellTypeSelector = ({ type, setType, delete: deleteHandler }) =>
@@ -82,6 +83,7 @@ export const HeaderCell = ({ columnData, index, deleteColumn }, { formDispatch }
         fontFamily: 'Fira Mono',
         fontWeight: 'bold',
       }}
+      debounce={ 300 }
     />
     <InputGroupButton>
       <CellTypeSelector

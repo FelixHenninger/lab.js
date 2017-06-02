@@ -16,6 +16,7 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) => {
         fontFamily: 'Fira Mono',
         color: cellData === '' ? '#999' : 'inherit',
       }}
+      debounce={ 300 }
     >
       <option value="">undefined</option>
       <option value="keypress">keypress</option>
@@ -34,6 +35,7 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) => {
       style={{
         fontFamily: 'Fira Mono',
       }}
+      debounce={ 300 }
     />
   }
 }
@@ -75,6 +77,7 @@ export default (props) =>
             type="text"
             className="form-control" id="correctResponse"
             placeholder="Undefined"
+            debounce={ 300 }
           />
         </Col>
       </FormGroup>
@@ -95,6 +98,7 @@ export default (props) =>
               pattern="(\d+)|(\$\{.*\})" // Accept number or placeholder
               className="form-control" id="timeout"
               placeholder="Never"
+              debounce={ 300 }
             />
             <div className="input-group-addon text-muted">ms</div>
           </div>

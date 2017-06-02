@@ -22,6 +22,7 @@ export default (props) =>
             <Control.checkbox
               model=".shuffle"
               className="form-check-input"
+              debounce={ 300 }
             />
             &thinsp;
             Shuffle

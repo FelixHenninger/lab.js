@@ -15,6 +15,7 @@ export default (props) =>
             fontWeight: '500',
             padding: '0.5rem 0.75rem',
           }}
+          debounce={ 300 }
         />
         { props.icon
           ? <InputGroupAddon>
@@ -38,6 +39,7 @@ export default (props) =>
         style={{
           padding: '0.5rem 0.75rem',
         }}
+          debounce={ 300 }
       />
     </FormGroup>
   </Card>

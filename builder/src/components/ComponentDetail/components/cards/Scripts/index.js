@@ -60,6 +60,7 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
           style={{
             fontFamily: 'Fira Mono',
           }}
+          debounce={ 300 }
         />
       </Col>
       <Col xs="6" style={{ paddingLeft: '0.25rem' }}>
@@ -70,6 +71,7 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
             fontFamily: 'Fira Mono',
             color: cellData.message === '' ? '#999' : 'inherit',
           }}
+          debounce={ 300 }
         >
           <option value="">event</option>
           <option value="before:prepare">before:prepare</option>
@@ -91,6 +93,7 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
       mapProps={{
         errors: props => props.fieldValue.errors,
       }}
+      debounce={ 300 }
     />
   </div>
 

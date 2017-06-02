@@ -23,6 +23,7 @@ export default (props) =>
             <Control.checkbox
               model=".tardy"
               className="form-check-input"
+              debounce={ 300 }
             />
             &thinsp;
             Tardy
