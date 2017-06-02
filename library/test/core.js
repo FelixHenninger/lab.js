@@ -758,18 +758,40 @@ describe('Core', () => {
     })
 
     describe('Hierarchy traversal', () => {
-      it('provides parents attribute', () => {
-        const a = new lab.core.Component()
-        const b = new lab.core.Component()
-        const c = new lab.core.Component()
+      let a, b, c
+
+      // Note that this is somewhat hackish --
+      // a hierarchy of simple core.Components
+      // will not prepare nested components
+      // properly. However, it seemed smarter
+      // not to rely on, e.g. flow.Sequences
+      // at this point to simplify testing.
+      beforeEach(() => {
+        a = new lab.core.Component()
+        b = new lab.core.Component()
+        c = new lab.core.Component()
 
         c.parent = b
         b.parent = a
+      })
 
+      it('provides parents attribute', () => {
         assert.deepEqual(
           c.parents,
           [a, b]
         )
+      })
+
+      it('saves root component internally', () => {
+        return c.prepare().then(() => {
+          assert.equal(c.internals.root, a)
+        })
+      })
+
+      it('root component is undefined for topmost component', () => {
+        return a.prepare().then(() => {
+          assert.equal(a.internals.root, undefined)
+        })
       })
     })
 

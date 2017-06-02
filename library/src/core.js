@@ -152,6 +152,9 @@ export class Component extends EventHandler {
     this.options.el =
       this.options.el || document.querySelector('[data-labjs-section="main"]')
 
+    // Save reference to topmost component in the hierarchy
+    this.internals.root = this.parents[0]
+
     // Trigger the before:prepare event
     await this.triggerMethod('before:prepare')
 
