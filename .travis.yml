@@ -11,3 +11,4 @@ install:
 script:
   - (cd library && npm run build:starterkit)
   - (cd builder && npm run build)
+  - (cd builder && npm run test)
