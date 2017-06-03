@@ -1,3 +1,5 @@
 docs/_build*
+library/dist
+node_modules
 npm-debug.log
 .vscode

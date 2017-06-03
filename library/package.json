@@ -76,6 +76,7 @@
     "clean:docs": "cd docs && make clean",
     "clean:js": "rm -rfv dist && mkdir dist",
     "lint": "eslint src",
+    "prepublish": "npm run build:starterkit",
     "pretest": "npm run --silent lint",
     "watch:docs": "onchange 'docs/**/*.rst' 'docs/**/*.py' -- npm run build:docs",
     "watch:js": "onchange 'src/**/*' -- npm run build:js"
