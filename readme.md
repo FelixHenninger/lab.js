@@ -21,6 +21,7 @@ the greatest possible flexibility with regard to study design.
 [![Slack Status](https://img.shields.io/badge/slack-online-brightgreen.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
 [![Build Status](https://travis-ci.org/FelixHenninger/lab.js.svg?branch=master)](https://travis-ci.org/FelixHenninger/lab.js)
 [![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=latest)](http://labjs.readthedocs.io/en/latest/?badge=latest)
+[![Version on NPM](https://img.shields.io/npm/v/lab.js.svg)](https://www.npmjs.com/package/lab.js)
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.597045.svg)](https://doi.org/10.5281/zenodo.597045)
 
 <div align="center">
