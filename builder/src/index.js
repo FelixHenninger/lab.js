@@ -31,6 +31,11 @@ if (
 import { check } from './logic/util/compatibility'
 check(store)
 
+// Persist store to localStorage
+// eslint-disable-next-line import/first
+import { persistState } from './logic/util/persistence'
+persistState(store)
+
 // Enable preview service worker
 // eslint-disable-next-line import/first
 import installPreviewWorker from './logic/preview/worker'

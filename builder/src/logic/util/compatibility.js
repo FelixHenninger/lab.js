@@ -13,7 +13,13 @@ export const errors = [
     <li>
       The browser you are using does not support JavaScript features required by the builder. Please update or switch to a modern browser!
     </li>
-  ]
+  ],
+  [
+    isNil(window.localStorage),
+    <li>
+      Your browser does not offer <a href="https://caniuse.com/#search=localstorage">local storage</a> capabilities, which we use to keep a backup of your data when you leave the site. You are missing one of our safety nets, please make sure that you save regularly!
+    </li>
+  ],
 ].filter(e => e[0]).map(e => e[1])
 
 export const check = (store) => {

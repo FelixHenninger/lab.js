@@ -1,9 +1,11 @@
 import { createStore } from 'redux'
 import reducer from './reducers'
 
-const configureStore = (initialState) =>
+import { retrieveState } from './logic/util/persistence'
+
+const configureStore = initialState =>
   createStore(
-    reducer, initialState,
+    reducer, initialState || retrieveState(),
     window.devToolsExtension && window.devToolsExtension(),
   )
 
