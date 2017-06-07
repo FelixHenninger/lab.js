@@ -8,6 +8,7 @@
     "type": "git",
     "url": "https://github.com/felixhenninger/lab.js.git"
   },
+  "homepage": "https://felixhenninger.github.io/lab.js",
   "main": "dist/lab.js",
   "module": "src/index.js",
   "dependencies": {
