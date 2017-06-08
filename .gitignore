@@ -1,5 +1,13 @@
+# build files
 docs/_build*
 library/dist
+
+# npm
 node_modules
 npm-debug.log
+
+# Visual studio code
 .vscode
+
+# lerna
+lerna-debug.log
