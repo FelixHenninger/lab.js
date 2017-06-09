@@ -1,6 +1,12 @@
 {
   "private": true,
   "devDependencies": {
-    "lerna": "^2.0.0-rc.5"
+    "lerna": "^2.0.0-rc.5",
+    "onchange": "^3.2.1"
+  },
+  "scripts": {
+    "build:docs": "cd docs && make html",
+    "clean:docs": "cd docs && make clean",
+    "watch:docs": "onchange 'docs/**/*.rst' 'docs/**/*.py' -- npm run build:docs"
   }
 }
