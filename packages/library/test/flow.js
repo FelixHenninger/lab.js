@@ -1,3 +1,5 @@
+/* global describe, it, beforeEach, assert, lab, sinon, _ */
+
 describe('Flow control', () => {
 
   describe('prepare_nested', () => {
@@ -180,9 +182,9 @@ describe('Flow control', () => {
 
       // Make sure that the nested component is ended
       // when the superordinate component is
-      return s.run().then(() => {
-        return s.end()
-      }).then(() => {
+      return s.run().then(
+        () => s.end()
+      ).then(() => {
         assert.ok(a_end.calledOnce)
       })
     })
@@ -192,9 +194,9 @@ describe('Flow control', () => {
       s.options.content = [a]
       s.options.datastore = new lab.data.Store()
 
-      return s.run().then(() => {
-        return s.end()
-      }).then(() => {
+      return s.run().then(
+        () => s.end()
+      ).then(() => {
         assert.equal(
           s.options.datastore.get('foo'),
           'bar',
@@ -211,10 +213,10 @@ describe('Flow control', () => {
       const b_run = sinon.spy()
       b.on('run', b_run)
 
-      return s.run().then(() => {
+      return s.run().then(
         // End sequence immediately
-        return s.end()
-      }).then(() => {
+        () => s.end()
+      ).then(() => {
         // B should not be called
         assert.notOk(b_run.called)
 
@@ -401,9 +403,9 @@ describe('Flow control', () => {
       let p_end = sinon.spy()
       p.on('end', p_end)
 
-      return p.run().then(() => {
-        return a.end()
-      }).then(() => {
+      return p.run().then(
+        () => a.end()
+      ).then(() => {
         assert.notOk(p_end.called)
         return b.end()
       }).then(() => {
@@ -418,10 +420,10 @@ describe('Flow control', () => {
       const b1 = new lab.core.Component()
       const b2 = new lab.core.Component()
       const b3 = new lab.core.Component()
-      let a = new lab.flow.Sequence({
+      const a = new lab.flow.Sequence({
         content: [a1, a2]
       })
-      let b = new lab.flow.Sequence({
+      const b = new lab.flow.Sequence({
         content: [b1, b2, b3]
       })
       p.options.content = [a, b]

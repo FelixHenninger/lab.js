@@ -1,3 +1,5 @@
+/* global describe, it, beforeEach, assert, lab, sinon */
+
 describe('Data handling', () => {
   describe('Store', () => {
     let ds
@@ -195,7 +197,7 @@ describe('Data handling', () => {
           persistence: 'session'
         })
 
-        persistent_ds.set("a", "bcd")
+        persistent_ds.set('a', 'bcd')
         persistent_ds.commit()
 
         assert.deepEqual(
@@ -356,16 +358,15 @@ describe('Data handling', () => {
         })
 
         // Define a function to convert blobs back into text
-        const readBlob = (blob) => {
-          return new Promise((resolve, reject) => {
-            let reader = new FileReader()
+        const readBlob = blob =>
+          new Promise((resolve, reject) => {
+            const reader = new FileReader()
             reader.onload = () => {
               resolve(reader.result)
             }
             reader.onerror = reject
             reader.readAsText(blob)
           })
-        }
 
         return Promise.all([
           readBlob(ds.exportBlob()).then((result) => {
@@ -402,7 +403,7 @@ describe('Data handling', () => {
         // http://rjzaworski.com/2015/06/testing-api-requests-from-window-fetch
 
         // Stub window.fetch
-        const fake_fetch = sinon.stub(window, 'fetch');
+        const fake_fetch = sinon.stub(window, 'fetch')
 
         // Simulate a response
         const res = new window.Response('', {

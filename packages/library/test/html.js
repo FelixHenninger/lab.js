@@ -1,3 +1,5 @@
+/* global describe, it, beforeEach, assert, lab, sinon */
+
 describe('HTML-based components', () => {
 
   describe('Screen', () => {
@@ -282,10 +284,10 @@ describe('HTML-based components', () => {
         '  <input type="text" name="text_input" value="valid">' +
         '</form>'
 
-      f.options.validator = data => data.text_input == 'valid'
+      f.options.validator = data => data.text_input === 'valid'
       assert.ok(f.validate())
 
-      f.options.validator = data => data.text_input == 'not_valid'
+      f.options.validator = data => data.text_input === 'not_valid'
       assert.notOk(f.validate())
     })
 
@@ -350,15 +352,15 @@ describe('HTML-based components', () => {
       })
     })
 
-    it('sets content element correctly', () => {
-      return f.prepare().then(() => {
+    it('sets content element correctly', () =>
+      f.prepare().then(() => {
         assert.equal(
           c.options.el,
-          f.internals.parsedContext.
-            documentElement.querySelector(f.options.contextSelector)
+          f.internals.parsedContext
+            .documentElement.querySelector(f.options.contextSelector)
         )
       })
-    })
+    )
 
     it('runs content when run', () => {
       const spy = sinon.spy(c, 'run')

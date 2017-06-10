@@ -1,3 +1,5 @@
+/* global describe, it, beforeEach, assert, lab, sinon */
+
 describe('Canvas-based components', () => {
 
   describe('Helper functions', () => {
@@ -11,15 +13,15 @@ describe('Canvas-based components', () => {
       })
     })
 
-    it('Inserts a canvas into the page if necessary', () => {
-      return c.run().then(() => {
+    it('Inserts a canvas into the page if necessary', () =>
+      c.run().then(() => {
         // Check whether a canvas has been
         // inserted into the page
         const canvas = c.options.el.getElementsByTagName('canvas')[0]
         assert.ok(canvas)
         assert.equal(canvas, c.options.canvas)
       })
-    })
+    )
 
     it('Does not insert a canvas if provided with one', () => {
       // Specify a canvas for the Screen
@@ -74,9 +76,9 @@ describe('Canvas-based components', () => {
       c.options.timeout = 20
 
       // Check that the function is called
-      return c.run().then(() => {
-        return c.waitFor('end')
-      }).then(() => {
+      return c.run().then(
+        () => c.waitFor('end')
+      ).then(() => {
         assert.ok(
           c.options.renderFunction.calledOnce
         )
@@ -88,25 +90,25 @@ describe('Canvas-based components', () => {
       c.options.timeout = 20
 
       // Check function binding
-      return c.run().then(() => {
-        return c.waitFor('end')
-      }).then(() => {
+      return c.run().then(
+        () => c.waitFor('end')
+      ).then(() => {
         assert.ok(c.options.renderFunction.calledOnce)
         assert.ok(c.options.renderFunction.alwaysCalledOn(c))
       })
     })
 
-    it('Selects 2d canvas context by default', () => {
-      return c.run().then(() => {
+    it('Selects 2d canvas context by default',
+      () => c.run().then(() => {
         assert.ok(
           c.options.ctx instanceof CanvasRenderingContext2D
         )
       })
-    })
+    )
 
     it('Calls window.cancelAnimationFrame when it ends', () => {
       // Stub window.cancelAnimationFrame
-      const fake_cAF = sinon.stub(window, 'cancelAnimationFrame');
+      const fake_cAF = sinon.stub(window, 'cancelAnimationFrame')
 
       // Run and end the Screen
       return c.run()
@@ -170,12 +172,12 @@ describe('Canvas-based components', () => {
 
       // This should cause an error
       return s.prepare()
-        .catch((error) => {
-          return assert.equal(
+        .catch(
+          error => assert.equal(
             error.message,
             'Content component not a canvas.Screen or canvas.Sequence'
           )
-        })
+        )
     })
 
     it('Runs canvas drawing operations in sequence', () => {
@@ -190,7 +192,7 @@ describe('Canvas-based components', () => {
         ctx.fill()
       }
       b.options.renderFunction = (ts, canvas, ctx, screen) => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.beginPath()
         ctx.rect(10, 0, 10, 10)
         ctx.fill()

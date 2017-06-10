@@ -1,7 +1,11 @@
+/* global describe, it, beforeEach, assert, lab, sinon */
+
 describe('Utilities', () => {
   describe('Random', () => {
 
-    let rng
+    let rng_alea,
+      rng_random
+
     beforeEach(() => {
       rng_alea = new lab.util.Random({
         algorithm: 'alea',
@@ -58,7 +62,7 @@ describe('Utilities', () => {
       )
     })
 
-    it('shuffles an array', () =>{
+    it('shuffles an array', () => {
       const array = [1, 2, 3, 4, 5]
       assert.deepEqual(
         rng_alea.shuffle(array),

@@ -1,3 +1,5 @@
+/* global describe, it, beforeEach, assert, lab, sinon */
+
 describe('Core', () => {
   describe('Component', () => {
     let b
@@ -73,22 +75,22 @@ describe('Core', () => {
         })
       })
 
-      it('directs output to default section if no other element is specified', () => {
-        return b.prepare().then(() => {
+      it('directs output to default section if no other element is specified', () =>
+        b.prepare().then(() => {
           assert.equal(
             b.options.el,
             document.querySelector('[data-labjs-section="main"]')
           )
         })
-      })
+      )
     })
 
     describe('Running', () => {
-      it('resolves promise when running', () => {
-        return b.run().then(() => {
+      it('resolves promise when running', () =>
+        b.run().then(() => {
           assert.ok(true)
         })
-      })
+      )
 
       it('updates status when running', () => {
         // Before preparation
@@ -124,10 +126,10 @@ describe('Core', () => {
       it('skips run if requested', () => {
         b.options.skip = true
 
-        spy_run = sinon.spy()
+        const spy_run = sinon.spy()
         b.on('run', spy_run)
 
-        spy_end = sinon.spy()
+        const spy_end = sinon.spy()
         b.on('end', spy_end)
 
         return b.run()
@@ -169,11 +171,11 @@ describe('Core', () => {
         })
       })
 
-      it('timer property holds a value while running', () => {
-        return b.run().then(() => {
+      it('timer property holds a value while running', () =>
+        b.run().then(() => {
           assert.notEqual(b.timer, undefined)
         })
-      })
+      )
 
       it('provides and increments timer property while running', () => {
         const clock = sinon.useFakeTimers()
@@ -621,7 +623,7 @@ describe('Core', () => {
       it('parses options that are included in parsableOptions during prepare', () => {
         // As below, this would be more cleanly
         // tested using a custom component class.
-        c = new lab.core.Component({
+        const c = new lab.core.Component({
           correctResponse: '${ parameters.correctResponse }',
           parameters: {
             correctResponse: 'inserted value',
@@ -640,7 +642,7 @@ describe('Core', () => {
       })
 
       it('doesn\'t parse options that are not included in parsableOptions', () => {
-        c = new lab.core.Component({
+        const c = new lab.core.Component({
           foo: '${ parameters.foo }',
           parameters: {
             foo: 'bar',
@@ -653,7 +655,7 @@ describe('Core', () => {
       })
 
       it('coerces types where requested', () => {
-        c = new lab.core.Component({
+        const c = new lab.core.Component({
           timeout: '${ parameters.timeout }',
           parameters: {
             timeout: '123',
@@ -714,7 +716,7 @@ describe('Core', () => {
       })
 
       it('automatically parses options set after preparing', () => {
-        c = new lab.core.Component({
+        const c = new lab.core.Component({
           parameters: {
             foo: 'bar',
           },
@@ -749,9 +751,9 @@ describe('Core', () => {
         b.options.datastore = new lab.data.Store()
 
         // Make sure the commit method was run
-        return b.run().then(() => {
-          return b.end()
-        }).then(() => {
+        return b.run().then(
+          () => b.end()
+        ).then(() => {
           assert.ok(spy.calledOnce)
         })
       })
@@ -782,17 +784,17 @@ describe('Core', () => {
         )
       })
 
-      it('saves root component internally', () => {
-        return c.prepare().then(() => {
+      it('saves root component internally', () =>
+        c.prepare().then(() => {
           assert.equal(c.internals.root, a)
         })
-      })
+      )
 
-      it('root component is undefined for topmost component', () => {
-        return a.prepare().then(() => {
+      it('root component is undefined for topmost component', () =>
+        a.prepare().then(() => {
           assert.equal(a.internals.root, undefined)
         })
-      })
+      )
     })
 
     describe('Utilities', () => {
