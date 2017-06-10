@@ -79,7 +79,10 @@ export class Form extends Screen {
     } else {
       // Mark form(s) as validated, but leave
       // the display unchanged otherwise
-      this.options.el.querySelectorAll('form')
+      // (an array conversion is needed here for IE
+      // and older browsers, who do not implement
+      // forEach on NodeLists)
+      Array.from(this.options.el.querySelectorAll('form'))
         .forEach(f => f.setAttribute('data-labjs-validated', ''))
     }
 
@@ -95,12 +98,9 @@ export class Form extends Screen {
     const output = {}
 
     // Iterate over forms ...
-    // (not that this slightly cumbersome detour
-    // is necessary because NodeLists, unlike arrays,
-    // do not support the forDach method)
-    Array.prototype.forEach.call(forms, (form) => {
+    Array.from(forms).forEach((form) => {
       // ... and elements within them
-      Array.prototype.forEach.call(form.elements, (element) => {
+      Array.from(form.elements).forEach((element) => {
         // Handle the element differently depending
         // on the tag type
         switch (element.nodeName.toLowerCase()) {

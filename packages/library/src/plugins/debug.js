@@ -184,8 +184,7 @@ export default class Debug {
     this.container.innerHTML = payload
 
     // Toggle visibility of debug window on clicks
-    this.container
-      .querySelectorAll('.labjs-debug-toggle')
+    Array.from(this.container.querySelectorAll('.labjs-debug-toggle'))
       .forEach(
         e => e.addEventListener('click', () => this.toggle()),
       )
