@@ -3,6 +3,7 @@ import { EventHandler } from './util/eventAPI'
 import { DomConnection } from './util/domEvents'
 import { parseOption, parseAllOptions } from './util/options'
 import { preloadImage, preloadAudio } from './util/preload'
+import Proxy from 'es2015-proxy'
 
 // Define status codes
 export const status = Object.freeze({
