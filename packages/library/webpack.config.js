@@ -22,7 +22,7 @@ const banner = [
 
 const config = {
   entry: {
-    js: [ './src/index.js' ],
+    js: [ 'babel-polyfill', './src/index.js' ],
   },
   module: {
     loaders: [{
