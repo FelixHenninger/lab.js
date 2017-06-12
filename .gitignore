@@ -1,6 +1,6 @@
 # build files
 docs/_build*
-library/dist
+packages/library/dist
 
 # npm
 node_modules

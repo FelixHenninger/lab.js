@@ -8,7 +8,7 @@ cache:
     - packages/builder/node_modules
 install:
   - npm install
-  - ./node_modules/.bin/lerna bootstrap
+  - npm run bootstrap
 script:
   - (cd packages/library && npm run build:starterkit)
   - (cd packages/builder && npm run build)
