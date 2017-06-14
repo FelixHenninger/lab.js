@@ -15,6 +15,7 @@ import { launch, exit } from './util/fullscreen'
 // Plugins
 import Debug from './plugins/debug'
 import Logger from './plugins/log'
+import Metadata from './plugins/metadata'
 import Transmit from './plugins/transmit'
 
 export const version = '2017.1.0'
@@ -44,6 +45,7 @@ export const flow = {
 export const plugins = {
   Debug,
   Logger,
+  Metadata,
   Transmit,
 }
 
