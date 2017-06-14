@@ -14,7 +14,7 @@ const escapeCsvCell = (c) => {
   if (typeof c === 'string') {
     // Replace double quotation marks by
     // double double quotation marks
-    c = c.replace(/"/, '""')
+    c = c.replace(/"/g, '""')
 
     // Surround a cell if it contains a comma,
     // (double) quotation marks, or a line break

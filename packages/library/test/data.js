@@ -347,6 +347,19 @@ describe('Data handling', () => {
         )
       })
 
+      it('csv export escapes all quotation marks', () => {
+        ds.commit({
+          '1': '["a", "b", "c"]',
+        })
+        assert.strictEqual(
+          ds.exportCsv(),
+          [
+            '1',
+            '"[""a"", ""b"", ""c""]"',
+          ].join('\r\n')
+        )
+      })
+
       it('exports data as a blob', () => {
         ds.commit({
           'one': 1,
