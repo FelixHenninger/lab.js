@@ -1,7 +1,8 @@
 import FileSaver from 'file-saver'
 import 'whatwg-fetch'
 
-import { assign, difference, flatten, intersection, uniq } from 'lodash'
+import { isObject, assign, difference,
+  flatten, intersection, uniq } from 'lodash'
 import { EventHandler } from './util/eventAPI'
 
 // Data saving --------------------------------------------
@@ -9,8 +10,12 @@ import { EventHandler } from './util/eventAPI'
 const defaultMetadata = ['sender', 'sender_type', 'sender_id', 'timestamp']
 
 const escapeCsvCell = (c) => {
-  // Escape CSV cells as per RFC 4180
+  // Stringify non-primitive data
+  if (isObject(c)) {
+    c = JSON.stringify(c)
+  }
 
+  // Escape CSV cells as per RFC 4180
   if (typeof c === 'string') {
     // Replace double quotation marks by
     // double double quotation marks

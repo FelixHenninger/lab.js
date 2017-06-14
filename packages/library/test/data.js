@@ -360,6 +360,21 @@ describe('Data handling', () => {
         )
       })
 
+      it('stringifies complex data types during csv export', () => {
+        ds.commit({
+          'array': [1, 2, 3, 'a', 'b', 'c'],
+          'object': { one: 1, two: 2 },
+        })
+
+        assert.strictEqual(
+          ds.exportCsv(),
+          [
+            'array,object',
+            '"[1,2,3,""a"",""b"",""c""]","{""one"":1,""two"":2}"',
+          ].join('\r\n')
+        )
+      })
+
       it('exports data as a blob', () => {
         ds.commit({
           'one': 1,
