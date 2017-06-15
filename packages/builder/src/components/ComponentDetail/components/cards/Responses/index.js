@@ -16,7 +16,6 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) => {
         fontFamily: 'Fira Mono',
         color: cellData === '' ? '#999' : 'inherit',
       }}
-      debounce={ 300 }
     >
       <option value="">undefined</option>
       <option value="keypress">keypress</option>
