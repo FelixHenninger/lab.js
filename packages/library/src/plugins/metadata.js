@@ -13,6 +13,7 @@ export default class Metadata {
     const intl = window.Intl.DateTimeFormat().resolvedOptions()
 
     context.data.meta = {
+      location: window.location.href,
       userAgent: window.navigator.userAgent,
       platform: window.navigator.platform,
       language: window.navigator.language,
