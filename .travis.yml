@@ -4,8 +4,6 @@ node_js:
 cache:
   directories:
     - node_modules
-    - packages/library/node_modules
-    - packages/builder/node_modules
 install:
   - npm install
   - npm run bootstrap
