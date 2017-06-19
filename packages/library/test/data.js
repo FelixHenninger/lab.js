@@ -317,7 +317,7 @@ describe('Data handling', () => {
         )
       })
 
-      it('csv export places cells in quotation marks if required', () => {
+      it('places cells in quotation marks if required for csv export', () => {
         ds.commit({
           '1': 'a',
           '2': 'b,',
@@ -332,7 +332,7 @@ describe('Data handling', () => {
         )
       })
 
-      it('csv export escapes quotation marks in cells', () => {
+      it('escapes quotation marks in cells during csv export', () => {
         ds.commit({
           '1': 'a',
           '2': 'b"',
@@ -347,7 +347,7 @@ describe('Data handling', () => {
         )
       })
 
-      it('csv export escapes all quotation marks', () => {
+      it('escapes all quotation marks during csv export', () => {
         ds.commit({
           '1': '["a", "b", "c"]',
         })
