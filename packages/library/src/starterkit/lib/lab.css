@@ -91,6 +91,9 @@ footer {
   line-height: var(--line-height);
 }
 header, footer, main {
+  /* Set display style explicitly for legacy browsers
+     that are unfamiliar with these elements */
+  display: block;
   text-align: center;
 }
 h1, h2, h3 {
