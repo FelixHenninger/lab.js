@@ -16,5 +16,21 @@ describe('Plugins', () => {
         )
       })
     })
+
+    it('saves metadata directly to datastore, if there is one', () => {
+      const c = new lab.core.Component({
+        plugins: [
+          new lab.plugins.Metadata(),
+        ],
+        datastore: new lab.data.Store(),
+      })
+
+      return c.prepare().then(() => {
+        assert.include(
+          c.options.datastore.staging.meta,
+          { userAgent: window.navigator.userAgent },
+        )
+      })
+    })
   })
 })
