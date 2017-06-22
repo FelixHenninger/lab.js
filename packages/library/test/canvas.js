@@ -185,7 +185,7 @@ describe('Canvas-based components', () => {
       // to speed up the test, and to avoid
       // probabilistic failures due to frame
       // timing during testing.
-      sinon.stub(window, 'requestAnimationFrame', fn => fn())
+      sinon.stub(window, 'requestAnimationFrame').callsFake(fn => fn())
 
       a.options.renderFunction = (ts, canvas, ctx, screen) => {
         ctx.rect(0, 0, 10, 10)

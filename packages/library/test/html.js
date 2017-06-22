@@ -78,8 +78,7 @@ describe('HTML-based components', () => {
           'Content-type': 'text/html',
         },
       })
-      sinon.stub(window, 'fetch')
-      window.fetch.returns(Promise.resolve(content_response))
+      sinon.stub(window, 'fetch').resolves(content_response)
       h.options.contentUrl = 'https://contrived.example/'
 
       h.options.parameters['place'] = 'Pluto'

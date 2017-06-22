@@ -182,7 +182,7 @@ describe('Core', () => {
 
         // Stub performance.now for the time being,
         // as described in https://github.com/sinonjs/sinon/issues/803
-        sinon.stub(performance, 'now', Date.now)
+        sinon.stub(performance, 'now').callsFake(Date.now)
 
         return b.run().then(() => {
           // Simulate progress of time and check timer
@@ -201,7 +201,7 @@ describe('Core', () => {
       it('timer property remains static after run is complete', () => {
         // As above
         const clock = sinon.useFakeTimers()
-        sinon.stub(performance, 'now', Date.now)
+        sinon.stub(performance, 'now').callsFake(Date.now)
 
         return b.run().then(() => {
           clock.tick(500)
