@@ -2,6 +2,18 @@
 
 describe('HTML-based components', () => {
 
+  // Inject a div in which DOM behavior is tested
+  let demoElement
+  beforeEach(() => {
+    demoElement = document.createElement('div')
+    demoElement.dataset.labjsSection = 'main'
+    document.body.appendChild(demoElement)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(demoElement)
+  })
+
   describe('Screen', () => {
     let h, el
 

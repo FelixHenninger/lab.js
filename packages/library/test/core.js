@@ -1,6 +1,19 @@
 /* global describe, it, beforeEach, assert, lab, sinon */
 
 describe('Core', () => {
+
+  // Inject a div in which DOM behavior is tested
+  let demoElement
+  beforeEach(() => {
+    demoElement = document.createElement('div')
+    demoElement.dataset.labjsSection = 'main'
+    document.body.appendChild(demoElement)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(demoElement)
+  })
+
   describe('Component', () => {
     let b
 
