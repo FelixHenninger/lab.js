@@ -71,7 +71,6 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
             fontFamily: 'Fira Mono',
             color: cellData.message === '' ? '#999' : 'inherit',
           }}
-          debounce={ 300 }
         >
           <option value="">event</option>
           <option value="before:prepare">before:prepare</option>
