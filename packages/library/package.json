@@ -87,7 +87,7 @@
     "clean:js": "rm -rfv dist && mkdir dist",
     "lint": "eslint src",
     "prepublish": "npm run build:starterkit",
-    "test": "karma start --single-run --browsers ChromeCanaryHeadless karma.conf.js",
+    "test": "karma start --single-run --browsers ChromeHeadless karma.conf.js",
     "watch:js": "onchange 'src/**/*' -- npm run build:js"
   }
 }

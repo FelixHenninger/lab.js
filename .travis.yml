@@ -1,4 +1,7 @@
 language: node_js
+dist: trusty
+addons:
+  chrome: stable
 node_js:
   - "node"
 git:
@@ -11,5 +14,6 @@ install:
   - npm run bootstrap
 script:
   - (cd packages/library && npm run build:starterkit)
+  - (cd packages/library && npm test)
   - (cd packages/builder && npm run build)
-  - (cd packages/builder && npm run test)
+  - (cd packages/builder && npm test)
