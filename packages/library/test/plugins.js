@@ -1,4 +1,6 @@
-/* global describe, it, assert, lab */
+/* global describe, it, assert */
+
+define(['lab'], (lab) => {
 
 describe('Plugins', () => {
   describe('Metadata', () => {
@@ -33,4 +35,6 @@ describe('Plugins', () => {
       })
     })
   })
+})
+
 })

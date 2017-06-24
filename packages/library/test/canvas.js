@@ -1,4 +1,6 @@
-/* global describe, it, beforeEach, assert, lab, sinon */
+/* global describe, it, beforeEach, assert, sinon */
+
+define(['lab'], (lab) => {
 
 describe('Canvas-based components', () => {
 
@@ -256,4 +258,5 @@ describe('Canvas-based components', () => {
         })
     })
   })
+})
 })

@@ -1,4 +1,6 @@
-/* global describe, it, beforeEach, assert, lab, sinon */
+/* global describe, it, beforeEach, afterEach, assert, sinon */
+
+define(['lab'], (lab) => {
 
 describe('Utilities', () => {
   describe('Random', () => {
@@ -99,6 +101,26 @@ describe('Utilities', () => {
   })
 
   describe('fromObject', () => {
+
+    // The fromObject utility function (currently) assumes that the library
+    // is available as a global variable. This is not the case with karma-based
+    // testing, so the following code injects the local variable into the
+    // global namespace if necessary.
+    let libraryInjected = false
+
+    beforeEach(() => {
+      if (!window.lab) {
+        libraryInjected = true
+        window.lab = lab
+      }
+    })
+
+    afterEach(() => {
+      if (libraryInjected) {
+        delete window.lab
+      }
+    })
+
     it('Creates a lab.js component from a base object', () => {
       const c = lab.util.fromObject({
         type: 'lab.core.Component'
@@ -160,4 +182,6 @@ describe('Utilities', () => {
       )
     })
   })
+})
+
 })

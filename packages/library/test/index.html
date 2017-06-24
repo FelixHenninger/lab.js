@@ -21,8 +21,16 @@
   <!-- Optional coverage testing via blanket.js, needs local server (e.g. python -m http.server)
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blanket.js/1.1.4/blanket.min.js" data-cover-adapter="https://raw.githubusercontent.com/alex-seville/blanket/master/src/adapters/mocha-blanket.js"></script>
   -->
-  <script src="../dist/lab.dev.js" data-cover></script>
+  <script src="../dist/lab.js" data-cover></script>
   <script>
+    // Shim the require.js define function
+    // to pull in requirements via global variables
+    var define = function(dependencies, callback) {
+      callback.apply(
+        this, dependencies.map(function(d) { return window[d] })
+      )
+    }
+
     // Setup mocha in BDD mode
     mocha.setup('bdd')
     // Use assert-style tests

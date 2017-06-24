@@ -1,4 +1,6 @@
-/* global describe, it, beforeEach, assert, lab, sinon, _ */
+/* global describe, it, beforeEach, assert, sinon, _ */
+
+define(['lab'], (lab) => {
 
 describe('Flow control', () => {
 
@@ -447,5 +449,7 @@ describe('Flow control', () => {
       assert.equal(p.progress, 1)
     })
   })
+
+})
 
 })

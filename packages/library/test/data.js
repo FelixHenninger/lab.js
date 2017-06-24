@@ -1,4 +1,6 @@
-/* global describe, it, beforeEach, assert, lab, sinon */
+/* global describe, it, beforeEach, assert, sinon */
+
+define(['lab'], (lab) => {
 
 describe('Data handling', () => {
   describe('Store', () => {
@@ -481,4 +483,6 @@ describe('Data handling', () => {
       })
     })
   })
+})
+
 })
