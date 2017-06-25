@@ -8,14 +8,15 @@ Object.keys(window.__karma__.files).forEach((file) => {
     var normalizedTestModule = file.replace(/^\/base\/|\.js$/g, '')
     allTestFiles.push(normalizedTestModule)
   }
-});
+})
 
 require.config({
   // Karma serves files under /base, which is the basePath from your config file
   baseUrl: '/base',
 
   paths: {
-    'lab': '/base/dist/lab'
+    'lab': '/base/dist/lab',
+    '_': '/base/node_modules/lodash/lodash.min'
   },
 
   // dynamically load all test files

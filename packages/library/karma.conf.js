@@ -15,10 +15,10 @@ module.exports = (config) => {
 
     // list of files / patterns to load in the browser
     files: [
-      { pattern: 'dist/lab.js', included: false },
       'test/_bootstrap.js',
-      'https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js',
-      { pattern: 'test/**/*.js', serve: true, included: false },
+      { pattern: 'dist/lab.js', included: false },
+      { pattern: 'node_modules/lodash/lodash.min.js', included: false },
+      { pattern: 'test/**/*.js', included: false },
     ],
 
     // list of files to exclude

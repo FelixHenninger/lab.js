@@ -1,6 +1,6 @@
-/* global describe, it, beforeEach, assert, sinon, _ */
+/* global describe, it, beforeEach, assert, sinon */
 
-define(['lab'], (lab) => {
+define(['lab', '_'], (lab, _) => {
 
 describe('Flow control', () => {
 
