@@ -25,7 +25,6 @@ const IOButton = (_, context) =>
         onClick={() => {
           if (window.confirm('Do you really want to reset the study?')) {
             context.store.dispatch({ type: 'RESET_STATE' })
-            context.store.dispatch({ type: 'SHOW_COMPONENT_DETAIL', id: null })
           }
         }}
       >

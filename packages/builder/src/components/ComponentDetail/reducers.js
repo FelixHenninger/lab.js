@@ -14,6 +14,8 @@ export default (state=defaultState, action) => {
           id: action.id
         },
       }
+    case 'RESET_STATE':
+      return defaultState
     default:
       return state
   }

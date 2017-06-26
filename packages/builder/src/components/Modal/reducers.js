@@ -1,9 +1,9 @@
-const initialState = {
+const defaultState = {
   modalType: null,
   modalProps: {},
 }
 
-export default (state=initialState, action) => {
+export default (state=defaultState, action) => {
   switch(action.type) {
     case 'SHOW_MODAL':
       return {
@@ -11,7 +11,8 @@ export default (state=initialState, action) => {
         modalProps: action.modalProps
       }
     case 'HIDE_MODAL':
-      return initialState
+    case 'RESET_STATE':
+      return defaultState
     default:
       return state
   }
