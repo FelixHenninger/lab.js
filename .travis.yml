@@ -3,6 +3,7 @@ dist: trusty
 sudo: false
 addons:
   chrome: stable
+  sauce_connect: true
 node_js:
   - "node"
 git:
@@ -16,5 +17,6 @@ install:
 script:
   - (cd packages/library && npm run build:starterkit)
   - (cd packages/library && npm test)
+  - (cd packages/library && npm run test:sauce)
   - (cd packages/builder && npm run build)
   - (cd packages/builder && npm test)

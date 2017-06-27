@@ -19,12 +19,7 @@ const customLaunchers = {
     version: 'latest',
     platform: 'Windows 10'
   },
-  'sl_firefox_beta': {
-    base: 'SauceLabs',
-    browserName: 'firefox',
-    version: 'beta',
-    platform: 'Windows 10'
-  },
+  // Firefox beta is (currently) very unstable
   'sl_edge_latest': {
     base: 'SauceLabs',
     browserName: 'microsoftedge',
