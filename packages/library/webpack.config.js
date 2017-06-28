@@ -2,17 +2,21 @@ const path = require('path')
 const webpack = require('webpack')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
-// Minimize output unless development mode
-// is explicitly specified
-const minimize = !process.argv.find(x => x === '-d')
+// Non-minified development version
+const development = process.argv.includes('-d')
+
+// Add coverage information if requested
+const coverage = process.env.NODE_ENV === 'coverage'
 
 // Set output file name
 let outputFilename
 
-if (minimize) {
-  outputFilename = 'lab.js'
-} else {
+if (coverage) {
+  outputFilename = 'lab.coverage.js'
+} else if (development) {
   outputFilename = 'lab.dev.js'
+} else {
+  outputFilename = 'lab.js'
 }
 
 const banner = [
@@ -41,7 +45,7 @@ const config = {
       },
     }],
   },
-  devtool: minimize ? 'source-map' : 'inline-source-map',
+  devtool: development ? 'inline-source-map' : 'source-map',
   plugins: [
     new LodashModuleReplacementPlugin(),
     new webpack.BannerPlugin({
@@ -60,7 +64,7 @@ const config = {
 
 // Optimize/minimize output
 // by including the corresponding plugins
-if (minimize) {
+if (!development) {
   // TODO: Can we generate this
   // automatically from the library?
   const reservedTerms = [
@@ -73,6 +77,7 @@ if (minimize) {
     // Utilities
     'Random', 'fromObject',
   ]
+  // Minify code
   config.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
       reserve: reservedTerms,
@@ -88,6 +93,9 @@ if (minimize) {
     // eslint-disable-next-line comma-dangle
     new webpack.optimize.OccurrenceOrderPlugin()
   )
+} else if (coverage) {
+  // Add code coverage instrumentation
+  config.module.loaders[0].query.plugins.push('istanbul')
 }
 
 module.exports = config

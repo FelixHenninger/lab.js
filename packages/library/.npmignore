@@ -1,1 +1,4 @@
+/coverage
+/dist/lab.coverage.js
 /examples
+/sauce_connect.log

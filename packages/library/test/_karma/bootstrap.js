@@ -15,7 +15,9 @@ require.config({
   baseUrl: '/base',
 
   paths: {
-    'lab': '/base/dist/lab',
+    'lab': window.__karma__.config.args.includes('coverage')
+      ? '/base/dist/lab.coverage'
+      : '/base/dist/lab',
     '_': '/base/node_modules/lodash/lodash.min'
   },
 
