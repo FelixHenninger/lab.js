@@ -243,16 +243,35 @@ describe('Flow control', () => {
 
       // Before everything starts
       assert.equal(s.progress, 0)
-      s.run()
-      assert.equal(s.progress, 0)
 
-      // First nested component
-      a.end()
-      assert.equal(s.progress, 0.5)
+      return s.run().then(() => {
+        assert.equal(s.progress, 0)
+        // End first nested component
+        return a.end()
+      }).then(() => {
+        assert.equal(s.progress, 0.5)
+        // End second nested component
+        return b.end()
+      }).then(() => {
+        assert.equal(s.progress, 1)
+      })
+    })
 
-      // Second nested component
-      b.end()
-      assert.equal(s.progress, 1)
+    it('throws error when there is no content left to step through', () => {
+      // Setup sequence
+      const a = new lab.core.Dummy()
+      s.options.content = [a]
+
+      let error
+
+      return s.run().then(() => {
+        s.step().catch(err => (error = err))
+      }).then(() => {
+        assert.equal(
+          error.message,
+          'Sequence ended, can\'t take any more steps'
+        )
+      })
     })
   })
 
@@ -274,19 +293,21 @@ describe('Flow control', () => {
         ],
       })
 
-      assert.ok(
-        l.options.content.every(c =>
-          c.options.parameters.constantParameter ===
-          t.options.parameters.constantParameter
+      return l.prepare().then(() => {
+        assert.ok(
+          l.options.content.every(c =>
+            c.options.parameters.constantParameter ===
+            t.options.parameters.constantParameter
+          )
         )
-      )
 
-      const expectedValues = ['one', 'two', 'three']
-      assert.ok(
-        l.options.content.every((c, i) =>
-          c.options.parameters.customParameter === expectedValues[i]
+        const expectedValues = ['one', 'two', 'three']
+        assert.ok(
+          l.options.content.every((c, i) =>
+            c.options.parameters.customParameter === expectedValues[i]
+          )
         )
-      )
+      })
     })
 
     it('uses a template function to generate content', () => {
@@ -301,33 +322,34 @@ describe('Flow control', () => {
         ],
       })
 
-      assert.ok(
-        l.options.content.every(c =>
-          c.options.parameters.constantParameter === 'constant'
+      return l.prepare().then(() => {
+        assert.ok(
+          l.options.content.every(c =>
+            c.options.parameters.constantParameter === 'constant'
+          )
         )
-      )
 
-      const expectedValues = ['one', 'two', 'three']
-      assert.ok(
-        l.options.content.every((c, i) =>
-          c.options.parameters.customParameter === expectedValues[i]
+        const expectedValues = ['one', 'two', 'three']
+        assert.ok(
+          l.options.content.every((c, i) =>
+            c.options.parameters.customParameter === expectedValues[i]
+          )
         )
-      )
+      })
     })
 
     it('issues warning if no template, or an invalid one, is provided', () => {
       sinon.stub(console, 'warn')
 
       // This should someday be replaced by chai-as-promised
-      return new lab.flow.Loop().prepare()
-        .then(() => {
-          assert.ok(
-            console.warn.withArgs(
-              'Missing or invalid template in loop, no content generated'
-            ).calledOnce
-          )
-          console.warn.restore()
-        })
+      return new lab.flow.Loop().prepare().then(() => {
+        assert.ok(
+          console.warn.withArgs(
+            'Missing or invalid template in loop, no content generated'
+          ).calledOnce
+        )
+        console.warn.restore()
+      })
     })
 
     it('doesn\'t choke when parameters are empty', () => {
@@ -430,23 +452,24 @@ describe('Flow control', () => {
       })
       p.options.content = [a, b]
 
-      p.run()
-      assert.equal(p.progress, 0)
-
-      a1.end()
-      assert.equal(p.progress, 0.25)
-
-      b1.end()
-      assert.closeTo(p.progress, 2.5/6, Math.exp(10, -5))
-
-      b2.end()
-      assert.closeTo(p.progress, 3.5/6, Math.exp(10, -5))
-
-      a2.end()
-      assert.closeTo(p.progress, 5/6, Math.exp(10, -5))
-
-      b3.end()
-      assert.equal(p.progress, 1)
+      return p.run().then(() => {
+        assert.equal(p.progress, 0)
+        return a1.end()
+      }).then(() => {
+        assert.equal(p.progress, 0.25)
+        return b1.end()
+      }).then(() => {
+        assert.closeTo(p.progress, 2.5/6, Math.exp(10, -5))
+        return b2.end()
+      }).then(() => {
+        assert.closeTo(p.progress, 3.5/6, Math.exp(10, -5))
+        return a2.end()
+      }).then(() => {
+        assert.closeTo(p.progress, 5/6, Math.exp(10, -5))
+        return b3.end()
+      }).then(() => {
+        assert.equal(p.progress, 1)
+      })
     })
   })
 
