@@ -40,4 +40,41 @@ export default (props) =>
         </FormGroup>
       </Col>
     </FormGroup>
+    <FormGroup row>
+      <Col xs={2}>
+        <Label
+          xs={2}
+          style={{
+            paddingTop: '0', // This is a hack to override .col-form-label
+          }}
+        >
+          Run
+        </Label>
+      </Col>
+      <Col xs={10}>
+        <FormGroup check>
+          <Label check>
+            <Control.checkbox
+              model=".skip"
+              className="form-check-input"
+            />
+            &thinsp;
+            Skip
+          </Label>
+          <Hint
+            title="Skip"
+            style={{
+              marginLeft: '1rem',
+            }}
+          >
+            <p className="font-weight-bold">
+              Don't run the component during the study.
+            </p>
+            <p className="text-muted">
+              This will cause any component to be prepared, but not run.
+            </p>
+          </Hint>
+        </FormGroup>
+      </Col>
+    </FormGroup>
   </Card>

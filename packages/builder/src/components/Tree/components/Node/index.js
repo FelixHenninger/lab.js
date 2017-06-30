@@ -14,13 +14,14 @@ import classnames from 'classnames'
 import './index.css'
 
 const NodeBody = (
-  { id, parent, index, active, isDragging, children },
+  { id, parent, index, active, skipped, isDragging, children },
   { onNodeClick, onNodeDelete }
 ) =>
   <NavLink
     href='#' active={ active }
     className={ classnames({
       isDragging,
+      'text-muted': skipped
     }) }
   >
     <div
@@ -28,6 +29,9 @@ const NodeBody = (
       onClick={ () => onNodeClick(id) }
     >
       { children }
+      { skipped
+        ? <i className="fa fa-minus-circle" aria-hidden="true"></i>
+        : null }
     </div>
     <div className='nav-link-tools'>
       <NodeDropDown
@@ -118,6 +122,7 @@ const Node = ({ id, parentId, index, data, active, renderBody,
               parent={ parentId }
               index={ index }
               active={ active }
+              skipped={ data.skip }
               isDragging={ isDragging }
             >
               { data.title }

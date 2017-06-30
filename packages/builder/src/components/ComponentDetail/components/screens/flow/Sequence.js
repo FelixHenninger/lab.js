@@ -23,7 +23,7 @@ class Sequence extends Component {
           'responses',
           'correctResponse', 'timeout',
           'messageHandlers',
-          'tardy',
+          'tardy', 'skip',
         ])
       }
       onChange={ newData => updateComponent(this.context.store, id, newData) }

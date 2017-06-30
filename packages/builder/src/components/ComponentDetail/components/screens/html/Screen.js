@@ -25,7 +25,7 @@ class Screen extends Component {
           'content', 'responses',
           'correctResponse', 'timeout',
           'messageHandlers',
-          'tardy',
+          'tardy', 'skip',
         ])
       }
       onChange={ newData => updateComponent(context.store, id, newData) }

@@ -17,6 +17,7 @@
 /* Content spacing */
 .tree-node a.nav-link {
   display: flex;
+  min-height: 45px;
 }
 .tree-node a.nav-link div.nav-link-main {
   flex-grow: 1;
@@ -34,6 +35,15 @@
    TODO: There should be a spacer in every case */
 .tree-node .nav.nav-pills li.nav-item:first-child {
   margin-top: 4px;
+}
+
+/* Icon indicators */
+.tree-node a.nav-link .fa {
+  opacity: 0.25;
+  font-size: 0.7em;
+  margin-left: 0.6em;
+  position: relative;
+  top: -0.05em;
 }
 
 /* Tree indentation */
