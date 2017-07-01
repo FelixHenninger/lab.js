@@ -1,0 +1,42 @@
+.dropTarget {
+  height: 0;
+  transition: height 0.15s;
+}
+
+.dropTarget.dropTarget-available {
+  height: 15px;
+}
+
+.dropTarget.dropTarget-hover {
+  height: 48px;
+  padding: 10px 0;
+}
+
+.dropTargetButton {
+  height: 0;
+  opacity: 0;
+  border: 1px solid rgba(0, 0, 0, 0);
+
+  border-radius: 0.25rem;
+  transition: height 0.20s, opacity 0.10s 0.06s;
+}
+
+.dropTarget.dropTarget-hover .dropTargetButton {
+  height: 28px;
+  opacity: 1;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Debug helpers
+.dropTarget {
+  background-color: rgba(0, 0, 255, 0.1);
+}
+.dropTarget.dropTarget-available {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+.dropTarget.dropTarget-hover {
+  background-color: rgba(0, 255, 0, 0.1);
+}
+*/
+
+

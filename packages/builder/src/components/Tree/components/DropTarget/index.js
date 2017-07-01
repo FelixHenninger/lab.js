@@ -1,5 +1,6 @@
 import React from 'react'
 import { DropTarget } from 'react-dnd'
+import classnames from 'classnames'
 
 // TODO: There must be a better way of passing through the store?
 //   Possibly the necessary data can be accessed through props,
@@ -7,40 +8,19 @@ import { DropTarget } from 'react-dnd'
 import store from '../../../../store'
 import { nestedChildren } from '../../../../logic/tree'
 
-// TODO: Move this into a CSS file
-const dropTargetStyles = {
-  base: {
-    height: '0',
-    marginLeft: '8px',
-    border: 'none',
-    borderRadius: '0.25rem',
-    transition: 'height 0.15s',
-  },
-  inert: {
-  },
-  available: {
-    height: '0.5rem',
-  },
-  hover: {
-    height: '2rem',
-    border: '1px dashed rgba(0, 0, 0, 0.15)',
-  }
-}
+import './index.css'
 
 const TreeDropTarget = (props) =>
   props.connectDropTarget(
     <div
-      style={
-        Object.assign({},
-          dropTargetStyles.base,
-          props.validTarget
-          ? dropTargetStyles.hover
-          : (props.canDrop
-            ? dropTargetStyles.available
-            : dropTargetStyles.inert)
-        )
-      }
-    />
+      className={ classnames({
+        'dropTarget': true,
+        'dropTarget-available': props.canDrop,
+        'dropTarget-hover': props.validTarget & props.canDrop,
+      }) }
+    >
+      <div className="dropTargetButton" />
+    </div>
   )
 
 // Wrap everything up  to conform to react-dnd ---------------------------------

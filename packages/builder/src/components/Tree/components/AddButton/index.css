@@ -1,38 +1,34 @@
+/* Actual button styles */
 div.addButton {
+  height: 2px;
+  margin: 0;
+  overflow-y: hidden;
+  opacity: 0;
+
+  /* The animation is design to add margins first,
+     then expand the button, and finally add opacity.
+     These factors are controlled so that the button
+     borders have passed any element above before
+     they are visible to avoid overlaps */
+  transition: height 0.20s 0.05s, margin 0.20s 0.04s, opacity 0.10s 0.06s;
+
   font-size: 0.8rem;
   text-align: center;
   color: rgba(0, 0, 0, 0.2);
   border-radius: 0.25rem;
   border: 1px solid rgba(0, 0, 0, 0);
-  /*
-    Attempts to move the widget slightly
-    above its surroundings so that the hover area
-    is larger without taking up screen space
-  */
-  position: relative;
-  z-index: 10;
-  top: -2px;
-  margin-top: -2px;
-  margin-bottom: -2px;
-  height: 8px;
-  transition: height 0.15s 0.025s, border-color 0.05s 0.025s;
-  overflow-y: hidden;
-}
-div.addButton:hover, div.addButton.addButton-pinned {
-  height: 30px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* Reset the positioning hacks if the button is pinned */
+div.nodeGap:hover div.addButton,
 div.addButton.addButton-pinned {
-  top: 0;
-  margin-top: 4px;
-  margin-bottom: 6px;
+  height: 28px;
+  margin: 12px 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  opacity: 1;
 }
 
-/* Button content: plus sign */
 div.addButton > .fa-plus {
   display: block;
   position: relative;
-  top: 0.55rem;
+  top: 0.575rem;
 }

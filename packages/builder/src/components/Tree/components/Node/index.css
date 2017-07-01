@@ -50,3 +50,32 @@
 .tree-node li.nav-item ul.nav-pills {
   margin-left: 0.75rem;
 }
+
+/* Gap between nodes */
+.tree-node .nodeGap {
+  /* The difference between the height
+     and the negative margin determines
+     the displacement, or the actual
+     space taken up by the gap */
+  min-height: 20px;
+  margin: -8px 0;
+
+  /* z-index is only applied to positioned elements */
+  position: relative;
+  z-index: 5;
+
+  /* Prevent margin collapse */
+  overflow: auto;
+}
+
+/* Debug helpers
+.tree-node > div:first-child {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  background-color: red;
+}
+
+.tree-node .nodeGap {
+  background-color: rgba(0, 255, 0, 0.25);
+}
+ */
+

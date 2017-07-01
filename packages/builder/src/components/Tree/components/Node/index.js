@@ -52,19 +52,15 @@ const NodeTail = ({ id, children, pinned, vacancies }, { onNodeAdd }) =>
   <Nav pills className='flex-column'>
     {
       !vacancies ? null :
-        <div>
-          <li>
-            <DropTarget
-              id={ id } index={ 0 }
-            />
-          </li>
-          <li>
-            <AddButton
-              id={ id } index={ 0 }
-              onClick={ () => onNodeAdd(id, 0) }
-              pinned={ pinned }
-            />
-          </li>
+        <div className="nodeGap">
+          <DropTarget
+            id={ id } index={ 0 }
+          />
+          <AddButton
+            id={ id } index={ 0 }
+            onClick={ () => onNodeAdd(id, 0) }
+            pinned={ pinned }
+          />
         </div>
     }
     {
@@ -77,7 +73,7 @@ const NodeTail = ({ id, children, pinned, vacancies }, { onNodeAdd }) =>
           {
             /* Allow users to add more children only if there are vacancies */
             !vacancies ? null :
-              <div>
+              <div className="nodeGap">
                 <DropTarget
                   id={ id } index={ childIndex + 1 }
                 />
