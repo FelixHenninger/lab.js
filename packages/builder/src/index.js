@@ -38,7 +38,7 @@ persistState(store)
 
 // Enable preview service worker
 // eslint-disable-next-line import/first
-import installPreviewWorker from './logic/preview/worker'
+import installPreviewWorker from './logic/io/preview/worker'
 installPreviewWorker(store)
 
 // Wrap main app component

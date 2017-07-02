@@ -1,4 +1,5 @@
 import { makeDataURI } from '../../../util/dataURI'
+import { exportStatic } from '../index'
 
 const backend_php = `<?php
 
@@ -63,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 const htaccess = `Deny from all`
 
-export const phpBackendStatic = {
+const phpBackendStatic = {
   'backend.php': {
     content: makeDataURI(backend_php, 'application/php'),
   },
@@ -72,7 +73,7 @@ export const phpBackendStatic = {
   },
 }
 
-export const addTransmitPlugin = (state) => {
+const addTransmitPlugin = (state) => {
   // Add transmit plugin to root component
   state.components.root.plugins = [
     { type: 'lab.plugins.Transmit', url: 'backend.php' }
@@ -80,3 +81,6 @@ export const addTransmitPlugin = (state) => {
 
   return state
 }
+
+export default state =>
+  exportStatic(state, addTransmitPlugin, phpBackendStatic)

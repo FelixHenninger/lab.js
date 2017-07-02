@@ -1,5 +1,5 @@
 import Raven from 'raven-js'
-import { prePopulateCache } from './io'
+import { prePopulateCache } from './index'
 
 export default (store) => {
   if ('serviceWorker' in navigator) {

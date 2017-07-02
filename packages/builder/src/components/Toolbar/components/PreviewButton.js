@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'reactstrap'
 
-import { populateCache } from '../../../logic/preview/io'
+import { populateCache } from '../../../logic/io/preview'
 import { addDebugPlugin } from '../../../logic/io/export/modifiers/preview'
-import PreviewWindow from '../../../logic/preview/PreviewWindow'
+import PreviewWindow from '../../../logic/io/preview/PreviewWindow'
 
 export default class PreviewButton extends Component {
   constructor(props) {

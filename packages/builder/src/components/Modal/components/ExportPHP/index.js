@@ -3,16 +3,14 @@ import PropTypes from 'prop-types'
 import { Alert } from 'reactstrap'
 import Confirm from '../Confirm'
 
-import { exportStatic } from '../../../../logic/io/export'
-import { phpBackendStatic, addTransmitPlugin }
-  from '../../../../logic/io/export/modifiers/php'
+import exportStaticPHP from '../../../../logic/io/export/modifiers/php'
 
 const ExportPHP = ({ closeHandler }, { store }) =>
   <Confirm
     title={ <span>Export with <code>PHP</code> backend</span> }
     confirmLabel="Continue with download"
     confirmHandler={ () => {
-      exportStatic(store.getState(), addTransmitPlugin, phpBackendStatic)
+      exportStaticPHP(store.getState())
       closeHandler()
     } }
     closeHandler={ closeHandler }

@@ -7,7 +7,7 @@ import { Button, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import Uploader from '../../../Uploader'
 import { fromJSON } from '../../../../logic/io/load'
 import { stateToDownload } from '../../../../logic/io/save'
-import { exportStatic } from '../../../../logic/io/export'
+import exportStaticDefault from '../../../../logic/io/export/modifiers/default'
 
 const IOButton = (_, context) =>
   <Dropdown
@@ -65,7 +65,7 @@ const IOButton = (_, context) =>
       <DropdownItem divider/>
       <DropdownItem header>Export as bundle</DropdownItem>
       <DropdownItem
-        onClick={ () => exportStatic(context.store.getState()) }
+        onClick={ () => exportStaticDefault(context.store.getState()) }
       >
         Plain <span className='text-muted'>(no backend)</span>
       </DropdownItem>

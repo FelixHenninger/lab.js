@@ -1,7 +1,7 @@
-import { fromPairs, zip, pickBy, isEmpty, cloneDeep } from 'lodash'
+import { fromPairs, zip, pickBy, isEmpty } from 'lodash'
 import serialize from 'serialize-javascript'
 
-import { makeType } from '../util/makeType'
+import { makeType } from '../../util/makeType'
 
 // Generic grid processing
 const processGrid = (grid, colnames=null, types=undefined) =>
@@ -134,12 +134,9 @@ study.options.datastore = new lab.data.Store()
 // Let's go!
 study.run()`
 
-export const processStudy = (state, modifier=state => state) => {
-  // Apply modifier function to (a copy of) the study object
-  const study = modifier(cloneDeep(state))
-
+export const makeScript = (state, modifier) => {
   // Process study tree
-  const componentTree = makeComponentTree(study.components, 'root')
+  const componentTree = makeComponentTree(state.components, 'root')
   const studyTreeJSON = serialize(componentTree, { space: 2 })
   return makeStudyScript(studyTreeJSON)
 }
