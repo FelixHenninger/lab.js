@@ -194,7 +194,7 @@ describe('Data handling', () => {
     })
 
     describe('Local persistence', () => {
-      it('Saves state into local storage if requested', () => {
+      it('saves state into session storage if requested', () => {
         const persistent_ds = new lab.data.Store({
           persistence: 'session'
         })
@@ -210,7 +210,7 @@ describe('Data handling', () => {
         sessionStorage.clear()
       })
 
-      it('Recovers state from local storage', () => {
+      it('recovers state from storage', () => {
         // Save some data in sessionStorage
         const json_data = '[{"a": 1, "b": "foo"}]'
         sessionStorage.setItem('lab.js-data', json_data)
@@ -231,7 +231,7 @@ describe('Data handling', () => {
         sessionStorage.clear()
       })
 
-      it('Fails gracefully if local data are invalid', () => {
+      it('fails gracefully if local data are invalid', () => {
         sessionStorage.setItem('lab.js-data', 'clearly_not_json')
         const persistent_ds = new lab.data.Store({
           persistence: 'session'

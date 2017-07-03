@@ -15,7 +15,7 @@ describe('Canvas-based components', () => {
       })
     })
 
-    it('Inserts a canvas into the page if necessary', () =>
+    it('inserts a canvas into the page if necessary', () =>
       c.run().then(() => {
         // Check whether a canvas has been
         // inserted into the page
@@ -25,7 +25,7 @@ describe('Canvas-based components', () => {
       })
     )
 
-    it('Does not insert a canvas if provided with one', () => {
+    it('does not insert a canvas if provided with one', () => {
       // Specify a canvas for the Screen
       c.options.canvas = document.createElement('canvas')
 
@@ -38,7 +38,7 @@ describe('Canvas-based components', () => {
       })
     })
 
-    it('Sets canvas width and height correctly', () => {
+    it('sets canvas width and height correctly', () => {
       // Set dimensions on the surrounding element
       c.options.el.style.height = '200px'
       c.options.el.style.width = '300px'
@@ -64,12 +64,11 @@ describe('Canvas-based components', () => {
     beforeEach(() => {
       // Reset screen
       c = new lab.canvas.Screen({
-        renderFunction: () => null, // dummy drawing function
         el: document.createElement('div')
       })
     })
 
-    it('Executes render function when run', () => {
+    it('executes render function when run', () => {
       c.options.renderFunction = sinon.spy()
 
       // The test here is constructed so that
@@ -87,7 +86,7 @@ describe('Canvas-based components', () => {
       })
     })
 
-    it('Runs render function in component context', () => {
+    it('runs render function in component context', () => {
       c.options.renderFunction = sinon.spy()
       c.options.timeout = 20
 
@@ -100,7 +99,7 @@ describe('Canvas-based components', () => {
       })
     })
 
-    it('Selects 2d canvas context by default',
+    it('selects 2d canvas context by default',
       () => c.run().then(() => {
         assert.ok(
           c.options.ctx instanceof CanvasRenderingContext2D
@@ -108,7 +107,7 @@ describe('Canvas-based components', () => {
       })
     )
 
-    it('Calls window.cancelAnimationFrame when it ends', () => {
+    it('calls window.cancelAnimationFrame when it ends', () => {
       // Stub window.cancelAnimationFrame
       const fake_cAF = sinon.stub(window, 'cancelAnimationFrame')
 
@@ -140,14 +139,14 @@ describe('Canvas-based components', () => {
       s = new lab.canvas.Sequence()
     })
 
-    it('Adds canvas property to hand-me-downs', () => {
+    it('adds canvas property to hand-me-downs', () => {
       assert.include(
         s.options.handMeDowns,
         'canvas'
       )
     })
 
-    it('Passes its canvas to nested components', () => {
+    it('passes its canvas to nested components', () => {
       s.options.content = [a, b]
       return s.prepare().then(() => {
         // The canvas should be shared
@@ -164,7 +163,7 @@ describe('Canvas-based components', () => {
       })
     })
 
-    it('Complains if any nested components are not canvas-based', () => {
+    it('complains if any nested components are not canvas-based', () => {
       s.options.content = [
         a,
         new lab.html.Screen({
@@ -182,7 +181,7 @@ describe('Canvas-based components', () => {
         )
     })
 
-    it('Runs canvas drawing operations in sequence', () => {
+    it('runs canvas drawing operations in sequence', () => {
       // Stub out window.requestAnimationFrame
       // to speed up the test, and to avoid
       // probabilistic failures due to frame

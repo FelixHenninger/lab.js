@@ -885,7 +885,7 @@ describe('Core', () => {
       }
     })
 
-    it('Adds and initializes new plugins', () => {
+    it('adds and initializes new plugins', () => {
       assert.deepEqual(c.plugins.plugins, [])
 
       // Add plugin
@@ -899,7 +899,7 @@ describe('Core', () => {
       )
     })
 
-    it('Removes plugins if requested', () => {
+    it('removes plugins if requested', () => {
       c.plugins.add(plugin)
 
       // Remove plugin
@@ -913,7 +913,7 @@ describe('Core', () => {
       )
     })
 
-    it('Passes events to plugins', () => {
+    it('passes events to plugins', () => {
       c.plugins.add(plugin)
 
       // Setup spy
