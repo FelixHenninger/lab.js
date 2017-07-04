@@ -210,10 +210,25 @@ describe('Data handling', () => {
         sessionStorage.clear()
       })
 
+      it('saves state into local storage if requested', () => {
+        const persistent_ds = new lab.data.Store({
+          persistence: 'local'
+        })
+
+        persistent_ds.set('a', 'bcd')
+        persistent_ds.commit()
+
+        assert.deepEqual(
+          JSON.parse(localStorage.getItem('lab.js-data')),
+          persistent_ds.data
+        )
+
+        localStorage.clear()
+      })
+
       it('recovers state from storage', () => {
         // Save some data in sessionStorage
-        const json_data = '[{"a": 1, "b": "foo"}]'
-        sessionStorage.setItem('lab.js-data', json_data)
+        sessionStorage.setItem('lab.js-data', '[{"a": 1, "b": "foo"}]')
 
         const persistent_ds = new lab.data.Store({
           persistence: 'session'
@@ -226,6 +241,23 @@ describe('Data handling', () => {
         assert.equal(
           persistent_ds.get('b'),
           'foo'
+        )
+
+        sessionStorage.clear()
+      })
+
+      it('removes metadata from state when recovering data', () => {
+        sessionStorage.setItem('lab.js-data', '[{"a": 1, "sender": "foo"}]')
+
+        const persistent_ds = new lab.data.Store({
+          persistence: 'session'
+        })
+        assert.equal(
+          persistent_ds.state.a,
+          1
+        )
+        assert.isUndefined(
+          persistent_ds.state.sender
         )
 
         sessionStorage.clear()
@@ -247,15 +279,10 @@ describe('Data handling', () => {
         sessionStorage.clear()
       })
 
-      it('Clears persistent data when instructed', () => {
-        const json_data = '[{"a": 1, "b": "foo"}]'
-        sessionStorage.setItem('lab.js-data', json_data)
+      it('clears persistent data in sessionStorage when instructed', () => {
+        sessionStorage.setItem('lab.js-data', '[{"a": 1, "b": "foo"}]')
 
-        const persistent_ds = new lab.data.Store({
-          persistence: 'session'
-        })
-
-        persistent_ds.clear()
+        new lab.data.Store({ persistence: 'session' }).clear()
 
         assert.equal(
           sessionStorage.getItem('lab.js-data'),
@@ -263,9 +290,19 @@ describe('Data handling', () => {
         )
       })
 
-      it('Clears previous persistent data if requested', () => {
-        const json_data = '[{"a": 1, "b": "foo"}]'
-        sessionStorage.setItem('lab.js-data', json_data)
+      it('clears persistent data in localStorage when instructed', () => {
+        localStorage.setItem('lab.js-data', '[{"a": 1, "b": "foo"}]')
+
+        new lab.data.Store({ persistence: 'local' }).clear()
+
+        assert.equal(
+          localStorage.getItem('lab.js-data'),
+          null
+        )
+      })
+
+      it('clears previous persistent data on construction if requested', () => {
+        sessionStorage.setItem('lab.js-data', '[{"a": 1, "b": "foo"}]')
 
         const persistent_ds = new lab.data.Store({
           persistence: 'session',
