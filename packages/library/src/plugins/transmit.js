@@ -15,16 +15,12 @@ export default class Transmit {
       case 'prepare':
         // Set commit handler on data store
         context.options.datastore.on('commit', function() {
-          this.transmit(
-            url, { payload: 'staging', ...metadata }, 'staging',
-          )
+          this.transmit(url, metadata, 'staging')
         })
         break
       case 'after:end':
         // Transmit the entire data set
-        context.options.datastore.transmit(
-          url, { payload: 'full', ...metadata },
-        )
+        context.options.datastore.transmit(url, metadata)
         break
       default:
     }

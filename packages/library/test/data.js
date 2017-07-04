@@ -503,7 +503,9 @@ describe('Data handling', () => {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                metadata: {},
+                metadata: {
+                  payload: 'full',
+                },
                 url: window.location.href,
                 data: ds.data,
               }),

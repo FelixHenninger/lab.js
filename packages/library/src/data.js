@@ -289,7 +289,10 @@ export class Store extends EventHandler {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        metadata,
+        metadata: {
+          payload,
+          ...metadata,
+        },
         url: window.location.href,
         data: payload === 'staging' ? this.staging : this.data,
       }),
