@@ -896,6 +896,18 @@ describe('Core', () => {
 
         assert.ok(spy.calledOnce)
       })
+
+      it('provides additional output to console if debug option is set', () => {
+        // Yes, I am a slave to test coverage -FH
+        sinon.stub(console, 'log')
+
+        const c = new lab.core.Dummy({
+          debug: true
+        }).run()
+
+        assert.ok(console.log.called)
+        console.log.restore()
+      })
     })
 
   }) // Component
