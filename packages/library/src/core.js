@@ -1,6 +1,7 @@
 import { extend, cloneDeep } from 'lodash'
 import { EventHandler } from './util/eventAPI'
 import { DomConnection } from './util/domEvents'
+import { Random } from './util/random'
 import { parseOption, parseAllOptions } from './util/options'
 import { preloadImage, preloadAudio } from './util/preload'
 import Proxy from 'es2015-proxy'
@@ -48,6 +49,9 @@ export class Component extends EventHandler {
       data: {},
       datastore: null,
       datacommit: null,
+
+      // Setup PRNG
+      random: {},
 
       // There is no timeout by default
       timeout: null,
@@ -169,6 +173,9 @@ export class Component extends EventHandler {
       Object.create(this.internals.rawOptions),
       parsedOptions,
     )
+
+    // Setup PRNG
+    this.random = new Random(this.options.random)
 
     // Setup automatic event handling for responses
     Object.keys(this.options.responses).forEach(

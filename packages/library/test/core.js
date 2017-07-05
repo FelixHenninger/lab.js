@@ -90,6 +90,30 @@ describe('Core', () => {
         })
       })
 
+      it('initializes RNG on component', () => {
+        return b.prepare().then(() => {
+          assert.ok(
+            b.random instanceof lab.util.Random
+          )
+        })
+      })
+
+      it('passes randomization options to RNG', () => {
+        const c = new lab.core.Component({
+          random: {
+            algorithm: 'alea',
+            seed: 'abcd',
+          },
+        })
+
+        return c.prepare().then(() => {
+          assert.equal(
+            c.random.random(),
+            new lab.util.Random(c.options.random).random()
+          )
+        })
+      })
+
       it('directs output to default section if no other element is specified', () =>
         b.prepare().then(() => {
           assert.equal(
