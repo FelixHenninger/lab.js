@@ -68,6 +68,8 @@ export class Store extends EventHandler {
           this.state = assign({}, ...this.data)
 
           // Remove metadata from current state
+          // (It would otherwise be added anew
+          // with the next commit)
           defaultMetadata.forEach((key) => {
             if (Object.hasOwnProperty.call(this.state, key)) {
               delete this.state[key]
@@ -255,11 +257,9 @@ export class Store extends EventHandler {
     }
 
     // Convert the so encoded data to a blob object
-    const blob = new Blob(
+    return new Blob(
       [text], { type: 'octet/stream' },
     )
-
-    return blob
   }
 
   // Download data in a given format ----------------------
