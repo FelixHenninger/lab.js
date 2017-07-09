@@ -26,7 +26,7 @@ export default class PreviewButton extends Component {
   }
 
   clickHandler() {
-    this.previewWindow.openIfNecessary()
+    this.previewWindow.openOrFocus()
 
     return populateCache(
       this.context.store.getState(), addDebugPlugin,

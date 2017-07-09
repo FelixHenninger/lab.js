@@ -36,12 +36,17 @@ export default class Preview {
 
   reload() {
     this.window.location.reload()
+  }
+
+  focus() {
     this.window.focus()
   }
 
-  openIfNecessary() {
+  openOrFocus() {
     if (this.window === null || this.window.closed) {
       this.open()
+    } else {
+      this.focus()
     }
   }
 
@@ -51,7 +56,17 @@ export default class Preview {
     // on the preview window is caught, to check
     // whether the window was closed or just reloaded
     window.setTimeout(() => {
-      if (this.window.closed) {
+      // NOTE: There were some bugs coming out of this,
+      // specifically with this.window being null and
+      // therefore the .closed property not being
+      // accessible. This is now fixed by the additional
+      // check below, but because the error is not
+      // reproducable, the source is not entirely
+      // clear -- it could be that the browser sets
+      // this.window to null when it is closed, or that
+      // the calback is called twice, this.window being
+      // null on the second call.
+      if (this.window === null || this.window.closed) {
         // Detected closed window, removing reference
         this.window = null
         this.stateChangeCallback('closed')
