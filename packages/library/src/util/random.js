@@ -43,16 +43,16 @@ export class Random {
   }
 
   // Draw a random element from an array
-  sample(array) {
+  choice(array) {
     return array[this.range(array.length)]
   }
 
-  // Draw multiple random elements from an array,
+  // Sample multiple random elements from an array,
   // with or without replacement
-  sampleSize(array, n=1, replacement=false) {
+  sample(array, n=1, replacement=false) {
     if (replacement) {
       // Draw independent samples
-      return Array(n).fill(0).map(() => this.sample(array))
+      return Array(n).fill(0).map(() => this.choice(array))
     } else {
       // Draw without replacement
       // (shuffle and slice up to array length)

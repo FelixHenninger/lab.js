@@ -55,12 +55,12 @@ describe('Utilities', () => {
     it('provides individual random samples from an array', () => {
       const array = [1, 2, 3]
       assert.deepEqual(
-        [1, 2, 3, 4].map(() => rng_alea.sample(array)),
+        [1, 2, 3, 4].map(() => rng_alea.choice(array)),
         [3, 3, 3, 2]
       )
 
       assert.ok(
-        array.includes(rng_random.sample(array))
+        array.includes(rng_random.choice(array))
       )
     })
 
@@ -68,7 +68,7 @@ describe('Utilities', () => {
       const array = [1, 2, 3, 4, 5]
 
       assert.deepEqual(
-        rng_alea.sampleSize(array, 4),
+        rng_alea.sample(array, 4),
         [2, 1, 3, 5]
       )
     })
@@ -77,7 +77,7 @@ describe('Utilities', () => {
       const array = [1, 2, 3, 4, 5]
 
       assert.equal(
-        rng_alea.sampleSize(array, 6).length,
+        rng_alea.sample(array, 6).length,
         array.length
       )
     })
@@ -86,7 +86,7 @@ describe('Utilities', () => {
       const array = [1, 2, 3, 4, 5]
 
       assert.deepEqual(
-        rng_alea.sampleSize(array, 4, true),
+        rng_alea.sample(array, 4, true),
         [4, 5, 5, 3]
       )
     })
