@@ -27,7 +27,8 @@ export default class HintPopover extends Component {
       <span className={ this.props.className } style={ this.props.style }>
         {' '}
         <span id={ this.id } onClick={ this.toggle }>
-          <i className="fa fa-info-circle" style={{ color: 'rgba(0, 0, 0, 0.2)' }}
+          <i className="fa fa-info-circle hint-icon"
+            style={{ color: 'rgba(0, 0, 0, 0.2)' }}
             aria-hidden="true" title="More information"></i>
           <span className="sr-only">More information</span>
         </span>

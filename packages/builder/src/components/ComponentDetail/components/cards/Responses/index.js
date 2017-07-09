@@ -65,9 +65,14 @@ export default (props) =>
           <Label for="correctResponse" xs={2}>Correct</Label>
           <Hint
             title="Correct response"
-            className="pull-right" style={{ paddingTop: '0.5rem' }}
+            className="pull-right" style={{ paddingTop: '0.4rem' }}
           >
-            Label of the response classified as correct.
+            <p className="font-weight-bold">
+              Label of the response classified as correct.
+            </p>
+            <p className="text-muted">
+              The entry here should correspond to one of the labels assigned to responses in the first column above.
+            </p>
           </Hint>
         </Col>
         <Col xs="10">
@@ -85,9 +90,14 @@ export default (props) =>
           <Label for="timeout" xs={2}>Timeout</Label>
           <Hint
             title="Timeout"
-            className="pull-right" style={{ paddingTop: '0.5rem' }}
+            className="pull-right" style={{ paddingTop: '0.4rem' }}
           >
-            End component automatically after this interval
+            <p className="font-weight-bold">
+              End component automatically after a given number of milliseconds.
+            </p>
+            <p className="text-muted">
+              If responses are defined alongside a timeout, whichever comes first will end the component.
+            </p>
           </Hint>
         </Col>
         <Col xs="10">
