@@ -127,6 +127,10 @@ export class Loop extends Sequence {
     super({
       template: null,
       templateParameters: [],
+      sample: {
+        n: undefined,
+        replace: false,
+      },
       ...options,
     })
   }
@@ -152,6 +156,15 @@ export class Loop extends Sequence {
       )
     } else {
       console.warn('Missing or invalid template in loop, no content generated')
+    }
+
+    // Subsample iterations, if requested
+    if (this.options.sample.n) {
+      this.options.content = this.random.sample(
+        this.options.content,
+        this.options.sample.n,
+        this.options.sample.replacement,
+      )
     }
 
     return super.onPrepare()

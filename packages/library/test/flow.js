@@ -361,6 +361,34 @@ describe('Flow control', () => {
         assert.equal(l.status, 3)
       })
     })
+
+    it('subsamples content if so instructed', () => {
+      const l = new lab.flow.Loop({
+        // Seed PRNG for reproducibility
+        random: {
+          algorithm: 'alea',
+          seed: 'abcd',
+        },
+        sample: {
+          n: 3,
+          replace: false,
+        },
+        template: new lab.core.Component(),
+        templateParameters: [
+          { customParameter: 'one' },
+          { customParameter: 'two' },
+          { customParameter: 'three' },
+          { customParameter: 'four' },
+        ],
+      })
+
+      return l.prepare().then(() => {
+        assert.deepEqual(
+          l.options.content.map(c => c.options.parameters.customParameter),
+          ['one', 'two', 'four'],
+        )
+      })
+    })
   })
 
   describe('Parallel', () => {
