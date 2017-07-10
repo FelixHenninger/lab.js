@@ -1,6 +1,10 @@
 # build files
 docs/_build*
 packages/library/dist
+packages/library/coverage
+
+# Saucelabs connection logs
+packages/library/sauce_connect.log
 
 # npm
 node_modules
