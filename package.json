@@ -1,7 +1,7 @@
 {
   "private": true,
   "devDependencies": {
-    "lerna": "^2.0.0-rc.5",
+    "lerna": "^2.0.0",
     "onchange": "^3.2.1"
   },
   "scripts": {

@@ -44,6 +44,9 @@ const config = {
         ],
       },
     }],
+    // NOTE: This fixes a webpack issue (#5135)
+    // and should be revisited at a later date
+    strictThisContextOnImports: true,
   },
   devtool: development ? 'inline-source-map' : 'source-map',
   plugins: [
