@@ -8,6 +8,7 @@ import Uploader from '../../../Uploader'
 import { fromJSON } from '../../../../logic/io/load'
 import { stateToDownload } from '../../../../logic/io/save'
 import exportStaticDefault from '../../../../logic/io/export/modifiers/default'
+import exportStaticExpFactory from '../../../../logic/io/export/modifiers/expfactory'
 
 const IOButton = (_, context) =>
   <Dropdown
@@ -79,6 +80,11 @@ const IOButton = (_, context) =>
         }
       >
         PHP backend
+      </DropdownItem>
+      <DropdownItem
+        onClick={ () => exportStaticExpFactory(context.store.getState()) }
+      >
+        The Experiment Factory <span className='text-muted'>(experimental)</span>
       </DropdownItem>
     </DropdownMenu>
   </Dropdown>
