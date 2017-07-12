@@ -200,6 +200,23 @@ describe('Core', () => {
           assert.equal(s.progress, 1)
         })
       })
+
+      it('scrolls to top if so instructed', () => {
+        const scrollStub = sinon.stub(window, 'scrollTo')
+
+        const noScroll = new lab.core.Component()
+        const scroll = new lab.core.Component({
+          scrollTop: true,
+        })
+
+        return noScroll.run().then(() => {
+          assert.notOk( scrollStub.called )
+        }).then(() =>
+          scroll.run()
+        ).then(() => {
+          assert.ok( scrollStub.withArgs(0, 0).calledOnce )
+        })
+      })
     })
 
     describe('Timers', () => {

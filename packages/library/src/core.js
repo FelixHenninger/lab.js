@@ -36,6 +36,8 @@ export class Component extends EventHandler {
       tardy: false,
       // Skip if so desired
       skip: false,
+      // Scroll to top if requested
+      scrollTop: false,
       // Set parent, if defined
       parent: null,
 
@@ -180,7 +182,9 @@ export class Component extends EventHandler {
     // Setup automatic event handling for responses
     Object.keys(this.options.responses).forEach(
       (eventString) => {
-        this.options.events[eventString] = () => {
+        this.options.events[eventString] = (e) => {
+          // Prevent default browser response
+          e.preventDefault()
           // Trigger internal response handling
           this.respond(this.options.responses[eventString])
         }
@@ -248,6 +252,11 @@ export class Component extends EventHandler {
     // Skip actual content if so instructed
     if (this.options.skip) {
       return this.end('skipped')
+    }
+
+    // Jump to top of page if requested
+    if (this.options.scrollTop) {
+      window.scrollTo(0, 0)
     }
 
     // Run a component by showing it
