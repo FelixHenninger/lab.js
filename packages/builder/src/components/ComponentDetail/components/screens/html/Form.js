@@ -31,7 +31,7 @@ class Form extends Component {
           'content', 'responses',
           'correctResponse', 'timeout',
           'messageHandlers',
-          'tardy', 'skip',
+          'tardy', 'skip', 'scrollTop',
         ])
       }
       onChange={ newData => updateComponent(context.store, id, newData) }

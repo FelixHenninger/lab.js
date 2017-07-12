@@ -24,7 +24,7 @@ class Loop extends Component {
           'responses',
           'correctResponse', 'timeout',
           'messageHandlers',
-          'tardy', 'skip',
+          'tardy', 'skip', 'scrollTop',
         ])
       }
       onChange={ newData => updateComponent(this.context.store, id, newData) }

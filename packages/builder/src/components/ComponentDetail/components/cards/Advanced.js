@@ -81,6 +81,33 @@ export default (props) =>
             </p>
           </Hint>
         </FormGroup>
+        <FormGroup check>
+          <Label check>
+            <Control.checkbox
+              model=".scrollTop"
+              className="form-check-input"
+            />
+            &thinsp;
+            Scroll to top before running
+          </Label>
+          <Hint
+            title="Scroll to Top"
+            style={{
+              marginLeft: '1rem',
+            }}
+          >
+            <p className="font-weight-bold">
+              Reset scroll position to the top of the page
+              when showing content
+            </p>
+            <p className="text-muted">
+              This is useful if the preceding and current screen
+              both occupy a lot of vertical space, as it saves
+              participants from having to scroll back upwards
+              manually between pages.
+            </p>
+          </Hint>
+        </FormGroup>
       </Col>
     </FormGroup>
   </Card>
