@@ -83,6 +83,7 @@ guide**](contributing.md) also provides further information.
 [Jeffrey Fisher](https://github.com/jeffslofish) ·
 [Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/) ·
 [Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
+Felix Ludwig ·
 [Karthikeya Pammi](https://github.com/pvskarthikeya) ·
 [Andrew White](https://github.com/shiroandy)
 
