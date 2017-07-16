@@ -1,3 +1,5 @@
+import { isPlainObject } from 'lodash'
+
 const payload = `<style type="text/css">
   .labjs-debug-opener {
     font-size: 1.2rem;
@@ -83,6 +85,7 @@ const payload = `<style type="text/css">
   /* Truncated cells */
   .labjs-debug-trunc {
     min-width: 200px;
+    max-width: 400px;
   }
   .labjs-debug-trunc::after {
     content: "...";
@@ -109,6 +112,17 @@ const makeMessage = msg => `
     ${ msg }
   </div>`
 
+const truncate = (s) => {
+  // Restrict string length
+  const output = s.length > 80
+    ? `<div class="labjs-debug-trunc">${ s.substr(0, 100) }</div>`
+    : s
+
+  // Insert invisible space after commas,
+  // allowing for line breaks
+  return output.replace(/,/g, ',&#8203;')
+}
+
 const parseCell = (contents) => {
   switch (typeof contents) {
     case 'number':
@@ -118,16 +132,13 @@ const parseCell = (contents) => {
         return contents.toFixed(2)
       }
     case 'string':
-      // Restrict string length
-      const c = contents.length > 80
-        ? `<div class="labjs-debug-trunc">${ contents.substr(0, 100) }</div>`
-        : contents
-
-      // Insert invisible space after commas,
-      // allowing for line break
-      return c.replace(/,/g, ',&#8203;')
+      return truncate(contents)
     case 'undefined':
       return ''
+    case 'object':
+      if (isPlainObject(contents)) {
+        return truncate(JSON.stringify(contents))
+      }
     default:
       return contents
   }

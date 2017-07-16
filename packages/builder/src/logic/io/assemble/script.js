@@ -138,7 +138,7 @@ study.options.datastore = new lab.data.Store()
 // Let's go!
 study.run()`
 
-export const makeScript = (state, modifier) => {
+export const makeScript = (state) => {
   // Process study tree
   const componentTree = makeComponentTree(state.components, 'root')
   const studyTreeJSON = serialize(componentTree, { space: 2 })

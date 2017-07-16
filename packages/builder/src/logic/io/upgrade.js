@@ -126,6 +126,19 @@ const updates = {
 
     data.version = [2017, 1, 2]
     return data
+  },
+  '2017.1.2': data => {
+    // Add metadata plugin (and normalize
+    // plugin setting, which may have been
+    // altered in export postprocessing)
+    data.components['root'].plugins = [
+      {
+        type: 'lab.plugins.Metadata'
+      }
+    ]
+    data.version = [2017, 1, 3]
+
+    return data
   }
 }
 

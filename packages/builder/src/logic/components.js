@@ -5,6 +5,11 @@ export const defaultState = {
     title: 'root',
     type: 'lab.flow.Sequence',
     children: [],
+    plugins: [
+      {
+        type: 'lab.plugins.Metadata',
+      },
+    ],
   },
 }
 

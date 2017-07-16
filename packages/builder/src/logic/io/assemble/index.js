@@ -7,8 +7,7 @@ const assemble = (state, stateModifier=state => state, additionalFiles={}) => ({
     'script.js': {
       content: makeDataURI(
         makeScript(
-          cloneDeep(stateModifier(state)),
-          stateModifier
+          stateModifier(cloneDeep(state))
         ),
         'application/javascript',
       )

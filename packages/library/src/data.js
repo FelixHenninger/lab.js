@@ -7,7 +7,10 @@ import { EventHandler } from './util/eventAPI'
 
 // Data saving --------------------------------------------
 
-const defaultMetadata = ['sender', 'sender_type', 'sender_id', 'timestamp']
+const defaultMetadata = [
+  'sender', 'sender_type', 'sender_id',
+  'timestamp', 'meta',
+]
 
 const escapeCsvCell = (c) => {
   // Stringify non-primitive data

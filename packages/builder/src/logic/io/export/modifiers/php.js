@@ -76,7 +76,8 @@ const phpBackendStatic = {
 const addTransmitPlugin = (state) => {
   // Add transmit plugin to root component
   state.components.root.plugins = [
-    { type: 'lab.plugins.Transmit', url: 'backend.php' }
+    ...state.components.root.plugins,
+    { type: 'lab.plugins.Transmit', url: 'backend.php' },
   ]
 
   return state
