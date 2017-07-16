@@ -191,6 +191,19 @@ export default (state=defaultState, action) => {
 
       return oImport
 
+    case 'COLLAPSE_COMPONENT':
+      if (state[action.id].children && state[action.id].children.length > 0) {
+        return {
+          ...state,
+          [action.id]: {
+            ...state[action.id],
+            _collapsed: !state[action.id]._collapsed,
+          }
+        }
+      } else {
+        return state
+      }
+
     case 'UPDATE_COMPONENT':
       return {
         ...state,

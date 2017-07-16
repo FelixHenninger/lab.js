@@ -14,7 +14,9 @@ import classnames from 'classnames'
 import './index.css'
 
 const NodeBody = (
-  { id, parent, index, active, skipped, isDragging, children },
+  { id, parent, index, children,
+    active, collapsed, skipped,
+    isDragging, hasChildren },
   { onNodeClick, onNodeDelete }
 ) =>
   <NavLink
@@ -26,9 +28,12 @@ const NodeBody = (
   >
     <div
       className='nav-link-main'
-      onClick={ () => onNodeClick(id) }
+      onClick={ e => onNodeClick(e, id) }
     >
       { children }
+      { collapsed
+        ? <i className="fa fa-plus" aria-hidden="true"></i>
+        : null }
       { skipped
         ? <i className="fa fa-minus-circle" aria-hidden="true"></i>
         : null }
@@ -38,6 +43,7 @@ const NodeBody = (
         id={ id }
         parent={ parent }
         index={ index }
+        hasChildren={ hasChildren }
         onDelete={ onNodeDelete }
       />
     </div>
@@ -94,7 +100,7 @@ NodeTail.contextTypes = {
 
 const Node = ({ id, parentId, index, data, active, renderBody,
   isDragging, connectDragSource }) => {
-  const { type } = data
+  const { type, _collapsed: collapsed } = data
   const { minChildren, maxChildren } = metadata[type]
 
   const children = data.children || []
@@ -117,7 +123,9 @@ const Node = ({ id, parentId, index, data, active, renderBody,
               id={ id }
               parent={ parentId }
               index={ index }
+              hasChildren={ (children || []).length > 0 }
               active={ active }
+              collapsed={ collapsed }
               skipped={ data.skip }
               isDragging={ isDragging }
             >
@@ -126,12 +134,16 @@ const Node = ({ id, parentId, index, data, active, renderBody,
           </div>) :
           null
       }
-      <NodeTail
-        id={ id }
-        children={ children || [] }
-        pinned={ tailPinned }
-        vacancies={ tailVacancies }
-      />
+      {
+        collapsed
+          ? null
+          : <NodeTail
+              id={ id }
+              children={ children || [] }
+              pinned={ tailPinned }
+              vacancies={ tailVacancies }
+            />
+      }
     </div>
   )
 }

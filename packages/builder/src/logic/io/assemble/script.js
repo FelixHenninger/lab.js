@@ -70,7 +70,11 @@ const processNode = node => {
   // have to be solved on the input side, or by making
   // the library more resilient to malformed input.
   // Either way, this is probably not the final solution.
-  return Object.assign({}, pickBy(node, value => value !== ''), {
+  const filterOptions = (value, key) =>
+    value !== '' &&
+    !key.startsWith('_')
+
+  return Object.assign({}, pickBy(node, filterOptions), {
     messageHandlers: node.messageHandlers
       ? processMessageHandlers(node.messageHandlers)
       : node.messageHandlers,

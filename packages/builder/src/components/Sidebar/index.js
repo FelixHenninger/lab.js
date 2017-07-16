@@ -22,10 +22,18 @@ const Sidebar = (props, context) =>
       Node={ Node }
       rootId="root"
       onNodeClick={
-        (id) => context.store.dispatch({
-          type: 'SHOW_COMPONENT_DETAIL',
-          id: id,
-        })
+        (e, id) => {
+          // Collapse view if shift key is pressed
+          if (e.shiftKey) {
+            context.store.dispatch({
+              type: 'COLLAPSE_COMPONENT', id,
+            })
+          } else {
+            context.store.dispatch({
+              type: 'SHOW_COMPONENT_DETAIL', id,
+            })
+          }
+        }
       }
       onNodeDelete={
         (id, parent, index) => {

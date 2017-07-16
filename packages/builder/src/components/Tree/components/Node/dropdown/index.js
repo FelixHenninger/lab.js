@@ -11,7 +11,7 @@ import { DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { stateToDownload } from '../../../../../logic/io/save'
 import './index.css'
 
-const NodeDropdown = ({ id, parent, index, onDelete }, context) =>
+const NodeDropdown = ({ id, parent, index, onDelete, hasChildren }, context) =>
   <Dropdown>
     <DropdownToggle caret size="sm" />
     <DropdownMenu right>
@@ -29,6 +29,23 @@ const NodeDropdown = ({ id, parent, index, onDelete }, context) =>
       >
         Delete
       </DropdownItem>
+      {
+        hasChildren
+          ? <div>
+              <DropdownItem divider/>
+              <DropdownItem header>View</DropdownItem>
+              <DropdownItem
+                onClick={ () => {
+                  context.store.dispatch({
+                    type: 'COLLAPSE_COMPONENT', id
+                  })
+                } }
+              >
+                Collapse
+              </DropdownItem>
+            </div>
+          : null
+      }
     </DropdownMenu>
   </Dropdown>
 
