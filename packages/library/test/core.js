@@ -215,6 +215,7 @@ describe('Core', () => {
           scroll.run()
         ).then(() => {
           assert.ok( scrollStub.withArgs(0, 0).calledOnce )
+          window.scrollTo.restore()
         })
       })
     })
