@@ -20,3 +20,7 @@
 .card.add-component-card .card-block h6.card-subtitle:last-child {
   margin-bottom: 0 !important;
 }
+
+.card .card-header + .list-group > .list-group-item:first-child {
+  border-top: none;
+}

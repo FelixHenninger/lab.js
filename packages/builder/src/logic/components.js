@@ -16,6 +16,7 @@ export const defaultState = {
 export const metadata = {
   'lab.flow.Loop': {
     name: 'Loop',
+    description: 'Repeat a component',
     category: 'Flow',
     icon: 'repeat',
     minChildren: 1,
@@ -37,6 +38,7 @@ export const metadata = {
   },
   'lab.flow.Sequence': {
     name: 'Sequence',
+    description: 'Show components sequentially',
     category: 'Flow',
     icon: 'sort-amount-asc',
     minChildren: 1,
@@ -54,6 +56,7 @@ export const metadata = {
   },
   'lab.html.Form': {
     name: 'Form',
+    description: 'Collect HTML form data',
     category: 'HTML',
     icon: 'list-alt',
     minChildren: 0,
@@ -70,6 +73,7 @@ export const metadata = {
   },
   'lab.html.Screen': {
     name: 'Screen',
+    description: 'Show content using HTML',
     category: 'HTML',
     icon: 'window-maximize',
     minChildren: 0,
@@ -93,3 +97,10 @@ export const defaults = [
   'lab.flow.Sequence',
   'lab.flow.Loop',
 ]
+
+export const getMetadataByCategory = () =>
+  Object.entries(metadata)
+    .reduce((output, [type, d]) => {
+      output[d.category] = [...(output[d.category] || []), type]
+      return output
+    }, {})

@@ -17,11 +17,12 @@ class Card extends Component {
 
     return <BaseCard
         style={ this.props.style }
-        className="mb-3"
+        className="my-1"
       >
       <CardHeader
         style={{
-          borderBottomStyle: (this.state.isOpen ? 'solid' : 'none')
+          fontWeight: 500,
+          borderBottomStyle: (this.state.isOpen ? 'solid' : 'none'),
         }}
         onClick={() => this.setState({ isOpen: !this.state.isOpen })}
       >
