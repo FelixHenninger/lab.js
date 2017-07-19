@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { LocalForm } from 'react-redux-form'
 import { pick } from 'lodash'
 
-import { wrapScreen, updateComponent } from '../util'
+import { updateComponent } from '../util'
 import MetadataCard from '../../cards/Metadata'
 import MonacoCard from '../../cards/Monaco'
 import ResponsesCard from '../../cards/Responses'
@@ -64,4 +64,4 @@ Form.contextTypes = {
   store: PropTypes.object
 }
 
-export default wrapScreen(Form)
+export default Form

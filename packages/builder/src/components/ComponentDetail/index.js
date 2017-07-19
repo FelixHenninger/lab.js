@@ -29,13 +29,14 @@ const componentDetail = (props) => {
       Screen = Fallback
     }
   }
-  return <Screen id={ props.id } />
+  return <Screen id={ props.id } data={ props.data } />
 }
 
 // Redux integration
 const mapStateToProps = (state) => {
   const id = state.componentDetail.viewProps.id
   const type = state.components[id] ? state.components[id].type : undefined
+  const data = state.components[id] ? state.components[id] : {}
 
   return {
     // The key helps when switching between components of the same type;
@@ -43,7 +44,7 @@ const mapStateToProps = (state) => {
     // be specified on the specific screen component in the render function
     // above, this also fixes the issue.
     key: id,
-    id, type
+    id, type, data
   }
 }
 
