@@ -18,6 +18,14 @@ const addComponent = (store, type, parent, index) => {
       title: metadata[type].name,
     },
   })
+  // Because the component is assigned an id automatically
+  // via the action, we need to look it up here
+  store.dispatch({
+    type: 'SHOW_COMPONENT_DETAIL',
+    id: store.getState().components[parent].children[index],
+  })
+  // Closing the modal after changing the content below
+  // improves rendering
   store.dispatch({
     type: 'HIDE_MODAL',
   })
