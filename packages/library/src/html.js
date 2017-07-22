@@ -191,7 +191,8 @@ export class Frame extends Component {
       this.options.context, 'text/html',
     )
 
-    // Setup nested component to use the context
+    // Setup nested component to operate within
+    // the element addressed by the selector
     this.options.content.options.el = this.internals
       .parsedContext.querySelector(this.options.contextSelector)
 

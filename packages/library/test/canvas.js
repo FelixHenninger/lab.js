@@ -257,5 +257,92 @@ describe('Canvas-based components', () => {
         })
     })
   })
+
+  describe('Frame', () => {
+
+    let f, s, a, b
+    beforeEach(() => {
+      a = new lab.canvas.Screen()
+      b = new lab.canvas.Screen()
+      s = new lab.flow.Sequence({
+        content: [a, b],
+      })
+      f = new lab.canvas.Frame({
+        content: s,
+        el: document.createElement('div'),
+      })
+    })
+
+    it('provides canvas to nested components', () =>
+      f.prepare().then(() => {
+        assert.deepEqual(
+          f.options.canvas,
+          a.options.canvas,
+        )
+      })
+    )
+
+    it('throws error if nested components are incompatible', () => {
+      s.options.content.push(new lab.html.Screen())
+
+      return f.prepare().then(() => {
+          assert.ok(false, 'Component should throw error during preparation')
+        }).catch(err => {
+          assert.equal(
+            err,
+            'CanvasFrame may only contain flow or canvas-based components',
+          )
+        })
+    })
+
+    it('throws error if the context does not contain a canvas element', () => {
+      f.options.context = '<div>Nope</div>'
+
+      return f.prepare().then(() => {
+          assert.ok(false, 'Component should throw error during preparation')
+        }).catch(err => {
+          assert.equal(
+            err,
+            'No canvas found in context',
+          )
+        })
+    })
+
+    it('hands down the canvas parent element', () => {
+      f.options.context = '<div id="canvas-parent"><canvas></div>'
+
+      return f.run().then(() =>
+        assert.equal(
+          f.options.el.querySelector('div#canvas-parent'),
+          a.options.el,
+        )
+      )
+    })
+
+    it('hands down working el if canvas is at top level in context', () => {
+      // ... as above, but without the wrapper
+      f.options.context = '<canvas>'
+
+      return f.run().then(() =>
+        assert.equal(
+          f.options.el,
+          a.options.el,
+        )
+      )
+    })
+
+    it('ends with content', () =>
+      // This is tested in more depth
+      // in the HTML.Frame test suite
+      f.run().then(
+        () => s.end()
+      ).then(() => {
+        assert.equal(
+          f.status,
+          3 // done
+        )
+      })
+    )
+  })
 })
 })

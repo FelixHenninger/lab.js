@@ -1,6 +1,7 @@
 // Components
 import { Component, Dummy } from './core'
-import { Screen as CanvasScreen, Sequence as CanvasSequence } from './canvas'
+import { Screen as CanvasScreen, Sequence as CanvasSequence,
+         Frame as CanvasFrame } from './canvas'
 import { Screen, Form, Frame } from './html'
 import { Sequence, Parallel, Loop } from './flow'
 
@@ -27,6 +28,7 @@ export const core = {
 }
 
 export const canvas = {
+  Frame: CanvasFrame,
   Screen: CanvasScreen,
   Sequence: CanvasSequence,
 }

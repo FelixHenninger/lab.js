@@ -1,6 +1,9 @@
 // Canvas-based displays for lab.js
 import { Component } from './core'
-import { Sequence as BaseSequence } from './flow'
+import { Sequence as BaseSequence, Loop, Parallel,
+  prepareNested } from './flow'
+import { Frame as BaseFrame } from './html'
+import { reduce } from './util/tree'
 
 // Global canvas functions used in all of the following components
 // (multiple inheritance would come in handy here, but alas...)
@@ -161,6 +164,87 @@ export class Sequence extends BaseSequence {
 }
 
 Sequence.metadata = {
+  module: ['canvas'],
+  nestedComponents: ['content'],
+}
+
+export class Frame extends BaseFrame {
+  constructor(options={}) {
+    super(addCanvasDefaults({
+      context: '<canvas></canvas>',
+      ...options,
+    }))
+
+    // Push canvas to nested components
+    if (!this.options.handMeDowns.includes('canvas')) {
+      this.options.handMeDowns.push('canvas')
+    }
+  }
+
+  async onPrepare() {
+    // Check that all nested components
+    // are either flow components or
+    // that they use the canvas
+    const isFlowOrCanvasBased = (acc, c) =>
+      acc && (
+        c === this ||
+        c instanceof Screen ||
+        c instanceof Sequence ||
+        c instanceof BaseSequence ||
+        c instanceof Loop ||
+        c instanceof Parallel
+      )
+
+    const canvasBasedSubtree = reduce(this, isFlowOrCanvasBased, true)
+    if (!canvasBasedSubtree) {
+      throw 'CanvasFrame may only contain flow or canvas-based components'
+    }
+
+    // TODO: This is largely lifted (with some adaptations)
+    // from the html.Frame implementation. It would be great
+    // to reduce duplication slightly. (the differences
+    // are the allocation of the el option, and the
+    // extraction of the canvas from the parsed context)
+
+    // Parse context HTML
+    const parser = new DOMParser()
+    this.internals.parsedContext = parser.parseFromString(
+      this.options.context, 'text/html',
+    )
+
+    // Extract canvas
+    this.options.canvas = this.internals
+      .parsedContext.querySelector('canvas')
+
+    if (!this.options.canvas) {
+      throw 'No canvas found in context'
+    }
+
+    // Set nested component el to the parent
+    // element of the canvas, or the current el
+    // (if the canvas is at the uppermost level
+    // in the context HTML structure, and
+    // therefore its parent in the virtual DOM
+    // is a <body> element)
+    this.options.content.options.el =
+      this.options.canvas.parentElement === null ||
+      this.options.canvas.parentElement.tagName === 'BODY'
+        ? this.options.el
+        : this.options.canvas.parentElement
+
+    // Couple the run cycle of the frame to its content
+    this.internals.contentEndHandler = () => this.end()
+    this.options.content.on(
+      'after:end',
+      this.internals.contentEndHandler,
+    )
+
+    // Prepare content
+    await prepareNested([this.options.content], this)
+  }
+}
+
+Frame.metadata = {
   module: ['canvas'],
   nestedComponents: ['content'],
 }
