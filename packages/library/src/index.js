@@ -11,6 +11,7 @@ import { Store } from './data'
 import { Random } from './util/random'
 import fromObject from './util/fromObject'
 import { launch, exit } from './util/fullscreen'
+import { traverse, reduce } from './util/tree'
 
 // Plugins
 import Debug from './plugins/debug'
@@ -58,5 +59,8 @@ export const util = {
   fromObject,
   fullscreen: {
     launch, exit,
+  },
+  tree: {
+    traverse, reduce
   },
 }
