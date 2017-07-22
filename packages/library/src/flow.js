@@ -1,7 +1,7 @@
 // Flow control components for lab.js
 import { shuffle, mean, isFunction } from 'lodash'
 import { entries } from 'core-js/fn/array'
-import { Component, status, handMeDowns } from './core'
+import { Component, status } from './core'
 
 // Helper function to handle nested components
 export const prepareNested = function(nested, parent) {
@@ -17,13 +17,6 @@ export const prepareNested = function(nested, parent) {
     } else {
       c.options.id = [parent.options.id, i].join('_')
     }
-  })
-
-  // Pass on specified attributes
-  nested.forEach((c) => {
-    parent.options.handMeDowns.forEach((k) => {
-      c.options[k] = c.options[k] || parent.options[k]
-    })
   })
 
   // Trigger prepare on all nested components
@@ -42,10 +35,6 @@ export class Sequence extends Component {
       content: [],
       // Shuffle items, if so desired
       shuffle: false,
-      // Use default hand-me-downs
-      // unless directed otherwise
-      // (note that the hand-me-downs are copied)
-      handMeDowns: [...handMeDowns],
       ...options,
     })
 
@@ -186,7 +175,6 @@ export class Parallel extends Component {
       // that are run in parallel.
       content: [],
       mode: 'race',
-      handMeDowns: [...handMeDowns],
       ...options,
     })
   }

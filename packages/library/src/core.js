@@ -14,6 +14,14 @@ export const status = Object.freeze({
   done:         3,
 })
 
+// Default options ----------------------------------------
+// Attributes to pass on to nested items (as names)
+export const handMeDowns = [
+  'debug',
+  'datastore',
+  'el',
+]
+
 // Generic building block for experiment
 export class Component extends EventHandler {
   constructor(options={}) {
@@ -57,6 +65,12 @@ export class Component extends EventHandler {
 
       // There is no timeout by default
       timeout: null,
+
+      // Setup hand-me-downs
+      // (array is copied on purpose)
+      handMeDowns: [
+        ...handMeDowns,
+      ],
 
       ...options,
 
@@ -148,6 +162,21 @@ export class Component extends EventHandler {
         console.log('Skipping automated preparation')
       }
       return
+    }
+
+    // Collect options 'handed down' from higher-level components
+    if (this.parent) {
+      const foo = this.parents.reduce(
+        // Accumulate handed down options from parents
+        (acc, cur) => {
+          cur.options.handMeDowns.forEach(o => acc.add(o))
+          return acc
+        },
+        new Set(),
+      ).forEach(
+        // 'inherit' the option from the parent component
+        o => (this.options[o] = this.options[o] || this.parent.options[o])
+      )
     }
 
     // Direct output to the HTML element with the attribute
@@ -409,14 +438,6 @@ Component.metadata = {
     timeout:         ['number'],
   },
 }
-
-// Default options ----------------------------------------
-// Attributes to pass on to nested items (as names)
-export const handMeDowns = [
-  'debug',
-  'datastore',
-  'el',
-]
 
 // Simple components --------------------------------------
 // A Dummy component does nothing but end

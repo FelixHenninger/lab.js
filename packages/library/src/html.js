@@ -2,7 +2,7 @@
 import { extend } from 'lodash'
 import 'whatwg-fetch'
 
-import { Component, status, handMeDowns } from './core'
+import { Component, status } from './core'
 import { prepareNested } from './flow'
 
 // html.Screens display HTML when run
@@ -180,7 +180,6 @@ export class Frame extends Component {
       content: null,
       context: '',
       contextSelector: '',
-      handMeDowns: [...handMeDowns],
       ...options,
     })
   }
