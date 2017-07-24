@@ -223,17 +223,6 @@ describe('HTML-based components', () => {
       })
     })
 
-    it('serializes buttons', () => {
-      f.options.el.innerHTML = '' +
-        '<form>' +
-        '  <button name="button" value="value">' +
-        '</form>'
-
-      assert.deepEqual(f.serialize(), {
-        'button': 'value'
-      })
-    })
-
     const exampleForm = '' +
       '<form>' +
       '  <input type="text" name="text_input" value="text_input_contents">' +
@@ -281,7 +270,6 @@ describe('HTML-based components', () => {
       return f.run().then(() => {
         f.submit()
         assert.equal(f.data.text_input, 'text_input_contents')
-        assert.equal(f.data.button, 'value')
       })
     })
 

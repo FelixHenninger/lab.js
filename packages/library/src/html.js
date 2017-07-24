@@ -139,16 +139,6 @@ export class Form extends Screen {
               // no default
             }
             break
-          case 'button':
-            switch (element.type) {
-              case 'button':
-              case 'submit':
-              case 'reset':
-                output[element.name] = element.value
-                break
-              default:
-            }
-            break
           default:
         } // outer switch
       }) // iterate across elements

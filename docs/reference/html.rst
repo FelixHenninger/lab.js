@@ -149,6 +149,11 @@ By combining the above code with an :js:class:`html.Form`, it can become part of
 
 The above screen, inserted into an experiment, will display the form, and wait for the user to submit it using the supplied button. When this occurs, the form contents will automatically be transferred into the experiment's data set, and whichever value was entered into the specified field will be saved into the variable ``participant-id``.
 
+.. caution::
+   The :js:class:`html.Form` differs from standard ``HTML`` forms (those that are sent to a server, which responds with a new page) in one important point: It does *not* save information about the ``<button>`` used to submit the ``<form>`` data. This is because the information is not made available within the page itself.
+
+   If you are looking to capture a response to one of several buttons, we recommend using an :js:class:`html.Screen` instead, and defining a distinct :js:attr:`response <options.responses>` for clicks on every button.
+
 .. js:class:: html.Form([options])
 
   An :js:class:`html.Form` accepts the same options and provides the same methods the :js:class:`html.Screen` does, with a few additions:
