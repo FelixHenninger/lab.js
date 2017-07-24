@@ -85,6 +85,7 @@ guide**](contributing.md) also provides further information.
 [Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
 Felix Ludwig ·
 [Karthikeya Pammi](https://github.com/pvskarthikeya) ·
+[Sophie Scharf](http://cognition.uni-mannheim.de/mitarbeiter/m_sc_sophie_scharf/) ·
 [Andrew White](https://github.com/shiroandy)
 
 The students and teaching assistants in the graduate course *Research Methods
