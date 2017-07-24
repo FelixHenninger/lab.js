@@ -1,5 +1,5 @@
 import { clamp } from 'lodash'
-import { impl } from '../vendor/alea'
+import { alea } from 'seedrandom'
 
 // Random uuid4 generation
 export const uuid4 = (random=Math.random) =>
@@ -16,19 +16,8 @@ export const uuid4 = (random=Math.random) =>
 export class Random {
   constructor(options={}) {
     if (options.algorithm === 'alea') {
-      // If no seed is given, autoseed the PRNG using
-      // a (mostly) random 256-character string
-      // (This seeding mechanism is loosely based on
-      // the priming mechanism in the seedrandom package
-      // by David Bau, https://github.com/davidbau/seedrandom)
-      if (!options.seed) {
-        // IE 11 uses a vendor prefix for the crypto module
-        const randomValues = (window.mscrypto || window.crypto)
-          .getRandomValues(new Uint8Array(256))
-        options.seed = String.fromCharCode(...randomValues)
-      }
       // Generate a PRNG using the alea algorithm
-      this.random = impl(options.seed)
+      this.random = alea(options.seed)
     } else {
       // Fallback to the built-in random generator
       this.random = Math.random
