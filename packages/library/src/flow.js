@@ -1,5 +1,5 @@
 // Flow control components for lab.js
-import { shuffle, mean, isFunction } from 'lodash'
+import { mean, isFunction } from 'lodash'
 import { entries } from 'core-js/fn/array'
 import { Component, status } from './core'
 
@@ -46,7 +46,7 @@ export class Sequence extends Component {
   async onPrepare() {
     // Shuffle content, if requested
     if (this.options.shuffle) {
-      this.options.content = shuffle(this.options.content)
+      this.options.content = this.random.shuffle(this.options.content)
     }
 
     // Define an iterator over the content
