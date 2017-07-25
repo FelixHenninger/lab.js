@@ -1,4 +1,5 @@
-/* global describe, it, beforeEach, assert, sinon */
+/* global define, describe, it, beforeEach, assert, sinon */
+/* eslint-disable import/no-amd */
 
 define(['lab', '_'], (lab, _) => {
 
