@@ -17,7 +17,7 @@ module.exports = (config) => {
       { pattern: 'test/**/*.js', included: false },
     ],
 
-    // list of files to exclude
+    // List of files to exclude
     exclude: [
       'test/_karma/[^bootstrap].js',
     ],

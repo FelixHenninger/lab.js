@@ -176,7 +176,7 @@ kbd.big {
 }
 .content-vertical-space-between.content-horizontal-right,
 .content-vertical-space-around.content-horizontal-right {
-  align-items: flex-start; 
+  align-items: flex-start;
 }
 .content-vertical-space-between.content-horizontal-center,
 .content-vertical-space-around.content-horizontal-center {
