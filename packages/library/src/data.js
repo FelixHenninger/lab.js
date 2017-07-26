@@ -34,6 +34,7 @@ const escapeCsvCell = (c) => {
   return c
 }
 
+// eslint-disable-next-line import/prefer-default-export
 export class Store extends EventHandler {
   constructor(options={}) {
     // Construct the underlying EventHandler
@@ -288,7 +289,7 @@ export class Store extends EventHandler {
     return fetch(url, {
       method: 'post',
       headers: {
-        'Accept': 'application/json',
+        'Accept': 'application/json', // eslint-disable-line quote-props
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({

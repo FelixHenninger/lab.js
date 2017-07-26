@@ -59,7 +59,7 @@ export class Sequence extends Component {
 
   async onRun() {
     // Make the first step
-    return await this.step()
+    return this.step()
   }
 
   onEnd() {
@@ -81,12 +81,12 @@ export class Sequence extends Component {
     // Move through the content
     const next = this.internals.iterator.next()
     if (next.done) {
-      return await this.end('completion')
+      return this.end('completion')
     } else {
       [this.internals.currentPosition, this.internals.currentComponent] = next.value
       this.internals.currentComponent.on('after:end', this.internals.stepper)
       this.triggerMethod('step')
-      return await this.internals.currentComponent.run()
+      return this.internals.currentComponent.run()
     }
   }
 

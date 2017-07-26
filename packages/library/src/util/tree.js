@@ -1,15 +1,15 @@
-import { Component } from '../core'
 import { isArray, cloneDeep } from 'lodash'
+import { Component } from '../core'
 
 export const traverse = (root, callback) => {
   callback(root)
 
   // Retrieve metadata from component
-  const metadata = root.__proto__.constructor.metadata
+  const metadata = Object.getPrototypeOf(root).constructor.metadata
 
   if (metadata.nestedComponents) {
     // Retrieve nested components form associated options
-    metadata.nestedComponents.forEach(o => {
+    metadata.nestedComponents.forEach((o) => {
       const nested = root.options[o]
 
       if (isArray(nested)) {
@@ -30,7 +30,7 @@ export const reduce = (root, callback, initialValue) => {
   // the initial value throughout
   traverse(
     root,
-    current => accumulator = callback(accumulator, current),
+    current => (accumulator = callback(accumulator, current)),
   )
 
   return accumulator

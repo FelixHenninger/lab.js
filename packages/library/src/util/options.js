@@ -1,4 +1,4 @@
-import { entries, extend, template } from 'lodash'
+import { extend, template } from 'lodash'
 
 // TODO: Does this work in shorthand notation? () => {}
 const parsableOptions = function parsableOptions() {
@@ -77,13 +77,17 @@ export const parseAllOptions = function(options, context) {
   // Parse all of the options that are
   // marked as parsable, and save them to output
   // if the option has actually changed
-  for (const [key, metadata] of entries(optionsMetadata)) {
-    const candidate = parseOption.call(this, key, options[key], context, metadata)
+  Object.entries(optionsMetadata).forEach(([key, metadata]) => {
+    const candidate = parseOption.call(
+      this,
+      key, options[key],
+      context, metadata,
+    )
 
     if (candidate) {
       output[key] = candidate
     }
-  }
+  })
 
   return output
 }

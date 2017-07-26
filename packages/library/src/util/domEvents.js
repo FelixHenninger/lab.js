@@ -127,6 +127,7 @@ const wrapHandler = function(handler, eventName, options=null, context=null) {
   }
 }
 
+// eslint-disable-next-line import/prefer-default-export
 export class DomConnection {
   constructor(options) {
     // Limit search for elements to a
@@ -168,11 +169,8 @@ export class DomConnection {
           // If the event is constrainted to a certain element
           // or a set of elements, search for these within the
           // specified element, and add the handler to each
-          for (const child of Array.from(this.el.querySelectorAll(selector))) {
-            child.addEventListener(
-              eventName, handler,
-            )
-          }
+          Array.from(this.el.querySelectorAll(selector))
+            .forEach(child => child.addEventListener(eventName, handler))
         } else {
           // If no selector is supplied, the listener is
           // added to the document itself
@@ -198,11 +196,8 @@ export class DomConnection {
 
         if (selector !== '') {
           // Remove listener from specified elements
-          for (const child of Array.from(this.el.querySelectorAll(selector))) {
-            child.removeEventListener(
-              eventName, handler,
-            )
-          }
+          Array.from(this.el.querySelectorAll(selector))
+            .forEach(child => child.removeEventListener(eventName, handler))
         } else {
           // Remove global listeners
           document.removeEventListener(

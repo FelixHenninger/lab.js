@@ -19,6 +19,10 @@ const getMetadata = () => {
 }
 
 export default class Metadata {
+  // TODO: The linter thinks it is not worth to use
+  // a class here. Possibly the plugin could accept
+  // additional data to include?
+  // eslint-disable-next-line class-methods-use-this
   handle(context, event) {
     if (event === 'prepare') {
       // If a datastore is available, save the metadata

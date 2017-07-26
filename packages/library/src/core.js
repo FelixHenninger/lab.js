@@ -1,10 +1,11 @@
 import { extend, cloneDeep } from 'lodash'
+import Proxy from 'es2015-proxy'
+
 import { EventHandler } from './util/eventAPI'
 import { DomConnection } from './util/domEvents'
 import { Random } from './util/random'
 import { parseOption, parseAllOptions } from './util/options'
 import { preloadImage, preloadAudio } from './util/preload'
-import Proxy from 'es2015-proxy'
 
 // Define status codes
 export const status = Object.freeze({
@@ -166,7 +167,7 @@ export class Component extends EventHandler {
 
     // Collect options 'handed down' from higher-level components
     if (this.parent) {
-      const foo = this.parents.reduce(
+      this.parents.reduce(
         // Accumulate handed down options from parents
         (acc, cur) => {
           cur.options.handMeDowns.forEach(o => acc.add(o))
@@ -175,7 +176,7 @@ export class Component extends EventHandler {
         new Set(),
       ).forEach(
         // 'inherit' the option from the parent component
-        o => (this.options[o] = this.options[o] || this.parent.options[o])
+        o => (this.options[o] = this.options[o] || this.parent.options[o]),
       )
     }
 

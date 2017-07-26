@@ -10,6 +10,7 @@ export const uuid4 = (random=Math.random) =>
   // tations, but this one is the clearest)
   '00000000-0000-4000-8000-000000000000'.replace(
     /[08]/g,
+    // eslint-disable-next-line no-bitwise
     v => (v ^ (random() * 16 >> v / 4)).toString(16),
   )
 
@@ -65,6 +66,7 @@ export class Random {
     while (unshuffledElements !== 0) {
       // Pick a random as-yet-unshuffleded array element
       // (note that the semicolon here is mandatory)
+      // eslint-disable-next-line no-plusplus
       const randomIndex = this.range(unshuffledElements--);
 
       // Swap the last unshuffled value with

@@ -2,13 +2,11 @@ import { isObject } from 'lodash'
 
 // Retrieve an entry from a nested object
 // hierarchy, given a path
-const retrieveNested = (path, object) => {
-  let current = object
-  for (const level of path) {
-    current = current[level]
-  }
-  return current
-}
+const retrieveNested = (path, object) =>
+  path.reduce(
+    (subobject, subpath) => subobject[subpath],
+    object,
+  )
 
 // Construct a component given only an
 // object that specifies the options
