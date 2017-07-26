@@ -54,6 +54,34 @@ export class Form extends Screen {
       ...options,
     })
 
+    // Polyfill the form attribute for IE11 and Edge
+    // (the click is sufficient here, because of the
+    // specification of implicit submissions in HTML5,
+    // see https://www.w3.org/TR/html5/single-page.html#implicit-submission)
+    // Note that this is not perfect -- in modern browsers,
+    // the type attribute is not required for submission;
+    // but it will help push users toward standard-conformant
+    // behavior so that the polyfill can be removed safely
+    // at some point in the future.
+    this.options.events['click button[type="submit"]'] = (e) => {
+      // If the button references another form...
+      if (e.target.getAttribute('form')) {
+        // ... find it and ...
+        const targetForm = this.options.el.querySelector(
+          `form#${ e.target.getAttribute('form') }`
+        )
+
+        // ... submit that form instead
+        // (this overrides the page structure, as per standard)
+        if (targetForm) {
+          return this.submit(e)
+        }
+      }
+
+      // Otherwise stick to default behavior
+      return false
+    }
+
     // Capture form submissions
     this.options.events['submit form'] = e => this.submit(e)
   }
