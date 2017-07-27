@@ -192,6 +192,9 @@ export class Component extends EventHandler {
     // Save reference to topmost component in the hierarchy
     this.internals.root = this.parents[0]
 
+    // Setup PRNG
+    this.random = new Random(this.options.random)
+
     // Trigger the before:prepare event
     await this.triggerMethod('before:prepare')
 
@@ -205,9 +208,6 @@ export class Component extends EventHandler {
       Object.create(this.internals.rawOptions),
       parsedOptions,
     )
-
-    // Setup PRNG
-    this.random = new Random(this.options.random)
 
     // Setup automatic event handling for responses
     Object.keys(this.options.responses).forEach(
