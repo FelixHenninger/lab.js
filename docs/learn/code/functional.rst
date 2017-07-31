@@ -28,10 +28,10 @@ Introduction to functions
 The base for all our efforts will be **functions**. These are series of steps
 that we can teach a computer to perform, similar to a recipe. This means that,
 instead of talking through many individual steps every time we need something
-done, we can say something like `make me a sandwich <http://xkcd.com/149/>`_,
-and the computer will handle the details for us. Other ways of thinking about
-functions include magical spells, or very specialized machines that we can
-build, that do our bidding at the press of a single button.
+done, we can ask them to complete the entire task, and the computer will handle
+the details for us, having been taught the necessary steps. Other ways of
+thinking about functions include magical spells, or very specialized machines
+that we can build, that do our bidding at the press of a single button.
 
 Besides reducing the need for repetition, there are several other advantages of
 using functions in our code. One related plus is that the code becomes much more
@@ -76,7 +76,7 @@ As just mentioned, a function call can hide very complex operations from us,
 saving us from having to calculate a square root on our own, as in the last
 example. Thus, a function can replace any other code by returning an equivalent
 value. If we had a function called ``plusTwo``, typing ``1 + 2`` and
-``plusTwo(1)``, and analogously ``let new_number = 1 + 2`` and ``let new_number 
+``plusTwo(1)``, and analogously ``let new_number = 1 + 2`` and ``let new_number
 = plusTwo(1)`` are for our purposes entirely equivalent. A function call can act
 as a stand-in for an expression that results in the same value, or a variable
 name that represents the same value.
@@ -246,7 +246,7 @@ our experiments?
 .. [#f2] You might have noticed that the name, in this case, is also split into
   two parts, separated by the period. This signifies that the ``log`` function
   is part of the ``console`` object. Grouping of functions in objects is often
-  used for tidyness -- you might have noticed that all functions belonging to
+  used for tidiness -- you might have noticed that all functions belonging to
   ``lab.js`` are contained in the ``lab`` object, as in ``lab.HTMLScreen``.
 
   Similarly, functions that pertain to a specific element in the experiment are
