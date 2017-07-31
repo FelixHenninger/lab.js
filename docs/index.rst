@@ -44,6 +44,6 @@ All `contributors`_ are listed in the repository.
    :caption: Meta
    :hidden:
 
-   meta/contribute.rst
+   meta/contribute/index.rst
    meta/teach.rst
    meta/roadmap.rst
