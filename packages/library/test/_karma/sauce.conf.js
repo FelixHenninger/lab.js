@@ -64,6 +64,19 @@ module.exports = (config) => {
     // Preprocess test files
     // (c.f. https://npmjs.org/browse/keyword/karma-preprocessor)
     preprocessors: {
+      'test/**/*.js': ['babel'],
+    },
+
+    babelPreprocessor: {
+      options: {
+        presets: ['env'],
+        sourceMap: 'inline',
+        plugins: [
+          'transform-object-rest-spread',
+        ],
+      },
+      filename: file => file.originalPath.replace(/\.js$/, '.es5.js'),
+      sourceFileName: file => file.originalPath,
     },
 
     // Test results reporter to use
