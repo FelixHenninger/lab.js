@@ -1,5 +1,10 @@
 // Worker initialisation -------------------------------------------------------
 
+const root = self.location.href
+  .split('/')
+  .slice(0, -1) // Remove last path component
+  .join('/')
+
 self.addEventListener('install', event => {
   event.waitUntil(
     Promise.resolve()
@@ -28,19 +33,22 @@ self.addEventListener('activate', event => {
 // Request handling ------------------------------------------------------------
 
 self.addEventListener('fetch', event => {
-  console.log(`Retrieving ${ event.request.url } through preview worker`)
+  // Limit preview worker to urls are nested under the root URL
+  if (event.request.url.startsWith(root)) {
+    console.log(`Retrieving ${ event.request.url } through preview worker`)
 
-  event.respondWith(
-    caches
-      // Open cache
-      .open('labjs-preview')
-      // Match response against cache contents
-      .then( cache => cache.match(event.request) )
-      // Respond
-      .then( response => response || fetch(event.request) )
-      .catch( error => {
-        console.log(`Error in preview worker's fetch handler:`, error)
-        throw error
-      })
-  )
+    event.respondWith(
+      caches
+        // Open cache
+        .open('labjs-preview')
+        // Match response against cache contents
+        .then( cache => cache.match(event.request) )
+        // Respond
+        .then( response => response || fetch(event.request) )
+        .catch( error => {
+          console.log(`Error in preview worker's fetch handler:`, error)
+          throw error
+        })
+    )
+  }
 })
