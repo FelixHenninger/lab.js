@@ -21,7 +21,7 @@ export default (store) => {
           process.env.PUBLIC_URL + '/api/worker.js', { scope: rootUrl }
         )
       ).then(() =>
-        console.log(`Service worker registered successfully at ${ rootUrl }`)
+        console.log(`Preview worker registered successfully at ${ rootUrl }`)
       ).catch(e => {
         console.log('Error during service worker registration:', e)
         Raven.captureException(e)

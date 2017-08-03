@@ -8,7 +8,7 @@ const root = self.location.href
 self.addEventListener('install', event => {
   event.waitUntil(
     Promise.resolve()
-      .then( () => console.log('Service worker installed at', self.location) )
+      .then( () => console.log(`Preview worker installed at ${ root }`) )
       .then(
         // Make the worker the active service worker,
         // also triggering the activate event
@@ -16,7 +16,7 @@ self.addEventListener('install', event => {
       )
       .catch(
         error => {
-          console.log('Error during service worker installation', error)
+          console.log('Error during preview worker installation', error)
           throw error
         }
       )
@@ -26,7 +26,7 @@ self.addEventListener('install', event => {
 // Claim this worker as the active worker for all clients,
 // as per https://serviceworke.rs/immediate-claim.html
 self.addEventListener('activate', event => {
-  console.log('Activating service worker')
+  console.log('Activating preview worker')
   return self.clients.claim()
 })
 
