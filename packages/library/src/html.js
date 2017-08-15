@@ -74,12 +74,21 @@ export class Form extends Screen {
         // ... submit that form instead
         // (this overrides the page structure, as per standard)
         if (targetForm) {
-          return this.submit(e)
+          // This submission method simulates a button click
+          // because a direct submission would not trigger handlers
+          e.preventDefault()
+          const submit = document.createElement('input')
+          submit.type = 'submit'
+          submit.style.display = 'none'
+          targetForm.appendChild(submit)
+          submit.click()
+          targetForm.removeChild(submit)
+          return false
         }
       }
 
       // Otherwise stick to default behavior
-      return false
+      return true
     }
 
     // Capture form submissions
