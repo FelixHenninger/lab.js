@@ -270,6 +270,23 @@ describe('HTML-based components', () => {
       })
     })
 
+    it('can handle a form attribute within a form element', () => {
+      // Test on the actual page, as above
+      f.options.el = null
+      f.options.content = '' +
+        '<form id="test">' +
+        '  <button type="submit" form="test">Click me</button>' +
+        '</form>'
+
+      const spy = sinon.spy(f, 'submit')
+
+      return f.run().then(() => {
+        f.options.el.querySelector('button').click()
+        assert.ok(spy.calledOnce)
+        f.options.el.innerHTML = ''
+      })
+    })
+
     it('ends after successful submission', () => {
       f.options.content = exampleForm
 
