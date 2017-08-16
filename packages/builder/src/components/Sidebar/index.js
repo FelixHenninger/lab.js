@@ -5,18 +5,11 @@ import Toolbar from '../Toolbar'
 import Tree from '../Tree'
 import Node from '../Tree/components/Node'
 
-import logo from '../../static/logo.blue.png'
-
 const Sidebar = (props, context) =>
   <div>
     <div style={{ textAlign: 'center' }}>
-      <img
-        src={ logo }
-        alt="lab.js logo"
-        style={{ width: '115px', marginBottom: '24px' }}
-      />
+      <Toolbar />
     </div>
-    <Toolbar />
     <hr style={{ marginBottom: '14px' }} />
     <Tree
       Node={ Node }
