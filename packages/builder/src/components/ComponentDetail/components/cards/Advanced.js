@@ -5,7 +5,7 @@ import { FormGroup, Col, Label } from 'reactstrap'
 import { Control } from 'react-redux-form'
 
 export default (props) =>
-  <Card title="Advanced options" open={false} { ...props } >
+  <Card { ...props } >
     <FormGroup row>
       <Col xs={2}>
         <Label

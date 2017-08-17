@@ -14,7 +14,7 @@ const wrappedEditor = props =>
     className="editor-field"
   >
     <Editor
-      height={200}
+      height={600}
       language="javascript"
       value={ props.value }
       onChange={ props.onChange }
@@ -97,7 +97,7 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
   </div>
 
 export default (props) =>
-  <Card title="Scripts" open={false} { ...props } wrapContent={false}>
+  <Card { ...props } wrapContent={false}>
     <Grid
       model=".messageHandlers"
       HeaderContent={ HeaderCell }

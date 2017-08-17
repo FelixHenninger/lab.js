@@ -4,6 +4,7 @@ import { LocalForm } from 'react-redux-form'
 import { pick } from 'lodash'
 
 import { updateComponent } from '../util'
+import TabSet from '../../../../TabSet'
 import MetadataCard from '../../cards/Metadata'
 import SequenceCard from './cards/Sequence'
 import ResponsesCard from '../../cards/Responses'
@@ -29,20 +30,22 @@ class Sequence extends Component {
       onChange={ newData => updateComponent(this.context.store, id, newData) }
       getDispatch={ dispatch => this.formDispatch = dispatch }
     >
-      <MetadataCard
-        icon="sort-amount-asc"
+      <TabSet
+        tabs={{
+          'Metadata': () => <MetadataCard icon="sort-amount-asc" />,
+          'Content': () => <SequenceCard />,
+          'Responses': () => <ResponsesCard
+            data={ data.responses }
+            formDispatch={ this.formDispatch }
+          />,
+          'Scripts': () => <ScriptCard
+            data={ data.messageHandlers }
+            formDispatch={ this.formDispatch }
+          />,
+          'Advanced options': () => <AdvancedOptionsCard />,
+        }}
+        activeTab='Metadata'
       />
-      <SequenceCard />
-      <ResponsesCard
-        data={ data.responses }
-        formDispatch={ this.formDispatch }
-        open={ false }
-      />
-      <ScriptCard
-        data={ data.messageHandlers }
-        formDispatch={ this.formDispatch }
-      />
-      <AdvancedOptionsCard />
     </LocalForm>
   }
 }

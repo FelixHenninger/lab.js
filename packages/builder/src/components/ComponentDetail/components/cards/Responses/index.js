@@ -49,7 +49,7 @@ const HeaderCell = ({ columnData }) =>
   </span>
 
 export default (props) =>
-  <Card title="Responses" { ...props } wrapContent={false}>
+  <Card { ...props } wrapContent={false}>
     <Grid
       model=".responses"
       data={ props.data.rows }

@@ -4,7 +4,7 @@ import { FormGroup, InputGroup, InputGroupAddon } from 'reactstrap'
 import { Control } from 'react-redux-form'
 
 export default (props) =>
-  <Card title="Metadata" { ...props }>
+  <Card { ...props }>
     <FormGroup>
       <InputGroup>
         <Control
@@ -35,7 +35,7 @@ export default (props) =>
         model=".notes"
         className="form-control form-control-sm"
         placeholder="Notes"
-        rows="2"
+        rows="10"
         style={{
           padding: '0.5rem 0.75rem',
         }}

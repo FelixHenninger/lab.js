@@ -4,8 +4,8 @@ import Card from '../../../../Card'
 import Editor from '../../../../Editor'
 import { Control } from 'react-redux-form'
 
-export default (props) => {
-  return <Card title={props.title}>
+export default (props) =>
+  <Card>
     <Control.textarea
       model={ props.model }
       component={ Editor }
@@ -16,4 +16,3 @@ export default (props) => {
       debounce={ 300 }
     />
   </Card>
-}

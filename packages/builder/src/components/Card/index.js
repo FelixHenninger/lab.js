@@ -19,15 +19,19 @@ class Card extends Component {
         style={ this.props.style }
         className="my-1"
       >
-      <CardHeader
-        style={{
-          fontWeight: 500,
-          borderBottomStyle: (this.state.isOpen ? 'solid' : 'none'),
-        }}
-        onClick={() => this.setState({ isOpen: !this.state.isOpen })}
-      >
-        { title }
-      </CardHeader>
+      {
+        title
+          ? <CardHeader
+              style={{
+                fontWeight: 500,
+                borderBottomStyle: (this.state.isOpen ? 'solid' : 'none'),
+              }}
+              onClick={() => this.setState({ isOpen: !this.state.isOpen })}
+            >
+              { title }
+            </CardHeader>
+          : null
+      }
       { this.state.isOpen ? content : null }
     </BaseCard>
   }

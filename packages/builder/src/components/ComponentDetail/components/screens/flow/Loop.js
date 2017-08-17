@@ -4,6 +4,7 @@ import { LocalForm } from 'react-redux-form'
 import { pick } from 'lodash'
 
 import { updateComponent } from '../util'
+import TabSet from '../../../../TabSet'
 import MetadataCard from '../../cards/Metadata'
 import LoopCard from './cards/Loop'
 import ResponsesCard from '../../cards/Responses'
@@ -30,23 +31,25 @@ class Loop extends Component {
       onChange={ newData => updateComponent(this.context.store, id, newData) }
       getDispatch={ dispatch => this.formDispatch = dispatch }
     >
-      <MetadataCard
-        icon="repeat"
+      <TabSet
+        tabs={{
+          'Metadata': () => <MetadataCard icon="repeat" />,
+          'Content': () => <LoopCard
+            data={ data.templateParameters }
+            formDispatch={ this.formDispatch }
+          />,
+          'Responses': () => <ResponsesCard
+            data={ data.responses }
+            formDispatch={ this.formDispatch }
+          />,
+          'Scripts': () => <ScriptCard
+            data={ data.messageHandlers }
+            formDispatch={ this.formDispatch }
+          />,
+          'Advanced options': () => <AdvancedOptionsCard />,
+        }}
+        activeTab='Metadata'
       />
-      <LoopCard
-        data={ data.templateParameters }
-        formDispatch={ this.formDispatch }
-      />
-      <ResponsesCard
-        data={ data.responses }
-        formDispatch={ this.formDispatch }
-        open={ false }
-      />
-      <ScriptCard
-        data={ data.messageHandlers }
-        formDispatch={ this.formDispatch }
-      />
-      <AdvancedOptionsCard />
     </LocalForm>
   }
 }

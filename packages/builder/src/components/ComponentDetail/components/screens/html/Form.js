@@ -4,6 +4,7 @@ import { LocalForm } from 'react-redux-form'
 import { pick } from 'lodash'
 
 import { updateComponent } from '../util'
+import TabSet from '../../../../TabSet'
 import MetadataCard from '../../cards/Metadata'
 import MonacoCard from '../../cards/Monaco'
 import ResponsesCard from '../../cards/Responses'
@@ -36,26 +37,28 @@ class Form extends Component {
       }
       onChange={ newData => updateComponent(context.store, id, newData) }
       getDispatch={ dispatch => this.formDispatch = dispatch }
-      >
-      <MetadataCard
-        icon="list-alt"
+    >
+      <TabSet
+        tabs={{
+          'Metadata': () => <MetadataCard icon="list-alt" />,
+          'Content': () => <MonacoCard
+            model=".content"
+            title="Content"
+            language="html"
+            height={ 600 }
+          />,
+          'Responses': () => <ResponsesCard
+            data={ data.responses }
+            formDispatch={ this.formDispatch }
+          />,
+          'Scripts': () => <ScriptCard
+            data={ data.messageHandlers }
+            formDispatch={ this.formDispatch }
+          />,
+          'Advanced options': () => <AdvancedOptionsCard />,
+        }}
+        activeTab='Metadata'
       />
-      <MonacoCard
-        model=".content"
-        title="Content"
-        language="html"
-        height={ 600 }
-      />
-      <ResponsesCard
-        data={ data.responses }
-        formDispatch={ this.formDispatch }
-        open={ false }
-      />
-      <ScriptCard
-        data={ data.messageHandlers }
-        formDispatch={ this.formDispatch }
-      />
-      <AdvancedOptionsCard />
     </LocalForm>
   }
 }
