@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Nav, NavItem, NavLink } from 'reactstrap'
+import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import classnames from 'classnames'
 
 export default class TabSet extends React.Component {
@@ -23,7 +23,12 @@ export default class TabSet extends React.Component {
   render() {
     return (
       <div>
-        <Nav tabs>
+        <Nav pills
+          className="justify-content-center"
+          style={{
+            marginBottom: '15px',
+          }}
+        >
           {
             Object.keys(this.props.tabs).map(tab =>
               <NavItem key={ tab }>
@@ -40,9 +45,11 @@ export default class TabSet extends React.Component {
             )
           }
         </Nav>
-        {
-          this.props.tabs[this.state.activeTab]()
-        }
+        <TabContent>
+          <TabPane>
+            { this.props.tabs[this.state.activeTab]() }
+          </TabPane>
+        </TabContent>
       </div>
     )
   }

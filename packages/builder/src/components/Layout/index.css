@@ -1,0 +1,21 @@
+.grid-wrapper {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 320px auto;
+  grid-template-rows: 1fr max-content; /* using auto doesn't work in FireFox */
+  grid-template-areas: "sidebar contents";
+  border-top: 6px solid rgb(255, 195, 45);
+}
+
+.grid-sidebar {
+  grid-area: sidebar;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.grid-contents {
+  grid-area: contents;
+}
+
+.grid-sidebar, .grid-contents {
+  padding: 15px;
+}

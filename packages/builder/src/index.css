@@ -1,8 +1,6 @@
 body {
-  border-top: 6px solid rgb(255, 195, 45);
   padding: 0;
   font-family: 'Fira Sans', sans-serif;
-  overflow-y: scroll;
 }
 
 input, button, textarea, select {
