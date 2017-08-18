@@ -13,10 +13,13 @@ import 'fira/fira.css'
 // Grid layout
 import './index.css'
 
-export default ({ sidebar, children }) =>
+export default ({ sidebar, footer, children }) =>
   <div className="grid-wrapper">
     <div className="grid-sidebar">
       { sidebar }
+    </div>
+    <div className="grid-imprint">
+      { footer }
     </div>
     <div className="grid-contents">
       {/* TODO: Remove xs size jump to 510px,

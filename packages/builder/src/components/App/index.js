@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
+
 import Layout from '../Layout'
-import Sidebar from '../Sidebar'
 import Modal from '../Modal'
+
+import Sidebar from '../Sidebar'
+import Footer from '../Footer'
 import ComponentDetail from '../ComponentDetail'
 
 class App extends Component {
@@ -9,7 +12,10 @@ class App extends Component {
     return (
       <div>
         <Modal />
-        <Layout sidebar={ <Sidebar /> }>
+        <Layout
+          sidebar={ <Sidebar /> }
+          footer={ <Footer /> }
+        >
           <ComponentDetail />
         </Layout>
       </div>
