@@ -4,11 +4,20 @@ import { uniqueId } from 'lodash'
 
 import './hint.css'
 
+const HintTarget = ({ id, onClick }) =>
+  <span id={ id } onClick={ onClick }>
+    <i className="fa fa-info-circle hint-icon"
+      style={{ color: 'rgba(0, 0, 0, 0.2)' }}
+      aria-hidden="true" title="More information"></i>
+    <span className="sr-only">More information</span>
+  </span>
+
 export default class HintPopover extends Component {
   constructor(props) {
     super(props)
 
     this.id = this.props.id || uniqueId('hint_')
+    this.target = this.props.target || HintTarget
 
     this.toggle = this.toggle.bind(this)
     this.state = {
@@ -23,15 +32,12 @@ export default class HintPopover extends Component {
   }
 
   render() {
+    const Target = this.target
+
     return (
       <span className={ this.props.className } style={ this.props.style }>
         {' '}
-        <span id={ this.id } onClick={ this.toggle }>
-          <i className="fa fa-info-circle hint-icon"
-            style={{ color: 'rgba(0, 0, 0, 0.2)' }}
-            aria-hidden="true" title="More information"></i>
-          <span className="sr-only">More information</span>
-        </span>
+        <Target id={ this.id } onClick={ this.toggle } />
         <Popover
           target={ this.id }
           placement={ this.props.placement || "bottom" }
