@@ -26,7 +26,19 @@ export default class Editor extends React.Component {
         { token: 'metatag.html', foreground: '999999' },
         { token: 'property-name', foreground: '0275d8' },
         { token: 'token.content', foreground: '0275d8' },
-      ]
+      ],
+      colors: {
+        'editor.background': '#ffffff',
+        'editorIndentGuide.background': '#eceeef',
+        'editorLineNumber.foreground': '#818a91',
+        'editorRuler.foreground': '#eceeef',
+      },
+    })
+  }
+
+  editorDidMount(editor) {
+    editor.getModel().updateOptions({
+      tabSize: 2,
     })
   }
 
@@ -46,6 +58,7 @@ export default class Editor extends React.Component {
       language="html" value={''}
       theme="labjs"
       requireConfig={ requireConfig }
+      editorDidMount={ this.editorDidMount }
       editorWillMount={ this.editorWillMount }
       options={{
         // Behavior
@@ -55,8 +68,15 @@ export default class Editor extends React.Component {
         lineNumbersMinChars: 4,
         overviewRulerLanes: 0,
         rulers: [80],
+        scrollbar: {
+          useShadows: false,
+        },
         scrollBeyondLastLine: false,
-        wrappingColumn: 0,
+        tabSize: 2,
+        // Wrapping
+        wordWrap: 'wordWrapColumn',
+        wordWrapColumn: 80,
+        wrappingIndent: "indent",
         // Style
         fontFamily: 'Fira Mono',
         fontSize: 18,

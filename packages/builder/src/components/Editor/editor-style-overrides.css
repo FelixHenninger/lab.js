@@ -1,6 +1,5 @@
 /* Line numbers */
 .monaco-editor .line-numbers {
-  color: #818a91 !important;
   font-size: 12px;
   top: 2px;
 }
@@ -17,4 +16,14 @@
 .monaco-editor .view-overlays:not(.focused) .bracket-match {
   border: none;
   background-color: transparent;
+}
+
+/* Overlay container
+   (this rule is necessary because monaco adds the container
+   to the bottom of the body element, which breaks the full-height
+   grid layout in Firefox [not in Chrome, though]. This rule
+   moves it to the top [left, outside the viewport])
+*/
+.monaco-aria-container {
+  top: 0;
 }
