@@ -10,7 +10,7 @@ class Card extends Component {
   }
 
   render() {
-    const { title, children, wrapContent } = this.props
+    const { title, children, collapsable, wrapContent } = this.props
     const content = wrapContent !== false
       ? <CardBlock>{ children }</CardBlock>
       : children
@@ -26,7 +26,9 @@ class Card extends Component {
                 fontWeight: 500,
                 borderBottomStyle: (this.state.isOpen ? 'solid' : 'none'),
               }}
-              onClick={() => this.setState({ isOpen: !this.state.isOpen })}
+              onClick={ () => {
+                if (collapsable) this.setState({ isOpen: !this.state.isOpen })
+              } }
             >
               { title }
             </CardHeader>

@@ -71,6 +71,7 @@ const ComponentList = ({ parent, index }, context) =>
       <CollapsingCard
         key={ category }
         title={ category } open={ false }
+        collapsable={ true }
         wrapContent={ false }
       >
         <ListGroup className="list-group-flush">
