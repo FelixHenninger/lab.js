@@ -13,6 +13,14 @@ export const defaultState = {
   },
 }
 
+const defaultTabs = [
+  'Notes',
+  'Content',
+  'Responses',
+  'Scripts',
+  'More',
+]
+
 export const metadata = {
   'lab.flow.Loop': {
     name: 'Loop',
@@ -21,6 +29,8 @@ export const metadata = {
     icon: 'repeat',
     minChildren: 1,
     maxChildren: 1,
+    tabs: defaultTabs,
+    defaultTab: 'Content',
     defaults: {
       type: 'lab.flow.Loop',
       children: [],
@@ -43,6 +53,8 @@ export const metadata = {
     icon: 'sort-amount-asc',
     minChildren: 1,
     maxChildren: Infinity,
+    tabs: defaultTabs,
+    defaultTab: 'Content',
     defaults: {
       type: 'lab.flow.Sequence',
       children: [],
@@ -61,6 +73,8 @@ export const metadata = {
     icon: 'list-alt',
     minChildren: 0,
     maxChildren: 0,
+    tabs: defaultTabs,
+    defaultTab: 'Content',
     defaults: {
       type: 'lab.html.Form',
       responses: {
@@ -78,6 +92,8 @@ export const metadata = {
     icon: 'window-maximize',
     minChildren: 0,
     maxChildren: 0,
+    tabs: defaultTabs,
+    defaultTab: 'Content',
     defaults: {
       type: 'lab.html.Screen',
       responses: {
@@ -88,6 +104,16 @@ export const metadata = {
       },
     },
   },
+}
+
+export const defaultTab = (tab, type) => {
+  if (tab && metadata[type].tabs.includes(tab)) {
+    return tab
+  } else if (type) {
+    return metadata[type].defaultTab
+  } else {
+    return undefined
+  }
 }
 
 // TODO: This is awkwardly named
