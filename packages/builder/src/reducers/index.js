@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import components from './components'
-import componentDetail from '../components/ComponentDetail/reducers'
+import componentDetail from '../components/ComponentOptions/reducers'
 import files from './files'
 import modal from '../components/Modal/reducers'
 

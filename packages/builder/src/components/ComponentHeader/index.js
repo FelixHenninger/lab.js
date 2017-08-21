@@ -9,7 +9,7 @@ import {
 import { LocalForm, Control } from 'react-redux-form'
 import classnames from 'classnames'
 
-import { updateComponent } from '../ComponentDetail/components/screens/util'
+import { updateComponent } from '../../actions/components'
 import { metadata, defaultTab } from '../../logic/components'
 
 const HeaderForm = ({ title, icon, onChange }) =>
@@ -77,12 +77,12 @@ const Header = ({ id, type, title, tab }, { store }) => {
         id={ id }
         title={ title }
         icon={ metadata[type].icon }
-        onChange={ data => updateComponent(store, id, data) }
+        onChange={ data => store.dispatch(updateComponent(id, data)) }
       />
       <HeaderNav
         tabs={ metadata[type].tabs }
         tab={ tab }
-        onChange={ _tab => updateComponent(store, id, { _tab }) }
+        onChange={ _tab => store.dispatch(updateComponent(id, { _tab })) }
       />
     </div>
   } else {

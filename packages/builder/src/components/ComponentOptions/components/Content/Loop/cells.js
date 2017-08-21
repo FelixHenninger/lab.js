@@ -4,7 +4,7 @@ import { Control, actions } from 'react-redux-form'
 
 import './style.css'
 
-import Dropdown from '../../../../../../Dropdown'
+import Dropdown from '../../../../Dropdown'
 import { DropdownToggle, DropdownMenu, DropdownItem,
          InputGroup, InputGroupButton } from 'reactstrap'
 import classnames from 'classnames'

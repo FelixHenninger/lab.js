@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap'
-import Dropdown from '../../../../../../Dropdown'
+import Dropdown from '../../../../Dropdown'
 import { actions } from 'react-redux-form'
 
-import Uploader from '../../../../../../Uploader'
+import Uploader from '../../../../Uploader'
 import FileSaver from 'file-saver'
 import { parse, unparse } from 'papaparse'
 

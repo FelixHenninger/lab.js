@@ -1,11 +1,11 @@
 import React from 'react'
-import Card from '../../../../Card'
-import Hint from '../../../../Hint'
-
-import Grid from '../../../../Grid'
+import { Control } from 'react-redux-form'
 import { CardBlock, FormGroup, Col, Label } from 'reactstrap'
 
-import { Control } from 'react-redux-form'
+import Card from '../../Card'
+import Grid from '../../Grid'
+import Hint from '../../Hint'
+import Form from './Form'
 
 const GridCell = ({ cellData, rowIndex, colIndex, colName }) => {
   if (colIndex === 1) {
@@ -48,16 +48,16 @@ const HeaderCell = ({ columnData }) =>
     { columnData }
   </span>
 
-export default (props) =>
-  <Card { ...props } wrapContent={false}>
+const Content = ({ id, data, formDispatch }) =>
+  <div>
     <Grid
       model=".responses"
-      data={ props.data.rows }
+      data={ data.responses.rows }
       columns={ ['label', 'type', 'target', 'filter'] }
       columnWidths={ [30, 20, 20, 20] }
       HeaderContent={ HeaderCell }
       BodyContent={ GridCell }
-      formDispatch={ props.formDispatch }
+      formDispatch={ formDispatch }
     />
     <CardBlock>
       <FormGroup row>
@@ -114,4 +114,20 @@ export default (props) =>
         </Col>
       </FormGroup>
     </CardBlock>
+  </div>
+
+export default ({ id, data }) =>
+  <Card title="Responses" wrapContent={ false }>
+    <Form
+      id={ id }
+      data={ data }
+      keys={ ['responses', 'correctResponse', 'timeout'] }
+      getDispatch={ dispatch => this.formDispatch = dispatch }
+    >
+      <Content
+        id={ id }
+        data={ data }
+        formDispatch={ action => this.formDispatch(action) }
+      />
+    </Form>
   </Card>

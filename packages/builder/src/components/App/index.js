@@ -6,7 +6,7 @@ import Modal from '../Modal'
 import Sidebar from '../Sidebar'
 import Footer from '../Footer'
 import ComponentHeader from '../ComponentHeader'
-import ComponentDetail from '../ComponentDetail'
+import ComponentOptions from '../ComponentOptions'
 
 class App extends Component {
   render() {
@@ -18,7 +18,7 @@ class App extends Component {
           footer={ <Footer /> }
         >
           <ComponentHeader />
-          <ComponentDetail />
+          <ComponentOptions />
         </Layout>
       </div>
     )

@@ -1,9 +1,11 @@
 import React from 'react'
-import Card from '../../../../Card'
-import Grid from '../../../../Grid'
-import Editor from '../../../../Editor'
 import { Card as RawCard, CardFooter, Row, Col } from 'reactstrap'
 import { Control } from 'react-redux-form'
+
+import Form from '../Form'
+import Card from '../../../Card'
+import Grid from '../../../Grid'
+import Editor from '../../../Editor'
 
 import './style.css'
 
@@ -96,17 +98,24 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
     />
   </div>
 
-export default (props) =>
-  <Card { ...props } wrapContent={false}>
-    <Grid
-      model=".messageHandlers"
-      HeaderContent={ HeaderCell }
-      BodyContent={ GridCell }
-      showHeader={ false }
-      columnWidths={ [ 90 ] }
-      columns={ ['label'] }
-      defaultRow={ [ { title: '', message: '', code: '' }, ] }
-      data={ props.data.rows }
-      formDispatch={ props.formDispatch }
-    />
+export default ({ id, data }) =>
+  <Card title="Scripts" wrapContent={false}>
+    <Form
+      id={ id }
+      data={ data }
+      keys={ ['messageHandlers'] }
+      getDispatch={ dispatch => this.formDispatch = dispatch }
+    >
+      <Grid
+        model=".messageHandlers"
+        HeaderContent={ HeaderCell }
+        BodyContent={ GridCell }
+        showHeader={ false }
+        columnWidths={ [ 90 ] }
+        columns={ ['label'] }
+        defaultRow={ [ { title: '', message: '', code: '' }, ] }
+        data={ data.messageHandlers.rows }
+        formDispatch={ action => this.formDispatch(action) }
+      />
+    </Form>
   </Card>
