@@ -2,17 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import {
-  Nav, NavItem, NavLink,
-  FormGroup, InputGroup, InputGroupAddon
-} from 'reactstrap'
+import { Nav, NavItem, NavLink,
+  FormGroup, InputGroup, InputGroupAddon,
+  UncontrolledTooltip } from 'reactstrap'
 import { LocalForm, Control } from 'react-redux-form'
 import classnames from 'classnames'
 
 import { updateComponent } from '../../actions/components'
 import { metadata, defaultTab } from '../../logic/components'
 
-const HeaderForm = ({ title, icon, onChange }) =>
+const HeaderForm = ({ title, typeCategory, typeName, icon, onChange }) =>
   <LocalForm
     initialState={{ title }}
     onChange={ data => onChange(data) }
@@ -35,12 +34,17 @@ const HeaderForm = ({ title, icon, onChange }) =>
         />
         <InputGroupAddon>
           <i
+            id="typeIcon"
             className={`fa fa-${ icon }`}
             style={{
               textAlign: 'center',
               minWidth: '20px',
             }}
           />
+          <UncontrolledTooltip placement="right" target="typeIcon">
+            { typeName }
+            <span className="text-muted"> · { typeCategory }</span>
+          </UncontrolledTooltip>
         </InputGroupAddon>
       </InputGroup>
     </FormGroup>
@@ -76,6 +80,8 @@ const Header = ({ id, type, title, tab }, { store }) => {
       <HeaderForm
         id={ id }
         title={ title }
+        typeName={ metadata[type].name }
+        typeCategory={ metadata[type].category }
         icon={ metadata[type].icon }
         onChange={ data => store.dispatch(updateComponent(id, data)) }
       />
