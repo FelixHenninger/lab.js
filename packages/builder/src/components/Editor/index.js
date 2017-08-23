@@ -54,7 +54,7 @@ export default class Editor extends React.Component {
       waitSeconds: 30,
     }
     return <MonacoEditor
-      width="100%" height="600"
+      width="100%"
       language="html" value={''}
       theme="labjs"
       requireConfig={ requireConfig }

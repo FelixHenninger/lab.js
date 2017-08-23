@@ -25,9 +25,11 @@ export default ({ sidebar, footer, children }) =>
       {/* TODO: Remove xs size jump to 510px,
           possibly by setting minWidth */}
       <Container fluid
+        className="h-100 d-flex flex-column"
         style={{
           minWidth: '510px',
           maxWidth: '1200px',
+          minHeight: '600px',
           padding: '0',
         }}
       >
