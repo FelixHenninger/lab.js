@@ -13,7 +13,7 @@ import { reduce } from './util/tree'
 // (code is clean, but not necessarily as elegant
 // as possible)
 
-const addCanvasDefaults = function(options) {
+const addCanvasDefaults = function addCanvasDefaults(options) {
   // Setup canvas handling:
   // By default, the component does not
   // come bundled with a canvas. Instead,
@@ -29,23 +29,41 @@ const addCanvasDefaults = function(options) {
     ctxType: '2d',
     ctx: null,
     insertCanvasOnRun: false,
+    // Move origin to canvas center
+    translateOrigin: true,
+    // Scale a viewport to the entire available space
+    viewport: [800, 600],
+    scaleViewport: false,
+    drawViewport: false,
+    // Use high resolution if possible
+    scalePixelRatio: null, // replaced by true if unspecified
     ...options,
   }
 }
 
-const prepareCanvas = function() {
+const prepareCanvas = function prepareCanvas() {
   // Initialize a canvas,
   // if this has not already been done
-  if (this.options.canvas == null) {
+  if (this.options.canvas === null) {
     this.options.canvas = document.createElement('canvas')
     // Remember to add the canvas to the DOM later
     this.options.insertCanvasOnRun = true
   }
+
+  // Setup resolution scaling
+  if (this.options.scalePixelRatio === null) {
+    this.options.scalePixelRatio = true
+  }
 }
 
-const insertCanvas = function() {
+const insertCanvas = function insertCanvas() {
   // Add the canvas to the DOM if need be
   if (this.options.insertCanvasOnRun) {
+    // Calculate scaling factor necessary for full resolution rendering
+    const pixelRatio = this.options.scalePixelRatio
+      ? window.devicePixelRatio
+      : 1
+
     // Remove all other content within the HTML tag
     // (note that this could be sped up, as per
     // http://jsperf.com/innerhtml-vs-removechild
@@ -54,8 +72,12 @@ const insertCanvas = function() {
 
     // Adjust the canvas dimensions
     // to match those of the containing element
-    this.options.canvas.width = this.options.el.clientWidth
-    this.options.canvas.height = this.options.el.clientHeight
+    this.options.canvas.width = this.options.el.clientWidth * pixelRatio
+    this.options.canvas.height = this.options.el.clientHeight * pixelRatio
+
+    // Set the canvas element dimensions
+    this.options.canvas.style.width = `${ this.options.el.clientWidth }px`
+    this.options.canvas.style.height = `${ this.options.el.clientHeight }px`
 
     // Append the canvas to the DOM
     this.options.el.appendChild(this.options.canvas)
@@ -96,6 +118,59 @@ export class Screen extends Component {
     this.options.ctx = this.options.canvas.getContext(
       this.options.ctxType,
     )
+
+    // Coordinate system translation and scaling -------------------------------
+
+    // Save current transformation state
+    this.options.ctx.save()
+
+    // Translate coordinate system origin
+    // to the center of the canvas
+    if (this.options.translateOrigin) {
+      this.options.ctx.translate(
+        this.options.canvas.width / 2,
+        this.options.canvas.height / 2,
+      )
+    }
+
+    // Scale coordinate system to match device scaling
+    const pixelRatio = this.options.scalePixelRatio
+      ? window.devicePixelRatio
+      : 1
+
+    // Scale viewport to fill one dimension (if requested)
+    // The calculation needs to ajust for the fact that the
+    // width and height of the canvas may represent virtual
+    // coordinates on a latent high-resolution canvas
+    /* eslint-disable indent */
+    const viewportScale = this.options.scaleViewport
+      ? Math.min(
+          this.options.canvas.width / (pixelRatio * this.options.viewport[0]),
+          this.options.canvas.height / (pixelRatio * this.options.viewport[1]),
+        )
+      : 1
+    /* eslint-enable indent */
+
+    // Perform scaling
+    this.options.ctx.scale(
+      pixelRatio * viewportScale,
+      pixelRatio * viewportScale,
+    )
+
+    // Draw viewport for debugging purposes
+    if (this.options.drawViewport) {
+      this.options.ctx.save()
+      this.options.ctx.strokeStyle = 'rgb(229, 229, 229)'
+
+      this.options.ctx.strokeRect(
+        -this.options.viewport[0] / 2,
+        -this.options.viewport[1] / 2,
+        this.options.viewport[0],
+        this.options.viewport[1],
+      )
+
+      this.options.ctx.restore()
+    }
   }
 
   onRun() {
@@ -111,6 +186,9 @@ export class Screen extends Component {
     window.cancelAnimationFrame(
       this.internals.frameRequest,
     )
+
+    // Undo any previously applied tranformations
+    this.options.ctx.restore()
   }
 }
 
@@ -129,7 +207,7 @@ export class Sequence extends BaseSequence {
 
     // Push canvas to nested components
     if (!this.options.handMeDowns.includes('canvas')) {
-      this.options.handMeDowns.push('canvas')
+      this.options.handMeDowns.push('canvas', 'scalePixelRatio')
     }
   }
 
@@ -177,7 +255,7 @@ export class Frame extends BaseFrame {
 
     // Push canvas to nested components
     if (!this.options.handMeDowns.includes('canvas')) {
-      this.options.handMeDowns.push('canvas')
+      this.options.handMeDowns.push('canvas', 'scalePixelRatio')
     }
   }
 

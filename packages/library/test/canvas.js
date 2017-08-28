@@ -12,8 +12,17 @@ describe('Canvas-based components', () => {
       // Reset screen
       c = new lab.canvas.Screen({
         renderFunction: () => null, // dummy drawing function
-        el: document.createElement('div')
+        el: document.createElement('div'),
+        scalePixelRatio: false,
       })
+
+      // Perform tests within the document,
+      // so that sizing applies and can be checked
+      document.body.appendChild(c.options.el)
+    })
+
+    afterEach(() => {
+      document.body.removeChild(c.options.el)
     })
 
     it('inserts a canvas into the page if necessary', () =>
@@ -39,12 +48,24 @@ describe('Canvas-based components', () => {
       })
     })
 
+    // TODO: The screen will, by default, scale according to the
+    // devicePixelRatio constant. This is disabled here. Ideally,
+    // the tests would be revised to reflect that the scaling is
+    // activated by default.
     it('sets canvas width and height correctly', () => {
       // Set dimensions on the surrounding element
       c.options.el.style.height = '200px'
       c.options.el.style.width = '300px'
 
       return c.run().then(() => {
+        assert.equal(
+          c.options.canvas.height,
+          200
+        )
+        assert.equal(
+          c.options.canvas.width,
+          300
+        )
         assert.equal(
           c.options.canvas.height,
           c.options.el.clientHeight,
@@ -57,6 +78,36 @@ describe('Canvas-based components', () => {
         )
       })
     })
+
+    it('accounts for device pixel ratios', () => {
+      c.options.scalePixelRatio = true
+
+      // Set dimensions on the surrounding element
+      c.options.el.style.height = '200px'
+      c.options.el.style.width = '300px'
+
+      // Set devicePixelRatio to arbitrary value
+      const oldDevicePixelRatio = window.devicePixelRatio
+      window.devicePixelRatio = 2.5
+
+      return c.run().then(() => {
+        assert.equal(
+          c.options.canvas.height,
+          c.options.el.clientHeight * window.devicePixelRatio,
+          'canvas height set correctly'
+        )
+
+        assert.equal(
+          c.options.canvas.width,
+          c.options.el.clientWidth * window.devicePixelRatio,
+          'canvas width set correctly'
+        )
+
+        // Reset devicePixelRatio
+        window.devicePixelRatio = oldDevicePixelRatio
+      })
+
+    })
   })
 
   describe('Screen', () => {
@@ -65,8 +116,14 @@ describe('Canvas-based components', () => {
     beforeEach(() => {
       // Reset screen
       c = new lab.canvas.Screen({
-        el: document.createElement('div')
+        el: document.createElement('div'),
+        scalePixelRatio: false,
       })
+      document.body.appendChild(c.options.el)
+    })
+
+    afterEach(() => {
+      document.body.removeChild(c.options.el)
     })
 
     it('executes render function when run', () => {
@@ -125,6 +182,290 @@ describe('Canvas-based components', () => {
           window.cancelAnimationFrame.restore()
         })
     })
+
+    it('translates coordinate system', () => {
+      // TODO: The APIs required for directly accessing
+      // the transformation matrices are not currently
+      // implemented across browsers. At some later point,
+      // these tests might be drastically simplified
+      // because they no longer need to do actual drawing,
+      // but can check the transformation matrix that
+      // is set on the 2d canvas context.
+      // See https://html.spec.whatwg.org/multipage/canvas.html
+      // #dom-context-2d-gettransform and https://developer.mozilla.org/en-US/
+      // docs/Web/API/CanvasRenderingContext2D/currentTransform
+      // for further information.
+
+      // Set canvas size
+      c.options.el.style.height = '200px'
+      c.options.el.style.width = '300px'
+
+      return c.run().then(() => {
+        c.options.ctx.fillRect(
+          -5, -5, 10, 10,
+        )
+
+        // Reset transform, so that tests
+        // are performed using standard coordinates
+        c.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
+        // TODO: Some beautiful day, Safari will
+        // support the simpler standard (then, this
+        // can also be used in several places below)
+        // Please see https://developer.mozilla.org/en-US/docs/Web/API/
+        //   CanvasRenderingContext2D/resetTransform#Browser_compatibility
+        //c.options.ctx.resetTransform()
+
+        // Compute center coordinates
+        const [cx, cy] = [
+          c.options.canvas.width / 2,
+          c.options.canvas.height / 2,
+        ]
+
+        // TODO: Some beautiful day, we'll refactor
+        // this color checking command into an easy-to-use helper
+        assert.deepEqual(
+          Array.from(
+            c.options.ctx
+              .getImageData(cx, cy, 1, 1)
+              .data
+          ),
+          [0, 0, 0, 255],
+          'Canvas center should be filled',
+        )
+
+      })
+    })
+
+    it('can use a standard coordinate system if requested', () => {
+      c.options.translateOrigin = false
+
+      // ... as above
+      c.options.el.style.height = '200px'
+      c.options.el.style.width = '300px'
+
+      return c.run().then(() => {
+        c.options.ctx.fillRect(
+          -5, -5, 10, 10,
+        )
+
+        c.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
+
+        assert.deepEqual(
+          Array.from(
+            c.options.ctx
+              .getImageData(0, 0, 1, 1)
+              .data
+          ),
+          [0, 0, 0, 255],
+          'Canvas top left corner should be filled',
+        )
+      })
+
+    })
+
+    it('can scale content to fit available space', () => {
+      c.options.el.style.height = '200px'
+      c.options.el.style.width = '300px'
+
+      // Scale contents 2x
+      c.options.viewport = [150, 100]
+      c.options.scaleViewport = true
+
+      return c.run().then(() => {
+        c.options.ctx.fillRect(
+          -5, -5, 10, 10,
+        )
+
+        c.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
+
+        assert.deepEqual(
+          Array.from(
+            c.options.ctx
+              .getImageData(150, 90, 1, 1)
+              .data
+          ),
+          [0, 0, 0, 255],
+          'Center rectangle should be 20px high',
+        )
+      })
+    })
+
+    it('chooses scale to fill one dimension', () => {
+      c.options.el.style.height = '200px'
+      c.options.el.style.width = '300px'
+      c.options.viewport = [100, 100]
+      c.options.scaleViewport = true
+
+      const d = c.clone()
+
+      // The basic logic here is to fill a 100x100
+      // viewport entirely, and check that the scaled
+      // result extends to the appropriate borders.
+      // We repeat this twice, first with a landscape-
+      // then with a portrait-oriented canvas
+
+      return c.run().then(() => {
+        c.options.ctx.fillRect(
+          -50, -50, 100, 100,
+        )
+
+        c.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
+
+        assert.deepEqual(
+          Array.from(
+            c.options.ctx
+              .getImageData(10, 100, 1, 1)
+              .data
+          ),
+          [0, 0, 0, 0],
+          'Canvas left edge should be empty',
+        )
+
+        assert.deepEqual(
+          Array.from(
+            c.options.ctx
+              .getImageData(150, 100, 1, 1)
+              .data
+          ),
+          [0, 0, 0, 255],
+          'Canvas center should be filled',
+        )
+      }).then(() => {
+        // Switch dimensions
+        d.options.el.style.height = '300px'
+        d.options.el.style.width = '200px'
+
+        return d.run()
+      }).then(() => {
+        d.options.ctx.fillRect(
+          -50, -50, 100, 100,
+        )
+
+        d.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
+
+        assert.deepEqual(
+          Array.from(
+            d.options.ctx
+              .getImageData(10, 150, 1, 1)
+              .data
+          ),
+          [0, 0, 0, 255],
+          'Canvas center left should be filled',
+        )
+
+        assert.deepEqual(
+          Array.from(
+            d.options.ctx
+              .getImageData(100, 10, 1, 1)
+              .data
+          ),
+          [0, 0, 0, 0],
+          'Canvas top should be empty',
+        )
+      })
+    })
+
+    it('can draw viewport border if requested', () => {
+      c.options.el.style.height = '200px'
+      c.options.el.style.width = '200px'
+      c.options.viewport = [100, 100]
+      c.options.scaleViewport = true
+      c.options.drawViewport = true
+
+      return c.run().then(() => {
+        c.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
+
+        assert.deepEqual(
+          Array.from(
+            c.options.ctx
+              .getImageData(199, 199, 1, 1)
+              .data
+          ),
+          [ 229, 229, 229, 255 ],
+          'Border should be drawn in bottom left corner',
+        )
+      })
+    })
+
+    it('scales coordinates to account for device pixel ratios', () => {
+      // Create artificial canvas
+      c.options.canvas = document.createElement('canvas')
+      c.options.ctx = c.options.canvas.getContext('2d')
+      c.options.scalePixelRatio = true
+
+      const oldDevicePixelRatio = window.devicePixelRatio
+      window.devicePixelRatio = 2.5
+
+      // Spy on the context's scale method
+      const spy = sinon.spy(c.options.ctx, 'scale')
+
+      return c.run()
+        .then(() => {
+          assert.ok(
+            spy.calledWith(
+              window.devicePixelRatio,
+              window.devicePixelRatio
+            )
+          )
+
+          window.devicePixelRatio = oldDevicePixelRatio
+        })
+
+      // Like the test below, this should be changed at a
+      // later point to check the canvas transformation
+    })
+
+    it('saves and resets canvas transformations to original values', () => {
+      // Create artificial canvas
+      const canvas = document.createElement('canvas')
+      canvas.width = canvas.height = 400
+      c.options.canvas = canvas
+
+      // Render square in the center of the canvas
+      c.options.renderFunction = (ts, canvas, ctx) =>
+        ctx.fillRect(
+          -50, -50, 100, 100,
+        )
+
+      // Leave some time to wait for the next frame
+      c.options.timeout = 20
+
+      return c.run()
+        // Wait for rendering to complete
+        .then(() => c.waitFor('end'))
+        .then(() => {
+          assert.deepEqual(
+            Array.from(
+              c.options.ctx
+                .getImageData(200, 200, 1, 1)
+                .data
+            ),
+            [ 0, 0, 0, 255 ],
+            'Coordinate system origin should be translated into the center',
+          )
+
+          // Draw second rectangle with the same coordinates
+          c.options.ctx
+            .fillRect(-50, -50, 100, 100)
+
+          assert.deepEqual(
+            Array.from(
+              c.options.ctx
+                .getImageData(0, 0, 1, 1)
+                .data
+            ),
+            [ 0, 0, 0, 255 ],
+            'Coordinate system origin should be moved back into corner',
+          )
+
+          // TODO: At some later point, the code might
+          // test the transformation matrix directly
+          // via ctx.getTransform(). Browser support is,
+          // however, spotty at the time for writing, see:
+          // https://html.spec.whatwg.org/multipage/canvas.html
+          //   #dom-context-2d-gettransform
+        })
+    })
   })
 
   describe('Sequence', () => {
@@ -132,12 +473,14 @@ describe('Canvas-based components', () => {
 
     beforeEach(() => {
       a = new lab.canvas.Screen({
-        renderFunction: () => null // dummy drawing function
+        renderFunction: () => null, // dummy drawing function
       })
       b = new lab.canvas.Screen({
-        renderFunction: () => null
+        renderFunction: () => null,
       })
-      s = new lab.canvas.Sequence()
+      s = new lab.canvas.Sequence({
+        scalePixelRatio: false,
+      })
     })
 
     it('adds canvas property to hand-me-downs', () => {
@@ -199,6 +542,11 @@ describe('Canvas-based components', () => {
         ctx.rect(10, 0, 10, 10)
         ctx.fill()
       }
+
+      // Don't translate the origin coordinates,
+      // so that canvas data can be read more easily
+      a.options.translateOrigin = false
+      b.options.translateOrigin = false
 
       s.options.content = [a, b]
       s.options.canvas = document.createElement('canvas')
