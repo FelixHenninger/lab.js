@@ -177,6 +177,10 @@ export class Component extends EventHandler {
       ).forEach(
         // 'inherit' the option from the parent component
         o => (this.options[o] = this.options[o] || this.parent.options[o]),
+        // TODO: This mechanism, though elegant, is not flawless:
+        // If options are set to valid values by default,
+        // then cannot be inherited because the option is
+        // provided anyhow, and won't be overridden.
       )
     }
 
