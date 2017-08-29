@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Dropdown, ButtonDropdown } from 'reactstrap'
+import { omit } from 'lodash'
 
 export default class CustomDropdown extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ export default class CustomDropdown extends Component {
     return <WrappedDropdown
       isOpen={ this.state.dropdownOpen }
       toggle={ this.toggle }
-      style={ this.props.style }
+      { ...omit(this.props, 'type') }
     >
       { this.props.children }
     </WrappedDropdown>
