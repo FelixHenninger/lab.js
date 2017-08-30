@@ -258,6 +258,14 @@ export default class FabricCanvas extends Component {
     }
   }
 
+  cloneActive() {
+    this.canvas.getActiveObjects().map(
+      o => o.clone(
+        c => this.canvas.add(c)
+      )
+    )
+  }
+
   toObject() {
     return this.canvas.toObject()
   }

@@ -84,6 +84,7 @@ export default class CanvasEditor extends Component {
           <AddDropDown
             addHandler={ (...args) => this.canvas.add(...args) }
             removeHandler={ () => this.canvas.modifyActive('remove') }
+            cloneHandler={ () => this.canvas.cloneActive() }
           />
           <Layers
             upHandler={ () => this.canvas.modifyActive('bringForward') }

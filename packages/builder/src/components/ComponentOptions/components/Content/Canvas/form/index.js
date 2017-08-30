@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 
 import { Control } from 'react-redux-form'
 import { DropdownToggle, DropdownMenu, DropdownItem,
-  Button, ButtonGroup, InputGroup, InputGroupAddon } from 'reactstrap'
+  Button, ButtonGroup,
+  InputGroup, InputGroupButton, InputGroupAddon } from 'reactstrap'
 import DropDown from '../../../../../Dropdown'
 
 import './index.css'
@@ -15,7 +16,7 @@ const toNumber = x => {
   }
 }
 
-export const AddDropDown = ({ addHandler, removeHandler }) =>
+export const AddDropDown = ({ addHandler, cloneHandler, removeHandler }) =>
   <ButtonGroup>
     <DropDown type="button" dropup>
       <DropdownToggle>
@@ -64,6 +65,11 @@ export const AddDropDown = ({ addHandler, removeHandler }) =>
       </DropdownMenu>
     </DropDown>
     <Button
+      onClick={ cloneHandler }
+    >
+      <i className="fa fa-clone" />
+    </Button>
+    <Button
       onClick={ removeHandler }
     >
       <i className="fa fa-trash" />
@@ -82,6 +88,155 @@ export const Layers = ({ upHandler, downHandler, className }) =>
     </Button>
   </ButtonGroup>
 
+const Swatch = ({ color, clickHandler }) => {
+  return <div
+    className="color-swatch"
+    onClick={ () => clickHandler(color) }
+    style={{
+      backgroundColor: color,
+      border: `1px solid ${ color === '#ffffff' ? '#ccc' : color }`,
+    }}
+  />
+}
+
+const Line = ({ height }) =>
+  <div className="w-100" style={{ backgroundColor: 'black', height: height }} />
+
+const StrokeWidthDropdown = ({ onChange }) =>
+  <InputGroupButton>
+    <DropDown
+      type="button"
+      dropup
+    >
+      <DropdownToggle caret>
+        <i
+          className={ `fa fa-paint-brush` }
+        />
+      </DropdownToggle>
+      <DropdownMenu>
+        <DropdownItem
+          onClick={ () => onChange(0) }
+        >
+          No line
+        </DropdownItem>
+        <DropdownItem divider />
+        {
+          [2, 5, 10].map(width =>
+            <DropdownItem
+              key={ `strokeWidthDropDown-${ width }` }
+              style={{ paddingTop: '10px', paddingBottom: '10px' }}
+              onClick={ () => onChange(width) }
+            >
+              <Line height={ `${ width }px` } />
+            </DropdownItem>
+          )
+
+        }
+      </DropdownMenu>
+    </DropDown>
+  </InputGroupButton>
+
+class ColorDropdown extends Component {
+  select(color, toggle=true) {
+    if (toggle) {
+      this.dropdown.toggle()
+    }
+
+    this.manualColor.value = color
+    this.props.onChange(color)
+  }
+
+  render() {
+    const colors = [
+      '#0d3b83', '#0070d9', // blues
+      '#12864e', '#a8ca09', // greens
+      '#d6341a', '#fcbb0a', // red / yellow
+    ]
+
+    const grays = [
+      '#ffffff', '#dddddd',
+      '#aaaaaa', '#111111',
+    ]
+
+    return <DropDown
+        dropup
+        type="button"
+        ref={ ref => this.dropdown = ref }
+      >
+        <input type="color"
+          ref={ ref => this.hiddenColor = ref }
+          /* For some weird reason, display: none won't work here */
+          style={{ visibility: 'hidden', position: 'absolute' }}
+          tabIndex={ -1 }
+          onChange={ () => this.select(this.hiddenColor.value, false) }
+        />
+        <DropdownToggle caret>
+          <i
+            className={ `fa fa-${ this.props.icon }` }
+            style={{ position: 'relative', top: '1px' }}
+          />
+        </DropdownToggle>
+        <DropdownMenu right className="color-dropdown">
+          <div
+            className="dropdown-item"
+            style={{ height: '136px' }}
+          >
+            {
+              colors.map(c =>
+                <Swatch
+                  key={ c } color={ c }
+                  clickHandler={ c => this.select(c) }
+                />
+              )
+            }
+          </div>
+          <DropdownItem divider />
+          <div
+            className="dropdown-item"
+            style={{ height: '90px' }}
+          >
+            {
+              grays.map(c =>
+                <Swatch
+                  key={ c } color={ c }
+                  clickHandler={ c => this.select(c) }
+                />
+              )
+            }
+          </div>
+          <DropdownItem divider />
+          <div className="dropdown-item">
+            <a
+              className="btn btn-secondary"
+              style={{ width: '126px' }}
+              onClick={ () => {
+                this.hiddenColor.focus()
+                this.hiddenColor.select()
+                this.hiddenColor.click()
+                this.dropdown.toggle()
+              } }
+            >
+              <i className="fa fa-eyedropper" />
+            </a>
+            {/*
+
+            */}
+          </div>
+          <DropdownItem divider />
+          <div className="dropdown-item">
+            <input
+              className="form-control w-100"
+              style={{ fontFamily: 'Fira Mono' }}
+              placeholder="CSS color"
+              ref={ ref => this.manualColor = ref }
+              onChange={ () => this.select(this.manualColor.value, false) }
+            />
+          </div>
+        </DropdownMenu>
+      </DropDown>
+  }
+}
+
 export const Dimensions = ({ type }) =>
   <InputGroup className="minimal-width-addons">
     <InputGroupAddon>
@@ -93,6 +248,7 @@ export const Dimensions = ({ type }) =>
       parser={ toNumber }
       debounce={ 200 }
       className="form-control"
+      style={{ fontFamily: 'Fira Mono' }}
     />
     <InputGroupAddon>
       <i className="fa fa-long-arrow-down" />
@@ -103,6 +259,7 @@ export const Dimensions = ({ type }) =>
       parser={ toNumber }
       debounce={ 200 }
       className="form-control"
+      style={{ fontFamily: 'Fira Mono' }}
     />
     <InputGroupAddon>
       <i className="fa fa-rotate-right" />
@@ -114,6 +271,7 @@ export const Dimensions = ({ type }) =>
       parser={ toNumber }
       debounce={ 200 }
       className="form-control"
+      style={{ fontFamily: 'Fira Mono' }}
     />
     <InputGroupAddon>
       <i className="fa fa-arrows-h" />
@@ -125,6 +283,7 @@ export const Dimensions = ({ type }) =>
       parser={ toNumber }
       debounce={ 200 }
       className="form-control"
+      style={{ fontFamily: 'Fira Mono' }}
     />
     <InputGroupAddon>
       <i className="fa fa-arrows-v" />
@@ -136,17 +295,24 @@ export const Dimensions = ({ type }) =>
       parser={ toNumber }
       debounce={ 200 }
       className="form-control"
+      style={{ fontFamily: 'Fira Mono' }}
     />
-    <InputGroupAddon>
-      <i className="fa fa-square" />
-    </InputGroupAddon>
     <Control
-      model=".fill"
-      placeholder="fill"
-      type="color"
-      className="form-control"
-      style={{
-        height: '38px',
+      model=".strokeWidth"
+      component={ StrokeWidthDropdown }
+    />
+    <Control
+      model=".stroke"
+      component={ ColorDropdown }
+      controlProps={{
+        icon: 'square-o'
       }}
     />
-  </InputGroup>
+    <Control
+      model=".fill"
+      component={ ColorDropdown }
+      controlProps={{
+        icon: 'square'
+      }}
+    />
+</InputGroup>
