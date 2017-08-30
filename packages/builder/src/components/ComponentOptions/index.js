@@ -12,6 +12,7 @@ import Scripts from './components/Scripts'
 import Advanced from './components/Advanced'
 
 // Content-specific tabs
+import CanvasContent from './components/Content/Canvas'
 import EditorContent from './components/Content/Editor'
 import LoopContent from './components/Content/Loop'
 import SequenceContent from './components/Content/Sequence'
@@ -25,6 +26,8 @@ const selectTab = (type, tab) => {
       return Notes
     case 'Content':
       switch(type) {
+        case 'lab.canvas.Screen':
+          return CanvasContent
         case 'lab.html.Screen':
         case 'lab.html.Form':
           return EditorContent

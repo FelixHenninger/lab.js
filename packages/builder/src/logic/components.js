@@ -104,6 +104,26 @@ export const metadata = {
       },
     },
   },
+  'lab.canvas.Screen': {
+    name: 'Screen',
+    description: 'Show content using a canvas',
+    category: 'Canvas',
+    icon: 'picture-o',
+    minChildren: 0,
+    maxChildren: 0,
+    tabs: defaultTabs,
+    defaultTab: 'Content',
+    defaults: {
+      type: 'lab.canvas.Screen',
+      content: [],
+      responses: {
+        rows: [ ['', '', '', ''] ],
+      },
+      messageHandlers: {
+        rows: [ [ { title: '', message: '', code: '' }, ], ],
+      },
+    },
+  },
 }
 
 export const defaultTab = (tab, type) => {
@@ -119,7 +139,7 @@ export const defaultTab = (tab, type) => {
 // TODO: This is awkwardly named
 export const defaults = [
   'lab.html.Screen',
-  'lab.html.Form',
+  'lab.canvas.Screen',
   'lab.flow.Sequence',
   'lab.flow.Loop',
 ]
