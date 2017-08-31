@@ -223,6 +223,7 @@ export default class FabricCanvas extends Component {
 
     if (newObject) {
       this.canvas.add(newObject)
+      this.canvas.setActiveObject(newObject)
     }
   }
 
