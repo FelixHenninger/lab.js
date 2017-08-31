@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Control } from 'react-redux-form'
 import { DropdownToggle, DropdownMenu, DropdownItem,
   Button, ButtonGroup,
-  InputGroup, InputGroupButton, InputGroupAddon } from 'reactstrap'
+  InputGroup, InputGroupAddon } from 'reactstrap'
 import DropDown from '../../../../../Dropdown'
 
 import './index.css'
@@ -62,23 +62,25 @@ export const AddDropDown = ({ addHandler, cloneHandler, removeHandler }) =>
         >
           Text
         </DropdownItem>
+        <DropdownItem divider />
+        <DropdownItem header>From selected</DropdownItem>
+        <DropdownItem
+          onClick={ cloneHandler }
+        >
+          Duplicate
+        </DropdownItem>
       </DropdownMenu>
     </DropDown>
     <Button
-      onClick={ cloneHandler }
-    >
-      <i className="fa fa-clone" />
-    </Button>
-    <Button
       onClick={ removeHandler }
     >
-      <i className="fa fa-trash" />
+      <i className="fa fa-trash-o" />
     </Button>
   </ButtonGroup>
 
-export const Layers = ({ upHandler, downHandler, className }) =>
+export const Layers = ({ upHandler, downHandler }) =>
   <ButtonGroup
-    className={ className }
+    className="ml-2"
   >
     <Button onClick={ upHandler }>
       <i className="fa fa-arrow-up" />
@@ -103,38 +105,39 @@ const Line = ({ height }) =>
   <div className="w-100" style={{ backgroundColor: 'black', height: height }} />
 
 const StrokeWidthDropdown = ({ onChange }) =>
-  <InputGroupButton>
-    <DropDown
-      type="button"
-      dropup
-    >
-      <DropdownToggle caret>
-        <i
-          className={ `fa fa-paint-brush` }
-        />
-      </DropdownToggle>
-      <DropdownMenu>
-        <DropdownItem
-          onClick={ () => onChange(0) }
-        >
-          No line
-        </DropdownItem>
-        <DropdownItem divider />
-        {
-          [2, 5, 10].map(width =>
-            <DropdownItem
-              key={ `strokeWidthDropDown-${ width }` }
-              style={{ paddingTop: '10px', paddingBottom: '10px' }}
-              onClick={ () => onChange(width) }
-            >
-              <Line height={ `${ width }px` } />
-            </DropdownItem>
-          )
+  <DropDown
+    type="button"
+    dropup
+  >
+    <DropdownToggle caret>
+      <i
+        className={ `fa fa-paint-brush` }
+        style={{
+          fontSize: '0.9em',
+        }}
+      />
+    </DropdownToggle>
+    <DropdownMenu>
+      <DropdownItem
+        onClick={ () => onChange(0) }
+      >
+        No line
+      </DropdownItem>
+      <DropdownItem divider />
+      {
+        [2, 5, 10].map(width =>
+          <DropdownItem
+            key={ `strokeWidthDropDown-${ width }` }
+            style={{ paddingTop: '10px', paddingBottom: '10px' }}
+            onClick={ () => onChange(width) }
+          >
+            <Line height={ `${ width }px` } />
+          </DropdownItem>
+        )
 
-        }
-      </DropdownMenu>
-    </DropDown>
-  </InputGroupButton>
+      }
+    </DropdownMenu>
+  </DropDown>
 
 class ColorDropdown extends Component {
   select(color, toggle=true) {
@@ -155,7 +158,7 @@ class ColorDropdown extends Component {
 
     const grays = [
       '#ffffff', '#dddddd',
-      '#aaaaaa', '#111111',
+      '#aaaaaa', '#000000',
     ]
 
     return <DropDown
@@ -238,7 +241,7 @@ class ColorDropdown extends Component {
 }
 
 export const Dimensions = ({ type }) =>
-  <InputGroup className="minimal-width-addons">
+  <InputGroup className="dimension-toolbar minimal-width-addons ml-2">
     <InputGroupAddon>
       <i className="fa fa-long-arrow-right" />
     </InputGroupAddon>
@@ -297,6 +300,10 @@ export const Dimensions = ({ type }) =>
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
     />
+  </InputGroup>
+
+export const Colors = () =>
+  <ButtonGroup className="ml-2">
     <Control
       model=".strokeWidth"
       component={ StrokeWidthDropdown }
@@ -315,4 +322,4 @@ export const Dimensions = ({ type }) =>
         icon: 'square'
       }}
     />
-</InputGroup>
+  </ButtonGroup>

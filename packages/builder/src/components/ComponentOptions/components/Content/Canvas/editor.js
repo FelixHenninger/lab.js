@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { LocalForm, actions } from 'react-redux-form'
-import { FormGroup, Button, ButtonGroup } from 'reactstrap'
+import { FormGroup } from 'reactstrap'
 
-import { AddDropDown, Dimensions, Layers } from './form'
+import { AddDropDown, Colors, Dimensions, Layers } from './form'
 import Color from 'color'
 
 import FabricCanvas from './fabric'
@@ -79,8 +79,20 @@ export default class CanvasEditor extends Component {
         clearSelectionHandler={ () => this.resetForm() }
       />
       <hr />
-      <div>
-        <FormGroup>
+      <LocalForm
+        model="target"
+        initialState={{
+          left: '',
+          top: '',
+          width: '',
+          height: '',
+          angle: '',
+          fill: '',
+        }}
+        onChange={ data => this.updateCanvas(data) }
+        getDispatch={ dispatch => this.attachDispatch(dispatch) }
+      >
+        <FormGroup className="d-flex">
           <AddDropDown
             addHandler={ (...args) => this.canvas.add(...args) }
             removeHandler={ () => this.canvas.modifyActive('remove') }
@@ -89,39 +101,11 @@ export default class CanvasEditor extends Component {
           <Layers
             upHandler={ () => this.canvas.modifyActive('bringForward') }
             downHandler={ () => this.canvas.modifyActive('sendBackwards') }
-            className="ml-2"
           />
-          <ButtonGroup
-            className="ml-2"
-          >
-            <Button
-              onClick={ () => console.log(
-                JSON.stringify(this.canvas.toObject(), null, '  ')
-              ) }
-            >
-              <i className="fa fa-code" />
-            </Button>
-          </ButtonGroup>
+          <Dimensions type={ this.state.type } />
+          <Colors />
         </FormGroup>
-        {/*  */}
-        <LocalForm
-          model="target"
-          initialState={{
-            left: '',
-            top: '',
-            width: '',
-            height: '',
-            angle: '',
-            fill: '',
-          }}
-          onChange={ data => this.updateCanvas(data) }
-          getDispatch={ dispatch => this.attachDispatch(dispatch) }
-        >
-          <FormGroup>
-            <Dimensions type={ this.state.type } />
-          </FormGroup>
-        </LocalForm>
-      </div>
+      </LocalForm>
     </div>
   }
 }

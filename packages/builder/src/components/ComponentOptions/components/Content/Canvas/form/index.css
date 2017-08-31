@@ -1,7 +1,18 @@
+/* Dimension input group */
 .minimal-width-addons .input-group-addon {
   min-width: 2.5em;
 }
 
+.dimension-toolbar .form-control {
+  min-width: 0;
+  transition: min-width 0.2s ease-out;
+}
+
+.dimension-toolbar .form-control:focus {
+  min-width: 5.5em;
+}
+
+/* Color dropdowns */
 div.color-dropdown .dropdown-item {
   width: 100%;
   display: flex;
