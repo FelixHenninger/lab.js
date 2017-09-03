@@ -16,13 +16,6 @@ export default class CanvasEditor extends Component {
     }
   }
 
-  // TODO: I'm not entirely sure why
-  // this needs to be a method, but
-  // I'm assuming that there's a reason
-  attachDispatch(dispatch) {
-    this.formDispatch = dispatch;
-  }
-
   updateForm({ target }) {
     console.log('updating form with data', target)
 
@@ -82,15 +75,13 @@ export default class CanvasEditor extends Component {
       <LocalForm
         model="target"
         initialState={{
-          left: '',
-          top: '',
-          width: '',
-          height: '',
+          left: '', top: '',
+          width: '', height: '',
           angle: '',
-          fill: '',
+          fill: '', stroke: '',
         }}
         onChange={ data => this.updateCanvas(data) }
-        getDispatch={ dispatch => this.attachDispatch(dispatch) }
+        getDispatch={ dispatch => (this.formDispatch = dispatch) }
       >
         <FormGroup className="d-flex">
           <AddDropDown

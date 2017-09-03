@@ -233,7 +233,7 @@ export default class FabricCanvas extends Component {
     // https://github.com/kangax/fabric.js/blob/10545cec7773cd1c00312c1428f09ea43fd8ac52/test/unit/canvas.js#L1263
     const selection = this.canvas.getActiveObjects()
 
-    // For now, igore value to multiple selections
+    // For now, ignore value to multiple selections
     // (for the sake of the author's sanity)
     if (method !== 'set' || selection.length === 1) {
       selection.map(o => {
