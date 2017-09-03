@@ -147,6 +147,15 @@ export default class FabricCanvas extends Component {
     // Pass on further useful events -------------------------------------------
     this.canvas.on('selection:cleared', this.props.clearSelectionHandler)
 
+    // Load data from props, if provided ---------------------------------------
+
+    if (this.props.data) {
+      this.canvas.loadFromJSON(
+        { objects: this.props.data },
+        () => this.canvas.requestRenderAll(),
+      )
+    }
+
     // Mock data ---------------------------------------------------------------
     /*
     this.add('circle', { fill: 'orange' })

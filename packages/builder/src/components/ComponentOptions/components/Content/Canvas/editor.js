@@ -37,6 +37,10 @@ export default class CanvasEditor extends Component {
         'fill': (new Color(target.fill)).hex(),
       })
     )
+
+    this.props.onChange(
+      this.canvas.toObject()
+    )
   }
 
   resetForm() {
@@ -62,11 +66,15 @@ export default class CanvasEditor extends Component {
     }
 
     this.canvas.modifyActive('set', newData)
+    this.props.onChange(
+      this.canvas.toObject()
+    )
   }
 
   render() {
     return <div>
       <FabricCanvas
+        data={ this.props.data }
         ref={ c => this.canvas = c }
         updateHandler={ (data) => this.updateForm(data) }
         clearSelectionHandler={ () => this.resetForm() }
