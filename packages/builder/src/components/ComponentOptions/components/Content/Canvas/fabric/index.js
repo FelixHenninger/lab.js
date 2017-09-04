@@ -78,11 +78,14 @@ export default class FabricCanvas extends Component {
     // ViewPort overlay --------------------------------------------------------
 
     this.canvas.setOverlayImage(
-      makeOverlay(this.width, this.height, viewPort).toDataURL(),
+      makeOverlay(this.width, this.height, viewPort).toDataURL({
+        // Correct scale for high-DPI devices
+        multiplier: 1 / window.devicePixelRatio,
+      }),
       () => this.canvas.requestRenderAll(),
       // This is somewhat weird -- the transformation
       // should really also apply to the overlay,
-      { left: -this.width/2 - 10, top: -this.height/2 - 10 }
+      { originX: 'center', originY: 'center'}
     )
 
     // Snapping ----------------------------------------------------------------
