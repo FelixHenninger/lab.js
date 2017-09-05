@@ -4,6 +4,7 @@ import { Sequence as BaseSequence, Loop, Parallel,
   prepareNested } from './flow'
 import { Frame as BaseFrame } from './html'
 import { reduce } from './util/tree'
+import genericRenderFunction from './util/canvas'
 
 // Global canvas functions used in all of the following components
 // (multiple inheritance would come in handy here, but alas...)
@@ -87,7 +88,8 @@ const insertCanvas = function insertCanvas() {
 export class Screen extends Component {
   constructor(options={}) {
     super({
-      renderFunction: (() => null),
+      content: null,
+      renderFunction: null,
       ...addCanvasDefaults(options),
     })
 
@@ -108,6 +110,18 @@ export class Screen extends Component {
 
   onPrepare() {
     prepareCanvas.apply(this)
+
+    // Add generic render function,
+    // unless a render function has been defined manually
+    // TODO: This should probably not be the default.
+    //   Instead, in a future release, there should probably
+    //   be a BaseScreen class that accepts a manually defined
+    //   render function. Alternatively, a more advanced class
+    //   should be created that includes the generic render
+    //   function
+    if (this.options.renderFunction === null) {
+      this.options.renderFunction = genericRenderFunction(this.options.content)
+    }
   }
 
   onBeforeRun() {
