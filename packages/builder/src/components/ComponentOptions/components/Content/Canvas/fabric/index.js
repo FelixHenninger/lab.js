@@ -69,12 +69,6 @@ export default class FabricCanvas extends Component {
     // Handle changes (dropping for now)
     this.canvas.on('mouse:up', () => null)
 
-    // Grid --------------------------------------------------------------------
-
-    this.canvas.setBackgroundColor(new fabric.Pattern({
-      source: makeBackground(gridSize, this.offsetX, this.offsetY).getElement(),
-    }))
-
     // ViewPort overlay --------------------------------------------------------
 
     this.canvas.setOverlayImage(
@@ -158,6 +152,13 @@ export default class FabricCanvas extends Component {
         () => this.canvas.requestRenderAll(),
       )
     }
+
+    // Grid --------------------------------------------------------------------
+    // (is defined last, otherwise would be overridden by loaded data)
+
+    this.canvas.setBackgroundColor(new fabric.Pattern({
+      source: makeBackground(gridSize, this.offsetX, this.offsetY).getElement(),
+    }))
 
     // Mock data ---------------------------------------------------------------
     /*
