@@ -85,7 +85,7 @@ export const Layers = ({ upHandler, downHandler }) =>
     <Button onClick={ upHandler }>
       <i className="fa fa-arrow-up" />
     </Button>
-    <Button onClick={ downHandler}>
+    <Button onClick={ downHandler }>
       <i className="fa fa-arrow-down" />
     </Button>
   </ButtonGroup>
@@ -134,7 +134,6 @@ const StrokeWidthDropdown = ({ onChange }) =>
             <Line height={ `${ width }px` } />
           </DropdownItem>
         )
-
       }
     </DropdownMenu>
   </DropDown>
@@ -221,9 +220,6 @@ class ColorDropdown extends Component {
             >
               <i className="fa fa-eyedropper" />
             </a>
-            {/*
-
-            */}
           </div>
           <DropdownItem divider />
           <div className="dropdown-item">
@@ -239,6 +235,111 @@ class ColorDropdown extends Component {
       </DropDown>
   }
 }
+
+export const Typography = ({ selection, changeHandler }) =>
+  <DropDown
+    dropup
+    type="button"
+  >
+    <DropdownToggle caret disabled={ selection.type !== 'i-text' }>
+      <i className="fa fa-font" />
+    </DropdownToggle>
+    {
+      selection.type === 'i-text'
+        ? <DropdownMenu
+            style={{
+              width: '200px',
+            }}
+          >
+            {/* <divs> are needed here because DropdownItems are buttons,
+                and the buttons here can't be nested within. */}
+            <div className="dropdown-item">
+              <Control.select
+                model="target.fontFamily"
+                className="form-control custom-select"
+              >
+                <option value="serif">Serif</option>
+                <option value="sans-serif">Sans-serif</option>
+                <option value="monospace">Monospace</option>
+              </Control.select>
+            </div>
+            <div className="dropdown-item">
+              <ButtonGroup className="w-100">
+                <Button
+                  color={
+                    selection.fontStyle === 'italic'
+                      ? 'primary'
+                      : 'secondary'
+                  }
+                  className="w-50"
+                  onClick={ () => {
+                    if (selection.fontStyle === 'italic') {
+                      changeHandler('fontStyle', 'normal')
+                    } else {
+                      changeHandler('fontStyle', 'italic')
+                    }
+                  } }
+                >
+                  <i className="fa fa-italic" />
+                </Button>
+                <Button
+                  color={
+                    selection.fontWeight === 'bold'
+                      ? 'primary'
+                      : 'secondary'
+                  }
+                  className="w-50"
+                  onClick={ () => {
+                    if (selection.fontWeight === 'bold') {
+                      changeHandler('fontWeight', 'normal')
+                    } else {
+                      changeHandler('fontWeight', 'bold')
+                    }
+                  } }
+                >
+                  <i className="fa fa-bold" />
+                </Button>
+              </ButtonGroup>
+            </div>
+            <DropdownItem divider />
+            <div className="dropdown-item">
+              <InputGroup>
+                <InputGroupAddon>
+                  <i className="fa fa-text-height" />
+                </InputGroupAddon>
+                <Control
+                  model="target.fontSize"
+                  placeholder="Size"
+                  parser={ toNumber }
+                  debounce={ 200 }
+                  className="form-control"
+                  style={{ fontFamily: 'Fira Mono' }}
+                />
+              </InputGroup>
+            </div>
+            <DropdownItem divider />
+            <div className="dropdown-item">
+              <ButtonGroup>
+              {
+                ['left', 'center', 'right'].map(alignment =>
+                  <Button
+                    key={ `text-align-${ alignment }` }
+                    color={ selection.textAlign === alignment
+                      ? 'primary'
+                      : 'secondary'
+                    }
+                    onClick={ () => changeHandler('textAlign', alignment) }
+                  >
+                    <i className={ `fa fa-align-${ alignment }` } />
+                  </Button>
+                )
+              }
+              </ButtonGroup>
+            </div>
+          </DropdownMenu>
+        : null
+    }
+  </DropDown>
 
 export const Dimensions = ({ type }) =>
   <InputGroup className="dimension-toolbar minimal-width-addons ml-2">
@@ -302,8 +403,12 @@ export const Dimensions = ({ type }) =>
     />
   </InputGroup>
 
-export const Colors = () =>
+export const Style = ({ selection, changeHandler }) =>
   <ButtonGroup className="ml-2">
+    <Typography
+      selection={ selection }
+      changeHandler={ changeHandler }
+    />
     <Control
       model=".strokeWidth"
       component={ StrokeWidthDropdown }

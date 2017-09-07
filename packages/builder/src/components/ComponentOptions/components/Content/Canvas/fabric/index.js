@@ -53,7 +53,8 @@ export default class FabricCanvas extends Component {
       ],
     })
 
-    // Customize UI
+    // UI Customization --------------------------------------------------------
+    // Overall
     fabric.Object.prototype.set({
       cornerSize: 9,
       cornerStyle: 'circle',
@@ -63,11 +64,13 @@ export default class FabricCanvas extends Component {
       padding: handlePadding,
       strokeLineJoin: 'round',
       transparentCorners: false,
-      translateX: 500,
     })
 
-    // Handle changes (dropping for now)
-    this.canvas.on('mouse:up', () => null)
+    // Per-type
+    fabric.Circle.prototype.hasRotatingPoint = false
+    fabric.Circle.prototype.lockUniScaling = true
+
+    fabric.IText.prototype.hasControls = false
 
     // ViewPort overlay --------------------------------------------------------
 
@@ -196,8 +199,6 @@ export default class FabricCanvas extends Component {
         case 'circle':
           return new fabric.Circle({
             radius: 27.5,
-            lockRotation: true,
-            lockUniScaling: true,
             ...defaults,
             ...options,
           }).setControlVisible('mtr', false)
@@ -225,7 +226,8 @@ export default class FabricCanvas extends Component {
           const content = options.content
           delete options.content
           return new fabric.IText(content, {
-            hasControls: false,
+            fontSize: 32,
+            textAlign: 'center',
             ...defaults,
             ...options,
           })
