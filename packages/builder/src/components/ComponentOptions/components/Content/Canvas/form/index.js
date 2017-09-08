@@ -226,6 +226,7 @@ class ColorDropdown extends Component {
             <input
               className="form-control w-100"
               style={{ fontFamily: 'Fira Mono' }}
+              value={ this.props.value || '' }
               placeholder="CSS color"
               ref={ ref => this.manualColor = ref }
               onChange={ () => this.select(this.manualColor.value, false) }

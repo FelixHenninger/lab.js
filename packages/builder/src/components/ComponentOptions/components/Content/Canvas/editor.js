@@ -59,7 +59,7 @@ export default class CanvasEditor extends Component {
         // TODO: normalize only if not already hex color,
         // or move conversion to control (which might convert
         // back to rgb(r, g, b) notation)
-        'fill': (new Color(target.fill)).hex(),
+        'fill': (new Color(target.fill)).hex().toLowerCase(),
       })
     )
 
