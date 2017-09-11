@@ -144,7 +144,6 @@ class ColorDropdown extends Component {
       this.dropdown.toggle()
     }
 
-    this.manualColor.value = color
     this.props.onChange(color)
   }
 
@@ -165,13 +164,16 @@ class ColorDropdown extends Component {
         type="button"
         ref={ ref => this.dropdown = ref }
       >
+        {/* Hidden color input used to capture freely chosen colors */}
         <input type="color"
-          ref={ ref => this.hiddenColor = ref }
           /* For some weird reason, display: none won't work here */
           style={{ visibility: 'hidden', position: 'absolute' }}
           tabIndex={ -1 }
+          ref={ ref => this.hiddenColor = ref }
+          value={ this.props.value || '' }
           onChange={ () => this.select(this.hiddenColor.value, false) }
         />
+        {/* Remainder of the Dropdown */}
         <DropdownToggle caret>
           <i
             className={ `fa fa-${ this.props.icon }` }
@@ -179,6 +181,7 @@ class ColorDropdown extends Component {
           />
         </DropdownToggle>
         <DropdownMenu right className="color-dropdown">
+          {/* Predefined colors */}
           <div
             className="dropdown-item"
             style={{ height: '136px' }}
@@ -193,6 +196,7 @@ class ColorDropdown extends Component {
             }
           </div>
           <DropdownItem divider />
+          {/* Grey values */}
           <div
             className="dropdown-item"
             style={{ height: '90px' }}
@@ -207,6 +211,7 @@ class ColorDropdown extends Component {
             }
           </div>
           <DropdownItem divider />
+          {/* Custom color selector */}
           <div className="dropdown-item">
             <a
               className="btn btn-secondary"
@@ -222,13 +227,14 @@ class ColorDropdown extends Component {
             </a>
           </div>
           <DropdownItem divider />
+          {/* Manual (text-based) color input */}
           <div className="dropdown-item">
             <input
               className="form-control w-100"
               style={{ fontFamily: 'Fira Mono' }}
-              value={ this.props.value || '' }
               placeholder="CSS color"
               ref={ ref => this.manualColor = ref }
+              value={ this.props.value || '' }
               onChange={ () => this.select(this.manualColor.value, false) }
             />
           </div>
