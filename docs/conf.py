@@ -209,8 +209,8 @@ htmlhelp_basename = 'labjsdoc'
 
 # Additional theme options
 html_context = {
-  'css_files': [
-    '_static/custom.css'
+  'extra_css_files': [
+    '_static/template_overrides.css'
   ]
 }
 
