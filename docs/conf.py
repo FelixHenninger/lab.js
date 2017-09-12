@@ -51,7 +51,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'lab.js'
-copyright = '2016– Felix Henninger and collaborators'
+copyright = '2016– lab.js collaboration'
 author = 'Felix Henninger'
 
 # The version info for the project you're documenting, acts as replacement for

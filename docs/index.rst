@@ -28,15 +28,15 @@ All `contributors`_ are listed in the repository.
    :hidden:
 
    learn/builder/index.rst
+   learn/html/index.rst
+   learn/data/index.rst
    learn/code/index.rst
-   learn/style.rst
-   learn/data.rst
-   learn/examples/index.rst
 
 .. toctree::
    :caption: Use
    :hidden:
 
+   examples/index.rst
    reference/index.rst
    genindex.rst
 

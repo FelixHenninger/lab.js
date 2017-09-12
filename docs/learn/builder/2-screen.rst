@@ -1,5 +1,5 @@
-A basic screen
-==============
+Designing a basic screen
+========================
 
 In the last part of the tutorial, we took a brief look at the builder interface. We added a very basic screen with some simple content to get a feel for things. In the following, we'll build on our new knowledge, with the aim of assembling our first useful screen. Our goal will be to assemble a working stroop experiment, and we'll focus on the central display first.
 

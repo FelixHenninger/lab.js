@@ -1,7 +1,7 @@
 .. _tutorial/code:
 
-Working with code
-=================
+Code a study from scratch
+=========================
 
 **Welcome to the lab.js tutorial, and thank you for checking out our library!**
 We hope you like it, and are excited to see how you are going to use it in your

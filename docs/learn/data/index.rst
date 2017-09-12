@@ -1,5 +1,5 @@
-Collecting data
----------------
+Collect data online
+===================
 
 .. note::
   **This documentation page is currently under development. Sorry for that!**
