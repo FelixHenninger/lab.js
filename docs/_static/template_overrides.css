@@ -23,6 +23,11 @@
   border-color: white;
 }
 
+/* Top navigation for small screens */
+.wy-nav-top {
+  background-color: rgb(255, 195, 45);
+}
+
 /* Navigation */
 .wy-menu-vertical a, .wy-menu-vertical li.current > a {
   padding-left: 1.45em;
@@ -52,3 +57,31 @@
 .wy-nav-content footer div, .wy-nav-content footer p {
   display: inline;
 }
+
+/* Quick navigation grid */
+table.quicknav {
+  width: 100%;
+  margin: 3rem 0 1rem;
+}
+
+table.quicknav tr td:nth-child(odd) {
+  width: 8%;
+  font-size: 3rem;
+  text-align: center;
+}
+
+table.quicknav tr td:nth-child(even) {
+  width: 42%;
+  padding: 0.75rem;
+  padding-right: 2rem;
+}
+
+table.quicknav a, table.quicknav .fa {
+  color: #0070d9;
+}
+
+table.quicknav td > a:first-child {
+  font-weight: bold;
+}
+
+/* Icon-specific adjustments */

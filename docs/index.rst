@@ -2,26 +2,84 @@
 Welcome to the **lab.js** documentation!
 ========================================
 
-About
------
+**lab.js makes building in-browser experiments easy**. It's a simple, graphical tool to help you build studies for the web and the laboratory.
 
-.. image:: media/logo/yellow/flask_150.png
-    :align: right
+**Thank you for checking out our project!** We've collected a few links below to get you started, but we're happy to help with any additional questions or ideas you have. We'd love to hear from you!
 
-**lab.js is a toolkit of components for constructing client-side online experiments in Javascript.** Its goal is to provide an intuitive and approachable means of proramming experiments for researchers familiar with ``HTML`` and ``CSS``, but only limited experience with Javascript. At the same time, it aims to remain flexible and extensible, so as not to restrict advanced users.
+.. raw:: html
 
-Initially built for experimental psychology, it can be used to construct experiments throughout the social and behavioral sciences. It is not limited to any particular paradigm or environment, and designed to handle questionnaires just as well as complex experimental tasks.
+  <table class="quicknav">
+    <tr>
+      <td><i class="fa fa-paper-plane"></i></td>
+      <td>
+        <a href="learn/builder/index.html">Introductory tutorial</a>
+        <p>For a <strong>first overview</strong> or a refresher, this is the place to start.<br><strong>Welcome</strong> (back)!</p>
+      </td>
+      <td><i class="fa fa-wrench fa-fw"></i></td>
+      <td>
+        <a href="learn/html/index.html">Working with HTML</a>
+        <p>Once you know your way around, learning <code>HTML</code> gives you greater flexibility and control over design.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><i class="fa fa-birthday-cake fa-fw"></i></td>
+      <td>
+        <a href="examples/index.html">Recipes and examples</a>
+        <p>Because someone might have figured out that tricky thing before.</p>
+      </td>
+      <td><i class="fa fa-server fa-fw"></i></td>
+      <td>
+        <a href="learn/data/index.html">Online data collection</a>
+        <p>When you've built your study, you'll want to run it and collect data. Here's how to do that.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><i class="fa fa-map-o fa-fw"></i></td>
+      <td>
+        <a href="reference/index.html">Developer reference</a>
+        <p>All library internals<br>(in excrutiating detail)</p>
+      </td>
+      <td><i class="fa fa-rocket fa-fw"></i></td>
+      <td>
+        <a href="meta/contribute/index.html">Contributing</a>
+        <p>Seriously, you're awesome. Suggestions, examples, even code are all super-welcome.<br><a href="https://github.com/felixhenninger/lab.js#contributors">Come join us!</a></p>
+      </td>
+    </tr>
+  </table>
 
-An additional design goal is to provide a tool for :ref:`teaching <teach>` programming and experimental design to students. In particular, it is intended to provide a stepping stone for students with knowledge of ``HTML``, but little programming experience. The structure of the library has been chosen to expose the features of the underlying Javascript programming language, and to be extensible using the same.
+----
 
-**Thank you for checking out lab.js!** If you are new around here, you might want to go through the :ref:`tutorial <tutorial/builder>` to get started. There are also plenty of :ref:`examples <examples>` if you are searching for code, or looking to extend an existing experiment. If you are interested in our approach, we have tried to summarize the :ref:`philosophy <philosophy>` we came up with post-hoc to justify why we did this in the first place. Of course, you are more than welcome to :ref:`contribute <contribute>` if you see room for improvement -- help and suggestions are very much appreciated!
+.. raw:: html
 
-Contributors
-------------
-
-All `contributors`_ are listed in the repository.
-
-.. _contributors: https://github.com/FelixHenninger/lab.js#contributors
+  <table class="quicknav">
+    <tr>
+      <td><i class="fa fa-globe fa-fw"></i></td>
+      <td>
+        <a href="https://felixhenninger.github.io/lab.js/">Project website</a>
+        <p>This is where we show off all our features in <strong>glossy pictures</strong>. Show this to your friends, and boss!</p>
+      </td>
+      <td>
+        <i class="fa fa-commenting"
+          style="font-size: 0.9em; position: relative; top: -0.4rem"></i>
+      </td>
+      <td>
+        <a href="https://slackin-nmbrcrnchrs.herokuapp.com/">Support channel</a>
+        <p>Here's where you'll <strong>find help</strong>.<br>Do drop in and say hello, maybe<br>even help somebody, too?</p>
+      </td>
+    </tr>
+    <tr>
+      <td><i class="fa fa-github fa-fw"></i></td>
+      <td>
+        <a href="https://github.com/felixhenninger/lab.js">GitHub repository</a>
+        <p><strong>Work</strong> happens over on GitHub: <a href="https://github.com/felixhenninger/lab.js/releases">Releases</a> are cut, <a href="https://github.com/felixhenninger/lab.js/commits/master">changes</a> are logged, and <a href="https://github.com/felixhenninger/lab.js/issues">issues</a> reported.</p>
+      </td>
+      <td><i class="fa fa-twitter fa-fw"></i></td>
+      <td>
+        <a href="https://twitter.com/felixhenninger">Twitter</a>
+        <p>Join our growing <strong>fan club</strong> and keep up-to-date with our world&shy;wide sticker distribution efforts.</p>
+      </td>
+    </tr>
+  </table>
 
 .. toctree::
    :caption: Learn
