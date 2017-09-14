@@ -1,7 +1,6 @@
 const toRadians = degrees => Math.PI * (degrees / 180)
 
 const renderElement = (ctx, content) => {
-  console.log('rendering something')
   ctx.save()
 
   // Clear existing paths
