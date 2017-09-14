@@ -209,6 +209,17 @@ export class Screen extends Component {
 Screen.metadata = {
   module: ['canvas'],
   nestedComponents: [],
+  parsableOptions: {
+    content: {
+      type: 'array',
+      content: {
+        type: 'object',
+        content: {
+          text: {},
+        },
+      },
+    },
+  },
 }
 
 // Canvas-based sequence of components

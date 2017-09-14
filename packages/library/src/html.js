@@ -42,7 +42,7 @@ Screen.metadata = {
   module: ['html'],
   nestedComponents: [],
   parsableOptions: {
-    content: ['string'],
+    content: {},
   },
 }
 
@@ -267,6 +267,6 @@ Frame.metadata = {
   module: ['html'],
   nestedComponents: ['content'],
   parsableOptions: {
-    context: ['string'],
+    context: {},
   },
 }

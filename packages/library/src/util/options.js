@@ -1,93 +1,96 @@
-import { extend, template } from 'lodash'
+import { extend, isString, isArray, isPlainObject,
+  template, fromPairs } from 'lodash'
 
-// TODO: Does this work in shorthand notation? () => {}
-const parsableOptions = function parsableOptions() {
-  // Compute the prototype chain for the current object
-  const prototypeChain = [Object.getPrototypeOf(this)]
+const prototypeChain = (object) => {
+  // Compute the prototype chain a given object
+  const chain = [Object.getPrototypeOf(object)]
 
-  while (Object.getPrototypeOf(prototypeChain[0])) {
-    prototypeChain.unshift(
-      Object.getPrototypeOf(prototypeChain[0]),
+  while (Object.getPrototypeOf(chain[0])) {
+    chain.unshift(
+      Object.getPrototypeOf(chain[0]),
     )
   }
 
+  return chain
+}
+
+export const parsableOptions = component =>
   // Collect parsable options from the static property metadata
-  return extend(
-    {},
-    ...prototypeChain.map(p => (
+  // of all components on the prototype chain
+  extend({},
+    ...prototypeChain(component).map(p => (
       p.constructor.metadata
         ? p.constructor.metadata.parsableOptions
         : undefined
     )),
   )
-}
 
-export const parseOption = function parseOption(key, value, context, metadata=undefined) {
-  // Only parse strings
-  if (typeof value !== 'string') {
-    return value
-  } else {
-    // Look up output options (specifically type),
-    // if these are not passed as parameters
-    const outputOptions = metadata || parsableOptions.call(this)[key]
+export const parse = (raw, context, metadata, that) => {
+  // Don't parse anything without metadata
+  if (!metadata) {
+    return raw
+  }
 
-    // If the current option is not among the parsed options,
-    // don't touch the value
-    if (!outputOptions) {
-      return value
-    }
-
-    // Extract the desired type from the metadata argument,
-    // or by checking the component metadata
-    const [outputType] = outputOptions
-
+  if (isString(raw)) {
     // Parse output
     // TODO: Decide whether it is a good idea to expose
     // the component here (via this). The alternative
     // would be to be to set this to the window object
-    // TODO: Also decide whether to block escaping/evaluating
-    // template code at this point
-    const output = template(value, {
+    const output = template(raw, {
       escape: '',
       evaluate: '',
-    }).call(this, context)
+    }).call(that, context)
 
-    // Cooerce type if necessary
-    if (typeof output !== outputType) {
-      switch (outputType) {
-        case 'number':
-          return Number(output)
-        default:
-          throw new Error(
-            'Output type unknown, can\'t convert option',
-          )
-      }
-    } else {
-      // Only return new value if a parameter
-      // was actually substituted
-      return output !== value ? output : null
+    // Cooerce type if requested
+    switch (metadata.type) {
+      case undefined:
+        return output
+      case 'number':
+        return Number(output)
+      default:
+        throw new Error(
+          `Output type ${ metadata.type } unknown, can't convert option`,
+        )
     }
+  } else if (isArray(raw)) {
+    // Recursively parse array
+    return raw.map(
+      o => parse(o, context, metadata.content),
+    )
+  } else if (isPlainObject(raw)) {
+    // Parse individual key/value pairs
+    // and construct a new object from results
+    return fromPairs(
+      Object.entries(raw).map(
+        ([k, v]) => [k, parse(v, context, metadata.content[k])],
+      ),
+    )
+  } else {
+    // If we don't know how to parse things,
+    // leave them as they are.
+    return raw
   }
 }
 
-export const parseAllOptions = function(options, context) {
-  const optionsMetadata = parsableOptions.call(this)
-  const output = {}
+export const parseRequested = (rawOptions, context, metadata, that) =>
+  // Given a set of unparsed options and metadata,
+  // parse only the subset of options that are defined,
+  // and for which metadata is available. The output
+  // will only included those options for which parsing
+  // has resulted in different output
+  fromPairs(
+    Object.entries(metadata)
+      .map(([k, v]) => {
+        if (rawOptions[k]) {
+          const candidate = parse(rawOptions[k], context, v, that)
 
-  // Parse all of the options that are
-  // marked as parsable, and save them to output
-  // if the option has actually changed
-  Object.entries(optionsMetadata).forEach(([key, metadata]) => {
-    const candidate = parseOption.call(
-      this,
-      key, options[key],
-      context, metadata,
-    )
+          if (candidate !== rawOptions[k]) {
+            return [k, candidate]
+          }
+        }
 
-    if (candidate) {
-      output[key] = candidate
-    }
-  })
-
-  return output
-}
+        return undefined
+      }).filter(e =>
+        e !== undefined,
+      ),
+  )

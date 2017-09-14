@@ -726,6 +726,21 @@ describe('Core', () => {
         })
       })
 
+      it('recursively parses options when outputtype is \'object\'', () => {
+        const c = new lab.canvas.Screen({
+          content: [
+            { text: '${ parameters.foo }' }
+          ],
+          parameters: {
+            foo: 'bar',
+          },
+        })
+
+        return c.prepare().then(() => {
+          assert.equal(c.options.content[0].text, 'bar')
+        })
+      })
+
       it('collects parsableOptions via prototype chain', () => {
         // This is awkward to test, since the parsableOptions
         // are not exposed on components. An alternative would

@@ -4,7 +4,7 @@ import Proxy from 'es2015-proxy'
 import { EventHandler } from './util/eventAPI'
 import { DomConnection } from './util/domEvents'
 import { Random } from './util/random'
-import { parseOption, parseAllOptions } from './util/options'
+import { parse, parsableOptions, parseRequested } from './util/options'
 import { preloadImage, preloadAudio } from './util/preload'
 
 // Define status codes
@@ -94,11 +94,14 @@ export class Component extends EventHandler {
         // Once the component has been prepared,
         // parse all options as they are set
         if (this.status >= status.prepared) {
-          this.internals.parsedOptions[key] =
-            parseOption.call(this, key, value, {
-              parameters: this.aggregateParameters,
-              state: this.options.datastore ? this.options.datastore.state : {},
-            })
+          const candidate = parse(value, {
+            parameters: this.aggregateParameters,
+            state: this.options.datastore ? this.options.datastore.state : {},
+          }, parsableOptions(this)[key], this)
+
+          if (candidate !== value) {
+            this.internals.parsedOptions[key] = candidate
+          }
         }
 
         // Acknowledge success
@@ -202,11 +205,16 @@ export class Component extends EventHandler {
     // Trigger the before:prepare event
     await this.triggerMethod('before:prepare')
 
-    // Parse options
-    const parsedOptions = parseAllOptions.call(this, this.internals.rawOptions, {
-      parameters: this.aggregateParameters,
-      state: this.options.datastore ? this.options.datastore.state : {},
-    })
+    // Parse raw options using template insertion data
+    const parsedOptions = parseRequested(
+      this.internals.rawOptions,
+      {
+        parameters: this.aggregateParameters,
+        state: this.options.datastore ? this.options.datastore.state : {},
+      },
+      parsableOptions(this),
+      this,
+    )
 
     this.internals.parsedOptions = extend(
       Object.create(this.internals.rawOptions),
@@ -439,8 +447,8 @@ Component.metadata = {
   module: ['core'],
   nestedComponents: [],
   parsableOptions: {
-    correctResponse: ['string'],
-    timeout:         ['number'],
+    correctResponse: {},
+    timeout:         { type: 'number' },
   },
 }
 
