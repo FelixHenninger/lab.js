@@ -122,6 +122,7 @@ export const metadata = {
       messageHandlers: {
         rows: [ [ { title: '', message: '', code: '' }, ], ],
       },
+      viewport: [800, 600],
     },
   },
 }

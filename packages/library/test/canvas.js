@@ -263,13 +263,12 @@ describe('Canvas-based components', () => {
 
     })
 
-    it('can scale content to fit available space', () => {
+    it('scales content to fit available space', () => {
       c.options.el.style.height = '200px'
       c.options.el.style.width = '300px'
 
       // Scale contents 2x
       c.options.viewport = [150, 100]
-      c.options.scaleViewport = true
 
       return c.run().then(() => {
         c.options.ctx.fillRect(
@@ -294,7 +293,6 @@ describe('Canvas-based components', () => {
       c.options.el.style.height = '200px'
       c.options.el.style.width = '300px'
       c.options.viewport = [100, 100]
-      c.options.scaleViewport = true
 
       const d = c.clone()
 
@@ -365,12 +363,34 @@ describe('Canvas-based components', () => {
       })
     })
 
+    it('can scale the canvas by an arbitrary factor', () => {
+      c.options.canvas = document.createElement('canvas')
+      c.options.ctx = c.options.canvas.getContext('2d')
+      c.options.viewportScale = 3.14
+      c.options.scalePixelRatio = false
+
+      // Spy on the context's scale method
+      const spy = sinon.spy(c.options.ctx, 'scale')
+
+      return c.run()
+        .then(() => {
+          assert.ok(
+            spy.calledWith(
+              3.14, 3.14
+            )
+          )
+        })
+
+      // This can be made nicer in the future when the
+      // transformation matrix can be accessed directly,
+      // wee comments below.
+    })
+
     it('can draw viewport border if requested', () => {
       c.options.el.style.height = '200px'
       c.options.el.style.width = '200px'
       c.options.viewport = [100, 100]
-      c.options.scaleViewport = true
-      c.options.drawViewport = true
+      c.options.viewportEdge = true
 
       return c.run().then(() => {
         c.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
@@ -391,6 +411,7 @@ describe('Canvas-based components', () => {
       // Create artificial canvas
       c.options.canvas = document.createElement('canvas')
       c.options.ctx = c.options.canvas.getContext('2d')
+      c.options.viewportScale = 1
       c.options.scalePixelRatio = true
 
       const oldDevicePixelRatio = window.devicePixelRatio
@@ -543,10 +564,12 @@ describe('Canvas-based components', () => {
         ctx.fill()
       }
 
-      // Don't translate the origin coordinates,
+      // Don't translate the origin coordinates or scale the viewport,
       // so that canvas data can be read more easily
       a.options.translateOrigin = false
       b.options.translateOrigin = false
+      a.options.viewportScale = 1
+      b.options.viewportScale = 1
 
       s.options.content = [a, b]
       s.options.canvas = document.createElement('canvas')

@@ -139,7 +139,22 @@ const updates = {
     data.version = [2017, 1, 3]
 
     return data
-  }
+  },
+  '2017.1.3': data => ({
+    ...data,
+    version: [2017, 1, 4],
+    // Add viewport options to canvas.Screen
+    components: mapValues(data.components, c => {
+      if (c.type === 'lab.canvas.Screen') {
+        return {
+          ...c,
+          viewport: [800, 600],
+        }
+      }
+
+      return c
+    }),
+  }),
 }
 
 export default (data) => {

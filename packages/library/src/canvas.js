@@ -34,10 +34,10 @@ const addCanvasDefaults = function addCanvasDefaults(options) {
     translateOrigin: true,
     // Scale a viewport to the entire available space
     viewport: [800, 600],
-    scaleViewport: false,
-    drawViewport: false,
+    viewportScale: 'auto',
+    viewportEdge: false,
     // Use high resolution if possible
-    scalePixelRatio: null, // replaced by true if unspecified
+    devicePixelScaling: null, // replaced by true if unspecified
     ...options,
   }
 }
@@ -52,8 +52,8 @@ const prepareCanvas = function prepareCanvas() {
   }
 
   // Setup resolution scaling
-  if (this.options.scalePixelRatio === null) {
-    this.options.scalePixelRatio = true
+  if (this.options.devicePixelScaling === null) {
+    this.options.devicePixelScaling = true
   }
 }
 
@@ -61,7 +61,7 @@ const insertCanvas = function insertCanvas() {
   // Add the canvas to the DOM if need be
   if (this.options.insertCanvasOnRun) {
     // Calculate scaling factor necessary for full resolution rendering
-    const pixelRatio = this.options.scalePixelRatio
+    const pixelRatio = this.options.devicePixelScaling
       ? window.devicePixelRatio
       : 1
 
@@ -148,7 +148,7 @@ export class Screen extends Component {
     }
 
     // Scale coordinate system to match device scaling
-    const pixelRatio = this.options.scalePixelRatio
+    const pixelRatio = this.options.devicePixelScaling
       ? window.devicePixelRatio
       : 1
 
@@ -157,12 +157,12 @@ export class Screen extends Component {
     // width and height of the canvas may represent virtual
     // coordinates on a latent high-resolution canvas
     /* eslint-disable indent */
-    const viewportScale = this.options.scaleViewport
+    const viewportScale = this.options.viewportScale === 'auto'
       ? Math.min(
           this.options.canvas.width / (pixelRatio * this.options.viewport[0]),
           this.options.canvas.height / (pixelRatio * this.options.viewport[1]),
         )
-      : 1
+      : this.options.viewportScale
     /* eslint-enable indent */
 
     // Perform scaling
@@ -172,7 +172,7 @@ export class Screen extends Component {
     )
 
     // Draw viewport for debugging purposes
-    if (this.options.drawViewport) {
+    if (this.options.viewportEdge) {
       this.options.ctx.save()
       this.options.ctx.strokeStyle = 'rgb(229, 229, 229)'
 
@@ -232,7 +232,7 @@ export class Sequence extends BaseSequence {
 
     // Push canvas to nested components
     if (!this.options.handMeDowns.includes('canvas')) {
-      this.options.handMeDowns.push('canvas', 'scalePixelRatio')
+      this.options.handMeDowns.push('canvas', 'devicePixelScaling')
     }
   }
 
@@ -280,7 +280,7 @@ export class Frame extends BaseFrame {
 
     // Push canvas to nested components
     if (!this.options.handMeDowns.includes('canvas')) {
-      this.options.handMeDowns.push('canvas', 'scalePixelRatio')
+      this.options.handMeDowns.push('canvas', 'devicePixelScaling')
     }
   }
 
