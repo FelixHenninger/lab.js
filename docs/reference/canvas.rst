@@ -56,7 +56,11 @@ does, the pixels will be warped, resulting in a blurry display. To achieve crisp
 images, it is our responsibility to redraw content at different sizes depending
 on the screen resolution. This sets it apart from *vector graphics*, which
 represent a display through the shapes visible on it, and can be redrawn at
-different sizes and resolutions without loss in quality.
+different sizes and resolutions without loss in quality. That being said, we
+can make sure that we draw content at the appropriate resolution, and adjust
+sizes depending on the client's screen to achieve crisp rendering everywhere.
+As you will see, the :js:class:`canvas.Screen` component contains a few helpers
+to make this easy.
 
 Resources for learning
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -94,20 +98,20 @@ Screen
 
 .. js:class:: canvas.Screen([options])
 
-  A :js:class:`canvas.Screen` is an element in an experiment that provides a
+  A :js:class:`canvas.Screen` is a component in an experiment that provides a
   canvas element to draw on via Javascript. It automatically inserts a canvas
   into the page when it is run, and adjusts its size to cover the containing
   element.
 
-  When a :js:class:`canvas.Screen` is constructed, it takes two arguments.
-  First, it is passed a :js:attr:`renderFunction` , which is a function
-  responsible for filling the canvas. Second, the screen can receive
-  :js:attr:`options`, which correspond to those of the :js:class:`BaseElement` .
+  When a :js:class:`canvas.Screen` is constructed, it takes options as any
+  other component. It expects either a :js:attr:`renderFunction
+  <options.renderFunction>` , which is a function responsible for filling the
+  canvas, or an array of shapes as :js:attr:`content <options.content>`, which
+  is rendered automatically using a generic render function.
 
-  :param function renderFunction: Function responsible for filling the canvas
-  :param object options: Additional options
+  :param object options: Options
 
-  .. js:attribute:: renderFunction
+  .. js:attribute:: options.renderFunction
 
     The render function contains any code that draws on the canvas when the
     screen is shown. It is called with four arguments:
@@ -122,8 +126,8 @@ Screen
     * Finally, the ``obj`` argument provides a reference to the
       :js:class:`canvas.Screen` that is currently drawing the canvas.
 
-    The simplest possible :js:class:`canvas.Screen` might therefore be defined as
-    follows::
+    The simplest possible :js:class:`canvas.Screen` might therefore be defined
+    as follows::
 
       // Define a simple render function
       const renderFunction = function(ts, canvas, ctx, obj) {
@@ -143,7 +147,7 @@ Screen
       // Run the component
       example_screen.run()
 
-  .. js:attribute:: ctxType
+  .. js:attribute:: options.ctxType
 
     Drawing mode: String, defaults to ``'2d'``
 
@@ -154,6 +158,51 @@ Screen
     <https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement/getContext>`_,
     in particular if the content is three-dimensional or drawn using 3d hardware
     acceleration. [#f1]_
+
+  .. js:attribute:: options.translateOrigin
+
+    Shift the origin of the coordinate system to the center of the visible
+    canvas. Boolean, defaults to ``true``
+
+    In conjunction with the :js:attr:`viewport <options.viewport>`, this option
+    helps in creating a coordinate system that is replicable across screen
+    sizes.
+
+  .. js:attribute:: options.viewport
+
+    Size of canvas content: Array, defaults to ``[800, 600]``
+
+    Specifies the dimensions of the central canvas content (as tuple of width
+    and height in pixels). In conjunction with :js:attr:`viewportScale
+    <options.viewportScale>`, this can be used to design a screen at a specific
+    size and then, during the study, automatically scale this area to fit
+    participants' screen dimensions.
+
+  .. js:attribute:: options.viewportScale
+
+    Scale :js:attr:`viewport <options.viewport>` to fit screen: ``'auto'``
+    (default), or numeric scale factor.
+
+    If set to ``'auto'``, translates canvas coordinate system so that the
+    visible area covered by the canvas is assigned a (virtual) width and height
+    corresponding to the :js:attr:`viewport <options.viewport>` size. The
+    aspect ratio is perserved, so that the entirety of the viewport is always
+    shown (empty space may be added at the top and bottom or at the sides,
+    depending on the available space).
+
+    For any numeric value, the coordinate system is scaled so that *n* pixels
+    on the canvas correspond to *n * viewportScale* browser pixel units.
+
+  .. js:attribute:: options.viewportEdge
+
+    Draw viewport borders: Boolean, defaults to ``false``
+
+  .. js:attribute:: options.devicePixelScaling
+
+    Use native rendering resolution for high-DPI (retina) displays: Boolean,
+    defaults to ``true``
+
+----
 
 Examples and tricks
 ^^^^^^^^^^^^^^^^^^^
