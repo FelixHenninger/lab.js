@@ -13,7 +13,7 @@ describe('Canvas-based components', () => {
       c = new lab.canvas.Screen({
         renderFunction: () => null, // dummy drawing function
         el: document.createElement('div'),
-        scalePixelRatio: false,
+        devicePixelScaling: false,
       })
 
       // Perform tests within the document,
@@ -80,7 +80,7 @@ describe('Canvas-based components', () => {
     })
 
     it('accounts for device pixel ratios', () => {
-      c.options.scalePixelRatio = true
+      c.options.devicePixelScaling = true
 
       // Set dimensions on the surrounding element
       c.options.el.style.height = '200px'
@@ -88,19 +88,20 @@ describe('Canvas-based components', () => {
 
       // Set devicePixelRatio to arbitrary value
       const oldDevicePixelRatio = window.devicePixelRatio
-      window.devicePixelRatio = 2.5
+      const fakeDevicePixelRatio = 2.5
+      window.devicePixelRatio = fakeDevicePixelRatio
 
       return c.run().then(() => {
         assert.equal(
           c.options.canvas.height,
-          c.options.el.clientHeight * window.devicePixelRatio,
-          'canvas height set correctly'
+          c.options.el.clientHeight * fakeDevicePixelRatio,
+          'canvas height set correctly',
         )
 
         assert.equal(
           c.options.canvas.width,
-          c.options.el.clientWidth * window.devicePixelRatio,
-          'canvas width set correctly'
+          c.options.el.clientWidth * fakeDevicePixelRatio,
+          'canvas width set correctly',
         )
 
         // Reset devicePixelRatio
@@ -117,7 +118,7 @@ describe('Canvas-based components', () => {
       // Reset screen
       c = new lab.canvas.Screen({
         el: document.createElement('div'),
-        scalePixelRatio: false,
+        devicePixelScaling: false,
       })
       document.body.appendChild(c.options.el)
     })
@@ -367,7 +368,6 @@ describe('Canvas-based components', () => {
       c.options.canvas = document.createElement('canvas')
       c.options.ctx = c.options.canvas.getContext('2d')
       c.options.viewportScale = 3.14
-      c.options.scalePixelRatio = false
 
       // Spy on the context's scale method
       const spy = sinon.spy(c.options.ctx, 'scale')
@@ -412,7 +412,7 @@ describe('Canvas-based components', () => {
       c.options.canvas = document.createElement('canvas')
       c.options.ctx = c.options.canvas.getContext('2d')
       c.options.viewportScale = 1
-      c.options.scalePixelRatio = true
+      c.options.devicePixelScaling = true
 
       const oldDevicePixelRatio = window.devicePixelRatio
       window.devicePixelRatio = 2.5
@@ -500,7 +500,7 @@ describe('Canvas-based components', () => {
         renderFunction: () => null,
       })
       s = new lab.canvas.Sequence({
-        scalePixelRatio: false,
+        devicePixelScaling: false,
       })
     })
 
