@@ -661,7 +661,7 @@ describe('Canvas-based components', () => {
           assert.ok(false, 'Component should throw error during preparation')
         }).catch(err => {
           assert.equal(
-            err,
+            err.message,
             'CanvasFrame may only contain flow or canvas-based components',
           )
         })
@@ -674,7 +674,7 @@ describe('Canvas-based components', () => {
           assert.ok(false, 'Component should throw error during preparation')
         }).catch(err => {
           assert.equal(
-            err,
+            err.message,
             'No canvas found in context',
           )
         })

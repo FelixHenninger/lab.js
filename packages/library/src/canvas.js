@@ -300,7 +300,9 @@ export class Frame extends BaseFrame {
 
     const canvasBasedSubtree = reduce(this, isFlowOrCanvasBased, true)
     if (!canvasBasedSubtree) {
-      throw 'CanvasFrame may only contain flow or canvas-based components'
+      throw new Error(
+        'CanvasFrame may only contain flow or canvas-based components',
+      )
     }
 
     // TODO: This is largely lifted (with some adaptations)
@@ -320,7 +322,7 @@ export class Frame extends BaseFrame {
       .parsedContext.querySelector('canvas')
 
     if (!this.options.canvas) {
-      throw 'No canvas found in context'
+      throw new Error('No canvas found in context')
     }
 
     // Set nested component el to the parent
