@@ -370,14 +370,16 @@ describe('Canvas-based components', () => {
       c.options.viewportScale = 3.14
 
       // Spy on the context's scale method
-      const spy = sinon.spy(c.options.ctx, 'scale')
+      const spy = sinon.spy(c.options.ctx, 'setTransform')
 
       return c.run()
         .then(() => {
-          assert.ok(
-            spy.calledWith(
-              3.14, 3.14
-            )
+          assert.equal(
+            spy.firstCall.args[0], 3.14
+          )
+
+          assert.equal(
+            spy.firstCall.args[3], 3.14
           )
         })
 
@@ -418,15 +420,16 @@ describe('Canvas-based components', () => {
       window.devicePixelRatio = 2.5
 
       // Spy on the context's scale method
-      const spy = sinon.spy(c.options.ctx, 'scale')
+      const spy = sinon.spy(c.options.ctx, 'setTransform')
 
       return c.run()
         .then(() => {
-          assert.ok(
-            spy.calledWith(
-              window.devicePixelRatio,
-              window.devicePixelRatio
-            )
+          assert.equal(
+            spy.firstCall.args[0], window.devicePixelRatio,
+          )
+
+          assert.equal(
+            spy.firstCall.args[3], window.devicePixelRatio,
           )
 
           window.devicePixelRatio = oldDevicePixelRatio

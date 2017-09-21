@@ -4,7 +4,7 @@ import { Sequence as BaseSequence, Loop, Parallel,
   prepareNested } from './flow'
 import { Frame as BaseFrame } from './html'
 import { reduce } from './util/tree'
-import genericRenderFunction from './util/canvas'
+import { genericRenderFunction, makeTransformationMatrix } from './util/canvas'
 
 // Global canvas functions used in all of the following components
 // (multiple inheritance would come in handy here, but alas...)
@@ -138,38 +138,17 @@ export class Screen extends Component {
     // Save current transformation state
     this.options.ctx.save()
 
-    // Translate coordinate system origin
-    // to the center of the canvas
-    if (this.options.translateOrigin) {
-      this.options.ctx.translate(
-        this.options.canvas.width / 2,
-        this.options.canvas.height / 2,
-      )
-    }
-
-    // Scale coordinate system to match device scaling
-    const pixelRatio = this.options.devicePixelScaling
-      ? window.devicePixelRatio
-      : 1
-
-    // Scale viewport to fill one dimension (if requested)
-    // The calculation needs to ajust for the fact that the
-    // width and height of the canvas may represent virtual
-    // coordinates on a latent high-resolution canvas
-    /* eslint-disable indent */
-    const viewportScale = this.options.viewportScale === 'auto'
-      ? Math.min(
-          this.options.canvas.width / (pixelRatio * this.options.viewport[0]),
-          this.options.canvas.height / (pixelRatio * this.options.viewport[1]),
-        )
-      : this.options.viewportScale
-    /* eslint-enable indent */
-
-    // Perform scaling
-    this.options.ctx.scale(
-      pixelRatio * viewportScale,
-      pixelRatio * viewportScale,
+    this.internals.transformationMatrix = makeTransformationMatrix(
+      [this.options.canvas.width, this.options.canvas.height],
+      this.options.viewport,
+      {
+        translateOrigin: this.options.translateOrigin,
+        viewportScale: this.options.viewportScale,
+        devicePixelScaling: this.options.devicePixelScaling,
+      },
     )
+
+    this.options.ctx.setTransform(...this.internals.transformationMatrix)
 
     // Draw viewport for debugging purposes
     if (this.options.viewportEdge) {

@@ -1,4 +1,54 @@
+// Utilities -------------------------------------------------------------------
+
 const toRadians = degrees => Math.PI * (degrees / 180)
+
+export const makeTransformationMatrix = (canvasSize, viewportSize, opt={}) => {
+  const options = {
+    translateOrigin: true,
+    viewportScale: 'auto',
+    devicePixelScaling: true,
+    ...opt,
+  }
+
+  // Translate coordinate system origin
+  // to the center of the canvas
+  const translateX = options.translateOrigin
+    ? canvasSize[0] / 2
+    : 0
+
+  const translateY = options.translateOrigin
+    ? canvasSize[1] / 2
+    : 0
+
+  // Scale coordinate system to match device scaling
+  const pixelRatio = options.devicePixelScaling
+    ? window.devicePixelRatio
+    : 1
+
+  // Scale viewport to fill one dimension (if requested)
+  // The calculation needs to ajust for the fact that the
+  // width and height of the canvas may represent virtual
+  // coordinates on a latent high-resolution canvas
+  /* eslint-disable indent */
+  const viewportScale = options.viewportScale === 'auto'
+    ? Math.min(
+        canvasSize[0] / (pixelRatio * viewportSize[0]),
+        canvasSize[1] / (pixelRatio * viewportSize[1]),
+      )
+    : options.viewportScale
+  /* eslint-enable indent */
+
+  const scale = viewportScale * pixelRatio
+
+  // Export transformation matrix
+  return [
+    scale, 0,
+    0, scale,
+    translateX, translateY,
+  ]
+}
+
+// Generic render function -----------------------------------------------------
 
 const renderElement = (ctx, content) => {
   ctx.save()
@@ -78,5 +128,5 @@ const renderElement = (ctx, content) => {
   ctx.restore()
 }
 
-export default content => (ts, canvas, ctx) =>
+export const genericRenderFunction = content => (ts, canvas, ctx) =>
   (content || []).forEach(c => renderElement(ctx, c))
