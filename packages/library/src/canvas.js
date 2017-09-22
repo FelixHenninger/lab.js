@@ -195,6 +195,13 @@ Screen.metadata = {
         type: 'object',
         content: {
           text: {},
+          fill: {},
+          stroke: {},
+          left: { type: 'number' },
+          top: { type: 'number' },
+          width: { type: 'number' },
+          height: { type: 'number' },
+          angle: { type: 'number' },
         },
       },
     },
