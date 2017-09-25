@@ -59,7 +59,7 @@ class Grid extends Component {
           className={ classnames({
             'table': true,
             'grid': true,
-            'grid-slim': columns.length > 3,
+            'grid-slim': columns.length > 5,
             'no-header': this.props.showHeader === false
           }) }
         >
