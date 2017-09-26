@@ -1,6 +1,16 @@
 Roadmap
 =======
 
+**To be honest, we'd be hoodwinking you if we pretended for a second that we
+had any idea where this project was going in the long run.** We've changed tack
+several times now, from being a pure JavaScript library to having a full-blown
+builder interface; so please take this with more than just a grain of salt. If
+you're interested in where the project is going in the mid-term, please be
+invited to talk to the team, we'll gladly share our secret plans.
+
+There are, however, a couple of things we feel strongly about, which we've
+tried to capture here (again, to questionable success).
+
 ----
 
 Release schedule
@@ -20,10 +30,10 @@ Philosophy and Scope
 --------------------
 
 Many small decisions have to be made when building a library like this, and from
-time to time, on idle evenings, the urge makes itself noticed to imagine that
+time to time, on idle evenings, the urge makes itself known to imagine that
 some grand underlying principles governed its design. At other times, when
 thoughts go in circles over some minute detail, obsessing over some minor
-detail, one dreams of some guidelines that might inform API structure.
+detail, one dreams of having guidelines that might inform API structure.
 
 This section is an attempt at distilling principles for the design of the
 library, to serve as a benchmark and discussion tool for the interested, and for
@@ -65,8 +75,10 @@ of parts of studies, so that they can be easily incorporated into new research.
 Based on web standards
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Technical decisions are made on the assumption that the era of great differences
-between web browsers is over, and that future browsers will be updated at a
-steady pace to follow common standards. Antiquated browsers should not be a
-reason to compromise on features or performance. At the same time, I have been
-reluctant to incorporate experimental features unique to any particular browser.
+Technical decisions are made on the assumption that the era of great
+differences between web browsers is over, and that future browsers will be
+updated at a steady pace to follow common standards. Antiquated browsers should
+not be a reason to compromise on features or performance. We have been
+reluctant to incorporate experimental features unique to any particular
+browser, but if a particular feature is slated for standardization, using a
+polyfill for the time being is fine.
