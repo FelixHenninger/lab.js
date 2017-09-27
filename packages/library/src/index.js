@@ -11,6 +11,7 @@ import { Store } from './data'
 // Utilities
 import { Random } from './util/random'
 import fromObject from './util/fromObject'
+import { toRadians, transform } from './util/canvas'
 import { launch, exit } from './util/fullscreen'
 import { traverse, reduce } from './util/tree'
 
@@ -59,6 +60,9 @@ export const data = {
 export const util = {
   Random,
   fromObject,
+  canvas: {
+    toRadians, transform,
+  },
   fullscreen: {
     launch, exit,
   },

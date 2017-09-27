@@ -1,6 +1,6 @@
 // Utilities -------------------------------------------------------------------
 
-const toRadians = degrees => Math.PI * (degrees / 180)
+export const toRadians = degrees => Math.PI * (degrees / 180)
 
 export const makeTransformationMatrix = (canvasSize, viewportSize, opt={}) => {
   const options = {
@@ -47,6 +47,18 @@ export const makeTransformationMatrix = (canvasSize, viewportSize, opt={}) => {
     translateX, translateY,
   ]
 }
+
+export const transform = (matrix, coordinates) =>
+  // Hard-coded matrix multiplication for a 2x3
+  // transformation matrix and a 2d coordinate vector
+  [
+    (coordinates[0] * matrix[0]) +
+      (coordinates[1] * matrix[2]) +
+      matrix[4],
+    (coordinates[0] * matrix[1]) +
+      (coordinates[1] * matrix[3]) +
+      matrix[5],
+  ]
 
 // Generic render function -----------------------------------------------------
 
