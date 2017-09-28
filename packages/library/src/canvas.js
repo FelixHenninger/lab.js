@@ -90,6 +90,7 @@ export class Screen extends Component {
     super({
       content: null,
       renderFunction: null,
+      clearCanvas: true,
       ...addCanvasDefaults(options),
     })
 
@@ -150,6 +151,13 @@ export class Screen extends Component {
 
     this.options.ctx.setTransform(...this.internals.transformationMatrix)
 
+    // Clear canvas if requested
+    // TODO: This should check if the canvas is fresh,
+    // and not run if it isn't necessary
+    if (this.options.clearCanvas) {
+      this.clear()
+    }
+
     // Draw viewport for debugging purposes
     if (this.options.viewportEdge) {
       this.options.ctx.save()
@@ -181,6 +189,15 @@ export class Screen extends Component {
     )
 
     // Undo any previously applied tranformations
+    this.options.ctx.restore()
+  }
+
+  clear() {
+    this.options.ctx.save()
+    this.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
+    this.options.ctx.clearRect(
+      0, 0, this.options.canvas.width, this.options.canvas.height,
+    )
     this.options.ctx.restore()
   }
 }
