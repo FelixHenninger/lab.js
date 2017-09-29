@@ -164,8 +164,8 @@ export class Screen extends Component {
       this.options.ctx.strokeStyle = 'rgb(229, 229, 229)'
 
       this.options.ctx.strokeRect(
-        -this.options.viewport[0] / 2,
-        -this.options.viewport[1] / 2,
+        this.options.translateOrigin ? -this.options.viewport[0] / 2 : 0,
+        this.options.translateOrigin ? -this.options.viewport[1] / 2 : 0,
         this.options.viewport[0],
         this.options.viewport[1],
       )
