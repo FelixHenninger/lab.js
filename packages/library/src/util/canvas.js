@@ -7,6 +7,9 @@ export const makeTransformationMatrix = (canvasSize, viewportSize, opt={}) => {
     translateOrigin: true,
     viewportScale: 'auto',
     devicePixelScaling: true,
+    canvasClientRect: {
+      left: 0, top: 0,
+    },
     ...opt,
   }
 
@@ -38,13 +41,28 @@ export const makeTransformationMatrix = (canvasSize, viewportSize, opt={}) => {
     : options.viewportScale
   /* eslint-enable indent */
 
+  // The total canvas scaling factor is determined
+  // by the translation of viewport pixels to canvas
+  // pixels, and then onto hardware pixels
   const scale = viewportScale * pixelRatio
 
-  // Export transformation matrix
+  // Export transformation matrix and inverse
   return [
-    scale, 0,
-    0, scale,
-    translateX, translateY,
+    // Translate from the canvas coordinate system
+    // to device pixels
+    [
+      scale, 0,
+      0, scale,
+      translateX, translateY,
+    ],
+    // Translate from viewport coordinates
+    // to the canvas coordinate system
+    [
+      1 / viewportScale, 0,
+      0, 1 / viewportScale,
+      (-translateX / scale) - (options.canvasClientRect.left / viewportScale),
+      (-translateY / scale) - (options.canvasClientRect.top / viewportScale),
+    ],
   ]
 }
 

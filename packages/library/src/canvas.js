@@ -139,15 +139,18 @@ export class Screen extends Component {
     // Save current transformation state
     this.options.ctx.save()
 
-    this.internals.transformationMatrix = makeTransformationMatrix(
+    const tm = makeTransformationMatrix(
       [this.options.canvas.width, this.options.canvas.height],
       this.options.viewport,
       {
         translateOrigin: this.options.translateOrigin,
         viewportScale: this.options.viewportScale,
         devicePixelScaling: this.options.devicePixelScaling,
+        canvasClientRect: this.options.canvas.getBoundingClientRect(),
       },
     )
+    this.internals.transformationMatrix = tm[0]
+    this.internals.viewportTransformationMatrix = tm[1]
 
     this.options.ctx.setTransform(...this.internals.transformationMatrix)
 
