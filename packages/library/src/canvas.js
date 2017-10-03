@@ -4,7 +4,8 @@ import { Sequence as BaseSequence, Loop, Parallel,
   prepareNested } from './flow'
 import { Frame as BaseFrame } from './html'
 import { reduce } from './util/tree'
-import { genericRenderFunction, makeTransformationMatrix } from './util/canvas'
+import { genericRenderFunction, makeTransformationMatrix,
+  transform } from './util/canvas'
 
 // Global canvas functions used in all of the following components
 // (multiple inheritance would come in handy here, but alas...)
@@ -202,6 +203,14 @@ export class Screen extends Component {
       0, 0, this.options.canvas.width, this.options.canvas.height,
     )
     this.options.ctx.restore()
+  }
+
+  transform(coordinates) {
+    if (!this.internals.transformationMatrix) {
+      throw new Error('No transformation matrix set')
+    }
+
+    return transform(this.internals.transformationMatrix, coordinates)
   }
 }
 
