@@ -5,6 +5,18 @@ define(['lab'], (lab) => {
 
 describe('Canvas-based components', () => {
 
+  before(() => {
+    // Stub out window.requestAnimationFrame
+    // to speed up the test, and to avoid
+    // probabilistic failures due to frame
+    // timing during testing.
+    sinon.stub(window, 'requestAnimationFrame').callsFake(fn => fn())
+  })
+
+  after(() => {
+    window.requestAnimationFrame.reset()
+  })
+
   describe('Helper functions', () => {
     let c
 
@@ -130,15 +142,8 @@ describe('Canvas-based components', () => {
     it('executes render function when run', () => {
       c.options.renderFunction = sinon.spy()
 
-      // The test here is constructed so that
-      // requestAnimationFrame is called at least once.
-      // Otherwise, the render function won't be triggered
-      c.options.timeout = 20
-
       // Check that the function is called
-      return c.run().then(
-        () => c.waitFor('end')
-      ).then(() => {
+      return c.run().then(() => {
         assert.ok(
           c.options.renderFunction.calledOnce
         )
@@ -550,12 +555,6 @@ describe('Canvas-based components', () => {
     })
 
     it('runs canvas drawing operations in sequence', () => {
-      // Stub out window.requestAnimationFrame
-      // to speed up the test, and to avoid
-      // probabilistic failures due to frame
-      // timing during testing.
-      sinon.stub(window, 'requestAnimationFrame').callsFake(fn => fn())
-
       a.options.renderFunction = (ts, canvas, ctx, screen) => {
         ctx.rect(0, 0, 10, 10)
         ctx.fill()
@@ -627,8 +626,6 @@ describe('Canvas-based components', () => {
             ),
             [0, 0, 0, 255]
           )
-
-          window.requestAnimationFrame.reset()
         })
     })
   })
