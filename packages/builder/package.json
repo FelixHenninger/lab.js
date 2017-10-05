@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "glob": "^7.1.2",
-    "react-scripts": "1.0.10"
+    "react-scripts": "1.0.14"
   },
   "dependencies": {
     "bootstrap": "4.0.0-alpha.6",
@@ -21,13 +21,13 @@
     "papaparse": "^4.3.3",
     "prop-types": "^15.5.10",
     "raven-js": "^3.12.0",
-    "react": "^15.4.1",
+    "react": "^16.0.0",
     "react-dnd": "^2.1.4",
     "react-dnd-html5-backend": "^2.1.2",
-    "react-dom": "^15.4.1",
+    "react-dom": "^16.0.0",
     "react-modal": "^2.2.1",
     "react-monaco-editor": "^0.10.0",
-    "react-redux": "^4.0.0",
+    "react-redux": "^5.0.6",
     "react-redux-form": "^1.14.1",
     "react-transition-group": "^1.1.2",
     "reactstrap": "^4.8.0",
