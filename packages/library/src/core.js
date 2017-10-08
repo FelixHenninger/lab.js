@@ -410,9 +410,13 @@ export class Component extends EventHandler {
     // Clone any nested components
     this.constructor.metadata.nestedComponents.forEach((o) => {
       if (Array.isArray(rawOptions[o])) {
-        cloneOptions[o] = rawOptions[o].map(c => c.clone())
-      } else {
-        cloneOptions[o] = rawOptions[o].clone()
+        cloneOptions[o] = rawOptions[o].map(
+          c => (c instanceof Component ? c.clone() : c),
+        )
+      } else if (rawOptions[o] instanceof Component) {
+        // Only clone components, any other data type
+        // will have already been copied above.
+        cloneOptions[0] = rawOptions[o].clone()
       }
     })
 
