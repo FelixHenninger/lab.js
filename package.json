@@ -8,6 +8,7 @@
     "bootstrap": "lerna bootstrap",
     "build:docs": "cd docs && make html",
     "clean:docs": "cd docs && make clean",
+    "clean:modules": "rm -R node_modules packages/*/node_modules package-lock.json packages/*/package-lock.json",
     "watch:docs": "onchange 'docs/**/*.rst' 'docs/**/*.py' -- npm run build:docs"
   }
 }
