@@ -118,6 +118,7 @@ Loop
   .. js:attribute:: options.handMeDowns
 
     Options to pass to subordinate components (see :js:class:`flow.Sequence`).
+
 ----
 
 .. _reference/flow/parallel:
