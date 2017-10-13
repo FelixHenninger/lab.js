@@ -58,7 +58,7 @@ const prepareCanvas = function prepareCanvas() {
   }
 }
 
-const insertCanvas = function insertCanvas() {
+const insertCanvas = function insertCanvas(clearElement=true) {
   // Add the canvas to the DOM if need be
   if (this.options.insertCanvasOnRun) {
     // Calculate scaling factor necessary for full resolution rendering
@@ -70,7 +70,9 @@ const insertCanvas = function insertCanvas() {
     // (note that this could be sped up, as per
     // http://jsperf.com/innerhtml-vs-removechild
     // it seems sufficient for the moment, though)
-    this.options.el.innerHTML = ''
+    if (clearElement) {
+      this.options.el.innerHTML = ''
+    }
 
     // Adjust the canvas dimensions
     // to match those of the containing element
@@ -82,9 +84,13 @@ const insertCanvas = function insertCanvas() {
     this.options.canvas.style.height = `${ this.options.el.clientHeight }px`
 
     // Append the canvas to the DOM
-    this.options.el.appendChild(this.options.canvas)
+    if (clearElement) {
+      this.options.el.appendChild(this.options.canvas)
+    }
   }
 }
+
+// Canvas-based components -----------------------------------------------------
 
 export class Screen extends Component {
   constructor(options={}) {
@@ -98,6 +104,9 @@ export class Screen extends Component {
     // Provide an attribute for tracking
     // redraw requests
     this.internals.frameRequest = null
+
+    // Bind render method
+    this.render = this.render.bind(this)
   }
 
   render(timestamp) {
@@ -359,8 +368,17 @@ export class Frame extends BaseFrame {
       this.internals.contentEndHandler,
     )
 
+    prepareCanvas.apply(this)
+    this.options.insertCanvasOnRun = true
+
     // Prepare content
     await prepareNested([this.options.content], this)
+  }
+
+  // TODO: This should probably be moved to onRun,
+  // and call super.onRun()
+  async onBeforeRun() {
+    insertCanvas.apply(this, [false])
   }
 }
 
