@@ -78,9 +78,12 @@ const Content = ({ id, data, formDispatch }) =>
         <Col xs="10">
           <Control
             model=".correctResponse"
+            placeholder="Undefined"
             type="text"
             className="form-control" id="correctResponse"
-            placeholder="Undefined"
+            style={{
+              fontFamily: 'Fira Mono',
+            }}
             debounce={ 300 }
           />
         </Col>
@@ -104,9 +107,12 @@ const Content = ({ id, data, formDispatch }) =>
           <div className="input-group">
             <Control
               model=".timeout"
+              placeholder="Never"
               pattern="(\d+)|(\$\{.*\})" // Accept number or placeholder
               className="form-control" id="timeout"
-              placeholder="Never"
+              style={{
+                fontFamily: 'Fira Mono',
+              }}
               debounce={ 300 }
             />
             <div className="input-group-addon text-muted">ms</div>
