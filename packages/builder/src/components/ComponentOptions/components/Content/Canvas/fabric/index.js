@@ -51,6 +51,7 @@ export default class FabricCanvas extends Component {
         0, 1,
         this.width/2, this.height/2
       ],
+      selection: false, // No multiple selection
     })
 
     // UI Customization --------------------------------------------------------
@@ -126,8 +127,18 @@ export default class FabricCanvas extends Component {
       }
     })
 
-    // Hand changes on ---------------------------------------------------------
-    this.canvas.on('object:selected', this.props.updateHandler)
+    // Load data from props, if provided ---------------------------------------
+
+    if (this.props.data) {
+      this.canvas.loadFromJSON(
+        { objects: this.props.data },
+        () => this.canvas.requestRenderAll(),
+      )
+    }
+
+    // Hand on any further changes ---------------------------------------------
+    this.canvas.on('object:added', this.props.addHandler)
+    this.canvas.on('object:removed', this.props.deleteHandler)
     this.canvas.on('object:modified', ({ target }) => {
       // Normalize scaling
       target.set({
@@ -145,16 +156,9 @@ export default class FabricCanvas extends Component {
     })
 
     // Pass on further useful events -------------------------------------------
+    // TODO: Change to 'selection:created' as soon as supported in fabric.js
+    this.canvas.on('object:selected', this.props.updateSelectionHandler)
     this.canvas.on('selection:cleared', this.props.clearSelectionHandler)
-
-    // Load data from props, if provided ---------------------------------------
-
-    if (this.props.data) {
-      this.canvas.loadFromJSON(
-        { objects: this.props.data },
-        () => this.canvas.requestRenderAll(),
-      )
-    }
 
     // Grid --------------------------------------------------------------------
     // (is defined last, otherwise would be overridden by loaded data)
@@ -189,12 +193,16 @@ export default class FabricCanvas extends Component {
         left: 0,
         top: 0,
         fill: 'black',
+        id: this.props.idSource(),
       }
 
       switch(type) {
         case 'line':
-          return new fabric.Line([-50, 0, 50, 0] ,{
+          return new fabric.Line([-50, 0, 50, 0], {
             stroke: 'black',
+            id: defaults.id, // Re-use id generated above
+            originX: 'center',
+            originY: 'center',
           })
         case 'circle':
           return new fabric.Circle({
@@ -277,13 +285,18 @@ export default class FabricCanvas extends Component {
   cloneActive() {
     this.canvas.getActiveObjects().map(
       o => o.clone(
-        c => this.canvas.add(c)
+        c => {
+          c.id = this.props.idSource()
+          this.props.addHandler({ target: c })
+          this.canvas.add(c)
+          this.canvas.setActiveObject(c)
+        }
       )
     )
   }
 
   toObject() {
-    return this.canvas.toObject()
+    return this.canvas.toObject(['id'])
   }
 
   render () {

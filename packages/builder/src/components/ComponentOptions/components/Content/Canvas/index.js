@@ -12,7 +12,7 @@ const Editor = ({ id, data }, { store }) =>
       data={ data.content }
       onChange={
         newData => store.dispatch(
-          updateComponent(id, { content: newData.objects })
+          updateComponent(id, { content: newData })
         )
       }
     />

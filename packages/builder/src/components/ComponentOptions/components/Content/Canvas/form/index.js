@@ -8,14 +8,6 @@ import DropDown from '../../../../../Dropdown'
 
 import './index.css'
 
-const toNumber = x => {
-  if (x === '-') {
-    return undefined
-  } else {
-    return Number(x)
-  }
-}
-
 export const AddDropDown = ({ addHandler, cloneHandler, removeHandler }) =>
   <ButtonGroup>
     <DropDown type="button" dropup>
@@ -102,7 +94,13 @@ const Swatch = ({ color, clickHandler }) => {
 }
 
 const Line = ({ height }) =>
-  <div className="w-100" style={{ backgroundColor: 'black', height: height }} />
+  <div
+    className="w-100"
+    style={{
+      backgroundColor: 'black',
+      height: height
+    }}
+  />
 
 const StrokeWidthDropdown = ({ onChange }) =>
   <DropDown
@@ -262,7 +260,7 @@ export const Typography = ({ selection, changeHandler }) =>
                 and the buttons here can't be nested within. */}
             <div className="dropdown-item">
               <Control.select
-                model="target.fontFamily"
+                model=".fontFamily"
                 className="form-control custom-select"
               >
                 <option value="serif">Serif</option>
@@ -315,9 +313,8 @@ export const Typography = ({ selection, changeHandler }) =>
                   <i className="fa fa-text-height" />
                 </InputGroupAddon>
                 <Control
-                  model="target.fontSize"
+                  model=".fontSize"
                   placeholder="Size"
-                  parser={ toNumber }
                   debounce={ 200 }
                   className="form-control"
                   style={{ fontFamily: 'Fira Mono' }}
@@ -355,8 +352,9 @@ export const Dimensions = ({ type }) =>
     </InputGroupAddon>
     <Control
       model=".left"
+      defaultValue=""
       placeholder="x"
-      parser={ toNumber }
+      disabled={ type === undefined }
       debounce={ 200 }
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
@@ -366,8 +364,9 @@ export const Dimensions = ({ type }) =>
     </InputGroupAddon>
     <Control
       model=".top"
+      defaultValue=""
       placeholder="y"
-      parser={ toNumber }
+      disabled={ type === undefined }
       debounce={ 200 }
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
@@ -377,9 +376,9 @@ export const Dimensions = ({ type }) =>
     </InputGroupAddon>
     <Control
       model=".angle"
+      defaultValue=""
       placeholder="angle"
-      disabled={ ['circle', 'i-text'].includes(type) }
-      parser={ toNumber }
+      disabled={ ['circle', 'i-text', undefined].includes(type) }
       debounce={ 200 }
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
@@ -389,9 +388,9 @@ export const Dimensions = ({ type }) =>
     </InputGroupAddon>
     <Control
       model=".width"
+      defaultValue=""
       placeholder="width"
-      disabled={ ['i-text'].includes(type) }
-      parser={ toNumber }
+      disabled={ ['i-text', undefined].includes(type) }
       debounce={ 200 }
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
@@ -401,9 +400,9 @@ export const Dimensions = ({ type }) =>
     </InputGroupAddon>
     <Control
       model=".height"
+      defaultValue=""
       placeholder="height"
-      disabled={ ['circle', 'i-text'].includes(type) }
-      parser={ toNumber }
+      disabled={ ['circle', 'i-text', undefined].includes(type) }
       debounce={ 200 }
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
