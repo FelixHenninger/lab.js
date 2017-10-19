@@ -102,12 +102,12 @@ const Line = ({ height }) =>
     }}
   />
 
-const StrokeWidthDropdown = ({ onChange }) =>
+const StrokeWidthDropdown = ({ onChange, disabled }) =>
   <DropDown
     type="button"
     dropup
   >
-    <DropdownToggle caret>
+    <DropdownToggle caret disabled={ disabled }>
       <i
         className={ `fa fa-paint-brush` }
         style={{
@@ -172,7 +172,7 @@ class ColorDropdown extends Component {
           onChange={ () => this.select(this.hiddenColor.value, false) }
         />
         {/* Remainder of the Dropdown */}
-        <DropdownToggle caret>
+        <DropdownToggle caret disabled={ this.props.disabled }>
           <i
             className={ `fa fa-${ this.props.icon }` }
             style={{ position: 'relative', top: '1px' }}
@@ -418,12 +418,16 @@ export const Style = ({ selection, changeHandler }) =>
     <Control
       model=".strokeWidth"
       component={ StrokeWidthDropdown }
+      controlProps={{
+        disabled: selection.type === undefined,
+      }}
     />
     <Control
       model=".stroke"
       component={ ColorDropdown }
       controlProps={{
-        icon: 'square-o'
+        icon: 'square-o',
+        disabled: selection.type === undefined,
       }}
     />
     <Control
