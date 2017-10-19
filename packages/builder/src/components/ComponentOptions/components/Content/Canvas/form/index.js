@@ -402,7 +402,7 @@ export const Dimensions = ({ type }) =>
       model=".height"
       defaultValue=""
       placeholder="height"
-      disabled={ ['circle', 'i-text', undefined].includes(type) }
+      disabled={ ['line', 'circle', 'i-text', undefined].includes(type) }
       debounce={ 200 }
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
@@ -434,7 +434,8 @@ export const Style = ({ selection, changeHandler }) =>
       model=".fill"
       component={ ColorDropdown }
       controlProps={{
-        icon: 'square'
+        icon: 'square',
+        disabled: ['line', undefined].includes(selection.type),
       }}
     />
   </ButtonGroup>
