@@ -93,8 +93,8 @@ const renderElement = (ctx, content) => {
   // Type-specific drawing
   switch (content.type) {
     case 'line':
-      ctx.moveTo(0, 0)
-      ctx.lineTo(content.width, 0)
+      ctx.moveTo(-content.width / 2, 0)
+      ctx.lineTo(+content.width / 2, 0)
       break
     case 'rect':
       ctx.rect(
@@ -113,13 +113,13 @@ const renderElement = (ctx, content) => {
     case 'circle':
       ctx.arc(
         0, 0,
-        content.radius,
+        content.width / 2,
         0, toRadians(360),
       )
       break
     case 'ellipse':
       ctx.ellipse(
-        0, 0, content.rx, content.ry,
+        0, 0, content.width / 2, content.height / 2,
         0, 0, toRadians(360)
       )
       break
