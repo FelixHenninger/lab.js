@@ -42,6 +42,11 @@ const prepareData = data => {
   ]
 }
 
+const emptyFormData = {
+  left: '', top: '', angle: '',
+  width: '', height: '',
+}
+
 export default class CanvasEditor extends Component {
   constructor(...args) {
     super(...args)
@@ -70,7 +75,12 @@ export default class CanvasEditor extends Component {
   // Selection -----------------------------------------------------------------
 
   set selection(id) {
-    this.setState({ selection: id, })
+    this.setState({ selection: id })
+    if (id === undefined) {
+      this.formDispatch(
+        actions.change('local', emptyFormData)
+      )
+    }
   }
 
   get selection() {
