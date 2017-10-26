@@ -1,13 +1,13 @@
-.dropTarget {
+.dropTarget:not(.dropTarget-children) {
   height: 0;
   transition: height 0.15s;
 }
 
-.dropTarget.dropTarget-available {
+.dropTarget.dropTarget-available:not(.dropTarget-children) {
   height: 15px;
 }
 
-.dropTarget.dropTarget-hover {
+.dropTarget.dropTarget-hover:not(.dropTarget-children) {
   height: 48px;
   padding: 10px 0;
 }

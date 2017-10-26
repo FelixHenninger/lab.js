@@ -10,7 +10,8 @@ div.addButton {
      These factors are controlled so that the button
      borders have passed any element above before
      they are visible to avoid overlaps */
-  transition: height 0.20s 0.05s, margin 0.20s 0.04s, opacity 0.10s 0.06s;
+  transition: height 0.20s 0.05s, margin 0.20s 0.04s,
+    opacity 0.10s 0.06s, color 0.10s 0.06s, border 0.10s 0.06s;
 
   font-size: 0.8rem;
   text-align: center;
@@ -25,6 +26,11 @@ div.addButton.addButton-pinned {
   margin: 12px 0;
   border: 1px solid rgba(0, 0, 0, 0.1);
   opacity: 1;
+}
+
+.dropTarget.dropTarget-hover div.addButton {
+  color: rgba(0, 0, 0, 0.3);
+  border-color: rgba(0, 0, 0, 0.2)
 }
 
 div.addButton > .fa-plus {

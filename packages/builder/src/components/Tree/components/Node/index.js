@@ -54,20 +54,39 @@ NodeBody.contextTypes = {
   onNodeDelete: PropTypes.func,
 }
 
+const NodeGap = ({ id, index, onNodeAdd, pinned }) =>
+  <div className="nodeGap">
+    {
+      pinned
+        ? <DropTarget id={ id } index={ index } >
+            <AddButton
+              id={ id } index={ index }
+              onClick={ () => onNodeAdd(id, index) }
+              pinned={ pinned }
+            />
+          </DropTarget>
+        : <div>
+            <DropTarget
+              id={ id } index={ index }
+            />
+            <AddButton
+              id={ id } index={ index }
+              onClick={ () => onNodeAdd(id, index) }
+            />
+          </div>
+    }
+  </div>
+
 const NodeTail = ({ id, children, pinned, vacancies }, { onNodeAdd }) =>
   <Nav pills className='flex-column'>
     {
       !vacancies ? null :
-        <div className="nodeGap">
-          <DropTarget
-            id={ id } index={ 0 }
-          />
-          <AddButton
-            id={ id } index={ 0 }
-            onClick={ () => onNodeAdd(id, 0) }
-            pinned={ pinned }
-          />
-        </div>
+        <NodeGap
+          id={ id }
+          index={ 0 }
+          pinned={ pinned }
+          onNodeAdd={ onNodeAdd }
+        />
     }
     {
       children.map((childId, childIndex) =>
@@ -79,15 +98,11 @@ const NodeTail = ({ id, children, pinned, vacancies }, { onNodeAdd }) =>
           {
             /* Allow users to add more children only if there are vacancies */
             !vacancies ? null :
-              <div className="nodeGap">
-                <DropTarget
-                  id={ id } index={ childIndex + 1 }
-                />
-                <AddButton
-                  id={ id } index={ childIndex + 1 }
-                  onClick={ () => onNodeAdd(id, childIndex + 1) }
-                />
-              </div>
+              <NodeGap
+                id={ id }
+                index={ childIndex + 1 }
+                onNodeAdd={ onNodeAdd }
+              />
           }
         </NavItem>
       )

@@ -17,9 +17,10 @@ const TreeDropTarget = (props) =>
         'dropTarget': true,
         'dropTarget-available': props.canDrop,
         'dropTarget-hover': props.validTarget & props.canDrop,
+        'dropTarget-children': props.children,
       }) }
     >
-      <div className="dropTargetButton" />
+      { props.children || <div className="dropTargetButton" /> }
     </div>
   )
 
