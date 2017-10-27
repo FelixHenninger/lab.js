@@ -28,7 +28,7 @@ export default class FabricCanvas extends Component {
     // Initialize canvas element
     const el = findDOMNode(this)
 
-    this.width = el.parentElement.clientWidth
+    this.width = el.parentElement.clientWidth - 15
     this.height = Math.max(
       Math.ceil(el.parentElement.clientWidth * 9/16),
       viewPort[1] + 2 * gridSize,
