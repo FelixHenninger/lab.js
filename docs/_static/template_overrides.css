@@ -84,4 +84,10 @@ table.quicknav td > a:first-child {
   font-weight: bold;
 }
 
-/* Icon-specific adjustments */
+/* Ad placement */
+div.rtd-pro.wy-menu, div.rst-pro.wy-menu {
+  position: absolute;
+  bottom: 0 !important;
+  margin-bottom: 0;
+  padding-bottom: 16px;
+}
