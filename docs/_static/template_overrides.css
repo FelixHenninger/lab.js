@@ -84,10 +84,18 @@ table.quicknav td > a:first-child {
   font-weight: bold;
 }
 
-/* Ad placement */
-div.rtd-pro.wy-menu, div.rst-pro.wy-menu {
-  position: absolute;
-  bottom: 0 !important;
+/* Ad placement
+   (push add to the bottom if there is space) */
+.wy-side-scroll {
+  display: flex;
+  flex-direction: column;
+}
+
+.wy-menu.wy-menu-vertical {
+  flex: 1;
+}
+
+.rtd-pro.wy-menu, .rst-pro.wy-menu {
   margin-bottom: 0;
   padding-bottom: 16px;
 }
