@@ -76,7 +76,8 @@ guide**](contributing.md) also provides further information.
 
 [Felix Henninger](http://felixhenninger.com) ·
 [Ulf K. Mertens](http://www.psychologie.uni-heidelberg.de/ae/meth/team/mertens/) ·
-[Yury Shevchenko](http://yuryshevchenko.com/)
+[Yury Shevchenko](http://yuryshevchenko.com/) ·
+[Pascal J. Kieslich](https://pascalkieslich.github.io/)
 
 #### Ideas, feedback and examples
 
