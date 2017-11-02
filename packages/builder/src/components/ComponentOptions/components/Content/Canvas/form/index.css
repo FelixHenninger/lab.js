@@ -22,7 +22,7 @@ div.color-dropdown .dropdown-item {
 }
 
 div.color-dropdown .dropdown-item:active {
-  background-color: #e6e6e6;
+  background-color: var(--light);
 }
 
 div.color-swatch {
@@ -33,5 +33,5 @@ div.color-swatch {
 }
 
 div.color-swatch:hover {
-  border-color: #adadad !important;
+  border-color: var(--gray) !important;
 }

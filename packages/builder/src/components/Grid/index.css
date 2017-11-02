@@ -67,12 +67,12 @@ table.grid button.btn:active, table.grid button.btn:focus {
 }
 /* Muted variant */
 table.grid button.btn.btn-muted {
-  color: rgba(0, 0, 0, 0.2);
+  color: var(--gray);
   border-color: transparent;
 }
 table.grid button.btn.btn-muted:hover {
-  color: rgb(41, 43, 44);
-  border-color: rgb(204, 204, 204);
+  color: var(--gray-dark);
+  border-color: var(--gray);
 }
 /* Icon placement */
 table.grid button.btn i {
@@ -96,5 +96,5 @@ table.grid tfoot:hover td {
 }
 table.grid tfoot:hover button.btn-add {
   color: black;
-  border-color: rgba(0, 0, 0, 0.15);
+  border-color: var(--gray);
 }

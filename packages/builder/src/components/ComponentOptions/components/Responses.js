@@ -1,6 +1,6 @@
 import React from 'react'
 import { Control } from 'react-redux-form'
-import { CardBlock, FormGroup, Col, Label } from 'reactstrap'
+import { CardBody, FormGroup, Col, Label } from 'reactstrap'
 
 import Card from '../../Card'
 import Grid from '../../Grid'
@@ -14,7 +14,7 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) => {
       className="form-control custom-select"
       style={{
         fontFamily: 'Fira Mono',
-        color: cellData === '' ? '#999' : 'inherit',
+        color: cellData === '' ? 'var(--gray)' : 'inherit',
       }}
     >
       <option value="">undefined</option>
@@ -59,13 +59,13 @@ const Content = ({ id, data, formDispatch }) =>
       BodyContent={ GridCell }
       formDispatch={ formDispatch }
     />
-    <CardBlock>
+    <CardBody>
       <FormGroup row>
-        <Col xs="2">
-          <Label for="correctResponse" xs={2}>Correct</Label>
+        <Label for="correctResponse" xs="2">
+          Correct
           <Hint
             title="Correct response"
-            className="pull-right" style={{ paddingTop: '0.4rem' }}
+            className="pull-right"
           >
             <p className="font-weight-bold">
               Label of the response classified as correct.
@@ -74,7 +74,7 @@ const Content = ({ id, data, formDispatch }) =>
               The entry here should correspond to one of the labels assigned to responses in the first column above.
             </p>
           </Hint>
-        </Col>
+        </Label>
         <Col xs="10">
           <Control
             model=".correctResponse"
@@ -89,11 +89,11 @@ const Content = ({ id, data, formDispatch }) =>
         </Col>
       </FormGroup>
       <FormGroup row>
-        <Col xs="2">
-          <Label for="timeout" xs={2}>Timeout</Label>
+        <Label for="timeout" xs="2">
+          Timeout
           <Hint
             title="Timeout"
-            className="pull-right" style={{ paddingTop: '0.4rem' }}
+            className="pull-right"
           >
             <p className="font-weight-bold">
               End component automatically after a given number of milliseconds.
@@ -102,7 +102,7 @@ const Content = ({ id, data, formDispatch }) =>
               If responses are defined alongside a timeout, whichever comes first will end the component.
             </p>
           </Hint>
-        </Col>
+        </Label>
         <Col xs="10">
           <div className="input-group">
             <Control
@@ -119,7 +119,7 @@ const Content = ({ id, data, formDispatch }) =>
           </div>
         </Col>
       </FormGroup>
-    </CardBlock>
+    </CardBody>
   </div>
 
 export default ({ id, data }) =>

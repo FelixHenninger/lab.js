@@ -71,7 +71,7 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
           className="form-control custom-select"
           style={{
             fontFamily: 'Fira Mono',
-            color: cellData.message === '' ? '#999' : 'inherit',
+            color: cellData.message === '' ? 'var(--gray)' : 'inherit',
           }}
         >
           <option value="">event</option>

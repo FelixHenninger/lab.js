@@ -15,7 +15,7 @@ export default () =>
         className="fa fa-heart"
         style={{
           fontSize: '5rem',
-          color: 'rgb(225, 225, 225)',
+          color: 'var(--gray)',
           margin: '2rem 0 1rem',
         }}
       />

@@ -6,12 +6,13 @@
 }
 /* Improve the spacing within the popovers somewhat.
    This might turn out to be a bad idea in practice */
-.popover .popover-title, .popover .popover-content {
+.popover .popover-header, .popover .popover-body {
   padding-top: 12px;
   padding-right: 18px;
 }
 
 .hint-icon {
+  color: var(--gray);
   font-size: 0.9rem;
   cursor: pointer;
 }

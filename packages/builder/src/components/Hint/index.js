@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Popover, PopoverTitle, PopoverContent } from 'reactstrap'
+import { Popover, PopoverHeader, PopoverContent } from 'reactstrap'
 import { uniqueId } from 'lodash'
 
 import './hint.css'
@@ -7,7 +7,6 @@ import './hint.css'
 const HintTarget = ({ id, onClick }) =>
   <span id={ id } onClick={ onClick }>
     <i className="fa fa-info-circle hint-icon"
-      style={{ color: 'rgba(0, 0, 0, 0.2)' }}
       aria-hidden="true" title="More information"></i>
     <span className="sr-only">More information</span>
   </span>
@@ -41,8 +40,9 @@ export default class HintPopover extends Component {
         <Popover
           target={ this.id }
           placement={ this.props.placement || "bottom" }
-          isOpen={ this.state.isOpen } toggle={ this.toggle }>
-          <PopoverTitle>{ this.props.title }</PopoverTitle>
+          isOpen={ this.state.isOpen } toggle={ this.toggle }
+        >
+          <PopoverHeader>{ this.props.title }</PopoverHeader>
           <PopoverContent>{ this.props.children }</PopoverContent>
         </Popover>
       </span>

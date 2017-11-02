@@ -16,6 +16,7 @@ const Toolbar = (props, context) =>
     </ButtonGroup>{' '}
     <ButtonGroup>
       <Button
+        outline color="secondary"
         onClick={
           () => context.store.dispatch({
             type: 'SHOW_MODAL',

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Control } from 'react-redux-form'
-import { Col, CardBlock, FormGroup, Label } from 'reactstrap'
+import { Col, CardBody, FormGroup, Label } from 'reactstrap'
 
 import Form from '../../Form'
 import Card from '../../../../Card'
@@ -28,11 +28,10 @@ export default ({ id, data }) =>
         data={ data.templateParameters.rows }
         formDispatch={ action => this.formDispatch(action) }
       />
-      <CardBlock>
+      <CardBody>
         <FormGroup row>
           <Col xs={2}>
             <Label
-              xs={2}
               style={{
                 paddingTop: '0', // This is a hack to override .col-form-label
               }}
@@ -54,6 +53,6 @@ export default ({ id, data }) =>
             </FormGroup>
           </Col>
         </FormGroup>
-      </CardBlock>
+      </CardBody>
     </Form>
   </Card>

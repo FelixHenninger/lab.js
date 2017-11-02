@@ -3,7 +3,7 @@
 }
 .card.add-component-card:hover .card-header {
   color: white;
-  background-color: #0275d8;
+  background-color: var(--primary);
 }
 
 .card.add-component-card .card-header {
@@ -13,11 +13,10 @@
   font-size: 2rem;
 }
 
-.card.add-component-card .card-block {
-  text-align: center;
-  padding: 1.25rem 0.75rem; /* Reduce padding on the sides to make more room */
+.card.add-component-card .card-body {
+  padding: 1.25rem 0.5rem; /* Reduce padding on the sides to make more room */
 }
-.card.add-component-card .card-block h6.card-subtitle:last-child {
+.card.add-component-card .card-body h6.card-subtitle:last-child {
   margin-bottom: 0 !important;
 }
 

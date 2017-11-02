@@ -15,22 +15,22 @@ div.addButton {
 
   font-size: 0.8rem;
   text-align: center;
-  color: rgba(0, 0, 0, 0.2);
+  color: var(--gray);
   border-radius: 0.25rem;
-  border: 1px solid rgba(0, 0, 0, 0);
+  border: 1px solid var(--secondary);
 }
 
 div.nodeGap:hover div.addButton,
 div.addButton.addButton-pinned {
   height: 28px;
   margin: 12px 0;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--secondary);
   opacity: 1;
 }
 
 .dropTarget.dropTarget-hover div.addButton {
-  color: rgba(0, 0, 0, 0.3);
-  border-color: rgba(0, 0, 0, 0.2)
+  color: var(--gray-dark);
+  border-color: var(--gray-dark)
 }
 
 div.addButton > .fa-plus {

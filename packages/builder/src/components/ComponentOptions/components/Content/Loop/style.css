@@ -19,5 +19,5 @@ table.grid.grid-slim th .input-group button.dropdown-toggle::after {
 
 /* Highlight active dropdown item */
 .dropdown-menu .dropdown-item.dropdown-item-active {
-  background-color: rgb(247, 247, 249);
+  background-color: var(--light);
 }

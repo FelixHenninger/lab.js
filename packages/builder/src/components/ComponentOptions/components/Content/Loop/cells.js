@@ -21,7 +21,7 @@ export const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
 
 const CellTypeSelector = ({ type, setType, delete: deleteHandler }) =>
   <Dropdown type='button'>
-    <DropdownToggle caret>
+    <DropdownToggle caret outline color="secondary">
       <i
         className={ classnames({
           'fa': true,

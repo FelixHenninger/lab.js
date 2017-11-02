@@ -1,10 +1,6 @@
 div.card.editor-field {
   margin-top: 0.5rem;
 }
-/* Match border to form fields */
-div.card.editor-field.card-outline-secondary {
-  border-color: rgba(0, 0, 0, 0.15);
-}
 /* Add some padding so that the editor
    does not overlap the rounded corners */
 div.card.editor-field .react-monaco-editor-container {

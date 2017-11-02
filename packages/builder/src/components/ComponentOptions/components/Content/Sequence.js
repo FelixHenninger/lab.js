@@ -16,7 +16,6 @@ export default ({ id, data }) =>
       <FormGroup row>
         <Col xs={2}>
           <Label
-            xs={2}
             style={{
               paddingTop: '0', // This is a hack to override .col-form-label
             }}

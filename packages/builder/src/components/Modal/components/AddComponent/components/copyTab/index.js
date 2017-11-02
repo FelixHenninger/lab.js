@@ -41,6 +41,7 @@ const CopyTab = ({ parent, index }, context) => {
     </Input>
     <ButtonGroup>
       <Button
+        outline color="secondary"
         onClick={ () => {
           if (sourceSelect.value !== '') {
             context.store.dispatch({
@@ -58,6 +59,7 @@ const CopyTab = ({ parent, index }, context) => {
         Copy
       </Button>
       <Button
+        outline color="secondary"
         onClick={ () => {
           if (sourceSelect.value !== '') {
             // Check whether a component is being

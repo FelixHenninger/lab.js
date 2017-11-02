@@ -96,7 +96,7 @@ class AddComponentModal extends Component {
       </ModalBody>
       <ModalFooter>
         <Button
-          color="secondary"
+          outline color="secondary"
           onClick={ closeHandler }
           >
           Close

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Card as BaseCard, CardHeader, CardBlock } from 'reactstrap'
+import { Card as BaseCard, CardHeader, CardBody } from 'reactstrap'
 import classnames from 'classnames'
 
 class Card extends Component {
@@ -14,7 +14,7 @@ class Card extends Component {
   render() {
     const { title, children, className, collapsable, wrapContent } = this.props
     const content = wrapContent !== false
-      ? <CardBlock>{ children }</CardBlock>
+      ? <CardBody>{ children }</CardBody>
       : children
 
     return <BaseCard

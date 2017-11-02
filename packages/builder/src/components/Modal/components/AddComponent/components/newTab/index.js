@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Card, CardGroup, CardHeader, CardBlock,
+import { Card, CardGroup, CardHeader, CardBody,
   ListGroup, ListGroupItem } from 'reactstrap'
 import CollapsingCard from '../../../../../Card'
 import { metadata, defaults, getMetadataByCategory
@@ -37,18 +37,13 @@ const ComponentShortcut = ({ type, parent, index }, context) =>
     onClick={ () => addComponent(context.store, type, parent, index) }
   >
     <CardHeader
-      style={{
-        textAlign: 'center',
-      }}
+      className="text-center"
     >
-      <i
-        className={`fa fa-${ metadata[type].icon }`}
-        style={{
-          fontSize: '2rem',
-        }}
-      ></i>
+      <i className={`fa fa-${ metadata[type].icon }`} />
     </CardHeader>
-    <CardBlock>
+    <CardBody
+      className="text-center"
+    >
       <h5 className="card-title" style={{ fontWeight: '500 '}}>
         { metadata[type].name }
       </h5>
@@ -58,7 +53,7 @@ const ComponentShortcut = ({ type, parent, index }, context) =>
       >
         { metadata[type].category }
       </h6>
-    </CardBlock>
+    </CardBody>
   </Card>
 
 ComponentShortcut.contextTypes = {

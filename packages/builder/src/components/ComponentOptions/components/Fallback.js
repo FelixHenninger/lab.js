@@ -10,7 +10,7 @@ export default () =>
       className="fa fa-exclamation-circle"
       style={{
         fontSize: '5rem',
-        color: 'rgb(186, 186, 186)',
+        color: 'var(--gray)',
         marginTop: '3rem',
       }}
     />

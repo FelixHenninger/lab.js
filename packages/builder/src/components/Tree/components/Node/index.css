@@ -5,13 +5,12 @@
   border: 1px solid transparent;
 }
 .tree-node a.nav-link.active {
-  color: rgb(2, 117, 216);
-  background-color: rgb(247, 247, 249);
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  color: var(--primary);
+  background-color: var(--light);
+  border: 1px solid var(--gray);
 }
 .tree-node a.nav-link.isDragging {
-  background-color: rgba(255, 255, 255, 0.25);
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  opacity: 0.25;
 }
 
 /* Content spacing */

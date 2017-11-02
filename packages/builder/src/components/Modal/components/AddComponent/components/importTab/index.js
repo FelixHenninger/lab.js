@@ -31,7 +31,8 @@ const ImportTab = ({ parent, index }, context) =>
     }
   >
     <Button
-      color="secondary" size="lg" block
+      outline color="secondary"
+      size="lg" block
     >
       <strong style={{ fontWeight: '500' }}>Import component</strong> from file
     </Button>

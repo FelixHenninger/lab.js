@@ -13,7 +13,10 @@ import './index.css'
 
 const NodeDropdown = ({ id, parent, index, onDelete, hasChildren }, context) =>
   <Dropdown>
-    <DropdownToggle caret size="sm" />
+    <DropdownToggle
+      caret size="sm"
+      outline color="secondary"
+    />
     <DropdownMenu right>
       <DropdownItem header>Actions</DropdownItem>
       <DropdownItem

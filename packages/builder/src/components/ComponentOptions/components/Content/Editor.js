@@ -1,6 +1,6 @@
 import React from 'react'
 import { Control } from 'react-redux-form'
-import { CardBlock } from 'reactstrap'
+import { CardBody } from 'reactstrap'
 
 import Form from '../Form'
 import Card from '../../../Card'
@@ -9,7 +9,7 @@ import Editor from '../../../Editor'
 export default ({ id, data }) =>
   // Chrome requires explicit height settings
   // throughout, which in turn necessitates
-  // manually wrapping the content in a <CardBlock>
+  // manually wrapping the content in a <CardBody>
   // as well as the h-100 classes at every level
   // TODO: The layout here should be revisited
   // periodically to check whether the chrome bug
@@ -19,7 +19,7 @@ export default ({ id, data }) =>
     style={{ flexGrow: 1 }}
     wrapContent={ false }
   >
-    <CardBlock className="h-100">
+    <CardBody className="h-100">
       <Form
         id={ id }
         data={ data }
@@ -41,5 +41,5 @@ export default ({ id, data }) =>
           debounce={ 300 }
         />
       </Form>
-    </CardBlock>
+    </CardBody>
   </Card>

@@ -14,12 +14,15 @@ const IOButton = (_, context) =>
   <Dropdown
     type='button'
   >
-    <Button id='caret'
+    <Button id='caret' outline color="secondary"
       onClick={ () => stateToDownload(context.store.getState()) }
     >
       <i className='fa fa-save' aria-hidden='true'></i>
     </Button>
-    <DropdownToggle caret split />
+    <DropdownToggle
+      caret split
+      outline color="secondary"
+    />
     <DropdownMenu>
       <DropdownItem header>Study</DropdownItem>
       <DropdownItem

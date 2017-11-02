@@ -8,6 +8,8 @@
 }
 /* Disable visibility animation */
 .tree-node a.nav-link button.dropdown-toggle {
+  height: 1.7rem;
+  background-color: white;
   transition: visiblity 0s !important;
 }
 /* Fix vertical spacing for caret */

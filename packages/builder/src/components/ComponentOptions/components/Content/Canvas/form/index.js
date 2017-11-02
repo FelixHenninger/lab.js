@@ -11,7 +11,7 @@ import './index.css'
 export const AddDropDown = ({ addHandler, cloneHandler, removeHandler }) =>
   <ButtonGroup>
     <DropDown type="button" dropup>
-      <DropdownToggle>
+      <DropdownToggle outline color="secondary">
         <i
           className="fa fa-plus"
           style={{
@@ -64,6 +64,7 @@ export const AddDropDown = ({ addHandler, cloneHandler, removeHandler }) =>
       </DropdownMenu>
     </DropDown>
     <Button
+      outline color="secondary"
       onClick={ removeHandler }
     >
       <i className="fa fa-trash-o" />
@@ -74,10 +75,10 @@ export const Layers = ({ upHandler, downHandler }) =>
   <ButtonGroup
     className="ml-2"
   >
-    <Button onClick={ upHandler }>
+    <Button outline color="secondary" onClick={ upHandler }>
       <i className="fa fa-arrow-up" />
     </Button>
-    <Button onClick={ downHandler }>
+    <Button outline color="secondary" onClick={ downHandler }>
       <i className="fa fa-arrow-down" />
     </Button>
   </ButtonGroup>
@@ -107,9 +108,9 @@ const StrokeWidthDropdown = ({ onChange, disabled }) =>
     type="button"
     dropup
   >
-    <DropdownToggle caret disabled={ disabled }>
+    <DropdownToggle caret outline color="secondary" disabled={ disabled }>
       <i
-        className={ `fa fa-paint-brush` }
+        className="fa fa-paint-brush"
         style={{
           fontSize: '0.9em',
         }}
@@ -172,7 +173,10 @@ class ColorDropdown extends Component {
           onChange={ () => this.select(this.hiddenColor.value, false) }
         />
         {/* Remainder of the Dropdown */}
-        <DropdownToggle caret disabled={ this.props.disabled }>
+        <DropdownToggle
+          caret outline color="secondary"
+          disabled={ this.props.disabled }
+        >
           <i
             className={ `fa fa-${ this.props.icon }` }
             style={{ position: 'relative', top: '1px' }}
@@ -246,7 +250,10 @@ export const Typography = ({ selection, changeHandler }) =>
     dropup
     type="button"
   >
-    <DropdownToggle caret disabled={ selection.type !== 'i-text' }>
+    <DropdownToggle
+      caret outline color="secondary"
+      disabled={ selection.type !== 'i-text' }
+    >
       <i className="fa fa-font" />
     </DropdownToggle>
     {
