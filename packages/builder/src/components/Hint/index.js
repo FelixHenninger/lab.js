@@ -24,7 +24,11 @@ export default class HintPopover extends Component {
     }
   }
 
-  toggle() {
+  toggle(e) {
+    if (e) {
+      e.preventDefault()
+    }
+
     this.setState({
       isOpen: !this.state.isOpen,
     })
