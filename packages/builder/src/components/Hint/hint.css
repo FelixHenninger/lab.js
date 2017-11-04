@@ -12,7 +12,11 @@
 }
 
 .hint-icon {
-  color: var(--gray);
+  color: var(--secondary);
   font-size: 0.9rem;
   cursor: pointer;
+  transition: color 0.15s;
+}
+.hint-icon:hover {
+  color: var(--grey);
 }

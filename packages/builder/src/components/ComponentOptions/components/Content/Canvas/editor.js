@@ -177,7 +177,7 @@ export default class CanvasEditor extends Component {
         onChange={ data => this.updateFromForm(data) }
         getDispatch={ dispatch => this.formDispatch = dispatch }
       >
-        <FormGroup className="d-flex">
+        <FormGroup className="toolbar d-flex">
           <AddDropDown
             addHandler={ (...args) => this.canvas.add(...args) }
             removeHandler={ () => this.canvas.modifyActive('remove') }

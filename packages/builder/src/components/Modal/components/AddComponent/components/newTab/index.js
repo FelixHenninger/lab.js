@@ -75,7 +75,7 @@ const ComponentList = ({ parent, index }, context) =>
               <ListGroupItem
                 key={ type }
                 tag="a" href="#" action
-                className="justify-content-between"
+                className="d-flex justify-content-between"
                 onClick={
                   () => addComponent(context.store, type, parent, index)
                 }
@@ -88,7 +88,9 @@ const ComponentList = ({ parent, index }, context) =>
                     · { metadata[type].description }
                   </small>
                 </span>
-                <span className={ `fa fa-${ metadata[type].icon }` } />
+                <span
+                  className={ `fa fa-${ metadata[type].icon } mt-1` }
+                />
               </ListGroupItem>
             )
           }

@@ -1,7 +1,7 @@
 import React from 'react'
 
 // Bootstrap integration
-import 'bootstrap/dist/css/bootstrap.css'
+import './bootstrap-custom.css'
 import { Container } from 'reactstrap'
 
 // Font Awesome

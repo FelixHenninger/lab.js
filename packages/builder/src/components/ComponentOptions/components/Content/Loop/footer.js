@@ -27,19 +27,18 @@ export const Footer = (
   { columns, data, defaultRow, model },
   { formDispatch }
 ) =>
-  <tfoot>
+  <tfoot className="btn-hover-container">
     <tr>
       <td />
       <td colSpan={ columns.length }>
         <Dropdown
           type="button"
-          style={{
-            width: '100%'
-          }}
+          block size="sm"
+          className="w-100"
         >
           <Button
-            size="sm" block
-            className="btn-add btn-muted"
+            block size="sm"
+            outline color="muted"
             onClick={
               () => formDispatch(
                 actions.change(
@@ -63,8 +62,8 @@ export const Footer = (
             <i className="fa fa-plus"></i>
           </Button>
           <DropdownToggle
-            className="btn-muted btn-add"
-            caret split
+            caret split size="sm"
+            outline color="muted"
             style={{
               width: '24px',
             }}

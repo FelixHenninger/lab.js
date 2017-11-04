@@ -2,6 +2,9 @@
 .minimal-width-addons .input-group-addon {
   min-width: 2.5em;
 }
+.minimal-width-addons .fa {
+  width: 100%;
+}
 
 .dimension-toolbar .form-control {
   min-width: 0;

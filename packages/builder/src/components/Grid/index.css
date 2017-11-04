@@ -65,15 +65,6 @@ table.grid button.btn {
 table.grid button.btn:active, table.grid button.btn:focus {
   background-color: white;
 }
-/* Muted variant */
-table.grid button.btn.btn-muted {
-  color: var(--gray);
-  border-color: transparent;
-}
-table.grid button.btn.btn-muted:hover {
-  color: var(--gray-dark);
-  border-color: var(--gray);
-}
 /* Icon placement */
 table.grid button.btn i {
   position: relative;
@@ -88,13 +79,9 @@ table.grid tfoot td {
 table.grid tfoot td {
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
-  transition: padding-top 0.20s, padding-bottom 0.20s;
+  transition: padding-top 0.15s, padding-bottom 0.15s;
 }
 table.grid tfoot:hover td {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
-}
-table.grid tfoot:hover button.btn-add {
-  color: black;
-  border-color: var(--gray);
 }

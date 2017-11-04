@@ -7,7 +7,7 @@
 .tree-node a.nav-link.active {
   color: var(--primary);
   background-color: var(--light);
-  border: 1px solid var(--gray);
+  border: 1px solid var(--secondary);
 }
 .tree-node a.nav-link.isDragging {
   opacity: 0.25;

@@ -12,8 +12,8 @@ const Footer = (
       <td />
       <td colSpan={ columns.length }>
         <Button
-          size="sm" block
-          className="btn-add btn-muted"
+          block size="sm"
+          outline color="muted"
           onClick={
             () => formDispatch(
               actions.change(

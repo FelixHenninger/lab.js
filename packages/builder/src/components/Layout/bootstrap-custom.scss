@@ -1,0 +1,71 @@
+
+$primary: #0275d8;
+$secondary: rgb(206, 212, 218);
+$card-cap-bg: rgb(248, 249, 250);
+
+@import "node_modules/bootstrap/scss/bootstrap";
+
+// Recreate bootstrap alpha secondary button style
+// as .btn-outline-secondary
+.btn-outline-secondary {
+  @include button-outline-variant(
+    $secondary,
+    $white
+  );
+  color: black;
+  border-color: $input-border-color;
+
+  @include hover {
+    color: black;
+    background-color: theme-color-level(light, -2);
+    border-color: $secondary;
+  }
+
+  &:not([disabled]):not(.disabled):active,
+  &:not([disabled]):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    color: black;
+    background-color: theme-color-level(light, 0.5);
+  }
+}
+
+.btn-outline-muted {
+  @include button-outline-variant(
+    $secondary,
+    $white
+  );
+
+  color: $secondary;
+  border-color: transparent;
+
+  transition: color 0.2s, border-color 0.2s;
+
+  @include hover {
+    color: $gray-600;
+    border-color: $input-border-color;
+  }
+
+  &:not([disabled]):not(.disabled):active,
+  &:not([disabled]):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    color: $gray-600;
+    background-color: theme-color-level(light, 0.5);
+  }
+}
+
+.btn-group:hover .btn-outline-muted {
+  border-color: $input-border-color;
+}
+
+// Restore pre v4-beta padding to buttons
+// in places where there should be room
+.toolbar .btn:not(.dropdown-toggle),
+.modal-footer .btn:not(.dropdown-toggle) {
+  padding: 0.5rem 1rem;
+}
+
+// Change footer color in cards with warnings
+.card.border-warning .card-footer {
+  border-top-color: $warning;
+  background-color: theme-color-level(warning, -10);
+}

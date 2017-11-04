@@ -30,8 +30,10 @@ const Header = (
         !(addColumns && columns.length < maxColumns)
           ? <th />
           : <ButtonCell
-              type="th"
-              icon="plus"
+              type="th" icon="plus"
+              style={{
+                height: '42px',
+              }}
               onClick={ // Add additional column to data
                 () => formDispatch(
                   actions.change(
