@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 
 class Uploader extends Component {
+  constructor() {
+    super()
+    this.handleClick = this.handleClick.bind(this)
+    this.handleUpload = this.handleUpload.bind(this)
+  }
+
   handleClick() {
-    this.inputField.value = null
     this.inputField.click()
   }
 
@@ -15,6 +20,7 @@ class Uploader extends Component {
 
   handleUpload() {
     // Select the first file that meets all criteria
+
     const file = Array.from(this.inputField.files)
       .filter( f => this.checkFile(f) )
       .pop()
@@ -29,16 +35,23 @@ class Uploader extends Component {
   }
 
   render() {
-    return <div
-      onClick={ () => this.handleClick() }
-    >
-      { this.props.children }
+    // TODO: change wrapping <div> to array
+    // as soon as react-popper is ready
+    return <div>
+      <div
+        onClick={ this.handleClick }
+      >
+        { this.props.children }
+      </div>
       <input
-        type="file" id="fileElem"
+        type="file"
         accept={ this.props.accept }
-        onChange={ () => this.handleUpload() }
         style={{ display: 'none' }}
         ref={ field => this.inputField = field }
+        onChange={ this.handleUpload }
+        // Reset value when selected
+        // (so that the same file can be uploaded twice)
+        onClick={ (e) => e.target.value = null }
       />
     </div>
   }
