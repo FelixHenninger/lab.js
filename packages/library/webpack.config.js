@@ -76,7 +76,7 @@ if (!development) {
     'Screen', 'Form', 'Frame',
     'Sequence', 'Loop', 'Parallel',
     // Plugins
-    'Debug', 'Logger', 'Transmit',
+    'Debug', 'Logger', 'Metadata', 'Transmit',
     // Utilities
     'Random', 'fromObject',
   ]
