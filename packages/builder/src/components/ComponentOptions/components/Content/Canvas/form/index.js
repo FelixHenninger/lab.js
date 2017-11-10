@@ -339,7 +339,10 @@ export const Typography = ({ selection, changeHandler }) =>
                       ? 'primary'
                       : 'secondary'
                     }
-                    onClick={ () => changeHandler('textAlign', alignment) }
+                    onClick={ () => changeHandler({
+                      textAlign: alignment,
+                      originX: alignment,
+                    }) }
                   >
                     <i className={ `fa fa-align-${ alignment }` } />
                   </Button>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { LocalForm, actions } from 'react-redux-form'
 import { FormGroup } from 'reactstrap'
-import { fromPairs, omit, uniqueId } from 'lodash'
+import { fromPairs, isObject, omit, uniqueId } from 'lodash'
 
 import { AddDropDown, Style, Dimensions, Layers } from './form'
 
@@ -202,8 +202,13 @@ export default class CanvasEditor extends Component {
           <Style
             type={ selection.type }
             selection={ selection }
-            changeHandler={ (attr, value) =>
-              this.formDispatch(actions.change(`local.${ attr }`, value)) }
+            changeHandler={ (attr, value) => {
+              if (isObject(attr)) {
+                this.formDispatch(actions.merge(`local`, attr))
+              } else {
+                this.formDispatch(actions.change(`local.${ attr }`, value))
+              }
+            } }
           />
         </FormGroup>
       </LocalForm>
