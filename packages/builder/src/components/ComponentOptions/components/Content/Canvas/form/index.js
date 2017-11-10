@@ -216,7 +216,7 @@ class ColorDropdown extends Component {
           {/* Custom color selector */}
           <div className="dropdown-item">
             <a
-              className="btn btn-secondary"
+              className="btn btn-outline-secondary"
               style={{ width: '126px' }}
               onClick={ () => {
                 this.hiddenColor.focus()
@@ -278,7 +278,7 @@ export const Typography = ({ selection, changeHandler }) =>
             <div className="dropdown-item">
               <ButtonGroup className="w-100">
                 <Button
-                  color={
+                  outline color={
                     selection.fontStyle === 'italic'
                       ? 'primary'
                       : 'secondary'
@@ -295,7 +295,7 @@ export const Typography = ({ selection, changeHandler }) =>
                   <i className="fa fa-italic" />
                 </Button>
                 <Button
-                  color={
+                  outline color={
                     selection.fontWeight === 'bold'
                       ? 'primary'
                       : 'secondary'
@@ -335,7 +335,7 @@ export const Typography = ({ selection, changeHandler }) =>
                 ['left', 'center', 'right'].map(alignment =>
                   <Button
                     key={ `text-align-${ alignment }` }
-                    color={ selection.textAlign === alignment
+                    outline color={ selection.textAlign === alignment
                       ? 'primary'
                       : 'secondary'
                     }
