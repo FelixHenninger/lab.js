@@ -141,7 +141,17 @@ const renderElement = (ctx, content) => {
     if (content.type !== 'i-text') {
       ctx.fill()
     } else {
-      ctx.fillText(content.text, 0, 0)
+      // TODO: This wants to be abstracted out,
+      // along with the analogous stroke function below.
+      content.text
+        .split('\n')
+        .forEach((lineContent, i, lines) => {
+          ctx.fillText(
+            lineContent, 0,
+            (i - ((lines.length - 1) * 0.5)) *
+              content.fontSize * content.lineHeight,
+          )
+        })
     }
   }
 
@@ -151,7 +161,15 @@ const renderElement = (ctx, content) => {
     if (content.type !== 'i-text') {
       ctx.stroke()
     } else {
-      ctx.strokeText(content.text, 0, 0)
+      content.text
+        .split('\n')
+        .forEach((lineContent, i, lines) => {
+          ctx.strokeText(
+            lineContent, 0,
+            (i - ((lines.length - 1) * 0.5)) *
+              content.fontSize * content.lineHeight,
+          )
+        })
     }
   }
 
