@@ -155,7 +155,7 @@ const renderElement = (ctx, content) => {
     }
   }
 
-  if (content.stroke) {
+  if (content.stroke && content.strokeWidth) {
     ctx.strokeStyle = content.stroke
     ctx.lineWidth = content.strokeWidth || 1
     if (content.type !== 'i-text') {
