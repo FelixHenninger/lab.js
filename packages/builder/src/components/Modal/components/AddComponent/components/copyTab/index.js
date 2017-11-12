@@ -27,7 +27,7 @@ const CopyTab = ({ parent, index }, context) => {
       type="select" size="lg"
       name="copySelect" id="copySelect"
       className="custom-select"
-      getRef={ select => sourceSelect = select }
+      innerRef={ select => sourceSelect = select }
     >
       {
         flatTree(context.store.getState().components).map(
