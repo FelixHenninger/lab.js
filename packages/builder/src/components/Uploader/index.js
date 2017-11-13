@@ -37,12 +37,15 @@ class Uploader extends Component {
   render() {
     // TODO: change wrapping <div> to array
     // as soon as react-popper is ready
+    const Wrapper = this.props.tag || 'div'
+
     return <div>
-      <div
+      <Wrapper
         onClick={ this.handleClick }
+        tag="div"
       >
         { this.props.children }
-      </div>
+      </Wrapper>
       <input
         type="file"
         accept={ this.props.accept }

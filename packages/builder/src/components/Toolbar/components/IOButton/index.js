@@ -55,9 +55,7 @@ const IOButton = (_, context) =>
           }
         }
       >
-        {/* TODO: This doesn't work with a DropdownItem --
-            should check again when reactstrap v5 is stable */}
-        <div class="dropdown-item">
+        <div className="dropdown-item">
           Open
         </div>
       </Uploader>

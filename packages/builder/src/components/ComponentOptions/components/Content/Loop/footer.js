@@ -105,9 +105,9 @@ export const Footer = (
                 }
               }
             >
-              <DropdownItem>
+              <div className="dropdown-item">
                 Import
-              </DropdownItem>
+              </div>
             </Uploader>
             <DropdownItem
               onClick={ () => exportGrid(data, columns) }
