@@ -30,25 +30,54 @@ export default ({ id, data }) =>
       />
       <CardBody>
         <FormGroup row>
-          <Col xs={2}>
-            <Label
-              style={{
-                paddingTop: '0', // This is a hack to override .col-form-label
-              }}
-            >
-              Preparation
-            </Label>
-          </Col>
+          <Label
+            xs={ 2 }
+            style={{
+              paddingTop: '0', // This is a hack to override .col-form-label
+            }}
+          >
+            Order
+          </Label>
           <Col xs={10}>
             <FormGroup check>
               <Label check>
                 <Control.checkbox
                   model=".shuffle"
                   className="form-check-input"
-                  debounce={ 300 }
                 />
                 &thinsp;
                 Shuffle
+              </Label>
+            </FormGroup>
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label xs={ 2 } for="samples">
+            Samples
+          </Label>
+          <Col xs={10}>
+            <Control
+              id="samples"
+              model=".sample.n"
+              placeholder="As many as specified"
+              type="number"
+              className="form-control"
+              style={{
+                fontFamily: 'Fira Mono',
+              }}
+              debounce={ 300 }
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Col xs={{ size: 10, offset: 2 }}>
+            <FormGroup check>
+              <Label check>
+                <Control.checkbox
+                  model=".sample.replace"
+                  className="form-check-input"
+                />
+                Draw with replacement
               </Label>
             </FormGroup>
           </Col>
