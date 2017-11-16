@@ -4,7 +4,7 @@ import { Sequence as BaseSequence, Loop, Parallel,
   prepareNested } from './flow'
 import { Frame as BaseFrame } from './html'
 import { reduce } from './util/tree'
-import { genericRenderFunction, makeTransformationMatrix,
+import { makeRenderFunction, makeTransformationMatrix,
   transform } from './util/canvas'
 
 // Global canvas functions used in all of the following components
@@ -122,7 +122,7 @@ export class Screen extends Component {
   onPrepare() {
     prepareCanvas.apply(this)
 
-    // Add generic render function,
+    // Generate generic render function,
     // unless a render function has been defined manually
     // TODO: This should probably not be the default.
     //   Instead, in a future release, there should probably
@@ -131,7 +131,7 @@ export class Screen extends Component {
     //   should be created that includes the generic render
     //   function
     if (this.options.renderFunction === null) {
-      this.options.renderFunction = genericRenderFunction(this.options.content)
+      this.options.renderFunction = makeRenderFunction(this.options.content)
     }
   }
 

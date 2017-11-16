@@ -176,5 +176,5 @@ const renderElement = (ctx, content) => {
   ctx.restore()
 }
 
-export const genericRenderFunction = content => (ts, canvas, ctx) =>
+export const makeRenderFunction = content => (ts, canvas, ctx) =>
   (content || []).forEach(c => renderElement(ctx, c))
