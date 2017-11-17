@@ -99,3 +99,19 @@ table.quicknav td > a:first-child {
   margin-bottom: 0;
   padding-bottom: 16px;
 }
+
+/* Video embedding */
+.embed-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  margin-bottom: 24px;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.embed-container iframe, .embed-container object, .embed-container embed {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}

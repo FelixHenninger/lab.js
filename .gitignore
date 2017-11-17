@@ -1,5 +1,6 @@
 # build files
 docs/_build*
+__pycache__
 packages/library/dist
 packages/library/coverage
 
