@@ -5,6 +5,8 @@
   --width-min-container: 400px;
   --height-min-header-footer: 8vh;
   --padding-internal: 24px;
+  --border-radius-container: 5px;
+  --border-radius-content: 4px;
   /* Typography */
   --font-family: "Arial", sans-serif;
   --font-family-mono: Droid Mono, Menlo, Consolas, monospace;
@@ -74,7 +76,7 @@ main {
 /* Borders and backgrounds */
 .container {
   border: 1px solid var(--color-border);
-  border-radius: 5px;
+  border-radius: var(--border-radius-container);
 }
 header {
   border-bottom: 1px solid var(--color-border-internal);
@@ -118,7 +120,7 @@ kbd {
   text-align: center;
   /* Background and border */
   background-color: white;
-  border-radius: 4px;
+  border-radius: var(--border-radius-content);
   border: 1px solid rgb(180, 180, 180);
 }
 kbd.big {
@@ -233,7 +235,7 @@ code {
 .alert {
   background-color: var(--color-gray-background);
   border: 2px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: var(--border-radius-content);
   padding: 16px 16px 14px;
   margin: 16px 0;
 }
@@ -254,7 +256,7 @@ input, select, button, textarea {
   font-size: 0.9rem;
   line-height: var(--line-height);
   border: 2px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: var(--border-radius-content);
   margin: 8px 0;
   padding: 8px;
 }
