@@ -343,3 +343,44 @@ table.table-striped tr:nth-child(odd) td {
   border-right: 1px solid var(--color-border-internal);
   box-sizing: content-box;
 }
+
+/* Popovers */
+.popover {
+  position: absolute;
+  top: 0;
+  animation-duration: 0.5s;
+  animation-name: popover;
+}
+
+/* Width, for some reason, needs to be set explicitly */
+.container.fullscreen .popover {
+  width: calc(100vw - 2*var(--padding-internal));
+}
+
+.popover > * {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.container:not(.fullscreen) .popover {
+  width: var(--width-container);
+}
+
+/* Slide in from the top */
+@keyframes popover {
+  from {
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+.popover > .alert:first-child {
+  border-width: 1px;
+  position: relative;
+  padding-top: 24px;
+  top: -8px;
+}
+
