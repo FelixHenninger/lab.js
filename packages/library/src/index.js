@@ -17,6 +17,7 @@ import { traverse, reduce } from './util/tree'
 
 // Plugins
 import Debug from './plugins/debug'
+import Download from './plugins/download'
 import Logger from './plugins/log'
 import Metadata from './plugins/metadata'
 import Transmit from './plugins/transmit'
@@ -48,6 +49,7 @@ export const flow = {
 
 export const plugins = {
   Debug,
+  Download,
   Logger,
   Metadata,
   Transmit,
