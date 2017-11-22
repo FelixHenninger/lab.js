@@ -4,6 +4,7 @@ import { Button } from 'reactstrap'
 
 import { populateCache } from '../../../logic/io/preview'
 import { addDebugPlugin } from '../../../logic/io/export/modifiers/preview'
+import { addDownloadPlugin } from '../../../logic/io/export/modifiers/local'
 import PreviewWindow from '../../../logic/io/preview/PreviewWindow'
 
 export default class PreviewButton extends Component {
@@ -29,7 +30,9 @@ export default class PreviewButton extends Component {
     this.previewWindow.openOrFocus()
 
     return populateCache(
-      this.context.store.getState(), addDebugPlugin,
+      this.context.store.getState(),
+      state => addDownloadPlugin(addDebugPlugin(state)),
+      // TODO: Ceci n'est pas une pipe
     ).then(
       () => this.previewWindow.reload()
     ).catch(error => {
