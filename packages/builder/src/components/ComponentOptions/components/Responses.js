@@ -53,7 +53,80 @@ const Content = ({ id, data, formDispatch }) =>
     <Grid
       model=".responses"
       data={ data.responses.rows }
-      columns={ ['label', 'type', 'target', 'filter'] }
+      columns={ [
+        <span>
+          label
+          <Hint className="ml-2">
+            <p className="font-weight-bold">
+              <code>label</code> assigned to a particular response action on part of the participant.
+            </p>
+            <p className="text-muted">
+              The label reflects the <em>meaning</em> of participants' responses. We save the label corresponding to the recorded action in the data.
+            </p>
+            <p className="text-muted">
+              It is possible to have multiple alternative response actions with the same label, for example if participants can use one of several response modalities to indicate their response.
+            </p>
+          </Hint>
+        </span>,
+        <span>
+          action
+          <span class="text-muted font-weight-normal"> · event</span>
+          <Hint className="ml-2">
+            <p className="font-weight-bold">
+              Type of <code>action</code> participants can take to indicate a response. This corresponds to browser events.
+            </p>
+            <dl className="text-muted">
+              <dt>keypress</dt>
+              <dd>Pushing a key on the keyboard and releasing it.</dd>
+              <dt>keydown</dt>
+              <dd>Holding down a key.</dd>
+              <dt>keyup</dt>
+              <dd>Releasing a key.</dd>
+              <dt>click</dt>
+              <dd>Pressing and releasing a mouse button.</dd>
+              <dt>mousedown</dt>
+              <dd>Holding down a mouse button.</dd>
+              <dt>mouseup</dt>
+              <dd>Releasing a mouse button.</dd>
+            </dl>
+          </Hint>
+        </span>,
+        <span>
+          target
+          <Hint className="ml-2">
+            <p className="font-weight-bold">
+              The <code>target</code> of the action. This limits a response to certain parts of the screen &ndash; leave blank to record responses for the entire window.
+            </p>
+            <p>
+              The best example for this is if you're looking for clicks on a specific part of the screen rather than anywhere.
+            </p>
+            <p>
+              The target areas are defined by <code>CSS</code> selectors, e.g. <code>button#option_a</code> corresponds to a <code>&lt;button id="option_a" /&gt;</code> element on screen.
+            </p>
+          </Hint>
+        </span>,
+        <span>
+          filter
+          <span class="text-muted font-weight-normal"> · key/button</span>
+          <Hint className="ml-2">
+            <p className="font-weight-bold">
+              Additional <code>filter</code> applied to the action.
+            </p>
+            <p>
+              For the most part, this specifies the key or button corresponding to the response. Leave empty to count any key or button as the corresponding response.
+            </p>
+            <p>
+              Multiple options are allowed if seperated by a comma.
+            </p>
+            <dl className="text-muted">
+              <dt>Keyboard events</dt>
+              <dd>Label of the key pressed, e.g. <code>s</code>, <code>l</code>, <code>Space</code> etc. (upper case is available for letters)</dd>
+              <dt>Mouse events</dt>
+              <dd>Number corresponding to the mouse button, where <code>0</code> is the innermost button (to the left on a right-handed mouse and vice-versa).</dd>
+            </dl>
+          </Hint>
+        </span>,
+      ] }
       columnWidths={ [30, 20, 20, 20] }
       HeaderContent={ HeaderCell }
       BodyContent={ GridCell }
@@ -71,7 +144,7 @@ const Content = ({ id, data, formDispatch }) =>
               Label of the response classified as correct.
             </p>
             <p className="text-muted">
-              The entry here should correspond to one of the labels assigned to responses in the first column above.
+              The entry here should correspond to one of the labels assigned to responses in the first column above (placeholders can also be used for varying correct responses).
             </p>
           </Hint>
         </Label>
