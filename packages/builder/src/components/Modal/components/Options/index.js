@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { ModalBody, ModalFooter, Nav, NavItem, NavLink, Button } from 'reactstrap'
+import MetadataForm from './MetadataForm'
 import Editor from '../../../Editor'
 import classnames from 'classnames'
 
@@ -12,7 +13,7 @@ class OptionsModal extends Component {
     super(props)
 
     this.state = {
-      activeTab: 'html'
+      activeTab: 'meta'
     }
   }
 
@@ -27,6 +28,8 @@ class OptionsModal extends Component {
   tabContent() {
     const files = this.context.store.getState().files.files
     switch(this.state.activeTab) {
+      case 'meta':
+        return <MetadataForm />
       case 'html':
         return <Editor
           key="html"
@@ -67,6 +70,14 @@ class OptionsModal extends Component {
     const { closeHandler } = this.props
     return <div className="modal-content">
       <Nav tabs>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: this.state.activeTab === 'meta' })}
+            onClick={() => { this.toggle('meta'); }}
+          >
+            <i className="fa fa-info" />
+          </NavLink>
+        </NavItem>
         <NavItem>
           <NavLink
             className={classnames({ active: this.state.activeTab === 'html' })}
