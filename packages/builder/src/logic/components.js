@@ -14,10 +14,10 @@ export const defaultState = {
 }
 
 const defaultTabs = [
-  'Notes',
   'Content',
   'Responses',
   'Scripts',
+  'Notes',
   'More',
 ]
 

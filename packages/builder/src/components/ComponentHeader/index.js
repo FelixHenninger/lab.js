@@ -11,6 +11,12 @@ import classnames from 'classnames'
 import { updateComponent } from '../../actions/components'
 import { metadata, defaultTab } from '../../logic/components'
 
+const tabIcons = {
+  'Notes': 'fa-info',
+  // 'Scripts': 'fa-code', // TODO: This doesn't feel right atm
+  'More': 'fa-ellipsis-h',
+}
+
 const HeaderForm = ({ title, typeCategory, typeName, icon, onChange }) =>
   <LocalForm
     initialState={{ title }}
@@ -67,7 +73,11 @@ const HeaderNav = ({ tabs, tab, onChange }) =>
             () => onChange(t)
           }
         >
-          { t }
+          {
+            tabIcons[t]
+              ? <i className={ `fa ${ tabIcons[t]}` } />
+              : t
+          }
         </NavLink>
       </NavItem>
     )
