@@ -68,6 +68,8 @@ const HeaderNav = ({ tabs, tab, onChange }) =>
           style={{
             height: '42px',
             padding: '9px 16px 7px',
+            minWidth: '2.8rem',
+            textAlign: 'center',
           }}
           onClick={
             () => onChange(t)
