@@ -1,12 +1,17 @@
 import React from 'react'
 import MonacoEditor from 'react-monaco-editor'
 
+import { throttle } from 'lodash'
+
 import './editor-style-overrides.css'
 
 // TODO: I haven't found a way to reliably host the
 // monaco static files on another path than /vs .
 // It would be nice to be able to move it into the
 // /vendor directory
+
+import { HTMLHint } from 'htmlhint'
+
 
 export default class Editor extends React.Component {
   editorWillMount(monaco) {
@@ -36,10 +41,41 @@ export default class Editor extends React.Component {
     })
   }
 
-  editorDidMount(editor) {
-    editor.getModel().updateOptions({
+  editorDidMount(editor, monaco) {
+    const model = editor.getModel()
+
+    // Set tab width
+    model.updateOptions({
       tabSize: 2,
     })
+
+    // Hook up custom linter (currently only for HTML)
+    if (this.props.language === 'html') {
+      model.onDidChangeContent(throttle(() => {
+        const hints = HTMLHint.verify(
+          model.getValue(), {
+            "tagname-lowercase": true,
+            "attr-lowercase": true,
+            "attr-value-double-quotes": true,
+            "tag-pair": true,
+            "spec-char-escape": true,
+            "id-unique": true,
+            "src-not-empty": true,
+            "attr-no-duplication": true,
+            "attr-unsafe-chars": true
+          }
+        ).map(hint => ({
+          startLineNumber: hint.line, startColumn: hint.col,
+          endLineNumber: hint.line, endColumn: hint.col + hint.raw.length,
+          message: hint.message,
+          severity: 1,
+        }))
+
+        monaco.editor.setModelMarkers(
+          model, 'custom-linter', hints
+        )
+      }, 500))
+    }
   }
 
   render() {
@@ -58,8 +94,8 @@ export default class Editor extends React.Component {
       language="html" value={''}
       theme="labjs"
       requireConfig={ requireConfig }
-      editorDidMount={ this.editorDidMount }
-      editorWillMount={ this.editorWillMount }
+      editorDidMount={ this.editorDidMount.bind(this) }
+      editorWillMount={ this.editorWillMount.bind(this) }
       options={{
         // Behavior
         contextmenu: false,
