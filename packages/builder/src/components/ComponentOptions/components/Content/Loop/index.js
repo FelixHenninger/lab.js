@@ -13,7 +13,7 @@ export default ({ id, data }) =>
     <Form
       id={ id }
       data={ data }
-      keys={ ['templateParameters', 'shuffle'] }
+      keys={ ['templateParameters', 'shuffle', 'sample'] }
       getDispatch={ dispatch => this.formDispatch = dispatch }
     >
       <Grid
