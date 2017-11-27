@@ -1,5 +1,5 @@
-Design screens with HTML
-========================
+Write custom logic
+==================
 
 .. note::
   **This documentation page is currently under development. Sorry for that!**
@@ -9,9 +9,3 @@ Design screens with HTML
   version that we can share, or we can help you get started directly.
 
   Sorry for the trouble!
-
-.. toctree::
-   :caption: Contents
-   :maxdepth: 1
-
-   style.rst

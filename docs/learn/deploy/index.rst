@@ -1,5 +1,5 @@
-Collect data online
-===================
+Deploy studies online
+=====================
 
 .. note::
   **This documentation page is currently under development. Sorry for that!**

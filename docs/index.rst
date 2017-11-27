@@ -29,7 +29,7 @@ Welcome to the **lab.js** documentation!
       </td>
       <td><i class="fa fa-server fa-fw"></i></td>
       <td>
-        <a href="learn/data/index.html">Online data collection</a>
+        <a href="learn/deploy/index.html">Online data collection</a>
         <p>When you've built your study, you'll want to run it and collect data. Here's how to do that.</p>
       </td>
     </tr>
@@ -87,7 +87,8 @@ Welcome to the **lab.js** documentation!
 
    learn/builder/index.rst
    learn/html/index.rst
-   learn/data/index.rst
+   learn/logic/index.rst
+   learn/deploy/index.rst
    learn/code/index.rst
 
 .. toctree::

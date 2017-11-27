@@ -1,6 +1,6 @@
 .. _tutorial/builder:
 
-Get started with the builder
+Get started building studies
 ============================
 
 **The lab.js builder is the easiest way to get started designing studies. It's a graphical, drag-and-drop interface for assembling experiments and questionnaires.** We'd like to show it to you in this short tutorial.
