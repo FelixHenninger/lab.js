@@ -103,6 +103,7 @@ Welcome to the **lab.js** documentation!
    :caption: Meta
    :hidden:
 
+   meta/support.rst
    meta/contribute/index.rst
    meta/teach.rst
    meta/roadmap.rst
