@@ -3,25 +3,37 @@
 Get started building studies
 ============================
 
-**The lab.js builder is the easiest way to get started designing studies. It's a graphical, drag-and-drop interface for assembling experiments and questionnaires.** We'd like to show it to you in this short tutorial.
+**The lab.js builder is the easiest way to get started designing studies. You'll build experiments using a graphical, drag-and-drop interface.** We'd like to show it to you in this short tutorial -- you'll have your first study running in less than an hour.
 
-You'll need a basic knowledge of ``HTML``, which is what we'll use to control how things appear on screen. If you're fearless, you might pick up the very basics in the tutorial itself, but if you're not quite sure, it might be a good investment to take a moment to (re-)familiarize yourself with it now, or after working through the tutorial. `Codecademy`_ have an excellent `tutorial`_ on the matter which we recommend wholeheartedly.
+.. vimeo:: 241310293
 
-As you progress through the tutorial, we'll touch upon ``CSS`` (which will help you change how things look) and JavaScript (to change how things work), but see -- we're already getting ahead of ourselves.
+.. sidebar:: What you'll need
+  :subtitle: **You'll need an up-to-date browser** to make full use of the interface.
 
-With that, **let's get started!**
+  We recommend `Firefox`_ or `Chrome`_ in their most recent version. Both update automatically, so **if you're using either one already, you should be all set**.
 
-.. _Codecademy: https://www.codecademy.com/
-.. _tutorial: https://www.codecademy.com/learn/web
+  The **studies you build will run on a much wider range of browsers** and devices without problems -- it's just the interface that needs some `very recent features`_. We're doing cutting-edge stuff here!
+
+  .. _Firefox: https://getfirefox.com/
+  .. _Chrome: https://www.google.com/chrome/
+  .. _very recent features: http://caniuse.com/#feat=serviceworkers
+
+Thanks so much for checking out ``lab.js``! We would love to support you and your work. This tutorial will walk you through the main features of our software.
+
+Throughout this tutorial, you'll be using the `builder interface`_ in your browser. It's free to use, and always will be.
+
+We'd love to help you if you have any questions; likewise, if you have suggestions for things we could explain better, :ref:`we're there for you <support>`.
+
+.. _builder interface: https://labjs.felixhenninger.com/
+
+----
 
 .. toctree::
-   :caption: Contents
+   :caption: Next steps
    :maxdepth: 1
 
    1-overview.rst
    2-screen.rst
    3-responses.rst
 
-.. hint::
 
-  If you're an experienced coder already and would like full, fine-grained control over your study, you can use the library to :ref:`program experiments in JavaScript from scratch <tutorial/code>`. However, if you're just learning ``lab.js``, we believe that you'll benefit from building your first study using the interface to get a first impression of how things work together. This will help you even if you decide to switch to pure code later -- and maybe you'll find you don't need to!
