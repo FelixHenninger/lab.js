@@ -32,7 +32,7 @@ We'd love to help you if you have any questions; likewise, if you have suggestio
    :caption: Next steps
    :maxdepth: 1
 
-   1-overview.rst
+   1-screen.rst
    2-responses.rst
    3-responses.rst
 
