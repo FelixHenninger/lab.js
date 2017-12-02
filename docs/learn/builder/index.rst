@@ -34,6 +34,6 @@ We'd love to help you if you have any questions; likewise, if you have suggestio
 
    1-screen.rst
    2-responses.rst
-   3-responses.rst
+   3-trial.rst
 
 
