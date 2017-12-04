@@ -37,3 +37,5 @@ We'd love to help you if you have any questions; likewise, if you have suggestio
    3-trial.rst
    4-data.rst
    5-run-locally.rst
+   6-grade-responses.rst
+   7-feedback.rst
