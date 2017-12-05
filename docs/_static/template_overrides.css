@@ -99,6 +99,10 @@ table.quicknav td > a:first-child {
   margin-bottom: 0;
   padding-bottom: 16px;
 }
+p.ethical-callout {
+  margin-top: 0.2em;
+  margin-bottom: 0;
+}
 
 /* Video embedding */
 .embed-container {
