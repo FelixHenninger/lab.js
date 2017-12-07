@@ -14,4 +14,5 @@ Design screens with HTML
    :caption: Contents
    :maxdepth: 1
 
-   style.rst
+   1-basics.rst
+   2-screen.rst
