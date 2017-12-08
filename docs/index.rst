@@ -87,6 +87,7 @@ Welcome to the **lab.js** documentation!
 
    learn/builder/index.rst
    learn/html/index.rst
+   learn/css/index.rst
    learn/logic/index.rst
    learn/deploy/index.rst
    learn/code/index.rst
