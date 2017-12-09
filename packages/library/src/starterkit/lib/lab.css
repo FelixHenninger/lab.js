@@ -263,6 +263,9 @@ input, select, button, textarea {
 input[type="checkbox"] {
   margin: 0 10px;
 }
+input[type="range"] {
+  border: none;
+}
 input + label {
   margin-left: 2px;
 }
