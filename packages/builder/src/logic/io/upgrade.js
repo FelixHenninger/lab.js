@@ -155,6 +155,18 @@ const updates = {
       return c
     }),
   }),
+  '2017.1.4': data => {
+    // Add study metadata
+    data.components['root'].metadata = data.components['root'].metadata || {
+      title: '',
+      description: '',
+      repository: '',
+      contributors: '',
+    }
+    data.version = [2017, 1, 5]
+
+    return data
+  },
 }
 
 export default (data) => {

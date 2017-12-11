@@ -28,7 +28,7 @@ export const stateToJSON = (state, exportedComponent='root') => {
     : [ exportedComponent ]
 
   return JSON.stringify({
-    version: [2017, 1, 4],
+    version: [2017, 1, 5],
     components,
     files,
   }, null, 2)
