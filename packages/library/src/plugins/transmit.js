@@ -11,6 +11,7 @@ export default class Transmit {
       staging: !(options.updates && options.updates.staging === false),
       full: !(options.updates && options.updates.full === false),
     }
+    this.callbacks = options.callbacks || {}
   }
 
   handle(context, event) {
@@ -23,6 +24,7 @@ export default class Transmit {
           // Set commit handler on data store
           context.options.datastore.on('commit', function() {
             this.transmit(url, metadata, 'staging')
+              .then(this.callbacks.staging)
           })
         }
         break
@@ -30,6 +32,7 @@ export default class Transmit {
         if (this.updates.full) {
           // Transmit the entire data set
           context.options.datastore.transmit(url, metadata)
+            .then(this.callbacks.full)
         }
         break
       default:
