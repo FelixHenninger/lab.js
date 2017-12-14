@@ -1,77 +1,106 @@
+import parseAuthor from 'parse-author'
+import { stripIndent } from 'common-tags'
+import { repeat } from 'lodash'
+import slugify from 'slugify'
 import assemble from '../../assemble'
 import { downloadZip } from '../index'
 import { makeDataURI } from '../../../util/dataURI'
 import { transform } from 'lodash'
 
-const experiment_json = JSON.stringify({})
-
-const package_json = JSON.stringify({
-  name: 'lab.js-exported-study',
-  description: 'A study exported from lab.js',
-  version: '0.0.1',
-  private: true,
-  dependencies: {
-    'lab.js': '^2017',
-    'expfactory-server': '0.0.4',
-  },
-  devDependencies: {
-    "css-loader": "^0.28.4",
-    "style-loader": "^0.18.1",
-    "webpack": "^2.6.1",
-  },
-  scripts: {
-    "start": "node start.js",
-    "build": "webpack -p",
-  },
-})
-
-const readme = `# Experiment exported from lab.js`
-
-const requirements_js = `// This bundles the requirements for the study`
-
-const start_js = `server = require('expfactory-server')
-
-server.startExp()
-console.log('Please navigate to localhost:8080 in your browser')`
-
-const webpack_config_js = `// Webpack is responsible for the bundling process
-var path = require('path');
-
-module.exports = {
-  entry: './requirements.js',
-
-  output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: 'bundle.js'
-  },
-
-  // Include CSS files in build
-  module: {
-    loaders: [
-        { test: /\\.css$/, loader: "style-loader!css-loader" }
-    ]
+// Reduce array of authors to 'a, b, and c' format
+let reduceAuthors = (curr, next, i, a) => {
+  switch (i) {
+    case 0:
+      return next
+    case a.length - 1:
+      if (a.length === 2) {
+        return curr + ' and ' + next
+      } else {
+        return curr + ', and ' + next
+      }
+    default:
+      return curr + ', ' + next
   }
-}`
+}
+
+const makeReadme = (state) => {
+  const metadata = state.components.root.metadata
+  const credits = metadata.contributors
+    .split('\n')
+    .map(c => parseAuthor(c))
+    .map(c => c.url ? `[${ c.name }](${ c.url })` : `${ c.name }`)
+    .reduce(reduceAuthors)
+
+  const data = stripIndent`
+    ${ metadata.title }
+    ${ repeat('=', metadata.title.length) }
+    ${ metadata.description ? `
+    ${ metadata.description }
+    ----
+    ` : '' }
+    Built by ${ credits } with [lab.js](https://felixhenninger.github.io/lab.js)
+  `
+
+  return makeDataURI(data)
+}
+
+const makeConfig = (state) => {
+  const metadata = state.components.root.metadata
+
+  const data = {
+    name: metadata.title,
+    exp_id: slugify(metadata.title).toLowerCase(),
+    url: metadata.repository,
+    description: metadata.description,
+    contributors: metadata.contributors
+      .split('\n').map(c => c.trim()),
+    template: 'lab.js',
+    instructions: '',
+    time: 5,
+  }
+
+  return makeDataURI(JSON.stringify(data, null, 2))
+}
+
+const addTransmitPlugin = (state) => {
+  // Add data transmission
+  state.components.root.plugins = [
+    ...state.components.root.plugins,
+    {
+      type: 'lab.plugins.Transmit',
+      url: '/save',
+      updates: {
+        staging: false,
+      },
+      callbacks: {
+        full: function(response) {
+          if (response && response.ok) {
+            window.location = '/next'
+          }
+        }
+      }
+    },
+  ]
+
+  return state
+}
 
 export default (state) => {
-  const files = assemble(state) // modifier, additionalFiles
+  const files = assemble(state, addTransmitPlugin) // additionalFiles
 
-  // Move all generated files into a 'public' folder
+  // Add packaged files
+  files.files['readme.md'] = { content: makeReadme(state) }
+  files.files['config.json'] = { content: makeConfig(state) }
+
+  // Move all generated files into a folder
+  const expId = slugify(state.components.root.metadata.title).toLowerCase()
   const moveFile = (result, file, path) => {
-    result[`public/${ path }`] = file
+    result[`${ expId }/${ path }`] = file
     return result
   }
 
   files.bundledFiles = transform(files.bundledFiles, moveFile, {})
   files.files = transform(files.files, moveFile, {})
-
-  // Add packaged files
-  files.files['readme'] = { content: makeDataURI(readme) }
-  files.files['experiment.json'] = { content: makeDataURI(experiment_json) }
-  files.files['package.json'] = { content: makeDataURI(package_json) }
-  files.files['requirements.js'] = { content: makeDataURI(requirements_js) }
-  files.files['start.js'] = { content: makeDataURI(start_js) }
-  files.files['webpack.config.js'] = { content: makeDataURI(webpack_config_js) }
 
   downloadZip(files)
 }

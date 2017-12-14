@@ -87,7 +87,7 @@ const IOButton = (_, context) =>
       <DropdownItem
         onClick={ () => exportStaticExpFactory(context.store.getState()) }
       >
-        The Experiment Factory <span className='text-muted'>(experimental)</span>
+        The Experiment Factory <span className='text-muted'>(v3)</span>
       </DropdownItem>
     </DropdownMenu>
   </Dropdown>
