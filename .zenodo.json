@@ -1,0 +1,24 @@
+{
+  "title": "lab.js: A free, open, online experiment builder",
+  "creators": [{
+    "name": "Henninger, Felix",
+    "affiliation": "University of Koblenz-Landau",
+    "orcid": "0000-0002-7730-9511"
+  }, {
+    "name": "Mertens, Ulf",
+    "affiliation": "University of Heidelberg"
+  }, {
+    "name": "Shevchenko, Yury",
+    "affiliation": "University of Mannheim"
+  }, {
+    "name": "Kieslich, Pascal J.",
+    "affiliation": "University of Mannheim",
+    "orcid": "0000-0002-0853-9364"
+  }, {
+    "name": "Hilbig, Benjamin E.",
+    "affiliation": "University of Koblenz-Landau"
+  }],
+  "description": "<strong>lab.js makes it easy to build experiments for both online and in-laboratory data collection.</strong>. It provides a visual interface for constructing studies, and a powerful Javascript library for stimulus presentation and response collection.",
+  "upload_type": "software",
+  "access_right": "open"
+}
