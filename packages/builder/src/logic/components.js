@@ -10,6 +10,12 @@ export const defaultState = {
         type: 'lab.plugins.Metadata',
       },
     ],
+    metadata: {
+      title: '',
+      description: '',
+      repository: '',
+      contributors: '',
+    }
   },
 }
 
