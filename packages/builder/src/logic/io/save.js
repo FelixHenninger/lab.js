@@ -3,6 +3,7 @@ import moment from 'moment'
 import FileSaver from 'file-saver'
 
 import { nestedChildren } from '../tree'
+import { makeFilename } from './filename';
 
 export const stateToJSON = (state, exportedComponent='root') => {
   const { components: allComponents, files } = state
@@ -35,12 +36,16 @@ export const stateToJSON = (state, exportedComponent='root') => {
 }
 
 export const stateToDownload = (state, exportedComponent='root',
-  fileprefix='study', filenameOverride=null) => {
+  filenameOverride=null) => {
   const stateJSON = stateToJSON(state, exportedComponent)
 
   // Determine filename if not set explicitly
   let filename
   if (!filenameOverride) {
+    const fileprefix = exportedComponent === 'root'
+      ? makeFilename(state)
+      : makeFilename(state) + '-' +
+        state.components[exportedComponent].title.toLowerCase()
     const timestamp = moment().format('YYYY-MM-DD--HH:mm')
     filename = `${ fileprefix }-${ timestamp }.study.json`
   } else {
