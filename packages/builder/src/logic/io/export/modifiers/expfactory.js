@@ -1,7 +1,7 @@
 import parseAuthor from 'parse-author'
 import { stripIndent } from 'common-tags'
 import { repeat } from 'lodash'
-import slugify from 'slugify'
+import { makeFilename } from '../../filename'
 import assemble from '../../assemble'
 import { downloadZip } from '../index'
 import { makeDataURI } from '../../../util/dataURI'
@@ -49,7 +49,7 @@ const makeConfig = (state) => {
 
   const data = {
     name: metadata.title,
-    exp_id: slugify(metadata.title).toLowerCase(),
+    exp_id: makeFilename(state),
     url: metadata.repository,
     description: metadata.description,
     contributors: metadata.contributors
@@ -93,7 +93,7 @@ export default (state) => {
   files.files['config.json'] = { content: makeConfig(state) }
 
   // Move all generated files into a folder
-  const expId = slugify(state.components.root.metadata.title).toLowerCase()
+  const expId = makeFilename(state)
   const moveFile = (result, file, path) => {
     result[`${ expId }/${ path }`] = file
     return result

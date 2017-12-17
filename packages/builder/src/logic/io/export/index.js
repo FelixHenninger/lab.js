@@ -4,8 +4,10 @@ import Raven from 'raven-js'
 
 import assemble from '../assemble'
 import { readDataURI } from '../../util/dataURI'
+import { makeFilename } from '../filename';
 
-export const downloadZip = ({ files, bundledFiles }) => {
+export const downloadZip = ({ files, bundledFiles },
+  filename='study_export.zip') => {
   const zip = new JSZip()
 
   const addFile = ([filename, payload]) => {
@@ -27,7 +29,7 @@ export const downloadZip = ({ files, bundledFiles }) => {
     // Generate zip file and download bundle
     () => zip
       .generateAsync({ type: 'blob' })
-      .then(blob => FileSaver.saveAs(blob, 'study_export.zip'))
+      .then(blob => FileSaver.saveAs(blob, filename))
   ).catch(
     e => {
       Raven.captureException(e)
@@ -38,7 +40,9 @@ export const downloadZip = ({ files, bundledFiles }) => {
 
 // Bundle all files into a zip archive
 export const exportStatic = (state, stateModifier=state => state,
-  additionalFiles={}) => {
-  downloadZip(assemble(state, stateModifier, additionalFiles))
-}
+  additionalFiles={}) =>
+  downloadZip(
+    assemble(state, stateModifier, additionalFiles),
+    makeFilename(state) + '-export.zip'
+  )
 
