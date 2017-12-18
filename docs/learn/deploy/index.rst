@@ -9,3 +9,9 @@ Deploy studies online
   version that we can share, or we can help you get started directly.
 
   Sorry for the trouble!
+
+.. toctree::
+   :caption: Contents
+   :maxdepth: 1
+
+   1-web.rst
