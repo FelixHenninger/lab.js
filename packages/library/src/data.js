@@ -283,7 +283,11 @@ export class Store extends EventHandler {
   }
 
   // Send data via POST request ---------------------------
-  transmit(url, metadata={}, payload='full') {
+  transmit(url, metadata={}, payload='full', { headers={} }={}) {
+    // TODO: Change function signature so that all
+    // further options are collected in an object.
+    // The destructuring above is some of the
+    // craziest JS foo I've seen, but it works!
     this.triggerMethod('transmit')
 
     return fetch(url, {
@@ -291,6 +295,7 @@ export class Store extends EventHandler {
       headers: {
         'Accept': 'application/json', // eslint-disable-line quote-props
         'Content-Type': 'application/json',
+        ...headers,
       },
       body: JSON.stringify({
         metadata: {
