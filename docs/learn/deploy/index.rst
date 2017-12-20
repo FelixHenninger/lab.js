@@ -15,3 +15,4 @@ Deploy studies online
    :maxdepth: 1
 
    1-web.rst
+   2-php.rst
