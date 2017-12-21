@@ -62,6 +62,17 @@ main {
   flex: 1;
 }
 
+/* Frameless layout */
+.container.frameless {
+  margin: -8px;
+  border: none;
+  border-radius: 0;
+}
+.container.fullscreen.frameless {
+  width: 100vw;
+  height: 100vh;
+}
+
 /* Flexbox fix for IE11, per https://github.com/philipwalton/flexbugs */
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   body {
