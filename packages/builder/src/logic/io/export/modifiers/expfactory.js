@@ -78,7 +78,10 @@ const addTransmitPlugin = (state) => {
             window.location = '/next'
           }
         }
-      }
+      },
+      headers: {
+        'X-CSRFToken': window.csrf_token,
+      },
     },
   ]
 
