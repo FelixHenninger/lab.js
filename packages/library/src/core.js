@@ -305,7 +305,7 @@ export class Component extends EventHandler {
     return this.triggerMethod('run')
   }
 
-  respond(response=null) {
+  respond(response=null, timestamp=undefined) {
     // Save response
     this.data.response = response
 
@@ -316,13 +316,13 @@ export class Component extends EventHandler {
         this.data.response === this.options.correctResponse
     }
 
-    // End screen
-    return this.end('response')
+    // End component
+    return this.end('response', timestamp)
   }
 
-  async end(reason=null) {
+  async end(reason=null, timestamp=undefined) {
     // Note the time of and reason for ending
-    this.internals.timestamps.end = performance.now()
+    this.internals.timestamps.end = timestamp || performance.now()
     this.data.ended_on = reason
 
     // Update status
