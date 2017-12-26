@@ -20,6 +20,7 @@ import Debug from './plugins/debug'
 import Download from './plugins/download'
 import Logger from './plugins/log'
 import Metadata from './plugins/metadata'
+import PostMessage from './plugins/postmessage'
 import Transmit from './plugins/transmit'
 
 export const version = '2017.1.0'
@@ -52,6 +53,7 @@ export const plugins = {
   Download,
   Logger,
   Metadata,
+  PostMessage,
   Transmit,
 }
 
