@@ -9,6 +9,7 @@ import { fromJSON } from '../../../../logic/io/load'
 import { stateToDownload } from '../../../../logic/io/save'
 import exportStaticLocal from '../../../../logic/io/export/modifiers/local'
 import exportStaticExpFactory from '../../../../logic/io/export/modifiers/expfactory'
+import exportPostMessage from '../../../../logic/io/export/modifiers/postMessage'
 
 const IOButton = (_, context) =>
   <Dropdown
@@ -84,10 +85,17 @@ const IOButton = (_, context) =>
       >
         PHP backend
       </DropdownItem>
+      <DropdownItem divider/>
+      <DropdownItem header>Export as integration</DropdownItem>
       <DropdownItem
         onClick={ () => exportStaticExpFactory(context.store.getState()) }
       >
         The Experiment Factory <span className='text-muted'>(v3)</span>
+      </DropdownItem>
+      <DropdownItem
+        onClick={ () => exportPostMessage(context.store.getState()) }
+      >
+        Generic survey software
       </DropdownItem>
     </DropdownMenu>
   </Dropdown>
