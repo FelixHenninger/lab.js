@@ -9,6 +9,7 @@ import AddComponentModal from './components/AddComponent'
 import OptionsModal from './components/Options'
 import SystemCompatibilityModal from './components/SystemCompatibility'
 import ExportPHPModal from './components/ExportPHP'
+import ExportPostMessageModal from './components/ExportPostMessage'
 
 // Overall general-purpose modal container style
 import './index.css'
@@ -18,6 +19,7 @@ const MODAL_COMPONENTS = {
   'OPTIONS': OptionsModal,
   'SYSTEM_COMPATIBILITY': SystemCompatibilityModal,
   'EXPORT_PHP': ExportPHPModal,
+  'EXPORT_PM': ExportPostMessageModal,
 }
 
 // TODO: See if the Modal component from react-modal
