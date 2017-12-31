@@ -7,7 +7,7 @@
     "react-scripts": "1.0.14"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap": "4.0.0-beta.2",
     "classnames": "^2.2.5",
     "color": "^2.0.0",
     "common-tags": "^1.5.1",
