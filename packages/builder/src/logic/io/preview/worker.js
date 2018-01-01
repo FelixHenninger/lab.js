@@ -1,4 +1,3 @@
-import Raven from 'raven-js'
 import { prePopulateCache } from './index'
 
 export default (store) => {
@@ -9,7 +8,7 @@ export default (store) => {
     ) + 'api/'
 
     // Register service worker
-    navigator.serviceWorker
+    return navigator.serviceWorker
       // Remove legacy workers during architectural transition
       .getRegistrations().then(registrations =>
         Promise.all(
@@ -20,14 +19,13 @@ export default (store) => {
         navigator.serviceWorker.register(
           process.env.PUBLIC_URL + '/api/worker.js', { scope: rootUrl }
         )
-      ).then(() =>
+      ).then(() => {
         console.log(`Preview worker registered successfully at ${ rootUrl }`)
-      ).catch(e => {
-        console.log('Error during service worker registration:', e)
-        Raven.captureException(e)
-      })
 
-    // Prepopulate cache with library files
-    prePopulateCache()
+        // Prepopulate cache with library files
+        prePopulateCache()
+      })
+  } else {
+    return Promise.reject()
   }
 }

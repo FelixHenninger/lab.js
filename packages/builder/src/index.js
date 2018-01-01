@@ -36,23 +36,34 @@ check(store)
 import { persistState } from './logic/util/persistence'
 persistState(store)
 
-// Enable preview service worker
-// eslint-disable-next-line import/first
+/* eslint-disable import/first */
 import installPreviewWorker from './logic/io/preview/worker'
-installPreviewWorker(store)
-
-// Wrap main app component
-const WrappedApp = DragDropContext(HTML5DragDropBackend)(App)
-
-// Render wrapped app
-ReactDOM.render(
-  <Provider store={ store }>
-    <WrappedApp />
-  </Provider>,
-  document.getElementById('root')
-)
-
-// Setup progressive content caching
-// eslint-disable-next-line import/first
 import registerServiceWorker from './registerServiceWorker'
-registerServiceWorker()
+/* eslint-enable import/first */
+
+// Enable preview service worker
+installPreviewWorker(store)
+  .catch(e => {
+    console.log('Error during service worker registration:', e)
+    Raven.captureException(e)
+    return e
+  }).then(r => {
+    // Wrap main app component
+    const WrappedApp = DragDropContext(HTML5DragDropBackend)(App)
+
+    // Render wrapped app
+    ReactDOM.render(
+      <Provider store={ store }>
+        <WrappedApp />
+      </Provider>,
+      document.getElementById('root')
+    )
+
+    // Setup progressive content caching
+    registerServiceWorker()
+  })
+
+
+
+
+
