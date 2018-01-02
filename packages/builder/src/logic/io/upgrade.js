@@ -167,6 +167,24 @@ const updates = {
 
     return data
   },
+  '2017.1.5': data => {
+    // Move message handlers bound to the 'prepare' message
+    // to 'after:prepare' instead to make temporal order clearer
+    data.components = mapValues(data.components, c => {
+      if (c.messageHandlers && c.messageHandlers.rows) {
+        c.messageHandlers.rows = c.messageHandlers.rows.map(r => ([{
+          ...r[0],
+          // Replace 'prepare' with 'after:prepare'
+          message: r[0].message === 'prepare' ? 'after:prepare' : r[0].message,
+        }]))
+      }
+      return c
+    })
+
+    data.version = [2017, 1, 6]
+
+    return data
+  },
 }
 
 export default (data) => {

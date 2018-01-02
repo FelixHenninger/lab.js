@@ -76,7 +76,7 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
         >
           <option value="">event</option>
           <option value="before:prepare">before:prepare</option>
-          <option value="prepare">prepare</option>
+          <option value="after:prepare">after:prepare</option>
           <option value="run">run</option>
           <option value="end">end</option>
           <option value="after:end">after:end</option>
