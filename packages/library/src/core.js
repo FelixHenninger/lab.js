@@ -266,11 +266,14 @@ export class Component extends EventHandler {
       ...this.options.data,
     }
 
-    // Trigger related methods
+    // Trigger preparation-related methods
     await this.triggerMethod('prepare', directCall)
 
     // Update status
     this.status = status.prepared
+
+    // Trigger after:prepare event
+    await this.triggerMethod('after:prepare')
   }
 
   async run() {
