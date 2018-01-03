@@ -10,7 +10,8 @@ Keep this under your pillow!
    conceptual.rst
    core.rst
    flow.rst
-   data.rst
    html.rst
    canvas.rst
+   data.rst
+   random.rst
    plugins.rst
