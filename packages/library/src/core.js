@@ -5,6 +5,7 @@ import { EventHandler } from './util/eventAPI'
 import { DomConnection } from './util/domEvents'
 import { Random } from './util/random'
 import { parse, parsableOptions, parseRequested } from './util/options'
+import { ensureHighResTime } from './util/timing'
 import { preloadImage, preloadAudio } from './util/preload'
 
 // Define status codes
@@ -228,7 +229,10 @@ export class Component extends EventHandler {
           // Prevent default browser response
           e.preventDefault()
           // Trigger internal response handling
-          this.respond(this.options.responses[eventString])
+          this.respond(
+            this.options.responses[eventString],
+            ensureHighResTime(e.timeStamp),
+          )
         }
       },
     )
