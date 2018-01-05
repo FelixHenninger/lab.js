@@ -365,10 +365,11 @@ export class Component extends EventHandler {
           sender: this.options.title,
           sender_type: this.type,
           sender_id: this.options.id,
+          time_render: this.internals.timestamps.render,
           time_run: this.internals.timestamps.run,
           time_end: this.internals.timestamps.end,
           duration: this.internals.timestamps.end -
-            this.internals.timestamps.run,
+            (this.internals.timestamps.render || this.internals.timestamps.run),
           time_commit: performance.now(),
           timestamp: new Date().toISOString(),
         }),
@@ -381,9 +382,11 @@ export class Component extends EventHandler {
   get timer() {
     switch (this.status) {
       case status.running:
-        return performance.now() - this.internals.timestamps.run
+        return performance.now() -
+          (this.internals.timestamps.render || this.internals.timestamps.run)
       case status.done:
-        return this.internals.timestamps.end - this.internals.timestamps.run
+        return this.internals.timestamps.end -
+          (this.internals.timestamps.render || this.internals.timestamps.run)
       default:
         return undefined
     }
