@@ -1,5 +1,4 @@
 // HTML-based displays for lab.js
-import { extend } from 'lodash'
 import 'whatwg-fetch'
 
 import { Component, status } from './core'
@@ -106,7 +105,7 @@ export class Form extends Screen {
     if (this.validate()) {
       // Add serialized form data to
       // the element's dataset
-      this.data = extend(
+      Object.assign(
         this.data,
         this.serialize(),
       )

@@ -1,4 +1,4 @@
-import { extend, cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash'
 import Proxy from 'es2015-proxy'
 
 import { EventHandler } from './util/eventAPI'
@@ -217,7 +217,7 @@ export class Component extends EventHandler {
       this,
     )
 
-    this.internals.parsedOptions = extend(
+    this.internals.parsedOptions = Object.assign(
       Object.create(this.internals.rawOptions),
       parsedOptions,
     )
@@ -356,24 +356,24 @@ export class Component extends EventHandler {
     // If a data store is defined
     if (this.options.datastore) {
       // Commit the data collected by this component
-      this.options.datastore.commit(
+      this.options.datastore.commit({
         // ... plus some additional metadata
         // TODO: Decide whether the data attribute should
         // be extended, or whether the extension here should
         // start from an empty object
-        extend({}, this.data, this.aggregateParameters, {
-          sender: this.options.title,
-          sender_type: this.type,
-          sender_id: this.options.id,
-          time_render: this.internals.timestamps.render,
-          time_run: this.internals.timestamps.run,
-          time_end: this.internals.timestamps.end,
-          duration: this.internals.timestamps.end -
-            (this.internals.timestamps.render || this.internals.timestamps.run),
-          time_commit: performance.now(),
-          timestamp: new Date().toISOString(),
-        }),
-      )
+        ...this.data,
+        ...this.aggregateParameters,
+        sender: this.options.title,
+        sender_type: this.type,
+        sender_id: this.options.id,
+        time_run: this.internals.timestamps.run,
+        time_render: this.internals.timestamps.render,
+        time_end: this.internals.timestamps.end,
+        duration: this.internals.timestamps.end -
+          (this.internals.timestamps.render || this.internals.timestamps.run),
+        time_commit: performance.now(),
+        timestamp: new Date().toISOString(),
+      })
     }
     return this.triggerMethod('commit')
   }
@@ -399,8 +399,8 @@ export class Component extends EventHandler {
 
   // Parameters -------------------------------------------
   get aggregateParameters() {
-    return extend(
-      {}, ...this.parents.map(o => o.options.parameters),
+    return Object.assign({},
+      ...this.parents.map(o => o.options.parameters),
       this.options.parameters,
     )
   }
