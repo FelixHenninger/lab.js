@@ -77,6 +77,7 @@ describe('Plugins', () => {
       })
 
       sinon.stub(c.options.datastore, 'transmit')
+        .callsFake(() => Promise.resolve())
     })
     afterEach(() => {
       c.options.datastore.transmit.restore()
