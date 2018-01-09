@@ -56,7 +56,8 @@
     "postcss-cssnext": "^3.0.0",
     "requirejs": "^2.3.3",
     "sinon": "^2.3.8",
-    "webpack": "^3.3.0"
+    "webpack": "^3.3.0",
+    "webpack-bundle-analyzer": "^2.9.2"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
@@ -83,6 +84,7 @@
     }
   },
   "scripts": {
+    "analyze": "NODE_ENV=analysis webpack --profile --json > bundleStats.json",
     "build:js:coverage": "NODE_ENV=coverage webpack -d",
     "build:js:development": "webpack -d",
     "build:js:production": "webpack",

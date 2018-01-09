@@ -16,3 +16,6 @@ npm-debug.log
 
 # lerna
 lerna-debug.log
+
+# Webpack
+packages/library/bundleStats.json

@@ -1,12 +1,17 @@
 const path = require('path')
 const webpack = require('webpack')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
 
 // Non-minified development version
 const development = process.argv.includes('-d')
 
 // Add coverage information if requested
 const coverage = process.env.NODE_ENV === 'coverage'
+
+// Package analysis option
+const analysis = process.env.NODE_ENV === 'analysis'
 
 // Set output file name
 let outputFilename
@@ -96,6 +101,11 @@ if (!development) {
     // eslint-disable-next-line comma-dangle
     new webpack.optimize.OccurrenceOrderPlugin()
   )
+  if (analysis) {
+    config.plugins.push(
+      new BundleAnalyzerPlugin()
+    )
+  }
 } else if (coverage) {
   // Add code coverage instrumentation
   config.module.loaders[0].query.plugins.push('istanbul')
