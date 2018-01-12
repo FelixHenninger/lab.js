@@ -26,7 +26,7 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) => {
       <option value="mouseup">mouseup</option>
     </Control.select>
   } else {
-    const placeholder = colIndex === 2 ? 'window' : ''
+    const placeholder = { 2: 'window', 3: 'any' }[colIndex] || ''
     return <Control.text
       model={ `.rows[${ rowIndex }][${ colIndex }]` }
       placeholder={ placeholder }
