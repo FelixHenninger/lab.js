@@ -23,9 +23,11 @@ export default class Transmit {
       case 'prepare':
         if (this.updates.staging) {
           // Set commit handler on data store
+          // (inside the handler, this refers to the store)
+          const callback = this.callbacks.staging
           context.options.datastore.on('commit', function() {
             this.transmit(url, metadata, 'staging', { headers: this.headers })
-              .then(this.callbacks.staging)
+              .then(callback)
           })
         }
         break
