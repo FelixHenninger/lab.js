@@ -70,7 +70,7 @@ const Content = ({ id, data, formDispatch }) =>
         </span>,
         <span>
           action
-          <span class="text-muted font-weight-normal"> · event</span>
+          <span className="text-muted font-weight-normal"> · event</span>
           <Hint className="ml-2">
             <p className="font-weight-bold">
               Type of <code>action</code> participants can take to indicate a response. This corresponds to browser events.
@@ -107,7 +107,7 @@ const Content = ({ id, data, formDispatch }) =>
         </span>,
         <span>
           filter
-          <span class="text-muted font-weight-normal"> · key/button</span>
+          <span className="text-muted font-weight-normal"> · key/button</span>
           <Hint className="ml-2">
             <p className="font-weight-bold">
               Additional <code>filter</code> applied to the action.
