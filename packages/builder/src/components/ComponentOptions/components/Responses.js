@@ -138,7 +138,7 @@ const Content = ({ id, data, formDispatch }) =>
           Correct
           <Hint
             title="Correct response"
-            className="pull-right"
+            className="float-right"
           >
             <p className="font-weight-bold">
               Label of the response classified as correct.
@@ -166,7 +166,7 @@ const Content = ({ id, data, formDispatch }) =>
           Timeout
           <Hint
             title="Timeout"
-            className="pull-right"
+            className="float-right"
           >
             <p className="font-weight-bold">
               End component automatically after a given number of milliseconds.
