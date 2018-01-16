@@ -38,3 +38,9 @@ div.color-swatch {
 div.color-swatch:hover {
   border-color: var(--gray) !important;
 }
+
+/* Typography dropdown */
+div.btn-group.typography-alignment button.btn-outline-primary,
+div.btn-group.typography-font-style button.btn-outline-primary {
+  z-index: 2;
+}

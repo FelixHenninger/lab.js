@@ -276,7 +276,7 @@ export const Typography = ({ selection, changeHandler }) =>
               </Control.select>
             </div>
             <div className="dropdown-item">
-              <ButtonGroup className="w-100">
+              <ButtonGroup className="w-100 typography-font-style">
                 <Button
                   outline color={
                     selection.fontStyle === 'italic'
@@ -330,8 +330,11 @@ export const Typography = ({ selection, changeHandler }) =>
             </div>
             <DropdownItem divider />
             <div className="dropdown-item">
-              <ButtonGroup>
+              <ButtonGroup className="typography-alignment">
               {
+                /* Ideally, highlighting of the selected option
+                   would be covered by the active property, but
+                   the default style doesn't look good */
                 ['left', 'center', 'right'].map(alignment =>
                   <Button
                     key={ `text-align-${ alignment }` }
