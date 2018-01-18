@@ -17,7 +17,7 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) => {
         color: cellData === '' ? 'var(--gray)' : 'inherit',
       }}
     >
-      <option value="">undefined</option>
+      <option value="">none (inactive)</option>
       <option value="keypress">keypress</option>
       <option value="keydown">keydown</option>
       <option value="keyup">keyup</option>
