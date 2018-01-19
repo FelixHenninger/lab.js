@@ -42,7 +42,7 @@ class Uploader extends Component {
     return <div>
       <Wrapper
         onClick={ this.handleClick }
-        tag="div"
+        className={ this.props.className }
       >
         { this.props.children }
       </Wrapper>

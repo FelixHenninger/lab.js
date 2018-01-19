@@ -10,9 +10,12 @@ import { stateToDownload } from '../../../../logic/io/save'
 import exportStaticLocal from '../../../../logic/io/export/modifiers/local'
 import exportStaticExpFactory from '../../../../logic/io/export/modifiers/expfactory'
 
-const IOButton = (_, context) =>
-  <Dropdown
+const IOButton = (_, context) => {
+  let dropdown = null
+
+  return <Dropdown
     type='button'
+    ref={ c => (dropdown = c) }
   >
     <Button id='caret' outline color="secondary"
       onClick={ () => stateToDownload(context.store.getState()) }
@@ -51,13 +54,14 @@ const IOButton = (_, context) =>
             } catch(e) {
               // If things don't work out, let the user know
               alert('Couldn\'t load file, found error', e)
+            } finally {
+              dropdown.toggle()
             }
           }
         }
+        className="dropdown-item"
       >
-        <div className="dropdown-item">
-          Open
-        </div>
+        Open
       </Uploader>
       <DropdownItem
         onClick={
@@ -104,6 +108,7 @@ const IOButton = (_, context) =>
       </DropdownItem>
     </DropdownMenu>
   </Dropdown>
+}
 
 IOButton.contextTypes = {
   store: PropTypes.object
