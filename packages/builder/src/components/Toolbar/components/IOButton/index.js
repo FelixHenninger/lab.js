@@ -30,7 +30,7 @@ const IOButton = (_, context) => {
       <DropdownItem header>Study</DropdownItem>
       <DropdownItem
         onClick={() => {
-          if (window.confirm('Do you really want to reset the study?')) {
+          if (window.confirm('Are you sure you want to reset the study?')) {
             context.store.dispatch({ type: 'RESET_STATE' })
           }
         }}
