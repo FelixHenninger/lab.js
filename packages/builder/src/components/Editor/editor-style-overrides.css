@@ -27,3 +27,11 @@
 .monaco-aria-container {
   top: 0;
 }
+
+/* Add minimal height to editor container
+   (this circumvents a bug in chrome, which reduces the editor to
+   a single line if the editor height falls below a certain limit)
+*/
+.react-monaco-editor-container {
+  min-height: 100px;
+}
