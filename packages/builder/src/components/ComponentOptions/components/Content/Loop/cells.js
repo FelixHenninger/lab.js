@@ -4,10 +4,12 @@ import { Control, actions } from 'react-redux-form'
 
 import './style.css'
 
-import Dropdown from '../../../../Dropdown'
 import { DropdownToggle, DropdownMenu, DropdownItem,
          InputGroup, InputGroupButton } from 'reactstrap'
 import classnames from 'classnames'
+
+import Dropdown from '../../../../Dropdown'
+import Icon from '../../../../Icon'
 
 export const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
   <Control.text
@@ -22,13 +24,12 @@ export const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
 const CellTypeSelector = ({ type, setType, delete: deleteHandler }) =>
   <Dropdown type='button'>
     <DropdownToggle caret outline color="secondary">
-      <i
-        className={ classnames({
-          'fa': true,
-          'fa-font': type === 'string',
-          'fa-tachometer': type === 'number',
-          'fa-adjust': type === 'boolean',
-        }) }
+      <Icon
+        icon={{
+          string: 'font',
+          number: 'tachometer',
+          boolean: 'adjust'
+        }[type]}
       />
     </DropdownToggle>
     <DropdownMenu>

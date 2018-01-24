@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Icon from '../../../Icon'
+
 import './index.css'
 
 export default ({ pinned, onClick }) =>
@@ -7,5 +9,5 @@ export default ({ pinned, onClick }) =>
     className={ `addButton ${ pinned ? 'addButton-pinned' : '' }`}
     onClick={ onClick }
   >
-    <i className="fa fa-plus"></i>
+    <Icon icon="plus" />
   </div>

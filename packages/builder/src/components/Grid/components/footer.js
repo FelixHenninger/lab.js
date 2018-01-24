@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { Button } from 'reactstrap'
 import { actions } from 'react-redux-form'
 
+import Icon from '../../Icon'
+
 const Footer = (
   { columns, data, defaultRow, model },
   { formDispatch }
@@ -31,7 +33,7 @@ const Footer = (
             e => e.target.blur()
           }
         >
-          <i className="fa fa-plus"></i>
+          <Icon icon="plus" />
         </Button>
       </td>
       <td />

@@ -4,6 +4,7 @@ import { ButtonGroup, Button } from 'reactstrap'
 
 import PreviewButton from './components/PreviewButton'
 import IOButton from './components/IOButton'
+import Icon from '../Icon'
 import './styles.css'
 
 const Toolbar = (props, context) =>
@@ -27,7 +28,7 @@ const Toolbar = (props, context) =>
           })
         }
       >
-        <i className="fa fa-sliders" aria-hidden="true"></i>
+        <Icon icon="sliders-h" weight="l" />
       </Button>
     </ButtonGroup>
   </div>

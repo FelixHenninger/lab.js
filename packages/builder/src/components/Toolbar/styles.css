@@ -1,9 +1,4 @@
-.toolbar button .fa {
+.toolbar button .fas, .toolbar button .far, .toolbar button .fal {
   position: relative;
   top: 0.05rem;
-}
-
-.toolbar button .fa-folder-open-o {
-  position: relative;
-  top: 0.175rem;
 }

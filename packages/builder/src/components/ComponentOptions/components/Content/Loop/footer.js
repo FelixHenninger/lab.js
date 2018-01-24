@@ -1,8 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
 import { Button, DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap'
-import Dropdown from '../../../../Dropdown'
 import { actions } from 'react-redux-form'
+
+import Dropdown from '../../../../Dropdown'
+import Icon from '../../../../Icon'
 
 import Uploader from '../../../../Uploader'
 import FileSaver from 'file-saver'
@@ -59,7 +62,7 @@ export const Footer = (
               paddingLeft: '32px', // 6px standard + 24px toggle width
             }}
           >
-            <i className="fa fa-plus"></i>
+            <Icon icon="plus" />
           </Button>
           <DropdownToggle
             caret split size="sm"

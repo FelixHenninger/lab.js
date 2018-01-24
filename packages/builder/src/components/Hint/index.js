@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import { Popover, PopoverHeader, PopoverContent } from 'reactstrap'
 import { uniqueId } from 'lodash'
 
+import Icon from '../Icon'
+
 import './hint.css'
 
 const HintTarget = ({ id, onClick }) =>
   <span id={ id } onClick={ onClick }>
-    <i className="fa fa-info-circle hint-icon"
-      aria-hidden="true" title="More information"></i>
+    <Icon icon="info-circle" className="hint-icon" title="More information" />
     <span className="sr-only">More information</span>
   </span>
 

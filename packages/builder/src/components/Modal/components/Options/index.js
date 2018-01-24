@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
 import { ModalBody, ModalFooter, Nav, NavItem, NavLink, Button } from 'reactstrap'
+import classnames from 'classnames'
+
 import MetadataForm from './MetadataForm'
 import Editor from '../../../Editor'
-import classnames from 'classnames'
+import Icon from '../../../Icon'
 
 import { makeDataURI, readDataURI } from '../../../../logic/util/dataURI'
 import './style.css'
@@ -75,7 +78,7 @@ class OptionsModal extends Component {
             className={classnames({ active: this.state.activeTab === 'meta' })}
             onClick={() => { this.toggle('meta'); }}
           >
-            <i className="fa fa-info" />
+            <Icon icon="info" weight="s" />
           </NavLink>
         </NavItem>
         <NavItem>

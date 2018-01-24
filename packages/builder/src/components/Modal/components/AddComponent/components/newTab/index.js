@@ -6,6 +6,7 @@ import { Card, CardGroup, CardHeader, CardBody,
 import CollapsingCard from '../../../../../Card'
 import { metadata, defaults, getMetadataByCategory
   } from '../../../../../../logic/components'
+import Icon from '../../../../../Icon'
 
 import './style.css'
 
@@ -39,7 +40,11 @@ const ComponentShortcut = ({ type, parent, index }, context) =>
     <CardHeader
       className="text-center"
     >
-      <i className={`fa fa-${ metadata[type].icon }`} />
+      <Icon
+        icon={ metadata[type].icon }
+        weight={ metadata[type].iconWeight }
+        fallbackWeight={ metadata[type].iconFallbackWeight }
+      />
     </CardHeader>
     <CardBody
       className="text-center"
@@ -88,8 +93,11 @@ const ComponentList = ({ parent, index }, context) =>
                     · { metadata[type].description }
                   </small>
                 </span>
-                <span
-                  className={ `fa fa-${ metadata[type].icon } mt-1` }
+                <Icon
+                  icon={ metadata[type].icon }
+                  className="mt-1"
+                  weight={ metadata[type].iconWeight }
+                  fallbackWeight={ metadata[type].iconFallbackWeight }
                 />
               </ListGroupItem>
             )

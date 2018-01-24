@@ -5,6 +5,8 @@ import Dropdown from '../../../Dropdown'
 import { Button, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 import Uploader from '../../../Uploader'
+import Icon from '../../../Icon'
+
 import { fromJSON } from '../../../../logic/io/load'
 import { stateToDownload } from '../../../../logic/io/save'
 import exportStaticLocal from '../../../../logic/io/export/modifiers/local'
@@ -17,10 +19,10 @@ const IOButton = (_, context) => {
     type='button'
     ref={ c => (dropdown = c) }
   >
-    <Button id='caret' outline color="secondary"
+    <Button id="caret" outline color="secondary"
       onClick={ () => stateToDownload(context.store.getState()) }
     >
-      <i className='fa fa-save' aria-hidden='true'></i>
+      <Icon icon="save" weight="l" fallbackWeight="r" />
     </Button>
     <DropdownToggle
       caret split

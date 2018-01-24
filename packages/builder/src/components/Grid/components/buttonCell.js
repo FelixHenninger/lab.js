@@ -1,6 +1,8 @@
 import React from 'react'
 import { Button } from 'reactstrap'
 
+import Icon from '../../Icon'
+
 export default ({ icon, onClick, style, type }) => {
   const Wrapper = type || 'td'
   return <Wrapper>
@@ -8,7 +10,7 @@ export default ({ icon, onClick, style, type }) => {
       block outline color="muted"
       onClick={ onClick } style={ style }
     >
-      <i className={ `fa fa-${ icon }` } />
+      <Icon icon={ icon } />
     </Button>
   </Wrapper>
 }

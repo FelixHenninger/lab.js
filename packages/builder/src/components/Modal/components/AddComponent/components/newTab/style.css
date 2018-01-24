@@ -9,7 +9,8 @@
 .card.add-component-card .card-header {
   padding: 1.5rem;
 }
-.card.add-component-card .card-header i.fa {
+.card.add-component-card .card-header i.far,
+.card.add-component-card .card-header i.fas {
   font-size: 2rem;
 }
 

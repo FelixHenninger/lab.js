@@ -8,16 +8,18 @@ import { Nav, NavItem, NavLink,
 import { LocalForm, Control } from 'react-redux-form'
 import classnames from 'classnames'
 
+import Icon from '../Icon'
 import { updateComponent } from '../../actions/components'
 import { metadata, defaultTab } from '../../logic/components'
 
 const tabIcons = {
-  'Notes': 'fa-info',
+  'Notes': 'info',
   // 'Scripts': 'fa-code', // TODO: This doesn't feel right atm
-  'More': 'fa-ellipsis-h',
+  'More': 'ellipsis-h',
 }
 
-const HeaderForm = ({ title, typeCategory, typeName, icon, onChange }) =>
+const HeaderForm = ({ title, typeCategory, typeName,
+  icon, iconWeight, iconFallbackWeight, onChange }) =>
   <LocalForm
     initialState={{ title }}
     onChange={ data => onChange(data) }
@@ -39,13 +41,12 @@ const HeaderForm = ({ title, typeCategory, typeName, icon, onChange }) =>
           debounce={ 250 }
         />
         <InputGroupAddon>
-          <i
+          <Icon
             id="typeIcon"
-            className={`fa fa-${ icon }`}
-            style={{
-              textAlign: 'center',
-              minWidth: '20px',
-            }}
+            className="fa-fw"
+            icon={ icon }
+            weight={ iconWeight }
+            fallbackWeight={ iconFallbackWeight }
           />
           <UncontrolledTooltip placement="right" target="typeIcon">
             { typeName }
@@ -77,7 +78,7 @@ const HeaderNav = ({ tabs, tab, onChange }) =>
         >
           {
             tabIcons[t]
-              ? <i className={ `fa ${ tabIcons[t]}` } />
+              ? <Icon icon={ tabIcons[t] } weight="s" className="fa-fw" />
               : t
           }
         </NavLink>
@@ -95,6 +96,8 @@ const Header = ({ id, type, title, tab }, { store }) => {
         typeName={ metadata[type].name }
         typeCategory={ metadata[type].category }
         icon={ metadata[type].icon }
+        iconWeight={ metadata[type].iconWeight }
+        iconFallbackWeight={ metadata[type].iconFallbackWeight }
         onChange={ data => store.dispatch(updateComponent(id, data)) }
       />
       <HeaderNav

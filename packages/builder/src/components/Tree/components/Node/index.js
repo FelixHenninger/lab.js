@@ -6,6 +6,7 @@ import { Nav, NavItem, NavLink } from 'reactstrap'
 
 import AddButton from '../AddButton'
 import DropTarget from '../DropTarget'
+import Icon from '../../../Icon'
 
 import { metadata } from '../../../../logic/components'
 import NodeDropDown from './dropdown'
@@ -31,12 +32,8 @@ const NodeBody = (
       onClick={ e => onNodeClick(e, id) }
     >
       { children }
-      { collapsed
-        ? <i className="fa fa-plus" aria-hidden="true"></i>
-        : null }
-      { skipped
-        ? <i className="fa fa-minus-circle" aria-hidden="true"></i>
-        : null }
+      { collapsed ? <Icon icon="plus" /> : null }
+      { skipped ? <Icon icon="minus-circle" /> : null }
     </div>
     <div className='nav-link-tools'>
       <NodeDropDown

@@ -4,9 +4,6 @@ import React from 'react'
 import './bootstrap-custom.css'
 import { Container } from 'reactstrap'
 
-// Font Awesome
-import 'font-awesome/css/font-awesome.css'
-
 // Fira
 import 'fira/fira.css'
 

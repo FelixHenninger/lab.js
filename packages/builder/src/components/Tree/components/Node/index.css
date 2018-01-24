@@ -37,7 +37,8 @@
 }
 
 /* Icon indicators */
-.tree-node a.nav-link .fa {
+.tree-node a.nav-link .far,
+.tree-node a.nav-link .fas {
   opacity: 0.25;
   font-size: 0.7em;
   margin-left: 0.6em;

@@ -4,7 +4,9 @@ import { Control } from 'react-redux-form'
 import { DropdownToggle, DropdownMenu, DropdownItem,
   Button, ButtonGroup,
   InputGroup, InputGroupAddon } from 'reactstrap'
+
 import DropDown from '../../../../../Dropdown'
+import Icon from '../../../../../Icon'
 
 import './index.css'
 
@@ -12,8 +14,8 @@ export const AddDropDown = ({ addHandler, cloneHandler, removeHandler }) =>
   <ButtonGroup>
     <DropDown type="button" dropup>
       <DropdownToggle outline color="secondary">
-        <i
-          className="fa fa-plus"
+        <Icon
+          icon="plus"
           style={{
             position: 'relative',
             top: '0.5px'
@@ -67,7 +69,7 @@ export const AddDropDown = ({ addHandler, cloneHandler, removeHandler }) =>
       outline color="secondary"
       onClick={ removeHandler }
     >
-      <i className="fa fa-trash-o" />
+      <Icon icon="trash" />
     </Button>
   </ButtonGroup>
 
@@ -76,10 +78,10 @@ export const Layers = ({ upHandler, downHandler }) =>
     className="ml-2"
   >
     <Button outline color="secondary" onClick={ upHandler }>
-      <i className="fa fa-arrow-up" />
+      <Icon icon="arrow-up" />
     </Button>
     <Button outline color="secondary" onClick={ downHandler }>
-      <i className="fa fa-arrow-down" />
+      <Icon icon="arrow-down" />
     </Button>
   </ButtonGroup>
 
@@ -109,8 +111,8 @@ const StrokeWidthDropdown = ({ onChange, disabled }) =>
     dropup
   >
     <DropdownToggle caret outline color="secondary" disabled={ disabled }>
-      <i
-        className="fa fa-paint-brush"
+      <Icon
+        icon="paint-brush"
         style={{
           fontSize: '0.9em',
         }}
@@ -177,8 +179,10 @@ class ColorDropdown extends Component {
           caret outline color="secondary"
           disabled={ this.props.disabled }
         >
-          <i
-            className={ `fa fa-${ this.props.icon }` }
+          <Icon
+            icon={ this.props.icon }
+            weight={ this.props.iconWeight }
+            fallbackWeight={ this.props.iconFallbackWeight }
             style={{ position: 'relative', top: '1px' }}
           />
         </DropdownToggle>
@@ -225,7 +229,7 @@ class ColorDropdown extends Component {
                 this.dropdown.toggle()
               } }
             >
-              <i className="fa fa-eyedropper" />
+              <Icon icon="eye-dropper" />
             </a>
           </div>
           <DropdownItem divider />
@@ -254,7 +258,7 @@ export const Typography = ({ selection, changeHandler }) =>
       caret outline color="secondary"
       disabled={ selection.type !== 'i-text' }
     >
-      <i className="fa fa-font" />
+      <Icon icon="font" />
     </DropdownToggle>
     {
       selection.type === 'i-text'
@@ -292,7 +296,7 @@ export const Typography = ({ selection, changeHandler }) =>
                     }
                   } }
                 >
-                  <i className="fa fa-italic" />
+                  <Icon icon="italic" />
                 </Button>
                 <Button
                   outline color={
@@ -309,7 +313,7 @@ export const Typography = ({ selection, changeHandler }) =>
                     }
                   } }
                 >
-                  <i className="fa fa-bold" />
+                  <Icon icon="bold" />
                 </Button>
               </ButtonGroup>
             </div>
@@ -317,7 +321,7 @@ export const Typography = ({ selection, changeHandler }) =>
             <div className="dropdown-item">
               <InputGroup>
                 <InputGroupAddon>
-                  <i className="fa fa-text-height" />
+                  <Icon icon="text-height" />
                 </InputGroupAddon>
                 <Control
                   model=".fontSize"
@@ -347,7 +351,7 @@ export const Typography = ({ selection, changeHandler }) =>
                       originX: alignment,
                     }) }
                   >
-                    <i className={ `fa fa-align-${ alignment }` } />
+                    <Icon icon={ `align-${ alignment }` } />
                   </Button>
                 )
               }
@@ -361,7 +365,7 @@ export const Typography = ({ selection, changeHandler }) =>
 export const Dimensions = ({ type }) =>
   <InputGroup className="dimension-toolbar minimal-width-addons ml-2">
     <InputGroupAddon>
-      <i className="fa fa-long-arrow-right" />
+      <Icon icon="long-arrow-right" className="fa-fw" />
     </InputGroupAddon>
     <Control
       model=".left"
@@ -373,7 +377,7 @@ export const Dimensions = ({ type }) =>
       style={{ fontFamily: 'Fira Mono' }}
     />
     <InputGroupAddon>
-      <i className="fa fa-long-arrow-down" />
+      <Icon icon="long-arrow-down" className="fa-fw" />
     </InputGroupAddon>
     <Control
       model=".top"
@@ -385,7 +389,7 @@ export const Dimensions = ({ type }) =>
       style={{ fontFamily: 'Fira Mono' }}
     />
     <InputGroupAddon>
-      <i className="fa fa-rotate-right" />
+      <Icon icon="redo" className="fa-fw" />
     </InputGroupAddon>
     <Control
       model=".angle"
@@ -397,7 +401,7 @@ export const Dimensions = ({ type }) =>
       style={{ fontFamily: 'Fira Mono' }}
     />
     <InputGroupAddon>
-      <i className="fa fa-arrows-h" />
+      <Icon icon="arrows-h" className="fa-fw" />
     </InputGroupAddon>
     <Control
       model=".width"
@@ -409,7 +413,7 @@ export const Dimensions = ({ type }) =>
       style={{ fontFamily: 'Fira Mono' }}
     />
     <InputGroupAddon>
-      <i className="fa fa-arrows-v" />
+      <Icon icon="arrows-v" className="fa-fw" />
     </InputGroupAddon>
     <Control
       model=".height"
@@ -439,7 +443,8 @@ export const Style = ({ selection, changeHandler }) =>
       model=".stroke"
       component={ ColorDropdown }
       controlProps={{
-        icon: 'square-o',
+        icon: 'circle',
+        iconFallbackWeight: 'r',
         disabled: selection.type === undefined,
       }}
     />
@@ -447,7 +452,8 @@ export const Style = ({ selection, changeHandler }) =>
       model=".fill"
       component={ ColorDropdown }
       controlProps={{
-        icon: 'square',
+        icon: 'circle',
+        iconWeight: 's',
         disabled: ['line', undefined].includes(selection.type),
       }}
     />

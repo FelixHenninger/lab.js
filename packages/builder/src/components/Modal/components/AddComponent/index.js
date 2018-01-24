@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import { Button, ModalBody, ModalFooter, Nav, NavItem, NavLink } from 'reactstrap'
 import classnames from 'classnames'
 
+import Icon from '../../../Icon'
+
 import NewTab from './components/newTab'
 import CopyTab from './components/copyTab'
 import ImportTab from './components/importTab'
@@ -56,7 +58,7 @@ class AddComponentModal extends Component {
             className={classnames({ active: this.state.activeTab === 'new' })}
             onClick={() => { this.toggle('new'); }}
           >
-            <i className="fa fa-plus" aria-hidden="true"></i>
+            <Icon icon="plus" weight="s" />
           </NavLink>
         </NavItem>
         <NavItem>
@@ -64,7 +66,7 @@ class AddComponentModal extends Component {
             className={classnames({ active: this.state.activeTab === 'copy' })}
             onClick={() => { this.toggle('copy'); }}
           >
-            <i className="fa fa-clone" aria-hidden="true"></i>
+            <Icon icon="clone" fallbackWeight="r" />
           </NavLink>
         </NavItem>
         <NavItem>
@@ -72,7 +74,7 @@ class AddComponentModal extends Component {
             className={classnames({ active: this.state.activeTab === 'import' })}
             onClick={() => { this.toggle('import'); }}
           >
-            <i className="fa fa-folder-open-o" aria-hidden="true"></i>
+            <Icon icon="folder-open" fallbackWeight="r" />
           </NavLink>
         </NavItem>
         <NavItem

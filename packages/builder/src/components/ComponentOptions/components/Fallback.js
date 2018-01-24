@@ -1,13 +1,16 @@
 import React from 'react'
 
+import Icon from '../../Icon'
+
 export default () =>
   <div
     style={{
       textAlign: 'center'
     }}
   >
-    <i
-      className="fa fa-exclamation-circle"
+    <Icon
+      icon="exclamation-circle"
+      weight="s"
       style={{
         fontSize: '5rem',
         color: 'var(--gray)',

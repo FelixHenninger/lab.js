@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'reactstrap'
 
+import Icon from '../../Icon'
+
 import { populateCache } from '../../../logic/io/preview'
 import { addDebugPlugin } from '../../../logic/io/export/modifiers/preview'
 import { addDownloadPlugin } from '../../../logic/io/export/modifiers/local'
@@ -47,10 +49,10 @@ export default class PreviewButton extends Component {
       onClick={ () => this.clickHandler() }
       disabled={ !('serviceWorker' in navigator) }
     >
-      <i
-        className={ `fa fa-${ windowState === 'closed' ? 'play' : 'refresh'}` }
-        aria-hidden="true"
-      ></i>
+      <Icon
+        icon={ windowState === 'closed' ? 'play' : 'sync-alt' }
+        weight="s"
+      />
     </Button>
   }
 }
