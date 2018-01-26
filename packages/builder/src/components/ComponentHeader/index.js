@@ -40,14 +40,16 @@ const HeaderForm = ({ title, typeCategory, typeName,
           }}
           debounce={ 250 }
         />
-        <InputGroupAddon>
-          <Icon
-            id="typeIcon"
-            className="fa-fw"
-            icon={ icon }
-            weight={ iconWeight }
-            fallbackWeight={ iconFallbackWeight }
-          />
+        <InputGroupAddon addonType="append">
+          <span class="input-group-text">
+            <Icon
+              id="typeIcon"
+              className="fa-fw"
+              icon={ icon }
+              weight={ iconWeight }
+              fallbackWeight={ iconFallbackWeight }
+            />
+          </span>
           <UncontrolledTooltip placement="right" target="typeIcon">
             { typeName }
             <span className="text-muted"> · { typeCategory }</span>

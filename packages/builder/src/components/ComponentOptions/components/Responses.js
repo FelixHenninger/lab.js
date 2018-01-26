@@ -1,6 +1,7 @@
 import React from 'react'
 import { Control } from 'react-redux-form'
-import { CardBody, FormGroup, Col, Label } from 'reactstrap'
+import { CardBody, FormGroup, Col, Label,
+  InputGroup, InputGroupAddon } from 'reactstrap'
 
 import Card from '../../Card'
 import Grid from '../../Grid'
@@ -177,7 +178,7 @@ const Content = ({ id, data, formDispatch }) =>
           </Hint>
         </Label>
         <Col xs="10">
-          <div className="input-group">
+          <InputGroup>
             <Control
               model=".timeout"
               placeholder="Never"
@@ -188,8 +189,10 @@ const Content = ({ id, data, formDispatch }) =>
               }}
               debounce={ 300 }
             />
-            <div className="input-group-addon text-muted">ms</div>
-          </div>
+            <InputGroupAddon addonType="append">
+              <span className="input-group-text text-muted">ms</span>
+            </InputGroupAddon>
+          </InputGroup>
         </Col>
       </FormGroup>
     </CardBody>

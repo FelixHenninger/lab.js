@@ -7,6 +7,6 @@ input, button, textarea, select {
   font-family: 'Fira Sans', sans-serif;
 }
 
-.input-group-addon {
+.input-group-text {
   background-color: white;
 }

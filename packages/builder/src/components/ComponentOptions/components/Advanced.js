@@ -16,11 +16,7 @@ export default ({ id, data }) =>
     >
       <FormGroup row>
         <Col xs={2}>
-          <Label
-            style={{
-              paddingTop: '0', // This is a hack to override .col-form-label
-            }}
-          >
+          <Label>
             Preparation
           </Label>
         </Col>
@@ -55,11 +51,7 @@ export default ({ id, data }) =>
       </FormGroup>
       <FormGroup row>
         <Col xs={2}>
-          <Label
-            style={{
-              paddingTop: '0', // This is a hack to override .col-form-label
-            }}
-          >
+          <Label>
             Run
           </Label>
         </Col>
@@ -87,7 +79,7 @@ export default ({ id, data }) =>
               </p>
             </Hint>
           </FormGroup>
-          <FormGroup check>
+          <FormGroup check className="pt-2">
             <Label check>
               <Control.checkbox
                 model=".scrollTop"

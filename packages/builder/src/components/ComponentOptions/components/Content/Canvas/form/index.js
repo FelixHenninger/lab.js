@@ -320,7 +320,7 @@ export const Typography = ({ selection, changeHandler }) =>
             <DropdownItem divider />
             <div className="dropdown-item">
               <InputGroup>
-                <InputGroupAddon>
+                <InputGroupAddon addonType="prepend">
                   <Icon icon="text-height" />
                 </InputGroupAddon>
                 <Control
@@ -364,8 +364,10 @@ export const Typography = ({ selection, changeHandler }) =>
 
 export const Dimensions = ({ type }) =>
   <InputGroup className="dimension-toolbar minimal-width-addons ml-2">
-    <InputGroupAddon>
-      <Icon icon="long-arrow-right" className="fa-fw" />
+    <InputGroupAddon addonType="prepend">
+      <span className="input-group-text">
+        <Icon icon="long-arrow-right" className="fa-fw" />
+      </span>
     </InputGroupAddon>
     <Control
       model=".left"
@@ -376,8 +378,10 @@ export const Dimensions = ({ type }) =>
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
     />
-    <InputGroupAddon>
-      <Icon icon="long-arrow-down" className="fa-fw" />
+    <InputGroupAddon addonType="prepend">
+      <span className="input-group-text">
+        <Icon icon="long-arrow-down" className="fa-fw" />
+      </span>
     </InputGroupAddon>
     <Control
       model=".top"
@@ -388,8 +392,10 @@ export const Dimensions = ({ type }) =>
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
     />
-    <InputGroupAddon>
-      <Icon icon="redo" className="fa-fw" />
+    <InputGroupAddon addonType="prepend">
+      <span className="input-group-text">
+        <Icon icon="redo" className="fa-fw" />
+      </span>
     </InputGroupAddon>
     <Control
       model=".angle"
@@ -400,8 +406,10 @@ export const Dimensions = ({ type }) =>
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
     />
-    <InputGroupAddon>
-      <Icon icon="arrows-h" className="fa-fw" />
+    <InputGroupAddon addonType="prepend">
+      <span className="input-group-text">
+        <Icon icon="arrows-h" className="fa-fw" />
+      </span>
     </InputGroupAddon>
     <Control
       model=".width"
@@ -412,8 +420,10 @@ export const Dimensions = ({ type }) =>
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
     />
-    <InputGroupAddon>
-      <Icon icon="arrows-v" className="fa-fw" />
+    <InputGroupAddon addonType="prepend">
+      <span className="input-group-text">
+        <Icon icon="arrows-v" className="fa-fw" />
+      </span>
     </InputGroupAddon>
     <Control
       model=".height"

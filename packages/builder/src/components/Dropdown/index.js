@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dropdown, ButtonDropdown } from 'reactstrap'
+import { Dropdown, ButtonDropdown, InputGroupButtonDropdown } from 'reactstrap'
 import { omit } from 'lodash'
 
 export default class CustomDropdown extends Component {
@@ -19,9 +19,17 @@ export default class CustomDropdown extends Component {
   }
 
   render() {
-    const WrappedDropdown = this.props.type === 'button'
-      ? ButtonDropdown
-      : Dropdown
+    let WrappedDropdown
+    switch (this.props.type) {
+      case 'button':
+        WrappedDropdown = ButtonDropdown
+        break
+      case 'input-group-button':
+        WrappedDropdown = InputGroupButtonDropdown
+        break
+      default:
+        WrappedDropdown = Dropdown
+    }
 
     return <WrappedDropdown
       isOpen={ this.state.dropdownOpen }

@@ -5,7 +5,7 @@ import { Control, actions } from 'react-redux-form'
 import './style.css'
 
 import { DropdownToggle, DropdownMenu, DropdownItem,
-         InputGroup, InputGroupButton } from 'reactstrap'
+  InputGroup } from 'reactstrap'
 import classnames from 'classnames'
 
 import Dropdown from '../../../../Dropdown'
@@ -22,7 +22,7 @@ export const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
   />
 
 const CellTypeSelector = ({ type, setType, delete: deleteHandler }) =>
-  <Dropdown type='button'>
+  <Dropdown type="input-group-button" addonType="append">
     <DropdownToggle caret outline color="secondary">
       <Icon
         icon={{
@@ -32,7 +32,7 @@ const CellTypeSelector = ({ type, setType, delete: deleteHandler }) =>
         }[type]}
       />
     </DropdownToggle>
-    <DropdownMenu>
+    <DropdownMenu right>
       <DropdownItem header>Data type</DropdownItem>
       <DropdownItem
         className={ classnames({
@@ -86,20 +86,18 @@ export const HeaderCell = ({ columnData, index, deleteColumn }, { formDispatch }
       }}
       debounce={ 300 }
     />
-    <InputGroupButton>
-      <CellTypeSelector
-        type={ columnData.type }
-        setType={
-          value => formDispatch(
-            actions.change(
-              `local.templateParameters.columns[${ index }]['type']`,
-              value
-            )
+    <CellTypeSelector
+      type={ columnData.type }
+      setType={
+        value => formDispatch(
+          actions.change(
+            `local.templateParameters.columns[${ index }]['type']`,
+            value
           )
-        }
-        delete={ deleteColumn }
-      />
-    </InputGroupButton>
+        )
+      }
+      delete={ deleteColumn }
+    />
   </InputGroup>
 
 HeaderCell.contextTypes = {
