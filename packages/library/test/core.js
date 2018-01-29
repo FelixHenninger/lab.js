@@ -238,10 +238,6 @@ describe('Core', () => {
       it('provides and increments timer property while running', () => {
         const clock = sinon.useFakeTimers()
 
-        // Stub performance.now for the time being,
-        // as described in https://github.com/sinonjs/sinon/issues/803
-        sinon.stub(performance, 'now').callsFake(Date.now)
-
         return b.run().then(() => {
           // Simulate progress of time and check timer
           assert.equal(b.timer, 0)
@@ -252,14 +248,12 @@ describe('Core', () => {
 
           // Restore clocks
           clock.restore()
-          performance.now.restore()
         })
       })
 
       it('timer property remains static after run is complete', () => {
         // As above
         const clock = sinon.useFakeTimers()
-        sinon.stub(performance, 'now').callsFake(Date.now)
 
         return b.run().then(() => {
           clock.tick(500)
@@ -271,7 +265,6 @@ describe('Core', () => {
 
           // Restore clocks
           clock.restore()
-          performance.now.restore()
         })
       })
 
