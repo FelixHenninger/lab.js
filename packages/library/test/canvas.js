@@ -5,16 +5,13 @@ define(['lab'], (lab) => {
 
 describe('Canvas-based components', () => {
 
-  before(() => {
-    // Stub out window.requestAnimationFrame
-    // to speed up the test, and to avoid
-    // probabilistic failures due to frame
-    // timing during testing.
-    sinon.stub(window, 'requestAnimationFrame').callsFake(fn => fn())
+  let clock
+  beforeEach(() => {
+    clock = sinon.useFakeTimers()
   })
 
-  after(() => {
-    window.requestAnimationFrame.reset()
+  afterEach(() => {
+    clock.restore()
   })
 
   describe('Helper functions', () => {
@@ -143,7 +140,9 @@ describe('Canvas-based components', () => {
       c.options.renderFunction = sinon.spy()
 
       // Check that the function is called
-      return c.run().then(() => {
+      return c.run().then(
+        () => clock.next()
+      ).then(() => {
         assert.ok(
           c.options.renderFunction.calledOnce
         )
@@ -152,11 +151,10 @@ describe('Canvas-based components', () => {
 
     it('runs render function in component context', () => {
       c.options.renderFunction = sinon.spy()
-      c.options.timeout = 20
 
       // Check function binding
       return c.run().then(
-        () => c.waitFor('end')
+        () => clock.next()
       ).then(() => {
         assert.ok(c.options.renderFunction.calledOnce)
         assert.ok(c.options.renderFunction.alwaysCalledOn(c))
@@ -456,13 +454,11 @@ describe('Canvas-based components', () => {
           -50, -50, 100, 100,
         )
 
-      // Leave some time to wait for the next frame
-      c.options.timeout = 20
-
       return c.run()
         // Wait for rendering to complete
-        .then(() => c.waitFor('end'))
-        .then(() => {
+        .then(
+          () => clock.next()
+        ).then(() => {
           assert.deepEqual(
             Array.from(
               c.options.ctx
@@ -473,6 +469,8 @@ describe('Canvas-based components', () => {
             'Coordinate system origin should be translated into the center',
           )
 
+          return c.end()
+        }).then(() => {
           // Draw second rectangle with the same coordinates
           c.options.ctx
             .fillRect(-50, -50, 100, 100)
@@ -580,6 +578,7 @@ describe('Canvas-based components', () => {
 
       return s.run()
         .then(() => {
+          clock.next()
           // After drawing the first screen ...
           // ... left area should be black
           assert.deepEqual(
@@ -605,6 +604,7 @@ describe('Canvas-based components', () => {
         })
         .then(() => b.run())
         .then(() => {
+          clock.next()
           // After drawing the second screen ...
           // ... left area should be empty
           assert.deepEqual(
