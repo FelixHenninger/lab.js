@@ -1,0 +1,364 @@
+{
+  "version": [
+    2017,
+    1,
+    6
+  ],
+  "components": {
+    "3": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "id": "3",
+      "type": "lab.flow.Loop",
+      "children": [
+        "4"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "color",
+            "type": "string"
+          },
+          {
+            "name": "word",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "red",
+            "red"
+          ],
+          [
+            "red",
+            "green"
+          ],
+          [
+            "red",
+            "blue"
+          ],
+          [
+            "red",
+            "orange"
+          ],
+          [
+            "green",
+            "red"
+          ],
+          [
+            "green",
+            "green"
+          ],
+          [
+            "green",
+            "blue"
+          ],
+          [
+            "green",
+            "orange"
+          ],
+          [
+            "blue",
+            "red"
+          ],
+          [
+            "blue",
+            "green"
+          ],
+          [
+            "blue",
+            "blue"
+          ],
+          [
+            "blue",
+            "orange"
+          ],
+          [
+            "orange",
+            "red"
+          ],
+          [
+            "orange",
+            "green"
+          ],
+          [
+            "orange",
+            "blue"
+          ],
+          [
+            "orange",
+            "orange"
+          ]
+        ]
+      },
+      "title": "Stroop task",
+      "shuffle": true
+    },
+    "4": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "id": "4",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "5",
+        "6",
+        "7"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "title": "Trial"
+    },
+    "5": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "id": "5",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "title": "Fixation cross",
+      "timeout": "500",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"stroop-fixation stroop-large\">\n    +\n  </div>\n</main>\n\n<footer class=\"content-vertical-center content-horizontal-center\">\n  <p>\n    What's the <em>color</em> of \n    the word shown above? <br>\n    Please press <kbd>r</kbd> for red,\n    <kbd>g</kbd> for green,\n    <kbd>b</kbd> for blue and <kbd>o</kbd> for orange.\n  </p>\n</footer>\n"
+    },
+    "6": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "id": "6",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "red",
+            "keypress",
+            "",
+            "r"
+          ],
+          [
+            "green",
+            "keypress",
+            "",
+            "g"
+          ],
+          [
+            "blue",
+            "keypress",
+            "",
+            "b"
+          ],
+          [
+            "orange",
+            "keypress",
+            "",
+            "o"
+          ]
+        ]
+      },
+      "title": "Stroop screen",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"stroop-${ parameters.color } stroop-large\">\n    ${ parameters.word }\n  </div>\n</main>\n\n<footer class=\"content-vertical-center content-horizontal-center\">\n  <p>\n    What's the <em>color</em> of \n    the word shown above? <br>\n    Please press <kbd>r</kbd> for red,\n    <kbd>g</kbd> for green,\n    <kbd>b</kbd> for blue and <kbd>o</kbd> for orange.\n  </p>\n</footer>\n",
+      "correctResponse": "${ parameters.color }"
+    },
+    "7": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "id": "7",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "title": "Inter-trial interval",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n</main>\n\n<footer class=\"content-vertical-center content-horizontal-center\">\n  <p>\n    What's the <em>color</em> of \n    the word shown above? <br>\n    Please press <kbd>r</kbd> for red,\n    <kbd>g</kbd> for green,\n    <kbd>b</kbd> for blue and <kbd>o</kbd> for orange.\n  </p>\n</footer>\n",
+      "timeout": "500"
+    },
+    "8": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "id": "8",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "title": "Instruction",
+      "content": "<header class=\"content-vertical-center content-horizontal-center\">\n  <h1>Stroop Task</h1>\n</header>\n<main>\n  <p>\n    Welcome to the <strong>Stroop experiment</strong>!\n  </p>\n  <p>\n    In this experiment, your task will be to \n    <strong>identify the color of the word shown \n    on the screen</strong>.<br>\n    The word itself is immaterial &mdash; \n    you can safely ignore it.\n  </p>\n  <p>\n    To indicate the color of the word, \n    please use the keys <strong>r</strong>, \n    <strong>g</strong>, <strong>b</strong> and \n    <strong>o</strong> for \n    <span class=\"stroop-red\">red</span>, \n    <span class=\"stroop-green\">green</span>, \n    <span class=\"stroop-blue\">blue</span> and \n    <span class=\"stroop-orange\">orange</span>, \n    respectively.<br>\n    Please answer quickly, and as \n    accurately as you can.\n  </p>\n</main>\n<footer class=\"content-vertical-center content-horizontal-center\">\n  Please press the space bar when you're ready.\n</footer>\n"
+    },
+    "9": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "id": "9",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "title": "Thanks",
+      "content": "<header class=\"content-vertical-center content-horizontal-center\">\n  <h1>Thank you!</h1>\n</header>\n<main>\n  <p>\n    You did a great job, thanks for taking the time!\n  </p>\n</main>\n<footer class=\"content-vertical-center content-horizontal-center\">\n  <p>\n    If you have any questions or comments about this \n    experiment,<br> please be invited to contact\n    <a href=\"http://felixhenninger.com\">\n    Felix Henninger</a>.\n  </p>\n</footer>\n",
+      "_tab": "Content",
+      "timeout": "10"
+    },
+    "root": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "8",
+        "3",
+        "9"
+      ],
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "Stroop task",
+        "description": "An implementation of the classic paradigm introduced by Stroop (1935).",
+        "repository": "https://github.com/felixhenninger/lab.js/examples/",
+        "contributors": "Felix Henninger <mailbox@felixhenninger.com> (http://felixhenninger.com)"
+      }
+    }
+  },
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20lab.js%20library%20and%20default%20styles%20--%3E%0A%20%20%3Cscript%20src%3D%22lib%2Flab.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22lib%2Flab.css%22%3E%0A%20%20%3C!--%20study%20code%20and%20styles%20--%3E%0A%20%20%3Cscript%20defer%20src%3D%22script.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22style.css%22%3E%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you're%20looking%20to%20fill%20all%20available%20browser%20space%2C%0A%20%20%20%20%20%20%20try%20replacing%20the%20class%20below%20with%20%22container%20fullscreen%22%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "permanent": true
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F%0A%0A.stroop-large%20%7B%0A%20%20%20%20font-size%3A%2036px%3B%0A%20%20%20%20font-weight%3A%20bold%3B%0A%7D%0A%0A.stroop-red%20%7B%0A%20%20%20%20color%3A%20red%3B%0A%7D%0A.stroop-blue%20%7B%0A%20%20%20%20color%3A%20blue%3B%0A%7D%0A.stroop-green%20%7B%0A%20%20%20%20color%3A%20green%3B%0A%7D%0A.stroop-orange%20%7B%0A%20%20%20%20color%3A%20orange%3B%0A%7D%0A.stroop-fixation%20%7B%0A%20%20%20%20color%3A%20gray%3B%0A%7D",
+        "permanent": true
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      },
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      }
+    }
+  }
+}
