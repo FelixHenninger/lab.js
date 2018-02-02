@@ -13,6 +13,9 @@ import HTML5DragDropBackend from 'react-dnd-html5-backend'
 it('renders without crashing', () => {
   const WrappedApp = DragDropContext(HTML5DragDropBackend)(App)
   const div = document.createElement('div')
+  // Temporary fix for reactstrap error,
+  // see https://github.com/reactstrap/reactstrap/issues/773
+  document.body.appendChild(div)
   ReactDOM.render(
     <Provider store={ store }>
       <WrappedApp />
