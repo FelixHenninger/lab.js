@@ -17,6 +17,33 @@ describe('Core', () => {
     document.body.removeChild(demoElement)
   })
 
+  // Helper functions ----------------------------------------------------------
+
+  // Simulate key presses
+  // (cf. https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent)
+  const simulateKeyPress = (key, target) => {
+    const event = new KeyboardEvent('keypress', {
+      bubbles: true, // Event bubbles up document hierarchy
+      key: key, // Define the key that was pressed
+    })
+
+    // The library logic depends on the 'which' property,
+    // that returns the charcode of the key that was pressed.
+    // The property is not included in artificial events,
+    // so it is simulated as an object property here.
+    // (this hack is adapted from a Stack Overflow entry at
+    // https://stackoverflow.com/questions/10455626/#10520017 )
+    Object.defineProperty(event,
+      'which', { get: () => key.charCodeAt(0) }
+    )
+
+    // Dispatch event
+    target.dispatchEvent(event)
+    return event
+  }
+
+  // ---------------------------------------------------------------------------
+
   describe('Component', () => {
     let b
 
@@ -312,29 +339,6 @@ describe('Core', () => {
 
     describe('Event handlers', () => {
 
-      // Simulate key presses
-      // (cf. https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent)
-      const simulateKeyPress = (key, target) => {
-        const event = new KeyboardEvent('keypress', {
-          bubbles: true, // Event bubbles up document hierarchy
-          key: key, // Define the key that was pressed
-        })
-
-        // The library logic depends on the 'which' property,
-        // that returns the charcode of the key that was pressed.
-        // The property is not included in artificial events,
-        // so it is simulated as an object property here.
-        // (this hack is adapted from a Stack Overflow entry at
-        // https://stackoverflow.com/questions/10455626/#10520017 )
-        Object.defineProperty(event,
-          'which', { get: () => key.charCodeAt(0) }
-        )
-
-        // Dispatch event
-        target.dispatchEvent(event)
-        return event
-      }
-
       it('runs event handlers in response to DOM events', () => {
         // Bind a handler to clicks within the document
         const handler = sinon.spy()
@@ -609,8 +613,43 @@ describe('Core', () => {
           assert.equal(b.data.ended_on, 'response')
         })
       })
-    })
 
+      it('accepts timestamp for response', () => {
+        return b.run().then(() => {
+          b.respond('bar', 123)
+
+          assert.equal(b.internals.timestamps.end, 123)
+        })
+      })
+
+      it('saves event timestamp if available', () => {
+        // See above for a fully commented, very similar test
+        b.options.el = document.querySelector('[data-labjs-section="main"]')
+
+        b.options.responses = {
+          'keypress(a)': sinon.spy(),
+        }
+
+        // Fake timers
+        const clock = sinon.useFakeTimers(123)
+        if (!performance.timing) {
+          performance.timing = { navigationStart: 999 }
+        }
+
+        return b.run().then(() => {
+          const b_pressed = simulateKeyPress('a', b.options.el)
+
+          assert.ok(
+            b.internals.timestamps.end === b_pressed.timeStamp ||
+            // If the event does not provide a high-res timeStamp,
+            // we measure the time in the library as a fall-back.
+            b.internals.timestamps.end === performance.now()
+          )
+
+          clock.restore()
+        })
+      })
+    })
 
     describe('Parameters', () => {
       it('can aggregate parameters from parents across multiple levels', () => {
