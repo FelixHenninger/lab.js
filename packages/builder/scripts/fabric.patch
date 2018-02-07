@@ -1,6 +1,0 @@
-27487,27488c27487,27488
-<       Canvas = require(fabric.canvasModule),
-<       Image = require(fabric.canvasModule).Image;
----
->       Canvas = require('canvas'),
->       Image = require('canvas').Image;
