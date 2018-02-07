@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Popover, PopoverHeader, PopoverContent } from 'reactstrap'
+import { Popover, PopoverHeader, PopoverBody } from 'reactstrap'
 import { uniqueId } from 'lodash'
 
 import Icon from '../Icon'
@@ -48,7 +48,7 @@ export default class HintPopover extends Component {
           isOpen={ this.state.isOpen } toggle={ this.toggle }
         >
           <PopoverHeader>{ this.props.title }</PopoverHeader>
-          <PopoverContent>{ this.props.children }</PopoverContent>
+          <PopoverBody>{ this.props.children }</PopoverBody>
         </Popover>
       </span>
     )
