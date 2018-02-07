@@ -41,7 +41,7 @@ const HeaderForm = ({ title, typeCategory, typeName,
           debounce={ 250 }
         />
         <InputGroupAddon addonType="append">
-          <span class="input-group-text">
+          <span className="input-group-text">
             <Icon
               id="typeIcon"
               className="fa-fw"
