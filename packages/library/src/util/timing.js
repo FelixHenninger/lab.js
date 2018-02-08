@@ -1,5 +1,3 @@
-
-// eslint-disable-next-line import/prefer-default-export
 export const ensureHighResTime = t => (
   // This is built to replace a missing or
   // old-style timestamp created via Date.now().
@@ -14,3 +12,33 @@ export const ensureHighResTime = t => (
     ? t
     : performance.now()
 )
+
+// Timer wrappers --------------------------------------------------------------
+
+export class StackTimeout {
+  constructor(f, delay, ...params) {
+    this.f = f
+    this.delay = delay
+    this.params = params
+
+    // Internal state
+    this._running = false
+    this._timeoutHandle = null
+  }
+
+  run() {
+    if (!this._running) {
+      this._timeoutHandle = window.setTimeout(
+        this.f, this.delay,
+        ...this.params
+      )
+      this._running = true
+    } else {
+      console.log('Cannot restart previously run timer')
+    }
+  }
+
+  cancel() {
+    window.clearTimeout(this._timeoutHandle)
+  }
+}
