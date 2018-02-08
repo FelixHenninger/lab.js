@@ -5,7 +5,7 @@ import { EventHandler } from './util/eventAPI'
 import { DomConnection } from './util/domEvents'
 import { Random } from './util/random'
 import { parse, parsableOptions, parseRequested } from './util/options'
-import { ensureHighResTime } from './util/timing'
+import { ensureHighResTime, StackTimeout } from './util/timing'
 import { preloadImage, preloadAudio } from './util/preload'
 
 // Define status codes
@@ -245,12 +245,11 @@ export class Component extends EventHandler {
       // Add a timeout to end the component
       // automatically after the specified
       // duration.
-      this.on('run', () => {
-        this.internals.timeoutTimer = window.setTimeout(
-          () => this.end('timeout'),
-          this.options.timeout,
-        )
-      })
+      this.internals.timeout = new StackTimeout(
+        () => this.end('timeout'),
+        this.options.timeout,
+      )
+      this.on('run', () => this.internals.timeout.run())
     }
 
     // Setup data storage
@@ -337,7 +336,7 @@ export class Component extends EventHandler {
 
     // Cancel the timeout timer
     if (this.options.timeout !== null) {
-      window.clearTimeout(this.internals.timeoutTimer)
+      this.internals.timeout.cancel()
     }
 
     // Complete a component's run and cleanup
