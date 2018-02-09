@@ -4,7 +4,8 @@
   "private": true,
   "devDependencies": {
     "glob": "^7.1.2",
-    "react-scripts": "1.0.14"
+    "react-scripts": "1.0.14",
+    "shx": "^0.2.2"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free-webfonts": "^1.0.3",
@@ -54,8 +55,8 @@
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "postinstall": "npm run static:monaco && npm run static:requirejs",
-    "static:library": "mkdir -p public/api/_defaultStatic/lib/ && cp -R node_modules/lab.js/dist/labjs-starterkit/lib/* public/api/_defaultStatic/lib/",
-    "static:monaco": "cp -R node_modules/monaco-editor/min/vs/ public/vs",
-    "static:requirejs": "cp node_modules/requirejs/require.js public/vendor"
+    "static:library": "shx mkdir -p public/api/_defaultStatic/lib/ && shx cp -R node_modules/lab.js/dist/labjs-starterkit/lib/* public/api/_defaultStatic/lib/",
+    "static:monaco": "shx cp -R node_modules/monaco-editor/min/vs/ public/vs",
+    "static:requirejs": "shx cp node_modules/requirejs/require.js public/vendor"
   }
 }
