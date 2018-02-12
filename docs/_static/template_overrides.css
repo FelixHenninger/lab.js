@@ -46,6 +46,10 @@
 }
 
 /* Content */
+p {
+  line-height: 1.6em;
+}
+
 .wy-nav-content footer, .wy-nav-content footer p {
   font-size: 0.8rem;
 }
@@ -56,6 +60,22 @@
 
 .wy-nav-content footer div, .wy-nav-content footer p {
   display: inline;
+}
+
+/* Code highlighting */
+.highlight pre {
+  line-height: 1.4em;
+}
+
+/* Footnotes and citations */
+table.footnote {
+  line-height: 1.4em;
+}
+.rst-content .footnote-reference, .rst-content .citation-reference {
+  font-size: 0.6em;
+}
+.rst-content .fn-backref {
+  font-size: 0.8em;
 }
 
 /* Quick navigation grid */
@@ -99,9 +119,12 @@ table.quicknav td > a:first-child {
   margin-bottom: 0;
   padding-bottom: 16px;
 }
-p.ethical-callout {
+div.rtd-pro > p.ethical-callout {
   margin-top: 0.2em;
   margin-bottom: 0;
+}
+div.rtd-pro > p.ethical-callout, div.rtd-pro > .rtd-pro-image-wrapper a {
+  color: #fcfcfc;
 }
 
 /* Video embedding */
