@@ -120,11 +120,15 @@ table.quicknav td > a:first-child {
   padding-bottom: 16px;
 }
 div.rtd-pro > p.ethical-callout {
-  margin-top: 0.2em;
+  margin-top: 0.2em !important;
   margin-bottom: 0;
 }
-div.rtd-pro > p.ethical-callout, div.rtd-pro > .rtd-pro-image-wrapper a {
-  color: #fcfcfc;
+div.rtd-pro > p.ethical-callout, div.rtd-pro.wy-menu a {
+  color: #f8f8f8 !important;
+}
+div.rtd-pro.wy-menu a.rtd-pro-image-wrapper,
+div.rst-pro.wy-menu a.rst-pro-image-wrapper {
+  border-color: #c9c9c9;
 }
 
 /* Video embedding */
