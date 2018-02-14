@@ -11,5 +11,6 @@ Deploy studies online
 
    1-web.rst
    2-php.rst
+   3-third-party.rst
 
 .. [#f1] In practice, the location does not fully determine the deployment method: Even if you run your study in a laboratory, it can often be useful to collect data centrally on a server. We also know of colleagues who have asked their participants to collect and send in ``csv`` files, so that's also possible if you're in a pinch.
