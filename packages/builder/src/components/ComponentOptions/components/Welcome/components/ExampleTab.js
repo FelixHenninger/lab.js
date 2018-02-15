@@ -128,7 +128,7 @@ export default () =>
     <TaskList />
     <CardBody>
       <small className="text-muted">
-        Missing a task? Something to improve? Please <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html">suggest or contribute one</a>!
+        Missing a task? Something to improve? Please <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html">suggest or contribute</a>!
       </small>
     </CardBody>
   </div>
