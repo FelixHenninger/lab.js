@@ -23,7 +23,7 @@ const Toolbar = (props, context) =>
             type: 'SHOW_MODAL',
             modalType: 'OPTIONS',
             modalProps: {
-              large: true,
+              large: 'true',
             },
           })
         }
