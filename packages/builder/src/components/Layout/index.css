@@ -5,7 +5,7 @@
   grid-template-rows: 1fr max-content;
   grid-template-areas:
     "sidebar contents"
-    "imprint contents";
+    "footer contents";
   border-top: 6px solid rgb(255, 195, 45);
 }
 
@@ -17,15 +17,15 @@
   grid-area: contents;
 }
 
-.grid-imprint {
-  grid-area: imprint;
+.grid-footer {
+  grid-area: footer;
 }
 
-.grid-sidebar, .grid-imprint {
+.grid-sidebar, .grid-footer {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.grid-sidebar, .grid-contents, .grid-imprint {
+.grid-sidebar, .grid-contents, .grid-footer {
   padding: 15px;
 }
 

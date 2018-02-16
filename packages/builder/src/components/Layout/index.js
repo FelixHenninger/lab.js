@@ -15,7 +15,7 @@ export default ({ sidebar, footer, children }) =>
     <div className="grid-sidebar">
       { sidebar }
     </div>
-    <div className="grid-imprint">
+    <div className="grid-footer">
       { footer }
     </div>
     <div className="grid-contents">

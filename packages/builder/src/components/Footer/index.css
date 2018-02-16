@@ -1,0 +1,23 @@
+footer small.logo img {
+  width: 24px;
+  position: relative;
+  top: -2px;
+  filter: grayscale(100%) brightness(60%);
+  /* Use an exponential transition function
+     to move the bulk of the action forward */
+  transition: filter .5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+footer small.logo:hover img {
+  filter: grayscale(0%) brightness(100%);
+}
+
+footer small.logo span {
+  color: #ffc32d;
+  opacity: 0;
+  transition: opacity .15s ease-out;
+}
+
+footer small.logo:hover span {
+  opacity: 1;
+}
