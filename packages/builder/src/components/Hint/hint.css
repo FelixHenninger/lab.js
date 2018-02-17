@@ -8,7 +8,6 @@
    This might turn out to be a bad idea in practice */
 .popover .popover-header, .popover .popover-body {
   padding-top: 12px;
-  padding-right: 18px;
 }
 
 .hint-icon {
