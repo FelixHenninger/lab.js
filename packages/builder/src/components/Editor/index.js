@@ -10,9 +10,6 @@ import './editor-style-overrides.css'
 // It would be nice to be able to move it into the
 // /vendor directory
 
-import { HTMLHint } from 'htmlhint'
-
-
 export default class Editor extends React.Component {
   editorWillMount(monaco) {
     monaco.editor.defineTheme('labjs', {
@@ -51,30 +48,35 @@ export default class Editor extends React.Component {
 
     // Hook up custom linter (currently only for HTML)
     if (this.props.language === 'html') {
-      model.onDidChangeContent(throttle(() => {
-        const hints = HTMLHint.verify(
-          model.getValue(), {
-            "tagname-lowercase": true,
-            "attr-lowercase": true,
-            "attr-value-double-quotes": true,
-            "tag-pair": true,
-            "spec-char-escape": true,
-            "id-unique": true,
-            "src-not-empty": true,
-            "attr-no-duplication": true,
-            "attr-unsafe-chars": true
-          }
-        ).map(hint => ({
-          startLineNumber: hint.line, startColumn: hint.col,
-          endLineNumber: hint.line, endColumn: hint.col + hint.raw.length,
-          message: hint.message,
-          severity: 1,
-        }))
+      // The HTMLHint library loads many dependencies,
+      // and is not needed directly when the editor
+      // is first loaded, therefore it is split out here.
+      import('htmlhint').then(({ HTMLHint }) => {
+        model.onDidChangeContent(throttle(() => {
+          const hints = HTMLHint.verify(
+            model.getValue(), {
+              "tagname-lowercase": true,
+              "attr-lowercase": true,
+              "attr-value-double-quotes": true,
+              "tag-pair": true,
+              "spec-char-escape": true,
+              "id-unique": true,
+              "src-not-empty": true,
+              "attr-no-duplication": true,
+              "attr-unsafe-chars": true
+            }
+          ).map(hint => ({
+            startLineNumber: hint.line, startColumn: hint.col,
+            endLineNumber: hint.line, endColumn: hint.col + hint.raw.length,
+            message: hint.message,
+            severity: 1,
+          }))
 
-        monaco.editor.setModelMarkers(
-          model, 'custom-linter', hints
-        )
-      }, 500))
+          monaco.editor.setModelMarkers(
+            model, 'custom-linter', hints
+          )
+        }, 500))
+      }).catch(e => console.log('Couldn\'t load HTMLHint:', e))
     }
   }
 
