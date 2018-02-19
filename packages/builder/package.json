@@ -31,6 +31,7 @@
     "react-dnd": "^2.1.4",
     "react-dnd-html5-backend": "^2.1.2",
     "react-dom": "^16.0.0",
+    "react-loadable": "^5.3.1",
     "react-modal": "^3.2.1",
     "react-monaco-editor": "^0.12.0",
     "react-redux": "^5.0.6",
