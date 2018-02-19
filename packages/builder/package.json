@@ -40,7 +40,8 @@
     "redux": "^3.6.0",
     "requirejs": "^2.3.2",
     "serialize-javascript": "^1.3.0",
-    "slugify": "^1.2.6"
+    "slugify": "^1.2.6",
+    "source-map-explorer": "^1.5.0"
   },
   "optionalDependencies": {
     "@fortawesome/fontawesome-pro-webfonts": "^1.0.3"
@@ -52,6 +53,7 @@
     "build-js": "npm run static:library && react-scripts build && node scripts/postprocess_build.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
+    "analyze": "source-map-explorer build/static/js/main.*",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "postinstall": "npm run static:monaco && npm run static:requirejs",
