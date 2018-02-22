@@ -167,8 +167,8 @@ export default class FabricCanvas extends Component {
     })
 
     // Pass on further useful events -------------------------------------------
-    // TODO: Change to 'selection:created' as soon as supported in fabric.js
-    this.canvas.on('object:selected', this.props.updateSelectionHandler)
+    this.canvas.on('selection:created', this.props.updateSelectionHandler)
+    this.canvas.on('selection:updated', this.props.updateSelectionHandler)
     this.canvas.on('selection:cleared', this.props.clearSelectionHandler)
 
     // Grid --------------------------------------------------------------------
