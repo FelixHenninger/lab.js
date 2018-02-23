@@ -127,13 +127,13 @@ We [kindly request](https://www.youtube.com/watch?v=kVwl-Va7cNM) that you cite
 
 ### License
 
-The two parts of this project are licensed individually:
+All parts of this project are open source, subject to different licenses:
 
 * The `lab.js` **core library** that is included in your studies is made
-  available under the terms of the [Apache License](/library/license).
+  available under the terms of the [Apache License](/packages/library/license).
 * The **builder**, the graphical interface used to build experiments,
   is provided under the terms of the [GNU Affero General Public
-  License](/builder/license).
+  License](/packages/builder/license).
 
 The studies you build based on the library, and those you create using the
 builder, are always your own, and you are free to distribute them as you see
