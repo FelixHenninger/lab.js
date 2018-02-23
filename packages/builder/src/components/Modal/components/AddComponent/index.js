@@ -101,7 +101,7 @@ class AddComponentModal extends Component {
           outline color="secondary"
           onClick={ closeHandler }
           >
-          Close
+          Cancel
         </Button>
       </ModalFooter>
     </div>

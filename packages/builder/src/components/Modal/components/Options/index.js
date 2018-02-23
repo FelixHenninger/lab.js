@@ -121,7 +121,7 @@ class OptionsModal extends Component {
           outline color="secondary"
           onClick={ closeHandler }
         >
-          Close
+          Done
         </Button>
       </ModalFooter>
     </div>
