@@ -63,7 +63,7 @@ p {
 }
 
 /* Code highlighting */
-.highlight pre {
+.rst-content .highlight pre {
   line-height: 1.4em;
 }
 
