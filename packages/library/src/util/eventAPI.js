@@ -31,7 +31,8 @@ export class EventHandler {
   // see https://github.com/component/emitter.git
   // Any mistakes, of course, are entirely my own.
   on(event, fn) {
-    this.internals.callbacks[`$${ event }`] = this.internals.callbacks[`$${ event }`] || []
+    this.internals.callbacks[`$${ event }`] =
+      this.internals.callbacks[`$${ event }`] || []
     this.internals.callbacks[`$${ event }`].push(fn)
     return this
   }
@@ -98,10 +99,13 @@ export class EventHandler {
   }
 
   async triggerMethod(event, ...args) {
-    if (this.debug) {
+    if (this.internals.rawOptions.debug) {
       // Tell the world what we're up to
       console.info(
-        `Event %c${ event }%c → arguments [${ args }]`,
+        `%c${ this.internals.rawOptions.title }%c (${ this.type }) → ` +
+        `Event %c${ event }%c · arguments [${ args }]`,
+        'font-weight: bold', // Title
+        'font-weight: normal', // Component type
         'font-weight: bold', // Event name
         'font-weight: normal; opacity: 0.5', // Remaining text
       )

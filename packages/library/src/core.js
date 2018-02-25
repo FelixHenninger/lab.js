@@ -144,13 +144,6 @@ export class Component extends EventHandler {
       this.internals.domConnection.detach()
       this.triggerMethod('after:event:remove')
     })
-
-    // Setup console output grouping
-    // when the component is run
-    if (this.options.debug) {
-      this.on('before:run', () => console.group(this.type))
-      this.on('after:end', () => console.groupEnd())
-    }
   }
 
   // Actions ----------------------------------------------
@@ -186,6 +179,17 @@ export class Component extends EventHandler {
         // then cannot be inherited because the option is
         // provided anyhow, and won't be overridden.
       )
+    }
+
+    // Setup console output grouping when the component is run
+    if (this.options.debug) {
+      this.on('before:run',
+        () => console.group(
+          `${ this.options.title } %c(${ this.type })`,
+          'font-weight: normal'
+        ))
+      this.on('after:end',
+        () => console.groupEnd())
     }
 
     // Direct output to the HTML element with the attribute
