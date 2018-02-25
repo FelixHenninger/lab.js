@@ -60,6 +60,12 @@ installPreviewWorker(store)
     )
 
     // Setup progressive content caching
+    // TODO: This doesn't work because the SW registration code
+    // sets up a hook for the 'onload' event -- which has passed
+    // by the time this function is run.
+    // This is fixed in an existing pull request, so we'll either
+    // have to wait, or move this code elsewhere, see
+    // https://github.com/facebook/create-react-app/pull/3654
     registerServiceWorker()
   })
 
