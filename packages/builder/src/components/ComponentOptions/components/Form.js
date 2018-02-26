@@ -5,7 +5,7 @@ import { pick } from 'lodash'
 
 import { updateComponent } from '../../../actions/components'
 
-const Form = ({ id, data, keys, getDispatch, children, className, style },
+const Form = ({ id, data, keys, getDispatch, children, className, style, validators },
   { store }) =>
   <LocalForm
     initialState={ pick(data, keys) }
@@ -13,6 +13,7 @@ const Form = ({ id, data, keys, getDispatch, children, className, style },
     getDispatch={ getDispatch }
     className={ className }
     style={ style }
+    validators={ validators }
   >
     { children }
   </LocalForm>

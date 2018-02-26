@@ -1,6 +1,6 @@
 import React from 'react'
-import { Control } from 'react-redux-form'
-import { Col, CardBody, FormGroup, Label } from 'reactstrap'
+import { Control, Errors } from 'react-redux-form'
+import { Col, CardBody, FormGroup, Label, FormText } from 'reactstrap'
 
 import Form from '../../Form'
 import Card from '../../../../Card'
@@ -15,6 +15,17 @@ export default ({ id, data }) =>
       data={ data }
       keys={ ['templateParameters', 'shuffle', 'sample'] }
       getDispatch={ dispatch => this.formDispatch = dispatch }
+      validators={{
+        '': {
+          sampleSize: v =>
+            // Not valid if: Sample and replacement defined,
+            // *but* sample size larger than available rows
+            !(v.sample !== undefined &&
+              v.sample.n !== undefined &&
+              v.sample.replace !== true &&
+              v.sample.n > v.templateParameters.rows.length)
+        },
+      }}
     >
       <Grid
         model=".templateParameters"
@@ -66,6 +77,14 @@ export default ({ id, data }) =>
                 fontFamily: 'Fira Mono',
               }}
               debounce={ 300 }
+            />
+            <Errors
+              model="local"
+              component={ props =>
+                <FormText color="danger">{ props.children }</FormText> }
+              messages={{
+                sampleSize: 'Without replacement, the number of samples can\'t be larger than the number of rows specified above.'
+              }}
             />
           </Col>
         </FormGroup>
