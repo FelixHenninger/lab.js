@@ -12,7 +12,7 @@ import './index.css'
 
 export const AddDropDown = ({ addHandler, cloneHandler, removeHandler }) =>
   <ButtonGroup>
-    <DropDown type="button" dropup>
+    <DropDown type="button" direction="up">
       <DropdownToggle outline color="secondary">
         <Icon
           icon="plus"
@@ -108,7 +108,7 @@ const Line = ({ height }) =>
 const StrokeWidthDropdown = ({ onChange, disabled }) =>
   <DropDown
     type="button"
-    dropup
+    direction="up"
   >
     <DropdownToggle caret outline color="secondary" disabled={ disabled }>
       <Icon
@@ -161,7 +161,7 @@ class ColorDropdown extends Component {
     ]
 
     return <DropDown
-        dropup
+        direction="up"
         type="button"
         ref={ ref => this.dropdown = ref }
       >
@@ -251,7 +251,7 @@ class ColorDropdown extends Component {
 
 export const Typography = ({ selection, changeHandler }) =>
   <DropDown
-    dropup
+    direction="up"
     type="button"
   >
     <DropdownToggle
