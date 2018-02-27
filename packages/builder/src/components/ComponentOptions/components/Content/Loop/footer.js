@@ -36,7 +36,7 @@ export const Footer = (
       <td colSpan={ columns.length }>
         <Dropdown
           type="button"
-          block size="sm"
+          size="sm"
           className="w-100"
         >
           <Button
