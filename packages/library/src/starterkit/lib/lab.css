@@ -218,6 +218,9 @@ kbd.big {
 .text-right {
   text-align: right;
 }
+.text-justify {
+  text-align: justify;
+}
 .text-muted {
   color: var(--color-gray-content);
 }
