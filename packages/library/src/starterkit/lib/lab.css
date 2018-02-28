@@ -144,6 +144,15 @@ kbd.big {
 .w-100 {
   width: 100%;
 }
+.w-s {
+  max-width: var(--width-min-container);
+}
+.w-m {
+  max-width: calc(1.5 * var(--width-min-container));
+}
+.w-l {
+  max-width: calc(2 * var(--width-min-container));
+}
 /* Block alignment based on flexbox */
 .content-vertical-top,
 .content-vertical-center,
