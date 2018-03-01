@@ -1,6 +1,14 @@
 [
   {
-    "name": "Stroop Task",
+    "name": "N-back task",
+    "contributors": [
+      "Felix Ludwig",
+      "Felix Henninger"
+    ],
+    "path": "N-back task/n-back-task.study.json"
+  },
+  {
+    "name": "Stroop task",
     "contributors": [
       "Felix Henninger"
     ],

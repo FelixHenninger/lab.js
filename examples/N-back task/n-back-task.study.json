@@ -1,0 +1,1593 @@
+{
+  "version": [
+    2017,
+    1,
+    6
+  ],
+  "components": {
+    "2": {
+      "id": "2",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Instructions",
+      "content": "<header>\r\n  <h2>Your task</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-m text-justify\">\r\n    <p><strong>In the following, we're going to show you sequences of letters.</strong> We'll present the letters one at a time, in the center of your screen.</p>\r\n    <p><strong>Your task will be to judge whether or not each letter matches a set of conditions.</strong> We'll  will have its own set of conditions which will be explained before the round starts. If the appearing letter meets the conditions, we'd ask you to press <kbd>j</kbd>. If not, press <kbd>k</kbd>.</p>\r\n    <p><strong>The letters will be either lower or upper case.</strong> This, however, doesn't matter for the task. You should ignore the case, and respond the same regardless of the case: The letters <strong>t</strong> and <strong>T</strong> are, for our purposes, treated as the same. On the next screen, we'll explain the rules for round one.</p>\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Please press <kbd>Space</kbd> to continue.\r\n</footer>"
+    },
+    "3": {
+      "id": "3",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "4",
+        "6",
+        "10"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "0-back",
+      "_collapsed": true
+    },
+    "4": {
+      "id": "4",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "j"
+          ],
+          [
+            "Continue",
+            "keypress",
+            "",
+            "k"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Introduction",
+      "content": "<header>\r\n  <h2>Set 1</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-m text-justify\">\r\n    <p>We will now begin with the first set of letters. In this set, please press <kbd>j</kbd> when the visible letter is a <strong>B</strong> or <strong>b</strong>. Remember that the case of the letter may change. Press <kbd>k</kbd> for any other letter that appears.</p>\r\n    <p>Please now place one hand on the keyboard and press one of the buttons mentioned below to start.</p>\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Please press <kbd>j</kbd> or <kbd>k</kbd> to begin.\r\n</footer>\r\n"
+    },
+    "6": {
+      "id": "6",
+      "type": "lab.flow.Loop",
+      "children": [
+        "7"
+      ],
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "condition",
+            "type": "string"
+          },
+          {
+            "name": "stimulus",
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "type": "number"
+          },
+          {
+            "name": "match",
+            "type": "boolean"
+          }
+        ],
+        "rows": [
+          [
+            "0_back",
+            "t",
+            "1",
+            "false"
+          ],
+          [
+            "0_back",
+            "B",
+            "2",
+            "true"
+          ],
+          [
+            "0_back",
+            "v",
+            "3",
+            "false"
+          ],
+          [
+            "0_back",
+            "g",
+            "4",
+            "false"
+          ],
+          [
+            "0_back",
+            "V",
+            "3",
+            "false"
+          ],
+          [
+            "0_back",
+            "T",
+            "1",
+            "false"
+          ],
+          [
+            "0_back",
+            "g",
+            "4",
+            "false"
+          ],
+          [
+            "0_back",
+            "G",
+            "4",
+            "false"
+          ],
+          [
+            "0_back",
+            "b",
+            "2",
+            "true"
+          ],
+          [
+            "0_back",
+            "b",
+            "2",
+            "true"
+          ],
+          [
+            "0_back",
+            "b",
+            "2",
+            "true"
+          ],
+          [
+            "0_back",
+            "G",
+            "4",
+            "false"
+          ],
+          [
+            "0_back",
+            "T",
+            "1",
+            "false"
+          ],
+          [
+            "0_back",
+            "B",
+            "2",
+            "true"
+          ],
+          [
+            "0_back",
+            "V",
+            "3",
+            "false"
+          ],
+          [
+            "0_back",
+            "G",
+            "4",
+            "false"
+          ],
+          [
+            "0_back",
+            "t",
+            "1",
+            "false"
+          ],
+          [
+            "0_back",
+            "V",
+            "3",
+            "false"
+          ],
+          [
+            "0_back",
+            "b",
+            "2",
+            "true"
+          ],
+          [
+            "0_back",
+            "T",
+            "1",
+            "false"
+          ],
+          [
+            "0_back",
+            "g",
+            "4",
+            "false"
+          ],
+          [
+            "0_back",
+            "b",
+            "2",
+            "true"
+          ],
+          [
+            "0_back",
+            "t",
+            "1",
+            "false"
+          ],
+          [
+            "0_back",
+            "G",
+            "4",
+            "false"
+          ],
+          [
+            "0_back",
+            "B",
+            "2",
+            "true"
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "0-back loop",
+      "notes": ""
+    },
+    "7": {
+      "id": "7",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "8",
+        "9"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Sequence"
+    },
+    "8": {
+      "id": "8",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": []
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Inter-stimulus interval",
+      "timeout": "500",
+      "content": "<header>\r\n  <h2>Set 1</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n</main>\r\n\r\n<footer>\r\n  Press <kbd>j</kbd> if the current letter is a <strong>B</strong> or a <strong>b</strong>. Otherwise press <kbd>k</kbd>.\r\n</footer>",
+      "correctResponse": ""
+    },
+    "9": {
+      "id": "9",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "true",
+            "keypress",
+            "",
+            "j"
+          ],
+          [
+            "false",
+            "keypress",
+            "",
+            "k"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Stimulus",
+      "content": "<header>\r\n  <h2>Set 1</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"stimulus\">\r\n    ${ parameters.stimulus }\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Press <kbd>j</kbd> if the current letter is a <strong>B</strong> or a <strong>b</strong>. Otherwise press <kbd>k</kbd>.\r\n</footer>",
+      "timeout": "2500",
+      "correctResponse": "${ parameters.match }"
+    },
+    "10": {
+      "id": "10",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "End",
+      "content": "<header>\r\n  <h2>Set 1</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-m\">\r\n    <p><strong>You have completed the first set. Well done!</strong></p>\r\n    <p>You're welcome to take a brief break if you like.</p>\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Please press <kbd>Space</kbd> when you're ready to proceed to the second set.\r\n</footer>\r\n"
+    },
+    "11": {
+      "id": "11",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "12",
+        "13",
+        "18"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "1-back",
+      "_collapsed": true
+    },
+    "12": {
+      "id": "12",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "j"
+          ],
+          [
+            "Continue",
+            "keypress",
+            "",
+            "k"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Introduction",
+      "content": "<header>\r\n  <h2>Set 2</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-m text-justify\">\r\n    <p>We will now proceed with the second sequence of letters. For this set, please press <kbd>j</kbd> <em>when the current letter matches the letter before</em>, that is, when the same letter is shown twice in a row. Remember that the case of the letter is irrelevant. Press <kbd>k</kbd> if the letter is not the same as the last.</p>\r\n\r\n    <p>For instance, if you saw the sequence <strong>g</strong>...<strong>G</strong>...<strong>v</strong>...<strong>T</strong>...<strong>t</strong>...<strong>V</strong>...<strong>b</strong>, you would press <kbd>j</kbd> on the second <strong>g</strong> and the second <strong>t</strong> (because they the same letter as the one immediately before) and <kbd>k</kbd> for every other letter.</p>\r\n\r\n    <p>Please now place one hand on the keyboard and press one of the buttons mentioned below to start.</p>\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Please press <kbd>j</kbd> or <kbd>k</kbd> to begin.\r\n</footer>\r\n"
+    },
+    "13": {
+      "id": "13",
+      "type": "lab.flow.Loop",
+      "children": [
+        "14"
+      ],
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "condition",
+            "type": "string"
+          },
+          {
+            "name": "stimulus",
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "type": "number"
+          },
+          {
+            "name": "match",
+            "type": "boolean"
+          }
+        ],
+        "rows": [
+          [
+            "1_back",
+            "t",
+            "1",
+            "false"
+          ],
+          [
+            "1_back",
+            "t",
+            "1",
+            "true"
+          ],
+          [
+            "1_back",
+            "T",
+            "1",
+            "true"
+          ],
+          [
+            "1_back",
+            "b",
+            "2",
+            "false"
+          ],
+          [
+            "1_back",
+            "G",
+            "4",
+            "false"
+          ],
+          [
+            "1_back",
+            "B",
+            "2",
+            "false"
+          ],
+          [
+            "1_back",
+            "T",
+            "1",
+            "false"
+          ],
+          [
+            "1_back",
+            "t",
+            "1",
+            "true"
+          ],
+          [
+            "1_back",
+            "V",
+            "3",
+            "false"
+          ],
+          [
+            "1_back",
+            "v",
+            "3",
+            "true"
+          ],
+          [
+            "1_back",
+            "g",
+            "4",
+            "false"
+          ],
+          [
+            "1_back",
+            "G",
+            "4",
+            "true"
+          ],
+          [
+            "1_back",
+            "b",
+            "2",
+            "false"
+          ],
+          [
+            "1_back",
+            "V",
+            "3",
+            "false"
+          ],
+          [
+            "1_back",
+            "V",
+            "3",
+            "true"
+          ],
+          [
+            "1_back",
+            "v",
+            "3",
+            "true"
+          ],
+          [
+            "1_back",
+            "B",
+            "2",
+            "false"
+          ],
+          [
+            "1_back",
+            "b",
+            "2",
+            "true"
+          ],
+          [
+            "1_back",
+            "t",
+            "1",
+            "false"
+          ],
+          [
+            "1_back",
+            "g",
+            "4",
+            "false"
+          ],
+          [
+            "1_back",
+            "v",
+            "3",
+            "false"
+          ],
+          [
+            "1_back",
+            "v",
+            "3",
+            "true"
+          ],
+          [
+            "1_back",
+            "t",
+            "1",
+            "false"
+          ],
+          [
+            "1_back",
+            "B",
+            "2",
+            "false"
+          ],
+          [
+            "1_back",
+            "g",
+            "4",
+            "false"
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "1-back loop",
+      "notes": ""
+    },
+    "14": {
+      "id": "14",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "15",
+        "16"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Sequence"
+    },
+    "15": {
+      "id": "15",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": []
+      },
+      "messageHandlers": {
+        "rows": []
+      },
+      "title": "Inter-stimulus interval",
+      "timeout": "500",
+      "content": "<header>\r\n  <h2>Set 2</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n</main>\r\n\r\n<footer>\r\n  Press <kbd>j</kbd> if the current letter matches the letter <strong>directly</strong> before. Otherwise press <kbd>k</kbd>.\r\n</footer>",
+      "correctResponse": ""
+    },
+    "16": {
+      "id": "16",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "true",
+            "keypress",
+            "",
+            "j"
+          ],
+          [
+            "false",
+            "keypress",
+            "",
+            "k"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Stimulus",
+      "content": "<header>\r\n  <h2>Set 2</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"stimulus\">\r\n    ${ parameters.stimulus }\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Press <kbd>j</kbd> if the current letter matches the letter <strong>directly</strong> before. Otherwise press <kbd>k</kbd>.\r\n</footer>",
+      "timeout": "2500",
+      "correctResponse": "${ parameters.match }"
+    },
+    "18": {
+      "id": "18",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "End",
+      "content": "<header>\r\n  <h2>Set 2</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-m\">\r\n    <p><strong>You have completed the second set. Well done!</strong></p>\r\n    <p>You're welcome to take a brief break if you like.</p>\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Please press <kbd>Space</kbd> when you're ready to proceed to the second set.\r\n</footer>\r\n"
+    },
+    "20": {
+      "id": "20",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "21",
+        "22",
+        "26"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "2-back",
+      "_collapsed": true
+    },
+    "21": {
+      "id": "21",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "j"
+          ],
+          [
+            "Continue",
+            "keypress",
+            "",
+            "k"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Introduction",
+      "content": "<header>\r\n  <h2>Set 3</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-m text-justify\">\r\n    <p>We will now proceed with the third sequence of letters. In this set, please press <kbd>j</kbd> <em>when the current letter matches the letter before last</em>, that is, when the letter shown is the same as two letters back. Remember that the case of the letter is irrelevant. Press <kbd>k</kbd> if the letter shown is not the same as the one two letters back.</p>\r\n    <p>For instance, if you saw the sequence: <strong>v</strong>...<strong>G</strong>...<strong>V</strong>...<strong>T</strong>...<strong>B</strong>...<strong>V</strong>...<strong>b</strong>, you would press <kbd>j</kbd> on the second <strong>v</strong> and the second <strong>b</strong> and <kbd>k</kbd> for every other letter.</p>\r\n    <p>Please now place one hand on the keyboard and press one of the buttons mentioned below to start.</p>\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Please press <kbd>j</kbd> or <kbd>k</kbd> to proceed.\r\n</footer>\r\n"
+    },
+    "22": {
+      "id": "22",
+      "type": "lab.flow.Loop",
+      "children": [
+        "23"
+      ],
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "condition",
+            "type": "string"
+          },
+          {
+            "name": "stimulus",
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "type": "number"
+          },
+          {
+            "name": "match",
+            "type": "boolean"
+          }
+        ],
+        "rows": [
+          [
+            "2_back",
+            "b",
+            "2",
+            "false"
+          ],
+          [
+            "2_back",
+            "v",
+            "3",
+            "false"
+          ],
+          [
+            "2_back",
+            "G",
+            "4",
+            "false"
+          ],
+          [
+            "2_back",
+            "b",
+            "2",
+            "false"
+          ],
+          [
+            "2_back",
+            "T",
+            "1",
+            "false"
+          ],
+          [
+            "2_back",
+            "b",
+            "2",
+            "true"
+          ],
+          [
+            "2_back",
+            "t",
+            "1",
+            "true"
+          ],
+          [
+            "2_back",
+            "g",
+            "4",
+            "false"
+          ],
+          [
+            "2_back",
+            "T",
+            "1",
+            "true"
+          ],
+          [
+            "2_back",
+            "b",
+            "2",
+            "false"
+          ],
+          [
+            "2_back",
+            "T",
+            "1",
+            "true"
+          ],
+          [
+            "2_back",
+            "V",
+            "3",
+            "false"
+          ],
+          [
+            "2_back",
+            "G",
+            "4",
+            "false"
+          ],
+          [
+            "2_back",
+            "T",
+            "1",
+            "false"
+          ],
+          [
+            "2_back",
+            "t",
+            "1",
+            "false"
+          ],
+          [
+            "2_back",
+            "b",
+            "2",
+            "false"
+          ],
+          [
+            "2_back",
+            "G",
+            "4",
+            "false"
+          ],
+          [
+            "2_back",
+            "B",
+            "2",
+            "true"
+          ],
+          [
+            "2_back",
+            "G",
+            "4",
+            "true"
+          ],
+          [
+            "2_back",
+            "T",
+            "1",
+            "false"
+          ],
+          [
+            "2_back",
+            "g",
+            "4",
+            "true"
+          ],
+          [
+            "2_back",
+            "g",
+            "4",
+            "false"
+          ],
+          [
+            "2_back",
+            "t",
+            "1",
+            "false"
+          ],
+          [
+            "2_back",
+            "G",
+            "4",
+            "true"
+          ],
+          [
+            "2_back",
+            "g",
+            "4",
+            "false"
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "2-back loop",
+      "notes": ""
+    },
+    "23": {
+      "id": "23",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "24",
+        "25"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Sequence"
+    },
+    "24": {
+      "id": "24",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": []
+      },
+      "messageHandlers": {
+        "rows": []
+      },
+      "title": "Inter-stimulus interval",
+      "timeout": "500",
+      "content": "<header>\r\n  <h2>Set 3</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n</main>\r\n\r\n<footer>\r\n  Press <kbd>j</kbd> if the current letter matches the letter <strong>two</strong> trials before. Otherwise press <kbd>k</kbd>.\r\n</footer>",
+      "correctResponse": ""
+    },
+    "25": {
+      "id": "25",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "true",
+            "keypress",
+            "",
+            "j"
+          ],
+          [
+            "false",
+            "keypress",
+            "",
+            "k"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Stimulus",
+      "content": "<header>\r\n  <h2>Set 3</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"stimulus\">\r\n    ${ parameters.stimulus }\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Press <kbd>j</kbd> if the current letter matches the letter <strong>two</strong> trials before. Otherwise press <kbd>k</kbd>.\r\n</footer>",
+      "timeout": "2500",
+      "correctResponse": "${ parameters.match }"
+    },
+    "26": {
+      "id": "26",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "End",
+      "content": "<header>\r\n  <h2>Set 3</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-m\">\r\n    <p><strong>You have completed the third set. Well done!</strong></p>\r\n    <p>You're welcome to take a brief break if you like.</p>\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Please press <kbd>Space</kbd> when you're ready to proceed to the second set.\r\n</footer>\r\n"
+    },
+    "27": {
+      "id": "27",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "28",
+        "29"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "3-back",
+      "_collapsed": true
+    },
+    "28": {
+      "id": "28",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "j"
+          ],
+          [
+            "Continue",
+            "keypress",
+            "",
+            "k"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Introduction",
+      "content": "<header>\r\n  <h2>Set 4</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-m text-justify\">\r\n    <p>We will now proceed with the fourth and last sequence. In this round, please press <kbd>j</kbd> <em>when the current letter matches the letter <strong>three</strong> trials before</em>. Remember that the case of the letter is irrelevant. Press <kbd>k</kbd> if the letter shown is not the same as three letters back.</p>\r\n    <p>For instance, if you saw the sequence: <strong>t</strong>...<strong>G</strong>...<strong>V</strong>...<strong>T</strong>...<strong>B</strong>...<strong>V</strong>...<strong>b</strong>, you would press <kbd>j</kbd> on the second \"t\" and the second \"v\" and <kbd>k</kbd> for every other letter.</p>\r\n    <p>Please now place one hand on the keyboard and press one of the buttons mentioned below to start.</p>\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Please press <kbd>j</kbd> or <kbd>k</kbd> to continue.\r\n</footer>"
+    },
+    "29": {
+      "id": "29",
+      "type": "lab.flow.Loop",
+      "children": [
+        "30"
+      ],
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "condition",
+            "type": "string"
+          },
+          {
+            "name": "stimulus",
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "type": "number"
+          },
+          {
+            "name": "match",
+            "type": "boolean"
+          }
+        ],
+        "rows": [
+          [
+            "3_back",
+            "b",
+            "2",
+            "false"
+          ],
+          [
+            "3_back",
+            "t",
+            "1",
+            "false"
+          ],
+          [
+            "3_back",
+            "B",
+            "2",
+            "false"
+          ],
+          [
+            "3_back",
+            "B",
+            "2",
+            "true"
+          ],
+          [
+            "3_back",
+            "t",
+            "1",
+            "true"
+          ],
+          [
+            "3_back",
+            "G",
+            "4",
+            "false"
+          ],
+          [
+            "3_back",
+            "V",
+            "3",
+            "false"
+          ],
+          [
+            "3_back",
+            "T",
+            "1",
+            "true"
+          ],
+          [
+            "3_back",
+            "B",
+            "2",
+            "false"
+          ],
+          [
+            "3_back",
+            "v",
+            "3",
+            "true"
+          ],
+          [
+            "3_back",
+            "b",
+            "2",
+            "false"
+          ],
+          [
+            "3_back",
+            "g",
+            "4",
+            "false"
+          ],
+          [
+            "3_back",
+            "G",
+            "4",
+            "false"
+          ],
+          [
+            "3_back",
+            "V",
+            "3",
+            "false"
+          ],
+          [
+            "3_back",
+            "v",
+            "3",
+            "false"
+          ],
+          [
+            "3_back",
+            "b",
+            "2",
+            "false"
+          ],
+          [
+            "3_back",
+            "v",
+            "3",
+            "true"
+          ],
+          [
+            "3_back",
+            "V",
+            "3",
+            "true"
+          ],
+          [
+            "3_back",
+            "t",
+            "1",
+            "false"
+          ],
+          [
+            "3_back",
+            "b",
+            "2",
+            "false"
+          ],
+          [
+            "3_back",
+            "V",
+            "3",
+            "true"
+          ],
+          [
+            "3_back",
+            "V",
+            "3",
+            "false"
+          ],
+          [
+            "3_back",
+            "g",
+            "4",
+            "false"
+          ],
+          [
+            "3_back",
+            "B",
+            "2",
+            "false"
+          ],
+          [
+            "3_back",
+            "v",
+            "3",
+            "true"
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "3-back loop",
+      "notes": ""
+    },
+    "30": {
+      "id": "30",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "31",
+        "32"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Sequence"
+    },
+    "31": {
+      "id": "31",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": []
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Inter-stimulus interval",
+      "timeout": "500",
+      "content": "<header>\r\n  <h2>Set 4</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n</main>\r\n\r\n<footer>\r\n  Press <kbd>j</kbd> if the current letter matches the letter <strong>three</strong> trials before. Otherwise press <kbd>k</kbd>.\r\n</footer>",
+      "correctResponse": ""
+    },
+    "32": {
+      "id": "32",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "true",
+            "keypress",
+            "",
+            "j"
+          ],
+          [
+            "false",
+            "keypress",
+            "",
+            "k"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Stimulus",
+      "content": "<header>\r\n  <h2>Set 4</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"stimulus\">\r\n    ${ parameters.stimulus }\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Press <kbd>j</kbd> if the current letter matches the letter <strong>three</strong> trials before. Otherwise press <kbd>k</kbd>.\r\n</footer>",
+      "timeout": "2500",
+      "correctResponse": "${ parameters.match }"
+    },
+    "33": {
+      "id": "33",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "End of task",
+      "content": "<header>\r\n  <h2>End of task</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-m\">\r\n    <p><strong>You have completed this task. It is designed to be challenging and become increasingly difficult, so it's natural to struggle, especially in the later sets. Thank you for your perseverance!</strong></p>\r\n    <p>You're welcome to take a brief break if you like, you've earned it!</p>\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  You may close this window now.\r\n</footer>"
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "2",
+        "3",
+        "11",
+        "20",
+        "27",
+        "33"
+      ],
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "N-back task",
+        "description": "This study implements an N-back short-term memory task. Starting with a task that concerns only the visible stimulus (0-back), the task increases in complexity until it requires remembering the stimulus shown three letters back (3-back).\n\nThe task is modelled after Study 1 in the following article, though the stimuli have been exchanged for letters:\n\nBraver, T. S., Cohen, J. D., Nystrom, L. E., Jonides, J., Smith, E. E., & Noll, D. C. (1997). A parametric study of prefrontal cortex involvement in human working memory. Neuroimage, 5(1), 49-62.",
+        "repository": "https://github.com/FelixHenninger/lab.js/tree/master/examples/N-back Task",
+        "contributors": "Felix Ludwig"
+      }
+    }
+  },
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20lab.js%20library%20and%20default%20styles%20--%3E%0A%20%20%3Cscript%20src%3D%22lib%2Flab.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22lib%2Flab.css%22%3E%0A%20%20%3C!--%20study%20code%20and%20styles%20--%3E%0A%20%20%3Cscript%20defer%20src%3D%22script.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22style.css%22%3E%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "permanent": true
+      },
+      "style.css": {
+        "content": "data:text/css,.stimulus%20%7B%0D%0A%20%20font-size%3A%204rem%3B%0D%0A%7D",
+        "permanent": true
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      }
+    }
+  }
+}
