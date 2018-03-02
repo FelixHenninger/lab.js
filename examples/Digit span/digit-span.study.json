@@ -1,0 +1,328 @@
+{
+  "version": [
+    2017,
+    1,
+    6
+  ],
+  "components": {
+    "1": {
+      "id": "1",
+      "type": "lab.flow.Loop",
+      "children": [
+        "5"
+      ],
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "span_length",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "2"
+          ],
+          [
+            "2"
+          ],
+          [
+            "3"
+          ],
+          [
+            "3"
+          ],
+          [
+            "4"
+          ],
+          [
+            "4"
+          ],
+          [
+            "5"
+          ],
+          [
+            "5"
+          ],
+          [
+            "6"
+          ],
+          [
+            "6"
+          ],
+          [
+            "7"
+          ],
+          [
+            "7"
+          ],
+          [
+            "8"
+          ],
+          [
+            "8"
+          ],
+          [
+            "9"
+          ],
+          [
+            "9"
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Digit span task"
+    },
+    "2": {
+      "id": "2",
+      "type": "lab.flow.Loop",
+      "children": [
+        "3"
+      ],
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "stimulus",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "1"
+          ],
+          [
+            "2"
+          ],
+          [
+            "3"
+          ],
+          [
+            "4"
+          ],
+          [
+            "5"
+          ],
+          [
+            "6"
+          ],
+          [
+            "7"
+          ],
+          [
+            "8"
+          ],
+          [
+            "9"
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Generate span",
+              "message": "before:prepare",
+              "code": "/*\n  This code generates the stimulus sequence manually\n  from the stimuli specified in the loop content.\n  This wouldn't usually be necessary: The loop\n  can sample and shuffle stimuli itself; however,\n  doing it ourselves gives us a bit more control.\n  Specifically, it's (slightly) easier to capture \n  and store the sequence of digits (see below).\n*/\n\n// Subsample the loop parameters by drawing randomly\n// from the loop contents\nthis.options.templateParameters = this.random.sample(\n  this.options.templateParameters,\n  this.aggregateParameters.span_length\n)\n\n// Extract the presented stimuli and store them seperately,\n// as a feature of the overall trial sequence.\nthis.parent.options.parameters.span = \n  this.options.templateParameters.map(\n    function(repetition) { return repetition.stimulus }\n  )"
+            }
+          ]
+        ]
+      },
+      "title": "Learning phase",
+      "shuffle": false
+    },
+    "3": {
+      "id": "3",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Disable data logging",
+              "message": "before:prepare",
+              "code": "// We don't need screen-by-screen data for\n// the stimulus presentation\nthis.options.datacommit = false"
+            }
+          ]
+        ]
+      },
+      "title": "Digit presentation",
+      "content": "<main\n  class=\"content-horizontal-center content-vertical-center\"\n  style=\"font-size: 5rem; font-weight: bold\"\n>\n  ${ parameters.stimulus }\n</main>\n<footer>\n  Please memorize the digits presented above.\n</footer>",
+      "timeout": "1500"
+    },
+    "4": {
+      "id": "4",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Handle button responses",
+              "message": "before:prepare",
+              "code": "// Create an empty array that collects responses\nthis.data.responses = []\n\n// Setup handler for button clicks\nthis.options.events['click button'] = function(event) {\n  // Which button was clicked?\n  const button = event.currentTarget.attributes.name.value\n\n  // Terminate screen if participant is done,\n  // otherwise log response, deactivate button,\n  // and continue.\n  if (button === 'done') {\n    this.end('done')\n  } else {\n    // Add response to data\n    this.data.responses.push(button)\n    \n    // Disable button\n    event.currentTarget.disabled = true\n  }\n}"
+            }
+          ],
+          [
+            {
+              "title": "Code veracity of answer",
+              "message": "after:end",
+              "code": "// The response was correct if every presented stimulus\n// matched the corresponding response\n// (JavaScript, sadly, can't directly compare two arrays)\nthis.data.correct = this.aggregateParameters.span.every(\n  (stimulus, index) => stimulus === this.data.responses[index]\n)"
+            }
+          ]
+        ]
+      },
+      "title": "Recall",
+      "content": "<main class=\"content-horizontal-center content-vertical-center\">\n  <!-- Table styles are specified in the overall study CSS,\n       please see study options. This screen also includes\n       a fair amount of logic, which is visible in the scripts\n       tab. Please be invited to ask the authors if you have\n       any questions!\n  -->\n  <table class=\"table-plain table-span-recall\">\n    <tr>\n      <td>\n        <button name=\"1\">1</button>\n      </td>\n      <td>\n        <button name=\"2\">2</button>\n      </td>\n      <td>\n        <button name=\"3\">3</button>\n      </td>\n      <td>\n        <button name=\"4\">4</button>\n      </td>\n      <td>\n        <button name=\"5\">5</button>\n      </td>\n      <td>\n        <button name=\"6\">6</button>\n      </td>\n      <td>\n        <button name=\"7\">7</button>\n      </td>\n      <td>\n        <button name=\"8\">8</button>\n      </td>\n      <td>\n        <button name=\"9\">9</button>\n      </td>\n    </tr>\n    <tr>\n      <td colspan=\"9\">\n        <button name=\"done\">Done &rarr;</button>\n      </td>\n    </tr>\n  </table>\n</main>\n<footer>\n  <strong>Please select the numbers you just saw, in the order they were presented.</strong><br>\n  When you have chosen all you can recall, please click <kbd>Done</kbd> to continue.\n</footer>"
+    },
+    "5": {
+      "id": "5",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "6",
+        "2",
+        "4"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Trial sequence"
+    },
+    "6": {
+      "id": "6",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "click",
+            "button#continue",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Get-set-go",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-s text-justify\">\n    <h2 class=\"text-center\">Ready?</h2>\n    <p>In a moment, we're going to show you a sequence of digits. Please try to remember them as best you can, you'll be asked to recall them immediately after in the order in which they were presented.</p>\n    <p>When you're ready, please press <kbd>Continue</kbd> below.\n  </div>\n</main>\n<footer class=\"content-horizontal-right\">\n  <button id=\"continue\">\n    Continue &rarr;\n  </button>\n</footer>"
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "1"
+      ],
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "Digit span",
+        "description": "This study implements a short-term memory test. Participants are asked to recall a series of digits in sequence.",
+        "repository": "",
+        "contributors": "Felix Henninger <mailbox@felixhenninger.com> (http://felixhenninger.com)"
+      }
+    }
+  },
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20lab.js%20library%20and%20default%20styles%20--%3E%0A%20%20%3Cscript%20src%3D%22lib%2Flab.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22lib%2Flab.css%22%3E%0A%20%20%3C!--%20study%20code%20and%20styles%20--%3E%0A%20%20%3Cscript%20defer%20src%3D%22script.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22style.css%22%3E%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "permanent": true
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Span%20recall%20screen%20*%2F%0Atable.table-span-recall%20%7B%0A%20%20width%3A%20auto%3B%0A%7D%0A%0Atable.table-span-recall%20tr%3Afirst-child%20button%20%7B%0A%20%20width%3A%20100px%3B%0A%20%20height%3A%20140px%3B%0A%20%20font-size%3A%202.25rem%3B%0A%20%20%2F*%20Animate%20opacity%20*%2F%0A%20%20transition%3A%20opacity%202.25s%20ease-in-out%200%3B%0A%7D%0A%0A%0Atable.table-span-recall%20tr%3Afirst-child%20button%3Adisabled%20%7B%0A%20%20opacity%3A%200.25%3B%0A%7D",
+        "permanent": true
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      }
+    }
+  }
+}

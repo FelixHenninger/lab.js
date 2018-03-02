@@ -1,6 +1,13 @@
 [
   {
-    "name": "N-back task",
+    "name": "Digit span",
+    "contributors": [
+      "Felix Henninger"
+    ],
+    "path": "Digit span/digit-span.study.json"
+  },
+  {
+    "name": "N-Back Task",
     "contributors": [
       "Felix Ludwig",
       "Felix Henninger"
