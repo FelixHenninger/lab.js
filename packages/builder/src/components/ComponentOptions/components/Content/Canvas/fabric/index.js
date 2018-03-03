@@ -87,10 +87,11 @@ export default class FabricCanvas extends Component {
     // ViewPort overlay --------------------------------------------------------
 
     this.canvas.setOverlayImage(
-      makeOverlay(this.width, this.height, viewPort).toDataURL({
-        // Correct scale for high-DPI devices
-        multiplier: 1 / window.devicePixelRatio,
-      }),
+      // There used to be the option
+      // { multiplier: 1 / window.devicePixelRatio }
+      // in the call to toDataURL, but the extra scaling
+      // doesn't seem to be necessary any more
+      makeOverlay(this.width, this.height, viewPort).toDataURL(),
       () => this.canvas.requestRenderAll(),
       // This is somewhat weird -- the transformation
       // should really also apply to the overlay,
