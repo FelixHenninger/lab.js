@@ -7,6 +7,13 @@
     "path": "Digit span/digit-span.study.json"
   },
   {
+    "name": "Flanker task",
+    "contributors": [
+      "Michael Kriechbaumer"
+    ],
+    "path": "Flanker task/flanker-task.study.json"
+  },
+  {
     "name": "N-Back Task",
     "contributors": [
       "Felix Ludwig",

@@ -1,0 +1,492 @@
+{
+  "version": [
+    2017,
+    1,
+    6
+  ],
+  "components": {
+    "1": {
+      "id": "1",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "Start",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": []
+      },
+      "title": "Instructions",
+      "content": "<header>\r\n  <h2>Your task</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-m text-justify\">\r\n    <p><strong>In the following task, we will show you an row of arrows pointing in different directions. Your task will be to indicate in which direction the central arrow is pointing.</strong> You can safely ignore the symbols to its left and right.</p>\r\n    <p>Please respond with the arrow keys, <kbd>&larr;</kbd> or the <kbd>&rarr;</kbd> corresponding to the direction of the central arrow: If it points left, please press the <kbd>&larr;</kbd> key; if it points right, please press the <kbd>&rarr;</kbd> key. Again, the direction of the other arrows shouldn't matter for your response.</p>\r\n    <p>Please respond as quickly and accurately as you can.</p>\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Press <kbd>Space</kbd> to start.\r\n</footer>"
+    },
+    "2": {
+      "id": "2",
+      "type": "lab.flow.Loop",
+      "children": [
+        "3"
+      ],
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "orientation",
+            "type": "string"
+          },
+          {
+            "name": "congruency",
+            "type": "string"
+          },
+          {
+            "name": "target",
+            "type": "string"
+          },
+          {
+            "name": "flanker",
+            "type": "string"
+          },
+          {
+            "name": "position",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "left",
+            "congruent",
+            "&larr;",
+            "&larr;",
+            "center"
+          ],
+          [
+            "left",
+            "congruent",
+            "&larr;",
+            "&larr;",
+            "center"
+          ],
+          [
+            "left",
+            "congruent",
+            "&larr;",
+            "&larr;",
+            "left"
+          ],
+          [
+            "left",
+            "congruent",
+            "&larr;",
+            "&larr;",
+            "left"
+          ],
+          [
+            "left",
+            "congruent",
+            "&larr;",
+            "&larr;",
+            "right"
+          ],
+          [
+            "left",
+            "congruent",
+            "&larr;",
+            "&larr;",
+            "right"
+          ],
+          [
+            "left",
+            "incongruent",
+            "&larr;",
+            "&rarr;",
+            "center"
+          ],
+          [
+            "left",
+            "incongruent",
+            "&larr;",
+            "&rarr;",
+            "center"
+          ],
+          [
+            "left",
+            "incongruent",
+            "&larr;",
+            "&rarr;",
+            "left"
+          ],
+          [
+            "left",
+            "incongruent",
+            "&larr;",
+            "&rarr;",
+            "left"
+          ],
+          [
+            "left",
+            "incongruent",
+            "&larr;",
+            "&rarr;",
+            "right"
+          ],
+          [
+            "left",
+            "incongruent",
+            "&larr;",
+            "&rarr;",
+            "right"
+          ],
+          [
+            "left",
+            "neutral",
+            "&larr;",
+            "&#9633;",
+            "center"
+          ],
+          [
+            "left",
+            "neutral",
+            "&larr;",
+            "&#9633;",
+            "center"
+          ],
+          [
+            "left",
+            "neutral",
+            "&larr;",
+            "&#9633;",
+            "left"
+          ],
+          [
+            "left",
+            "neutral",
+            "&larr;",
+            "&#9633;",
+            "left"
+          ],
+          [
+            "left",
+            "neutral",
+            "&larr;",
+            "&#9633;",
+            "right"
+          ],
+          [
+            "left",
+            "neutral",
+            "&larr;",
+            "&#9633;",
+            "right"
+          ],
+          [
+            "right",
+            "congruent",
+            "&rarr;",
+            "&rarr;",
+            "center"
+          ],
+          [
+            "right",
+            "congruent",
+            "&rarr;",
+            "&rarr;",
+            "center"
+          ],
+          [
+            "right",
+            "congruent",
+            "&rarr;",
+            "&rarr;",
+            "left"
+          ],
+          [
+            "right",
+            "congruent",
+            "&rarr;",
+            "&rarr;",
+            "left"
+          ],
+          [
+            "right",
+            "congruent",
+            "&rarr;",
+            "&rarr;",
+            "right"
+          ],
+          [
+            "right",
+            "congruent",
+            "&rarr;",
+            "&rarr;",
+            "right"
+          ],
+          [
+            "right",
+            "incongruent",
+            "&rarr;",
+            "&larr;",
+            "center"
+          ],
+          [
+            "right",
+            "incongruent",
+            "&rarr;",
+            "&larr;",
+            "center"
+          ],
+          [
+            "right",
+            "incongruent",
+            "&rarr;",
+            "&larr;",
+            "left"
+          ],
+          [
+            "right",
+            "incongruent",
+            "&rarr;",
+            "&larr;",
+            "left"
+          ],
+          [
+            "right",
+            "incongruent",
+            "&rarr;",
+            "&larr;",
+            "right"
+          ],
+          [
+            "right",
+            "incongruent",
+            "&rarr;",
+            "&larr;",
+            "right"
+          ],
+          [
+            "right",
+            "neutral",
+            "&rarr;",
+            "&#9633;",
+            "center"
+          ],
+          [
+            "right",
+            "neutral",
+            "&rarr;",
+            "&#9633;",
+            "center"
+          ],
+          [
+            "right",
+            "neutral",
+            "&rarr;",
+            "&#9633;",
+            "left"
+          ],
+          [
+            "right",
+            "neutral",
+            "&rarr;",
+            "&#9633;",
+            "left"
+          ],
+          [
+            "right",
+            "neutral",
+            "&rarr;",
+            "&#9633;",
+            "right"
+          ],
+          [
+            "right",
+            "neutral",
+            "&rarr;",
+            "&#9633;",
+            "right"
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": []
+      },
+      "title": "Task",
+      "shuffle": true
+    },
+    "3": {
+      "id": "3",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "4",
+        "6",
+        "7"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": []
+      },
+      "title": "Trial"
+    },
+    "4": {
+      "id": "4",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": []
+      },
+      "title": "Empty Screen",
+      "content": "<main>\r\n</main>\r\n\r\n<footer>\r\n  <strong>Which way is the central arrow pointing?</strong><br>\r\n  Please respond using the arrow keys, <kbd>&larr;</kbd> for &larr; and <kbd>&rarr;</kbd> for &rarr;.\r\n</footer>",
+      "timeout": "150"
+    },
+    "6": {
+      "id": "6",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "left",
+            "keydown",
+            "",
+            "ArrowLeft"
+          ],
+          [
+            "right",
+            "keydown",
+            "",
+            "ArrowRight"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": []
+      },
+      "title": "Trial",
+      "content": "<main class=\"content-vertical-center content-horizontal-${ parameters.position }\">\r\n\r\n  <table class=\"table-plain flanker-table\">\r\n    <tr>\r\n      <td> ${ parameters.flanker } </td>\r\n      <td> ${ parameters.flanker } </td>\r\n      <td> ${ parameters.target } </td>\r\n      <td> ${ parameters.flanker } </td>\r\n      <td> ${ parameters.flanker } </td>\r\n    </tr>\r\n  </table>\r\n\r\n</main>\r\n\r\n<footer>\r\n  <strong>Which way is the central arrow pointing?</strong><br>\r\n  Please respond using the arrow keys, <kbd>&larr;</kbd> for &larr; and <kbd>&rarr;</kbd> for &rarr;.\r\n</footer>",
+      "correctResponse": "${ parameters.orientation }"
+    },
+    "7": {
+      "id": "7",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Feedback",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\" id=\"feedback\">\r\n  <span\r\n    style=\"color: ${ state.correct ? 'green' : 'red' }; font-size: 3rem\"\r\n  >\r\n    ⬤\r\n  </span>\r\n</main>\r\n\r\n<footer>\r\n  <strong>Which way is the central arrow pointing?</strong><br>\r\n  Please respond using the arrow keys, <kbd>&larr;</kbd> for &larr; and <kbd>&rarr;</kbd> for &rarr;.\r\n</footer>",
+      "tardy": true,
+      "timeout": "500"
+    },
+    "8": {
+      "id": "8",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": []
+      },
+      "title": "End",
+      "content": "<header>\r\n  <h2>Task complete</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-s\">\r\n    <p>Thank you for completing this task!</p>\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  You may now close this window.\r\n</footer>"
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "1",
+        "2",
+        "8"
+      ],
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "Flanker Task",
+        "description": "This study implements a version of the Eriksen Flanker Task, though using arrows in place of letters. The target stimulus is surrounded by four distractor stimuli, and the array appears at different locations on the screen to increase difficulty.\n\nEriksen, B. A., & Eriksen, C. W. (1974). Effects of noise letters upon identification of a target letter in a non-search task. Perception and Psychophysics. 16: 143–149.",
+        "repository": "https://github.com/FelixHenninger/lab.js/tree/master/examples/Flanker Task",
+        "contributors": "Michael Kriechbaumer"
+      }
+    }
+  },
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%0A%20%20%3C!--%20lab.js%20library%20and%20default%20styles%20--%3E%0A%20%20%3Cscript%20src%3D%22lib%2Flab.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22lib%2Flab.css%22%3E%0A%20%20%3C!--%20study%20code%20and%20styles%20--%3E%0A%20%20%3Cscript%20defer%20src%3D%22script.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22style.css%22%3E%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you're%20looking%20to%20fill%20all%20available%20browser%20space%2C%0A%20%20%20%20%20%20%20try%20replacing%20the%20class%20below%20with%20%22container%20fullscreen%22%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "permanent": true
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F%0D%0A.flanker-table%20%7B%0D%0A%20%20%20%20width%3A%20auto%3B%0D%0A%20%20%20%20border%3A%20none%3B%0D%0A%7D%0D%0A%0D%0A.flanker-table%20td%20%7B%0D%0A%20%20%20%20color%3A%20black%3B%0D%0A%20%20%20%20font-size%3A%204rem%3B%0D%0A%20%20%20%20font-weight%3A%20bold%3B%0D%0A%20%20%20%20text-align%3A%20center%3B%0D%0A%20%20%20%20width%3A%205rem%3B%0D%0A%7D%0D%0A",
+        "permanent": true
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      },
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      }
+    }
+  }
+}
