@@ -12,7 +12,9 @@ const basePath =
 // Transform an array of names into an author list, e.g.
 // ['Felix', 'Yury', 'Ulf', 'Pascal', 'Ben'] => 'Felix, Yury, ... & Ben'
 const etAl = (acc='', c, i, arr) =>
-  acc + (i < arr.length - 1 ? ', ' : ' & ') + c
+  acc === ''
+    ? c
+    : acc + (i < arr.length - 1 ? ', ' : ' & ') + c
 
 const Task = ({ name, contributors, description, url, clickHandler }) =>
   <ListGroupItem>
@@ -24,7 +26,9 @@ const Task = ({ name, contributors, description, url, clickHandler }) =>
         { name }
       </strong>
       <span className="text-muted">
-        { contributors.reduce(etAl) }
+        { (contributors || [''])
+            .filter(c => !c.includes('Felix Henninger'))
+            .reduce(etAl, '') }
       </span>
     </div>
     {/* Give further content class mt-1 --> */}
