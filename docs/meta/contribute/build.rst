@@ -1,9 +1,25 @@
-Building things
-===============
+Building a local copy
+=====================
 
 The project repository contains the code underlying the ``lab.js`` library and the builder interface. To condense both into a single library file for distribution with studies, and an uploadable version of the builder, please follow these additional steps after downloading. You'll need a local installation of `node.js`_ and `npm`_.
 
 You'll notice that many of the commands start with ``npm`` -- that's because we use `npm scripts`_ as shortcuts for most build steps.
+
+----
+
+Downloading the code
+--------------------
+
+The easiest way to create a local copy is by cloning the repository. If you use `git`_, you can copy the following command:
+
+.. code::
+
+  git clone https://github.com/FelixHenninger/lab.js.git
+
+If you'd prefer a `direct download`_, that's available too!
+
+.. _git: https://git-scm.com/
+.. _direct download: https://github.com/FelixHenninger/lab.js/archive/master.zip
 
 ----
 
@@ -70,9 +86,13 @@ will run the builder application in a **local development server**, and open it 
 
   npm run build
 
-bundles all files necessary for **deployment**, and creates an optimized version of the application code in the ``packages/builder/build`` folder for you to upload.
+bundles all files necessary for **deployment**, and creates an optimized version of the application code in the ``packages/builder/build`` folder for you to upload to a local server.
+
+.. important::
+   For the ``lab.js`` builder to work on a public server, it must be served over an encrypted connection (via `HTTPS`_); please make sure that encryption is set up on the server you're using.
 
 .. _create-react-app: https://github.com/facebookincubator/create-react-app/
+.. _HTTPS: https://en.wikipedia.org/wiki/HTTPS
 
 ----
 

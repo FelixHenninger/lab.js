@@ -8,15 +8,11 @@
     <a href="https://labjs.readthedocs.io/en/latest/learn/builder">Get started</a> ·
     <a href="https://labjs.felixhenninger.com/">Open the builder</a> ·
     <a href="https://labjs.readthedocs.io/en/latest/">Learn more</a> ·
-    <a href="https://labjs.readthedocs.io/en/latest/meta/contribute.html">Contribute</a>
+    <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html">Contribute</a>
   </small>
 </p>
 
-**`lab.js` is a tool for constructing browser-based studies** built for (but
-not limited to) the social and cognitive sciences. Studies can be assembled
-using a graphical builder, or through code. In either case, `lab.js` takes care
-of study presentation, response collection and data storage, while providing
-the greatest possible flexibility with regard to study design.
+**`lab.js` makes it easy to build, conduct and share studies in the behavioral and cognitive sciences.** It allows everyone to construct and run experiments and surveys within the browser; the graphical builder makes it easy to get started without writing code.
 
 [![Slack Status](https://img.shields.io/badge/slack-online-brightgreen.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
 [![Build Status](https://travis-ci.org/FelixHenninger/lab.js.svg?branch=master)](https://travis-ci.org/FelixHenninger/lab.js)
@@ -50,7 +46,7 @@ If you get stuck or things don't make sense, please don't hesitate to reach out!
 The easiest and quickest way to find help is to [join our **Slack
 channel**](https://slackin-nmbrcrnchrs.herokuapp.com/), where there's someone
 around to discuss things and help out most of the time. You're welcome to just
-join and say hello!
+join and say hello, we'd love to have you around!
 
 ### Keep up-to-date
 
@@ -84,6 +80,7 @@ guide**](contributing.md) also provides further information.
 [Jeffrey Fisher](https://github.com/jeffslofish) ·
 [Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/) ·
 [Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
+Michael Kriechbaumer ·
 Felix Ludwig ·
 [Karthikeya Pammi](https://github.com/pvskarthikeya) ·
 [Sophie Scharf](http://cognition.uni-mannheim.de/mitarbeiter/m_sc_sophie_scharf/) ·
@@ -119,7 +116,7 @@ that we can discuss things in more detail.
 We [kindly request](https://www.youtube.com/watch?v=kVwl-Va7cNM) that you cite
 ``lab.js`` if you use it in your research. Here's how:
 
-> Henninger, F., Mertens, U. K., Shevchenko, Y., & Hilbig, B. E. (2017). lab.js: Browser-based behavioral research. doi: [10.5281/zenodo.597045](https://doi.org/10.5281/zenodo.597045)
+> Henninger, F., Mertens, U. K., Shevchenko, Y., & Hilbig, B. E. (2018). lab.js: Browser-based behavioral research. doi: [10.5281/zenodo.597045](https://doi.org/10.5281/zenodo.597045)
 
 (There are also [version-specific dois](https://doi.org/10.5281/zenodo.597045) if you prefer those)
 
@@ -127,7 +124,7 @@ We [kindly request](https://www.youtube.com/watch?v=kVwl-Va7cNM) that you cite
 
 ### License
 
-All parts of this project are open source, subject to different licenses:
+All parts of this project are openly available, subject to different licenses:
 
 * The `lab.js` **core library** that is included in your studies is made
   available under the terms of the [Apache License](/packages/library/license).
