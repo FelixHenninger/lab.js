@@ -13,7 +13,7 @@ import { Random } from './util/random'
 import fromObject from './util/fromObject'
 import { toRadians, transform, makeRenderFunction } from './util/canvas'
 import { launch, exit } from './util/fullscreen'
-import { sum, mean, variance, std } from './util/math'
+import { sum, mean, variance, std } from './util/stats'
 import { traverse, reduce } from './util/tree'
 
 // Plugins
@@ -73,7 +73,7 @@ export const util = {
   fullscreen: {
     launch, exit,
   },
-  math: {
+  stats: {
     sum, mean, variance, std
   },
   tree: {

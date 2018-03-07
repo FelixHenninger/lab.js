@@ -261,28 +261,28 @@ describe('Utilities', () => {
   describe('Statistics', () => {
     it('calculates the sum of an array', () => {
       assert.equal(
-        lab.util.math.sum([1, 2, 3]),
+        lab.util.stats.sum([1, 2, 3]),
         6
       )
     })
 
     it('calculates the mean of an array', () => {
       assert.equal(
-        lab.util.math.mean([1, 2, 3]),
+        lab.util.stats.mean([1, 2, 3]),
         2
       )
     })
 
     it('calculates the variance of an array', () => {
       assert.equal(
-        lab.util.math.variance([1, 2, 3]),
+        lab.util.stats.variance([1, 2, 3]),
         2/3
       )
     })
 
     it('calculates the standard deviation of an array', () => {
       assert.equal(
-        lab.util.math.std([1, 2, 3]),
+        lab.util.stats.std([1, 2, 3]),
         Math.sqrt(2/3)
       )
     })
