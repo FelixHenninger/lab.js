@@ -1,6 +1,5 @@
+import { toRadians } from './geometry'
 // Utilities -------------------------------------------------------------------
-
-export const toRadians = degrees => Math.PI * (degrees / 180)
 
 export const makeTransformationMatrix = (canvasSize, viewportSize, opt={}) => {
   const options = {

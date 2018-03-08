@@ -11,8 +11,8 @@ import { Store } from './data'
 // Utilities
 import { Random } from './util/random'
 import fromObject from './util/fromObject'
-import { toRadians, transform, makeRenderFunction } from './util/canvas'
-import { polygon, polygonVertex } from './util/geometry'
+import { transform, makeRenderFunction } from './util/canvas'
+import { toRadians, polygon, polygonVertex } from './util/geometry'
 import { launch, exit } from './util/fullscreen'
 import { sum, mean, variance, std } from './util/stats'
 import { traverse, reduce } from './util/tree'
@@ -68,6 +68,9 @@ export const util = {
   fromObject,
   canvas: {
     makeRenderFunction,
+    // TODO: This is in here for backward compatibility,
+    // it has since moved to the geometry package;
+    // remove in a later version (2018+)
     toRadians,
     transform,
   },
@@ -77,6 +80,7 @@ export const util = {
   geometry: {
     polygon,
     polygonVertex,
+    toRadians,
   },
   stats: {
     sum, mean, variance, std
