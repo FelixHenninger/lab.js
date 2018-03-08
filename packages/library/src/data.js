@@ -2,7 +2,7 @@ import FileSaver from 'file-saver'
 import 'whatwg-fetch'
 
 import { isObject, assign, difference,
-  flatten, intersection, uniq } from 'lodash'
+  flatten, intersection, uniq, pick, omit } from 'lodash'
 import { EventHandler } from './util/eventAPI'
 
 // Data saving --------------------------------------------
@@ -126,13 +126,14 @@ export class Store extends EventHandler {
   // Commit data to storage -------------------------------
   commit(key={}, value) {
     this.set(key, value, true)
-    this.data.push(this.staging)
+
+    //exclude parameters with the underscore sign in front
+    this.data.push ( omit(this.staging, Object.keys(this.staging).filter(e => e.startsWith('_'))) )
 
     // Make persistent data copy if desired
     if (this.storage) {
       this.storage.setItem('lab.js-data', JSON.stringify(this.data))
     }
-
     // TODO: The differentiation of set and commit
     // events is not entirely clean. In particular,
     // data can be changed from a call to the commit
@@ -215,6 +216,29 @@ export class Store extends EventHandler {
       )
       .map(
         e => e[column],
+      )
+  }
+
+  //select the columns that should be present in the data
+  //input is an array of strings, a string, or a filter function
+  select(selector){
+    let columns
+    if (typeof selector === 'function'){
+      const keys = this.keys()
+      columns = keys.filter(selector)
+    } else if (typeof selector === 'string') {
+      columns = [selector]
+    } else {
+      columns = selector
+    }
+
+    if (!Array.isArray(columns)) {
+      throw "The input parameter should be either an array of strings, a string, or a filter function."
+    }
+
+    return this.data
+      .map(
+        e => pick(e, columns)
       )
   }
 
