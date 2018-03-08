@@ -12,6 +12,7 @@ import { Store } from './data'
 import { Random } from './util/random'
 import fromObject from './util/fromObject'
 import { toRadians, transform, makeRenderFunction } from './util/canvas'
+import { polygon, polygonVertex } from './util/geometry'
 import { launch, exit } from './util/fullscreen'
 import { sum, mean, variance, std } from './util/stats'
 import { traverse, reduce } from './util/tree'
@@ -72,6 +73,10 @@ export const util = {
   },
   fullscreen: {
     launch, exit,
+  },
+  geometry: {
+    polygon,
+    polygonVertex,
   },
   stats: {
     sum, mean, variance, std
