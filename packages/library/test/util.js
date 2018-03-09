@@ -211,6 +211,67 @@ describe('Utilities', () => {
     })
   })
 
+  describe('Geometry', () => {
+    const tolerance = Math.pow(10, -5)
+
+    it('converts degrees to radians', () => {
+      assert.equal(
+        lab.util.geometry.toRadians(0),
+        0,
+      )
+
+      assert.equal(
+        lab.util.geometry.toRadians(180),
+        Math.PI,
+      )
+
+      // And so on ...
+    })
+
+    it('calculates individual vertices of a convex polygon', () => {
+      const vertex = lab.util.geometry.polygonVertex(4, 100, 0)
+
+      assert.closeTo(vertex[0], 0, tolerance)
+      assert.closeTo(vertex[1], 100, tolerance)
+    })
+
+    it('generates more than one vertex', () => {
+      const vertex = lab.util.geometry.polygonVertex(4, 100, 1)
+
+      assert.closeTo(vertex[0], 100, tolerance)
+      assert.closeTo(vertex[1], 0, tolerance)
+    })
+
+    it('shifts the polygon center', () => {
+      const vertex = lab.util.geometry.polygonVertex(4, 100, 2, [0, 100])
+
+      assert.closeTo(vertex[0], 0, tolerance)
+      assert.closeTo(vertex[1], 0, tolerance)
+    })
+
+    it('rotates the polygon if so instructed', () => {
+      const vertex = lab.util.geometry.polygonVertex(4, 100, 1, [0, 0], 90)
+
+      assert.closeTo(vertex[0], 0, tolerance)
+      assert.closeTo(vertex[1], -100, tolerance)
+    })
+
+    it('can generate the complete set of vertices for a polygon', () => {
+      const vertices = lab.util.geometry.polygon(8, 100)
+
+      assert.closeTo(vertices[0][0],   0, tolerance)
+      assert.closeTo(vertices[0][1], 100, tolerance)
+
+      assert.closeTo(vertices[1][0], 100*Math.sqrt(2)/2, tolerance)
+      assert.closeTo(vertices[1][1], 100*Math.sqrt(2)/2, tolerance)
+
+      assert.closeTo(vertices[2][0], 100, tolerance)
+      assert.closeTo(vertices[2][1],   0, tolerance)
+
+      // To be continued ...
+    })
+  })
+
   describe('Tree traversal', () => {
 
     let s, a, b, c, d
