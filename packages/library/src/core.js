@@ -5,7 +5,8 @@ import { EventHandler } from './util/eventAPI'
 import { DomConnection } from './util/domEvents'
 import { Random } from './util/random'
 import { parse, parsableOptions, parseRequested } from './util/options'
-import { ensureHighResTime, StackTimeout } from './util/timing'
+import { ensureHighResTime, StackTimeout,
+  requestIdleCallback } from './util/timing'
 import { preloadImage, preloadAudio } from './util/preload'
 
 // Define status codes
@@ -350,6 +351,11 @@ export class Component extends EventHandler {
     // TODO: This won't work when a component
     // in a sequence is cancelled.
     await this.triggerMethod('after:end')
+
+    // Queue housekeeping, but don't wait for it
+    requestIdleCallback(
+      () => this.triggerMethod('epilogue')
+    )
   }
 
   // Data collection --------------------------------------

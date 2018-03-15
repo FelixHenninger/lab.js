@@ -578,7 +578,10 @@ describe('Canvas-based components', () => {
 
       return s.run()
         .then(() => {
-          clock.next()
+          // This used to run clock.next(), but the epilogue event
+          // uses a timer as shim for requestIdleCallback, which
+          // so that resolving a single queued timer was not enough.
+          clock.runToLast()
           // After drawing the first screen ...
           // ... left area should be black
           assert.deepEqual(
@@ -604,7 +607,7 @@ describe('Canvas-based components', () => {
         })
         .then(() => b.run())
         .then(() => {
-          clock.next()
+          clock.runToLast()
           // After drawing the second screen ...
           // ... left area should be empty
           assert.deepEqual(

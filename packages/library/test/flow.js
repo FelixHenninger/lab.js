@@ -174,6 +174,24 @@ describe('Flow control', () => {
       // console.log(s.content.map(x => x._test_counter))
     })
 
+    it('runs next component before triggering epilogue', () => {
+      const a = new lab.core.Component()
+      const b = new lab.core.Component()
+      s.options.content = [a, b]
+
+      // Setup spys
+      const b_run = sinon.spy()
+      b.on('run', b_run)
+      const a_epilogue = sinon.spy()
+      a.on('epilogue', a_epilogue)
+
+      return s.run().then(
+        () => a.end()
+      ).then(() => {
+        assert.ok(b_run.calledBefore(a_epilogue))
+      })
+    })
+
     it('terminates current component when aborted', () => {
       // Setup sequence
       const a = new lab.core.Component()
