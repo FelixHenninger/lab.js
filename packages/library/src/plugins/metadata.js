@@ -15,6 +15,7 @@ const getMetadata = () => {
     scroll_height: document.body.scrollHeight,
     window_innerWidth: window.innerWidth,
     window_innerHeight: window.innerHeight,
+    devicePixelRatio: window.devicePixelRatio,
   }
 }
 
