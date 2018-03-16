@@ -50,6 +50,22 @@ Built-in plugins
 
   This plugin provides a debug overlay for any study, specifically a real-time view of the study state and the collected data. It is added in the builder preview to provide a means of checking the data.
 
+.. js:class:: plugins.Metadata()
+
+  Collects technical metadata regarding the user's browser and saves it in the ``meta`` column. The data is ``JSON``-encoded and contains the following keys:
+
+  * ``location``: ``URL`` under which the study was accessed
+  * ``userAgent``: Browser identification
+  * ``platform``: Operating system, if provided by the browser
+  * ``language``: Browser language preferences, e.g. ``en-US``
+  * ``locale``: Active browser locale, e.g. ``en-UK``
+  * ``timeZone``: User time zone, e.g. ``Europe/Berlin``
+  * ``timezoneOffset``: Offset from local time to ``UTC``, in minutes, e.g. ``-60``
+  * ``screen_width`` and ``screen_height``: Monitor resolution
+  * ``scroll_width`` and ``scroll_height``: Size of the window content (in pixels)
+  * ``window_innerWidth`` and ``window_innerHeight``: Size of the browser viewport, that is, the portion of the page that is visible
+  * ``devicePixelRatio``: Scaling factor that maps virtual onto physical pixels, for example on high-resolution screens or when the page zoom level is changed. This affects most of the screen measurements reported above, which are in virtual pixels. To convert to physical pixels, multiply the values by this scaling ratio.
+
 .. js:class:: plugins.Transmit([options])
 
   Transmits collected data over the course of the study. Whenever new data are :js:func:`committed <commit>`, all changed columns are :js:func:`transmit` to a ``url`` supplied in the options (required), along with any ``metadata``, which can be specified in the options as an object (optionally). At the :js:func:`end` of the component, the entire dataset is saved in the same way.
