@@ -1,6 +1,16 @@
 Data format
 ===========
 
+.. raw:: html
+
+  <style type="text/css">
+    li > code:first-child {
+      font-weight: bold;
+      /* Slightly darker red */
+      color: #c74032 !important;
+    }
+  </style>
+
 Most studies built with ``lab.js`` use a very similar data structure. We hope that, once you're familiar with the general setup, you'll find your way around all kinds of different studies easily. Among general features you'll encounter are the following:
 
 * **One line per component**: Every component in a study is represented in the data by a single line that contains all of the information pertaining to that component. This line is saved when the study moves beyond the component. Thus, data is written not only when a :js:class:`screen <canvas.Screen>`'s presentation is over, but also when a :js:class:`loop <flow.Loop>` or :js:class:`sequence <flow.Sequence>` come to their end.
