@@ -13,5 +13,6 @@ Keep this under your pillow!
    html.rst
    canvas.rst
    data.rst
+   data format.rst
    random.rst
    plugins.rst
