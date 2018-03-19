@@ -170,7 +170,7 @@
       },
       "title": "Fixation cross",
       "timeout": "500",
-      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"stroop-fixation stroop-large\">\n    +\n  </div>\n</main>\n\n<footer class=\"content-vertical-center content-horizontal-center\">\n  <p>\n    What's the <em>color</em> of \n    the word shown above? <br>\n    Please press <kbd>r</kbd> for red,\n    <kbd>g</kbd> for green,\n    <kbd>b</kbd> for blue and <kbd>o</kbd> for orange.\n  </p>\n</footer>\n"
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div style=\"font-size: 3.5rem\">\n    +\n  </div>\n</main>\n\n<footer class=\"content-vertical-center content-horizontal-center\">\n  <p>\n    What's the <em>color</em> of \n    the word shown above? <br>\n    Please press <kbd>r</kbd> for red,\n    <kbd>g</kbd> for green,\n    <kbd>b</kbd> for blue and <kbd>o</kbd> for orange.\n  </p>\n</footer>\n"
     },
     "6": {
       "messageHandlers": {
@@ -215,7 +215,7 @@
         ]
       },
       "title": "Stroop screen",
-      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"stroop-${ parameters.color } stroop-large\">\n    ${ parameters.word }\n  </div>\n</main>\n\n<footer class=\"content-vertical-center content-horizontal-center\">\n  <p>\n    What's the <em>color</em> of \n    the word shown above? <br>\n    Please press <kbd>r</kbd> for red,\n    <kbd>g</kbd> for green,\n    <kbd>b</kbd> for blue and <kbd>o</kbd> for orange.\n  </p>\n</footer>\n",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div style=\"\n    font-size: 3.5rem;\n    font-weight: bold;\n    color: ${ parameters.color };\n  \">\n    ${ parameters.word }\n  </div>\n</main>\n\n<footer class=\"content-vertical-center content-horizontal-center\">\n  <p>\n    What's the <em>color</em> of \n    the word shown above? <br>\n    Please press <kbd>r</kbd> for red,\n    <kbd>g</kbd> for green,\n    <kbd>b</kbd> for blue and <kbd>o</kbd> for orange.\n  </p>\n</footer>\n",
       "correctResponse": "${ parameters.color }"
     },
     "7": {
@@ -271,7 +271,7 @@
         ]
       },
       "title": "Instruction",
-      "content": "<header class=\"content-vertical-center content-horizontal-center\">\n  <h1>Stroop Task</h1>\n</header>\n<main>\n  <p>\n    Welcome to the <strong>Stroop experiment</strong>!\n  </p>\n  <p>\n    In this experiment, your task will be to \n    <strong>identify the color of the word shown \n    on the screen</strong>.<br>\n    The word itself is immaterial &mdash; \n    you can safely ignore it.\n  </p>\n  <p>\n    To indicate the color of the word, \n    please use the keys <strong>r</strong>, \n    <strong>g</strong>, <strong>b</strong> and \n    <strong>o</strong> for \n    <span class=\"stroop-red\">red</span>, \n    <span class=\"stroop-green\">green</span>, \n    <span class=\"stroop-blue\">blue</span> and \n    <span class=\"stroop-orange\">orange</span>, \n    respectively.<br>\n    Please answer quickly, and as \n    accurately as you can.\n  </p>\n</main>\n<footer class=\"content-vertical-center content-horizontal-center\">\n  Please press the space bar when you're ready.\n</footer>\n"
+      "content": "<header class=\"content-vertical-center content-horizontal-center\">\n  <h1>Stroop Task</h1>\n</header>\n<main>\n  <p>\n    Welcome to the <strong>Stroop experiment</strong>!\n  </p>\n  <p>\n    In this experiment, your task will be to \n    <strong>identify the color of the word shown \n    on the screen</strong>.<br>\n    The word itself is immaterial &mdash; \n    you can safely ignore it.\n  </p>\n  <p>\n    To indicate the color of the word, \n    please use the keys <strong>r</strong>, \n    <strong>g</strong>, <strong>b</strong> and \n    <strong>o</strong> for \n    <span style=\"color: red;\">red</span>, \n    <span style=\"color: green;\">green</span>, \n    <span style=\"color: blue;\">blue</span> and \n    <span style=\"color: orange;\">orange</span>, \n    respectively.<br>\n    Please answer quickly, and as \n    accurately as you can.\n  </p>\n</main>\n<footer class=\"content-vertical-center content-horizontal-center\">\n  Please press the space bar when you're ready.\n</footer>\n"
     },
     "9": {
       "messageHandlers": {
@@ -299,7 +299,6 @@
       },
       "title": "Thanks",
       "content": "<header class=\"content-vertical-center content-horizontal-center\">\n  <h1>Thank you!</h1>\n</header>\n<main>\n  <p>\n    You did a great job, thanks for taking the time!\n  </p>\n</main>\n<footer class=\"content-vertical-center content-horizontal-center\">\n  <p>\n    If you have any questions or comments about this \n    experiment,<br> please be invited to contact\n    <a href=\"http://felixhenninger.com\">\n    Felix Henninger</a>.\n  </p>\n</footer>\n",
-      "_tab": "Content",
       "timeout": "10"
     },
     "root": {
@@ -342,7 +341,7 @@
         "permanent": true
       },
       "style.css": {
-        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F%0A%0A.stroop-large%20%7B%0A%20%20%20%20font-size%3A%2036px%3B%0A%20%20%20%20font-weight%3A%20bold%3B%0A%7D%0A%0A.stroop-red%20%7B%0A%20%20%20%20color%3A%20red%3B%0A%7D%0A.stroop-blue%20%7B%0A%20%20%20%20color%3A%20blue%3B%0A%7D%0A.stroop-green%20%7B%0A%20%20%20%20color%3A%20green%3B%0A%7D%0A.stroop-orange%20%7B%0A%20%20%20%20color%3A%20orange%3B%0A%7D%0A.stroop-fixation%20%7B%0A%20%20%20%20color%3A%20gray%3B%0A%7D",
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F",
         "permanent": true
       }
     },
