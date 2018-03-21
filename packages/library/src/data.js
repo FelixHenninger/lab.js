@@ -2,7 +2,7 @@ import FileSaver from 'file-saver'
 import 'whatwg-fetch'
 
 import { isObject, assign, difference,
-  flatten, intersection, uniq, pick, omit } from 'lodash'
+  flatten, intersection, uniq, pick, omitBy } from 'lodash'
 import { EventHandler } from './util/eventAPI'
 
 // Data saving --------------------------------------------
@@ -127,9 +127,8 @@ export class Store extends EventHandler {
   commit(key={}, value) {
     this.set(key, value, true)
 
-    //exclude parameters with the underscore sign in front
-    this.data.push ( omit(this.staging, Object.keys(this.staging).filter(e => e.startsWith('_'))) )
-
+    // Exclude parameters with the underscore sign in front
+    this.data.push(omitBy(this.staging, (v,k) => k.startsWith('_')))
     // Make persistent data copy if desired
     if (this.storage) {
       this.storage.setItem('lab.js-data', JSON.stringify(this.data))
@@ -219,13 +218,12 @@ export class Store extends EventHandler {
       )
   }
 
-  //select the columns that should be present in the data
-  //input is an array of strings, a string, or a filter function
-  select(selector){
+  // Select the columns that should be present in the data
+  // Input is an array of strings, a string, or a filter function
+  select(selector) {
     let columns
-    if (typeof selector === 'function'){
-      const keys = this.keys()
-      columns = keys.filter(selector)
+    if (typeof selector === 'function') {
+      columns = this.keys().filter(selector)
     } else if (typeof selector === 'string') {
       columns = [selector]
     } else {
@@ -233,7 +231,10 @@ export class Store extends EventHandler {
     }
 
     if (!Array.isArray(columns)) {
-      throw "The input parameter should be either an array of strings, a string, or a filter function."
+      throw new Error(
+        'The input parameter should be either an array of strings, ' +
+        'a string, or a filter function.'
+      )
     }
 
     return this.data

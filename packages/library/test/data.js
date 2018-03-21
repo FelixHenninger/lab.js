@@ -162,6 +162,14 @@ describe('Data handling', () => {
             'two': 2
           }]
         )
+        assert.deepEqual(
+          ds.state,
+          {
+            'one': 1,
+            'two': 2,
+            '_parameter': 3
+          }
+        )
       })
     })
 
