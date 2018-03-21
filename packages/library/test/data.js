@@ -91,6 +91,32 @@ describe('Data handling', () => {
           ['foo', 'baz']
         )
       })
+
+      it('can select specified columns in data by a filtering function', () =>{
+        var filter_function = (e) => (e.startsWith('c'))
+        ds.commit({
+          'random': 1,
+          'column_1': 'a',
+          'column_2': 'b'
+        })
+        assert.deepEqual(
+          ds.select( filter_function ),
+          [{ column_1: 'a', column_2: 'b' }]
+        )
+      })
+
+      it('can select specified columns in data by an array of columns names', () =>{
+        ds.commit({
+          'random': 1,
+          'column_1': 'a',
+          'column_2': 'b'
+        })
+        assert.deepEqual(
+          ds.select( ['column_1', 'column_2'] ),
+          [{ column_1: 'a', column_2: 'b' }]
+        )
+      })
+
     })
 
     describe('Commit', () => {
@@ -120,6 +146,30 @@ describe('Data handling', () => {
         })
         ds.commit()
         assert.deepEqual(ds.staging, {})
+      })
+
+      it('remove underscored parameters before commiting', () => {
+        ds.set({
+          'one': 1,
+          'two': 2,
+          '_parameter': 3
+        })
+        ds.commit()
+        assert.deepEqual(
+          ds.data,
+          [{
+            'one': 1,
+            'two': 2
+          }]
+        )
+        assert.deepEqual(
+          ds.state,
+          {
+            'one': 1,
+            'two': 2,
+            '_parameter': 3
+          }
+        )
       })
     })
 
