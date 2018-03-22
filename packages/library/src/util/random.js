@@ -26,10 +26,14 @@ export class Random {
   }
 
   // Random integer within a specified range
-  // (specifically, the output for a ceiling
-  // n is an integer between 0 and n - 1 )
-  range(ceiling) {
-    return Math.floor(this.random() * ceiling)
+  // (for a single value, the return value will be between 0 and max - 1,
+  // for two input values, between min and max - 1)
+  range(a, b=undefined) {
+    // eslint-disable-next-line no-multi-spaces
+    const min   = b === undefined ? 0 : a
+    const range = b === undefined ? a : b - a
+
+    return min + Math.floor(this.random() * range)
   }
 
   // Draw a random element from an array

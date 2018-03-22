@@ -37,7 +37,7 @@ describe('Utilities', () => {
       )
     })
 
-    it('provides integers within a given range', () => {
+    it('provides integers up to a given maximum', () => {
       assert.deepEqual(
         [1, 2, 3, 4, 5, 6, 7].map(() => rng_alea.range(10)),
         [7, 8, 8, 4, 2, 2, 9]
@@ -50,6 +50,22 @@ describe('Utilities', () => {
 
       assert.ok(
         0 <=rng_random.range(10) && rng_random.range(10) < 10
+      )
+    })
+
+    it('provides integers in a given range', () => {
+      assert.deepEqual(
+        [1, 2, 3, 4, 5, 6, 7].map(() => rng_alea.range(10, 20)),
+        [7, 8, 8, 4, 2, 2, 9].map(x => x + 10) // shifted from above
+      )
+
+      assert.typeOf(
+        rng_random.range(10, 20),
+        'number'
+      )
+
+      assert.ok(
+        10 <=rng_random.range(10, 20) && rng_random.range(10, 20) < 20
       )
     })
 

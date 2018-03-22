@@ -26,9 +26,9 @@ In practice of course, you'll probably be randomly generating more useful inform
 
     :returns: A floating-point number in the range from ``0`` (inclusive) to ``1`` (exclusive).
 
-  .. js:function:: range(ceiling)
+  .. js:function:: range(a, [b])
 
-    :returns: An integer between ``0`` and ``ceiling - 1``
+    :returns: If only a single value is given, a random integer between ``0`` and ``ceiling - 1``; if two values are passed, an integer value between ``offset`` and ``ceiling - 1``.
 
   .. js:function:: choice(array)
 
