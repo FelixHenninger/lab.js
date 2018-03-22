@@ -56,11 +56,19 @@ updates and release notifications.
 
 ### Help improve `lab.js`!
 
-**We would love to have you as part of this project!** We warmly welcome ideas
-and suggestions, bug reports and code contributions — please also let us know if
-you'd like to join in but are unsure how, we'd be glad to help you find
-something that suits your interests and resources. The [**contributor's
-guide**](contributing.md) also provides further information.
+**We would love to have you as part of this project!** There are lots of
+different [**ways to contribute**](https://labjs.readthedocs.io/en/latest/meta/contribute/ways.html),
+and we recognize and very warmly welcome all kinds of involvement:
+
+* **Feedback, ideas and suggestions** are always appreciated. If we can make `lab.js` more useful, we'd love to!
+* We wholeheartedly invite fellow scientists and students to **share your studies**: Chances are that others are trying something very similar — by sharing yours, you'll be giving other researchers a head start. We'll happily help you polish your study if you'd like.
+* Of course, **code contributions** are hugely welcome! If you're missing something, we'd love to work with you to extend the project. If you're looking for an area to contribute, [let us know](#find-help), or [check out the issues](https://github.com/FelixHenninger/lab.js/issues) for some ideas — we'd love to support you and help you get started, regardless of your skill level: **We are all learners**.
+
+**Please also let us know if you'd like to join in but are unsure how**, we'd be
+thrilled to help you find something that suits your interests and resources.
+The [**contributor's guide**](contributing.md) provides further information
+about our process; we have some pointers regarding how to [build the project](https://labjs.readthedocs.io/en/latest/meta/contribute/build.html)
+in the documentation.
 
 ----
 
