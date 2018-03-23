@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { CardBody, CardTitle, CardSubtitle,
+import { CardBody, CardText, CardTitle, CardSubtitle,
   ListGroup, ListGroupItem } from 'reactstrap'
 
 import { fromObject } from '../../../../../logic/io/load'
@@ -17,11 +17,11 @@ const etAl = (acc='', c, i, arr) =>
     : acc + (i < arr.length - 1 ? ', ' : ' & ') + c
 
 const Task = ({ name, contributors, description, url, clickHandler }) =>
-  <ListGroupItem>
-    <div
-      className="d-flex w-100 justify-content-between"
-      onClick={ clickHandler }
-    >
+  <ListGroupItem
+    style={{ cursor: 'pointer' }}
+    onClick={ clickHandler }
+  >
+    <div className="d-flex w-100 justify-content-between">
       <strong>
         { name }
       </strong>
@@ -128,6 +128,12 @@ export default () =>
       <CardSubtitle className="text-muted mb-3">
         Pre-made, ready-to-run studies
       </CardSubtitle>
+      <CardText>
+        These examples are made by researchers like you! If you're building a study, we'd love to add it here &mdash; please <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html">let us know</a>!
+      </CardText>
+      <CardText>
+        Please click on any of the paradigms to open it; they're yours to try, reuse and extend.
+      </CardText>
     </CardBody>
     <TaskList />
     <CardBody>
