@@ -57,7 +57,7 @@ export default ({ id, data }) =>
                   className="form-check-input"
                 />
                 &thinsp;
-                Shuffle
+                Shuffle repetitions
               </Label>
             </FormGroup>
           </Col>
