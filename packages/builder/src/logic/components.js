@@ -50,6 +50,7 @@ export const metadata = {
       messageHandlers: {
         rows: [ [ { title: '', message: '', code: '' }, ], ],
       },
+      shuffle: true,
     }
   },
   'lab.flow.Sequence': {
