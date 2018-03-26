@@ -30,6 +30,7 @@ const CustomModal = ({ modalType, modalProps }, context) => {
   const SpecificModal = MODAL_COMPONENTS[modalType] || 'div'
   return (
     <Modal
+      appElement={ document.getElementById('root') }
       isOpen={ modalType !== null }
       className={ classnames({
         'modal-dialog': true,
@@ -57,17 +58,6 @@ const CustomModal = ({ modalType, modalProps }, context) => {
       />
     </Modal>
   )
-}
-
-// Wait for the component to mount so that the document
-// is in place when the main app element is selected
-// (this is probably unnecessary in production, but the
-// jsDom-based tests fail to render if this is called early)
-CustomModal.componentWillMount = () => {
-  // Indicate main app element
-  // (so that it can be marked inactive for screen readers
-  // as long as the modal is open)
-  Modal.setAppElement('#root')
 }
 
 // Redux integration
