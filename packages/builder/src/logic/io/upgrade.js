@@ -185,6 +185,15 @@ const updates = {
 
     return data
   },
+  '2017.1.6': data => ({
+    ...data,
+    version: [2017, 1, 7],
+    // Add parameters option to every component
+    components: mapValues(data.components, c => ({
+      ...c,
+      parameters: { rows: [ [ { name: '', value: '', type: 'string' }, ], ], },
+    })),
+  }),
 }
 
 export default (data) => {
