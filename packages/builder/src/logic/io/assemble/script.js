@@ -26,6 +26,14 @@ const processMessageHandlers = (messageHandlers) =>
       .map(h => [h.message, new Function(h.code)])
   )
 
+const processParameters = parameters =>
+  fromPairs(
+    parameters.rows
+      .map(r => r[0])
+      .filter(r => r.name.trim() !== '' && r.value.trim() !== '')
+      .map(r => [r.name, makeType(r.value, r.type)])
+  )
+
 const createResponsePair = r =>
   // Process an object with the structure
   // { label: 'label', event: 'keypress', ...}
@@ -78,6 +86,9 @@ const processNode = node => {
     messageHandlers: node.messageHandlers
       ? processMessageHandlers(node.messageHandlers)
       : node.messageHandlers,
+    parameters: node.parameters
+      ? processParameters(node.parameters)
+      : {},
     responses: node.responses
       ? processResponses(node.responses)
       : {},
