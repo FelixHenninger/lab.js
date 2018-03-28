@@ -1,17 +1,17 @@
 import React from 'react'
 
-import { Control } from 'react-redux-form'
 import { Col, FormGroup, Label } from 'reactstrap'
+import { Control } from 'react-redux-form'
 
-import Form from '../Form'
-import Card from '../../../Card'
+import Form from '../../Form'
+import Card from '../../../../Card'
 
 export default ({ id, data }) =>
   <Card title="Content">
     <Form
       id={ id }
       data={ data }
-      keys={ ['shuffle'] }
+      keys={ ['shuffle', 'localParameters'] }
     >
       <FormGroup row>
         <Col xs={2}>

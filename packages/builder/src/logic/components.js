@@ -5,6 +5,9 @@ export const defaultState = {
     title: 'root',
     type: 'lab.flow.Sequence',
     children: [],
+    parameters: {
+      rows: [ [ { name: '', value: '', type: 'string' }, ], ],
+    },
     plugins: [
       {
         type: 'lab.plugins.Metadata',
@@ -24,6 +27,7 @@ const defaultTabs = [
   'Responses',
   'Scripts',
   'Notes',
+  'Parameters',
   'More',
 ]
 
@@ -40,6 +44,9 @@ export const metadata = {
     defaults: {
       type: 'lab.flow.Loop',
       children: [],
+      parameters: {
+        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
+      },
       templateParameters: {
         columns: [{ name: '', type: 'string' }, { name: '', type: 'string' }],
         rows: [ ['', ''] ],
@@ -65,6 +72,9 @@ export const metadata = {
     defaults: {
       type: 'lab.flow.Sequence',
       children: [],
+      parameters: {
+        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
+      },
       responses: {
         rows: [ ['', '', '', ''] ],
       },
@@ -86,6 +96,9 @@ export const metadata = {
     defaultTab: 'Content',
     defaults: {
       type: 'lab.html.Form',
+      parameters: {
+        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
+      },
       responses: {
         rows: [ ['', '', '', ''] ],
       },
@@ -107,6 +120,9 @@ export const metadata = {
     defaultTab: 'Content',
     defaults: {
       type: 'lab.html.Screen',
+      parameters: {
+        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
+      },
       responses: {
         rows: [ ['', '', '', ''] ],
       },
@@ -129,6 +145,9 @@ export const metadata = {
     defaults: {
       type: 'lab.canvas.Screen',
       content: [],
+      parameters: {
+        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
+      },
       responses: {
         rows: [ ['', '', '', ''] ],
       },

@@ -9,6 +9,7 @@ import Fallback from './components/Fallback'
 import Notes from './components/Notes'
 import Responses from './components/Responses'
 import Scripts from './components/Scripts'
+import Parameters from './components/Parameters'
 import Advanced from './components/Advanced'
 
 // Content-specific tabs
@@ -42,6 +43,8 @@ const selectTab = (type, tab) => {
       return Responses
     case 'Scripts':
       return Scripts
+    case 'Parameters':
+      return Parameters
     case 'More':
       return Advanced
     default:

@@ -21,7 +21,7 @@ export const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
     debounce={ 300 }
   />
 
-const CellTypeSelector = ({ type, setType, delete: deleteHandler }) =>
+export const CellTypeSelector = ({ type, setType, actions }) =>
   <Dropdown type="input-group-button" addonType="append">
     <DropdownToggle caret outline color="secondary">
       <Icon
@@ -58,19 +58,23 @@ const CellTypeSelector = ({ type, setType, delete: deleteHandler }) =>
       >
         Boolean <span className="text-muted">(binary)</span>
       </DropdownItem>
-      <DropdownItem divider />
-      <DropdownItem header>
-        Actions
-      </DropdownItem>
-      <DropdownItem
-        onClick={ () => {
-          if (window.confirm('Are you sure you want to delete this column?')) {
-            deleteHandler()
-          }
-        } }
-      >
-        Delete
-      </DropdownItem>
+      {
+        actions
+          ? <div>
+              <DropdownItem divider />
+              <DropdownItem header>
+                Actions
+              </DropdownItem>
+              {
+                Object.entries(actions).map(([k, v], i) =>
+                  <DropdownItem onClick={ v } key={ i }>
+                    { k }
+                  </DropdownItem>
+                )
+              }
+            </div>
+          : <div></div>
+      }
     </DropdownMenu>
   </Dropdown>
 
@@ -96,7 +100,13 @@ export const HeaderCell = ({ columnData, index, deleteColumn }, { formDispatch }
           )
         )
       }
-      delete={ deleteColumn }
+      actions={{
+        'Delete': () => {
+          if (window.confirm('Are you sure you want to delete this column?')) {
+            deleteColumn(index)
+          }
+        }
+      }}
     />
   </InputGroup>
 
