@@ -30,6 +30,7 @@ export const CellTypeSelector = ({ type, setType, actions }) =>
           number: 'tachometer',
           boolean: 'adjust'
         }[type]}
+        className="fa-fw"
       />
     </DropdownToggle>
     <DropdownMenu right>
