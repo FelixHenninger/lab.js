@@ -112,7 +112,7 @@ NodeTail.contextTypes = {
 
 const Node = ({ id, parentId, index, data, active, renderBody,
   isDragging, connectDragSource }) => {
-  const { type, _collapsed: collapsed } = data
+  const { type, _collapsed: collapsed, _template: template } = data
   const { minChildren, maxChildren } = metadata[type]
 
   const children = data.children || []
@@ -147,7 +147,7 @@ const Node = ({ id, parentId, index, data, active, renderBody,
           null
       }
       {
-        collapsed
+        collapsed || template
           ? null
           : <NodeTail
               id={ id }

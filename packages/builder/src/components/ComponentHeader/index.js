@@ -19,7 +19,7 @@ const tabIcons = {
   'More': 'ellipsis-h',
 }
 
-const HeaderForm = ({ title, typeCategory, typeName,
+const HeaderForm = ({ title, typeCategory, typeName, template,
   icon, iconWeight, iconFallbackWeight, onChange }) =>
   <LocalForm
     initialState={{ title }}
@@ -52,8 +52,14 @@ const HeaderForm = ({ title, typeCategory, typeName,
             />
           </span>
           <UncontrolledTooltip placement="right" target="typeIcon">
-            { typeName }
-            <span className="text-muted"> · { typeCategory }</span>
+            {
+              template
+              ? 'Template'
+              : <span>
+                  { typeName }
+                  <span className="text-muted"> · { typeCategory }</span>
+                </span>
+            }
           </UncontrolledTooltip>
         </InputGroupAddon>
       </InputGroup>
@@ -89,22 +95,26 @@ const HeaderNav = ({ tabs, tab, onChange }) =>
     )
   } </Nav>
 
-const Header = ({ id, type, title, tab }, { store }) => {
+const Header = ({ id, type, title, tab, template }, { store }) => {
   // Only show content if a valid id is provided
   if (id) {
+    const visibleTabs = metadata[type].tabs
+      .filter(t => !template || t === tab || ['Parameters', 'More'].includes(t))
+
     return <div className="d-flex justify-content-between">
       <HeaderForm
         id={ id }
         title={ title }
         typeName={ metadata[type].name }
         typeCategory={ metadata[type].category }
-        icon={ metadata[type].icon }
+        template={ template }
+        icon={ template ? 'expand' : metadata[type].icon }
         iconWeight={ metadata[type].iconWeight }
         iconFallbackWeight={ metadata[type].iconFallbackWeight }
         onChange={ data => store.dispatch(updateComponent(id, data)) }
       />
       <HeaderNav
-        tabs={ metadata[type].tabs }
+        tabs={ visibleTabs }
         tab={ tab }
         onChange={ _tab => store.dispatch(updateComponent(id, { _tab })) }
       />
@@ -124,10 +134,11 @@ export default connect(
 
     // Check whether the corresponding component exists
     if (state.components[id]) {
-      const { type, title, _tab: tab } = state.components[id]
+      const { type, title, _tab: tab, _template: template } =
+        state.components[id]
       return {
         key: id, id,
-        type, title,
+        type, title, template,
         tab: defaultTab(tab, type),
       }
     } else {

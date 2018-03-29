@@ -11,7 +11,7 @@ export default ({ id, data }) =>
     <Form
       id={ id }
       data={ data }
-      keys={ ['tardy', 'skip', 'scrollTop'] }
+      keys={ ['tardy', 'skip', 'scrollTop', '_template'] }
       getDispatch={ dispatch => this.formDispatch = dispatch }
     >
       <FormGroup row>
@@ -108,5 +108,41 @@ export default ({ id, data }) =>
           </FormGroup>
         </Col>
       </FormGroup>
+      <FormGroup row>
+        <Col xs={2}>
+          <Label>
+            Display
+          </Label>
+        </Col>
+        <Col xs={10}>
+          <FormGroup check>
+            <Label check>
+              <Control.checkbox
+                model="._template"
+                className="form-check-input"
+              />
+              &thinsp;
+              Template
+            </Label>
+            <Hint
+              title="Template"
+              style={{
+                marginLeft: '1rem',
+              }}
+            >
+              <p className="font-weight-bold">
+                Reduce visible settings so that only parameters can be changed.
+              </p>
+              <p className="text-muted">
+                Making a component a template simplifies complex components and bundle different components into one. This creates reusable components that are defined only by their parameters.
+              </p>
+              <p className="text-muted">
+                Making a component a template prevents direct modification of all component details, and hides nested components.
+              </p>
+            </Hint>
+          </FormGroup>
+        </Col>
+      </FormGroup>
+
     </Form>
   </Card>

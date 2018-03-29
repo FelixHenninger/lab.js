@@ -15,6 +15,7 @@ export const iconSet = `${ process.env.REACT_APP_FA }`
 const replacements = {
   'arrows-v': 'arrows-alt-v',
   'arrows-h': 'arrows-alt-h',
+  'expand': 'square',
   'long-arrow-down': 'long-arrow-alt-down',
   'long-arrow-right': 'long-arrow-alt-right',
   'repeat': 'redo',
