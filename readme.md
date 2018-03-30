@@ -19,6 +19,7 @@
 [![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=latest)](http://labjs.readthedocs.io/en/latest/?badge=latest)
 [![Version on NPM](https://img.shields.io/npm/v/lab.js.svg)](https://www.npmjs.com/package/lab.js)
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.597045.svg)](https://doi.org/10.5281/zenodo.597045)
+![Made with all the love](https://img.shields.io/badge/made_with-❤️💛💚💙💜💖-e6e6e6.svg)
 
 <div align="center">
   <img src="docs/media/promo/builder_teaser.png">
@@ -61,6 +62,7 @@ different [**ways to contribute**](https://labjs.readthedocs.io/en/latest/meta/c
 and we recognize and very warmly welcome all kinds of involvement:
 
 * **Feedback, ideas and suggestions** are always appreciated. If we can make `lab.js` more useful, we'd love to!
+* If you've found something that didn't work, felt harder than it should, or figured out a trick, it's likely that others will benefit from your experience. Please [**file an issue**](https://github.com/FelixHenninger/lab.js/issues/new) that describes what's going on, or **contribute a brief recipe** to the documentation.
 * We wholeheartedly invite fellow scientists and students to **share your studies**: Chances are that others are trying something very similar — by sharing yours, you'll be giving other researchers a head start. We'll happily help you polish your study if you'd like.
 * Of course, **code contributions** are hugely welcome! If you're missing something, we'd love to work with you to extend the project. If you're looking for an area to contribute, [let us know](#find-help), or [check out the issues](https://github.com/FelixHenninger/lab.js/issues) for some ideas — we'd love to support you and help you get started, regardless of your skill level: **We are all learners**.
 
