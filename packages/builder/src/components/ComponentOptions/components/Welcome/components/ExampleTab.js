@@ -132,7 +132,7 @@ export default () =>
         These examples are made by researchers like you! If you're building a study, we'd love to add it here &mdash; please <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html">let us know</a>!
       </CardText>
       <CardText>
-        Please click on any of the paradigms to open it; they're yours to try, reuse and extend.
+        Please click on any of the paradigms to open it; they're yours to try, demonstrate, replicate and extend.
       </CardText>
     </CardBody>
     <TaskList />
