@@ -134,7 +134,7 @@ export default ({ id, data }) =>
                 Reduce visible settings so that only parameters can be changed.
               </p>
               <p className="text-muted">
-                Making a component a template simplifies complex components and bundle different components into one. This creates reusable components that are defined only by their parameters.
+                Making a component a template simplifies complex components and bundle nested hierarchies into a single module. This creates reusable components that are defined only by their parameters.
               </p>
               <p className="text-muted">
                 Making a component a template prevents direct modification of all component details, and hides nested components.
