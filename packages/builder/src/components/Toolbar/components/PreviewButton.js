@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Button } from 'reactstrap'
 
 import Icon from '../../Icon'
+import { SystemContext } from '../../System'
 
 import { populateCache } from '../../../logic/io/preview'
 import { addDebugPlugin } from '../../../logic/io/export/modifiers/preview'
@@ -44,16 +45,23 @@ export default class PreviewButton extends Component {
 
   render() {
     const { windowState } = this.state
-    return <Button
-      color="primary"
-      onClick={ () => this.clickHandler() }
-      disabled={ !('serviceWorker' in navigator) }
-    >
-      <Icon
-        icon={ windowState === 'closed' ? 'play' : 'sync-alt' }
-        weight="s"
-      />
-    </Button>
+    return (
+      <SystemContext.Consumer>
+        {
+          ({ previewActive }) =>
+            <Button
+              color="primary"
+              onClick={ () => this.clickHandler() }
+              disabled={ !previewActive }
+            >
+              <Icon
+                icon={ windowState === 'closed' ? 'play' : 'sync-alt' }
+                weight="s"
+              />
+            </Button>
+        }
+      </SystemContext.Consumer>
+    )
   }
 }
 

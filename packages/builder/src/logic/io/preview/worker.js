@@ -24,8 +24,10 @@ export default (store) => {
 
         // Prepopulate cache with library files
         prePopulateCache()
+
+        return Promise.resolve()
       })
   } else {
-    return Promise.reject()
+    return Promise.reject(new Error('Service workers not available'))
   }
 }

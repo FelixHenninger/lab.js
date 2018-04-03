@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 // React-redux integration
-import { Provider } from 'react-redux'
+import { Provider as ReduxProvider } from 'react-redux'
 import store from './store'
 
 // React-dnd integration
@@ -39,12 +39,14 @@ persistState(store)
 /* eslint-disable import/first */
 import installPreviewWorker from './logic/io/preview/worker'
 import registerServiceWorker from './registerServiceWorker'
+
+import { SystemContextProvider } from './components/System'
 /* eslint-enable import/first */
 
 // Enable preview service worker
 installPreviewWorker(store)
   .catch(e => {
-    console.log('Error during service worker registration:', e)
+    console.log('Error during preview worker registration:', e)
     Raven.captureException(e)
     return e
   }).then(r => {
@@ -53,9 +55,15 @@ installPreviewWorker(store)
 
     // Render wrapped app
     ReactDOM.render(
-      <Provider store={ store }>
-        <WrappedApp />
-      </Provider>,
+      <SystemContextProvider
+        value={{
+          previewActive: !(r instanceof Error)
+        }}
+      >
+        <ReduxProvider store={ store }>
+          <WrappedApp />
+        </ReduxProvider>
+      </SystemContextProvider>,
       document.getElementById('root')
     )
 
