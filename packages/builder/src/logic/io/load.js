@@ -1,11 +1,7 @@
-import { omit } from 'lodash'
 import upgrade from './upgrade'
 
 export const fromObject = o =>
-  omit(
-    upgrade(o),
-    ['version']
-  )
+  upgrade(o)
 
 export const fromJSON = input =>
   fromObject(

@@ -6,7 +6,7 @@ import { nestedChildren } from '../tree'
 import { makeFilename } from './filename';
 
 export const stateToJSON = (state, exportedComponent='root') => {
-  const { components: allComponents, files } = state
+  const { version, components: allComponents, files } = state
 
   // From all available components,
   // include only the root, and those
@@ -29,7 +29,7 @@ export const stateToJSON = (state, exportedComponent='root') => {
     : [ exportedComponent ]
 
   return JSON.stringify({
-    version: [2017, 1, 7],
+    version,
     components,
     files,
   }, null, 2)

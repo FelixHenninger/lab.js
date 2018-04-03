@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import version from './version'
 import components from './components'
 import componentDetail from '../components/ComponentOptions/reducers'
 import files from './files'
@@ -19,6 +20,7 @@ const makeHydratable = (reducer, hydrateActionType) => {
 }
 
 export default makeHydratable(combineReducers({
+  version,
   components,
   componentDetail,
   files,
