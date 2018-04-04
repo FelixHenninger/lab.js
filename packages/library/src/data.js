@@ -151,6 +151,11 @@ export class Store extends EventHandler {
     this.staging = {}
   }
 
+  // Update saved data ------------------------------------
+  update(index, handler=d => d) {
+    this.data[index] = handler(this.data[index])
+  }
+
   // Erase collected data ---------------------------------
   clear(persistence=true, state=false) {
     this.triggerMethod('clear')

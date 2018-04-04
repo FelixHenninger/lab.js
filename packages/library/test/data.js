@@ -171,6 +171,21 @@ describe('Data handling', () => {
           }
         )
       })
+
+      it('can update previously committed data', () => {
+        ds.commit({
+          foo: 'bar',
+        })
+        ds.update(0, d => {
+          d.foo = 'baz'
+          return d
+        })
+
+        assert.deepEqual(
+          ds.data,
+          [{ foo: 'baz' }]
+        )
+      })
     })
 
     describe('Metadata', () => {
