@@ -25,7 +25,7 @@ export default class Transmit {
           // Set commit handler on data store
           // (inside the handler, this refers to the store)
           const callback = this.callbacks.staging
-          context.options.datastore.on('commit', function() {
+          context.options.datastore.on('idle', function() {
             this.transmit(url, metadata, 'staging', { headers: this.headers })
               .then(callback)
           })

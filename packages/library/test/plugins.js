@@ -83,10 +83,12 @@ describe('Plugins', () => {
       c.options.datastore.transmit.restore()
     })
 
-    it('sends state when data is committed', () => {
+    it('sends state on epilogue event', () => {
       return c.prepare().then(() => {
-        c.options.datastore.commit({ a: 1 })
-
+        const promise = c.waitFor('epilogue')
+        c.end()
+        return promise
+      }).then(() => {
         assert.ok(
           c.options.datastore.transmit.withArgs(
             'https://arbitrary.example',
@@ -98,10 +100,15 @@ describe('Plugins', () => {
     })
 
     it('sends complete dataset when component ends', () => {
+      // Disable staging transmissions
+      // TODO: I'm not sure I like this,
+      // should probably rethink the API here.
+      p.updates.staging = false
+
       return c.run().then(() => {
         // Data transmission runs last,
         // so we need to wait for the corresponding event
-        const promise = c.waitFor('after:end')
+        const promise = c.waitFor('epilogue')
         c.end()
         return promise
       }).then(() => {

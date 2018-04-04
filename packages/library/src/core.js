@@ -354,7 +354,12 @@ export class Component extends EventHandler {
 
     // Queue housekeeping, but don't wait for it
     requestIdleCallback(
-      () => this.triggerMethod('epilogue')
+      () => {
+        this.triggerMethod('epilogue')
+        if (this.options.datastore) {
+          this.options.datastore.triggerMethod('idle')
+        }
+      }
     )
   }
 
