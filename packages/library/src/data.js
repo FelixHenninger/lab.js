@@ -128,7 +128,11 @@ export class Store extends EventHandler {
     this.set(key, value, true)
 
     // Exclude parameters with the underscore sign in front
-    this.data.push(omitBy(this.staging, (v,k) => k.startsWith('_')))
+    // (also remember the index of the new entry)
+    const logIndex = this.data.push(
+      omitBy(this.staging, (v, k) => k.startsWith('_'))
+    ) - 1
+
     // Make persistent data copy if desired
     if (this.storage) {
       this.storage.setItem('lab.js-data', JSON.stringify(this.data))
@@ -149,6 +153,8 @@ export class Store extends EventHandler {
     this.triggerMethod('commit')
 
     this.staging = {}
+
+    return logIndex
   }
 
   // Update saved data ------------------------------------

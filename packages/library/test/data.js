@@ -186,6 +186,18 @@ describe('Data handling', () => {
           [{ foo: 'baz' }]
         )
       })
+
+      it('returns data index when committing', () => {
+        assert.equal(
+          ds.commit({}),
+          0
+        )
+
+        assert.equal(
+          ds.commit({}),
+          1
+        )
+      })
     })
 
     describe('Metadata', () => {
