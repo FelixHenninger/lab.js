@@ -148,13 +148,12 @@ describe('Data handling', () => {
         assert.deepEqual(ds.staging, {})
       })
 
-      it('remove underscored parameters before commiting', () => {
-        ds.set({
+      it('removes underscored parameters before commiting', () => {
+        ds.commit({
           'one': 1,
           'two': 2,
           '_parameter': 3
         })
-        ds.commit()
         assert.deepEqual(
           ds.data,
           [{
@@ -533,12 +532,13 @@ describe('Data handling', () => {
           'three': 3
         })
 
-        const spy = sinon.spy(console, 'table')
+        const stub = sinon.stub(console, 'table')
 
         // Trigger data output
         ds.show()
 
-        assert.ok(spy.withArgs(ds.data, ds.keys()).calledOnce)
+        assert.ok(stub.withArgs(ds.data, ds.keys()).calledOnce)
+        stub.restore()
       })
     })
 
