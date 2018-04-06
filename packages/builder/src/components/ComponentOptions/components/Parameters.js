@@ -72,7 +72,9 @@ export default ({ id, data }) =>
         defaultRow={ [ { name: '', value: '', type: 'string' } ] }
         BodyContent={ BodyCell }
         columns={ ['Parameters'] }
-        data={ data.parameters.rows }
+        // TODO: Revise once nullish coalescing
+        // is available: grid should handle undefined data
+        data={ data.parameters ? data.parameters.rows : [] }
         formDispatch={ action => this.formDispatch(action) }
       />
     </Form>
