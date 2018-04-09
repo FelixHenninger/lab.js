@@ -26,7 +26,7 @@ export default class Transmit {
           // (inside the handler, this refers to the store)
           const callback = this.callbacks.staging
           context.options.datastore.on('idle', function() {
-            this.transmit(url, metadata, 'staging', { headers: this.headers })
+            this.transmit(url, metadata, 'latest', { headers: this.headers })
               .then(callback)
           })
         }

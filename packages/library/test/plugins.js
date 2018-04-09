@@ -94,7 +94,7 @@ describe('Plugins', () => {
           c.options.datastore.transmit.withArgs(
             'https://arbitrary.example',
             { id: p.metadata.id },
-            'staging',
+            'latest',
           ).calledOnce
         )
       })

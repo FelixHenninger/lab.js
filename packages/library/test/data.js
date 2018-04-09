@@ -543,14 +543,10 @@ describe('Data handling', () => {
     })
 
     describe('Data transmission', () => {
-      it('transmits data per post request', () => {
-        // This test ist done as suggested by R.J. Zaworski (MIT licenced)
+      beforeEach(() => {
+        // Simulate a response as suggested by R.J. Zaworski (MIT licenced)
         // http://rjzaworski.com/2015/06/testing-api-requests-from-window-fetch
 
-        // Stub window.fetch
-        const fake_fetch = sinon.stub(window, 'fetch')
-
-        // Simulate a response
         const res = new window.Response('', {
           status: 200,
           headers: {
@@ -558,22 +554,38 @@ describe('Data handling', () => {
           }
         })
 
-        // Make the stub call return the response
-        window.fetch.returns(
-          Promise.resolve(res)
-        )
+        // Stub window.fetch to return the response,
+        // wrapped in a promise
+        sinon.stub(window, 'fetch')
+          .returns(Promise.resolve(res))
 
+        // Commit data to data store as well as staging area
+        ds.commit({ 'one': 1, 'two': 2 })
+        ds.commit({ 'three': 3, 'four': 4 })
+        ds.set('five', 5)
+      })
+
+      afterEach(() => {
+        window.fetch.restore()
+      })
+
+      // Extract data from stringified payload
+      const extractData = (fetchArgs) =>
+        JSON.parse(fetchArgs[1]['body'])['data']
+
+      it('transmits data per post request', () => {
         // Make a mock request and ensure that it works
         // (i.e. that a promise is returned, and that the
         // response passed with it is ok)
-        const output = ds
-          .transmit('https://random.example')
+        return ds.transmit('https://random.example')
           .then((response) => {
+            assert.ok(window.fetch.calledOnce)
+
             // Check that response was received
             assert.ok(response.ok)
 
             // Make sure fetch has been called with the correct options
-            assert.ok(fake_fetch.withArgs(
+            assert.ok(window.fetch.withArgs(
               'https://random.example', {
               method: 'post',
               headers: {
@@ -592,11 +604,28 @@ describe('Data handling', () => {
             // TODO: There must be a better way than just checking
             // whether the arguments were passed correctly, no?
           })
+      })
 
-        // Restore window.fetch
-        window.fetch.restore()
+      it('transmits staging data if requested', () => {
+        return ds.transmit('https://random.example', {}, 'staging')
+          .then(() => {
+            // Make sure the staging data is transmitted
+            assert.deepEqual(
+              extractData(window.fetch.firstCall.args),
+              { 'five': 5 }
+            )
+          })
+      })
 
-        return output
+      it('transmits latest entry if requested', () => {
+        return ds.transmit('https://random.example', {}, 'latest')
+          .then(() => {
+            // Make sure the staging data is transmitted
+            assert.deepEqual(
+              extractData(window.fetch.firstCall.args),
+              { 'three': 3, 'four': 4 }
+            )
+          })
       })
     })
   })

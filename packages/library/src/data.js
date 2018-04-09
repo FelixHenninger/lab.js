@@ -326,6 +326,19 @@ export class Store extends EventHandler {
     // craziest JS foo I've seen, but it works!
     this.triggerMethod('transmit')
 
+    // Select the data that will be sent
+    let data
+    switch(payload) {
+      case 'staging':
+        data = this.staging
+        break
+      case 'latest':
+        data = this.data[this.data.length - 1]
+        break
+      default:
+        data = this.data
+    }
+
     return fetch(url, {
       method: 'post',
       headers: {
@@ -339,7 +352,7 @@ export class Store extends EventHandler {
           ...metadata,
         },
         url: window.location.href,
-        data: payload === 'staging' ? this.staging : this.data,
+        data: data,
       }),
       credentials: 'include',
     })
