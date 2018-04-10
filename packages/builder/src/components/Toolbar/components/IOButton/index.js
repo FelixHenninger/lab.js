@@ -41,7 +41,7 @@ const IOButton = (_, context) => {
       </DropdownItem>
       <Uploader
         accept='application/json'
-        maxSize={ 1024 ** 2 }
+        maxSize={ 20 * 1024 ** 2 } // 20 MiB
         onUpload={
           // TODO: This smells like it should
           //   be extracted and abstracted

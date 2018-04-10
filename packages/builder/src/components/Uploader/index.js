@@ -12,9 +12,16 @@ class Uploader extends Component {
   }
 
   checkFile(file) {
+    if (file.size > this.props.maxSize) {
+      alert(
+        'This file is to large to be opened. ' +
+        'Please contact support for assistance!'
+      )
+    }
+
     return (
-      file.size <= (this.props.maxSize || 100 * 1024**2) &&
-      file.size >= (this.props.minSize || 0)
+      file.size <= this.props.maxSize &&
+      file.size >= this.props.minSize
     )
   }
 
@@ -58,6 +65,11 @@ class Uploader extends Component {
       />
     </div>
   }
+}
+
+Uploader.defaultProps = {
+  minSize: 0,
+  maxSize: 100 * 1024 ** 2,
 }
 
 export default Uploader
