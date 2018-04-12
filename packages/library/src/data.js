@@ -8,6 +8,9 @@ import { EventHandler } from './util/eventAPI'
 // Data saving --------------------------------------------
 
 const defaultMetadata = [
+  // TODO: Standardize the id column and document
+  // a preferred name for it
+  'id', 'participant', 'participant_id',
   'sender', 'sender_type', 'sender_id',
   'timestamp', 'meta',
 ]
