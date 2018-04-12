@@ -16,18 +16,45 @@ export default class Download {
     this.el = null
     this.filePrefix = filePrefix || 'study'
     this.fileType = fileType || 'csv'
+    this.idColumns = ['id', 'participant', 'participant_id']
   }
 
-  get filename() {
+  // TODO: An alternative implementation might save the context
+  // at preparation time, and make the filename and identifier
+  // dynamic properties instead of methods.
+  makeFilename(context) {
     const d = new Date()
 
+    const id = this.extractIdentifier(context)
     const date =
       `${ d.getFullYear() }-` +
       `${ twoDigit((d.getMonth() + 1).toString()) }-` +
       `${ twoDigit(d.getDate().toString()) }--` +
       `${ d.toTimeString().split(' ')[0] }`
 
-    return `${ this.filePrefix }-${ date }.${ this.fileType }`
+    return `${ this.filePrefix }--` +
+      `${ id ? (id + '--') : '' }` +
+      `${ date }.${ this.fileType }`
+  }
+
+  extractIdentifier(context) {
+    if (context.options.datastore) {
+      const ds = context.options.datastore
+
+      // Check whether any of the columns is present in the data --
+      // if so, return its value
+      for (const c of this.idColumns) {
+        if (Object.keys(ds.state).includes(c)) {
+          return ds.state[c]
+        }
+      }
+
+      // If no value was found, return undefined
+      return undefined
+    } else {
+      // If not datastore is present, also return undefined
+      return undefined
+    }
   }
 
   handle(context, event) {
@@ -46,7 +73,9 @@ export default class Download {
       this.el.addEventListener(
         'click',
         () => {
-          context.options.datastore.download(this.fileType, this.filename)
+          context.options.datastore.download(
+            this.fileType, this.makeFilename(context)
+          )
           window.removeEventListener('beforeunload', unloadHandler)
         },
       )
