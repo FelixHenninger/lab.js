@@ -87,6 +87,7 @@ in the documentation.
 
 #### Ideas, feedback and examples
 
+[Emily Elliott](https://lsu.edu/hss/psychology/faculty/cognitive/elliott.php) ·
 [Jeffrey Fisher](https://github.com/jeffslofish) ·
 [Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/) ·
 [Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
