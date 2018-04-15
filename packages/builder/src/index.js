@@ -47,7 +47,13 @@ import { SystemContextProvider } from './components/System'
 installPreviewWorker(store)
   .catch(e => {
     console.log('Error during preview worker registration:', e)
-    Raven.captureException(e)
+
+    // A lack of service worker support is now well-captured
+    // in the remaining app, and need not be logged
+    if (e.message !== 'Service workers not available') {
+      Raven.captureException(e)
+    }
+
     return e
   }).then(r => {
     // Wrap main app component
