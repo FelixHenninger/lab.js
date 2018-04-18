@@ -1,5 +1,5 @@
 import { makeDataURI } from '../../../util/dataURI'
-import { exportStatic } from '../index'
+import { downloadStatic } from '../index'
 
 const backend_php = `<?php
 
@@ -107,4 +107,4 @@ const addTransmitPlugin = (state) => {
 }
 
 export default state =>
-  exportStatic(state, addTransmitPlugin, phpBackendStatic)
+  downloadStatic(state, addTransmitPlugin, phpBackendStatic)

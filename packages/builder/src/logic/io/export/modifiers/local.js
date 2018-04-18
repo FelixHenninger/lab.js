@@ -1,4 +1,4 @@
-import { exportStatic } from '../index'
+import { downloadStatic } from '../index'
 import { makeFilename } from '../../filename'
 
 export const addDownloadPlugin = (state) => {
@@ -14,4 +14,4 @@ export const addDownloadPlugin = (state) => {
   return state
 }
 
-export default state => exportStatic(state, addDownloadPlugin)
+export default state => downloadStatic(state, addDownloadPlugin)

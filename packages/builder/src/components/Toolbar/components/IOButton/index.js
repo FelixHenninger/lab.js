@@ -9,8 +9,8 @@ import Icon from '../../../Icon'
 
 import { fromJSON } from '../../../../logic/io/load'
 import { stateToDownload } from '../../../../logic/io/save'
-import exportStaticLocal from '../../../../logic/io/export/modifiers/local'
-import exportStaticExpFactory from '../../../../logic/io/export/modifiers/expfactory'
+import downloadStaticLocal from '../../../../logic/io/export/modifiers/local'
+import downloadStaticExpFactory from '../../../../logic/io/export/modifiers/expfactory'
 
 const IOButton = (_, context) => {
   let dropdown = null
@@ -75,7 +75,7 @@ const IOButton = (_, context) => {
       <DropdownItem divider/>
       <DropdownItem header>Export as bundle</DropdownItem>
       <DropdownItem
-        onClick={ () => exportStaticLocal(context.store.getState()) }
+        onClick={ () => downloadStaticLocal(context.store.getState()) }
       >
         Plain <span className='text-muted'>(no backend)</span>
       </DropdownItem>
@@ -93,7 +93,7 @@ const IOButton = (_, context) => {
       <DropdownItem divider/>
       <DropdownItem header>Export as integration</DropdownItem>
       <DropdownItem
-        onClick={ () => exportStaticExpFactory(context.store.getState()) }
+        onClick={ () => downloadStaticExpFactory(context.store.getState()) }
       >
         The Experiment Factory <span className='text-muted'>(v3)</span>
       </DropdownItem>

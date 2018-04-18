@@ -1,4 +1,4 @@
-import { exportStatic } from '../index'
+import { downloadStatic } from '../index'
 
 const addPostMessagePlugin = (state) => {
   // Add postMessage plugin to root component
@@ -11,4 +11,4 @@ const addPostMessagePlugin = (state) => {
 }
 
 export default state =>
-  exportStatic(state, addPostMessagePlugin)
+  downloadStatic(state, addPostMessagePlugin)

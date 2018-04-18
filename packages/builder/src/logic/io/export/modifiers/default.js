@@ -1,3 +1,3 @@
-import { exportStatic } from '../index'
+import { downloadStatic } from '../index'
 
-export default state => exportStatic(state)
+export default state => downloadStatic(state)
