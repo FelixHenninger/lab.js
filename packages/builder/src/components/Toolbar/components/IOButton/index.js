@@ -73,12 +73,14 @@ const IOButton = (_, context) => {
         Save
       </DropdownItem>
       <DropdownItem divider/>
-      <DropdownItem header>Export as bundle</DropdownItem>
+      <DropdownItem header>Export for local use</DropdownItem>
       <DropdownItem
         onClick={ () => downloadStaticLocal(context.store.getState()) }
       >
-        Plain <span className='text-muted'>(no backend)</span>
+        Offline data collection
       </DropdownItem>
+      <DropdownItem divider/>
+      <DropdownItem header>Deploy study online</DropdownItem>
       <DropdownItem
         onClick={
           () => context.store.dispatch({
@@ -88,7 +90,18 @@ const IOButton = (_, context) => {
           })
         }
       >
-        PHP backend
+        Generic web host <span className='text-muted'>(requires PHP)</span>
+      </DropdownItem>
+      <DropdownItem
+        onClick={
+          () => context.store.dispatch({
+            type: 'SHOW_MODAL',
+            modalType: 'EXPORT_NETLIFY',
+            modalProps: {},
+          })
+        }
+      >
+        Upload to Netlify <span className='text-muted'>(cloud provider)</span>
       </DropdownItem>
       <DropdownItem divider/>
       <DropdownItem header>Export as integration</DropdownItem>
@@ -106,7 +119,7 @@ const IOButton = (_, context) => {
           })
         }
       >
-        Generic survey software
+        Survey tools <span className='text-muted'>(Qualtrics, etc.)</span>
       </DropdownItem>
     </DropdownMenu>
   </Dropdown>

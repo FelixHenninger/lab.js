@@ -8,6 +8,7 @@ import classnames from 'classnames'
 import AddComponentModal from './components/AddComponent'
 import OptionsModal from './components/Options'
 import SystemCompatibilityModal from './components/SystemCompatibility'
+import ExportNetlifyModal from './components/ExportNetlify'
 import ExportPHPModal from './components/ExportPHP'
 import ExportPostMessageModal from './components/ExportPostMessage'
 import LegalModal from './components/Legal'
@@ -19,6 +20,7 @@ const MODAL_COMPONENTS = {
   'ADD_COMPONENT': AddComponentModal,
   'OPTIONS': OptionsModal,
   'SYSTEM_COMPATIBILITY': SystemCompatibilityModal,
+  'EXPORT_NETLIFY': ExportNetlifyModal,
   'EXPORT_PHP': ExportPHPModal,
   'EXPORT_PM': ExportPostMessageModal,
   'LEGAL': LegalModal,
