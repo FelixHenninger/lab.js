@@ -28,7 +28,7 @@ const MetadataForm = ({ data }, { store }) =>
         <Control
           model=".title"
           id="title"
-          component={Input}
+          component={ Input }
           controlProps={{
             size: 'lg',
           }}
