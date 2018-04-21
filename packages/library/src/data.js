@@ -1,19 +1,25 @@
 import FileSaver from 'file-saver'
 import 'whatwg-fetch'
 
-import { isObject, assign, difference,
+import { isObject, padStart, assign, difference,
   flatten, intersection, uniq, pick, omitBy } from 'lodash'
 import { EventHandler } from './util/eventAPI'
 
-// Data saving --------------------------------------------
+// Default column names -----------------------------------
+
+const defaultIdColumns = [
+  // TODO: Standardize the id column and document
+  // a single preferred name for it
+  'id', 'participant', 'participant_id'
+]
 
 const defaultMetadata = [
-  // TODO: Standardize the id column and document
-  // a preferred name for it
-  'id', 'participant', 'participant_id',
+  ...defaultIdColumns,
   'sender', 'sender_type', 'sender_id',
   'timestamp', 'meta',
 ]
+
+// Helper functions ---------------------------------------
 
 const escapeCsvCell = (c) => {
   // Stringify non-primitive data
@@ -36,6 +42,32 @@ const escapeCsvCell = (c) => {
 
   return c
 }
+
+// TODO: Replace lodash function with
+// String.prototype.padStart as soon as
+// browser compatibility allows.
+const twoDigit = x => padStart(x, 2, '0')
+
+const dateString = (d=new Date()) =>
+  `${ d.getFullYear() }-` +
+  `${ twoDigit((d.getMonth() + 1).toString()) }-` +
+  `${ twoDigit(d.getDate().toString()) }--` +
+  `${ d.toTimeString().split(' ')[0] }`
+
+const extractId = (state) => {
+  // Check whether any of the standard participant id columns
+  // is present in the data -- if so, return its value
+  for (const c of defaultIdColumns) {
+    if (Object.keys(state).includes(c)) {
+      return state[c]
+    }
+  }
+
+  // If no value was found, return undefined
+  return undefined
+}
+
+// Data storage class -------------------------------------
 
 // eslint-disable-next-line import/prefer-default-export
 export class Store extends EventHandler {
@@ -305,8 +337,19 @@ export class Store extends EventHandler {
     )
   }
 
+  // Suggest a filename -----------------------------------
+  makeFilename(prefix='study', filetype='csv') {
+    // Extract an id from the data, if available
+    const id = extractId(this.state)
+
+    return prefix + '--' +
+      ( id ? `${ id }--` : '' ) + dateString() +
+      ( filetype ? `.${ filetype }` : '')
+  }
+
   // Download data in a given format ----------------------
   download(filetype='csv', filename='data.csv') {
+    // TODO: Generate a filename on-the-fly
     return FileSaver.saveAs(
       this.exportBlob(filetype),
       filename,
