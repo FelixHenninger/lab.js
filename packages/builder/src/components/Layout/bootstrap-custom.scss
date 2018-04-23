@@ -73,3 +73,12 @@ $card-cap-bg: rgb(248, 249, 250);
 code {
   font-size: 0.95em;
 }
+
+// Stop-gap while waiting for bootstrap 4.1
+// TODO: Remove this after update
+.flex-grow-0 {
+  flex-grow: 0 !important;
+}
+.flex-grow-1 {
+  flex-grow: 1 !important;
+}

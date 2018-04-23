@@ -30,8 +30,10 @@
 
 /* Add minimal height to editor container
    (this circumvents a bug in chrome, which reduces the editor to
-   a single line if the editor height falls below a certain limit)
-*/
+   a single line if the editor height falls below a certain limit) */
 .react-monaco-editor-container {
   min-height: 100px;
+  /* On the off-chance that the editor is in a flexbox,
+     use all available space */
+  flex-grow: 1;
 }

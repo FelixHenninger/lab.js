@@ -15,22 +15,17 @@ export default ({ id, data }) =>
   // periodically to check whether the chrome bug
   // has been addressed
   <Card title="Content"
-    className="h-100"
-    style={{ flexGrow: 1 }}
+    className="flex-grow-1"
     wrapContent={ false }
   >
-    <CardBody className="h-100">
+    {/* Holy multiply nested flexbox Batman! */}
+    <CardBody className="h-100 d-flex flex-column">
       <Form
         id={ id }
         data={ data }
         keys={ ['content'] }
         getDispatch={ dispatch => this.formDispatch = dispatch }
-        style={{
-          // This is another hack for chrome,
-          // which will otherwise cause the card
-          // block to overflow.
-          height: 'calc(100% - 30px)'
-        }}
+        className="flex-grow-1 d-flex flex-column"
       >
         <Control.textarea
           model=".content"
