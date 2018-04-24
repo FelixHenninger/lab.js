@@ -119,6 +119,13 @@ const makeComponentTree = (data, root) => {
             output.template = makeComponentTree(data, currentNode.children[0])
           }
           break
+        case 'lab.canvas.Frame':
+        case 'lab.html.Frame':
+          // A loop has a single template
+          if (!isEmpty(currentNode.children)) {
+            output.content = makeComponentTree(data, currentNode.children[0])
+          }
+          break
         default:
           // TODO: This won't catch canvas-based
           // components, but it also doesn't need

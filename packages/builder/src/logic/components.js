@@ -107,6 +107,30 @@ export const metadata = {
       },
     },
   },
+  'lab.html.Frame': {
+    name: 'Frame',
+    description: 'Create a common frame around nested content',
+    category: 'HTML',
+    icon: 'expand-wide',
+    minChildren: 1,
+    maxChildren: 1,
+    tabs: defaultTabs,
+    defaultTab: 'Content',
+    defaults: {
+      type: 'lab.html.Frame',
+      context: '<main data-labjs-section="frame">\n  <!-- Content gets inserted here -->\n</main>',
+      contextSelector: '[data-labjs-section="frame"]',
+      parameters: {
+        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
+      },
+      responses: {
+        rows: [ ['', '', '', ''] ],
+      },
+      messageHandlers: {
+        rows: [ [ { title: '', message: '', code: '' }, ], ],
+      },
+    },
+  },
   'lab.html.Screen': {
     name: 'Screen',
     description: 'Show content using HTML',
@@ -120,6 +144,30 @@ export const metadata = {
     defaultTab: 'Content',
     defaults: {
       type: 'lab.html.Screen',
+      parameters: {
+        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
+      },
+      responses: {
+        rows: [ ['', '', '', ''] ],
+      },
+      messageHandlers: {
+        rows: [ [ { title: '', message: '', code: '' }, ], ],
+      },
+    },
+  },
+  'lab.canvas.Frame': {
+    name: 'Frame',
+    description: 'Provide a common canvas for nested components',
+    category: 'Canvas',
+    icon: 'expand-wide',
+    minChildren: 1,
+    maxChildren: 1,
+    tabs: defaultTabs,
+    defaultTab: 'Content',
+    defaults: {
+      type: 'lab.canvas.Frame',
+      context: '<!-- Nested components use this canvas -->\n<canvas />',
+      contextSelector: 'canvas',
       parameters: {
         rows: [ [ { name: '', value: '', type: 'string' }, ], ],
       },

@@ -15,6 +15,7 @@ import Advanced from './components/Advanced'
 // Content-specific tabs
 import CanvasContent from './components/Content/Canvas'
 import EditorContent from './components/Content/Editor'
+import FrameContent from './components/Content/Frame'
 import LoopContent from './components/Content/Loop'
 import SequenceContent from './components/Content/Sequence'
 
@@ -32,6 +33,9 @@ const selectTab = (type, tab) => {
         case 'lab.html.Screen':
         case 'lab.html.Form':
           return EditorContent
+        case 'lab.canvas.Frame':
+        case 'lab.html.Frame':
+          return FrameContent
         case 'lab.flow.Loop':
           return LoopContent
         case 'lab.flow.Sequence':
