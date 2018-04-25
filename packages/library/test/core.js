@@ -968,6 +968,8 @@ describe('Core', () => {
         sinon.stub(console, 'log')
         sinon.stub(console, 'info')
         sinon.stub(console, 'group')
+        sinon.stub(console, 'time')
+        sinon.stub(console, 'timeEnd')
 
         const c = new lab.core.Dummy({
           debug: true
@@ -981,9 +983,14 @@ describe('Core', () => {
             assert.ok(console.log.called)
             assert.ok(console.info.called)
             assert.ok(console.group.called)
+            assert.ok(console.time.called)
             console.log.restore()
             console.info.restore()
             console.group.restore()
+            console.time.restore()
+            // Wait a moment to avoid errors
+            // (the epilogue event is not yet over)
+            window.setTimeout(() => console.timeEnd.restore(), 0)
           })
       })
     })

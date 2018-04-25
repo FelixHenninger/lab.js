@@ -109,6 +109,10 @@ export class EventHandler {
         'font-weight: bold', // Event name
         'font-weight: normal; opacity: 0.5', // Remaining text
       )
+      console.time(
+        `${ event } on ${ this.internals.rawOptions.title }` +
+        `(${ this.internals.rawOptions.id })`
+      )
     }
 
     // Regex to split the event name by colons
@@ -135,6 +139,14 @@ export class EventHandler {
     // If the object has a trigger function,
     // call it with the arguments supplied
     await this.trigger(event, ...args)
+
+    if (this.internals.rawOptions.debug) {
+      // Tell the world what we're up to
+      console.timeEnd(
+        `${ event } on ${ this.internals.rawOptions.title }` +
+        `(${ this.internals.rawOptions.id })`
+      )
+    }
 
     // Return the result of the object's onEvent method
     return result
