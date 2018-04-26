@@ -57,9 +57,9 @@ export class Sequence extends Component {
     await prepareNested(this.options.content, this)
   }
 
-  async onRun() {
+  async onRun(frameTimeStamp) {
     // Make the first step
-    return this.step()
+    return this.step(frameTimeStamp)
   }
 
   onEnd() {
@@ -73,7 +73,7 @@ export class Sequence extends Component {
     }
   }
 
-  async step() {
+  async step(frameTimeStamp, frameSynced) {
     if (this.status === status.done) {
       throw new Error('Sequence ended, can\'t take any more steps')
     }
@@ -81,12 +81,13 @@ export class Sequence extends Component {
     // Move through the content
     const next = this.internals.iterator.next()
     if (next.done) {
-      return this.end('completion')
+      return this.end('completion', frameTimeStamp)
     } else {
-      [this.internals.currentPosition, this.internals.currentComponent] = next.value
+      [this.internals.currentPosition, this.internals.currentComponent] =
+        next.value
       this.internals.currentComponent.on('after:end', this.internals.stepper)
       this.triggerMethod('step')
-      return this.internals.currentComponent.run()
+      return this.internals.currentComponent.run(frameTimeStamp, frameSynced)
     }
   }
 
@@ -186,7 +187,7 @@ export class Parallel extends Component {
   // The run method is overwritten at this point,
   // because the original promise is swapped for a
   // version that runs all nested items in parallel
-  onRun() {
+  onRun(frameTimeStamp) {
     // End this component when all nested components,
     // or a single component, have ended
     Promise[this.options.mode](
@@ -195,7 +196,7 @@ export class Parallel extends Component {
 
     // Run all nested components simultaneously
     return Promise.all(
-      this.options.content.map(c => c.run()),
+      this.options.content.map(c => c.run(frameTimeStamp)),
     )
   }
 

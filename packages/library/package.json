@@ -58,7 +58,7 @@
     "requirejs": "^2.3.3",
     "shelljs": "^0.8.1",
     "shx": "^0.2.2",
-    "sinon": "^4.2.2",
+    "sinon": "^4.5.0",
     "webpack": "^3.3.0",
     "webpack-bundle-analyzer": "^2.9.2"
   },

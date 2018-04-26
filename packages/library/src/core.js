@@ -5,7 +5,7 @@ import { EventHandler } from './util/eventAPI'
 import { DomConnection } from './util/domEvents'
 import { Random } from './util/random'
 import { parse, parsableOptions, parseRequested } from './util/options'
-import { ensureHighResTime, StackTimeout,
+import { ensureHighResTime, StackTimeout, FrameTimeout,
   requestIdleCallback } from './util/timing'
 import { preloadImage, preloadAudio } from './util/preload'
 
@@ -82,6 +82,12 @@ export class Component extends EventHandler {
         images: [],
         audio: [],
         ...options.media,
+      },
+
+      // Setup timing method
+      timing: {
+        method: 'frames',
+        ...options.timing,
       },
     })
 
@@ -247,14 +253,19 @@ export class Component extends EventHandler {
 
     // Prepare timeout
     if (this.options.timeout !== null) {
-      // Add a timeout to end the component
-      // automatically after the specified
-      // duration.
-      this.internals.timeout = new StackTimeout(
-        () => this.end('timeout'),
+      const Timeout = this.options.timing.method === 'frames'
+        ? FrameTimeout
+        : StackTimeout
+
+      // Add a timeout to end the component automatically
+      // after the specified duration.
+      this.internals.timeout = new Timeout(
+        (timestamp) => this.end('timeout', timestamp, true),
         this.options.timeout,
       )
-      this.on('run', () => this.internals.timeout.run())
+      this.on('show', (showTimestamp) => {
+        this.internals.timeout.run(showTimestamp)
+      })
     }
 
     // Setup data storage
@@ -284,7 +295,7 @@ export class Component extends EventHandler {
     await this.triggerMethod('after:prepare')
   }
 
-  async run() {
+  async run(frameTimestamp, frameSynced) {
     // Prepare component if this has not been done
     if (this.status < status.prepared) {
       if (this.options.debug) {
@@ -304,7 +315,7 @@ export class Component extends EventHandler {
 
     // Skip actual content if so instructed
     if (this.options.skip) {
-      return this.end('skipped')
+      return this.end('skipped', frameTimestamp, frameSynced)
     }
 
     // Jump to top of page if requested
@@ -313,7 +324,37 @@ export class Component extends EventHandler {
     }
 
     // Run a component by showing it
-    return this.triggerMethod('run')
+    await this.triggerMethod('run')
+
+    return this.render(frameTimestamp, frameSynced)
+  }
+
+  async render(frameTimestamp, frameSynced) {
+    // TODO: Think about moving the function
+    // declaration out of the render path
+    const handler = async (renderFrame) => {
+      // Log time
+      this.internals.timestamps.render = renderFrame
+
+      // Trigger render logic
+      await this.triggerMethod('render', renderFrame)
+
+      // Log next frame time
+      window.requestAnimationFrame(showFrame => {
+        this.internals.timestamps.show = showFrame
+        this.triggerMethod('show', showFrame)
+      })
+    }
+
+    // Trigger render handler
+    if (frameSynced) {
+      // ... without waiting for a frame
+      handler(frameTimestamp)
+    } else {
+      // ... or after waiting for a new frame
+      this.internals.frameRequest =
+        window.requestAnimationFrame(handler)
+    }
   }
 
   respond(response=null, timestamp=undefined) {
@@ -331,9 +372,9 @@ export class Component extends EventHandler {
     return this.end('response', timestamp)
   }
 
-  async end(reason=null, timestamp=undefined) {
+  async end(reason=null, timestamp=performance.now(), frameSynced=false) {
     // Note the time of and reason for ending
-    this.internals.timestamps.end = timestamp || performance.now()
+    this.internals.timestamps.end = timestamp
     this.data.ended_on = reason
 
     // Update status
@@ -344,13 +385,20 @@ export class Component extends EventHandler {
       this.internals.timeout.cancel()
     }
 
+    // Cancel outstanding frame requests
+    if (this.internals.frameRequest) {
+      window.cancelAnimationFrame(
+        this.internals.frameRequest,
+      )
+    }
+
     // Complete a component's run and cleanup
-    await this.triggerMethod('end')
+    await this.triggerMethod('end', timestamp, frameSynced)
 
     // A final goodbye once everything is done
     // TODO: This won't work when a component
     // in a sequence is cancelled.
-    await this.triggerMethod('after:end')
+    await this.triggerMethod('after:end', timestamp, frameSynced)
 
     // Queue housekeeping, but don't wait for it
     requestIdleCallback(
@@ -361,6 +409,41 @@ export class Component extends EventHandler {
         }
       }
     )
+
+    // Log next frame time
+    const switchFrameHandler = (s) => {
+      this.internals.timestamps.switch = s
+
+      if (this.options.datastore) {
+        this.options.datastore.update(
+          this.internals.logIndex,
+          d => ({
+            ...d,
+            // Log switch frame
+            time_switch: s,
+            // Update duration based on actual display time
+            duration: d.ended_on === 'timeout'
+              ? s - d.time_show
+              : d.duration
+          })
+        )
+      }
+    }
+
+    if (frameSynced) {
+      // If the current event is frame-bound,
+      // the switch occurs on the next frame
+      window.requestAnimationFrame(switchFrameHandler)
+    } else {
+      // If the current handler occurs outside
+      // of a frame, the next frame is two
+      // animation frame callbacks away
+      window.requestAnimationFrame(
+        () => window.requestAnimationFrame(switchFrameHandler)
+      )
+    }
+
+    return timestamp
   }
 
   // Data collection --------------------------------------
@@ -369,8 +452,9 @@ export class Component extends EventHandler {
   commit() {
     // If a data store is defined
     if (this.options.datastore) {
+      const timestamps = this.internals.timestamps
       // Commit the data collected by this component
-      this.options.datastore.commit({
+      this.internals.logIndex = this.options.datastore.commit({
         // ... plus some additional metadata
         // TODO: Decide whether the data attribute should
         // be extended, or whether the extension here should
@@ -380,11 +464,11 @@ export class Component extends EventHandler {
         sender: this.options.title,
         sender_type: this.type,
         sender_id: this.options.id,
-        time_run: this.internals.timestamps.run,
-        time_render: this.internals.timestamps.render,
-        time_end: this.internals.timestamps.end,
-        duration: this.internals.timestamps.end -
-          (this.internals.timestamps.render || this.internals.timestamps.run),
+        time_run: timestamps.run,
+        time_render: timestamps.render,
+        time_show: timestamps.show,
+        time_end: timestamps.end,
+        duration: timestamps.end - timestamps.show,
         time_commit: performance.now(),
         timestamp: new Date().toISOString(),
       })
@@ -394,13 +478,15 @@ export class Component extends EventHandler {
 
   // Timekeeping ------------------------------------------
   get timer() {
+    const timestamps = this.internals.timestamps
+
     switch (this.status) {
       case status.running:
         return performance.now() -
-          (this.internals.timestamps.render || this.internals.timestamps.run)
+          (timestamps.show || timestamps.render)
       case status.done:
         return this.internals.timestamps.end -
-          (this.internals.timestamps.render || this.internals.timestamps.run)
+          (timestamps.show || timestamps.run)
       default:
         return undefined
     }

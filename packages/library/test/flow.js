@@ -174,6 +174,24 @@ describe('Flow control', () => {
       // console.log(s.content.map(x => x._test_counter))
     })
 
+    it('renders the next component on the frame the last one ends', () => {
+      const a = new lab.core.Component({ timeout: 16 })
+      const b = new lab.core.Component()
+      s.options.content = [a, b]
+
+      const p = b.waitFor('render')
+
+      return s.run()
+        .then(() => {
+          return p
+        }).then(() => {
+          assert.equal(
+            a.internals.timestamps.end,
+            b.internals.timestamps.render,
+          )
+        })
+    })
+
     it('runs next component before triggering epilogue', () => {
       const a = new lab.core.Component()
       const b = new lab.core.Component()

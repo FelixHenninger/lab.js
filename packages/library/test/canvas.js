@@ -398,6 +398,7 @@ describe('Canvas-based components', () => {
       c.options.viewportEdge = true
 
       return c.run().then(() => {
+        clock.runToFrame()
         c.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
 
         assert.deepEqual(

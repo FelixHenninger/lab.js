@@ -249,6 +249,16 @@ describe('Core', () => {
     })
 
     describe('Timers', () => {
+
+      let clock
+      beforeEach(() => {
+        clock = sinon.useFakeTimers()
+      })
+
+      afterEach(() => {
+        clock.restore()
+      })
+
       it('timer property is undefined before running', () => {
         assert.equal(b.timer, undefined)
         return b.prepare().then(() => {
@@ -263,41 +273,40 @@ describe('Core', () => {
       )
 
       it('provides and increments timer property while running', () => {
-        const clock = sinon.useFakeTimers()
-
         return b.run().then(() => {
+          // Show component
+          clock.runToFrame()
+
           // Simulate progress of time and check timer
           assert.equal(b.timer, 0)
           clock.tick(500)
           assert.equal(b.timer, 500)
           clock.tick(500)
           assert.equal(b.timer, 1000)
-
-          // Restore clocks
-          clock.restore()
         })
       })
 
       it('timer property remains static after run is complete', () => {
-        // As above
-        const clock = sinon.useFakeTimers()
-
         return b.run().then(() => {
-          clock.tick(500)
+          // Show component
+          clock.runToFrame()
+
+          // Component ends on next frame
+          clock.tick(500 - 16)
           b.end()
         }).then(() => {
           assert.equal(b.timer, 500) // timer remains constant
           clock.tick(500)
           assert.equal(b.timer, 500) // timer remains constant
-
-          // Restore clocks
-          clock.restore()
         })
       })
 
       it('times out if requested', () => {
-        // Setup fake timers
-        const clock = sinon.useFakeTimers()
+        // FIXME: This test requires that the fake clock advance itself.
+        // This has a strong whiff to it, and we should probably
+        // reconsider the API around this functionality.
+        clock.restore()
+        clock = sinon.useFakeTimers({ shouldAdvanceTime: true })
 
         // Set the timeout to 500ms
         b.options.timeout = 500
@@ -307,33 +316,38 @@ describe('Core', () => {
         const callback = sinon.spy()
         b.on('end', callback)
 
-        return b.run().then(() => {
-          // Check that the callback is only
-          // called after the specified interval
-          // has passed
-          assert.notOk(callback.called)
-          clock.tick(500)
-          assert.ok(callback.calledOnce)
+        return b.run()
+          .then(() => b.waitFor('show'))
+          .then(() => {
+            // Render component
+            clock.runToFrame()
 
-          // Restore timers
-          clock.restore()
-        })
+            // Check that the callback is only
+            // called after the specified interval
+            // has passed
+            assert.notOk(callback.called)
+            clock.tick(500)
+            assert.ok(callback.calledOnce)
+          })
       })
 
       it('notes timeout as status if timed out', () => {
+        // FIXME, as above
+        clock.restore()
+        clock = sinon.useFakeTimers({ shouldAdvanceTime: true })
+
         // As above
-        const clock = sinon.useFakeTimers()
         b.options.timeout = 500
 
-        return b.run().then(() => {
-          // Trigger timeout
-          clock.tick(500)
+        return b.run()
+          .then(() => b.waitFor('show'))
+          .then(() => {
+            // Trigger timeout
+            clock.tick(1000)
 
-          // Check that the resulting status is ok
-          assert.equal(b.data.ended_on, 'timeout')
-
-          clock.restore()
-        })
+            // Check that the resulting status is ok
+            assert.equal(b.data.ended_on, 'timeout')
+          })
       })
     })
 

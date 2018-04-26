@@ -109,16 +109,6 @@ export class Screen extends Component {
     this.render = this.render.bind(this)
   }
 
-  render(timestamp) {
-    return this.options.renderFunction.call(
-      this, // context
-      timestamp, // arguments ...
-      this.options.canvas,
-      this.options.ctx,
-      this,
-    )
-  }
-
   onPrepare() {
     prepareCanvas.apply(this)
 
@@ -135,7 +125,7 @@ export class Screen extends Component {
     }
   }
 
-  onBeforeRun() {
+  onRun() {
     // Add canvas to the dom, if necessary
     insertCanvas.apply(this)
 
@@ -163,7 +153,9 @@ export class Screen extends Component {
     this.internals.viewportTransformationMatrix = tm[1]
 
     this.options.ctx.setTransform(...this.internals.transformationMatrix)
+  }
 
+  onRender(timestamp) {
     // Clear canvas if requested
     // TODO: This should check if the canvas is fresh,
     // and not run if it isn't necessary
@@ -185,22 +177,17 @@ export class Screen extends Component {
 
       this.options.ctx.restore()
     }
-  }
 
-  onRun() {
-    // Draw on canvas before the next repaint
-    this.internals.frameRequest = window.requestAnimationFrame(
-      // Context apparently is lost in the callback
-      () => this.render(),
+    return this.options.renderFunction.call(
+      this, // context
+      timestamp, // arguments ...
+      this.options.canvas,
+      this.options.ctx,
+      this,
     )
   }
 
   onEnd() {
-    // Attempt to cancel any pending frame requests
-    window.cancelAnimationFrame(
-      this.internals.frameRequest,
-    )
-
     // Undo any previously applied tranformations
     this.options.ctx.restore()
   }
@@ -280,13 +267,13 @@ export class Sequence extends BaseSequence {
     return super.onPrepare()
   }
 
-  onRun() {
+  onRun(frameTimestamp) {
     // Insert canvas into DOM,
     // if not present already
     insertCanvas.apply(this)
 
     // Run sequence as usual
-    return super.onRun()
+    return super.onRun(frameTimestamp)
   }
 }
 

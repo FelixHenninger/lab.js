@@ -70,6 +70,9 @@ export class FrameTimeout {
     this._animationFrameHandle = undefined
     this._lastAnimationFrame = undefined
 
+    // Target timestamp
+    this.targetTime = undefined
+
     // Timing mode
     this.mode = 'closest'
 
@@ -103,10 +106,10 @@ export class FrameTimeout {
     }
   }
 
-  run() {
+  run(now=performance.now()) {
     if (!this._running) {
       // Set target time in milliseconds
-      this.targetTime = performance.now() + this.delay
+      this.targetTime = this.targetTime || now + this.delay
       this.tick()
       this._running = true
     } else {
