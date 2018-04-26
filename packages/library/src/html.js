@@ -233,14 +233,16 @@ export class Frame extends Component {
     await prepareNested([this.options.content], this)
   }
 
-  async onRun() {
+  async onRun(frameTimestamp) {
+    // TODO: Think about whether this should be onRender instead
+
     // Clear element content, and insert context
     this.options.el.innerHTML = ''
     Array.from(this.internals.parsedContext.body.children)
       .forEach(c => this.options.el.appendChild(c))
 
     // Run nested content
-    await this.options.content.run()
+    await this.options.content.run(frameTimestamp)
   }
 
   onEnd() {
