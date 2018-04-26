@@ -265,6 +265,10 @@ export class Component extends EventHandler {
       )
       this.on('show', (showTimestamp) => {
         this.internals.timeout.run(showTimestamp)
+        if (this.options.debug) {
+          this.internals.timestamps.timeoutTarget =
+            this.internals.timeout.targetTime
+        }
       })
     }
 
