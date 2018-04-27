@@ -162,10 +162,9 @@ export class Store extends EventHandler {
   commit(key={}, value) {
     this.set(key, value, true)
 
-    // Exclude parameters with the underscore sign in front
-    // (also remember the index of the new entry)
+    // Remember the index of the new entry
     const logIndex = this.data.push(
-      omitBy(this.staging, (v, k) => k.startsWith('_'))
+      this.staging
     ) - 1
 
     // Make persistent data copy if desired
@@ -289,24 +288,41 @@ export class Store extends EventHandler {
       )
   }
 
-  // Export data in various formats -----------------------
-  exportJson() {
-    // Export data a JSON string
-    return JSON.stringify(this.data)
+  get cleanData() {
+    // Filter keys that start with an underscore
+    return this.data.map(
+      line => omitBy(line, (v, k) => k.startsWith('_'))
+    )
   }
 
-  exportCsv(separator=',') {
+  // Export data in various formats -----------------------
+  exportJson(clean=true) {
+    // Optionally export raw data
+    const data = clean ? this.cleanData : this.data
+
+    // Export data a JSON string
+    return JSON.stringify(data)
+  }
+
+  exportCsv(separator=',', clean=true) {
     // Export data as csv string
+    // Optionally export raw data
+    const data = clean ? this.cleanData : this.data
+
+    // If exporting the cleaned data, remove keys
+    // that start with an underscore
+    const keys = this.keys()
+      .filter(k => !clean || !k.startsWith('_'))
 
     // Extract the data from each entry
-    const rows = this.data.map((e) => {
-      const cells = this.keys().map((k) => {
-        if (Object.hasOwnProperty.call(e, k)) {
-          return e[k]
-        } else {
-          return null
-        }
-      })
+    const rows = data.map((e) => {
+      const cells = keys.map((k) => {
+          if (Object.hasOwnProperty.call(e, k)) {
+            return e[k]
+          } else {
+            return null
+          }
+        })
 
       return cells
         .map(escapeCsvCell) // Escape special characters in cells
@@ -314,7 +330,7 @@ export class Store extends EventHandler {
     })
 
     // Prepend column names
-    rows.unshift(this.keys().join(separator))
+    rows.unshift(keys.join(separator))
 
     // Join rows
     return rows.join('\r\n')
@@ -379,10 +395,10 @@ export class Store extends EventHandler {
         data = this.staging
         break
       case 'latest':
-        data = this.data[this.data.length - 1]
+        data = this.cleanData[this.data.length - 1]
         break
       default:
-        data = this.data
+        data = this.cleanData
     }
 
     return fetch(url, {

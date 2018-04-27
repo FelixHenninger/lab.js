@@ -148,7 +148,7 @@ describe('Data handling', () => {
         assert.deepEqual(ds.staging, {})
       })
 
-      it('removes underscored parameters before commiting', () => {
+      it('provides data without keys beginning with an underscore', () => {
         ds.commit({
           'one': 1,
           'two': 2,
@@ -158,16 +158,16 @@ describe('Data handling', () => {
           ds.data,
           [{
             'one': 1,
-            'two': 2
+            'two': 2,
+            '_parameter': 3,
           }]
         )
         assert.deepEqual(
-          ds.state,
-          {
+          ds.cleanData,
+          [{
             'one': 1,
             'two': 2,
-            '_parameter': 3
-          }
+          }]
         )
       })
 
@@ -487,6 +487,27 @@ describe('Data handling', () => {
           [
             'array,object',
             '"[1,2,3,""a"",""b"",""c""]","{""one"":1,""two"":2}"',
+          ].join('\r\n')
+        )
+      })
+
+      it('omits columns starting with an underscore in csv export', () => {
+        ds.commit({
+          'one': 1,
+          'two': 2,
+          '_three': 3,
+        })
+        ds.commit({
+          'two': 2,
+          'three': 3,
+          '_four': 4,
+        })
+        assert.strictEqual(
+          ds.exportCsv(),
+          [
+            'one,three,two',
+            '1,,2',
+            ',3,2'
           ].join('\r\n')
         )
       })
