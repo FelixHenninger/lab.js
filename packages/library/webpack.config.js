@@ -46,9 +46,11 @@ const config = {
           }],
         ],
         plugins: [
-          'transform-runtime',
           'transform-object-rest-spread',
           'lodash',
+          ['fast-async', {
+            runtimePattern: './src/index.js'
+          }]
         ],
       },
     }],
