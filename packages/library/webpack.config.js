@@ -31,7 +31,7 @@ const banner = [
 
 const config = {
   entry: {
-    js: [ 'babel-polyfill', './src/index.js' ],
+    js: [ './src/index.js' ],
   },
   module: {
     loaders: [{
@@ -40,7 +40,10 @@ const config = {
       include: path.join(__dirname, 'src'),
       query: {
         presets: [
-          ['env', { modules: false }],
+          ['env', {
+            modules: false,
+            useBuiltIns: true,
+          }],
         ],
         plugins: [
           'transform-runtime',
@@ -49,9 +52,6 @@ const config = {
         ],
       },
     }],
-    // NOTE: This fixes a webpack issue (#5135)
-    // and should be revisited at a later date
-    strictThisContextOnImports: true,
   },
   devtool: development ? 'inline-source-map' : 'source-map',
   plugins: [

@@ -1,3 +1,6 @@
+// Polyfill
+import 'babel-polyfill'
+
 // Components
 import { Component, Dummy } from './core'
 import { Screen as CanvasScreen, Sequence as CanvasSequence,
