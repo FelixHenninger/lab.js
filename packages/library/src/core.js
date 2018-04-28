@@ -145,11 +145,9 @@ export class Component extends EventHandler {
     })
     this.on('run', () => {
       this.internals.domConnection.attach()
-      this.triggerMethod('after:event:init')
     })
     this.on('end', () => {
       this.internals.domConnection.detach()
-      this.triggerMethod('after:event:remove')
     })
   }
 

@@ -85,7 +85,6 @@ export class Sequence extends Component {
       [this.internals.currentPosition, this.internals.currentComponent] =
         next.value
       this.internals.currentComponent.on('after:end', this.internals.stepper)
-      this.triggerMethod('step')
       return this.internals.currentComponent.run(frameTimeStamp, frameSynced)
     }
   }
