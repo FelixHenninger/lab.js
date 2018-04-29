@@ -1,8 +1,8 @@
 import FileSaver from 'file-saver'
 import 'whatwg-fetch'
 
-import { isObject, padStart, assign, difference,
-  flatten, intersection, uniq, pick, omitBy } from 'lodash'
+import { isObject, flatten, difference, intersection,
+  uniq, pick, omitBy } from 'lodash'
 import { EventHandler } from './util/eventAPI'
 
 // Default column names -----------------------------------
@@ -43,10 +43,7 @@ const escapeCsvCell = (c) => {
   return c
 }
 
-// TODO: Replace lodash function with
-// String.prototype.padStart as soon as
-// browser compatibility allows.
-const twoDigit = x => padStart(x, 2, '0')
+const twoDigit = x => x.toString().padStart(2, '0')
 
 const dateString = (d=new Date()) =>
   `${ d.getFullYear() }-` +
@@ -104,7 +101,7 @@ export class Store extends EventHandler {
         // Fail gracefully if JSON parsing fails
         try {
           this.data = JSON.parse(data)
-          this.state = assign({}, ...this.data)
+          this.state = Object.assign({}, ...this.data)
 
           // Remove metadata from current state
           // (It would otherwise be added anew
@@ -146,8 +143,8 @@ export class Store extends EventHandler {
       attrs[key] = value
     }
 
-    this.state = assign(this.state, attrs)
-    this.staging = assign(this.staging, attrs)
+    this.state = Object.assign(this.state, attrs)
+    this.staging = Object.assign(this.staging, attrs)
 
     if (!fromCommit) {
       this.triggerMethod('set')

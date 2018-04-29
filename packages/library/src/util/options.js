@@ -1,4 +1,4 @@
-import { extend, isString, isArray, isPlainObject,
+import { isString, isArray, isPlainObject,
   template, fromPairs } from 'lodash'
 
 const prototypeChain = (object) => {
@@ -17,7 +17,7 @@ const prototypeChain = (object) => {
 export const parsableOptions = component =>
   // Collect parsable options from the static property metadata
   // of all components on the prototype chain
-  extend({},
+  Object.assign({},
     ...prototypeChain(component).map(p => (
       p.constructor.metadata
         ? p.constructor.metadata.parsableOptions
