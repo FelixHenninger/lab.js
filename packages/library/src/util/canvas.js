@@ -122,10 +122,13 @@ const renderElement = (ctx, content) => {
         0, 0, toRadians(360)
       )
       break
+    case 'text':
     case 'i-text':
-      ctx.font = `${ content.fontStyle } ${ content.fontWeight } ` +
-        `${ content.fontSize }px ${ content.fontFamily }`
-      ctx.textAlign = content.textAlign
+      ctx.font = `${ content.fontStyle || 'normal' } ` +
+        `${ content.fontWeight || 'normal' } ` +
+        `${ content.fontSize || 32 }px ` +
+        `${ content.fontFamily || 'sans-serif' }`
+      ctx.textAlign = content.textAlign || 'center'
       // TODO: Make this configurable
       ctx.textBaseline = 'middle'
 
@@ -137,7 +140,7 @@ const renderElement = (ctx, content) => {
   // Fill and stroke
   if (content.fill) {
     ctx.fillStyle = content.fill
-    if (content.type !== 'i-text') {
+    if (content.type !== 'i-text' && content.type !== 'text') {
       ctx.fill()
     } else {
       // TODO: This wants to be abstracted out,
@@ -148,7 +151,8 @@ const renderElement = (ctx, content) => {
           ctx.fillText(
             lineContent, 0,
             (i - ((lines.length - 1) * 0.5)) *
-              content.fontSize * content.lineHeight,
+              (content.fontSize || 32) *
+              (content.lineHeight || 1.16),
           )
         })
     }
@@ -157,7 +161,7 @@ const renderElement = (ctx, content) => {
   if (content.stroke && content.strokeWidth) {
     ctx.strokeStyle = content.stroke
     ctx.lineWidth = content.strokeWidth || 1
-    if (content.type !== 'i-text') {
+    if (content.type !== 'i-text' && content.type !== 'text') {
       ctx.stroke()
     } else {
       content.text
@@ -166,7 +170,8 @@ const renderElement = (ctx, content) => {
           ctx.strokeText(
             lineContent, 0,
             (i - ((lines.length - 1) * 0.5)) *
-              content.fontSize * content.lineHeight,
+              (content.fontSize || 32) *
+              (content.lineHeight || 1.16),
           )
         })
     }
