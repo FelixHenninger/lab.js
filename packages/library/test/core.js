@@ -694,12 +694,21 @@ describe('Core', () => {
       })
 
       it('commits parameters alongside data', () => {
-        // Parameter inheritance is tested elsewhere
-        b.options.datastore = new lab.data.Store()
-        b.options.parameters['foo'] = 'bar'
-        b.commit()
+        const c = new lab.core.Dummy()
 
-        assert.equal(b.options.datastore.state.foo, 'bar')
+        // (parameter inheritance is tested elsewhere)
+        c.options.datastore = new lab.data.Store()
+        c.options.parameters['foo'] = 'bar'
+
+        const spy = sinon.stub(c, 'commit')
+
+        c.run().then(() => {
+          assert.ok(spy.calledOnce)
+          assert.equal(
+            spy.firstCall.args[0]['foo'],
+            'bar'
+          )
+        })
       })
     })
 
@@ -853,12 +862,19 @@ describe('Core', () => {
     })
 
     describe('Data', () => {
-      it('commits data if datastore is provided', () => {
+      it('commit method passes data to data store', () => {
         b.options.datastore = new lab.data.Store()
-        b.data['foo'] = 'bar'
-        b.commit()
 
-        assert.equal(b.options.datastore.state.foo, 'bar')
+        // Spy on the datastore's commit method
+        const spy = sinon.spy(b.options.datastore, 'commit')
+
+        b.commit({ 'foo': 'bar' })
+
+        assert.ok(spy.calledOnce)
+        assert.equal(
+          spy.firstCall.args[0].foo,
+          'bar'
+        )
       })
 
       it('commits data automatically when ending', () => {

@@ -270,13 +270,6 @@ export class Component extends EventHandler {
       })
     }
 
-    // Setup data storage
-    // (unless it has been explicitly disabled)
-    if (this.options.datastore && this.options.datacommit !== false) {
-      this.options.datacommit = true
-      this.on('after:end', this.commit)
-    }
-
     // Preload media
     await Promise.all(this.options.media.images.map(preloadImage))
     await Promise.all(this.options.media.audio.map(preloadAudio))
@@ -397,6 +390,20 @@ export class Component extends EventHandler {
     // Complete a component's run and cleanup
     await this.triggerMethod('end', timestamp, frameSynced)
 
+    // Store data (unless instructed otherwise)
+    if (this.options.datastore && this.options.datacommit !== false) {
+      this.commit({
+        ...this.data,
+        ...this.aggregateParameters,
+        time_run: this.internals.timestamps.run,
+        time_render: this.internals.timestamps.render,
+        time_show: this.internals.timestamps.show,
+        time_end: this.internals.timestamps.end,
+        duration: this.internals.timestamps.end -
+          this.internals.timestamps.show,
+      })
+    }
+
     // A final goodbye once everything is done
     // TODO: This won't work when a component
     // in a sequence is cancelled.
@@ -451,29 +458,20 @@ export class Component extends EventHandler {
   // Data collection --------------------------------------
   // (the commit method is called automatically if the
   // datacommit option is true, which it is by default)
-  commit() {
+  commit(data={}) {
     // If a data store is defined
     if (this.options.datastore) {
       const timestamps = this.internals.timestamps
       // Commit the data collected by this component
       this.internals.logIndex = this.options.datastore.commit({
         // ... plus some additional metadata
-        // TODO: Decide whether the data attribute should
-        // be extended, or whether the extension here should
-        // start from an empty object
-        ...this.data,
-        ...this.aggregateParameters,
-        sender: this.options.title,
-        sender_type: this.type,
-        sender_id: this.options.id,
-        time_run: timestamps.run,
-        time_render: timestamps.render,
-        time_show: timestamps.show,
-        time_end: timestamps.end,
-        duration: timestamps.end - timestamps.show,
+        ...this.metadata,
+        ...data,
         time_commit: performance.now(),
         timestamp: new Date().toISOString(),
       })
+    } else {
+      throw new Error('No datastore available to commit to')
     }
     return this.triggerMethod('commit')
   }
@@ -537,6 +535,14 @@ export class Component extends EventHandler {
   }
 
   // Metadata ---------------------------------------------
+  get metadata() {
+    return {
+      sender: this.options.title,
+      sender_type: this.type,
+      sender_id: this.options.id,
+    }
+  }
+
   get parents() {
     let output = []
     let currentComponent = this
