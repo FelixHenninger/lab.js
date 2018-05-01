@@ -74,14 +74,22 @@ const insertCanvas = function insertCanvas(clearElement=true) {
       this.options.el.innerHTML = ''
     }
 
-    // Adjust the canvas dimensions
-    // to match those of the containing element
-    this.options.canvas.width = this.options.el.clientWidth * pixelRatio
-    this.options.canvas.height = this.options.el.clientHeight * pixelRatio
+    // Calculate available space, accounting for padding around the canvas
+    const wrapperStyle = window.getComputedStyle(this.options.el)
 
-    // Set the canvas element dimensions
-    this.options.canvas.style.width = `${ this.options.el.clientWidth }px`
-    this.options.canvas.style.height = `${ this.options.el.clientHeight }px`
+    const width = this.options.el.clientWidth -
+      parseInt(wrapperStyle.paddingLeft) - parseInt(wrapperStyle.paddingRight)
+    const height = this.options.el.clientHeight -
+      parseInt(wrapperStyle.paddingTop) - parseInt(wrapperStyle.paddingBottom)
+
+    // Adjust the (internal) canvas dimensions
+    // to match the physical screen pixels
+    this.options.canvas.width = width * pixelRatio
+    this.options.canvas.height = height * pixelRatio
+
+    // Set the canvas element dimensions to match the available space
+    this.options.canvas.style.width = `${ width }px`
+    this.options.canvas.style.height = `${ height }px`
 
     // Append the canvas to the DOM
     if (clearElement) {
