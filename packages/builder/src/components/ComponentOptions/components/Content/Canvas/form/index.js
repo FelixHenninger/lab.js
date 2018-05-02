@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Control } from 'react-redux-form'
 import { DropdownToggle, DropdownMenu, DropdownItem,
   Button, ButtonGroup,
-  InputGroup, InputGroupAddon } from 'reactstrap'
+  Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
 
 import DropDown from '../../../../../Dropdown'
 import Icon from '../../../../../Icon'
@@ -321,10 +321,13 @@ export const Typography = ({ selection, changeHandler }) =>
             <div className="dropdown-item">
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
-                  <Icon icon="text-height" />
+                  <InputGroupText>
+                    <Icon icon="text-height" />
+                  </InputGroupText>
                 </InputGroupAddon>
                 <Control
                   model=".fontSize"
+                  component={ Input }
                   placeholder="Size"
                   debounce={ 200 }
                   className="form-control"
