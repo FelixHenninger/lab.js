@@ -409,20 +409,11 @@ export class Component extends EventHandler {
     // in a sequence is cancelled.
     await this.triggerMethod('after:end', timestamp, frameSynced)
 
-    // Queue housekeeping, but don't wait for it
-    requestIdleCallback(
-      () => {
-        this.triggerMethod('epilogue')
-        if (this.options.datastore) {
-          this.options.datastore.triggerMethod('idle')
-        }
-      }
-    )
-
     // Log next frame time
     const switchFrameHandler = (s) => {
       this.internals.timestamps.switch = s
 
+      // Update duration given switch time
       if (this.options.datastore) {
         this.options.datastore.update(
           this.internals.logIndex,
@@ -436,7 +427,17 @@ export class Component extends EventHandler {
               : d.duration
           })
         )
+
+        // Signal upcoming idle period to data store
+        requestIdleCallback(
+          () => this.options.datastore.triggerMethod('idle')
+        )
       }
+
+      // Queue housekeeping as a final step
+      requestIdleCallback(
+        () => this.triggerMethod('epilogue')
+      )
     }
 
     if (frameSynced) {
