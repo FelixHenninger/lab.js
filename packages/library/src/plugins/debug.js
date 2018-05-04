@@ -236,6 +236,8 @@ export default class Debug {
         .on('set', () => this.render())
       this.context.options.datastore
         .on('commit', () => this.render())
+      this.context.options.datastore
+        .on('update', () => this.render())
     }
   }
 

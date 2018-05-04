@@ -191,6 +191,7 @@ export class Store extends EventHandler {
   // Update saved data ------------------------------------
   update(index, handler=d => d) {
     this.data[index] = handler(this.data[index])
+    this.triggerMethod('update')
   }
 
   // Erase collected data ---------------------------------

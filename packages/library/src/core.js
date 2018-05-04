@@ -399,8 +399,13 @@ export class Component extends EventHandler {
         time_render: this.internals.timestamps.render,
         time_show: this.internals.timestamps.show,
         time_end: this.internals.timestamps.end,
-        duration: this.internals.timestamps.end -
-          this.internals.timestamps.show,
+        duration: this.data.ended_on === 'timeout'
+          // For timeouts, we can really only know the component's
+          // duration after the next component is rendered. We're making
+          // a preliminary guess here, and updating it later.
+          ? this.internals.timestamps.end - this.internals.timestamps.render
+          // For responses, the duration can be determined immediately
+          : this.internals.timestamps.end - this.internals.timestamps.show
       })
     }
 
@@ -421,7 +426,8 @@ export class Component extends EventHandler {
             ...d,
             // Log switch frame
             time_switch: s,
-            // Update duration based on actual display time
+            // If the component was ended by a timeout,
+            // update the duration based on the actual presentation time
             duration: d.ended_on === 'timeout'
               ? s - d.time_show
               : d.duration
