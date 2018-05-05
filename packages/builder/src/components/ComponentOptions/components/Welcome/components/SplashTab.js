@@ -1,33 +1,67 @@
 import React from 'react'
 
-import { CardBody } from 'reactstrap'
+import { CardBody, CardText, ListGroup, ListGroupItem, Media } from 'reactstrap'
+import Icon from '../../../../Icon'
+
+const ActivityItem = ({ icon, iconFallbackWeight, children }) =>
+  <ListGroupItem action
+    style={{
+      color: 'var(--gray-dark)',
+      fontSize: '0.975rem',
+      paddingTop: '0.9rem',
+    }}
+  >
+    <Media>
+      <Media body>
+        { children }
+      </Media>
+      <Icon
+        icon={ icon }
+        fallbackWeight={ iconFallbackWeight }
+        className="fa-fw pt-1 pb-1"
+        style={{ fontSize: '1.5rem' }}
+      />
+    </Media>
+  </ListGroupItem>
 
 export default () =>
-  <CardBody
-    style={{ textAlign: 'center' }}
-  >
-    <h2 style={{ margin: '2rem 0 1rem' }} >
-      Welcome!
-    </h2>
-    <p>
-      <strong>Thank you for using <code>lab.js</code>!</strong><br/>
-      We hope you find it useful, and that<br />
-      you enjoy using it as much as we did building it.
-    </p>
-    <p>
-      To <strong>get started</strong>, please add a <code>screen</code> to
-      your new study by using one of the buttons with a plus on the left.
-      In this software, youʼll build your studies from many such&nbsp;
-      <em>components</em>.
-    </p>
-    <p className="small text-muted">
-      If you get stuck, you might want to <a
-      href="https://labjs.readthedocs.io">take a look at the
-      documentation</a>, or <a
-      href="https://github.com/felixhenninger/lab.js#find-help">reach out to
-      somebody who can help</a>. If something doesnʼt work as youʼd expect,
-      please do <a
-      href="https://github.com/FelixHenninger/lab.js/issues">let us
-      know</a>, weʼd be glad to fix things and make them work for you.
-    </p>
-  </CardBody>
+  <div>
+    <CardBody
+      style={{ textAlign: 'center' }}
+    >
+      <h2 style={{ margin: '2rem 0 1rem' }} >
+        Welcome!
+      </h2>
+      <CardText className="mb-2">
+        <strong>Thank you for using <code>lab.js</code>!</strong><br/>
+        We hope you find it useful, and that<br />
+        you enjoy using it as much as we did building it.
+      </CardText>
+    </CardBody>
+    <ListGroup className="list-group-flush">
+      <ActivityItem icon="plus-square">
+        <strong>Start building a study</strong><br />
+        <span className="text-muted">
+          by adding your first piece
+        </span>
+      </ActivityItem>
+      <ActivityItem icon="rocket">
+        <strong>Open an example</strong><br />
+        <span className="text-muted">
+          to see how things work
+        </span>
+      </ActivityItem>
+      <ActivityItem icon="graduation-cap">
+        <strong>Read the documentation</strong><br />
+        <span className="text-muted">
+          and learn everything there is to know
+        </span>
+      </ActivityItem>
+      <ActivityItem icon="life-ring">
+        <strong>Find support</strong><br />
+        <span className="text-muted">
+          Let us know if we can help, we'd be glad to!
+        </span>
+      </ActivityItem>
+    </ListGroup>
+  </div>
