@@ -1,0 +1,23 @@
+# YAML 1.2
+# Metadata for citation of this software according to the CFF format (https://citation-file-format.github.io/)
+cff-version: 1.0.3
+message: If you use this software, please cite it as below.
+title: 'lab.js: A free, open, online study builder'
+authors:
+- given-names: Felix
+  family-names: Henninger
+  orcid: http://orcid.org/0000-0002-7730-9511
+- given-names: Yury
+  family-names: Shevchenko
+- given-names: Ulf K.
+  family-names: Mertens
+- given-names: Pascal J.
+  family-names: Kieslich
+  orcid: http://orcid.org/0000-0002-0853-9364
+- given-names: Benjamin E.
+  family-names: Hilbig
+doi: 10.5281/zenodo.801791
+version: 2017.2.0
+date-released: 2017-06-01
+repository-code: https://github.com/FelixHenninger/lab.js
+license: other-open
