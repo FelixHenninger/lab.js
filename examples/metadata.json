@@ -31,6 +31,14 @@
     "path": "N-back task/n-back-task.study.json"
   },
   {
+    "name": "Paired recall (cued)",
+    "contributors": [
+      "Felix Ludwig",
+      "Felix Henninger"
+    ],
+    "path": "Paired recall (cued)/paired-recall-(cued).study.json"
+  },
+  {
     "name": "Stroop task",
     "contributors": [
       "Felix Henninger"

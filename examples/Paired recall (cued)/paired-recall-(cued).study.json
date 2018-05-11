@@ -1,0 +1,589 @@
+{
+  "version": [
+    2017,
+    1,
+    7
+  ],
+  "components": {
+    "1": {
+      "id": "1",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Welcome",
+      "content": "<header> <h2> Welcome! </h2> </header>\r\n\r\n<main class=\"content-horizontal-center content-vertical-center\">\r\n  This study will take around 15 minutes.\r\n</main>\r\n\r\n<footer>\r\n  Please press <kbd>Space</kbd> to continue.\r\n</footer>",
+      "_tab": "Content",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "2": {
+      "id": "2",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Instructions",
+      "content": "<header>\r\n  <h2>Instructions</h2>\r\n</header>\r\n\r\n<main class=\"content-horizontal-center content-vertical-center\">\r\n  <div class=\"w-m text-justify\">\r\n    <p>Your task in this study is to remember word pairs.\r\n    We'll first show you two words at a time, and later ask you\r\n    to recall these words in combination.</p>\r\n    <p>Once you continue, word pairs will be presented to\r\n    you in succession. Are you ready?</p>\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Please press <kbd>Space</kbd> to continue.\r\n</footer>",
+      "_tab": "Content",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "3": {
+      "id": "3",
+      "type": "lab.flow.Loop",
+      "children": [
+        "4"
+      ],
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "word1",
+            "type": "string"
+          },
+          {
+            "name": "word2",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "rouse",
+            "creel"
+          ],
+          [
+            "taker",
+            "clomb"
+          ],
+          [
+            "firth",
+            "leach"
+          ],
+          [
+            "tinct",
+            "gauzy"
+          ],
+          [
+            "dross",
+            "ephor"
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Learning phase",
+      "_tab": "Content",
+      "shuffle": true,
+      "sample": {
+        "n": ""
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "skip": false
+    },
+    "4": {
+      "id": "4",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Word pair presentation",
+      "content": "<header>\r\n  <h2>Learning phase</h2>\r\n</header>\r\n\r\n<main class=\"content-horizontal-center content-vertical-center\"> \r\n  <table class=\"table-plain w-m\" style=\"font-size: 2rem;\">\r\n    <tr>\r\n      <td style=\"width: 200px\">${ parameters.word1 }</td>\r\n      <td> &mdash; </td>\r\n      <td style=\"width: 200px\">${ parameters.word2 }</td>\r\n    </tr>\r\n  </table>  \r\n</main>\r\n\r\n<footer>\r\n  Please memorize this pair of words.\r\n</footer>",
+      "_tab": "Content",
+      "timeout": "2500",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "5": {
+      "id": "5",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Set duration",
+              "message": "before:prepare",
+              "code": "this.options.timeout = this.options.datastore.get('correct')\n  ? 1500\n  : 2500"
+            }
+          ]
+        ]
+      },
+      "title": "Feedback",
+      "content": "<header>\n  <h2>Experiment</h2>\n</header>\n\n<main class=\"content-horizontal-center content-vertical-center\"> \n  <form>\n    <!-- \n      Please remove this part if you\n      would rather not provide feedback\n    -->\n    <table \n      class=\"table-plain stimulus\"\n      style=\"color: ${ state.correct ? 'green' : 'red'}\"\n    >\n      <tr>\n        <td style=\"width: 50%\">\n          ${ parameters.word1 }\n        </td>\n        <td>\n          &mdash;\n        </td>\n        <td style=\"width: 50%\">\n          ${ parameters.word2 }\n        </td>\n      </tr>\n      <tr>\n        <td colspan=\"3\" style=\"font-size: 1.25rem; padding: 1rem\">\n          ${ state.correct \n            ? 'Well done!' \n            : 'Please memorize this pair again.' }\n        </td>\n      </tr>\n    </table>\n\n  </form>\n</main>\n\n<footer>\n  Please enter the missing word in the provided field.\n</footer>",
+      "_tab": "Content",
+      "timeout": "",
+      "tardy": true,
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "6": {
+      "id": "6",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Instructions recall",
+      "content": "<header> <h2> Experiment </h2> </header>\r\n\r\n<main class=\"content-horizontal-center content-vertical-center\">\r\n  <div class=\"w-m text-justify\">\r\n    We'll now ask you to recall the words you have just seen in pairs. <br>\r\n    One word will be shown, and we'd ask you to fill in the second.\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Please press <kbd>Space</kbd> to continue.\r\n</footer>",
+      "_tab": "Content",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "8": {
+      "id": "8",
+      "type": "lab.flow.Loop",
+      "children": [
+        "11"
+      ],
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "word1",
+            "type": "string"
+          },
+          {
+            "name": "word2",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "rouse",
+            "creel"
+          ],
+          [
+            "taker",
+            "clomb"
+          ],
+          [
+            "firth",
+            "leach"
+          ],
+          [
+            "tinct",
+            "gauzy"
+          ],
+          [
+            "dross",
+            "ephor"
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Recall phase",
+      "shuffle": true,
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "10": {
+      "id": "10",
+      "type": "lab.html.Form",
+      "responses": {
+        "rows": []
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Randomize cue",
+              "message": "before:prepare",
+              "code": "this.options.skip = this.aggregateParameters.cue !== 'right'"
+            }
+          ],
+          [
+            {
+              "title": "Evaluate response",
+              "message": "end",
+              "code": "if (!this.options.skip) {\n  // For evaluation, trim whitespace and\n  // convert words to lower case.\n  this.data['correct'] = \n    this.aggregateParameters.word2.trim().toLowerCase() ===\n    this.data.response.trim().toLowerCase()\n}"
+            }
+          ]
+        ]
+      },
+      "title": "Recall right",
+      "content": "<header>\r\n  <h2>Experiment</h2>\r\n</header>\r\n\r\n<main class=\"content-horizontal-center content-vertical-center\"> \r\n  <form>\r\n\r\n    <table class=\"table-plain stimulus\">\r\n      <tr>\r\n        <td style=\"width: 50%\">\r\n          ${ parameters.word1 }\r\n        </td>\r\n        <td>\r\n          &mdash;\r\n        </td>\r\n        <td style=\"width: 50%\">\r\n          <input type=\"text\" name=\"response\" autocomplete=\"off\">\r\n        </td>\r\n      </tr>\r\n      <tr>\r\n        <td></td>\r\n        <td>\r\n          <button type=\"submit\">Submit</button>\r\n        </td>\r\n        <td></td>\r\n      </tr>\r\n    </table>\r\n\r\n  </form>\r\n</main>\r\n\r\n<footer>\r\n  Please enter the missing word in the provided field.\r\n</footer>",
+      "_tab": "Content",
+      "correctResponse": "",
+      "tardy": false,
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "11": {
+      "id": "11",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "13",
+        "10",
+        "5"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Randomize cue",
+              "message": "before:prepare",
+              "code": "this.options.parameters['cue'] = \r\n  this.random.choice(['left', 'right'])"
+            }
+          ]
+        ]
+      },
+      "title": "Randomize cue position",
+      "_tab": "Scripts",
+      "tardy": false,
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "12": {
+      "id": "12",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "End",
+      "content": "<header> <h2> Thanks! </h2> </header>\r\n\r\n<main class=\"content-horizontal-center content-vertical-center\">\r\n  Thank you very much for your participation!\r\n</main>\r\n\r\n<footer>\r\n  You can now close this window.\r\n</footer>",
+      "_tab": "Content",
+      "timeout": "10",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "13": {
+      "id": "13",
+      "type": "lab.html.Form",
+      "responses": {
+        "rows": []
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Randomize cue",
+              "message": "before:prepare",
+              "code": "this.options.skip = this.aggregateParameters.cue !== 'left'"
+            }
+          ],
+          [
+            {
+              "title": "Evaluate response",
+              "message": "end",
+              "code": "if (!this.options.skip) {\n  // For evaluation, trim whitespace and\n  // convert words to lower case.\n  this.data['correct'] = \n    this.aggregateParameters.word1.trim().toLowerCase() ===\n    this.data.response.trim().toLowerCase()\n}"
+            }
+          ]
+        ]
+      },
+      "title": "Recall left",
+      "content": "<header>\r\n  <h2>Experiment</h2>\r\n</header>\r\n\r\n<main class=\"content-horizontal-center content-vertical-center\"> \r\n  <form>\r\n\r\n    <table class=\"table-plain stimulus\">\r\n      <tr>\r\n        <td style=\"width: 50%\">\r\n          <input type=\"text\" name=\"response\" autocomplete=\"off\">\r\n        </td>\r\n        <td>\r\n          &mdash;\r\n        </td>\r\n        <td style=\"width: 50%\">\r\n          ${ parameters.word2 }\r\n        </td>\r\n      </tr>\r\n      <tr>\r\n        <td></td>\r\n        <td>\r\n          <button type=\"submit\">Submit</button>\r\n        </td> \r\n        <td></td>\r\n      </tr>\r\n    </table>  \r\n\r\n  </form>\r\n</main>\r\n\r\n<footer>\r\n  Please enter the missing word in the provided field.\r\n</footer>",
+      "_tab": "Content",
+      "correctResponse": "",
+      "tardy": false,
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "1",
+        "2",
+        "3",
+        "6",
+        "8",
+        "12"
+      ],
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "Paired recall (cued)",
+        "description": "Paired cued recall task, using associates from Underwood (1982; doi:10.3758/BF03202444)",
+        "repository": "",
+        "contributors": "Felix Ludwig\nFelix Henninger"
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20lab.js%20library%20and%20default%20styles%20--%3E%0A%20%20%3Cscript%20src%3D%22lib%2Flab.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22lib%2Flab.css%22%3E%0A%20%20%3C!--%20study%20code%20and%20styles%20--%3E%0A%20%20%3Cscript%20defer%20src%3D%22script.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22style.css%22%3E%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "permanent": true
+      },
+      "style.css": {
+        "content": "data:text/css,.stimulus%7B%0D%0A%20%20font-size%3A%202rem%3B%0D%0A%20%20text-align%3A%20center%3B%0D%0A%20%20width%3A%20500px%3B%0D%0A%7D",
+        "permanent": true
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      }
+    }
+  }
+}
