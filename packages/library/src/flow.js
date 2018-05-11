@@ -102,6 +102,9 @@ export class Sequence extends Component {
 Sequence.metadata = {
   module: ['flow'],
   nestedComponents: ['content'],
+  parsableOptions: {
+    shuffle: { type: 'boolean' },
+  },
 }
 
 // A loop functions exactly like a sequence,
@@ -162,6 +165,15 @@ export class Loop extends Sequence {
 Loop.metadata = {
   module: ['flow'],
   nestedComponents: ['template'],
+  parsableOptions: {
+    sample: {
+      type: 'object',
+      content: {
+        n: { type: 'number' },
+        replace: { type: 'boolean' },
+      },
+    },
+  },
 }
 
 // A parallel component executes multiple
@@ -220,4 +232,7 @@ export class Parallel extends Component {
 Parallel.metadata = {
   module: ['flow'],
   nestedComponents: ['content'],
+  parsableOptions: {
+    mode: {},
+  },
 }
