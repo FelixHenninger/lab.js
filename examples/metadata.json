@@ -39,6 +39,14 @@
     "path": "Paired recall (cued)/paired-recall-(cued).study.json"
   },
   {
+    "name": "Paired recall (free)",
+    "contributors": [
+      "Felix Ludwig",
+      "Felix Henninger"
+    ],
+    "path": "Paired recall (free)/paired-recall-(free).study.json"
+  },
+  {
     "name": "Stroop task",
     "contributors": [
       "Felix Henninger"
