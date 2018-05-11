@@ -1,0 +1,889 @@
+{
+  "version": [
+    2017,
+    1,
+    7
+  ],
+  "components": {
+    "1": {
+      "id": "1",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "end",
+              "message": "run",
+              "code": "this.end();"
+            }
+          ]
+        ]
+      },
+      "title": "End",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\r\n\r\n  <div>\r\n    <h2>Thank you for taking part!</h2>\r\n    You can close this window now.\r\n  </div>\r\n\r\n</main>\r\n\r\n<footer></footer>",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "timeout": ""
+    },
+    "2": {
+      "id": "2",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Set Random Fix",
+              "message": "run",
+              "code": "const ds = this.options.datastore\r\n\r\nds.set('RandomNumber', Math.ceil(Math.random()*2))"
+            }
+          ]
+        ]
+      },
+      "title": "Welcome",
+      "content": "<header>\r\n  <h2>Welcome!</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-m text-justify\">\r\n    This experiment will take about 5 minutes.\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Please press the <kbd>spacebar</kbd>\r\n  to proceed to the instructions.\r\n</footer>",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "3": {
+      "id": "3",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "keypress",
+            "",
+            "s"
+          ],
+          [
+            "continue",
+            "keypress",
+            "",
+            "l"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Experiment",
+      "content": "<header>\r\n  <h2>Ready?</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-m text-justify\">\r\n    Please now place your fingers on the <kbd>s</kbd> and <kbd>l</kbd> keys.\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Start the experiment by pressing either \r\n  <kbd>s</kbd> or <kbd>l</kbd>.\r\n</footer>",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "skip": false
+    },
+    "5": {
+      "id": "5",
+      "type": "lab.flow.Loop",
+      "children": [
+        "8"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "city",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "Delhi"
+          ],
+          [
+            "Jakarta"
+          ],
+          [
+            "Kinshasa"
+          ],
+          [
+            "Bogotá"
+          ],
+          [
+            "Bangalore"
+          ],
+          [
+            "Saint Petersburg"
+          ],
+          [
+            "Chengdu"
+          ],
+          [
+            "Ahmedabad"
+          ],
+          [
+            "Ibadan"
+          ],
+          [
+            "Saigon"
+          ],
+          [
+            "Harbin"
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "shuffle": true,
+      "title": "Recognition test"
+    },
+    "7": {
+      "id": "7",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Instructions judgment",
+      "content": "<header>\r\n  <h2>Your task</h2>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-m text-justify\">\r\n    <p>In this experiment we will ask you to compare several cities by their population. The names of two cities will be shown side by side, and your task will be to judge which one you think is larger, based on the number of inhabitants.</p>\r\n    \r\n    <p>If you think the left city has a larger population than the right, please indicate this by pressing the <kbd>s</kbd> key. Likewise, please press the <kbd>l</kbd> key if you think that the population of the right city is larger. Please provide your answers quickly and intuitively. Take a guess if you are not sure about the correct answer. </p>\r\n\r\n    <p>After you have given your judgements we will ask you some further questions about the cities presented in the experiment.</p>\r\n  </div>\r\n</main>\r\n\r\n<footer>\r\n  Please press the <kbd>spacebar</kbd>\r\n  to begin the experiment.\r\n</footer>",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "skip": false
+    },
+    "8": {
+      "id": "8",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "13",
+        "10"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Sequence"
+    },
+    "10": {
+      "id": "10",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "knowledge",
+            "click",
+            "#Yes",
+            ""
+          ],
+          [
+            "mere recognition",
+            "click",
+            "#No",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Skip Condition",
+              "message": "before:prepare",
+              "code": "const ds = this.options.datastore\r\n\r\nthis.options.skip = ds.state.response === 'unrecognized'"
+            }
+          ]
+        ]
+      },
+      "title": "Knowledge",
+      "content": "<main class=\"content-horizontal-center content-vertical-center\">\r\n\r\n  <div class=\"w-m text-center\">\r\n    <p style=\"font-size: 1.25rem\">\r\n      Do you <strong>know more</strong> about this city?\r\n    </p>\r\n    <p style=\"font-size: 2rem; font-weight: bold\">\r\n      ${ parameters.city }\r\n    </p>\r\n    <div class=\"content-vertical-center content-horizontal-space-around\">\r\n      <div class=\"button\" id=\"Yes\">\r\n        <strong>Yes</strong><br>\r\n        <small>I know more</small>\r\n      </div>\r\n      <div class=\"button\" id=\"No\">\r\n        <strong>No</strong><br>\r\n        <small>I only know the name</small>\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n</main>\r\n\r\n<footer>\r\n  Please answer the question by clicking on the button<br>\r\n  that corresponds to your answer.\r\n</footer>",
+      "tardy": true
+    },
+    "13": {
+      "id": "13",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "recognized",
+            "click",
+            "#Yes",
+            ""
+          ],
+          [
+            "unrecognized",
+            "click",
+            "#No",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Recognition",
+      "content": "<main class=\"content-horizontal-center content-vertical-center\">\r\n\r\n  <div class=\"w-m text-center\">\r\n    <p style=\"font-size: 1.25rem\">\r\n      Have you <strong>heard about</strong> this city before?\r\n    </p>\r\n    <p style=\"font-size: 2rem; font-weight: bold\">\r\n      ${ parameters.city }\r\n    </p>\r\n    <div class=\"content-vertical-center content-horizontal-space-around\">\r\n      <div class=\"button\" id=\"Yes\">\r\n        <strong>Yes</strong><br>\r\n        <small>I've heard the name</small>\r\n      </div>\r\n      <div class=\"button\" id=\"No\">\r\n        <strong>No</strong><br>\r\n        <small>I'm not familiar with this city</small>\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n</main>\r\n\r\n<footer>\r\n  Please answer the question by clicking on the button<br>\r\n  that corresponds to your answer.\r\n</footer>"
+    },
+    "17": {
+      "id": "17",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Instructions recognition",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-s text-justify\">\r\n    <p><strong>Thank you for your answers!</strong> We would now like to ask you a few further questions about the presented cities.</p>\r\n  </div>\r\n</main>\r\n\r\n<footer>Please press the <kbd>spacebar</kbd> to continue.</footer>",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "21": {
+      "id": "21",
+      "type": "lab.flow.Loop",
+      "children": [
+        "24"
+      ],
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "cityA",
+            "type": "string"
+          },
+          {
+            "name": "cityB",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "Delhi",
+            "Jakarta"
+          ],
+          [
+            "Delhi",
+            "Kinshasa"
+          ],
+          [
+            "Delhi",
+            "Bogotá"
+          ],
+          [
+            "Delhi",
+            "Bangalore"
+          ],
+          [
+            "Delhi",
+            "Saint Petersburg"
+          ],
+          [
+            "Delhi",
+            "Chengdu"
+          ],
+          [
+            "Delhi",
+            "Ahmedabad"
+          ],
+          [
+            "Delhi",
+            "Ibadan"
+          ],
+          [
+            "Delhi",
+            "Saigon"
+          ],
+          [
+            "Delhi",
+            "Harbin"
+          ],
+          [
+            "Jakarta",
+            "Kinshasa"
+          ],
+          [
+            "Jakarta",
+            "Bogotá"
+          ],
+          [
+            "Jakarta",
+            "Bangalore"
+          ],
+          [
+            "Jakarta",
+            "Saint Petersburg"
+          ],
+          [
+            "Jakarta",
+            "Chengdu"
+          ],
+          [
+            "Jakarta",
+            "Ahmedabad"
+          ],
+          [
+            "Jakarta",
+            "Ibadan"
+          ],
+          [
+            "Jakarta",
+            "Saigon"
+          ],
+          [
+            "Jakarta",
+            "Harbin"
+          ],
+          [
+            "Kinshasa",
+            "Bogotá"
+          ],
+          [
+            "Kinshasa",
+            "Bangalore"
+          ],
+          [
+            "Kinshasa",
+            "Saint Petersburg"
+          ],
+          [
+            "Kinshasa",
+            "Chengdu"
+          ],
+          [
+            "Kinshasa",
+            "Ahmedabad"
+          ],
+          [
+            "Kinshasa",
+            "Ibadan"
+          ],
+          [
+            "Kinshasa",
+            "Saigon"
+          ],
+          [
+            "Kinshasa",
+            "Harbin"
+          ],
+          [
+            "Bogotá",
+            "Bangalore"
+          ],
+          [
+            "Bogotá",
+            "Saint Petersburg"
+          ],
+          [
+            "Bogotá",
+            "Chengdu"
+          ],
+          [
+            "Bogotá",
+            "Ahmedabad"
+          ],
+          [
+            "Bogotá",
+            "Ibadan"
+          ],
+          [
+            "Bogotá",
+            "Saigon"
+          ],
+          [
+            "Bogotá",
+            "Harbin"
+          ],
+          [
+            "Bangalore",
+            "Saint Petersburg"
+          ],
+          [
+            "Bangalore",
+            "Chengdu"
+          ],
+          [
+            "Bangalore",
+            "Ahmedabad"
+          ],
+          [
+            "Bangalore",
+            "Ibadan"
+          ],
+          [
+            "Bangalore",
+            "Saigon"
+          ],
+          [
+            "Bangalore",
+            "Harbin"
+          ],
+          [
+            "Saint Petersburg",
+            "Chengdu"
+          ],
+          [
+            "Saint Petersburg",
+            "Ahmedabad"
+          ],
+          [
+            "Saint Petersburg",
+            "Ibadan"
+          ],
+          [
+            "Saint Petersburg",
+            "Saigon"
+          ],
+          [
+            "Saint Petersburg",
+            "Harbin"
+          ],
+          [
+            "Chengdu",
+            "Ahmedabad"
+          ],
+          [
+            "Chengdu",
+            "Ibadan"
+          ],
+          [
+            "Chengdu",
+            "Saigon"
+          ],
+          [
+            "Chengdu",
+            "Harbin"
+          ],
+          [
+            "Ahmedabad",
+            "Ibadan"
+          ],
+          [
+            "Ahmedabad",
+            "Saigon"
+          ],
+          [
+            "Ahmedabad",
+            "Harbin"
+          ],
+          [
+            "Ibadan",
+            "Saigon"
+          ],
+          [
+            "Ibadan",
+            "Harbin"
+          ],
+          [
+            "Saigon",
+            "Harbin"
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Judgment task",
+      "shuffle": true,
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "skip": false
+    },
+    "23": {
+      "id": "23",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "left",
+            "keypress",
+            "",
+            "s"
+          ],
+          [
+            "right",
+            "keypress",
+            "",
+            "l"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": []
+      },
+      "title": "Judgment",
+      "content": "<header>\r\n  <h2>Which city has more inhabitants?</h2>\r\n</header>\r\n\r\n<main class=\"content-horizontal-center content-vertical-center\">\r\n  <table class=\"w-l table-plain\" style=\"font-size: 1.5rem\">\r\n    <tr>\r\n      <td style=\"width: 50%\">\r\n        ${ parameters.switch ? parameters.cityA : parameters.cityB }\r\n      </td>\r\n      <td style=\"width: 50%\">\r\n        ${ parameters.switch ? parameters.cityB : parameters.cityA }\r\n      </td>\r\n    </tr>\r\n  </table>\r\n</main>\r\n\r\n<footer>\r\n  If you think the city shown on the <strong> left </strong> has a larger population, press the <kbd>s</kbd> key. <br> If you think the city shown on the <strong> right </strong> has a larger population, press the <kbd>l</kbd> key.\r\n</footer>",
+      "correctResponse": "${ parameters.switch ? 'left' : 'right' }",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "24": {
+      "id": "24",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "23",
+        "25"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Switch sides",
+              "message": "before:prepare",
+              "code": "this.options.parameters.switch = \n  this.random.choice([true, false])\n"
+            }
+          ]
+        ]
+      },
+      "title": "Sequence",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "25": {
+      "id": "25",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Feedback",
+      "content": "<header>\r\n  <h2>Which city has more inhabitants?</h2>\r\n</header>\r\n\r\n<main class=\"content-horizontal-center content-vertical-center\">\r\n  ${ state.duration > 3000 ? 'Can you answer more quickly?' : '&nbsp;' }\r\n</main>\r\n\r\n<footer>\r\n  If you think the city shown on the <strong> left </strong> has a larger population, press the <kbd>s</kbd> key. <br> If you think the city shown on the <strong> right </strong> has a larger population, press the <kbd>l</kbd> key.\r\n</footer>",
+      "timeout": "500",
+      "tardy": true,
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "root": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "2",
+        "7",
+        "3",
+        "21",
+        "17",
+        "5",
+        "1"
+      ],
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "City Size Judgment",
+        "description": "Experiment for  the fast-and-frugal recognition heuristic (RH) with the comparsion of city sizes. City names were taken from:\n\nHilbig, B. E. (2008). Individual differences in fast-and-frugal decision making: Neuroticism and the recognition heuristic. Journal of Research in Personality, 42(6), 1641-1645.",
+        "repository": "",
+        "contributors": "Felix Ludwig\nFelix Henninger\nMichael Kriechbaumer"
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20lab.js%20library%20and%20default%20styles%20--%3E%0A%20%20%3Cscript%20src%3D%22lib%2Flab.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22lib%2Flab.css%22%3E%0A%20%20%3C!--%20study%20code%20and%20styles%20--%3E%0A%20%20%3Cscript%20defer%20src%3D%22script.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22style.css%22%3E%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you're%20looking%20to%20fill%20all%20available%20browser%20space%2C%0A%20%20%20%20%20%20%20try%20replacing%20the%20class%20below%20with%20%22container%20fullscreen%22%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "permanent": true
+      },
+      "style.css": {
+        "content": "data:text/css,.button%20%7B%0D%0A%20%20width%3A%20200px%3B%0D%0A%20%20background-color%3A%20%23f8f8f8%3B%0D%0A%20%20border%3A%202px%20solid%20%23e5e5e5%3B%0D%0A%20%20border-radius%3A%204px%3B%0D%0A%20%20padding%3A%2012px%208px%208px%3B%0D%0A%20%20margin%3A%208px%3B%0D%0A%7D%0D%0A%0D%0A.button%20small%20%7B%0D%0A%20%20font-size%3A%200.8rem%3B%0D%0A%7D",
+        "permanent": true
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      },
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      }
+    }
+  }
+}

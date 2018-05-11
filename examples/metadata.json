@@ -1,5 +1,14 @@
 [
   {
+    "name": "City size task",
+    "contributors": [
+      "Felix Ludwig",
+      "Felix Henninger",
+      "Michael Kriechbaumer"
+    ],
+    "path": "City size task/city-size.study.json"
+  },
+  {
     "name": "Digit span",
     "contributors": [
       "Felix Henninger"
