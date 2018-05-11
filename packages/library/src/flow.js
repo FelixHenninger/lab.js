@@ -124,12 +124,21 @@ export class Loop extends Sequence {
   }
 
   onPrepare() {
+    // Sample parameters to make room for repetitions and subsampling
+    const templateParameters = this.options.sample.n
+      ? this.random.sample(
+          this.options.templateParameters,
+          this.options.sample.n,
+          this.options.sample.replace,
+        )
+      : this.options.templateParameters
+
     // Generate the content by cloning the template,
     // replacing the parameters each time, or by
     // mapping the parameters onto a function that
     // returns a component.
     if (this.options.template instanceof Component) {
-      this.options.content = this.options.templateParameters.map((p) => {
+      this.options.content = templateParameters.map((p) => {
         const c = this.options.template.clone()
         // Extend parameters
         c.options.parameters = {
@@ -139,20 +148,11 @@ export class Loop extends Sequence {
         return c
       })
     } else if (isFunction(this.options.template)) {
-      this.options.content = this.options.templateParameters.map(
+      this.options.content = templateParameters.map(
         (p, i) => this.options.template(p, i, this),
       )
     } else {
       console.warn('Missing or invalid template in loop, no content generated')
-    }
-
-    // Subsample iterations, if requested
-    if (this.options.sample.n) {
-      this.options.content = this.random.sample(
-        this.options.content,
-        this.options.sample.n,
-        this.options.sample.replacement,
-      )
     }
 
     return super.onPrepare()
