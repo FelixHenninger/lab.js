@@ -62,6 +62,24 @@ describe('Plugins', () => {
         )
       })
     })
+
+    it('collects url parameters', () => {
+      const c = new lab.core.Component({
+        plugins: [
+          new lab.plugins.Metadata({
+            location_search: '?foo=bar&baz=123'
+          }),
+        ],
+        datastore: new lab.data.Store(),
+      })
+
+      return c.prepare().then(() => {
+        assert.deepEqual(
+          c.options.datastore.staging.url,
+          { foo: 'bar', baz: '123' }
+        )
+      })
+    })
   })
 
   describe('Transmit', () => {

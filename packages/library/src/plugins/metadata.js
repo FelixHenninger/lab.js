@@ -1,3 +1,5 @@
+import { fromPairs } from 'lodash'
+
 const getMetadata = () => {
   const intl = window.Intl.DateTimeFormat().resolvedOptions()
 
@@ -19,24 +21,48 @@ const getMetadata = () => {
   }
 }
 
+const extractURLSearchParams = search =>
+  fromPairs(
+    // TODO: Remove the polyfill when dropping support for IE11
+    window.URLSearchParams
+      ? Array.from(
+          new URLSearchParams(search).entries()
+        )
+      : search // Fairly naive polyfill for the above
+          .substr(1) // Remove prepended question mark
+          .split('&') // Split into individual parameters
+          .map(entry => entry.split('=', 2)) // Split entries into k/v
+          .map(([key, value]) => ([
+            key,
+            decodeURIComponent(value.replace('+', ' '))
+          ]))
+  )
+
 export default class Metadata {
-  // TODO: The linter thinks it is not worth to use
-  // a class here. Possibly the plugin could accept
-  // additional data to include?
-  // eslint-disable-next-line class-methods-use-this
+  constructor(options={}) {
+    this.options = options
+  }
+
   handle(context, event) {
     if (event === 'prepare') {
-      // If a datastore is available, save the metadata
-      // directly, otherwise treat it just like any other
-      // data, and rely on custom / manual storage
+      // Extract URL parameters from location string
+      const urlParams = extractURLSearchParams(
+        // Allow injection of search string for testing
+        this.options.location_search || window.location.search
+      )
+
       if (context.options.datastore) {
-        context.options.datastore.set(
-          'meta', getMetadata(),
-        )
+        // If a datastore is available, save the metadata there ...
+        context.options.datastore.set({
+          url: urlParams,
+          meta: getMetadata(),
+        })
       } else {
-        // This assignment is intentional
-        // eslint-disable-next-line no-param-reassign
-        context.data.meta = getMetadata()
+        // ... otherwise append data to component
+        Object.assign(context.data, {
+          url: urlParams,
+          meta: getMetadata(),
+        })
       }
     }
   }
