@@ -1,5 +1,6 @@
 import { createStaticBlob } from '../index'
 import { makeDataURI, readDataURI } from '../../../../logic/util/dataURI'
+import { stripIndent } from 'common-tags'
 
 const form = `
   <form name="labjs-data" netlify netlify-honeypot="bot-field" hidden>
@@ -29,5 +30,21 @@ const addSubmissionForm = (state) => {
   return state
 }
 
-export default state =>
-  createStaticBlob(state, addSubmissionForm)
+const makeRedirects = ({ site }) => makeDataURI(stripIndent`
+  # Enforce HTTPS for subdomain url
+  http://${ site }   https://${ site }          301
+  http://${ site }/* https://${ site }/:splat   301
+
+  # Rewrite paths to create multi-site entries
+  /e/:entry   /e/:entry/index.html              302
+  /e/:entry/* /:splat                           200
+`)
+
+export default (state, options) =>
+  createStaticBlob(
+    state,
+    addSubmissionForm,
+    {
+      '_redirects': { content: makeRedirects(options) }
+    },
+  )

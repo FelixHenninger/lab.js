@@ -87,14 +87,17 @@ class NetlifyWidget extends Component {
       ? `https://api.netlify.com/api/v1/sites/${ data.site }/deploys`
       : 'https://api.netlify.com/api/v1/sites'
 
-    return exportStaticNetlify(this.context.store.getState())
+    return exportStaticNetlify(
+      this.context.store.getState(),
+      { site: data.site },
+    )
       .then(studyBlob => fetch(url, {
         method: 'post',
         headers: {
           'Content-Type': 'application/zip',
           'Authorization': `Bearer ${ data.apiKey }`,
         },
-        body: studyBlob
+        body: studyBlob,
       })).then(r => {
         // Transmission succeeded
         if (r.ok) {
@@ -102,8 +105,10 @@ class NetlifyWidget extends Component {
           r.json().then(
             d => this.setState({
               widgetState: 'done',
-              site_url: d.ssl_url,
-              admin_url: d.admin_url,
+              site_url: d.ssl_url
+                || `https://${ d.subdomain }.netlify.com/`,
+              admin_url: d.admin_url
+                || `https://app.netlify.com/sites/${ d.subdomain }/`,
               statusCode: r.status,
               statusText: r.statusText,
             })
