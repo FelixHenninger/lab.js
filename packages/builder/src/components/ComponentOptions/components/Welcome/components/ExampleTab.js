@@ -17,7 +17,7 @@ const etAl = (acc='', c, i, arr) =>
     : acc + (i < arr.length - 1 ? ', ' : ' & ') + c
 
 const Task = ({ name, contributors, description, url, clickHandler }) =>
-  <ListGroupItem
+  <ListGroupItem action
     style={{ cursor: 'pointer' }}
     onClick={ clickHandler }
   >
