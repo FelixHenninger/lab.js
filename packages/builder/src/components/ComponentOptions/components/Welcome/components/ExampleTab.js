@@ -82,7 +82,7 @@ class TaskList extends Component {
               <small>
                 This shouldn't happen.
                 If this persists even though you're online, could you please
-                <a href="http://labjs.readthedocs.io/en/latest/meta/contribute/help.html">let us know</a>?
+                <a href="http://labjs.readthedocs.io/en/latest/meta/contribute/help.html" target="_blank" rel="noopener noreferrer">let us know</a>?
               </small>
             </p>
           </ListGroupItem>
@@ -129,7 +129,7 @@ export default () =>
         Pre-made, ready-to-run studies
       </CardSubtitle>
       <CardText>
-        These examples are made by researchers like you! If you're building a study, we'd love to add it here &mdash; please <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html">let us know</a>!
+        These examples are made by researchers like you! If you're building a study, we'd love to add it here &mdash; please <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html" target="_blank" rel="noopener noreferrer">let us know</a>!
       </CardText>
       <CardText>
         Please click on any of the paradigms to open it; they're yours to try, demonstrate, replicate and extend.
@@ -138,7 +138,7 @@ export default () =>
     <TaskList />
     <CardBody>
       <small className="text-muted">
-        Missing a task? Something to improve? Please <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html">suggest or contribute</a>!
+        Missing a task? Something to improve? Please <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html" target="_blank" rel="noopener noreferrer">suggest or contribute</a>!
       </small>
     </CardBody>
   </div>
