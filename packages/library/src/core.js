@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash'
+import { cloneDeepWith } from 'lodash'
 import Proxy from 'es2015-proxy'
 
 import { EventHandler } from './util/eventAPI'
@@ -512,28 +512,37 @@ export class Component extends EventHandler {
   // Return a component of the same type,
   // with identical options
   clone(options={}) {
-    const rawOptions = this.internals.rawOptions
+    // We copy all options from the current component,
+    // except for those that may contain components
+    // themselves -- in that case, we recursively
+    // create cloned copies of the original component.
+    const nestedComponents = this.constructor.metadata.nestedComponents || []
 
-    // Copy local options
     const cloneOptions = {
-      ...cloneDeep(rawOptions),
+      ...cloneDeepWith(this.internals.rawOptions, (v, k, root) => {
+        // For immediately nested options that contain components,
+        // call their clone method instead of copying naively
+        if (root === this.internals.rawOptions &&
+          nestedComponents.includes(k)) {
+
+          // Choose procedure depending on data type
+          if (Array.isArray(v)) {
+            // Apply clone method to arrays of components
+            return v.map(
+              c => (c instanceof Component ? c.clone() : c),
+            )
+          } else if (v instanceof Component) {
+            // Only clone components, any other data type
+            // will be left to the library clone function
+            return v.clone()
+          }
+        }
+      }),
+      // Overwrite existing options, if so instructed
       ...options,
     }
 
-    // Clone any nested components
-    this.constructor.metadata.nestedComponents.forEach((o) => {
-      if (Array.isArray(rawOptions[o])) {
-        cloneOptions[o] = rawOptions[o].map(
-          c => (c instanceof Component ? c.clone() : c),
-        )
-      } else if (rawOptions[o] instanceof Component) {
-        // Only clone components, any other data type
-        // will have already been copied above.
-        cloneOptions[0] = rawOptions[o].clone()
-      }
-    })
-
-    // Create new component of the same type
+    // Construct a new component of the same type
     return new this.constructor(cloneOptions)
   }
 
