@@ -27,6 +27,17 @@ export const handMeDowns = [
 
 // Generic building block for experiment
 export class Component extends EventHandler {
+  status = status.initialized // Component status
+  data = {} // Collected data
+
+  // Storage for internal properties
+  // (these are not supposed to be directly available
+  // to users, and may change between versions)
+  internals = {
+    timestamps: {},
+    ...this.internals,
+  }
+
   constructor(options={}) {
     // Construct the EventHandler first
     super({
@@ -116,21 +127,6 @@ export class Component extends EventHandler {
         return true
       },
     })
-
-    // Setup a storage for internal properties
-    // (these are not supposed to be directly
-    // available to users, and will not be
-    // documented in detail)
-    this.internals = {
-      timestamps: {},
-      ...this.internals,
-    }
-
-    // Component status
-    this.status = status.initialized
-
-    // Setup additional data
-    this.data = {}
 
     // Attach component event handlers
     Object.keys(this.options.messageHandlers).forEach(

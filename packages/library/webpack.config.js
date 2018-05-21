@@ -37,6 +37,7 @@ module.exports = (env, argv) => {
           ],
           plugins: [
             'transform-object-rest-spread',
+            'transform-class-properties',
             'lodash',
             ['fast-async', {
               runtimePattern: './src/index.js'
