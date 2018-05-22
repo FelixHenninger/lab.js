@@ -693,6 +693,33 @@ describe('Core', () => {
         )
       })
 
+      it('proxies writes to parameter property', () => {
+        const c = new lab.core.Component()
+        c.parameters.foo = 'bar'
+
+        assert.equal(
+          c.options.parameters.foo,
+          'bar'
+        )
+      })
+
+      it('proxies reads from parameter property', () => {
+        const c = new lab.core.Component()
+        const s = new lab.flow.Sequence({
+          content: [c],
+          parameters: {
+            foo: 'bar'
+          }
+        })
+
+        return s.prepare().then(() => {
+          assert.equal(
+            c.parameters.foo,
+            'bar'
+          )
+        })
+      })
+
       it('commits parameters alongside data', () => {
         const c = new lab.core.Dummy()
 

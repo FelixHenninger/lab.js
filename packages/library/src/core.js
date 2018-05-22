@@ -38,6 +38,20 @@ export class Component extends EventHandler {
     ...this.internals,
   }
 
+  // Proxy parameters
+  // (for browsers that support proxies natively)
+  parameters = (window.Proxy
+    ? new window.Proxy({}, {
+        // Read from the aggregate parameters
+        get: (obj, prop) =>
+          this.aggregateParameters[prop],
+        // Redirect writes to the parameters option
+        set: (obj, prop, value) =>
+          (this.options.parameters[prop] = value) || true
+      })
+    : this.aggregateParameters
+  )
+
   constructor(options={}) {
     // Construct the EventHandler first
     super({
