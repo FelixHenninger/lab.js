@@ -52,6 +52,31 @@ export class Component extends EventHandler {
     : this.aggregateParameters
   )
 
+  // Proxy state
+  state = (window.Proxy
+    ? new window.Proxy({}, {
+        // Read from the internal datastore
+        // TODO: This would likely benefit from optional chaining
+        get: (obj, prop) => {
+          if (this.options.datastore) {
+            return this.options.datastore.state[prop]
+          } else {
+            throw new Error('No datastore to retrieve state from')
+          }
+        },
+        // Redirect writes to store's set method
+        set: (obj, prop, value) => {
+          if (this.options.datastore) {
+            this.options.datastore.set(prop, value)
+            return true
+          } else {
+            throw new Error('No datastore to save state to')
+          }
+        }
+      })
+    : Object.freeze({})
+  )
+
   constructor(options={}) {
     // Construct the EventHandler first
     super({

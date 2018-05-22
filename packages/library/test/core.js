@@ -889,6 +889,26 @@ describe('Core', () => {
     })
 
     describe('Data', () => {
+      it('state property reads from data store', () => {
+        b.options.datastore = new lab.data.Store()
+        b.options.datastore.set('foo', 'bar')
+
+        assert.equal(
+          b.state.foo,
+          'bar'
+        )
+      })
+
+      it('state property writes to data store', () => {
+        b.options.datastore = new lab.data.Store()
+        b.state.foo = 'bar'
+
+        assert.equal(
+          b.options.datastore.state.foo,
+          'bar'
+        )
+      })
+
       it('commit method passes data to data store', () => {
         b.options.datastore = new lab.data.Store()
 
