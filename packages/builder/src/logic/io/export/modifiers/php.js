@@ -32,48 +32,26 @@ session_start([
 ]);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  // Catch raw data from post request
-  $raw_data = file_get_contents('php://input');
+  // Decode transmitted data
+  $data = json_decode(file_get_contents('php://input'), true);
 
-  // Setup prepared statement
-  $insert =
-    'INSERT INTO labjs (session, timestamp, url, metadata, data)
-    VALUES (:session, :timestamp, :url, :metadata, :data)';
-  $stmt = $db->prepare($insert);
+  // (Cursory) validity check
+  if (is_array($data)) {
+    // Setup prepared statement
+    $insert =
+      'INSERT INTO labjs (session, timestamp, url, metadata, data)
+       VALUES (:session, :timestamp, :url, :metadata, :data)';
+    $stmt = $db->prepare($insert);
 
-  // Split input into distinct lines
-  $separator = '\r\n';
-  $line = strtok($raw_data, $separator);
+    // Insert data
+    $stmt->execute(array(
+      ':session' => session_id() ?: 'unknown',
+      ':timestamp' => date('c'),
+      ':url' => isset($data['url']) ? $data['url'] : 'none',
+      ':metadata' => isset($data['metadata']) ? json_encode($data['metadata']) : 'none',
+      ':data' => isset($data['data']) ? json_encode($data['data']) : 'none'
+    ));
 
-  // Keep track of validity
-  $all_valid = $line !== false;
-
-  while($line !== false) {
-    // Decode transmitted data
-    $data = json_decode($line, true);
-
-    // (Cursory) validity check
-    if (is_array($data)) {
-
-      // Insert data
-      $stmt->execute(array(
-        ':session' => session_id() ?: 'unknown',
-        ':timestamp' => date('c'),
-        ':url' => isset($data['url']) ? $data['url'] : 'none',
-        ':metadata' => isset($data['metadata']) ? json_encode($data['metadata']) : 'none',
-        ':data' => isset($data['data']) ? json_encode($data['data']) : 'none'
-      ));
-
-    } else {
-      $all_valid = false;
-    }
-
-    // Prepare next line
-    $line = strtok($separator);
-  }
-
-  // Finally, provide feedback
-  if ($all_valid) {
     http_response_code(200);
   } else {
     http_response_code(400);

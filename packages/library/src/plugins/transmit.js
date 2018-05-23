@@ -8,7 +8,7 @@ export default class Transmit {
 
     // Updates need to be disabled explicitly
     this.updates = {
-      staging: !(options.updates && options.updates.staging === false),
+      incremental: !(options.updates && options.updates.incremental === false),
       full: !(options.updates && options.updates.full === false),
     }
     this.callbacks = options.callbacks || {}
@@ -21,22 +21,33 @@ export default class Transmit {
 
     switch (event) {
       case 'prepare':
-        if (this.updates.staging) {
+        if (this.updates.incremental) {
           // Set commit handler on data store
           // (inside the handler, this refers to the store)
-          const callback = this.callbacks.staging
           context.options.datastore.on('idle', function() {
-            this.transmit(url, metadata, 'latest', { headers: this.headers })
-              .then(callback)
+            this.queueIncrementalTransmission(
+              url,
+              { ...metadata, payload: 'incremental' },
+              { headers: this.headers }
+            )
           })
         }
         break
-      case 'after:end':
+      case 'epilogue':
         if (this.updates.full) {
           // Transmit the entire data set
           context.options.datastore
-            .transmit(url, metadata, 'full', { headers: this.headers })
-            .then(this.callbacks.full)
+            .transmit(
+              url,
+              { ...metadata, payload: 'full' },
+              { headers: this.headers }
+            ).then(() => {
+              if (this.updates.incremental) {
+                context.options.datastore.flushIncrementalTransmissionQueue()
+              }
+            }).then(
+              this.callbacks.full
+            )
         }
         break
       default:

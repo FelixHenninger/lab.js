@@ -615,7 +615,7 @@ describe('Data handling', () => {
               },
               body: JSON.stringify({
                 metadata: {
-                  payload: 'full',
+                  slice: 0,
                 },
                 url: window.location.href,
                 data: ds.data,
@@ -627,26 +627,81 @@ describe('Data handling', () => {
           })
       })
 
-      it('transmits staging data if requested', () => {
-        return ds.transmit('https://random.example', {}, 'staging')
-          .then(() => {
-            // Make sure the staging data is transmitted
-            assert.deepEqual(
-              extractData(window.fetch.firstCall.args),
-              { 'five': 5 }
+      it('logs last incrementally transmitted row', () => {
+        return ds.transmit(
+          'https://random.example', {},
+          { incremental: true }
+        ).then(() => {
+            assert.equal(ds._lastIncrementalTransmission, 2)
+
+            // Add new row and transmit again
+            ds.commit()
+            return ds.transmit(
+              'https://random.example', {},
+              { incremental: true }
             )
+          }).then(() => {
+            assert.equal(ds._lastIncrementalTransmission, 3)
           })
       })
 
-      it('transmits latest entry if requested', () => {
-        return ds.transmit('https://random.example', {}, 'latest')
-          .then(() => {
-            // Make sure the staging data is transmitted
-            assert.deepEqual(
-              extractData(window.fetch.firstCall.args),
-              { 'three': 3, 'four': 4 }
-            )
-          })
+      it('can debounce transmissions', () => {
+        const clock = sinon.useFakeTimers()
+
+        ds.queueIncrementalTransmission('https://random.example')
+        assert.notOk(window.fetch.called)
+        clock.tick(2500)
+        assert.ok(window.fetch.called)
+
+        clock.restore()
+      })
+
+      it('sends all new data with debounced transmission', () => {
+        const clock = sinon.useFakeTimers()
+
+        ds.queueIncrementalTransmission('https://random.example')
+        ds.commit({ six: 6 })
+        ds.queueIncrementalTransmission('https://random.example')
+        clock.runAll()
+
+        assert.ok(window.fetch.calledOnce)
+        assert.deepEqual(
+          extractData(window.fetch.firstCall.args),
+          ds.data
+        )
+
+        clock.restore()
+      })
+
+      it('sends data in increments', () => {
+        const clock = sinon.useFakeTimers()
+
+        // Queue and transmit first batch of data
+        ds.queueIncrementalTransmission('https://random.example')
+        clock.runAll()
+
+        // Add new data, and transmit it
+        ds.commit({ six: 6 })
+        ds.queueIncrementalTransmission('https://random.example')
+        clock.runAll()
+
+        assert.deepEqual(
+          extractData(window.fetch.secondCall.args),
+          [{ five: 5, six: 6 }]
+        )
+
+        clock.restore()
+      })
+
+      it('can flush pending transmissions', () => {
+        const clock = sinon.useFakeTimers()
+
+        ds.queueIncrementalTransmission('https://random.example')
+        assert.notOk(window.fetch.called)
+        ds.flushIncrementalTransmissionQueue()
+        assert.ok(window.fetch.called)
+
+        clock.restore()
       })
     })
   })

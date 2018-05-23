@@ -70,7 +70,7 @@ const addTransmitPlugin = (state) => {
       type: 'lab.plugins.Transmit',
       url: '/save',
       updates: {
-        staging: false,
+        incremental: false,
       },
       callbacks: {
         full: function(response) {

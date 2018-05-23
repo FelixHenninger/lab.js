@@ -89,52 +89,68 @@ describe('Plugins', () => {
       p = new lab.plugins.Transmit({
         url: 'https://arbitrary.example',
       })
-      c = new lab.core.Component({
+      c = new lab.core.Dummy({
         datastore: new lab.data.Store(),
         plugins: [ p ],
       })
 
       sinon.stub(c.options.datastore, 'transmit')
         .callsFake(() => Promise.resolve())
+
+      sinon.stub(c.options.datastore, 'queueIncrementalTransmission')
     })
 
     afterEach(() => {
+      // Cancel transmission queue
+      c.options.datastore._debouncedTransmit.cancel()
+
+      // Restore stubs
       c.options.datastore.transmit.restore()
+      c.options.datastore.queueIncrementalTransmission.restore()
     })
 
-    it('sends state on epilogue event', () => {
-      return c.prepare().then(() => {
-        const promise = c.waitFor('epilogue')
-        c.end()
-        return promise
-      }).then(() => {
+    it('queues incremental transmission before epilogue event', () => {
+      // Disable final transmission
+      p.updates.full = false
+
+      // Data transmission runs last,
+      // so we need to wait for the corresponding event
+      const epiloguePromise = c.waitFor('epilogue')
+
+      return c.run().then(() =>
+        epiloguePromise
+      ).then(() => {
         assert.ok(
-          c.options.datastore.transmit.withArgs(
+          c.options.datastore.queueIncrementalTransmission.withArgs(
             'https://arbitrary.example',
-            { id: p.metadata.id },
-            'latest',
+            { id: p.metadata.id, payload: 'incremental' }
           ).calledOnce
         )
       })
     })
 
     it('sends complete dataset when component ends', () => {
-      // Disable staging transmissions
-      // TODO: I'm not sure I like this,
-      // should probably rethink the API here.
-      p.updates.staging = false
+      // Disable incremental transmissions
+      p.updates.incremental = false
 
-      return c.run().then(() => {
-        // Data transmission runs last,
-        // so we need to wait for the corresponding event
-        const promise = c.waitFor('epilogue')
-        c.end()
-        return promise
-      }).then(() => {
+      const epiloguePromise = c.waitFor('epilogue')
+
+      return c.run().then(() =>
+        // TODO: This is super-hacky, basically it's very hard
+        // to wait for the epilogue event to occur before
+        // triggering the tests. So here, the epilogue event
+        // is wrapped in another promise just to give it that
+        // tiny amount of additional delay. There really should
+        // be a better way of handling this.
+        Promise.all([
+          epiloguePromise
+        ])
+      ).then(() => {
+        assert.ok(c.options.datastore.transmit.calledOnce)
         assert.ok(
           c.options.datastore.transmit.withArgs(
             'https://arbitrary.example',
-            { id: p.metadata.id },
+            { id: p.metadata.id, payload: 'full' },
           ).calledOnce
         )
       })

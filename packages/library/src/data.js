@@ -2,7 +2,7 @@ import FileSaver from 'file-saver'
 import 'whatwg-fetch'
 
 import { isObject, flatten, difference, intersection,
-  uniq, pick, omitBy } from 'lodash'
+  uniq, pick, omitBy, debounce } from 'lodash'
 import { EventHandler } from './util/eventAPI'
 
 // Default column names -----------------------------------
@@ -379,25 +379,22 @@ export class Store extends EventHandler {
   }
 
   // Send data via POST request ---------------------------
-  transmit(url, metadata={}, payload='full', { headers={} }={}) {
-    // TODO: Change function signature so that all
-    // further options are collected in an object.
-    // The destructuring above is some of the
-    // craziest JS foo I've seen, but it works!
+  transmit(url, metadata={}, { headers={}, incremental=false }={}) {
     this.triggerMethod('transmit')
 
-    // Select the data that will be sent
-    let data
-    switch(payload) {
-      case 'staging':
-        data = this.staging
-        break
-      case 'latest':
-        data = this.cleanData[this.data.length - 1]
-        break
-      default:
-        data = this.cleanData
+    // Determine start of transmission
+    let slice
+    if (incremental) {
+      // Start from last transmitted row
+      slice = this._lastIncrementalTransmission
+      this._lastIncrementalTransmission = this.data.length
+    } else {
+      // Start from beginning
+      slice = 0
     }
+
+    // Data is always sent as an array of entries
+    const data = this.cleanData.slice(slice)
 
     return fetch(url, {
       method: 'post',
@@ -408,7 +405,7 @@ export class Store extends EventHandler {
       },
       body: JSON.stringify({
         metadata: {
-          payload,
+          slice,
           ...metadata,
         },
         url: window.location.href,
@@ -416,5 +413,28 @@ export class Store extends EventHandler {
       }),
       credentials: 'include',
     })
+  }
+
+  // Incremental transmission -----------------------------
+  _debouncedTransmit = debounce(
+    this.transmit,
+    2500
+  )
+  _lastIncrementalTransmission = 0
+
+  queueIncrementalTransmission(url, metadata, options) {
+    this._debouncedTransmit(
+      url, metadata, {
+      incremental: true,
+      ...options
+    })
+  }
+
+  flushIncrementalTransmissionQueue() {
+    this._debouncedTransmit.flush()
+  }
+
+  cancelIncrementalTransmissionQueue() {
+    this._debouncedTransmit.cancel()
   }
 }
