@@ -1,0 +1,171 @@
+---
+title: "RSQLite import"
+---
+
+```{r, echo=FALSE, message=FALSE}
+# Load packages
+require('pacman')
+p_load('RSQLite', 'jsonlite', 'stringr', 'tidyverse')
+```
+
+Import data from SQLite file
+----------------------------
+
+```{r}
+# 'Connect' to database
+con <- dbConnect(
+  drv=RSQLite::SQLite(),
+  dbname='data.sqlite'
+)
+
+# Extract main table
+d <- dbGetQuery(
+  conn=con,
+  statement='SELECT * FROM labjs'
+)
+
+# Close connection
+dbDisconnect(
+  conn=con
+)
+
+# Discard connection
+rm(con)
+```
+
+Convert JSON data to table
+--------------------------
+
+###Extract metadata
+
+```{r}
+d.meta <- map_df(d$metadata, fromJSON) %>%
+  rename(
+    observation=id
+  )
+
+d <- d %>%
+  bind_cols(d.meta) %>%
+  select(
+    -metadata # Remove metadata column
+  )
+
+# Remove temporary data frame
+rm(d.meta)
+```
+
+###Shorten the random ids
+
+```{r}
+count_unique <- function(x) {
+  return(length(unique(x)))
+}
+
+information_preserved <- function(x, length) {
+  return(
+    count_unique(str_sub(x, end=i)) ==
+    count_unique(x)
+  )
+}
+
+# Figure out the length of the random ids needed
+# to preserve the information therein. (five characters
+# should usually be enougth, but better safe)
+for (i in 5:36) {
+  if (
+    information_preserved(d$session, i) &&
+    information_preserved(d$observation, i)
+  ) {
+    break()
+  }
+}
+
+d <- d %>%
+  mutate(
+    session=str_sub(session, end=i),
+    observation=str_sub(observation, end=i)
+  )
+
+rm(i, count_unique, information_preserved)
+```
+
+
+###Extract complete data sets
+
+```{r}
+d.full <- d %>%
+  filter(payload == 'full')
+
+if (nrow(d.full) > 0) {
+  d.full %>%
+    group_by(observation, id) %>%
+    do(
+      fromJSON(.$data, flatten=T)
+    ) %>%
+    ungroup() %>%
+    select(-id) -> d.full
+}
+```
+
+###Extract incremental data sets
+
+```{r}
+d %>%
+  filter(payload %in% c('incremental')) %>%
+  group_by(observation, id) %>%
+  do(
+    fromJSON(.$data, flatten=T)
+  ) %>%
+  ungroup() %>%
+  select(-id) -> d.incremental
+```
+
+----
+
+###Merge data sets
+
+For analysis, we'll use the full data sets where available, and incremental data when it is the the only information we have for a user.
+
+```{r}
+d.output <- d.full %>%
+  bind_rows(
+    d.incremental %>% filter(!(observation %in% d.full$observation))
+  )
+```
+
+###Postprocessing
+
+It would be nice if some columns were completed so that all cells contain the same value, even if only a subset is filled
+
+```{r}
+d.output %>%
+  group_by(observation) %>%
+  fill(matches('code'), .direction='down') %>%
+  fill(matches('code'), .direction='up') %>%
+  ungroup() -> d.output
+```
+
+Remove sensitive data
+
+```{r}
+# d.output <- d.output %>%
+ #  select(
+  #   -matches('Email')
+  # )
+```
+
+Remove invalid columns
+
+```{r}
+d.output %>%
+  select_if(function(col) class(col) != 'list') -> d.output
+```
+
+
+###Export data
+
+Write data back to disk in csv format.
+
+```{r}
+write_csv(d.output, 'output.csv')
+```
