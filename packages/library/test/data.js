@@ -252,6 +252,24 @@ describe('Data handling', () => {
 
         assert.equal(ds.id, 'abc')
       })
+
+      it('can suggest a filename', () => {
+        const now = new Date('2018-05-25T12:00:00+00:00')
+        const clock = sinon.useFakeTimers(now)
+
+        // Compensate for time zone
+        const hours = _.padStart(
+          (12 - new Date().getTimezoneOffset() / 60).toString(),
+          2, '0'
+        )
+
+        assert.equal(
+          ds.makeFilename('prefix', 'json'),
+          'prefix--2018-05-25--' + hours + ':00:00.json'
+        )
+
+        clock.restore()
+      })
     })
 
     describe('Reset', () => {
