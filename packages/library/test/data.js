@@ -244,6 +244,14 @@ describe('Data handling', () => {
           ['one', 'three', 'two']
         )
       })
+
+      it('provides the participant id as a property', () => {
+        assert.isUndefined(ds.id)
+
+        ds.set({ id: 'abc' })
+
+        assert.equal(ds.id, 'abc')
+      })
     })
 
     describe('Reset', () => {

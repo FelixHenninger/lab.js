@@ -51,19 +51,6 @@ const dateString = (d=new Date()) =>
   `${ twoDigit(d.getDate().toString()) }--` +
   `${ d.toTimeString().split(' ')[0] }`
 
-const extractId = (state) => {
-  // Check whether any of the standard participant id columns
-  // is present in the data -- if so, return its value
-  for (const c of defaultIdColumns) {
-    if (Object.keys(state).includes(c)) {
-      return state[c]
-    }
-  }
-
-  // If no value was found, return undefined
-  return undefined
-}
-
 // Data storage class -------------------------------------
 
 // eslint-disable-next-line import/prefer-default-export
@@ -351,10 +338,24 @@ export class Store extends EventHandler {
     )
   }
 
+  // Extract a participant id -----------------------------
+  get id() {
+    // Check whether any of the standard participant id columns
+    // is present in the data -- if so, return its value
+    for (const c of defaultIdColumns) {
+      if (Object.keys(this.state).includes(c)) {
+        return this.state[c]
+      }
+    }
+
+    // If no value was found, return undefined
+    return undefined
+  }
+
   // Suggest a filename -----------------------------------
   makeFilename(prefix='study', filetype='csv') {
     // Extract an id from the data, if available
-    const id = extractId(this.state)
+    const id = this.id
 
     return prefix + '--' +
       ( id ? `${ id }--` : '' ) + dateString() +
