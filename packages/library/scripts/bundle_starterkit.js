@@ -7,6 +7,8 @@ shell.cp('-R', 'src/starterkit/experiment.js', 'dist/labjs-starterkit')
 shell.cp('-R', 'dist/lab.dev.js', 'dist/labjs-starterkit/lib')
 shell.cp('-R', 'dist/lab.js', 'dist/labjs-starterkit/lib')
 shell.cp('-R', 'dist/lab.js.map', 'dist/labjs-starterkit/lib')
+shell.cp('-R', 'dist/lab.legacy.js', 'dist/labjs-starterkit/lib')
+shell.cp('-R', 'dist/lab.legacy.js.map', 'dist/labjs-starterkit/lib')
 shell.cp('-R', 'dist/lab.css', 'dist/labjs-starterkit/lib')
 shell.cp('-R', 'src/starterkit/lib/loading.svg', 'dist/labjs-starterkit/lib')
 

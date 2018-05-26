@@ -1,6 +1,4 @@
 // HTML-based displays for lab.js
-import 'whatwg-fetch'
-
 import { Component, status } from './core'
 import { prepareNested } from './flow'
 

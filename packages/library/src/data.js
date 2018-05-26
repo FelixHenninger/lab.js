@@ -1,5 +1,4 @@
 import FileSaver from 'file-saver'
-import 'whatwg-fetch'
 
 import { isObject, flatten, difference, intersection,
   uniq, pick, omitBy, debounce } from 'lodash'

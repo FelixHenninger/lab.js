@@ -138,12 +138,12 @@ describe('Plugins', () => {
       return c.run().then(() =>
         // TODO: This is super-hacky, basically it's very hard
         // to wait for the epilogue event to occur before
-        // triggering the tests. So here, the epilogue event
-        // is wrapped in another promise just to give it that
-        // tiny amount of additional delay. There really should
-        // be a better way of handling this.
+        // triggering the tests. So here, we don't just wait
+        // for the epilogue event, but for a minimum of 200ms.
+        // There really should be a better way of handling this.
         Promise.all([
-          epiloguePromise
+          epiloguePromise,
+          new Promise(resolve => window.setTimeout(resolve, 200)),
         ])
       ).then(() => {
         assert.ok(c.options.datastore.transmit.calledOnce)

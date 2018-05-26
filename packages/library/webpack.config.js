@@ -7,43 +7,83 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = (env, argv) => {
   const mode = argv.mode
+  const target = process.env.NODE_ENV || mode
 
   // Set output file name
   const outputFilename = {
     'coverage': 'lab.coverage.js',
     'development': 'lab.dev.js',
-  }[mode] || 'lab.js'
+    'legacy': 'lab.legacy.js',
+  }[target] || 'lab.js'
 
   const banner = [
     'lab.js -- Building blocks for online experiments',
     '(c) 2015- Felix Henninger',
   ].join('\n')
 
+  // Define babel options
+  const babelPresets = {
+    legacy: {
+      presets: [
+        ['env', {
+          modules: false,
+          useBuiltIns: true,
+        }],
+      ],
+      plugins: [
+        'transform-object-rest-spread',
+        'transform-class-properties',
+        'lodash',
+        ['fast-async', {
+          runtimePattern: './src/index.js'
+        }],
+      ],
+    },
+    default: {
+      presets: [
+        ['env', {
+          targets: {
+            browsers: [
+              '> 2%',
+              'last 2 versions', // 'not dead',
+              'Firefox ESR',
+              'not IE 11', 'not ExplorerMobile 11',
+              'not OperaMini all', 'not OperaMobile < 37',
+              'not Android < 60',
+            ],
+          },
+          exclude: [
+            'transform-async-to-generator',
+            'transform-regenerator',
+          ],
+          modules: false,
+          useBuiltIns: true,
+        }],
+      ],
+      plugins: [
+        'transform-object-rest-spread',
+        'transform-class-properties',
+        'lodash',
+      ],
+    }
+  }
+
+  const babelOptions = Object.keys(babelPresets).includes(target)
+    ? babelPresets[target]
+    : babelPresets.default
+
   const config = {
     entry: {
-      js: [ './src/index.js' ],
+      js: target === 'legacy'
+        ? ['whatwg-fetch', './src/index.js']
+        : ['./src/index.js']
     },
     module: {
       rules: [{
         loader: 'babel-loader',
         test: /\.js$/,
         include: path.join(__dirname, 'src'),
-        query: {
-          presets: [
-            ['env', {
-              modules: false,
-              useBuiltIns: true,
-            }],
-          ],
-          plugins: [
-            'transform-object-rest-spread',
-            'transform-class-properties',
-            'lodash',
-            ['fast-async', {
-              runtimePattern: './src/index.js'
-            }]
-          ],
-        },
+        query: babelOptions,
       }],
     },
     devtool: mode === 'development' ? 'inline-source-map' : 'source-map',
@@ -98,14 +138,14 @@ module.exports = (env, argv) => {
       // eslint-disable-next-line comma-dangle
       new webpack.optimize.OccurrenceOrderPlugin()
     )
-    if (mode === 'analysis') {
+    if (target === 'analysis') {
       config.plugins.push(
         new BundleAnalyzerPlugin()
       )
     }
-  } else if (mode === 'coverage') {
+  } else if (target === 'coverage') {
     // Add code coverage instrumentation
-    config.module.loaders[0].query.plugins.push('istanbul')
+    config.module.rules[0].query.plugins.push('istanbul')
   }
 
   return config
