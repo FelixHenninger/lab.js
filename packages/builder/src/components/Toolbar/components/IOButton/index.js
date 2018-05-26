@@ -16,7 +16,7 @@ const IOButton = (_, context) => {
   let dropdown = null
 
   return <Dropdown
-    type='button'
+    type="button"
     ref={ c => (dropdown = c) }
   >
     <Button id="caret" outline color="secondary"
@@ -40,7 +40,7 @@ const IOButton = (_, context) => {
         New
       </DropdownItem>
       <Uploader
-        accept='application/json'
+        accept="application/json"
         maxSize={ 20 * 1024 ** 2 } // 20 MiB
         onUpload={
           // TODO: This smells like it should
@@ -90,7 +90,7 @@ const IOButton = (_, context) => {
           })
         }
       >
-        Generic web host <span className='text-muted'>(requires PHP)</span>
+        Generic web host <span className="text-muted">(PHP backend)</span>
       </DropdownItem>
       <DropdownItem
         onClick={
@@ -101,15 +101,10 @@ const IOButton = (_, context) => {
           })
         }
       >
-        Upload to Netlify <span className='text-muted'>(cloud provider)</span>
+        Upload to Netlify <span className="text-muted">(cloud provider)</span>
       </DropdownItem>
       <DropdownItem divider/>
       <DropdownItem header>Export as integration</DropdownItem>
-      <DropdownItem
-        onClick={ () => downloadStaticExpFactory(context.store.getState()) }
-      >
-        The Experiment Factory <span className='text-muted'>(v3)</span>
-      </DropdownItem>
       <DropdownItem
         onClick={
           () => context.store.dispatch({
@@ -119,7 +114,12 @@ const IOButton = (_, context) => {
           })
         }
       >
-        Survey tools <span className='text-muted'>(Qualtrics, etc.)</span>
+        Generic survey tools <span className="text-muted">(Qualtrics, etc.)</span>
+      </DropdownItem>
+      <DropdownItem
+        onClick={ () => downloadStaticExpFactory(context.store.getState()) }
+      >
+        The Experiment Factory <span className="text-muted">(v3)</span>
       </DropdownItem>
     </DropdownMenu>
   </Dropdown>
