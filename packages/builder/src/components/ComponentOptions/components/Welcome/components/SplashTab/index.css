@@ -1,0 +1,18 @@
+.splash-tab-icon {
+  color: #495057;
+  transition: color 0.125s, background-color 0.125s;
+}
+
+/* Hover effect */
+.splash-tab-icon:hover, .splash-tab-icon:active {
+  color: #212529;
+  background-color: #f8f9fa;
+}
+
+/* Active tab */
+.splash-tab-icon.active {
+  color: #212529;
+}
+.splash-tab-icon.active:hover {
+  background-color: transparent;
+}

@@ -4,6 +4,7 @@ import classnames from 'classnames'
 // Font Awesome
 import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }-webfonts/css/fa-solid.css`)
 import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }-webfonts/css/fa-regular.css`)
+import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }-webfonts/css/fa-brands.css`)
 // Uncomment if FA-pro is available
 //import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }-webfonts/css/fa-light.css`)
 import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }-webfonts/css/fontawesome.css`)
@@ -16,6 +17,7 @@ const replacements = {
   'arrows-v': 'arrows-alt-v',
   'arrows-h': 'arrows-alt-h',
   'expand': 'square',
+  'heart-circle': 'heart',
   'long-arrow-down': 'long-arrow-alt-down',
   'long-arrow-right': 'long-arrow-alt-right',
   'repeat': 'redo',

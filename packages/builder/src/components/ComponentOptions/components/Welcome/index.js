@@ -29,7 +29,7 @@ class WelcomeCard extends Component {
   tabContent() {
     switch(this.state.activeTab) {
       case 'splash':
-        return <SplashTab />
+        return <SplashTab switchTab={ tab => this.toggle(tab) } />
       case 'examples':
         return <ExampleTab />
       default:
