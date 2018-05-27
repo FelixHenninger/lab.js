@@ -12,15 +12,22 @@ require(['/base/node_modules/lodash/lodash.min'], function(_) {
     }
   })
 
+  const libraryFlavor = (window.__karma__.config.args || [])
+    .filter(arg => _.startsWith(arg, 'flavor'))
+    .map(flavor => flavor.split('-')[1])[0] || 'default'
+
+  const libraryPath = {
+    coverage: '/base/dist/lab.coverage',
+    legacy: '/base/dist/lab.legacy',
+  }[libraryFlavor] || '/base/dist/lab'
+
   require.config({
     // Karma serves files under /base, which is
     // the basePath from your config file
     baseUrl: '/base',
 
     paths: {
-      'lab': _.includes(window.__karma__.config.args, 'coverage')
-        ? '/base/dist/lab.coverage'
-        : '/base/dist/lab',
+      'lab': libraryPath,
       '_': '/base/node_modules/lodash/lodash.min'
     },
 

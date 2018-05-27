@@ -24,7 +24,7 @@ module.exports = (config) => {
 
     // Pass coverage option to client script
     client: {
-      args: ['coverage'],
+      args: ['flavor-coverage'],
     },
 
     // Local web server port
