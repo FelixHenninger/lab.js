@@ -40,7 +40,7 @@ export class Component extends EventHandler {
 
   // Proxy parameters
   // (for browsers that support proxies natively)
-  parameters = (window.Proxy
+  parameters = (BUILD_FLAVOR !== 'legacy'
     ? new window.Proxy({}, {
         // Read from the aggregate parameters
         get: (obj, prop) =>
@@ -49,11 +49,11 @@ export class Component extends EventHandler {
         set: (obj, prop, value) =>
           (this.options.parameters[prop] = value) || true
       })
-    : this.aggregateParameters
+    : undefined
   )
 
   // Proxy state
-  state = (window.Proxy
+  state = (BUILD_FLAVOR !== 'legacy'
     ? new window.Proxy({}, {
         // Read from the internal datastore
         // TODO: This would likely benefit from optional chaining
@@ -74,7 +74,7 @@ export class Component extends EventHandler {
           }
         }
       })
-    : Object.freeze({})
+    : undefined
   )
 
   constructor(options={}) {

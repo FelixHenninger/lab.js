@@ -30,6 +30,10 @@ import Submit from './plugins/submit'
 import Transmit from './plugins/transmit'
 
 export const version = '2017.1.0'
+export const build = {
+  flavor: BUILD_FLAVOR,
+  commit: BUILD_COMMIT,
+}
 
 export const core = {
   Component,

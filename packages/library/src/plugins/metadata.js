@@ -1,9 +1,13 @@
 import { fromPairs } from 'lodash'
+import { version, build } from '../index'
 
 const getMetadata = () => {
   const intl = window.Intl.DateTimeFormat().resolvedOptions()
 
   return {
+    // TODO: Use optional chaining when available
+    labjs_version: version,
+    labjs_build: build,
     location: window.location.href,
     userAgent: window.navigator.userAgent,
     platform: window.navigator.platform,

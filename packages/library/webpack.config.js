@@ -4,6 +4,7 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const shell = require('shelljs');
 
 module.exports = (env, argv) => {
   const mode = argv.mode
@@ -92,6 +93,12 @@ module.exports = (env, argv) => {
       new webpack.BannerPlugin({
         banner,
         exclude: ['lab.vendor.js'],
+      }),
+      new webpack.DefinePlugin({
+        BUILD_FLAVOR: JSON.stringify(target),
+        BUILD_COMMIT: JSON.stringify(
+          shell.exec('git rev-parse HEAD', { silent: true }).trim()
+        ),
       }),
     ],
     output: {
