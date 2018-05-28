@@ -24,7 +24,7 @@ const CopyTab = ({ parent, index }, context) => {
 
   return <div className="copy-component-tab">
     <Input
-      type="select" size="lg"
+      type="select" bsSize="lg"
       name="copySelect" id="copySelect"
       className="custom-select"
       innerRef={ select => sourceSelect = select }

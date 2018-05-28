@@ -30,7 +30,7 @@ const MetadataForm = ({ data }, { store }) =>
           id="title"
           component={ Input }
           controlProps={{
-            size: 'lg',
+            bsSize: 'lg',
           }}
           style={{
             fontWeight: '500',
@@ -70,7 +70,7 @@ const MetadataForm = ({ data }, { store }) =>
           placeholder="https://osf.io/... / https://github.com/..."
           component={Input}
           controlProps={{
-            size: 'sm',
+            bsSize: 'sm',
           }}
           style={{
             fontFamily: 'Fira Code',
@@ -92,7 +92,7 @@ const MetadataForm = ({ data }, { store }) =>
           component={Input}
           controlProps={{
             type: 'textarea',
-            size: 'sm',
+            bsSize: 'sm',
           }}
           placeholder="Rita Levi-Montalcini &lt;rlm@nobel.example&gt; (http://ibcn.cnr.it)"
           style={{

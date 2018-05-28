@@ -81,7 +81,8 @@ class TaskList extends Component {
               <strong>Sorry, I couldn't load the examples</strong><br />
               <small>
                 This shouldn't happen.
-                If this persists even though you're online, could you please
+                If it persists even though you're online,
+                could you please{' '}
                 <a href="http://labjs.readthedocs.io/en/latest/meta/contribute/help.html" target="_blank" rel="noopener noreferrer">let us know</a>?
               </small>
             </p>

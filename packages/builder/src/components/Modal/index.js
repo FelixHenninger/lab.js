@@ -29,7 +29,7 @@ const MODAL_COMPONENTS = {
 // TODO: See if the Modal component from react-modal
 // can be replaced by its counterpart from reactstrap
 const CustomModal = ({ modalType, modalProps }, context) => {
-  const SpecificModal = MODAL_COMPONENTS[modalType] || 'div'
+  const SpecificModal = MODAL_COMPONENTS[modalType]
   return (
     <Modal
       appElement={ document.getElementById('root') }
@@ -50,14 +50,18 @@ const CustomModal = ({ modalType, modalProps }, context) => {
         }
       }}
     >
-      <SpecificModal
-        { ...modalProps }
-        closeHandler={() => {
-          context.store.dispatch({
-            type: 'HIDE_MODAL',
-          })
-        }}
-      />
+      {
+        SpecificModal !== undefined
+          ? <SpecificModal
+              { ...modalProps }
+              closeHandler={() => {
+                context.store.dispatch({
+                  type: 'HIDE_MODAL',
+                })
+              }}
+            />
+          : ''
+      }
     </Modal>
   )
 }
