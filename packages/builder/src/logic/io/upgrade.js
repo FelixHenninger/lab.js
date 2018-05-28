@@ -1,5 +1,5 @@
 import { mapValues } from 'lodash'
-import { makeDataURI } from '../util/dataURI'
+import { makeDataURI, updateDataURI } from '../util/dataURI'
 
 const updates = {
   '2017.0.1': data => ({
@@ -194,6 +194,42 @@ const updates = {
       parameters: { rows: [ [ { name: '', value: '', type: 'string' }, ], ], },
     })),
   }),
+  '2017.1.7': data => {
+    data.version = [2018, 0, 1]
+
+    if (data.files.files['index.html']) {
+      // Add fallback script
+      data.files.files['index.html'].content =
+        updateDataURI(
+          data.files.files['index.html'].content,
+          x => x.replace(
+            /^(\s*)<script src="lib\/lab\.js"><\/script>/mg,
+            '$&\n' +
+            '$1<script src="lib/lab.fallback.js" data-labjs-script="fallback"></script>',
+          )
+        )
+
+      // Add data-labjs-script property
+      data.files.files['index.html'].content =
+        updateDataURI(
+          data.files.files['index.html'].content,
+          x => x.replace(
+            '<script src="lib/lab.js"></script>',
+            '<script src="lib/lab.js" data-labjs-script="library"></script>',
+          )
+        )
+    }
+
+    // Add fallback and legacy library versions
+    data.files.bundledFiles['lib/lab.fallback.js'] =
+      { type: 'application/javascript' }
+    data.files.bundledFiles['lib/lab.legacy.js'] =
+      { type: 'application/javascript' }
+    data.files.bundledFiles['lib/lab.legacy.js.map'] =
+      { type: 'text/plain' }
+
+    return data
+  },
 }
 
 export default (data) => {

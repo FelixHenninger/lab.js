@@ -34,3 +34,9 @@ export const blobFromDataURI = uri => {
     return new Blob([data], { type: mime })
   }
 }
+
+export const updateDataURI = (uri, updater, ...args) => {
+  const { data, mime } = readDataURI(uri)
+  const newData = updater(data, ...args)
+  return makeDataURI(newData, mime)
+}

@@ -6,7 +6,8 @@ const index_html = `<!doctype html>
   <meta charset="utf-8">
   <title>Experiment</title>
   <!-- lab.js library and default styles -->
-  <script src="lib/lab.js"></script>
+  <script src="lib/lab.js" data-labjs-script="library"></script>
+  <script src="lib/lab.fallback.js"></script>
   <link rel="stylesheet" href="lib/lab.css">
   <!-- study code and styles -->
   <script defer src="script.js"></script>
