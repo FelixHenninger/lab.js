@@ -1,39 +1,12 @@
 // Karma configuration
 
 const customLaunchers = {
-  sl_chrome_latest: {
+  sl_ie_11: {
     base: 'SauceLabs',
-    browserName: 'chrome',
-    version: 'latest',
+    browserName: 'internet explorer',
+    version: '11',
     platform: 'Windows 10',
   },
-  sl_chrome_beta: {
-    base: 'SauceLabs',
-    browserName: 'chrome',
-    version: 'beta',
-    platform: 'Windows 10',
-  },
-  sl_firefox_latest: {
-    base: 'SauceLabs',
-    browserName: 'firefox',
-    version: 'latest',
-    platform: 'Windows 10',
-  },
-  // Firefox beta is (currently) very unstable
-  sl_edge_latest: {
-    base: 'SauceLabs',
-    browserName: 'microsoftedge',
-    version: 'latest',
-    platform: 'Windows 10',
-  },
-  // Edge beta is not available (yet?)
-  sl_safari_latest: {
-    base: 'SauceLabs',
-    browserName: 'safari',
-    platform: 'OS X 10.12',
-    version: 'latest',
-  },
-  // Safari beta is not available (yet?)
 }
 
 module.exports = (config) => {
@@ -48,7 +21,7 @@ module.exports = (config) => {
     // Files or patterns to load in the browser
     files: [
       'test/_karma/bootstrap.js',
-      { pattern: 'dist/lab.js', included: false },
+      { pattern: 'dist/lab.legacy.js', included: false },
       { pattern: 'node_modules/lodash/lodash.min.js', included: false },
       { pattern: 'test/**/*.js', included: false },
     ],
@@ -57,6 +30,10 @@ module.exports = (config) => {
     exclude: [
       'test/_karma/[^bootstrap].js',
     ],
+
+    client: {
+      args: ['flavor-legacy'],
+    },
 
     // Local web server port
     port: 9876,

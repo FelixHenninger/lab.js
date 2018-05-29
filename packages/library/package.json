@@ -131,6 +131,7 @@
     "test": "karma start test/_karma/ci.conf.js",
     "test:coverage": "npm run build:js:coverage && karma start test/_karma/coverage.conf.js",
     "test:sauce": "karma start test/_karma/sauce.conf.js",
+    "test:sauce:legacy": "karma start test/_karma/sauce_legacy.conf.js",
     "watch:js": "onchange 'src/**/*' -- npm run build:js"
   }
 }
