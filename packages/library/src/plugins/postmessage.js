@@ -5,7 +5,7 @@ export default class PostMessage {
   }
 
   handle(context, event) {
-    if (event === 'after:end') {
+    if (event === 'epilogue') {
       this.target.postMessage({
         type: 'labjs.data',
         metadata: {
