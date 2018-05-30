@@ -12,7 +12,7 @@ export default class PostMessage {
           payload: 'full',
           url: window.location.href,
         },
-        data: context.options.datastore.data,
+        raw: context.options.datastore.data,
         json: context.options.datastore.exportJson(),
         csv: context.options.datastore.exportCsv(),
       }, this.origin)

@@ -61,11 +61,20 @@ To process and save the data, the surrounding page needs to capture the results 
   <script>
     // Listen for the study sending data
     window.addEventListener('message', (event) => {
-      const data = event.json // or event.csv if you'd rather collect csv data
+      // Make sure that the event is from lab.js, then ...
+      if (event.data.type === 'labjs.data') {
+        // ... extract the data lab.js is sending.
 
-      // Make sure that data is included, then ...
-      if (data) {
+        // The collected data is available via:
+        // - event.data.json for json-encoded data
+        // - event.data.csv for csv-formatted data
+        // - event.data.raw for the raw data array
+        const data = event.data.csv
+
         // ... process data and submit page
+        // (the specific code here will depend on the tool
+        // you're using to process and store the data)
+        // ...
       }
     })
   </script>
