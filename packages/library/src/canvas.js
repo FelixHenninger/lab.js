@@ -58,7 +58,10 @@ const prepareCanvas = function prepareCanvas() {
   }
 }
 
-const insertCanvas = function insertCanvas(clearElement=true) {
+const insertCanvas = function insertCanvas(
+  clearElement=true,
+  wrapper
+) {
   // Add the canvas to the DOM if need be
   if (this.options.insertCanvasOnRun) {
     // Calculate scaling factor necessary for full resolution rendering
@@ -66,20 +69,29 @@ const insertCanvas = function insertCanvas(clearElement=true) {
       ? window.devicePixelRatio
       : 1
 
+    // Styles are calculated relative to the canvas'
+    // parent element
+    wrapper = wrapper || this.options.el
+
     // Remove all other content within the HTML tag
     // (note that this could be sped up, as per
     // http://jsperf.com/innerhtml-vs-removechild
     // it seems sufficient for the moment, though)
     if (clearElement) {
-      this.options.el.innerHTML = ''
+      wrapper.innerHTML = ''
     }
 
     // Calculate available space, accounting for padding around the canvas
-    const wrapperStyle = window.getComputedStyle(this.options.el)
+    const wrapperStyle = window.getComputedStyle(wrapper)
 
-    const width = this.options.el.clientWidth -
+    // TODO: The call to getComputedStyle above, as well as
+    // and the width and height calculations here, cause
+    // layout reflow. Think about providing an option to
+    // disable this (the user would then have to fix the
+    // canvas width and height manually via CSS)
+    const width = wrapper.clientWidth -
       parseInt(wrapperStyle.paddingLeft) - parseInt(wrapperStyle.paddingRight)
-    const height = this.options.el.clientHeight -
+    const height = wrapper.clientHeight -
       parseInt(wrapperStyle.paddingTop) - parseInt(wrapperStyle.paddingBottom)
 
     // Adjust the (internal) canvas dimensions
@@ -87,13 +99,16 @@ const insertCanvas = function insertCanvas(clearElement=true) {
     this.options.canvas.width = width * pixelRatio
     this.options.canvas.height = height * pixelRatio
 
+    // Display as block so that dimensions apply exactly
+    this.options.canvas.style.display = 'block'
+
     // Set the canvas element dimensions to match the available space
     this.options.canvas.style.width = `${ width }px`
     this.options.canvas.style.height = `${ height }px`
 
     // Append the canvas to the DOM
     if (clearElement) {
-      this.options.el.appendChild(this.options.canvas)
+      wrapper.appendChild(this.options.canvas)
     }
   }
 }
@@ -370,10 +385,22 @@ export class Frame extends BaseFrame {
     await prepareNested([this.options.content], this)
   }
 
-  // TODO: This should probably be moved to onRun,
-  // and call super.onRun()
-  async onBeforeRun() {
-    insertCanvas.apply(this, [false])
+  // TODO: Again, this method involves a fair amount
+  // of duplicated code from html.Frame that might be
+  // worth refactoring. For example, this might call
+  // super.onRun and pass insertCanvas as a fallback.
+  async onRun(frameTimestamp) {
+    // Clear element content, and insert context
+    this.options.el.innerHTML = ''
+    Array.from(this.internals.parsedContext.body.children)
+      .forEach(c => this.options.el.appendChild(c))
+
+    // Insert canvas
+    // (this is the only change compared to html.Frame)
+    insertCanvas.apply(this, [false, this.options.canvas.parentElement])
+
+    // Run nested content
+    await this.options.content.run(frameTimestamp)
   }
 }
 
