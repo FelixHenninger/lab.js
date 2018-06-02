@@ -399,8 +399,10 @@ export class Frame extends BaseFrame {
     // (this is the only change compared to html.Frame)
     insertCanvas.apply(this, [false, this.options.canvas.parentElement])
 
-    // Run nested content
-    await this.options.content.run(frameTimestamp)
+    // Run nested content (synced to animation frame)
+    await this.options.content.run(frameTimestamp, true)
+    // TODO: It might be useful to make the framesync
+    // optional for slow components (see html.Frame).
   }
 }
 

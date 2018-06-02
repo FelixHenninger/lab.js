@@ -239,8 +239,10 @@ export class Frame extends Component {
     Array.from(this.internals.parsedContext.body.children)
       .forEach(c => this.options.el.appendChild(c))
 
-    // Run nested content
-    await this.options.content.run(frameTimestamp)
+    // Run nested content (synced to animation frame)
+    await this.options.content.run(frameTimestamp, true)
+    // TODO: It might be useful to make the framesync
+    // optional for slow components (see canvas.Frame).
   }
 
   onEnd() {
