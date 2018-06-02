@@ -80,7 +80,7 @@ export class FrameTimeout {
     this.tick = this.tick.bind(this)
   }
 
-  tick(frameTime=performance.now()) {
+  tick(frameTime=performance.now(), frameSynced=false) {
     // This is a rough approximation -- we can't assume that every
     // monitor is running at 60Hz, but the interval between animation
     // frames is also an imperfect proxy for the monitor's refresh time
@@ -94,14 +94,20 @@ export class FrameTimeout {
       this.f(frameTime, ...this.params)
     } else if (this.targetTime - frameTime < 200) {
       // Check again on the next frame
-      this._animationFrameHandle = window.requestAnimationFrame(this.tick)
-      this._lastAnimationFrame = frameTime
+      this._animationFrameHandle = window.requestAnimationFrame(
+        t => this.tick(t, true)
+      )
+      // Only use timestamp for frame duration estimation
+      // if the call is actually frame-synced
+      if (frameSynced) {
+        this._lastAnimationFrame = frameTime
+      }
     } else {
       // Wait a little longer
       // (to be exact, wait for half of the remaining time, minus 100ms)
       this._timeoutHandle = window.setTimeout(
         this.tick,
-        (this.targetTime - frameTime) / 2 - 100
+        (this.targetTime - frameTime - 100) / 2
       )
     }
   }
