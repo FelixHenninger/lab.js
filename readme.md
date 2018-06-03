@@ -19,6 +19,7 @@
 [![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=latest)](http://labjs.readthedocs.io/en/latest/?badge=latest)
 [![Version on NPM](https://img.shields.io/npm/v/lab.js.svg)](https://www.npmjs.com/package/lab.js)
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.597045.svg)](https://doi.org/10.5281/zenodo.597045)
+[![Code is Science](https://img.shields.io/badge/Code%20is%20Science-%E2%9C%93-brightgreen.svg)](https://codeisscience.github.io/manifesto/)
 ![Made with all the love](https://img.shields.io/badge/made_with-❤️💛💚💙💜💖-e6e6e6.svg)
 
 <div align="center">
