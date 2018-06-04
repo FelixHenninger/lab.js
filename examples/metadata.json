@@ -52,5 +52,12 @@
       "Felix Henninger"
     ],
     "path": "Stroop task/stroop-task.study.json"
+  },
+  {
+    "name": "Timing validation",
+    "contributors": [
+      "Felix Henninger"
+    ],
+    "path": "Timing validation/timing-validation.study.json"
   }
 ]

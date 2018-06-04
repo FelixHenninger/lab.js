@@ -1,0 +1,146 @@
+{
+  "version": [
+    2018,
+    0,
+    1
+  ],
+  "components": {
+    "1": {
+      "id": "1",
+      "type": "lab.html.Form",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Setup study functions",
+              "message": "before:prepare",
+              "code": "// Setup stimulus generation function\nwindow.makeStimuli = function(\n  screentime=100, \n  collect_response=false, \n  trial_length=200\n) {\n\n  var responses = collect_response\n    ? {\n      'keydown(Space)': 'continue',\n    }\n    : {}\n\n  // trial_length = Number of screens during a trial\n\n  // Number of trials\n  var trials = 1\n\n  // Number of squares to draw (to create additional load)\n  var squares = 1\n\n  // Clear canvas before every screen\n  var clear = true\n\n  // ---------------------------------------------------------------------------\n  const make_square = (fill='#000000') => ({\n    \"type\": \"rect\",\n    \"left\": 0, \"top\": 0,\n    \"width\": \"500\", \"height\": \"500\",\n    \"fill\": fill\n  })\n\n  const content_black = new Array(squares)\n    .fill(0)\n    .map(\n      () => make_square('#000000')\n    )\n\n  const content_white = new Array(squares)\n    .fill(0)\n    .map(\n      () => make_square('#ffffff')\n    )\n\n  const make_screen = (title, content, timeout, responses={}) =>\n    new lab.canvas.Screen({\n      title: title,\n      content: content,\n      timeout: timeout,\n      responses: responses,\n      clearCanvas: clear,\n      //debug: true, // temporary\n    })\n\n  var trial_content = []\n\n  // Assemble trial\n  trial_content.push(\n    make_screen(\n      'gray',\n      [ make_square('#aaaaaa') ],\n      4000\n    )\n  )\n\n  Array(trial_length).fill(0)\n    .forEach((_, i) => {\n      const title   = i % 2 == 0 ? 'black' : 'white'\n      //const color = i % 2 == 0 ? '#000000' : '#ffffff'\n      const content = i % 2 == 0 ? content_black : content_white\n      const l_responses = title === 'black' ? {} : responses\n      const l_screentime = title === 'white' && collect_response\n        ? undefined\n        : screentime\n\n      trial_content.push(\n        make_screen(\n          title,\n          content,\n          l_screentime,\n          l_responses\n        )\n      )\n    })\n\n    trial_content.push(\n      make_screen(\n        'gray',\n        [ make_square('#aaaaaa') ],\n        2000\n      )\n    )\n\n  var waitScreen = new lab.canvas.Screen({\n    title: 'wait',\n    content: [ make_square('#aaaaaa') ],\n    responses: {\n      'keypress(Space)': 'continue',\n    },\n  })\n\n  var trial_parameters = new Array(trials)\n    .fill(0)\n    .map(\n      (_, i) => ({ repetition: i })\n    )\n\n  return new lab.flow.Sequence({\n    title: 'sequence',\n    content: [\n      waitScreen,\n      new lab.flow.Loop({\n        title: 'loop',\n        template: new lab.flow.Sequence({\n          title: 'trial',\n          content: trial_content,\n        }),\n        templateParameters: trial_parameters,\n      }),\n    ],\n  })\n}"
+            }
+          ]
+        ]
+      },
+      "title": "Settings",
+      "timeout": "",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <form>\n    <table class=\"w-s text-left\">\n      <tr style=\"min-height: 80px\">\n        <td class=\"text-right\">Presentation time</td>\n        <td>\n          <input name=\"screentime\" value=\"100\" style=\"width: 100%\">\n        </td>\n      </tr>\n      <tr style=\"min-height: 80px\">\n        <td class=\"text-right\">Repetitions</td>\n        <td>\n          <input name=\"trial_length\" value=\"200\" style=\"width: 100%\">\n        </td>\n      </tr>\n      <tr style=\"min-height: 80px\">\n        <td class=\"text-right\">\n          Expected RT<br>\n        </td>\n        <td>\n          <input name=\"expected_rt\" placeholder=\"none\" style=\"width: 100%\">\n        </td>\n      </tr>\n      <tr style=\"min-height: 80px\">\n        <td class=\"text-right\">\n          Collect responses<br>\n          <small class=\"text-muted\">(on light screens)</small>\n        </td>\n        <td>\n          <input name=\"collect_response\" type=\"checkbox\" value=\"false\">\n        </td>\n      </tr>\n      <tr style=\"min-height: 80px\">\n        <td class=\"text-right\" style=\"border-bottom: none\"></td>\n        <td style=\"border-bottom: none\">\n          <button type=\"submit\" style=\"width: 100%\">Start</button>\n        </td>\n      </tr>\n    </table>\n  </form>\n</main>"
+    },
+    "2": {
+      "id": "2",
+      "type": "lab.canvas.Frame",
+      "context": "<!-- The loop logic is filled by script -->\n<canvas />",
+      "contextSelector": "canvas",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Setup content",
+              "message": "before:prepare",
+              "code": "// Setup file download name\nthis.parent.plugins.plugins.forEach((p, i) => {\n  if (p instanceof lab.plugins.Download) {\n    const ua = new UAParser()\n    p.filePrefix = \n      `labjs-validation-${ ua.getBrowser().name }-` +\n      `${ ua.getBrowser().version }--` +\n      `${ ua.getOS().name }-${ ua.getOS().version }` +\n      (this.state.expected_rt ? `--rt-${ this.state.expected_rt }` : '')\n  }\n})\n\n// Make stimuli\nthis.options.content = window.makeStimuli(\n  Number(this.state.screentime),\n  Boolean(this.state.collect_response),\n  Number(this.state.trial_length)\n)"
+            }
+          ]
+        ]
+      },
+      "title": "Validation loop",
+      "tardy": true,
+      "timeout": ""
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "1",
+        "2"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "Timing validation",
+        "description": "",
+        "repository": "https://github.com/FelixHenninger/lab.js/tree/master/examples",
+        "contributors": "Felix Henninger (mailbox@felixhenninger.com) [https://felixhenninger.com]"
+      }
+    }
+  },
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20lab.js%20library%20and%20default%20styles%20--%3E%0A%20%20%3Cscript%20src%3D%22lib%2Flab.js%22%20data-labjs-script%3D%22library%22%3E%3C%2Fscript%3E%0A%20%20%3Cscript%20src%3D%22lib%2Flab.fallback.js%22%20data-labjs-script%3D%22fallback%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22lib%2Flab.css%22%3E%0A%20%20%20%20%3C!--%20external%20libraries%20--%3E%0A%20%20%3Cscript%20src%3D%22https%3A%2F%2Frawgit.com%2Ffaisalman%2Fua-parser-js%2Fmaster%2Fdist%2Fua-parser.min.js%22%3E%3C%2Fscript%3E%0A%20%20%3C!--%20study%20code%20and%20styles%20--%3E%0A%20%20%3Cscript%20defer%20src%3D%22script.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22style.css%22%3E%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "permanent": true
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F",
+        "permanent": true
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      }
+    }
+  }
+}
