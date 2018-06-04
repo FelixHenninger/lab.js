@@ -300,6 +300,17 @@ describe('Core', () => {
           assert.equal(b.timer, 500) // timer remains constant
         })
       })
+    })
+
+    describe('Timeouts', () => {
+      let clock
+      beforeEach(() => {
+        clock = sinon.useFakeTimers()
+      })
+
+      afterEach(() => {
+        clock.restore()
+      })
 
       it('times out if requested', () => {
         // FIXME: This test requires that the fake clock advance itself.
@@ -348,6 +359,34 @@ describe('Core', () => {
             // Check that the resulting status is ok
             assert.equal(b.data.ended_on, 'timeout')
           })
+      })
+
+      const simulateTimeout = function(duration) {
+        const startTime = performance.now()
+        let t
+        const f = new lab.util.timing.FrameTimeout(
+          timeStamp => (t = timeStamp),
+          duration
+        )
+        f.run()
+        clock.runAll()
+
+        return t - startTime
+      }
+
+      it('triggers callback on closest frame', () => {
+        const frameDuration = 16
+        const timeouts = [
+          20, 50, 100, 200, 300, 400, 500, 600, 700, 750, 800, 900,
+          1000, 1200, 1250, 1500, 1750, 2000, 2500, 5000, 10000]
+
+        timeouts.forEach(t => {
+          clock.reset()
+          assert.equal(
+            simulateTimeout(t),
+            (Math.round(t / frameDuration - 0.01) - 1) * frameDuration
+          )
+        })
       })
     })
 

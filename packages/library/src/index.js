@@ -18,6 +18,7 @@ import { transform, makeRenderFunction } from './util/canvas'
 import { toRadians, polygon, polygonVertex } from './util/geometry'
 import { launch, exit } from './util/fullscreen'
 import { sum, mean, variance, std } from './util/stats'
+import { FrameTimeout } from './util/timing'
 import { traverse, reduce } from './util/tree'
 
 // Plugins
@@ -93,6 +94,9 @@ export const util = {
   },
   stats: {
     sum, mean, variance, std
+  },
+  timing: {
+    FrameTimeout,
   },
   tree: {
     traverse, reduce,
