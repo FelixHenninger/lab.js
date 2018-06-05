@@ -96,6 +96,7 @@ Michael Kriechbaumer ·
 Felix Ludwig ·
 [Karthikeya Pammi](https://github.com/pvskarthikeya) ·
 [Sophie Scharf](http://cognition.uni-mannheim.de/mitarbeiter/m_sc_sophie_scharf/) ·
+Merle Schuckart ·
 [Andrew White](https://github.com/shiroandy)
 
 The students and teaching assistants in the graduate course *Research Methods
