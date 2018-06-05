@@ -28,7 +28,7 @@
 
 ----
 
-### Get started
+### Get started 🚀
 
 The [**graphical builder interface**](https://labjs.felixhenninger.com) is the
 easiest way to create studies, and the best place to start. The tutorial
@@ -43,20 +43,20 @@ There is also a tutorial to [help you get started](https://labjs.readthedocs.io/
 
 If you get stuck or things don't make sense, please don't hesitate to reach out!
 
-### Find help
+### Find help ☎️
 
 The easiest and quickest way to find help is to [join our **Slack
 channel**](https://slackin-nmbrcrnchrs.herokuapp.com/), where there's someone
 around to discuss things and help out most of the time. You're welcome to just
 join and say hello, we'd love to have you around!
 
-### Keep up-to-date
+### Keep up-to-date 📮
 
 If you'd like to keep in the loop regarding the development, please [subscribe
 to our **newsletter**](http://eepurl.com/co0K9r) to receive very occasional
 updates and release notifications.
 
-### Help improve `lab.js`!
+### Help improve `lab.js`! ✨☀️
 
 **We would love to have you as part of this project!** There are lots of
 different [**ways to contribute**](https://labjs.readthedocs.io/en/latest/meta/contribute/ways.html),
@@ -75,18 +75,18 @@ in the documentation.
 
 ----
 
-### Contributors
+### Contributors ❤️
 
 (in alphabetical order)
 
-#### Code / documentation
+#### Code / documentation 🔬
 
 [Felix Henninger](http://felixhenninger.com) ·
 [Pascal J. Kieslich](https://pascalkieslich.github.io/) ·
 [Ulf K. Mertens](http://www.psychologie.uni-heidelberg.de/ae/meth/team/mertens/) ·
 [Yury Shevchenko](http://yuryshevchenko.com/)
 
-#### Ideas, feedback and examples
+#### Ideas, feedback and examples 💡
 
 [Emily Elliott](https://lsu.edu/hss/psychology/faculty/cognitive/elliott.php) ·
 [Jeffrey Fisher](https://github.com/jeffslofish) ·
@@ -104,7 +104,7 @@ continued development of this software, have provided countless valuable
 insights, and sparked many of the ideas embodied in this project through
 questions and discussions.
 
-#### Sponsors and supporters
+#### Sponsors and supporters 🎩
 
 We are wholeheartedly grateful to our generous sponsors for making possible the
 development of this tool:
@@ -123,7 +123,7 @@ that we can discuss things in more detail.
 
 ----
 
-### Citation
+### Citation 📓
 
 We [kindly request](https://www.youtube.com/watch?v=kVwl-Va7cNM) that you cite
 ``lab.js`` if you use it in your research. Here's how:
@@ -134,7 +134,7 @@ We [kindly request](https://www.youtube.com/watch?v=kVwl-Va7cNM) that you cite
 
 ----
 
-### License
+### License 👩‍⚖️
 
 All parts of this project are openly available, subject to different licenses:
 
