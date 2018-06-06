@@ -21,6 +21,7 @@
 from __future__ import absolute_import
 from docutils import nodes
 from docutils.parsers.rst import Directive, directives
+import os, shutil
 
 def align(argument):
     """Conversion function for the "align" option."""
@@ -49,6 +50,48 @@ class IframeVideo(Directive):
             self.options['align'] = 'left'
         return [nodes.raw('', self.html % self.options, format='html')]
 
+class RawVideo(Directive):
+    has_content = False
+    required_arguments = 1
+    optional_arguments = 0
+    final_argument_whitespace = False
+    option_spec = {}
+
+    html = \
+      '''
+        <div class="embed-container">
+          <video controls src="{path}" style="width: 100%"></video>
+        </div>
+      '''
+
+    def run(self):
+        document = self.state.document
+        env = document.settings.env
+        raw_path = directives.uri(self.arguments[0])
+
+        rel_filename, filename = env.relfn2path(raw_path)
+        basename = os.path.basename(filename)
+        dirname = os.path.dirname(filename)
+
+        save_filename = os.path.join('_videos', basename)
+
+        env.note_dependency(rel_filename)
+        env.config.video_files.append({
+            'source': rel_filename,
+            'target': save_filename,
+        })
+
+        self.options['path'] = os.path.relpath(
+            save_filename,
+            os.path.dirname(env.docname)
+        )
+
+        # TODO: For some weird reason, the output folder
+        # /_static/videos is created, and I can't figure
+        # out why. Probably a case for a rainy afternoon
+
+        return [nodes.raw('', self.html.format(**self.options), format='html')]
+
 class Youtube(IframeVideo):
     html = \
       '''
@@ -74,6 +117,28 @@ class Vimeo(IframeVideo):
         </div>
       '''
 
+def on_builder_init(app):
+    app.config.video_files[:] = []
+
+def on_html_collect_pages(app):
+    try:
+        os.makedirs(os.path.join(app.builder.outdir, '_videos'))
+    except OSError:
+        pass
+
+    for f in app.config.video_files:
+        src = os.path.join(app.srcdir, f['source'])
+        target = os.path.join(app.builder.outdir, f['target'])
+        if os.path.exists(src):
+            shutil.copy(src, target)
+    return []
+
 def setup(app):
     directives.register_directive('youtube', Youtube)
     directives.register_directive('vimeo', Vimeo)
+
+    directives.register_directive('video', RawVideo)
+    app.add_config_value('video_files', [], 'html')
+
+    app.connect('builder-inited', on_builder_init)
+    app.connect('html-collect-pages', on_html_collect_pages)
