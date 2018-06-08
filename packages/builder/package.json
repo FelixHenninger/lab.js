@@ -41,7 +41,8 @@
     "requirejs": "^2.3.2",
     "serialize-javascript": "^1.5.0",
     "slugify": "^1.2.6",
-    "source-map-explorer": "^1.5.0"
+    "source-map-explorer": "^1.5.0",
+    "uuid4": "^1.0.0"
   },
   "optionalDependencies": {
     "@fortawesome/fontawesome-pro-webfonts": "^1.0.5"

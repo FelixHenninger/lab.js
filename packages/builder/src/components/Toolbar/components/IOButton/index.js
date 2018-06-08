@@ -11,6 +11,7 @@ import { fromJSON } from '../../../../logic/io/load'
 import { stateToDownload } from '../../../../logic/io/save'
 import downloadStaticLocal from '../../../../logic/io/export/modifiers/local'
 import downloadStaticExpFactory from '../../../../logic/io/export/modifiers/expfactory'
+import downloadStaticJatos from '../../../../logic/io/export/modifiers/jatos'
 
 const IOButton = (_, context) => {
   let dropdown = null
@@ -115,6 +116,11 @@ const IOButton = (_, context) => {
         }
       >
         Generic survey tools <span className="text-muted">(Qualtrics, etc.)</span>
+      </DropdownItem>
+      <DropdownItem
+        onClick={ () => downloadStaticJatos(context.store.getState()) }
+      >
+        JATOS <span className="text-muted">(Just Another Tool for Online Studies)</span>
       </DropdownItem>
       <DropdownItem
         onClick={ () => downloadStaticExpFactory(context.store.getState()) }
