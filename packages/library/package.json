@@ -1,7 +1,7 @@
 {
   "name": "lab.js",
   "description": "Building blocks for web-based behavioral experiments",
-  "version": "2018.0.1",
+  "version": "2018.0.2",
   "author": "Felix Henninger <mailbox@felixhenninger.com>",
   "license": "Apache-2.0",
   "repository": {

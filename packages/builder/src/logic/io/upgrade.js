@@ -220,6 +220,11 @@ const updates = {
         )
     }
 
+    return data
+  },
+  '2018.0.1': data => {
+    data.version = [2018, 0, 2]
+
     // Add fallback and legacy library versions
     data.files.bundledFiles['lib/lab.fallback.js'] =
       { type: 'application/javascript' }
@@ -229,7 +234,7 @@ const updates = {
       { type: 'text/plain' }
 
     return data
-  },
+  }
 }
 
 export default (data) => {
