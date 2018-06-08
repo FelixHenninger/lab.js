@@ -125,10 +125,10 @@ Prior to analysis, it's often useful to reverse this compression, and restore th
   # Please also check that any extraneous data that
   # an external tool might introduce are stripped
   # before the following steps. For example, Qualtrics
-  # introduces an extra row of metadata after the
+  # introduces two extra rows of metadata after the
   # header. Un-commenting the following command removes
   # this line and re-checks all column data types.
-  #data_raw <- data_raw[-c(1),] %>% type_convert()
+  #data_raw <- data_raw[-c(1, 2),] %>% type_convert()
 
   # One of the columns in this file contains the
   # JSON-encoded data from lab.js
@@ -136,11 +136,17 @@ Prior to analysis, it's often useful to reverse this compression, and restore th
 
   # Unpack the JSON data and discard the compressed version
   data_raw %>%
+    # Provide a fallback for missing data
+    mutate(
+      !!labjs_column := recode(.[[labjs_column]], .missing='[{}]')
+    ) %>%
+    # Expand JSON-encoded data per participant
     group_by_all() %>%
     do(
       fromJSON(.[[labjs_column]], flatten=T)
     ) %>%
     ungroup() %>%
+    # Remove column containing raw JSON
     select(-matches(labjs_column)) -> data
 
   # The resulting dataset, available via the 'data'
