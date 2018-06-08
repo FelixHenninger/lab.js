@@ -22,7 +22,7 @@ const NodeDropdown = ({ id, parent, index, onDelete, hasChildren }, context) =>
       <DropdownItem
         onClick={ () => stateToDownload(
           context.store.getState(),
-          id
+          { exportedComponent: id }
         ) }
       >
         Export

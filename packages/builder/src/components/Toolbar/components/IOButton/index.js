@@ -21,7 +21,9 @@ const IOButton = (_, context) => {
     ref={ c => (dropdown = c) }
   >
     <Button id="caret" outline color="secondary"
-      onClick={ () => stateToDownload(context.store.getState()) }
+      onClick={ e => stateToDownload(
+        context.store.getState(), { removeInternals: e.shiftKey }
+      ) }
     >
       <Icon icon="save" weight="l" fallbackWeight="r" />
     </Button>
@@ -67,9 +69,9 @@ const IOButton = (_, context) => {
         Open
       </Uploader>
       <DropdownItem
-        onClick={
-          () => stateToDownload(context.store.getState())
-        }
+        onClick={ e => stateToDownload(
+          context.store.getState(), { removeInternals: e.shiftKey }
+        ) }
       >
         Save
       </DropdownItem>

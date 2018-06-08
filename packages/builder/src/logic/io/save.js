@@ -1,11 +1,12 @@
-import { pick } from 'lodash'
+import { pick, mapValues, omitBy } from 'lodash'
 import moment from 'moment'
 import FileSaver from 'file-saver'
 
 import { nestedChildren } from '../tree'
 import { makeFilename } from './filename';
 
-export const stateToJSON = (state, exportedComponent='root') => {
+export const stateToJSON = (state, exportedComponent='root',
+  { removeInternals=false }={}) => {
   const { version, components: allComponents, files } = state
 
   // From all available components,
@@ -28,16 +29,22 @@ export const stateToJSON = (state, exportedComponent='root') => {
     ? allComponents['root'].children
     : [ exportedComponent ]
 
+  // Remove internal options relating to UI state
+  // (that start with an underscore)
+  const filteredComponents = !removeInternals
+    ? components
+    : mapValues(components, c => omitBy(c, (v, k) => k.startsWith('_')))
+
   return JSON.stringify({
+    components: filteredComponents,
     version,
-    components,
     files,
   }, null, 2)
 }
 
-export const stateToDownload = (state, exportedComponent='root',
-  filenameOverride=null) => {
-  const stateJSON = stateToJSON(state, exportedComponent)
+export const stateToDownload = (state, { exportedComponent='root',
+  filenameOverride=null, removeInternals=false }={}) => {
+  const stateJSON = stateToJSON(state, exportedComponent, { removeInternals })
 
   // Determine filename if not set explicitly
   let filename
