@@ -47,6 +47,8 @@ export const parse = (raw, context, metadata, that) => {
         return output
       case 'number':
         return Number(output)
+      case 'boolean':
+        return Boolean(output.trim() !== 'false')
       default:
         throw new Error(
           `Output type ${ metadata.type } unknown, can't convert option`,
