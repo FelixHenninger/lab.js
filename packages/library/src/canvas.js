@@ -211,8 +211,12 @@ export class Screen extends Component {
   }
 
   onEnd() {
-    // Undo any previously applied tranformations
-    this.options.ctx.restore()
+    // Context is extracted in onRun, and may not be present
+    // (i.e. if the component is skipped)
+    if (this.options.ctx) {
+      // Undo any previously applied tranformations
+      this.options.ctx.restore()
+    }
   }
 
   clear() {
