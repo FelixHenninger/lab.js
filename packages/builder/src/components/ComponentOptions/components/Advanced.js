@@ -11,7 +11,7 @@ export default ({ id, data }) =>
     <Form
       id={ id }
       data={ data }
-      keys={ ['tardy', 'skip', 'scrollTop', '_template'] }
+      keys={ ['tardy', 'scrollTop', '_template'] }
       getDispatch={ dispatch => this.formDispatch = dispatch }
     >
       <FormGroup row>
@@ -57,29 +57,6 @@ export default ({ id, data }) =>
         </Col>
         <Col xs={10}>
           <FormGroup check>
-            <Label check>
-              <Control.checkbox
-                model=".skip"
-                className="form-check-input"
-              />
-              &thinsp;
-              Skip
-            </Label>
-            <Hint
-              title="Skip"
-              style={{
-                marginLeft: '1rem',
-              }}
-            >
-              <p className="font-weight-bold">
-                Don't run the component during the study.
-              </p>
-              <p className="text-muted">
-                This will cause any component to be prepared, but not run.
-              </p>
-            </Hint>
-          </FormGroup>
-          <FormGroup check className="pt-2">
             <Label check>
               <Control.checkbox
                 model=".scrollTop"

@@ -72,6 +72,9 @@ const processTemplateParameters = grid =>
 
 // Process any single node in isolation
 const processNode = node => {
+  // Options to exclude from JSON output
+  const filteredOptions = ['skipCondition']
+
   // TODO: This filters empty string values, which are
   // created by empty form fields in the builder. This is
   // hackish, and may not work indefinately -- it might
@@ -80,7 +83,7 @@ const processNode = node => {
   // Either way, this is probably not the final solution.
   const filterOptions = (value, key) =>
     value !== '' &&
-    !key.startsWith('_')
+    !(key.startsWith('_') || filteredOptions.includes(key))
 
   return Object.assign({}, pickBy(node, filterOptions), {
     messageHandlers: node.messageHandlers
@@ -92,6 +95,7 @@ const processNode = node => {
     responses: node.responses
       ? processResponses(node.responses)
       : {},
+    skip: node.skip || node.skipCondition || undefined,
     templateParameters: node.templateParameters
       ? processTemplateParameters(node.templateParameters)
       : node.templateParameters,

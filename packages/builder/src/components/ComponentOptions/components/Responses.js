@@ -1,7 +1,7 @@
 import React from 'react'
 import { Control } from 'react-redux-form'
 import { CardBody, FormGroup, Col, Label,
-  InputGroup, InputGroupAddon } from 'reactstrap'
+  Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
 
 import Card from '../../Card'
 import Grid from '../../Grid'
@@ -136,7 +136,7 @@ const Content = ({ id, data, formDispatch }) =>
     <CardBody>
       <FormGroup row>
         <Label for="correctResponse" xs="2">
-          Correct
+          Correct response
           <Hint
             title="Correct response"
             className="float-right"
@@ -154,7 +154,8 @@ const Content = ({ id, data, formDispatch }) =>
             model=".correctResponse"
             placeholder="Undefined"
             type="text"
-            className="form-control" id="correctResponse"
+            component={ Input }
+            id="correctResponse"
             style={{
               fontFamily: 'Fira Mono',
             }}
@@ -183,7 +184,8 @@ const Content = ({ id, data, formDispatch }) =>
               model=".timeout"
               placeholder="Never"
               pattern="(\d+)|(\$\{.*\})" // Accept number or placeholder
-              className="form-control" id="timeout"
+              component={ Input }
+              id="timeout"
               style={{
                 fontFamily: 'Fira Mono',
               }}
@@ -195,6 +197,53 @@ const Content = ({ id, data, formDispatch }) =>
           </InputGroup>
         </Col>
       </FormGroup>
+      <FormGroup row>
+        <Label for="skip" xs="2">
+          Skip
+          <Hint
+            title="Skip"
+            className="float-right"
+          >
+            <p className="font-weight-bold">
+              Don't run the component during the study.
+            </p>
+            <p className="text-muted">
+              This will cause any component to be prepared, but not run.
+            </p>
+          </Hint>
+        </Label>
+        <Col xs="10">
+          <InputGroup>
+            <InputGroupAddon addonType="prepend">
+              <InputGroupText>
+                <Control.checkbox
+                  model=".skip"
+                  component={ Input }
+                  controlProps={{
+                    addon: true,
+                    type: 'checkbox'
+                  }}
+                />
+              </InputGroupText>
+            </InputGroupAddon>
+            <Control
+              model=".skipCondition"
+              component={ Input }
+              controlProps={{
+                disabled: data.skip
+              }}
+              // eslint-disable-next-line no-template-curly-in-string
+              placeholder="${ optional condition }"
+              type="text"
+              id="skipCondition"
+              style={{
+                fontFamily: 'Fira Mono',
+              }}
+              debounce={ 300 }
+            />
+          </InputGroup>
+        </Col>
+      </FormGroup>
     </CardBody>
   </div>
 
@@ -203,7 +252,8 @@ export default ({ id, data }) =>
     <Form
       id={ id }
       data={ data }
-      keys={ ['responses', 'correctResponse', 'timeout'] }
+      keys={ ['responses', 'correctResponse', 'timeout',
+        'skip', 'skipCondition'] }
       getDispatch={ dispatch => this.formDispatch = dispatch }
     >
       <Content
