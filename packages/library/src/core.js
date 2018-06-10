@@ -622,6 +622,7 @@ Component.metadata = {
   parsableOptions: {
     correctResponse: {},
     timeout:         { type: 'number' },
+    skip:            { type: 'boolean' },
   },
 }
 
