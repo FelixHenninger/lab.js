@@ -24,7 +24,7 @@ export const defaultState = {
 
 const defaultTabs = [
   'Content',
-  'Responses',
+  'Behavior',
   'Scripts',
   'Notes',
   'Parameters',

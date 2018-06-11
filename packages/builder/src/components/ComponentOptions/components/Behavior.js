@@ -49,8 +49,8 @@ const HeaderCell = ({ columnData }) =>
     { columnData }
   </span>
 
-const Content = ({ id, data, formDispatch }) =>
-  <div>
+const Responses = ({ data, formDispatch }) =>
+  <Card title="Responses" wrapContent={ false } className="mt-4">
     <Grid
       model=".responses"
       data={ data.responses.rows }
@@ -163,103 +163,110 @@ const Content = ({ id, data, formDispatch }) =>
           />
         </Col>
       </FormGroup>
-      <FormGroup row>
-        <Label for="timeout" xs="2">
-          Timeout
-          <Hint
-            title="Timeout"
-            className="float-right"
-          >
-            <p className="font-weight-bold">
-              End component automatically after a given number of milliseconds.
-            </p>
-            <p className="text-muted">
-              If responses are defined alongside a timeout, whichever comes first will end the component.
-            </p>
-          </Hint>
-        </Label>
-        <Col xs="10">
-          <InputGroup>
-            <Control
-              model=".timeout"
-              placeholder="Never"
-              pattern="(\d+)|(\$\{.*\})" // Accept number or placeholder
-              component={ Input }
-              id="timeout"
-              style={{
-                fontFamily: 'Fira Mono',
-              }}
-              debounce={ 300 }
-            />
-            <InputGroupAddon addonType="append">
-              <span className="input-group-text text-muted">ms</span>
-            </InputGroupAddon>
-          </InputGroup>
-        </Col>
-      </FormGroup>
-      <FormGroup row>
-        <Label for="skip" xs="2">
-          Skip
-          <Hint
-            title="Skip"
-            className="float-right"
-          >
-            <p className="font-weight-bold">
-              Don't run the component during the study.
-            </p>
-            <p className="text-muted">
-              This will cause any component to be prepared, but not run.
-            </p>
-          </Hint>
-        </Label>
-        <Col xs="10">
-          <InputGroup>
-            <InputGroupAddon addonType="prepend">
-              <InputGroupText>
-                <Control.checkbox
-                  model=".skip"
-                  component={ Input }
-                  controlProps={{
-                    addon: true,
-                    type: 'checkbox'
-                  }}
-                />
-              </InputGroupText>
-            </InputGroupAddon>
-            <Control
-              model=".skipCondition"
-              component={ Input }
-              controlProps={{
-                disabled: data.skip
-              }}
-              // eslint-disable-next-line no-template-curly-in-string
-              placeholder="${ optional condition }"
-              type="text"
-              id="skipCondition"
-              style={{
-                fontFamily: 'Fira Mono',
-              }}
-              debounce={ 300 }
-            />
-          </InputGroup>
-        </Col>
-      </FormGroup>
     </CardBody>
-  </div>
+  </Card>
+
+const Timeline = ({ data }) =>
+  <Card title="Timeline">
+    <FormGroup row>
+      <Label for="skip" xs="2">
+        Skip
+        <Hint
+          title="Skip"
+          className="float-right"
+        >
+          <p className="font-weight-bold">
+            Don't run the component during the study.
+          </p>
+          <p className="text-muted">
+            This will cause any component to be prepared, but not run.
+          </p>
+        </Hint>
+      </Label>
+      <Col xs="10">
+        <InputGroup>
+          <InputGroupAddon addonType="prepend">
+            <InputGroupText>
+              <Control.checkbox
+                model=".skip"
+                component={ Input }
+                controlProps={{
+                  addon: true,
+                  type: 'checkbox'
+                }}
+              />
+            </InputGroupText>
+          </InputGroupAddon>
+          <Control
+            model=".skipCondition"
+            component={ Input }
+            controlProps={{
+              disabled: data.skip
+            }}
+            // eslint-disable-next-line no-template-curly-in-string
+            placeholder="${ optional condition }"
+            type="text"
+            id="skipCondition"
+            style={{
+              fontFamily: 'Fira Mono',
+            }}
+            debounce={ 300 }
+          />
+        </InputGroup>
+      </Col>
+    </FormGroup>
+    <FormGroup row>
+      <Label for="timeout" xs="2">
+        Timeout
+        <Hint
+          title="Timeout"
+          className="float-right"
+        >
+          <p className="font-weight-bold">
+            End component automatically after a given number of milliseconds.
+          </p>
+          <p className="text-muted">
+            If responses are defined alongside a timeout, whichever comes first will end the component.
+          </p>
+        </Hint>
+      </Label>
+      <Col xs="10">
+        <InputGroup>
+          <Control
+            model=".timeout"
+            placeholder="Never"
+            pattern="(\d+)|(\$\{.*\})" // Accept number or placeholder
+            component={ Input }
+            id="timeout"
+            style={{
+              fontFamily: 'Fira Mono',
+            }}
+            debounce={ 300 }
+          />
+          <InputGroupAddon addonType="append">
+            <span className="input-group-text text-muted">ms</span>
+          </InputGroupAddon>
+        </InputGroup>
+      </Col>
+    </FormGroup>
+  </Card>
 
 export default ({ id, data }) =>
-  <Card title="Responses" wrapContent={ false }>
-    <Form
+  <Form
+    id={ id }
+    data={ data }
+    keys={ ['responses', 'correctResponse', 'timeout',
+      'skip', 'skipCondition'] }
+    getDispatch={ dispatch => this.formDispatch = dispatch }
+  >
+    <Timeline
       id={ id }
       data={ data }
-      keys={ ['responses', 'correctResponse', 'timeout',
-        'skip', 'skipCondition'] }
-      getDispatch={ dispatch => this.formDispatch = dispatch }
-    >
-      <Content
-        id={ id }
-        data={ data }
-        formDispatch={ action => this.formDispatch(action) }
-      />
-    </Form>
-  </Card>
+      formDispatch={ action => this.formDispatch(action) }
+    />
+    <Responses
+      id={ id }
+      data={ data }
+      formDispatch={ action => this.formDispatch(action) }
+    />
+  </Form>

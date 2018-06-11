@@ -7,7 +7,7 @@ import Fallback from './components/Fallback'
 
 // General-purpose tabs
 import Notes from './components/Notes'
-import Responses from './components/Responses'
+import Behavior from './components/Behavior'
 import Scripts from './components/Scripts'
 import Parameters from './components/Parameters'
 import Advanced from './components/Advanced'
@@ -43,8 +43,8 @@ const selectTab = (type, tab) => {
         default:
           throw new Error(`Unknown component type, can't show content`)
       }
-    case 'Responses':
-      return Responses
+    case 'Behavior':
+      return Behavior
     case 'Scripts':
       return Scripts
     case 'Parameters':

@@ -30,7 +30,7 @@ import PostMessage from './plugins/postmessage'
 import Submit from './plugins/submit'
 import Transmit from './plugins/transmit'
 
-export const version = '2018.0.1'
+export const version = '2018.0.3'
 export const build = {
   flavor: BUILD_FLAVOR,
   commit: BUILD_COMMIT,

@@ -234,7 +234,19 @@ const updates = {
       { type: 'text/plain' }
 
     return data
-  }
+  },
+  '2018.0.2': data => {
+    data.version = [2018, 0, 3]
+
+    data.components = mapValues(data.components, c => {
+      if (c._tab && c._tab === 'Responses') {
+        c._tab = 'Behavior'
+      }
+      return c
+    })
+
+    return data
+  },
 }
 
 export default (data) => {
