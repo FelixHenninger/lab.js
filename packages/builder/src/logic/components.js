@@ -1,3 +1,5 @@
+import { stripIndent } from 'common-tags'
+
 // Define a default app state
 export const defaultState = {
   'root': {
@@ -96,6 +98,12 @@ export const metadata = {
     defaultTab: 'Content',
     defaults: {
       type: 'lab.html.Form',
+      content: stripIndent`
+        <form>
+          <input name="variable">
+          <button type="submit">Submit</button>
+        </form>
+      `,
       parameters: {
         rows: [ [ { name: '', value: '', type: 'string' }, ], ],
       },
