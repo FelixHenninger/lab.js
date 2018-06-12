@@ -16,7 +16,7 @@ import './index.css'
 
 const NodeBody = (
   { id, parent, index, children,
-    active, collapsed, skipped,
+    active, collapsed, skipped, tardy,
     isDragging, hasChildren },
   { onNodeClick, onNodeDelete }
 ) =>
@@ -34,6 +34,7 @@ const NodeBody = (
       { children }
       { collapsed ? <Icon icon="plus" /> : null }
       { skipped ? <Icon icon="minus-circle" /> : null }
+      { tardy ? <Icon icon="alarm-clock" /> : null }
     </div>
     <div className='nav-link-tools'>
       <NodeDropDown
@@ -139,6 +140,7 @@ const Node = ({ id, parentId, index, data, active, renderBody,
               active={ active }
               collapsed={ collapsed }
               skipped={ data.skip }
+              tardy={ data.tardy }
               isDragging={ isDragging }
             >
               { data.title }

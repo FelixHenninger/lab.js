@@ -14,6 +14,7 @@ export const iconSet = `${ process.env.REACT_APP_FA }`
 // Alternate icons in the free set that substitute
 // only commercially availble icons.
 const replacements = {
+  'alarm-clock': 'clock',
   'arrows-v': 'arrows-alt-v',
   'arrows-h': 'arrows-alt-h',
   'expand': 'square',
