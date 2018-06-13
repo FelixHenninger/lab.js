@@ -169,6 +169,37 @@ const Responses = ({ data, formDispatch }) =>
 const Timeline = ({ data }) =>
   <Card title="Timeline">
     <FormGroup row>
+      <Label for="tardy" xs="2">
+        Tardy
+        <Hint
+          title="Tardiness"
+          className="float-right"
+        >
+          <p className="font-weight-bold">
+            Prepare the component at the last possible moment, just before it is run.
+          </p>
+          <p className="text-muted">
+            This is useful if the component depends on information that becomes available only during the study, for example if a screen's content depends on participant behavior.
+          </p>
+          <p className="text-muted">
+            Ordinarily, a component is prepared when the page is loaded.
+          </p>
+        </Hint>
+      </Label>
+      <Col xs="10">
+        <FormGroup check className="pt-2">
+          <Control.checkbox
+            model=".tardy"
+            component={ Input }
+            controlProps={{
+              id: 'tardy',
+              type: 'checkbox',
+            }}
+          />
+        </FormGroup>
+      </Col>
+    </FormGroup>
+    <FormGroup row>
       <Label for="skip" xs="2">
         Skip
         <Hint
@@ -255,8 +286,11 @@ export default ({ id, data }) =>
   <Form
     id={ id }
     data={ data }
-    keys={ ['responses', 'correctResponse', 'timeout',
-      'skip', 'skipCondition'] }
+    keys={ [
+      'responses', 'correctResponse',
+      'skip', 'skipCondition',
+      'tardy', 'timeout',
+    ] }
     getDispatch={ dispatch => this.formDispatch = dispatch }
   >
     <Timeline

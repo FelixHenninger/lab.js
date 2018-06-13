@@ -11,44 +11,9 @@ export default ({ id, data }) =>
     <Form
       id={ id }
       data={ data }
-      keys={ ['tardy', 'scrollTop', '_template'] }
+      keys={ ['scrollTop', '_template'] }
       getDispatch={ dispatch => this.formDispatch = dispatch }
     >
-      <FormGroup row>
-        <Col xs={2}>
-          <Label>
-            Preparation
-          </Label>
-        </Col>
-        <Col xs={10}>
-          <FormGroup check>
-            <Label check>
-              <Control.checkbox
-                model=".tardy"
-                className="form-check-input"
-              />
-              &thinsp;
-              Tardy
-            </Label>
-            <Hint
-              title="Tardiness"
-              style={{
-                marginLeft: '1rem',
-              }}
-            >
-              <p className="font-weight-bold">
-                Prepare the component at the last possible moment, just before it is run.
-              </p>
-              <p className="text-muted">
-                This is useful if the component depends on information that becomes available only during the study, for example if a screen's content depends on participant behavior.
-              </p>
-              <p className="text-muted">
-                Ordinarily, a component is prepared when the page is loaded.
-              </p>
-            </Hint>
-          </FormGroup>
-        </Col>
-      </FormGroup>
       <FormGroup row>
         <Col xs={2}>
           <Label>
