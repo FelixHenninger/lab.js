@@ -47,7 +47,15 @@ export class Component extends EventHandler {
           this.aggregateParameters[prop],
         // Redirect writes to the parameters option
         set: (obj, prop, value) =>
-          (this.options.parameters[prop] = value) || true
+          (this.options.parameters[prop] = value) || true,
+        has: (obj, prop) =>
+          Reflect.has(this.aggregateParameters, prop),
+        ownKeys: (obj, prop) =>
+          Reflect.ownKeys(this.aggregateParameters),
+        getOwnPropertyDescriptor: (obj, prop) =>
+          Reflect.getOwnPropertyDescriptor(
+            this.aggregateParameters, prop
+          )
       })
     : undefined
   )
@@ -56,12 +64,14 @@ export class Component extends EventHandler {
   state = (BUILD_FLAVOR !== 'legacy'
     ? new window.Proxy({}, {
         // Read from the internal datastore
-        // TODO: This would likely benefit from optional chaining
+        // TODO: This would likely benefit from optional chaining,
+        // plus some way of removing the repetition
+        // in all of these traps.
         get: (obj, prop) => {
           if (this.options.datastore) {
             return this.options.datastore.state[prop]
           } else {
-            throw new Error('No datastore to retrieve state from')
+            throw new Error('No datastore to read state from')
           }
         },
         // Redirect writes to store's set method
@@ -72,7 +82,30 @@ export class Component extends EventHandler {
           } else {
             throw new Error('No datastore to save state to')
           }
-        }
+        },
+        has: (obj, prop) => {
+          if (this.options.datastore) {
+            return Reflect.has(this.options.datastore.state, prop)
+          } else {
+            throw new Error('No datastore to read state from')
+          }
+        },
+        ownKeys: (obj) => {
+          if (this.options.datastore) {
+            return Reflect.ownKeys(this.options.datastore.state)
+          } else {
+            throw new Error('No datastore to read state from')
+          }
+        },
+        getOwnPropertyDescriptor: (obj, prop) => {
+          if (this.options.datastore) {
+            return Reflect.getOwnPropertyDescriptor(
+              this.options.datastore.state, prop
+            )
+          } else {
+            throw new Error('No datastore to read state from')
+          }
+        },
       })
     : undefined
   )
