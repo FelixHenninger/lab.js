@@ -1,4 +1,4 @@
-import { clamp } from 'lodash'
+import { clamp, pick, flatten, omit, merge  } from 'lodash'
 import { alea } from 'seedrandom'
 
 // Random uuid4 generation
@@ -80,6 +80,29 @@ export class Random {
     }
 
     return array
+  }
+
+  // Given an array of objects, shuffle groups
+  // of keys independently.
+  shuffleTable(data, groups=[]) {
+    // Split data into independent groups
+    const groupedData = groups.map(
+      columns => data.map(entry => pick(entry, columns))
+    )
+
+    // Collect remaining entries
+    groupedData.push(
+      data.map(entry => omit(entry, flatten(groups)))
+    )
+
+    // Shuffle and merge data
+    // (moving things into a temporary key,
+    // to meet lodash input requirements)
+    return merge(
+      ...groupedData.map(
+        g => ({ data: this.shuffle(g) })
+      )
+    ).data
   }
 
   uuid4() {

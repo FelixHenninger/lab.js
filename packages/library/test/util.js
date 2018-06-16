@@ -131,6 +131,27 @@ describe('Utilities', () => {
       )
     })
 
+    it('shuffles groups of keys in a table independently', () => {
+      const table = [
+        { a: 1,  b: 2,  c: 3,  d: 4,  e: 5  },
+        { a: 6,  b: 7,  c: 8,  d: 9,  e: 10 },
+        { a: 11, b: 12, c: 13, d: 14, e: 15 },
+      ]
+      const output = [
+        { a: 1,  b: 2,  c: 13, d: 9,  e: 10 },
+        { a: 6,  b: 7,  c: 3,  d: 4,  e: 5  },
+        { a: 11, b: 12, c: 8,  d: 14, e: 15 },
+      ]
+
+      assert.deepEqual(
+        rng_alea.shuffleTable(
+          table,
+          [['a', 'b'], ['c']]
+        ),
+        output
+      )
+    })
+
     it('generates a random v4 uuid', () => {
       assert.equal(
         rng_alea.uuid4(),
