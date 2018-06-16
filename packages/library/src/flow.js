@@ -24,6 +24,8 @@ export const prepareNested = function(nested, parent) {
   )
 }
 
+// Sequence -----------------------------------------------
+
 // A sequence combines an array of other
 // components and runs them sequentially
 export class Sequence extends Component {
@@ -107,6 +109,8 @@ Sequence.metadata = {
   },
 }
 
+// Loop ---------------------------------------------------
+
 // A loop functions exactly like a sequence,
 // except that the components in the loop are
 // generated upon initialization from a
@@ -176,6 +180,8 @@ Loop.metadata = {
   },
 }
 
+// Parallel -----------------------------------------------
+
 // A parallel component executes multiple
 // other components simultaneously
 export class Parallel extends Component {
@@ -222,7 +228,7 @@ export class Parallel extends Component {
   get progress() {
     // If the parallel has ended,
     // report it as completed
-    // (even if content was skipped),
+    // (even if content was skipped)
     return this.status === status.done ? 1 : mean(
       this.options.content.map(c => c.progress),
     )
