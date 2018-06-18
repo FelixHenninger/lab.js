@@ -21,5 +21,4 @@ script:
   - (cd packages/builder && npm run build)
   - (cd packages/builder && npm test)
 after_success:
-  - (cd packages/builder && npm install netlify-cli -g)
-  - (cd packages/builder && netlify deploy -s "${NETLIFY_SITE_ID}" -t "${NETLIFY_ACCESS_TOKEN}" -p ./build)
+  - (cd packages/builder && npm run deploy)
