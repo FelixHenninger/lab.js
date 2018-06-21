@@ -4,4 +4,4 @@ export const slugify = title =>
   defaultSlugify(title).toLowerCase()
 
 export const makeFilename = state =>
-  slugify(state.components['root'].metadata.title || 'study')
+  slugify(state.components['root'].metadata.title.trim() || 'study')
