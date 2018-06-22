@@ -42,6 +42,33 @@ In practice of course, you'll probably be randomly generating more useful inform
 
     :returns: A shuffled copy of the input ``array``.
 
+  .. js:function:: shuffleTable(table, [columnGroups=[]])
+
+    :returns: A shuffled copy of the input ``table``.
+
+    Shuffles the rows of a tabular data structure, optionally shuffling groups of columns independently.
+
+    This function assumes a tabular input in the form of an ``array`` of one or more objects, each of which represents a row in the table. For example, we might imagine the following tabular input::
+
+      const stroopTable = [
+        { word: 'red',   color: 'red'   },
+        { word: 'blue',  color: 'blue'  },
+        { word: 'green', color: 'green' },
+      ]
+
+    Here, the ``array`` (in square brackets) holds multiple rows, which contain the entries for every column.
+
+    This data structure is common in ``lab.js``: The entire data storage mechanism relies on it (though we hope you wouldn't want to shuffle your collected data!), and (somewhat more usefully) loops represent their iterations in this format. So you might imagine that each of the rows in the example above represents a trial in a Stroop paradigm, with a combination of word and color. However, you'd want to shuffle the words and colors independently to create random combinations. This is probably where the ``shuffleTable`` function is most useful: Implementing a complex randomization strategy.
+
+    Invoked without further options, for example as ``shuffleTable(stroopTable)``, the function shuffles the rows while keeping their structure intact. This changes if groups of columns are singled out for independent shuffling, as in this example::
+
+      shuffleTable(stroopTable, [['word'], ['color'])
+
+    Here, the ``word`` and ``color`` columns are shuffled independently of one another: The output will have the same number of rows and columns as the input, but values that were previously in a row are no longer joined. Two more things are worth noting:
+
+    * Any columns not specified in the ``columnGroups`` parameter are treated as a single group: They are also shuffled, but values of these columns in the same row remain intact.
+    * Building on the example above, multiple columns can be shuffled together by combining their names, e.g. ``shuffleTable(stroopTable, [['word', 'duration'], ['color']])``.
+
   .. js:function:: uuid4()
 
     :returns: A `version 4 universally unique identifier`_ as a string, e.g. ``2b4a88ca-52ba-4950-9ec2-06f07f944fed``
