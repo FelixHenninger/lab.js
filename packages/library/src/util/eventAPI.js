@@ -31,6 +31,10 @@ export class EventHandler {
   // see https://github.com/component/emitter.git
   // Any mistakes, of course, are entirely my own.
   on(event, fn) {
+    // Setup displayName for easier debugging
+    fn.displayName = fn.displayName ||
+      `${ event } handler on ${ this.internals.rawOptions.title }`
+
     this.internals.callbacks[`$${ event }`] =
       this.internals.callbacks[`$${ event }`] || []
     this.internals.callbacks[`$${ event }`].push(fn)
