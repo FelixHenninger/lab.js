@@ -89,11 +89,24 @@ export class EventHandler {
     // within the context of the current object
     const callbacks = this.internals.callbacks[`$${ event }`]
     if (callbacks) {
-      await Promise.all(
-        callbacks.map(
-          c => c.apply(this, args),
-        ),
-      )
+      try {
+        // Go through all callbacks
+        await Promise.all(
+          callbacks.map(
+            c => c.apply(this, args),
+          ),
+        )
+      } catch(e) {
+        // Log and rethrow error
+        console.error(
+          `%cError in ${ this.internals.rawOptions.title }%c ` +
+          `during event ${ event }$c: ${ e }`,
+          'font-weight: bold', // Component title
+          'font-weight: normal', // Event type
+          'font-weight: normal; opacity: 0.5', // Remaining text
+        )
+        throw e
+      }
     }
 
     // Trigger plugin events
