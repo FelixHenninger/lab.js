@@ -14,8 +14,8 @@ const makeConfig = (state) => {
     version: '3',
     data: {
       uuid: uuid(),
-      title: metadata.title,
-      description: metadata.description,
+      title: metadata.title || 'Unnamed study',
+      description: metadata.description || '',
       groupStudy: false,
       dirName: filename,
       comments: '',
@@ -23,7 +23,7 @@ const makeConfig = (state) => {
       componentList: [
         {
           "uuid": uuid(),
-          "title": metadata.title,
+          "title": metadata.title || 'Unamed study',
           "htmlFilePath": "index.html",
           "reloadable": true,
           "active": true,
