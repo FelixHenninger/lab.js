@@ -155,6 +155,25 @@ describe('Plugins', () => {
         )
       })
     })
+
+    it('triggers callback after full transmission', () => {
+      const epiloguePromise = c.waitFor('epilogue')
+      p.callbacks = {
+        full: sinon.spy()
+      }
+
+      return c.run().then(() =>
+        // TODO: As above
+        Promise.all([
+          epiloguePromise,
+          new Promise(resolve => window.setTimeout(resolve, 200)),
+        ])
+      ).then(() => {
+        assert.ok(
+          p.callbacks.full.calledOnce
+        )
+      })
+    })
   })
 })
 
