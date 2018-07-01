@@ -57,14 +57,14 @@ export const parse = (raw, context, metadata, that) => {
   } else if (isArray(raw)) {
     // Recursively parse array
     return raw.map(
-      o => parse(o, context, metadata.content),
+      o => parse(o, context, metadata.content, that),
     )
   } else if (isPlainObject(raw)) {
     // Parse individual key/value pairs
     // and construct a new object from results
     return fromPairs(
       Object.entries(raw).map(
-        ([k, v]) => [k, parse(v, context, metadata.content[k])],
+        ([k, v]) => [k, parse(v, context, metadata.content[k], that)],
       ),
     )
   } else {
