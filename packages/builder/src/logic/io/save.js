@@ -1,4 +1,4 @@
-import { pick, mapValues, omitBy } from 'lodash'
+import { cloneDeep, pick, mapValues, omitBy } from 'lodash'
 import moment from 'moment'
 import FileSaver from 'file-saver'
 
@@ -12,14 +12,14 @@ export const stateToJSON = (state, exportedComponent='root',
   // From all available components,
   // include only the root, and those
   // nested below any exported component
-  const components = pick(
+  const components = cloneDeep(pick(
     allComponents,
     [
       'root', // Include root in any case
       exportedComponent, // Additionally, include exported component (or root)
       ...nestedChildren(exportedComponent, allComponents) // Add children
     ]
-  )
+  ))
 
   // Per default, include all children
   // of the root component as before.
