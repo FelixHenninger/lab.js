@@ -92,6 +92,16 @@ export class Form extends Screen {
     this.options.events['submit form'] = e => this.submit(e)
   }
 
+  onRun() {
+    super.onRun()
+
+    // Emulate form field autofocus
+    const focus = this.options.el.querySelector('[autofocus]')
+    if (focus) {
+      focus.focus()
+    }
+  }
+
   submit(e=null) {
     // Suppress default form behavior
     if (e && e.preventDefault) {
