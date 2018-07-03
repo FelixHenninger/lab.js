@@ -97,7 +97,9 @@ Felix Ludwig ·
 [Karthikeya Pammi](https://github.com/pvskarthikeya) ·
 [Sophie Scharf](http://cognition.uni-mannheim.de/mitarbeiter/m_sc_sophie_scharf/) ·
 Merle Schuckart ·
-[Andrew White](https://github.com/shiroandy)
+[Hendrik Singmann](http://singmann.org) ·
+[Andrew White](https://github.com/shiroandy) ·
+[Malte Zimdahl](http://psycho3.uni-mannheim.de/Personen/Malte%20Zimdahl,%20M.Sc./) ·
 
 The students and teaching assistants in the graduate course *Research Methods
 in Cognitive Psychology* at the University of Koblenz-Landau inspire the
