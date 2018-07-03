@@ -284,14 +284,16 @@ export class Component extends EventHandler {
     await this.triggerMethod('before:prepare')
 
     // Parse raw options using template insertion data
+    const templateContext = Object.freeze({
+      parameters: this.aggregateParameters,
+      state: this.options.datastore ? this.options.datastore.state : {},
+    })
+
     const parsedOptions = parseRequested(
       this.internals.rawOptions,
-      {
-        parameters: this.aggregateParameters,
-        state: this.options.datastore ? this.options.datastore.state : {},
-      },
+      templateContext,
       parsableOptions(this),
-      this,
+      templateContext,
     )
 
     this.internals.parsedOptions = Object.assign(

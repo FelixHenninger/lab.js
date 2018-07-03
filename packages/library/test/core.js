@@ -888,11 +888,11 @@ describe('Core', () => {
         })
       })
 
-      it('makes available component while parsing (through this)', () => {
+      it('makes available component parameters through this', () => {
         const c = new lab.core.Component({
-          correctResponse: '${ this.foo }',
+          correctResponse: '${ this.parameters.foo }',
         })
-        c.foo = 'Hooray!'
+        c.parameters.foo = 'Hooray!'
 
         return c.prepare().then(() => {
           assert.equal(c.options.correctResponse, 'Hooray!')
