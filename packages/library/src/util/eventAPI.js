@@ -100,7 +100,7 @@ export class EventHandler {
         // Log and rethrow error
         console.error(
           `%cError in ${ this.internals.rawOptions.title }%c ` +
-          `during event ${ event }$c: ${ e }`,
+          `during event ${ event }%c: ${ e }`,
           'font-weight: bold', // Component title
           'font-weight: normal', // Event type
           'font-weight: normal; opacity: 0.5', // Remaining text
