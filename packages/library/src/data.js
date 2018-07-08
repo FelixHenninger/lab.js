@@ -379,7 +379,9 @@ export class Store extends EventHandler {
   }
 
   // Send data via POST request ---------------------------
-  transmit(url, metadata={}, { headers={}, incremental=false }={}) {
+  transmit(url, metadata={},
+    { headers={}, incremental=false, encoding='json' }={}
+  ) {
     this.triggerMethod('transmit')
 
     // Determine start of transmission
@@ -396,6 +398,26 @@ export class Store extends EventHandler {
     // Data is always sent as an array of entries
     const data = this.cleanData.slice(slice)
 
+    // Encode data
+    let body
+    if (encoding === 'form') {
+      // Encode data as form fields
+      body = new FormData()
+      body.append('metadata', { slice, ...metadata })
+      body.append('url', window.location.href)
+      body.append('data', data)
+    } else {
+      // JSON encoding is the default
+      body = JSON.stringify({
+        metadata: {
+          slice,
+          ...metadata,
+        },
+        url: window.location.href,
+        data: data,
+      })
+    }
+
     return fetch(url, {
       method: 'post',
       headers: {
@@ -403,14 +425,7 @@ export class Store extends EventHandler {
         'Content-Type': 'application/json',
         ...headers,
       },
-      body: JSON.stringify({
-        metadata: {
-          slice,
-          ...metadata,
-        },
-        url: window.location.href,
-        data: data,
-      }),
+      body,
       credentials: 'include',
     })
   }
