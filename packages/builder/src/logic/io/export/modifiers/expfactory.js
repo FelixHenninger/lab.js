@@ -38,7 +38,7 @@ const makeReadme = (state) => {
     ${ metadata.description }
     ----
     ` : '' }
-    Built by ${ credits } with [lab.js](https://felixhenninger.github.io/lab.js)
+    Built by ${ credits } with [lab.js](https://lab.js.org)
   `
 
   return makeDataURI(data)
