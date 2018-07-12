@@ -26,14 +26,16 @@ let reduceAuthors = (curr, next, i, a) => {
 const makeReadme = (state) => {
   const metadata = state.components.root.metadata
   const credits = metadata.contributors
-    .split('\n')
-    .map(c => parseAuthor(c))
-    .map(c => c.url ? `[${ c.name }](${ c.url })` : `${ c.name }`)
-    .reduce(reduceAuthors)
+    ? metadata.contributors
+        .split('\n')
+        .map(c => parseAuthor(c))
+        .map(c => c.url ? `[${ c.name }](${ c.url })` : `${ c.name }`)
+        .reduce(reduceAuthors)
+    : 'excellent folks'
 
   const data = stripIndent`
-    ${ metadata.title }
-    ${ repeat('=', metadata.title.length) }
+    ${ metadata.title || 'Study' }
+    ${ repeat('=', metadata.title ? metadata.title.length : 5) }
     ${ metadata.description ? `
     ${ metadata.description }
     ----
