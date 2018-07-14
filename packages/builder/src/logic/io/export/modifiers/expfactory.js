@@ -36,9 +36,12 @@ const makeReadme = (state) => {
   const data = stripIndent`
     ${ metadata.title || 'Study' }
     ${ repeat('=', metadata.title ? metadata.title.length : 5) }
+
     ${ metadata.description ? `
     ${ metadata.description }
+
     ----
+
     ` : '' }
     Built by ${ credits } with [lab.js](https://lab.js.org)
   `
