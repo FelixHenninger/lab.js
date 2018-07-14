@@ -71,6 +71,7 @@ const addTransmitPlugin = (state) => {
     {
       type: 'lab.plugins.Transmit',
       url: '/save',
+      encoding: 'form',
       updates: {
         incremental: false,
       },
