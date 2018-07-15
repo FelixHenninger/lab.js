@@ -403,9 +403,9 @@ export class Store extends EventHandler {
     if (encoding === 'form') {
       // Encode data as form fields
       body = new FormData()
-      body.append('metadata', { slice, ...metadata })
+      body.append('metadata', JSON.stringify({ slice, ...metadata }))
       body.append('url', window.location.href)
-      body.append('data', data)
+      body.append('data', JSON.stringify(data))
     } else {
       // JSON encoding is the default
       body = JSON.stringify({
