@@ -380,7 +380,7 @@ export class Store extends EventHandler {
 
   // Send data via POST request ---------------------------
   transmit(url, metadata={},
-    { headers={}, incremental=false, encoding='json' }={}
+    { headers:customHeaders={}, incremental=false, encoding='json' }={}
   ) {
     this.triggerMethod('transmit')
 
@@ -399,7 +399,7 @@ export class Store extends EventHandler {
     const data = this.cleanData.slice(slice)
 
     // Encode data
-    let body
+    let body, defaultHeaders = {}
     if (encoding === 'form') {
       // Encode data as form fields
       body = new FormData()
@@ -416,14 +416,17 @@ export class Store extends EventHandler {
         url: window.location.href,
         data: data,
       })
+      defaultHeaders = {
+        'Accept': 'application/json', // eslint-disable-line quote-props
+        'Content-Type': 'application/json',
+      }
     }
 
     return fetch(url, {
       method: 'post',
       headers: {
-        'Accept': 'application/json', // eslint-disable-line quote-props
-        'Content-Type': 'application/json',
-        ...headers,
+        ...defaultHeaders,
+        ...customHeaders,
       },
       body,
       credentials: 'include',
