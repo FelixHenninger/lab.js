@@ -33,6 +33,10 @@ export default class Transmit {
             )
           })
         }
+        // Trigger setup callback
+        if (this.callbacks.setup) {
+          this.callbacks.setup.call(this)
+        }
         break
       case 'epilogue':
         if (this.updates.full) {
@@ -42,10 +46,11 @@ export default class Transmit {
               url,
               { ...metadata, payload: 'full' },
               { headers: this.headers, encoding: this.encoding }
-            ).then(() => {
+            ).then(response => {
               if (this.updates.incremental) {
                 context.options.datastore.flushIncrementalTransmissionQueue()
               }
+              return response
             }).then(
               this.callbacks.full
             )
