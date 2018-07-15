@@ -79,14 +79,14 @@ const addTransmitPlugin = (state) => {
         incremental: false,
       },
       callbacks: {
+        setup: function() {
+          this.headers['X-CSRFToken'] = window.csrf_token
+        },
         full: function(response) {
           if (response && response.ok) {
             window.location = '/next'
           }
         }
-      },
-      headers: {
-        'X-CSRFToken': window.csrf_token,
       },
     },
   ]
