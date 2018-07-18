@@ -63,13 +63,13 @@ entirely new folder and just copy the ``.circleci`` folder for the builder templ
 Let's first extract the exported experiment. It will dump the required files into a folder in the present working directory.
 
 .. code-block:: bash
-    unzip stroop-task-export.zip
-    ls
-    stroop-task
+   unzip stroop-task-export.zip
+   ls
+   stroop-task
 
-    # Move it into experiments folder
-    mkdir -p experiments
-    mv stroop-task experiments/
+   # Move it into experiments folder
+   mkdir -p experiments
+   mv stroop-task experiments/
 
 
 3. Define Metadata
@@ -80,8 +80,8 @@ Take a look at the ``config.json`` in the extracted experiment folder. It will p
 
 .. code-block:: bash
 
-    cat stroop-task/config.json 
-    {
+   cat stroop-task/config.json 
+   {
       "name": "Stroop task",
       "exp_id": "stroop-task",
       "url": "https://github.com/felixhenninger/lab.js/examples/",
@@ -92,7 +92,7 @@ Take a look at the ``config.json`` in the extracted experiment folder. It will p
       "template": "lab.js",
       "instructions": "",
       "time": 5
-    }
+   }
 
 You can now commit, and push the code to your own repository. If you want to share your experiment
 (think of it as registering with the Experiment Factory so others can find it) the method to do that for now
@@ -105,7 +105,8 @@ If you wanted to add additional experiments from the `library <https://expfactor
 you could add a single line (space separated) to an experiments.txt file in the main folder.
 
 .. code-block:: bash
-    tower-of-london test-task
+
+   tower-of-london test-task
 
 
 Building
@@ -133,7 +134,7 @@ Here is an example of how you might run the example container that we described 
 
 .. code-block:: bash
 
-    docker run -d -p 80:80 vanessa/expfactory-stroop start
+   docker run -d -p 80:80 vanessa/expfactory-stroop start
 
 
 and you will see the familiar, the beatiful, the stroop task!

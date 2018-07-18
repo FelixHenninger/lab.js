@@ -99,9 +99,24 @@ bundles all files necessary for **deployment**, and creates an optimized version
 Building the documentation
 --------------------------
 
-The library's documentation is built using `Sphinx`_, which you'll need to `install`_. In addition, it requires the fabulous `Read the Docs Theme`_. Equipped with both, you can run
+The library's documentation is built using `Sphinx`_, which you'll need to `install`_. In addition, it requires the fabulous `Read the Docs Theme`_. If you don't have python pip on your system, you can install it first:
 
-.. code::
+.. code-block:: bash
+
+   wget https://bootstrap.pypa.io/get-pip.py
+   python get-pip.py
+
+
+And then install the required Python modules with pip:
+
+.. code-block:: bash
+
+  pip install -r docs/requirements.txt
+
+
+Equipped with both, you can run (from the root of the repository):
+
+.. code-block:: bash
 
   npm run build:docs
 
