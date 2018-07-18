@@ -99,13 +99,21 @@ bundles all files necessary for **deployment**, and creates an optimized version
 Building the documentation
 --------------------------
 
-The library's documentation is built using `Sphinx`_, which you'll need to `install`_. In addition, it requires the fabulous `Read the Docs Theme`_. Equipped with both, you can run
+The library's documentation is built using `Sphinx`_, using the fabulous `Read the Docs Theme`_. Both require a local ``python`` installation, as well as the ``pip`` package manager.
 
-.. code::
+If you don't have ``python`` on your system, please consider the `Anaconda python distribution <https://www.anaconda.com/download/#macos>`_; if you're only missing ``pip``, you can `install it <https://pip.pypa.io/en/stable/installing/>`_ on your system. Equipped with both, install the required Python modules:
+
+.. code-block:: bash
+
+  pip install -r docs/requirements.txt
+
+With everything at hand, you can run the following command from the project's root directory:
+
+.. code-block:: bash
 
   npm run build:docs
 
-within the project root directory, which will output the html documentation in the ``docs/_build`` subdirectory. Running ``npm run watch:docs`` will update the documentation whenever you make changes.
+This will output the html documentation in the ``docs/_build`` subdirectory. Running ``npm run watch:docs`` will update the documentation whenever you save changes.
 
 .. _Sphinx: http://sphinx-doc.org/
 .. _install: http://sphinx-doc.org/tutorial.html#install-sphinx
