@@ -31,6 +31,9 @@
 /* Navigation */
 .wy-menu-vertical a, .wy-menu-vertical li.current > a {
   padding-left: 1.45em;
+}
+
+.wy-menu-vertical a {
   color: #9b9b9b;
 }
 
