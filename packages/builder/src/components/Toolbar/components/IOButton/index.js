@@ -10,7 +10,6 @@ import Icon from '../../../Icon'
 import { fromJSON } from '../../../../logic/io/load'
 import { stateToDownload } from '../../../../logic/io/save'
 import downloadStaticLocal from '../../../../logic/io/export/modifiers/local'
-import downloadStaticExpFactory from '../../../../logic/io/export/modifiers/expfactory'
 import downloadStaticJatos from '../../../../logic/io/export/modifiers/jatos'
 
 const IOButton = (_, context) => {
@@ -125,7 +124,13 @@ const IOButton = (_, context) => {
         JATOS <span className="text-muted">(Just Another Tool for Online Studies)</span>
       </DropdownItem>
       <DropdownItem
-        onClick={ () => downloadStaticExpFactory(context.store.getState()) }
+        onClick={
+          () => context.store.dispatch({
+            type: 'SHOW_MODAL',
+            modalType: 'EXPORT_EXPFACTORY',
+            modalProps: {},
+          })
+        }
       >
         The Experiment Factory <span className="text-muted">(v3)</span>
       </DropdownItem>
