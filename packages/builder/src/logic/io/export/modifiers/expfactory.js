@@ -94,7 +94,7 @@ const addTransmitPlugin = (state) => {
   return state
 }
 
-export default (state) => {
+export default async (state, { container=true }={}) => {
   const files = assemble(state, addTransmitPlugin) // additionalFiles
 
   // Add packaged files
@@ -102,14 +102,28 @@ export default (state) => {
   files.files['config.json'] = { content: makeConfig(state) }
 
   // Move all generated files into a folder
+  const prefix = container ? 'experiments/' : ''
   const expId = makeFilename(state)
   const moveFile = (result, file, path) => {
-    result[`${ expId }/${ path }`] = file
+    result[`${ prefix }${ expId }/${ path }`] = file
     return result
   }
 
   files.bundledFiles = transform(files.bundledFiles, moveFile, {})
   files.files = transform(files.files, moveFile, {})
+
+  if (container) {
+    // Fetch most recent version of the CircleCI config from
+    // the expfactory/labjs integration
+    const request = await fetch(
+      'https://raw.githubusercontent.com/expfactory/builder-labjs/master/' +
+      '.circleci/config.yml'
+    )
+
+    files.files['.circleci/config.yml'] = {
+      content: makeDataURI(await request.text())
+    }
+  }
 
   downloadZip(files)
 }
