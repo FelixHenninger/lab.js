@@ -26,19 +26,24 @@ let reduceAuthors = (curr, next, i, a) => {
 const makeReadme = (state) => {
   const metadata = state.components.root.metadata
   const credits = metadata.contributors
-    .split('\n')
-    .map(c => parseAuthor(c))
-    .map(c => c.url ? `[${ c.name }](${ c.url })` : `${ c.name }`)
-    .reduce(reduceAuthors)
+    ? metadata.contributors
+        .split('\n')
+        .map(c => parseAuthor(c))
+        .map(c => c.url ? `[${ c.name }](${ c.url })` : `${ c.name }`)
+        .reduce(reduceAuthors)
+    : 'excellent folks'
 
   const data = stripIndent`
-    ${ metadata.title }
-    ${ repeat('=', metadata.title.length) }
+    ${ metadata.title || 'Study' }
+    ${ repeat('=', metadata.title ? metadata.title.length : 5) }
+
     ${ metadata.description ? `
     ${ metadata.description }
+
     ----
+
     ` : '' }
-    Built by ${ credits } with [lab.js](https://felixhenninger.github.io/lab.js)
+    Built by ${ credits } with [lab.js](https://lab.js.org)
   `
 
   return makeDataURI(data)
@@ -69,18 +74,19 @@ const addTransmitPlugin = (state) => {
     {
       type: 'lab.plugins.Transmit',
       url: '/save',
+      encoding: 'form',
       updates: {
         incremental: false,
       },
       callbacks: {
+        setup: function() {
+          this.headers['X-CSRFToken'] = window.csrf_token
+        },
         full: function(response) {
           if (response && response.ok) {
             window.location = '/next'
           }
         }
-      },
-      headers: {
-        'X-CSRFToken': window.csrf_token,
       },
     },
   ]
@@ -88,7 +94,7 @@ const addTransmitPlugin = (state) => {
   return state
 }
 
-export default (state) => {
+export default async (state, { container=true }={}) => {
   const files = assemble(state, addTransmitPlugin) // additionalFiles
 
   // Add packaged files
@@ -96,14 +102,28 @@ export default (state) => {
   files.files['config.json'] = { content: makeConfig(state) }
 
   // Move all generated files into a folder
+  const prefix = container ? 'experiments/' : ''
   const expId = makeFilename(state)
   const moveFile = (result, file, path) => {
-    result[`${ expId }/${ path }`] = file
+    result[`${ prefix }${ expId }/${ path }`] = file
     return result
   }
 
   files.bundledFiles = transform(files.bundledFiles, moveFile, {})
   files.files = transform(files.files, moveFile, {})
+
+  if (container) {
+    // Fetch most recent version of the CircleCI config from
+    // the expfactory/labjs integration
+    const request = await fetch(
+      'https://raw.githubusercontent.com/expfactory/builder-labjs/master/' +
+      '.circleci/config.yml'
+    )
+
+    files.files['.circleci/config.yml'] = {
+      content: makeDataURI(await request.text())
+    }
+  }
 
   downloadZip(files)
 }

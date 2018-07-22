@@ -34,6 +34,10 @@
   color: #9b9b9b;
 }
 
+.wy-menu-vertical a {
+  color: #9b9b9b;
+}
+
 .wy-menu-vertical a:hover {
   background-color: #eee;
 }

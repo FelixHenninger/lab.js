@@ -1,7 +1,7 @@
 import { uuid4 } from '../util/random'
 
 export default class Transmit {
-  constructor(options) {
+  constructor(options={}) {
     this.url = options.url
     this.metadata = options.metadata || {}
     this.metadata.id = this.metadata.id || uuid4()
@@ -13,6 +13,7 @@ export default class Transmit {
     }
     this.callbacks = options.callbacks || {}
     this.headers = options.headers || {}
+    this.encoding = options.encoding || 'json'
   }
 
   handle(context, event) {
@@ -28,9 +29,13 @@ export default class Transmit {
             this.queueIncrementalTransmission(
               url,
               { ...metadata, payload: 'incremental' },
-              { headers: this.headers }
+              { headers: this.headers, encoding: this.encoding }
             )
           })
+        }
+        // Trigger setup callback
+        if (this.callbacks.setup) {
+          this.callbacks.setup.call(this)
         }
         break
       case 'epilogue':
@@ -40,11 +45,12 @@ export default class Transmit {
             .transmit(
               url,
               { ...metadata, payload: 'full' },
-              { headers: this.headers }
-            ).then(() => {
+              { headers: this.headers, encoding: this.encoding }
+            ).then(response => {
               if (this.updates.incremental) {
                 context.options.datastore.flushIncrementalTransmissionQueue()
               }
+              return response
             }).then(
               this.callbacks.full
             )

@@ -379,7 +379,9 @@ export class Store extends EventHandler {
   }
 
   // Send data via POST request ---------------------------
-  transmit(url, metadata={}, { headers={}, incremental=false }={}) {
+  transmit(url, metadata={},
+    { headers:customHeaders={}, incremental=false, encoding='json' }={}
+  ) {
     this.triggerMethod('transmit')
 
     // Determine start of transmission
@@ -396,21 +398,37 @@ export class Store extends EventHandler {
     // Data is always sent as an array of entries
     const data = this.cleanData.slice(slice)
 
-    return fetch(url, {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json', // eslint-disable-line quote-props
-        'Content-Type': 'application/json',
-        ...headers,
-      },
-      body: JSON.stringify({
+    // Encode data
+    let body, defaultHeaders = {}
+    if (encoding === 'form') {
+      // Encode data as form fields
+      body = new FormData()
+      body.append('metadata', JSON.stringify({ slice, ...metadata }))
+      body.append('url', window.location.href)
+      body.append('data', JSON.stringify(data))
+    } else {
+      // JSON encoding is the default
+      body = JSON.stringify({
         metadata: {
           slice,
           ...metadata,
         },
         url: window.location.href,
         data: data,
-      }),
+      })
+      defaultHeaders = {
+        'Accept': 'application/json', // eslint-disable-line quote-props
+        'Content-Type': 'application/json',
+      }
+    }
+
+    return fetch(url, {
+      method: 'post',
+      headers: {
+        ...defaultHeaders,
+        ...customHeaders,
+      },
+      body,
       credentials: 'include',
     })
   }

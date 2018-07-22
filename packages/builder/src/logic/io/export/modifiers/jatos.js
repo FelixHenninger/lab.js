@@ -50,32 +50,6 @@ const makeConfig = (state) => {
   return makeDataURI(JSON.stringify(data, null, 2))
 }
 
-const addTransmitPlugin = (state) => {
-  // Add data transmission
-  state.components.root.plugins = [
-    ...state.components.root.plugins,
-    {
-      type: 'lab.plugins.Transmit',
-      url: '/save',
-      updates: {
-        incremental: false,
-      },
-      callbacks: {
-        full: function(response) {
-          if (response && response.ok) {
-            window.location = '/next'
-          }
-        }
-      },
-      headers: {
-        'X-CSRFToken': window.csrf_token,
-      },
-    },
-  ]
-
-  return state
-}
-
 const updateIndex = (source, expId) => {
   // Include JATOS helper script
   source = source.replace(
@@ -123,7 +97,7 @@ export default (state) => {
   }])
 
   // Generate files
-  const files = assemble(state, addTransmitPlugin)
+  const files = assemble(state)
   const expId = makeFilename(state)
 
   // Add changes to index.html

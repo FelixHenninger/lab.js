@@ -96,7 +96,7 @@ Michael Kriechbaumer ·
 Felix Ludwig ·
 [Karthikeya Pammi](https://github.com/pvskarthikeya) ·
 [Sophie Scharf](http://cognition.uni-mannheim.de/mitarbeiter/m_sc_sophie_scharf/) ·
-Merle Schuckart ·
+[Merle M. Schuckart](https://github.com/MMarieSchuckart) ·
 [Hendrik Singmann](http://singmann.org) ·
 [Andrew White](https://github.com/shiroandy) ·
 [Malte Zimdahl](http://psycho3.uni-mannheim.de/Personen/Malte%20Zimdahl,%20M.Sc./) ·
