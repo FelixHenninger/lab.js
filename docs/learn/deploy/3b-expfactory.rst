@@ -1,86 +1,67 @@
 .. _tutorial/deploy/third-party/expfactory:
 
-The Experiment Factory
-======================
+Reproducible studies with the Experiment Factory
+================================================
 
-`The Experiment Factory`_, referred to as "expfactory," is is an open source infrastructure
-for building and deploying reproducible experiment containers. You can export a LabJS
-experiment (or more than one!) and build it into a container (with other experiments,
-not all of which need to be LabJS) that is ready for deployment on a webserver with technologies
-like SSL, and databases ranging from filesystem (.json), to sqlite, to postgres and sql. 
+`The Experiment Factory`_, or "expfactory" for short, is is an open source infrastructure for building and deploying reproducible experiment containers. You can export a ``lab.js`` experiment and build it into a container (or combine multiple experiments, even if they are built with different tools) that is ready for deployment on a webserver with technologies like SSL, and extensive `data collection options <https://expfactory.github.io/expfactory/customize>`_ ranging from flat files to database support.
 
-.. _Expfactory: https://expfactory.github.io
-.. _Documentation: https://expfactory.github.io/expfactory/integration-labjs
-.. _Expfactory-LabJS Builder on Github: https://www.github.com/expfactory/builder-labjs
 .. contents:: Steps
   :local:
 
+.. _The Experiment Factory: https://expfactory.github.io
+
+.. seealso::
+
+  The ambition and the powers of `the Experiment Factory`_ go *way beyond* hosting ``lab.js`` studies. Please also check out:
+
+  * Vanessa Sochat's (et al.) papers outlining the vision of `standardizing experiments <https://www.frontiersin.org/articles/10.3389/fpsyg.2016.00610/full>`_ and using `reproducible experiment containers <http://joss.theoj.org/papers/10.21105/joss.00521>`_.
+  * Their extensive `library of pre-made paradigms <https://expfactory.github.io/experiments/>`_, all of which are free to use.
+  * Their `documentation on integrating <https://expfactory.github.io/expfactory/integration-labjs>`_ with ``lab.js``
+
+.. |clearfloat| raw:: html
+
+  <div style="clear: both"></div>
+
 ----
 
-Design Your Experiment
------------------------
+Design and export your experiment
+---------------------------------
 
-Take a look at how to `get started <https://labjs.readthedocs.io/en/latest/learn/builder/index.html>`_ 
-with the LabJS builder interface, located at `https://labjs.felixhenninger.com/`_. This
-is where you will design your experiment. When you finish, in order to use it with the Experiment
-Factory, you can select this export option:
+.. figure:: 3b-expfactory/export.png
+   :alt: Expfactory export option
+   :figwidth: 40%
+   :align: right
 
-.. image:: 3b-expfactory/export.png
+After `building your experiment <https://labjs.readthedocs.io/en/latest/learn/builder/index.html>`_ with ``lab.js``, you'll need to export it to the Experiment Factory by selecting the  corresponding bundle from the dropdown menu in the toolbar.
 
-This will export a zip file of all the files needed to plug into the Experiment Factory! To help you learn and get started, we provide an example export of a Stroop task in the `builder-labjs repository`<https://www.github.com/expfactory/builder-labjs>_.  We will walk through the basic steps to get this experiment running in your experiment container, and you can do the same with your own exported experiment.
+The builder will present you with a pop-up window that allows you to select between exporting the study to a new container or adding it to an existing one. If you're new to ``expfactory``, you'll likely want to select the first option, creating a new container. This will export a ``zip`` archive of all the files you need to plug into the Experiment Factory!
 
+.. figure:: 3b-expfactory/modal.png
+   :alt: Expfactory export modal
+   :figwidth: 40%
+   :align: left
 
-Create a Repository
--------------------
-After working in the browser, you want to export a product that you can put under version control,
-and possibly develop collaboratively.
+To help you learn and get started, we've provided an `exported example of a Stroop task <https://github.com/expfactory/builder-labjs/blob/master/stroop-task-export.zip>`_ as a ``zip`` file in the repository if you'd rather use a premade study.
 
+In the following, we'll show you how to get this experiment running in an experiment container, but you can go through the exact same steps with your own exported experiment.
 
-1. Clone the Builder
-....................
+|clearfloat|
 
-Let's start by cloning the builder repository. You can also download the archive and extract it. 
-The main thing we need is the hidden ``.circleci``
-folder that has a configuration file to do the build, so we recommend that you create a copy
-to put into your own experiment folder.
+----
 
-.. code-block:: bash
-    git clone https://www.github.com/expfactory/builder-labjs
-    
-    # Create your own experiment folder
-    mkdir -p myexperiment
-    cp -R builder-labjs myexperiment
-    cd myexperiment
+Preparing a container
+---------------------
 
-You can run ``git init`` again to re-initialize the repository, or edit the ``.git/config``
-manually to edit the remote to a repository that you've created. You can also create an 
-entirely new folder and just copy the ``.circleci`` folder for the builder template. It's up to you!
+At this point, you should have a ``zip`` file downloaded from the builder. It should include an ``experiments`` directory containing your task, and a ``.circleci`` directory with build instructions. If you don't see this last directory, you might need to check your file manager's settings (because it starts with a dot, Unix systems, Linux and Mac OS might treat it as a hidden folder).
 
+Checking the task metadata
+..........................
 
-2. Export and Extract
-.....................
+Just to be sure, please next check the file ``config.json`` in the extracted experiment folder. It will contain further information about your task if you've provided it in the builder interface. Otherwise, please add at least the ``name`` and ``exp_id`` fields, and update the ``time`` to a value in minutes. Here's what the metadata looks like for the Stroop task:
 
-Let's first extract the exported experiment. It will dump the required files into a folder in the present working directory.
+.. code-block:: console
 
-.. code-block:: bash
-   unzip stroop-task-export.zip
-   ls
-   stroop-task
-
-   # Move it into experiments folder
-   mkdir -p experiments
-   mv stroop-task experiments/
-
-
-3. Define Metadata
-..................
-
-Take a look at the ``config.json`` in the extracted experiment folder. It will provide metadata exported about your experiment, and you can customize this if needed before building your container.
-
-
-.. code-block:: bash
-
-   cat stroop-task/config.json 
+   $ cat experiments/stroop-task/config.json
    {
       "name": "Stroop task",
       "exp_id": "stroop-task",
@@ -94,40 +75,44 @@ Take a look at the ``config.json`` in the extracted experiment folder. It will p
       "time": 5
    }
 
-You can now commit, and push the code to your own repository. If you want to share your experiment
-(think of it as registering with the Experiment Factory so others can find it) the method to do that for now
-is to submit it to the library. You can follow instructions `here <https://expfactory.github.io/expfactory/contribute#the-experiment-repository>`_.
+Adding more tasks (optional)
+............................
 
-4. Add Additional Experiments (optional)
-........................................
+You can add any additional tasks you'd like to include in your container by exporting them for use in an existing container, and extracting the resulting ``zip`` file in the ``experiments/[taskname]`` directory. The ``expfactory`` will automatically pick up these tasks in the next step.
 
-If you wanted to add additional experiments from the `library <https://expfactory.github.io/experiments>_
-you could add a single line (space separated) to an experiments.txt file in the main folder.
+If you'd like to add additional `experiments from the library <https://expfactory.github.io/experiments>`_ you could add their names in a single line (separated by spaces) to an ``experiments.txt`` file in the main folder lie so:
 
 .. code-block:: bash
 
    tower-of-london test-task
 
+If you change your mind, you can add or remove tasks later and go through the following steps to update your container.
 
-Building
---------
+----
 
-We now will recruit the builder to turn our folder into a reproducible experiment container!
-Guess what? You don't actually need to do any working with Docker (or other) locally! All
-you need to do is connect your repository to Github and create a container repository on Docker Hub,
-and then push. Let's review these steps!
+Building the container
+----------------------
+
+We now will recruit the builder to turn our folder into a reproducible experiment container! Guess what? You don't actually need to do any working with Docker (or other) locally! All you need to do is connect your repository to Github and create a container repository on Docker Hub, and then push. Let's review these steps!
+
 
  1. Create a container repository on Docker Hub to correspond to the name you want to build
  2. Commit and push the code to Github
  3. Connect the repository to Circle Ci, and
  4. Add this name to the variable ``CONTAINER_NAME``, along with ``DOCKER_USER`` and ``DOCKER_PASS`` to the set of encrypted environment variables in our CircleCI project settings.
 
-Once you've done those steps, that's it! The container will be built and pushed to Docker Hub on each commit. 
+Once you've done those steps, that's it! The container will be built and pushed to Docker Hub on each commit.
 
-Usage
------
+.. seealso::
 
-Once your container is deployed, you can run and use it! Read the `Experiment Factory documentation <https://expfactory.github.io/expfactory/usage>_ to learn of all the ways that you can do this. You can deploy a headless battery, one that is interactive (requiring the experimenter to input an identifier), one with SSL, or use database backends ranging from the filesystem to a postgresql database. Regardless of your choice,
+  The `expfactory homepage <https://expfactory.github.io>`_ provides far more detailed information regarding the container internals, and also covers several more ways to `generate containers <https://expfactory.github.io/expfactory/generate>`_.
+
+----
+
+Running the study
+-----------------
+
+Once your container is deployed, you can run and use it! Read the `Experiment Factory documentation <https://expfactory.github.io/expfactory/usage>`_ to learn of all the ways that you can do this. You can deploy a headless battery, one that is interactive (requiring the experimenter to input an identifier), one with SSL, or use database backends ranging from the filesystem to a postgresql database. Regardless of your choice,
 the experiment container that you build, by way of being a container, can be reproducibly deployed and shared.
 
 Here is an example of how you might run the example container that we described here:
@@ -136,7 +121,20 @@ Here is an example of how you might run the example container that we described 
 
    docker run -d -p 80:80 vanessa/expfactory-stroop start
 
+Where ``vanessa`` is the user who created the container, ``expfactory-stroop`` the container name, and ``80`` the port on which the port on which the webserver is hosting the study. If you open this port on your local machine, you'll see the familiar, the beautiful, the Stroop task -- or any other tasks you've included in your container. From the overview screen, assemble the series of tasks you want your participants to go through, and you're good to go!
 
-and you will see the familiar, the beatiful, the stroop task!
+.. figure:: 3b-expfactory/stroop.png
+   :alt: Expfactory Stroop Task
+   :figwidth: 100%
+   :align: right
 
-.. image:: 3b-expfactory/stroop.png
+
+----
+
+
+Ask for Help
+------------
+
+Do you have a question? You can ask for help `for an experiment <https://www.github.com/expfactory/experiments/issues>`_ or for anything related to the Experiment Factory 
+`software <https://www.github.com/expfactory/expfactory/issues>`_. We can help you with all steps along the way to assemble a 
+`reproducible container <https://github.com/expfactory-containers/>`_ for others to also be empowered to deploy your paradigms. 
