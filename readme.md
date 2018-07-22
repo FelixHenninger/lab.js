@@ -84,7 +84,8 @@ in the documentation.
 [Felix Henninger](http://felixhenninger.com) ·
 [Pascal J. Kieslich](https://pascalkieslich.github.io/) ·
 [Ulf K. Mertens](http://www.psychologie.uni-heidelberg.de/ae/meth/team/mertens/) ·
-[Yury Shevchenko](http://yuryshevchenko.com/)
+[Yury Shevchenko](http://yuryshevchenko.com/) ·
+[Vanessa Sochat](https://vsoch.github.io/)
 
 #### Ideas, feedback and examples 💡
 
