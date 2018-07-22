@@ -101,7 +101,7 @@ Building the documentation
 
 The library's documentation is built using `Sphinx`_, using the fabulous `Read the Docs Theme`_. Both require a local ``python`` installation, as well as the ``pip`` package manager.
 
-If you don't have ``python`` on your system, please consider the `Anaconda python distribution <https://www.anaconda.com/download/#macos>`_; if you're only missing ``pip``, you can `install it <https://pip.pypa.io/en/stable/installing/>`_ on your system. Equipped with both, install the required Python modules:
+If you don't have ``python`` on your system, please consider the `Anaconda python distribution <https://www.anaconda.com/download/>`_; if you're only missing ``pip``, you can `install it <https://pip.pypa.io/en/stable/installing/>`_ on your system. Equipped with both, install the required Python modules:
 
 .. code-block:: bash
 
