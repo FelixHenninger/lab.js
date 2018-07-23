@@ -5,7 +5,7 @@ title: "RSQLite import"
 ```{r, echo=FALSE, message=FALSE}
 # Load packages
 require('pacman')
-p_load('RSQLite', 'jsonlite', 'stringr', 'tidyverse')
+p_load('RSQLite', 'jsonlite', 'tidyverse', 'janitor')
 ```
 
 Import data from SQLite file
@@ -39,8 +39,8 @@ Convert JSON data to table
 ###Extract metadata
 
 ```{r}
-d.meta <- map_df(d$metadata, fromJSON) %>%
-  rename(
+d.meta <- map_dfr(d$metadata, fromJSON) %>%
+  dplyr::rename(
     observation=id
   )
 
@@ -81,7 +81,7 @@ for (i in 5:36) {
 }
 
 d <- d %>%
-  mutate(
+  dplyr::mutate(
     session=str_sub(session, end=i),
     observation=str_sub(observation, end=i)
   )
@@ -90,17 +90,40 @@ rm(i, count_unique, information_preserved)
 ```
 
 
+###Prepare to extract JSON data
+
+```{r}
+parseJSON <- function(input) {
+  return(input %>%
+    fromJSON(flatten=T) %>% {
+    # Coerce lists
+    if (class(.) == 'list') {
+      discard(., is.null) %>%
+      as_tibble()
+    } else {
+      .
+    } } %>%
+    # Sanitize names
+    janitor::clean_names() %>%
+    # Use only strings for now, and re-encode types later
+    mutate_all(as.character)
+  )
+}
+```
+
+
 ###Extract complete data sets
 
 ```{r}
 d.full <- d %>%
-  filter(payload == 'full')
+  dplyr::filter(payload == 'full')
 
 if (nrow(d.full) > 0) {
   d.full %>%
     group_by(observation, id) %>%
     do(
-      fromJSON(.$data, flatten=T)
+      { map_dfr(.$data, parseJSON) } %>%
+      bind_rows()
     ) %>%
     ungroup() %>%
     select(-id) -> d.full
@@ -111,10 +134,11 @@ if (nrow(d.full) > 0) {
 
 ```{r}
 d %>%
-  filter(payload %in% c('incremental')) %>%
+  dplyr::filter(payload %in% c('incremental', 'latest')) %>%
   group_by(observation, id) %>%
   do(
-    fromJSON(.$data, flatten=T)
+    { map_dfr(.$data, parseJSON) } %>%
+    bind_rows()
   ) %>%
   ungroup() %>%
   select(-id) -> d.incremental
@@ -130,7 +154,8 @@ For analysis, we'll use the full data sets where available, and incremental data
 d.output <- d.full %>%
   bind_rows(
     d.incremental %>% filter(!(observation %in% d.full$observation))
-  )
+  ) %>%
+  type_convert()
 ```
 
 ###Postprocessing
@@ -157,8 +182,8 @@ Remove sensitive data
 Remove invalid columns
 
 ```{r}
-d.output %>%
-  select_if(function(col) class(col) != 'list') -> d.output
+# d.output %>%
+#   select_if(function(col) class(col) != 'list') -> d.output
 ```
 
 
