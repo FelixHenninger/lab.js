@@ -288,6 +288,16 @@ export class Store extends EventHandler {
     return JSON.stringify(data)
   }
 
+  exportJsonL(clean=true) {
+    // Export data in the json-lines format
+    // (see http://jsonlines.org/)
+
+    // Optionally export raw data
+    const data = clean ? this.cleanData : this.data
+
+    return data.map(e => JSON.stringify(e)).join('\n')
+  }
+
   exportCsv(separator=',', clean=true) {
     // Export data as csv string
     // Optionally export raw data

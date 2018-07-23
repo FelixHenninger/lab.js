@@ -440,6 +440,25 @@ describe('Data handling', () => {
         )
       })
 
+      it('exports correct jsonl data', () => {
+        ds.commit({
+          'one': 1,
+          'two': 2
+        })
+        ds.commit({
+          'two': 2,
+          'three': 3
+        })
+
+        assert.deepEqual(
+          ds.exportJsonL(),
+          [
+            '{"one":1,"two":2}',
+            '{"two":2,"three":3}'
+          ].join('\n')
+        )
+      })
+
       it('exports correct csv data', () => {
         ds.commit({
           'one': 1,
