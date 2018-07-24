@@ -36,6 +36,11 @@ const CustomModal = ({ modalType, modalProps }, context) => {
     <Modal
       appElement={ document.getElementById('root') }
       isOpen={ modalType !== null }
+      onRequestClose={ () => {
+        context.store.dispatch({
+          type: 'HIDE_MODAL',
+        })
+      } }
       className={ classnames({
         'modal-dialog': true,
         'modal-lg': modalProps.large,
