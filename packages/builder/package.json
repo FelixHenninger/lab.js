@@ -8,7 +8,7 @@
     "shx": "^0.3.2"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
+    "@fortawesome/fontawesome-free": "^5.2.0",
     "bootstrap": "^4.1.3",
     "classnames": "^2.2.6",
     "common-tags": "^1.8.0",
@@ -45,7 +45,7 @@
     "uuid4": "^1.0.0"
   },
   "optionalDependencies": {
-    "@fortawesome/fontawesome-pro-webfonts": "^1.0.5"
+    "@fortawesome/fontawesome-pro": "^5.2.0"
   },
   "scripts": {
     "start": "npm-run-all -p watch-css start-js",
