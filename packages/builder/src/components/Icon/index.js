@@ -2,12 +2,12 @@ import React from 'react'
 import classnames from 'classnames'
 
 // Font Awesome
-import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }-webfonts/css/fa-solid.css`)
-import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }-webfonts/css/fa-regular.css`)
-import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }-webfonts/css/fa-brands.css`)
+import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }/css/solid.css`)
+import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }/css/regular.css`)
+import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }/css/brands.css`)
 // Uncomment if FA-pro is available
-//import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }-webfonts/css/fa-light.css`)
-import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }-webfonts/css/fontawesome.css`)
+//import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }/css/light.css`)
+import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }/css/fontawesome.css`)
 
 export const iconSet = `${ process.env.REACT_APP_FA }`
 
