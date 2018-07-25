@@ -382,9 +382,9 @@ export const Dimensions = ({ type }) =>
       style={{ fontFamily: 'Fira Mono' }}
     />
     <InputGroupAddon addonType="prepend">
-      <span className="input-group-text">
+      <InputGroupText>
         <Icon icon="long-arrow-down" className="fa-fw" />
-      </span>
+      </InputGroupText>
     </InputGroupAddon>
     <Control
       model=".top"
@@ -396,9 +396,9 @@ export const Dimensions = ({ type }) =>
       style={{ fontFamily: 'Fira Mono' }}
     />
     <InputGroupAddon addonType="prepend">
-      <span className="input-group-text">
+      <InputGroupText>
         <Icon icon="redo" className="fa-fw" />
-      </span>
+      </InputGroupText>
     </InputGroupAddon>
     <Control
       model=".angle"
@@ -410,9 +410,9 @@ export const Dimensions = ({ type }) =>
       style={{ fontFamily: 'Fira Mono' }}
     />
     <InputGroupAddon addonType="prepend">
-      <span className="input-group-text">
+      <InputGroupText>
         <Icon icon="arrows-h" className="fa-fw" />
-      </span>
+      </InputGroupText>
     </InputGroupAddon>
     <Control
       model=".width"
@@ -424,9 +424,9 @@ export const Dimensions = ({ type }) =>
       style={{ fontFamily: 'Fira Mono' }}
     />
     <InputGroupAddon addonType="prepend">
-      <span className="input-group-text">
+      <InputGroupText>
         <Icon icon="arrows-v" className="fa-fw" />
-      </span>
+      </InputGroupText>
     </InputGroupAddon>
     <Control
       model=".height"
