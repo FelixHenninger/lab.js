@@ -45,7 +45,6 @@
     "uuid4": "^1.0.0"
   },
   "optionalDependencies": {
-    "@fortawesome/fontawesome-pro": "^5.2.0"
   },
   "scripts": {
     "start": "npm-run-all -p watch-css start-js",
