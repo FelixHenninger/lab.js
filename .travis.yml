@@ -11,9 +11,10 @@ git:
 cache:
   directories:
     - node_modules
+    - "$HOME/.npm"
 install:
   - npm install
-  - npm run bootstrap
+  - npm run bootstrap:ci
 script:
   - (cd packages/library && npm run build:starterkit)
   - (cd packages/library && npm test)

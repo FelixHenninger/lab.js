@@ -1,11 +1,16 @@
 {
   "private": true,
+  "dependencies": {
+    "@labjs/library": "file:./packages/library",
+    "@labjs/builder": "file:./packages/builder"
+  },
   "devDependencies": {
     "lerna": "^2.0.0",
     "onchange": "^3.2.1"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
+    "bootstrap:ci": "lerna bootstrap --npm-ci-mode",
     "build:docs": "cd docs && make html",
     "clean:docs": "cd docs && make clean",
     "clean:modules": "lerna clean",
