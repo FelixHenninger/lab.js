@@ -5,7 +5,7 @@
   "devDependencies": {
     "glob": "^7.1.2",
     "react-scripts": "^1.1.4",
-    "shx": "^0.2.2"
+    "shx": "^0.3.2"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
@@ -27,11 +27,11 @@
     "prop-types": "^15.6.2",
     "raven-js": "^3.26.4",
     "react": "^16.4.1",
-    "react-dnd": "^2.6.0",
-    "react-dnd-html5-backend": "^2.6.0",
+    "react-dnd": "^5.0.0",
+    "react-dnd-html5-backend": "^5.0.1",
     "react-dom": "^16.4.1",
     "react-loadable": "^5.4.0",
-    "react-modal": "^3.4.4",
+    "react-modal": "^3.5.1",
     "react-monaco-editor": "^0.12.0",
     "react-redux": "^5.0.7",
     "react-redux-form": "^1.16.9",
