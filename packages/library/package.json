@@ -127,7 +127,7 @@
     "build:starterkit": "npm run build:js && npm run build:css && node scripts/bundle_starterkit.js",
     "clean": "shx rm -rf dist && shx mkdir dist",
     "lint": "eslint src",
-    "prepublish": "npm run build:starterkit",
+    "prepare": "npm run build:starterkit",
     "test": "karma start test/_karma/ci.conf.js",
     "test:coverage": "npm run build:js:coverage && karma start test/_karma/coverage.conf.js",
     "test:sauce": "karma start test/_karma/sauce.conf.js",
