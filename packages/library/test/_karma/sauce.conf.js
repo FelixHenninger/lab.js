@@ -19,7 +19,12 @@ const customLaunchers = {
     version: 'latest',
     platform: 'Windows 10',
   },
-  // Firefox beta is (currently) very unstable
+  sl_firefox_beta: {
+    base: 'SauceLabs',
+    browserName: 'firefox',
+    version: 'beta',
+    platform: 'Windows 10',
+  },
   sl_edge_latest: {
     base: 'SauceLabs',
     browserName: 'microsoftedge',
@@ -34,6 +39,39 @@ const customLaunchers = {
     version: 'latest',
   },
   // Safari beta is not available (yet?)
+  // Mobile browsers -----------------------------------------------------------
+  sl_android_6: {
+    base: 'SauceLabs',
+    browserName: 'Chrome',
+    platform: 'Android',
+    version: '6.0',
+    deviceName: 'Android Emulator',
+    deviceOrientation: 'portrait'
+  },
+  sl_android_7: {
+    base: 'SauceLabs',
+    browserName: 'Chrome',
+    platform: 'Android',
+    version: '7.1',
+    deviceName: 'Android GoogleAPI Emulator',
+    deviceOrientation: 'portrait'
+  },
+  sl_ios_10: {
+    base: 'SauceLabs',
+    browserName: 'Safari',
+    platform: 'iOS',
+    version: '10.3',
+    deviceName: 'iPhone Simulator',
+    deviceOrientation: 'portrait'
+  },
+  sl_ios_11: {
+    base: 'SauceLabs',
+    browserName: 'Safari',
+    platform: 'iOS',
+    version: '11.3',
+    deviceName: 'iPhone X Simulator',
+    deviceOrientation: 'portrait'
+  },
 }
 
 module.exports = (config) => {
