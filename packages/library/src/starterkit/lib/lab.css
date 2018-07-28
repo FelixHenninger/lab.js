@@ -2,7 +2,7 @@
 :root {
   /* Layout */
   --width-container: 900px;
-  --width-min-container: 400px;
+  --width-min-container: 320px;
   --height-min-header-footer: 8vh;
   --padding-internal: 24px;
   --border-radius-container: 5px;
@@ -11,7 +11,7 @@
   --font-family: "Arial", sans-serif;
   --font-family-mono: Droid Mono, Menlo, Consolas, monospace;
   --font-size: 18px;
-  --line-height: 1.4em;
+  --line-height: 1.4rem;
   --paragraph-margin-vertical: var(--font-size);
   /* Colors */
   --color-border: #e5e5e5;
@@ -73,6 +73,17 @@ main {
   height: 100vh;
 }
 
+/* Remove frame on small screens */
+@media (max-width: 600px), (max-height: 600px) {
+  .container.fullscreen {
+    margin: -8px;
+    border: none;
+    border-radius: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
 /* Flexbox fix for IE11, per https://github.com/philipwalton/flexbugs */
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   body {
@@ -121,13 +132,13 @@ hr {
 kbd {
   /* Positioning */
   display: inline-block;
-  min-width: 1.5em;
-  min-height: 1.5em;
-  padding: 0 0.3em;
-  padding-top: 0.15em;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  padding: 0 0.3rem;
+  padding-top: 0.15rem;
   /* Fonts */
   font-family: var(--font-family-mono);
-  font-size: 0.9em;
+  font-size: 0.9rem;
   text-align: center;
   /* Background and border */
   background-color: white;
@@ -135,9 +146,9 @@ kbd {
   border: 1px solid rgb(180, 180, 180);
 }
 kbd.big {
-  font-size: 1.4em;
-  padding-top: 0.375em;
-  border-radius: 0.125em;
+  font-size: 1.4rem;
+  padding-top: 0.375rem;
+  border-radius: 0.125rem;
 }
 
 /* Alignment helpers */
