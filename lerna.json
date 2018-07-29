@@ -1,8 +1,10 @@
 {
-  "lerna": "2.0.0-rc.5",
+  "lerna": "3.0.0",
   "packages": [
     "packages/*"
   ],
-  "version": "2017.2.0",
-  "npmClientArgs": ["--no-optional"]
+  "npmClient": "yarn",
+  "npmClientArgs": ["--ignore-optional"],
+  "useWorkspaces": true,
+  "version": "2017.2.0"
 }

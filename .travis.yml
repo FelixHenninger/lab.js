@@ -8,18 +8,18 @@ node_js:
   - "node"
 git:
   depth: 10
-cache:
-  directories:
-    - node_modules
-    - $HOME/.npm
+cache: yarn
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH="$HOME/.yarn/bin:$PATH"
 install:
-  - npm install
-  - npm run bootstrap:ci
+  - yarn
+  - yarn run bootstrap
 script:
-  - (cd packages/library && npm run build:starterkit)
-  - (cd packages/library && npm test)
-  - (cd packages/library && npm run test:sauce)
-  - (cd packages/builder && npm run build)
-  - (cd packages/builder && npm test)
+  - (cd packages/library && yarn run build:starterkit)
+  - (cd packages/library && yarn test)
+  - (cd packages/library && yarn run test:sauce)
+  - (cd packages/builder && yarn run build)
+  - (cd packages/builder && yarn test)
 after_success:
-  - (cd packages/builder && npm run deploy)
+  - (cd packages/builder && yarn run deploy)

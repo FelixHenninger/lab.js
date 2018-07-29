@@ -1,4 +1,4 @@
-const TEST_REGEXP = /\/base\/test\/[^_][\w\d\.\_]+\.js$/i
+const TEST_REGEXP = /\/base\/packages\/library\/test\/[^_][\w\d\.\_]+\.js$/i
 const allTestFiles = []
 
 // eslint-disable-next-line import/no-amd
@@ -27,7 +27,9 @@ require(['/base/node_modules/lodash/lodash.min'], function(_) {
     baseUrl: '/base',
 
     paths: {
-      'lab': libraryPath,
+      'lab': _.includes(window.__karma__.config.args, 'coverage')
+        ? '/base/packages/library/dist/lab.coverage'
+        : '/base/packages/library/dist/lab',
       '_': '/base/node_modules/lodash/lodash.min'
     },
 

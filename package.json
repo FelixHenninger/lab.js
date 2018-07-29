@@ -1,8 +1,6 @@
 {
   "private": true,
   "dependencies": {
-    "@labjs/library": "file:./packages/library",
-    "@labjs/builder": "file:./packages/builder"
   },
   "devDependencies": {
     "lerna": "^3.0.0-beta.21",
@@ -15,5 +13,35 @@
     "clean:docs": "cd docs && make clean",
     "clean:modules": "lerna clean",
     "watch:docs": "onchange 'docs/**/*.rst' 'docs/**/*.py' -- npm run build:docs"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/bootstrap",
+      "**/chai",
+      "**/chai/**",
+      "**/karma",
+      "**/karma/**",
+      "**/karma-coverage",
+      "**/karma-coverage/**",
+      "**/karma-chrome-launcher",
+      "**/karma-chrome-launcher/**",
+      "**/karma-mocha",
+      "**/karma-mocha/**",
+      "**/karma-sauce-launcher",
+      "**/karma-sauce-launcher/**",
+      "**/mocha",
+      "**/mocha/**",
+      "**/monaco-editor",
+      "**/monaco-editor/**",
+      "**/sinon",
+      "**/sinon/**",
+      "**/react-monaco-editor",
+      "**/react-monaco-editor/**",
+      "**/requirejs",
+      "**/requirejs/**"
+    ]
   }
 }

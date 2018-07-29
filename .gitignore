@@ -7,9 +7,9 @@ packages/library/coverage
 # Saucelabs connection logs
 packages/library/sauce_connect.log
 
-# npm
+# yarn
 node_modules
-npm-debug.log
+yarn-error.log
 
 # Visual studio code
 .vscode
