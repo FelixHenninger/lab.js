@@ -2,7 +2,7 @@ const TEST_REGEXP = /\/base\/packages\/library\/test\/[^_][\w\d\.\_]+\.js$/i
 const allTestFiles = []
 
 // eslint-disable-next-line import/no-amd
-require(['/base/node_modules/lodash/lodash.min'], function(_) {
+require(['/base/packages/library/node_modules/lodash/lodash.min'], function(_) {
   // Gather test files
   _.keys(window.__karma__.files).forEach((file) => {
     if (TEST_REGEXP.test(file)) {
@@ -17,9 +17,9 @@ require(['/base/node_modules/lodash/lodash.min'], function(_) {
     .map(flavor => flavor.split('-')[1])[0] || 'default'
 
   const libraryPath = {
-    coverage: '/base/dist/lab.coverage',
-    legacy: '/base/dist/lab.legacy',
-  }[libraryFlavor] || '/base/dist/lab'
+    coverage: '/base/packages/library/dist/lab.coverage',
+    legacy: '/base/packages/library/dist/lab.legacy',
+  }[libraryFlavor] || '/base/packages/library/dist/lab'
 
   require.config({
     // Karma serves files under /base, which is
@@ -30,7 +30,7 @@ require(['/base/node_modules/lodash/lodash.min'], function(_) {
       'lab': _.includes(window.__karma__.config.args, 'coverage')
         ? '/base/packages/library/dist/lab.coverage'
         : '/base/packages/library/dist/lab',
-      '_': '/base/node_modules/lodash/lodash.min'
+      '_': '/base/packages/library/node_modules/lodash/lodash.min'
     },
 
     // dynamically load all test files

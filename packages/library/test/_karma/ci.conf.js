@@ -13,7 +13,7 @@ module.exports = (config) => {
     files: [
       'packages/library/test/_karma/bootstrap.js',
       { pattern: 'packages/library/dist/lab.js', included: false },
-      { pattern: 'node_modules/lodash/lodash.min.js', included: false },
+      { pattern: 'packages/library/node_modules/lodash/lodash.min.js', included: false },
       { pattern: 'packages/library/test/**/*.js', included: false },
     ],
 

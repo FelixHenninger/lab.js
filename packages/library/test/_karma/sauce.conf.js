@@ -77,7 +77,7 @@ const customLaunchers = {
 module.exports = (config) => {
   config.set({
     // Root / base path
-    basePath: '../../',
+    basePath: '../../../../',
 
     // Frameworks to use
     // (see https://npmjs.org/browse/keyword/karma-adapter)
@@ -85,15 +85,15 @@ module.exports = (config) => {
 
     // Files or patterns to load in the browser
     files: [
-      'test/_karma/bootstrap.js',
-      { pattern: 'dist/lab.js', included: false },
-      { pattern: 'node_modules/lodash/lodash.min.js', included: false },
-      { pattern: 'test/**/*.js', included: false },
+      'packages/library/test/_karma/bootstrap.js',
+      { pattern: 'packages/library/dist/lab.js', included: false },
+      { pattern: 'packages/library/node_modules/lodash/lodash.min.js', included: false },
+      { pattern: 'packages/library/test/**/*.js', included: false },
     ],
 
     // List of files to exclude
     exclude: [
-      'test/_karma/[^bootstrap].js',
+      'packages/library/test/_karma/[^bootstrap].js',
     ],
 
     // Local web server port
