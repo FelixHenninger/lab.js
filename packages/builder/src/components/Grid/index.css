@@ -59,9 +59,6 @@ table.grid td, table.grid th, table.grid tfoot td {
    If these issues are solved, the styles might
    be moved into the global stylesheet.
    (then again, the toolbar buttons look different) */
-table.grid button.btn {
-  background-color: white;
-}
 table.grid button.btn:active, table.grid button.btn:focus {
   background-color: white;
 }

@@ -43,6 +43,7 @@ $card-cap-bg: rgb(248, 249, 250);
   @include hover {
     color: $gray-600;
     border-color: $input-border-color;
+    background-color: white;
   }
 
   &:not([disabled]):not(.disabled):active,
