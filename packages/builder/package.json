@@ -44,8 +44,6 @@
     "source-map-explorer": "^1.5.0",
     "uuid4": "^1.0.0"
   },
-  "optionalDependencies": {
-  },
   "scripts": {
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm-run-all build-css build-js",
