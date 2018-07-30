@@ -88,6 +88,7 @@ export const HeaderCell = ({ columnData, index, deleteColumn }, { formDispatch }
       style={{
         fontFamily: 'Fira Mono',
         fontWeight: 'bold',
+        height: '42px',
       }}
       debounce={ 300 }
     />

@@ -5,6 +5,13 @@ $card-cap-bg: rgb(248, 249, 250);
 
 @import "node_modules/bootstrap/scss/bootstrap";
 
+/*
+// TODO: Reconsider this fairly large-scale change
+button.btn, .form-control {
+  min-height: 42px;
+}
+*/
+
 // Recreate bootstrap alpha secondary button style
 // as .btn-outline-secondary
 .btn-outline-secondary {
