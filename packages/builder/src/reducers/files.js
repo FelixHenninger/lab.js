@@ -89,6 +89,17 @@ export default (state=defaultState, action) => {
           },
         },
       }
+    case 'DELETE_FILE':
+      const output = {
+        ...state,
+        files: {
+          ...state.files
+        }
+      }
+
+      delete output.files[action.file]
+
+      return output
     case 'RESET_STATE':
       return defaultState
     default:

@@ -5,6 +5,7 @@ import { ModalBody, ModalFooter, Nav, NavItem, NavLink, Button } from 'reactstra
 import classnames from 'classnames'
 
 import MetadataForm from './MetadataForm'
+import Files from './Files'
 import Editor from '../../../Editor'
 import Icon from '../../../Icon'
 
@@ -33,6 +34,8 @@ class OptionsModal extends Component {
     switch(this.state.activeTab) {
       case 'meta':
         return <MetadataForm />
+      case 'files':
+        return <Files />
       case 'html':
         return <Editor
           key="html"
@@ -70,6 +73,7 @@ class OptionsModal extends Component {
   }
 
   render() {
+    // TODO: This should be cleaned up
     const { closeHandler } = this.props
     return <div className="modal-content">
       <Nav tabs>
@@ -79,6 +83,14 @@ class OptionsModal extends Component {
             onClick={() => { this.toggle('meta'); }}
           >
             <Icon icon="info" weight="s" />
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: this.state.activeTab === 'files' })}
+            onClick={() => { this.toggle('files'); }}
+          >
+            <Icon icon="file" fallbackWeight="r" />
           </NavLink>
         </NavItem>
         <NavItem>
