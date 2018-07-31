@@ -2,9 +2,10 @@ export const makeDataURI = (data, mime='') =>
   // Make data url from string
   `data:${ mime },${ encodeURIComponent(data) }`
 
+const re = /^\s*data:([\w]+\/[\w]+)?(;base64)?,(.*)$/
+
 export const readDataURI = uri => {
   // Split data URI into constituent parts
-  const re = /^\s*data:([\w]+\/[\w]+)?(;base64)?,(.*)$/
   const [, mime, encoding, data] = re.exec(uri)
 
   // Is the content encoded as base64?
@@ -15,6 +16,8 @@ export const readDataURI = uri => {
     mime, base64
   }
 }
+
+export const mimeFromDataURI = uri => re.exec(uri)[1]
 
 export const blobFromDataURI = uri => {
   const { data, mime, base64 } = readDataURI(uri)

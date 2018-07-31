@@ -6,9 +6,38 @@ import { Table, Button } from 'reactstrap'
 import Icon from '../../../Icon'
 
 import { sortBy } from 'lodash'
+import { mimeFromDataURI } from '../../../../logic/util/dataURI'
+
+const mimeToIcon = mime => {
+  const [family, ] = mime.split('/')
+
+  const mimeFamilies = [
+    'image', 'audio', 'video'
+  ]
+  const codeMimes = [
+    'text/html', 'text/css',
+    'application/javascript', 'application-json'
+  ]
+
+  if (mimeFamilies.includes(family)) {
+    return 'file-' + family
+  } else if (codeMimes.includes(mime)) {
+    return 'file-code'
+  } else if (mime === 'text/plain') {
+    return 'file-alt'
+  } else {
+    return 'file'
+  }
+}
+
+const dataURItoIcon = uri =>
+  mimeToIcon(mimeFromDataURI(uri))
 
 const Files = ({ files }, { store }) =>
-  <Table className="grid">
+  // We borrow styles from the grid component,
+  // please make global adjustments there.
+  // (TODO: check whether the border can be generalized)
+  <Table className="grid" style={{ borderBottom: '2px solid #eceeef' }}>
     <colgroup>
       <col style={{ width: '6%' }} />
       <col style={{ width: '60%' }} />
@@ -31,7 +60,26 @@ const Files = ({ files }, { store }) =>
           .filter(([k, v]) => !v.permanent)
           .map(([k, v]) =>
             <tr key={ k }>
-              <td />
+              <td>
+                <div
+                  className="text-muted text-center"
+                  style={{
+                    padding: '0.375rem 0.75rem',
+                    border: '1px solid transparent',
+                    lineHeight: '1.5',
+                  }}
+                >
+                  <Icon
+                    icon={ dataURItoIcon(v.content) }
+                    className="fa-fw"
+                    style={{
+                      color: '#ced4da',
+                      position: 'relative',
+                      top: '1px',
+                    }}
+                  />
+                </div>
+              </td>
               <td className="text-monospace">
                 <div style={{ padding: "0.55rem 0 0.2rem" }}>
                   { k }
@@ -65,7 +113,7 @@ const Files = ({ files }, { store }) =>
                 >
                   <Icon
                     icon="trash"
-                    style={{ position: 'relative', top: '1px'}}
+                    className="fa-fw"
                   />
                 </Button>
               </td>
