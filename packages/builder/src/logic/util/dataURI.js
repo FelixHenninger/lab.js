@@ -2,7 +2,7 @@ export const makeDataURI = (data, mime='') =>
   // Make data url from string
   `data:${ mime },${ encodeURIComponent(data) }`
 
-const re = /^\s*data:([\w]+\/[\w]+)?(;base64)?,(.*)$/
+const re = /^\s*data:([-+.\w\d]+\/[-+.\w\d]+)?(;base64)?,(.*)$/
 
 export const readDataURI = uri => {
   // Split data URI into constituent parts
