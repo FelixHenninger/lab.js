@@ -16,6 +16,7 @@ const Footer = (
         <Button
           block size="sm"
           outline color="muted"
+          className="hover-target"
           onClick={
             () => formDispatch(
               actions.change(

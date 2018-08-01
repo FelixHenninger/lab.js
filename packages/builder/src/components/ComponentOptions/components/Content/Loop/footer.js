@@ -30,7 +30,7 @@ export const Footer = (
   { columns, data, defaultRow, model },
   { formDispatch }
 ) =>
-  <tfoot className="btn-hover-container">
+  <tfoot>
     <tr>
       <td />
       <td colSpan={ columns.length }>
@@ -42,6 +42,7 @@ export const Footer = (
           <Button
             block size="sm"
             outline color="muted"
+            className="hover-target"
             onClick={
               () => formDispatch(
                 actions.change(
@@ -67,6 +68,7 @@ export const Footer = (
           <DropdownToggle
             caret split size="sm"
             outline color="muted"
+            className="hover-target"
             style={{
               width: '24px',
             }}

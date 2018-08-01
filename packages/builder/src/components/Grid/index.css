@@ -76,9 +76,12 @@ table.grid tfoot td {
 table.grid tfoot td {
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
-  transition: padding-top 0.15s, padding-bottom 0.15s;
 }
-table.grid tfoot:hover td {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+
+table.grid tfoot td button.hover-target {
+  transition: margin-top 0.15s, margin-bottom 0.15s;
+}
+table.grid tfoot:hover td button.hover-target {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
 }

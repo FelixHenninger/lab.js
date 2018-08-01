@@ -128,6 +128,7 @@ const Files = ({ files }, { store }) =>
           <Button
             size="sm" block
             outline color="muted"
+            className="hover-target"
           >
             <Icon icon="plus" />
           </Button>
