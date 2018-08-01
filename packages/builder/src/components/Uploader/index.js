@@ -35,9 +35,13 @@ class Uploader extends Component {
     // If there is a result, decode it and pass it on
     if (file) {
       const reader = new FileReader()
-      reader.onload = e => this.props.onUpload(e.target.result)
+      reader.onload = e => this.props.onUpload(e.target.result, file)
       // reader.iMarriedHim
-      reader.readAsText(file)
+      if (this.props.decodeAs === 'text') {
+        reader.readAsText(file)
+      } else if (this.props.decodeAs === 'dataURL') {
+        reader.readAsDataURL(file)
+      }
     }
   }
 
@@ -70,6 +74,7 @@ class Uploader extends Component {
 Uploader.defaultProps = {
   minSize: 0,
   maxSize: 100 * 1024 ** 2,
+  decodeAs: 'text',
 }
 
 export default Uploader
