@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import { Table, Button } from 'reactstrap'
 import Icon from '../../../Icon'
+import Uploader from '../../../Uploader'
 
 import { sortBy } from 'lodash'
 import { mimeFromDataURI } from '../../../../logic/util/dataURI'
@@ -125,13 +126,35 @@ const Files = ({ files }, { store }) =>
       <tr>
         <td />
         <td colSpan="2">
-          <Button
-            size="sm" block
-            outline color="muted"
-            className="hover-target"
+          <Uploader
+            decodeAs="dataURL"
+            maxSize={ 500 * 1000 } // 500 KB
+            onUpload={
+              (fileContents, file) => {
+                try {
+                  console.log('fileContents', fileContents)
+                  console.log('file.name', file.name)
+                  store.dispatch({
+                    type: 'ADD_FILE',
+                    file: `static/${ file.name }`,
+                    data: {
+                      content: fileContents
+                    }
+                  })
+                } catch(e) {
+                  alert('Couldn\'t add file, found error', e)
+                }
+              }
+            }
           >
-            <Icon icon="plus" />
-          </Button>
+            <Button
+              size="sm" block
+              outline color="muted"
+              className="hover-target"
+            >
+              <Icon icon="plus" />
+            </Button>
+          </Uploader>
         </td>
         <td />
       </tr>
