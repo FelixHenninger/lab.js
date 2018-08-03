@@ -928,6 +928,28 @@ describe('Core', () => {
     })
 
     describe('Data', () => {
+      it('data store is automatically initialized during preparation', () => {
+        return b.prepare().then(() => {
+          assert.instanceOf(
+            b.options.datastore,
+            lab.data.Store
+          )
+        })
+      })
+
+      it('data store is passed to nested components', () => {
+        const s = new lab.flow.Sequence({
+          content: [b]
+        })
+
+        return s.prepare().then(() => {
+          assert.strictEqual( // Must be the same instance
+            s.options.datastore,
+            b.options.datastore
+          )
+        })
+      })
+
       it('state property reads from data store', () => {
         b.options.datastore = new lab.data.Store()
         b.options.datastore.set('foo', 'bar')

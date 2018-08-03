@@ -55,19 +55,11 @@ export default class Metadata {
         this.options.location_search || window.location.search
       )
 
-      if (context.options.datastore) {
-        // If a datastore is available, save the metadata there ...
-        context.options.datastore.set({
-          url: urlParams,
-          meta: getMetadata(),
-        })
-      } else {
-        // ... otherwise append data to component
-        Object.assign(context.data, {
-          url: urlParams,
-          meta: getMetadata(),
-        })
-      }
+      // If a datastore is available, save the metadata there ...
+      context.options.datastore.set({
+        url: urlParams,
+        meta: getMetadata(),
+      })
     }
   }
 }

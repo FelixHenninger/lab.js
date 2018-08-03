@@ -1,6 +1,7 @@
 import { cloneDeepWith } from 'lodash'
 import Proxy from 'es2015-proxy'
 
+import { Store } from './data'
 import { EventHandler } from './util/eventAPI'
 import { DomConnection } from './util/domEvents'
 import { Random } from './util/random'
@@ -252,6 +253,11 @@ export class Component extends EventHandler {
         // then cannot be inherited because the option is
         // provided anyhow, and won't be overridden.
       )
+    }
+
+    // Setup a datastore, if the component doesn't have one already
+    if (this.options.datastore === null) {
+      this.options.datastore = new Store()
     }
 
     // Setup console output grouping when the component is run

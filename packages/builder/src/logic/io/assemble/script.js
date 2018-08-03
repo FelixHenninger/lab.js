@@ -154,9 +154,6 @@ const makeStudyScript = studyTreeJSON =>
 `// Define study
 const study = lab.util.fromObject(${ studyTreeJSON })
 
-// Add data storage support
-study.options.datastore = new lab.data.Store()
-
 // Let's go!
 study.run()`
 
