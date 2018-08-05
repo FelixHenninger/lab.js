@@ -22,6 +22,8 @@
       "**/bootstrap",
       "**/chai",
       "**/chai/**",
+      "**/es6-promise",
+      "**/es6-promise/**",
       "**/karma",
       "**/karma/**",
       "**/karma-coverage",
