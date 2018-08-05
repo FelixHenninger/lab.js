@@ -188,7 +188,7 @@ export class Component extends EventHandler {
         if (this.status >= status.prepared) {
           const candidate = parse(value, {
             parameters: this.aggregateParameters,
-            state: this.options.datastore ? this.options.datastore.state : {},
+            state: this.options.datastore.state,
           }, parsableOptions(this)[key], this)
 
           if (candidate !== value) {
@@ -292,7 +292,7 @@ export class Component extends EventHandler {
     // Parse raw options using template insertion data
     const templateContext = Object.freeze({
       parameters: this.aggregateParameters,
-      state: this.options.datastore ? this.options.datastore.state : {},
+      state: this.options.datastore.state,
     })
 
     const parsedOptions = parseRequested(
@@ -467,7 +467,7 @@ export class Component extends EventHandler {
     await this.triggerMethod('end', timestamp, frameSynced)
 
     // Store data (unless instructed otherwise)
-    if (this.options.datastore && this.options.datacommit !== false) {
+    if (this.options.datacommit !== false) {
       this.commit({
         ...this.data,
         ...this.aggregateParameters,
@@ -495,26 +495,24 @@ export class Component extends EventHandler {
       this.internals.timestamps.switch = s
 
       // Update duration given switch time
-      if (this.options.datastore) {
-        this.options.datastore.update(
-          this.internals.logIndex,
-          d => ({
-            ...d,
-            // Log switch frame
-            time_switch: s,
-            // If the component was ended by a timeout,
-            // update the duration based on the actual presentation time
-            duration: d.ended_on === 'timeout'
-              ? s - d.time_show
-              : d.duration
-          })
-        )
+      this.options.datastore.update(
+        this.internals.logIndex,
+        d => ({
+          ...d,
+          // Log switch frame
+          time_switch: s,
+          // If the component was ended by a timeout,
+          // update the duration based on the actual presentation time
+          duration: d.ended_on === 'timeout'
+            ? s - d.time_show
+            : d.duration
+        })
+      )
 
-        // Signal upcoming idle period to data store
-        requestIdleCallback(
-          () => this.options.datastore.triggerMethod('idle')
-        )
-      }
+      // Signal upcoming idle period to data store
+      requestIdleCallback(
+        () => this.options.datastore.triggerMethod('idle')
+      )
 
       // Queue housekeeping as a final step
       requestIdleCallback(
@@ -542,20 +540,14 @@ export class Component extends EventHandler {
   // (the commit method is called automatically if the
   // datacommit option is true, which it is by default)
   commit(data={}) {
-    // If a data store is defined
-    if (this.options.datastore) {
-      const timestamps = this.internals.timestamps
-      // Commit the data collected by this component
-      this.internals.logIndex = this.options.datastore.commit({
-        // ... plus some additional metadata
-        ...this.metadata,
-        ...data,
-        time_commit: performance.now(),
-        timestamp: new Date().toISOString(),
-      })
-    } else {
-      throw new Error('No datastore available to commit to')
-    }
+    // Commit the data collected by this component ...
+    this.internals.logIndex = this.options.datastore.commit({
+      // ... plus some additional metadata
+      ...this.metadata,
+      ...data,
+      time_commit: performance.now(),
+      timestamp: new Date().toISOString(),
+    })
     return this.triggerMethod('commit')
   }
 
