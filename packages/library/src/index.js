@@ -15,6 +15,7 @@ import { Store } from './data'
 import { Random } from './util/random'
 import fromObject from './util/fromObject'
 import { transform, makeRenderFunction } from './util/canvas'
+import { product } from './util/combinatorics'
 import { toRadians, polygon, polygonVertex } from './util/geometry'
 import { launch, exit } from './util/fullscreen'
 import { sum, mean, variance, std } from './util/stats'
@@ -83,6 +84,9 @@ export const util = {
     // remove in a later version (2018+)
     toRadians,
     transform,
+  },
+  combinatorics: {
+    product,
   },
   fullscreen: {
     launch, exit,
