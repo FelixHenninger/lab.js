@@ -6,7 +6,7 @@ import classnames from 'classnames'
 //   Possibly the necessary data can be accessed through props,
 //   but this needs to be investigated further
 import store from '../../../../store'
-import { nestedChildren } from '../../../../logic/tree'
+import { children } from '../../../../logic/tree'
 
 import './index.css'
 
@@ -43,7 +43,7 @@ const targetSpec = {
   canDrop: (targetProps, monitor) => {
     // Retrieve dragged node
     const itemProps = monitor.getItem()
-    const nestedIds = nestedChildren(itemProps.id, store.getState().components)
+    const nestedIds = children(itemProps.id, store.getState().components)
 
     return !(
       // The item must not be dropped below the same

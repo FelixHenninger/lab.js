@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { repeat } from 'lodash'
 import { Button, ButtonGroup, Input } from 'reactstrap'
-import { nestedChildren } from '../../../../../../logic/tree'
+import { children } from '../../../../../../logic/tree'
 
 import './style.css'
 
@@ -67,7 +67,7 @@ const CopyTab = ({ parent, index }, context) => {
             // and infinite recursion.
             const sourceChildren = [
               sourceSelect.value,
-              ...nestedChildren(
+              ...children(
                 sourceSelect.value,
                 context.store.getState().components
               ),

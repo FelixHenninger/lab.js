@@ -2,7 +2,7 @@ import { cloneDeep, pick, mapValues, omitBy } from 'lodash'
 import moment from 'moment'
 import FileSaver from 'file-saver'
 
-import { nestedChildren } from '../tree'
+import { children } from '../tree'
 import { makeFilename } from './filename';
 
 export const stateToJSON = (state, exportedComponent='root',
@@ -17,7 +17,7 @@ export const stateToJSON = (state, exportedComponent='root',
     [
       'root', // Include root in any case
       exportedComponent, // Additionally, include exported component (or root)
-      ...nestedChildren(exportedComponent, allComponents) // Add children
+      ...children(exportedComponent, allComponents) // Add children
     ]
   ))
 

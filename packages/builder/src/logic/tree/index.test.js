@@ -1,4 +1,4 @@
-import { nestedChildren } from './index'
+import { children } from './index'
 
 const testingState = {
   root: {
@@ -31,14 +31,14 @@ const testingState = {
 
 it('extracts child ids from a node', () => {
   expect(
-    nestedChildren('A1', testingState)
+    children('A1', testingState)
   ).toEqual([])
 
   expect(
-    nestedChildren('C', testingState)
+    children('C', testingState)
   ).toEqual(['C1', 'C1x', 'C1y', 'C1z'])
 
   expect(
-    nestedChildren('D', testingState)
+    children('D', testingState)
   ).toEqual([])
 })
