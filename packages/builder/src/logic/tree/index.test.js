@@ -1,4 +1,4 @@
-import { children } from './index'
+import { children, parents } from './index'
 
 const testingState = {
   root: {
@@ -41,4 +41,18 @@ it('extracts child ids from a node', () => {
   expect(
     children('D', testingState)
   ).toEqual([])
+})
+
+it('computes parents of a node', () => {
+  expect(
+    parents('root', testingState)
+  ).toEqual([])
+
+  expect(
+    parents('A', testingState)
+  ).toEqual(['root'])
+
+  expect(
+    parents('C1x', testingState).sort()
+  ).toEqual(['C1', 'C', 'root'].sort())
 })

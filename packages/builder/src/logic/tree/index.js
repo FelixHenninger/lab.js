@@ -8,3 +8,18 @@ export const children = (id, tree) => {
     return []
   }
 }
+
+export const parents = (target, tree) => {
+  const immediateParents = Object.entries(tree)
+    .filter(
+      ([id, data]) =>
+        data.children && Array.isArray(data.children) &&
+        data.children.includes(target)
+    ).map(
+      ([id, data]) => id
+    )
+
+  return immediateParents.concat(
+    ...immediateParents.map(n => parents(n, tree))
+  )
+}
