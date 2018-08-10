@@ -11,7 +11,8 @@
   --font-family: "Arial", sans-serif;
   --font-family-mono: Droid Mono, Menlo, Consolas, monospace;
   --font-size: 18px;
-  --line-height: 1.4rem;
+  --line-height: 1.4em;
+  /* (line height is specified in em so that it adapts to varying font sizes) */
   --paragraph-margin-vertical: var(--font-size);
   /* Colors */
   --color-border: #e5e5e5;
