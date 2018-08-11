@@ -1,12 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { DropTarget } from 'react-dnd'
 import classnames from 'classnames'
+import { flow } from 'lodash'
 
-// TODO: There must be a better way of passing through the store?
-//   Possibly the necessary data can be accessed through props,
-//   but this needs to be investigated further
-import store from '../../../../store'
-import { children } from '../../../../logic/tree'
+import { parents } from '../../../../logic/tree'
 
 import './index.css'
 
@@ -24,7 +22,7 @@ const TreeDropTarget = (props) =>
     </div>
   )
 
-// Wrap everything up  to conform to react-dnd ---------------------------------
+// Wrap everything up to conform to react-dnd ----------------------------------
 const targetSpec = {
   drop: (targetProps, monitor, component) => {
     // Information from DropSource
@@ -33,7 +31,7 @@ const targetSpec = {
     // Information from DropTarget
     const { id: newParent, index: newIndex } = targetProps
 
-    store.dispatch({
+    targetProps.dispatch({
       type: 'MOVE_COMPONENT',
       id,
       oldParent, oldIndex,
@@ -43,7 +41,6 @@ const targetSpec = {
   canDrop: (targetProps, monitor) => {
     // Retrieve dragged node
     const itemProps = monitor.getItem()
-    const nestedIds = children(itemProps.id, store.getState().components)
 
     return !(
       // The item must not be dropped below the same
@@ -53,7 +50,7 @@ const targetSpec = {
         && (itemProps.index === targetProps.index
           || itemProps.index === targetProps.index - 1))
       // Nor may the item be dropped within itself
-      || [itemProps.id, ...nestedIds].includes(targetProps.id)
+      || [targetProps.id, ...targetProps.parentIds].includes(itemProps.id)
     )
   }
 }
@@ -66,8 +63,12 @@ const collect = (connect, monitor) => ({
 })
 
 // Make the component a DropTarget
-export default DropTarget(
-  'node',
-  targetSpec,
-  collect
+export default flow(
+  DropTarget('node', targetSpec, collect),
+  connect((state, props) => ({
+    parentIds: parents(
+      props.id,
+      state.components
+    )
+  })),
 )(TreeDropTarget)
