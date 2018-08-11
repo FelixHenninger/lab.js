@@ -26,36 +26,36 @@ if (
     .install()
 }
 
-// Check browser compatibility
-// eslint-disable-next-line import/first
-import { check } from './logic/util/compatibility'
-check(store)
-
-// Persist store to localStorage
-// eslint-disable-next-line import/first
-import { persistState } from './logic/util/persistence'
-persistState(store)
-
 /* eslint-disable import/first */
+import { check } from './logic/util/compatibility'
+import { persistState } from './logic/util/persistence'
 import installPreviewWorker from './logic/io/preview/worker'
 import registerServiceWorker from './registerServiceWorker'
-
 import { SystemContextProvider } from './components/System'
 /* eslint-enable import/first */
 
-// Enable preview service worker
-installPreviewWorker(store)
-  .catch(e => {
+(async () => {
+  // Check browser compatibility
+  check(store)
+
+  // Persist store to localStorage
+  persistState(store)
+
+  // Enable preview service worker
+  let previewActive
+  try {
+    await installPreviewWorker(store)
+    previewActive = true
+  } catch (e) {
     console.log('Error during preview worker registration:', e)
+    previewActive = false
 
     // A lack of service worker support is now well-captured
     // in the remaining app, and need not be logged
     if (e.message !== 'Service workers not available') {
       Raven.captureException(e)
     }
-
-    return e
-  }).then(r => {
+  } finally {
     // Wrap main app component
     const WrappedApp = DragDropContext(HTML5DragDropBackend)(App)
 
@@ -63,7 +63,7 @@ installPreviewWorker(store)
     ReactDOM.render(
       <SystemContextProvider
         value={{
-          previewActive: !(r instanceof Error)
+          previewActive
         }}
       >
         <ReduxProvider store={ store }>
@@ -81,7 +81,8 @@ installPreviewWorker(store)
     // have to wait, or move this code elsewhere, see
     // https://github.com/facebook/create-react-app/pull/3654
     registerServiceWorker()
-  })
+  }
+})()
 
 
 
