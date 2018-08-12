@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 // React-redux integration
 import { Provider as ReduxProvider } from 'react-redux'
-import store from './store'
+import configureStore from './store'
 
 // React-dnd integration
 import { DragDropContext } from 'react-dnd'
@@ -35,6 +35,8 @@ import { SystemContextProvider } from './components/System'
 /* eslint-enable import/first */
 
 (async () => {
+  const store = await configureStore()
+
   // Check browser compatibility
   check(store)
 
