@@ -5,7 +5,7 @@ import { retrieveState } from './logic/util/persistence'
 
 const configureStore = async initialState =>
   createStore(
-    reducer, initialState || retrieveState(),
+    reducer, initialState || await retrieveState(),
     window.devToolsExtension && window.devToolsExtension(),
   )
 

@@ -40,8 +40,8 @@ import { SystemContextProvider } from './components/System'
   // Check browser compatibility
   check(store)
 
-  // Persist store to localStorage
-  persistState(store)
+  // Persist store to localFtorage
+  await persistState(store)
 
   // Enable preview service worker
   let previewActive
