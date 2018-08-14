@@ -31,9 +31,9 @@ const MetadataForm = ({ data }, { store }) =>
           component={ Input }
           controlProps={{
             bsSize: 'lg',
+            className: 'font-weight-bold'
           }}
           style={{
-            fontWeight: '500',
             paddingLeft: '12px',
           }}
         />

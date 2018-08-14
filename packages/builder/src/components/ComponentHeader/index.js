@@ -33,9 +33,8 @@ const HeaderForm = ({ title, typeCategory, typeName, template,
         <Control
           model="local.title"
           placeholder="Title"
-          className="form-control form-control-lg"
+          className="form-control form-control-lg font-weight-bold"
           style={{
-            fontWeight: '500',
             padding: '0.5rem 0.75rem',
             height: '42px',
           }}

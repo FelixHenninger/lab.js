@@ -25,7 +25,6 @@ class Card extends Component {
         title
           ? <CardHeader
               style={{
-                fontWeight: 500,
                 borderBottomStyle: (this.state.isOpen ? 'solid' : 'none'),
               }}
               onClick={ () => {

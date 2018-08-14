@@ -91,3 +91,8 @@ input.form-control[readonly]::placeholder {
 code {
   font-size: 0.95em;
 }
+
+// Use medium weight for emphasis
+strong, th, .card-header, .font-weight-bold {
+  font-weight: 500 !important;
+}

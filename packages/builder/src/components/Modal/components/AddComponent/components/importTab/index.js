@@ -30,7 +30,7 @@ const ImportTab = ({ parent, index }, context) =>
     }
   >
     <button className="btn btn-outline-secondary btn-lg btn-block">
-      <strong style={{ fontWeight: '500' }}>Import component</strong> from file
+      <strong>Import component</strong> from file
     </button>
   </Uploader>
 

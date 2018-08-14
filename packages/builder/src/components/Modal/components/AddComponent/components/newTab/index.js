@@ -49,7 +49,7 @@ const ComponentShortcut = ({ type, parent, index }, context) =>
     <CardBody
       className="text-center"
     >
-      <h5 className="card-title" style={{ fontWeight: '500 '}}>
+      <h5 className="card-title">
         { metadata[type].name }
       </h5>
       <h6
@@ -86,9 +86,9 @@ const ComponentList = ({ parent, index }, context) =>
                 }
               >
                 <span>
-                  <span style={{ fontWeight: 500 }}>
+                  <strong>
                     { metadata[type].name }
-                  </span>&nbsp;
+                  </strong>&nbsp;
                   <small className="text-muted">
                     · { metadata[type].description }
                   </small>
