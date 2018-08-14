@@ -6,7 +6,7 @@ import { fromJSON } from '../../../../../../logic/io/load'
 const ImportTab = ({ parent, index }, context) =>
   <Uploader
     accept="application/json"
-    maxSize={ 1024 ** 2 }
+    maxSize={ 1 * 10**6 } // 1 MB
     onUpload={
       fileContents => {
         try {

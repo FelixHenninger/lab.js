@@ -77,7 +77,7 @@ export const Footer = (
             <DropdownItem header>CSV</DropdownItem>
             <Uploader
               accept='text/csv'
-              maxSize={ 1024 ** 2 }
+              maxSize={ 1 * 10**6 } // 1 MB
               onUpload={
                 fileContents => {
                   const parseResult = parse(
