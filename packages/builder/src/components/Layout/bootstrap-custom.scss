@@ -96,3 +96,15 @@ code {
 strong, th, .card-header, .font-weight-bold {
   font-weight: 500 !important;
 }
+
+// (Optionally) remove top border on tables
+// (used mostly for tables directly within cards.
+// this is quite complex because :not works only
+// with simple selectors. Here be dragons!)
+table.border-top-0 :first-child tr:first-of-type td,
+table.border-top-0 :first-child tr:first-of-type th,
+table.border-top-0 colgroup + thead tr:first-of-type td,
+table.border-top-0 colgroup + thead tr:first-of-type th,
+table.border-top-0 colgroup + tbody tr:first-of-type td {
+  border-top: none;
+}
