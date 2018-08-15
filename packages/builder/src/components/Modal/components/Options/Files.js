@@ -107,8 +107,6 @@ const Files = ({ files }, { store }) =>
             onUpload={
               (fileContents, file) => {
                 try {
-                  console.log('fileContents', fileContents)
-                  console.log('file.name', file.name)
                   store.dispatch({
                     type: 'ADD_FILE',
                     file: `static/${ file.name }`,
