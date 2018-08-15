@@ -7,32 +7,7 @@ import Icon from '../../../Icon'
 import Uploader from '../../../Uploader'
 
 import { sortBy } from 'lodash'
-import { mimeFromDataURI } from '../../../../logic/util/dataURI'
-
-const mimeToIcon = mime => {
-  const [family, ] = mime.split('/')
-
-  const mimeFamilies = [
-    'image', 'audio', 'video'
-  ]
-  const codeMimes = [
-    'text/html', 'text/css',
-    'application/javascript', 'application-json'
-  ]
-
-  if (mimeFamilies.includes(family)) {
-    return 'file-' + family
-  } else if (codeMimes.includes(mime)) {
-    return 'file-code'
-  } else if (mime === 'text/plain') {
-    return 'file-alt'
-  } else {
-    return 'file'
-  }
-}
-
-const dataURItoIcon = uri =>
-  mimeToIcon(mimeFromDataURI(uri))
+import { dataURItoIcon } from '../../../../logic/util/fileType'
 
 const Files = ({ files }, { store }) =>
   // We borrow styles from the grid component,
