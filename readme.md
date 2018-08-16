@@ -12,7 +12,7 @@
   </small>
 </p>
 
-**`lab.js` makes it easy to build, conduct and share studies in the behavioral and cognitive sciences.** It allows everyone to construct and run experiments and surveys within the browser; the graphical builder makes it easy to get started without writing code.
+**`lab.js` makes it easy to build, run and share studies that help understand the mind.** It allows everyone to construct and construct experiments and surveys within the browser; the graphical builder makes it easy to get started without writing code.
 
 [![Slack Status](https://img.shields.io/badge/slack-online-brightgreen.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
 [![Build Status](https://travis-ci.org/FelixHenninger/lab.js.svg?branch=master)](https://travis-ci.org/FelixHenninger/lab.js)
@@ -100,7 +100,7 @@ Felix Ludwig ·
 [Merle M. Schuckart](https://github.com/MMarieSchuckart) ·
 [Hendrik Singmann](http://singmann.org) ·
 [Andrew White](https://github.com/shiroandy) ·
-[Malte Zimdahl](http://psycho3.uni-mannheim.de/Personen/Malte%20Zimdahl,%20M.Sc./) ·
+[Malte Zimdahl](http://psycho3.uni-mannheim.de/Personen/Malte%20Zimdahl,%20M.Sc./)
 
 The students and teaching assistants in the graduate course *Research Methods
 in Cognitive Psychology* at the University of Koblenz-Landau inspire the
