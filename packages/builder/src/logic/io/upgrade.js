@@ -1,5 +1,6 @@
 import { mapValues } from 'lodash'
 import { makeDataURI, updateDataURI } from '../util/dataURI'
+import { stripIndent } from 'common-tags'
 
 const updates = {
   '2017.0.1': data => ({
@@ -244,6 +245,36 @@ const updates = {
       }
       return c
     })
+
+    return data
+  },
+  '2018.0.3': data => {
+    data.version = [2018, 0, 4]
+
+    const defaultHeader = new RegExp(stripIndent`
+      ^\\s+<!-- lab.js library and default styles -->$
+      ^\\s+<script [^>]* data-labjs-script="library"></script>$
+      ^\\s+<script [^>]* data-labjs-script="fallback"></script>$
+      ^\\s+<link rel="stylesheet" href="lib/lab.css">$
+      ^\\s+<!-- study code and styles -->$
+      ^\\s+<script defer src="script.js"></script>$
+      ^\\s+<link rel="stylesheet" href="style.css">$
+    `, 'gm')
+
+    const newHeader = stripIndent`
+      <!-- lab.js library and experiment code -->
+      \${ header }
+    `.split('\n').map(l => `  ${ l }`).join('\n')
+
+    // Insert header as a template placeholder
+    data.files.files['index.html'].content =
+      updateDataURI(
+        data.files.files['index.html'].content,
+        fileContent => fileContent.replace(
+          defaultHeader,
+          newHeader,
+        )
+      )
 
     return data
   },

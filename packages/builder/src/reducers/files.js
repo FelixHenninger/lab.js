@@ -7,13 +7,8 @@ const index_html = `<!doctype html>
   <title>Experiment</title>
   <!-- viewport setup -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- lab.js library and default styles -->
-  <script src="lib/lab.js" data-labjs-script="library"></script>
-  <script src="lib/lab.fallback.js" data-labjs-script="fallback"></script>
-  <link rel="stylesheet" href="lib/lab.css">
-  <!-- study code and styles -->
-  <script defer src="script.js"></script>
-  <link rel="stylesheet" href="style.css">
+  <!-- lab.js library and experiment code -->
+  \${ header }
 </head>
 <body>
   <!-- If you'd rather have a container with a fixed width
