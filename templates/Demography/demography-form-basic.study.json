@@ -1,0 +1,112 @@
+{
+  "components": {
+    "2": {
+      "id": "2",
+      "type": "lab.html.Form",
+      "content": "<main class=\"content-horizontal-center content-vertical-center\">\n  <div class=\"w-l text-left\" style=\"display: block\">\n    \n    <h2 class=\"text-center\">Please tell us about yourself</h2>\n    <p class=\"text-center\">Before the study can start, we would like to learn a bit more about you. </p>\n    \n    <form>\n      <table>\n        <!-- Age -->\n        <tr style=\"height: 50px\">\n          <td class=\"font-weight-bold\">\n            How old are you, in years?\n          </td>\n          <td>\n            <input name=\"age\" type=\"number\" required class=\"w-100\">\n          </td>\n        </tr>\n        \n        <!-- Gender identity, following Tate et al. (2013) -->\n        <tr style=\"height: 100px\">\n          <td class=\"font-weight-bold\">\n            What is your current gender identity?\n          </td>\n          <td>\n            <select name=\"gender\" required class=\"w-100\">\n              <option value=\"\" selected>\n                -- Please click to select --\n              </option>\n              <option value=\"female\">Female</option>\n              <option value=\"male\">Male</option>\n              <option value=\"transgender\">Transgender</option>\n              <option value=\"intersex\">Intersex</option>\n            </select>\n          </td>\n        </tr>\n        \n        <!-- Birth-assigned gender category, following Tate et al.\n          <tr style=\"height: 100px\">\n            <td>\n              Which gender were you assigned at birth?\n            </td>\n            <td>\n              <select style=\"width: 200px\" name=\"gender-birth\">\n                <option value=\"\" selected>\n                  -- Please click to select --\n                </option>\n                <option value=\"female\">Female</option>\n                <option value=\"male\">Male</option>\n                <option value=\"intersex\">Intersex</option>\n              </select>\n            </td>\n          </tr>\n        -->\n\n        <!-- Education\n        <tr style=\"height: 100px\">\n          <td>\n            Please specify your highest degree:\n          </td>\n          <td>\n            <select name=\"education\" class=\"w-100\">\n              <option value=\"\" selected>\n                -- Please click to select --\n              </option>\n              <option value=\"no\">no degree</option>\n              <option value=\"highschool\">High school diploma</option>\n              <option value=\"bachelor\">Bachelor's</option>\n              <option value=\"master\">Master's</option>\n              <option value=\"phd\">PhD</option>\n            </select>\n          </td>\n        </tr>\n        -->\n\n        <!-- Occupation\n        <tr style=\"height: 100px\">\n          <td>\n            What is your occupation, or if you still study, your field?\n          </td>\n          <td>\n            <input name=\"occupation\" class=\"w-100\">\n          </td>\n        </tr>\n        -->\n\n        <!-- Column balance -->\n        <colgroup>\n          <col style=\"width: 45%\">\n          <col style=\"width: 65%\">\n        </colgroup>\n      </table>\n    </form>\n  </div>\n</main>\n\n<footer class=\"content-vertical-center content-horizontal-right\">\n  <button type=\"submit\" class=\"weiter\">Continue &rarr;</button>\n</footer>",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Demography form"
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "2"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "Demography form template",
+        "description": "Basic demography template",
+        "repository": "",
+        "contributors": "Kevin Tiede (https://www.spds.uni-konstanz.de/kevin-tiede)\nFelix Henninger <mailbox@felixhenninger.com> (http://felixhenninger.com)"
+      }
+    }
+  },
+  "version": [
+    2018,
+    0,
+    4
+  ],
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20viewport%20setup%20--%3E%0A%20%20%3Cmeta%20name%3D%22viewport%22%20content%3D%22width%3Ddevice-width%2C%20initial-scale%3D1%22%3E%0A%20%20%3C!--%20lab.js%20library%20and%20experiment%20code%20--%3E%0A%20%20%24%7B%20header%20%7D%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "permanent": true
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F",
+        "permanent": true
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.fallback.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      }
+    }
+  }
+}
