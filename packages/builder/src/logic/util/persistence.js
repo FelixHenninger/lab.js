@@ -20,7 +20,7 @@ export const persistState = async store => {
       if (persistent) {
         console.log('Persistent storage enabled')
       } else {
-        console.log('Persistent storage not permitted');
+        console.log('Persistent storage not permitted')
       }
     })
   } else {
