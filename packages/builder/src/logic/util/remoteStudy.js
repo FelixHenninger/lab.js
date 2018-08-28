@@ -41,6 +41,13 @@ export const fromURL = async () => {
       return
     }
 
-    return fromObject(data)
+    // Parse state
+    const state = fromObject(data)
+
+    // Remove URL parameter
+    window.history.pushState({}, document.title, "/")
+
+    // Return new application state
+    return state
   }
 }
