@@ -90,7 +90,7 @@ class OptionsModal extends Component {
             className={classnames({ active: this.state.activeTab === 'files' })}
             onClick={() => { this.toggle('files'); }}
           >
-            <Icon icon="file" fallbackWeight="r" />
+            <Icon icon="cloud" />
           </NavLink>
         </NavItem>
         <NavItem>

@@ -14,7 +14,7 @@ import { metadata, defaultTab } from '../../logic/components'
 
 const tabIcons = {
   'Notes': 'info',
-  'Parameters': 'cog',
+  'Parameters': 'toolbox',
   // 'Scripts': 'fa-code', // TODO: This doesn't feel right atm
   'More': 'ellipsis-h',
 }
