@@ -3,11 +3,9 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { Table, Button } from 'reactstrap'
+import { FileTable } from '../../../FileTable'
 import Icon from '../../../Icon'
 import Uploader from '../../../Uploader'
-
-import { sortBy } from 'lodash'
-import { dataURItoIcon } from '../../../../logic/util/fileType'
 
 const Files = ({ files }, { store }) =>
   // We borrow styles from the grid component,
@@ -30,73 +28,7 @@ const Files = ({ files }, { store }) =>
         <th></th>
       </tr>
     </thead>
-    <tbody>
-      {
-        sortBy(Object.entries(files), ([k, v]) => k)
-          .filter(([k, v]) => !v.permanent)
-          .map(([k, v]) =>
-            <tr key={ k }>
-              <td>
-                <div
-                  className="text-muted text-center"
-                  style={{
-                    padding: '0.375rem 0.75rem',
-                    border: '1px solid transparent',
-                    lineHeight: '1.5',
-                  }}
-                >
-                  <Icon
-                    icon={ dataURItoIcon(v.content) }
-                    className="fa-fw"
-                    style={{
-                      color: '#ced4da',
-                      position: 'relative',
-                      top: '1px',
-                    }}
-                  />
-                </div>
-              </td>
-              <td className="text-monospace">
-                <div style={{ padding: "0.55rem 0 0.2rem" }}>
-                  { k }
-                </div>
-              </td>
-              <td className="text-monospace text-right">
-                <div style={{ padding: "0.55rem 0 0.2rem" }}>
-                {
-                  // base64 encoding inflates the file, storing 6 bits in every
-                  // 8-bit character; the initial data URI indicator and the
-                  // trailing equal sign don't count toward the file size.
-                  //
-                  // TODO: Even with all of these corrections, this is an
-                  // approximation, and will differ from OS file managers.
-                  // Corrections are welcome!
-                  Math.ceil(
-                    0.75 * (v.content.length - v.content.indexOf(',') - 1)
-                    / 1000
-                  )
-                }
-                </div>
-              </td>
-              <td>
-                <Button
-                  block
-                  outline color="muted"
-                  onClick={ () => store.dispatch({
-                    type: 'DELETE_FILE',
-                    file: k,
-                  }) }
-                >
-                  <Icon
-                    icon="trash"
-                    className="fa-fw"
-                  />
-                </Button>
-              </td>
-            </tr>
-          )
-      }
-    </tbody>
+    <FileTable />
     <tfoot>
       <tr>
         <td />
