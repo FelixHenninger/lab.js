@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { Button } from 'reactstrap'
@@ -6,6 +7,26 @@ import { sortBy } from 'lodash'
 
 import Icon from '../Icon'
 import { dataURItoIcon } from '../../logic/util/fileType'
+
+export const FileTableColGroup = () =>
+  <colgroup>
+    <col style={{ width: '60px' }} />
+    <col style={{ width: '80%' }} />
+    <col style={{ width: '20%' }} />
+    <col style={{ width: '60px' }} />
+  </colgroup>
+
+export const FileTableHeader = () =>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Filename</th>
+      <th className="text-right">
+        Size <span className="text-muted font-weight-normal">[KB]</span>
+      </th>
+      <th></th>
+    </tr>
+  </thead>
 
 const FileTableRow = ({ path, content }, { store }) =>
   <tr>
@@ -68,7 +89,11 @@ const FileTableRow = ({ path, content }, { store }) =>
     </td>
   </tr>
 
-const _FileTable = ({ files }) =>
+FileTableRow.contextTypes = {
+  store: PropTypes.object
+}
+
+const _FileTableBody = ({ files }) =>
   <tbody>
     {
       sortBy(Object.entries(files), ([path, _]) => path)
@@ -82,8 +107,8 @@ const _FileTable = ({ files }) =>
     }
   </tbody>
 
-export const FileTable = connect(
+export const FileTableBody = connect(
   state => ({
     files: state.files.files,
   })
-)(_FileTable)
+)(_FileTableBody)

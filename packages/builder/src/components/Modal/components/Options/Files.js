@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { Table, Button } from 'reactstrap'
-import { FileTable } from '../../../FileTable'
+import { FileTableHeader, FileTableBody, FileTableColGroup } from '../../../FileTable'
 import Icon from '../../../Icon'
 import Uploader from '../../../Uploader'
 
@@ -12,23 +12,9 @@ const Files = ({ files }, { store }) =>
   // please make global adjustments there.
   // (TODO: check whether the border can be generalized)
   <Table className="grid" style={{ borderBottom: '2px solid #eceeef' }}>
-    <colgroup>
-      <col style={{ width: '6%' }} />
-      <col style={{ width: '60%' }} />
-      <col style={{ width: '18%' }} />
-      <col style={{ width: '6%' }} />
-    </colgroup>
-    <thead>
-      <tr>
-        <th></th>
-        <th>Filename</th>
-        <th className="text-right">
-          Size <span className="text-muted font-weight-normal">[KB]</span>
-        </th>
-        <th></th>
-      </tr>
-    </thead>
-    <FileTable />
+    <FileTableColGroup />
+    <FileTableHeader />
+    <FileTableBody />
     <tfoot>
       <tr>
         <td />
