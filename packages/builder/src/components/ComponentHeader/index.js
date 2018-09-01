@@ -13,6 +13,7 @@ import { updateComponent } from '../../actions/components'
 import { metadata, defaultTab } from '../../logic/components'
 
 const tabIcons = {
+  'Files': 'cloud',
   'Notes': 'info',
   'Parameters': 'toolbox',
   // 'Scripts': 'fa-code', // TODO: This doesn't feel right atm

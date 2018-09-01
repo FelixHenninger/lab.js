@@ -11,7 +11,7 @@ const Files = ({ files }, { store }) =>
   // We borrow styles from the grid component,
   // please make global adjustments there.
   // (TODO: check whether the border can be generalized)
-  <Table className="grid" style={{ borderBottom: '2px solid #eceeef' }}>
+  <Table className="grid border-top-0" style={{ borderBottom: '2px solid #eceeef' }}>
     <FileTableColGroup />
     <FileTableHeader />
     <FileTableBody />

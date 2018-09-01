@@ -9,6 +9,7 @@ import Fallback from './components/Fallback'
 import Notes from './components/Notes'
 import Behavior from './components/Behavior'
 import Scripts from './components/Scripts'
+import Files from './components/Files'
 import Parameters from './components/Parameters'
 import Advanced from './components/Advanced'
 
@@ -47,6 +48,8 @@ const selectTab = (type, tab) => {
       return Behavior
     case 'Scripts':
       return Scripts
+    case 'Files':
+      return Files
     case 'Parameters':
       return Parameters
     case 'More':

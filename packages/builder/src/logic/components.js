@@ -28,6 +28,7 @@ const defaultTabs = [
   'Content',
   'Behavior',
   'Scripts',
+  'Files',
   'Parameters',
   'More',
 ]
