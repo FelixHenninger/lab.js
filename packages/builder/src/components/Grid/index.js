@@ -26,7 +26,7 @@ class Grid extends Component {
   }
 
   render() {
-    const { model, data, columns, defaultRow } = this.props
+    const { model, data, columns, defaultRow, className } = this.props
     const HeaderContent = this.props.HeaderContent || (content => content)
     const BodyContent = this.props.BodyContent || (content => content)
     const Footer = this.props.Footer || DefaultFooter
@@ -61,7 +61,7 @@ class Grid extends Component {
             'grid': true,
             'grid-slim': columns.length > 5,
             'no-header': this.props.showHeader === false
-          }) }
+          }, className) }
         >
           <ColGroup
             columnWidths={ columnWidths }
