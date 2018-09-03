@@ -53,6 +53,7 @@ const Responses = ({ data, formDispatch }) =>
   <Card title="Responses" wrapContent={ false } className="mt-4">
     <Grid
       model=".responses"
+      className="border-top-0"
       data={ data.responses.rows }
       columns={ [
         <span>

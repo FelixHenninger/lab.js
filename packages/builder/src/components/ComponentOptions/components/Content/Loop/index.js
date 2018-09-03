@@ -29,6 +29,7 @@ export default ({ id, data }) =>
     >
       <Grid
         model=".templateParameters"
+        className="border-top-0"
         addColumns
         maxColumns={12}
         defaultColumn={ { name: '', type: 'string' } }
