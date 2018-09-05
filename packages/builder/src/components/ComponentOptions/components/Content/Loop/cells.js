@@ -21,9 +21,13 @@ export const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
     debounce={ 300 }
   />
 
-export const CellTypeSelector = ({ type, setType, actions }) =>
-  <Dropdown type="input-group-button" addonType="append">
-    <DropdownToggle caret outline color="secondary">
+export const CellTypeSelector = ({ type, setType, actions, disabled=false }) =>
+  <Dropdown type="input-group-button" addonType="append" disabled={ disabled }>
+    <DropdownToggle
+      caret={ !disabled }
+      disabled={ disabled }
+      outline color="secondary"
+    >
       <Icon
         icon={{
           string: 'font',
