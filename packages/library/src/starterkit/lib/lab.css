@@ -371,6 +371,12 @@ table:not(.table-plain) > tbody > tr > td,
 table:not(.table-plain) > tbody > tr > th {
   border-bottom: 2px solid var(--color-border);
 }
+table:not(.table-plain) > tr:last-child > td,
+table:not(.table-plain) > tr:last-child > th,
+table:not(.table-plain) > tbody > tr:last-child > td,
+table:not(.table-plain) > tbody > tr:last-child > th {
+  border-bottom: 2px solid transparent;
+}
 /* Striped rows */
 table.table-striped tr:nth-child(odd) td {
   background-color: var(--color-border-internal)
