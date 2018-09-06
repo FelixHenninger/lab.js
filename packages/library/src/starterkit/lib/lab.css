@@ -268,7 +268,6 @@ code {
 
 /* Alerts */
 .alert {
-  background-color: var(--color-gray-background);
   border: 2px solid var(--color-border);
   border-radius: var(--border-radius-content);
   padding: 16px 16px 14px;
@@ -276,13 +275,25 @@ code {
 }
 .alert.alert-danger {
   color: #a02c2c;
-  background-color: #e9afaf;
   border-color: #a02c2c;
 }
 .alert.alert-warning {
   color: #f6a902;
-  background-color: #ffe6a5;
   border-color: #ffb400;
+}
+
+/* Background styles (experimental) */
+.alert, .background-dark {
+  background-color: var(--color-gray-background);
+}
+.alert.alert-danger, .background-danger {
+  background-color: #e9afaf;
+}
+.alert.alert-warning, .background-warning {
+  background-color: #ffe6a5;
+}
+.background-ok {
+  background-color: #c3e6cb;
 }
 
 /* Form elements */
