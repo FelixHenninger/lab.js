@@ -121,7 +121,7 @@ TaskList.contextTypes = {
 }
 
 TaskList.defaultProps = {
-  taskLabel: 'tasks'
+  taskLabel: 'tasks',
 }
 
 export default () =>

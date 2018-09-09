@@ -7,6 +7,7 @@ import Icon from '../../../Icon'
 
 import NewTab from './components/newTab'
 import CopyTab from './components/copyTab'
+import TemplateTab from './components/templateTab'
 import ImportTab from './components/importTab'
 
 class AddComponentModal extends Component {
@@ -39,6 +40,11 @@ class AddComponentModal extends Component {
           parent={ parent }
           index={ index }
         />
+      case 'template':
+        return <TemplateTab
+          parent={ parent }
+          index={ index }
+        />
       case 'import':
         return <ImportTab
           parent={ parent }
@@ -67,6 +73,14 @@ class AddComponentModal extends Component {
             onClick={() => { this.toggle('copy'); }}
           >
             <Icon icon="clone" fallbackWeight="r" />
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: this.state.activeTab === 'template' })}
+            onClick={() => { this.toggle('template'); }}
+          >
+            <Icon icon="rocket" />
           </NavLink>
         </NavItem>
         <NavItem>
