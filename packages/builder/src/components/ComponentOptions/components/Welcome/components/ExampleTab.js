@@ -34,23 +34,23 @@ const Task = ({ name, contributors, description, url, clickHandler }) =>
     {/* Give further content class mt-1 --> */}
   </ListGroupItem>
 
-class TaskList extends Component {
+export class TaskList extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       state: 'empty',
-      examples: [],
+      tasks: [],
     }
   }
 
   componentDidMount() {
-    fetch(basePath + 'metadata.json')
+    fetch(this.props.path + 'metadata.json')
       .then(response => response.json())
       .then(data => {
         this.setState({
           state: 'loaded',
-          examples: data,
+          tasks: data,
         })
       })
       .catch(() => {
@@ -61,14 +61,10 @@ class TaskList extends Component {
   }
 
   loadTask(path) {
-    fetch(basePath + path)
+    fetch(this.props.path + path)
       .then(response => response.json())
-      .then(data => {
-        const state = fromObject(data)
-        this.context.store.dispatch({
-          type: 'HYDRATE', state,
-        })
-      })
+      .then(data => fromObject(data))
+      .then(task => this.props.loadHandler(task, this.context.store.dispatch))
   }
 
   render() {
@@ -78,7 +74,9 @@ class TaskList extends Component {
           <ListGroupItem className="text-center text-muted">
             <i className="fas fa-exclamation-circle fa-2x mt-3 mb-2" />{' '}
             <p>
-              <strong>Sorry, I couldn't load the examples</strong><br />
+              <strong>
+                Sorry, I couldn't load the { this.props.taskLabel }
+              </strong><br />
               <small>
                 This shouldn't happen.
                 If it persists even though you're online,
@@ -90,7 +88,7 @@ class TaskList extends Component {
         </ListGroup>
       )
 
-    } else if (this.state.examples.length === 0) {
+    } else if (this.state.tasks.length === 0) {
       // Loading spinner
       return (
         <ListGroup className="list-group-flush">
@@ -104,11 +102,11 @@ class TaskList extends Component {
       return (
         <ListGroup className="list-group-flush">
           {
-            this.state.examples.map(
-              (example, i) => <Task
-                key={`example-${i}`}
-                clickHandler={ () => this.loadTask(example.path) }
-                { ...example }
+            this.state.tasks.map(
+              (task, i) => <Task
+                key={`task-${i}`}
+                clickHandler={ () => this.loadTask(task.path) }
+                { ...task }
               />
             )
           }
@@ -120,6 +118,10 @@ class TaskList extends Component {
 
 TaskList.contextTypes = {
   store: PropTypes.object
+}
+
+TaskList.defaultProps = {
+  taskLabel: 'tasks'
 }
 
 export default () =>
@@ -136,7 +138,16 @@ export default () =>
         Please click on any of the paradigms to open it; they're yours to try, demonstrate, replicate and extend.
       </CardText>
     </CardBody>
-    <TaskList />
+    <TaskList
+      path={ basePath }
+      taskLabel="examples"
+      loadHandler={
+        (state, dispatch) => dispatch({
+          type: 'HYDRATE',
+          state,
+        })
+      }
+    />
     <CardBody>
       <small className="text-muted">
         Missing a task? Something to improve? Please <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html" target="_blank" rel="noopener noreferrer">suggest or contribute</a>!
