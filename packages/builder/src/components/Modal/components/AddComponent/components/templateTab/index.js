@@ -3,17 +3,18 @@ import PropTypes from 'prop-types'
 import { Card } from 'reactstrap'
 import { TaskList } from '../../../../../ComponentOptions/components/Welcome/components/ExampleTab'
 
+import './style.css'
+
 const basePath =
   'https://raw.githubusercontent.com/FelixHenninger/lab.js/master/templates/'
 
 const TemplateTab = ({ parent, index }, context) =>
-  <div>
-    <Card
-      style={{
-        height: '225px',
-        overflowY: 'auto',
-      }}
-    >
+  <div className="template-tab">
+    <h2 className="h5 my-2">
+      <span>Templates</span>
+    </h2>
+    <p>Click on any template to include it in your study; they're yours to use and extend. Please consider <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html">sharing your own favorites!</a></p>
+    <Card>
       <TaskList
         path={ basePath }
         loadHandler={ data => {
@@ -34,6 +35,11 @@ const TemplateTab = ({ parent, index }, context) =>
         } }
       />
     </Card>
+    <div className="mt-3">
+      <small className="text-muted">
+        Missing something? Ideas for improving things? Please <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html" target="_blank" rel="noopener noreferrer">suggest or contribute</a>!
+      </small>
+    </div>
   </div>
 
 TemplateTab.contextTypes = {
