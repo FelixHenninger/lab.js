@@ -6,19 +6,42 @@ import { fromJSON } from '../../../../../../logic/io/load'
 const ImportTab = ({ parent, index }, context) =>
   <Uploader
     accept="application/json"
-    maxSize={ 1 * 10**6 } // 1 MB
+    maxSize={ 55 * 10**6 } // 55 MB
     onUpload={
       fileContents => {
         try {
           // Parse file from JSON
           const state = fromJSON(fileContents)
+
           // Hydrate store from resulting object
-          context.store.dispatch({
-            type: 'IMPORT_COMPONENT',
-            parent, index,
-            id: state.components.root.children[0],
-            source: state.components,
-          })
+          if (state.components.root.children.length === 1) {
+            // If the root component has only a single child,
+            // import that.
+            context.store.dispatch({
+              type: 'IMPORT_COMPONENT',
+              parent, index,
+              id: state.components.root.children[0],
+              source: state.components,
+            })
+          } else {
+            // If the root component has multiple descendants,
+            // import them as a sequence
+
+            // Remove metadata collection plugin
+            // (which is automatically added to every study root)
+            state.components.root.plugins =
+              state.components.root.plugins.filter(
+                x => x.type !== 'lab.plugins.Metadata'
+              )
+
+            context.store.dispatch({
+              type: 'IMPORT_COMPONENT',
+              parent, index,
+              id: 'root',
+              source: state.components,
+            })
+          }
+
           context.store.dispatch({
             type: 'HIDE_MODAL',
           })
