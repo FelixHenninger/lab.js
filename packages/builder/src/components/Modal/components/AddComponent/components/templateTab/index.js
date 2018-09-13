@@ -17,6 +17,7 @@ const TemplateTab = ({ parent, index }, context) =>
     <Card>
       <TaskList
         path={ basePath }
+        taskLabel="templates"
         loadHandler={ data => {
           try {
             context.store.dispatch({
