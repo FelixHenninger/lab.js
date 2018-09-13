@@ -34,6 +34,10 @@ const ImportTab = ({ parent, index }, context) =>
                 x => x.type !== 'lab.plugins.Metadata'
               )
 
+            // Rename task from metadata
+            state.components.root.title =
+              state.components.root.metadata.title || 'Unnamed task'
+
             context.store.dispatch({
               type: 'IMPORT_COMPONENT',
               parent, index,
