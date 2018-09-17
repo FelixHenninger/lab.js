@@ -10,7 +10,7 @@ const basePath =
 
 const TemplateTab = ({ parent, index }, context) =>
   <div className="template-tab">
-    <h2 className="h5 my-2">
+    <h2 className="h5 mt-1">
       <span>Templates</span>
     </h2>
     <p>Click on any template to include it in your study; they're yours to use and extend. Please consider <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html">sharing your own favorites!</a></p>
