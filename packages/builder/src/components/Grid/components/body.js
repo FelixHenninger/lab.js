@@ -5,7 +5,7 @@ import { actions } from 'react-redux-form'
 import ButtonCell from './buttonCell'
 
 const Cell = (
-  { cellData, rowIndex, colIndex, colData, BodyContent }
+  { cellData, cellProps, rowIndex, colIndex, colData, BodyContent }
 ) =>
   <td>
     <BodyContent
@@ -13,11 +13,12 @@ const Cell = (
       rowIndex={ rowIndex }
       colIndex={ colIndex }
       colData={ colData }
+      { ...cellProps }
     />
   </td>
 
 const Row = (
-  { data, rowData, rowIndex, BodyContent, columns, model },
+  { data, rowData, rowIndex, BodyContent, columns, model, cellProps },
   { uniqueId, formDispatch }
 ) =>
   <tr>
@@ -31,6 +32,7 @@ const Row = (
             <Cell
               key={ `grid_${ uniqueId }_cell_${ rowIndex }_${ colIndex }` }
               cellData={ cellData }
+              cellProps={ cellProps }
               rowIndex={ rowIndex }
               colIndex={ colIndex }
               colName={ columns[colIndex] }

@@ -26,7 +26,10 @@ class Grid extends Component {
   }
 
   render() {
-    const { model, data, columns, defaultRow, className } = this.props
+    const { model, data, columns, defaultRow,
+      className,
+      cellProps={}
+    } = this.props
     const HeaderContent = this.props.HeaderContent || (content => content)
     const BodyContent = this.props.BodyContent || (content => content)
     const Footer = this.props.Footer || DefaultFooter
@@ -81,6 +84,7 @@ class Grid extends Component {
             columns={ columns }
             model={ model }
             BodyContent={ BodyContent }
+            cellProps={ cellProps }
           />
           <Footer
             data={ data }
