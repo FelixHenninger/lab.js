@@ -53,6 +53,13 @@ button.btn, .form-control {
     background-color: white;
   }
 
+  &[disabled], &.disabled {
+    @include hover {
+      color: $secondary;
+      border-color: transparent;
+    }
+  }
+
   &:not([disabled]):not(.disabled):active,
   &:not([disabled]):not(.disabled).active,
   .show > &.dropdown-toggle {
