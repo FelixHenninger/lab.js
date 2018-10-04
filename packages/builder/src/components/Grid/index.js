@@ -87,12 +87,16 @@ class Grid extends Component {
             readOnly={ readOnly }
             cellProps={ cellProps }
           />
-          <Footer
-            data={ data }
-            columns={ columns }
-            model={ model }
-            defaultRow={ defaultRow }
-          />
+          {
+            readOnly
+              ? ''
+              : <Footer
+                  data={ data }
+                  columns={ columns }
+                  model={ model }
+                  defaultRow={ defaultRow }
+                />
+          }
         </table>
       </Fieldset>
     )
