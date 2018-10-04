@@ -28,7 +28,7 @@ class Grid extends Component {
   render() {
     const { model, data, columns, defaultRow,
       className,
-      cellProps={}
+      readOnly, cellProps={}
     } = this.props
     const HeaderContent = this.props.HeaderContent || (content => content)
     const BodyContent = this.props.BodyContent || (content => content)
@@ -84,6 +84,7 @@ class Grid extends Component {
             columns={ columns }
             model={ model }
             BodyContent={ BodyContent }
+            readOnly={ readOnly }
             cellProps={ cellProps }
           />
           <Footer

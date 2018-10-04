@@ -18,13 +18,14 @@ const Cell = (
   </td>
 
 const Row = (
-  { data, rowData, rowIndex, BodyContent, columns, model, cellProps },
+  { data, rowData, rowIndex, BodyContent, columns, model, readOnly, cellProps },
   { uniqueId, formDispatch }
 ) =>
   <tr>
     <ButtonCell
       icon="bars"
       onClick={ () => null }
+      disabled={ readOnly }
     />
     {
       rowData.length > 0
@@ -51,6 +52,7 @@ const Row = (
           )
         )
       }
+      disabled={ readOnly }
     />
   </tr>
 

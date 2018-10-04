@@ -3,12 +3,14 @@ import { Button } from 'reactstrap'
 
 import Icon from '../../Icon'
 
-export default ({ icon, onClick, style, type }) => {
+export default ({ icon, onClick, style, disabled=false, type }) => {
   const Wrapper = type || 'td'
   return <Wrapper>
     <Button
       block outline color="muted"
-      onClick={ onClick } style={ style }
+      onClick={ onClick }
+      style={ style }
+      disabled={ disabled }
     >
       <Icon icon={ icon } />
     </Button>
