@@ -27,6 +27,10 @@ export const CellTypeSelector = ({ type, setType, actions, disabled=false }) =>
       caret={ !disabled }
       disabled={ disabled }
       outline color="secondary"
+      // Ensure that the right-hand side
+      // always has rounded corners
+      // (this didn't work if the button was disabled)
+      className="rounded-right"
     >
       <Icon
         icon={{
