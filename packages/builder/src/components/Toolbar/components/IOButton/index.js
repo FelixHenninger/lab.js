@@ -8,7 +8,7 @@ import Uploader from '../../../Uploader'
 import Icon from '../../../Icon'
 
 import { fromJSON } from '../../../../logic/io/load'
-import { stateToDownload, stateToJSON } from '../../../../logic/io/save'
+import { stateToDownload } from '../../../../logic/io/save'
 import downloadStaticLocal from '../../../../logic/io/export/modifiers/local'
 import downloadStaticJatos from '../../../../logic/io/export/modifiers/jatos'
 
@@ -107,38 +107,11 @@ const IOButton = (_, context) => {
       </DropdownItem>
       <DropdownItem
         onClick={
-          async () => {
-            // Extract state
-            const state = context.store.getState()
-            const stateJSON = stateToJSON(state)
-
-            // Assemble study data as form
-            const data = new window.FormData()
-            data.append(
-              'script',
-              new Blob(
-                [ stateJSON ],
-                { type: 'application/json;charset=utf-8' }
-              ),
-              'labjs-study.json'
-            )
-            data.append('name',
-              state.components['root'].metadata.title || 'Unnamed study')
-            data.append('description',
-              state.components['root'].metadata.description)
-
-            // Send study to Open Lab
-            const resp = await fetch('https://open-lab.online/tests/labjs', {
-              method: 'POST',
-              body: data,
-            })
-
-            if (resp.ok && resp.status === 200) {
-              window.open(resp.url, '_blank')
-            } else {
-              alert('Upload to Open Lab failed')
-            }
-          }
+          () => context.store.dispatch({
+            type: 'SHOW_MODAL',
+            modalType: 'EXPORT_OPENLAB',
+            modalProps: {},
+          })
         }
       >
         Upload to Open Lab

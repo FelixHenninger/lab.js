@@ -10,6 +10,7 @@ import OptionsModal from './components/Options'
 import SystemCompatibilityModal from './components/SystemCompatibility'
 import ExportExpFactoryModal from './components/ExportExpFactory'
 import ExportNetlifyModal from './components/ExportNetlify'
+import ExportOpenLabModal from './components/ExportOpenLab'
 import ExportPHPModal from './components/ExportPHP'
 import ExportPostMessageModal from './components/ExportPostMessage'
 import LegalModal from './components/Legal'
@@ -23,6 +24,7 @@ const MODAL_COMPONENTS = {
   'SYSTEM_COMPATIBILITY': SystemCompatibilityModal,
   'EXPORT_EXPFACTORY': ExportExpFactoryModal,
   'EXPORT_NETLIFY': ExportNetlifyModal,
+  'EXPORT_OPENLAB': ExportOpenLabModal,
   'EXPORT_PHP': ExportPHPModal,
   'EXPORT_PM': ExportPostMessageModal,
   'LEGAL': LegalModal,
