@@ -92,7 +92,7 @@ const IOButton = (_, context) => {
           })
         }
       >
-        Generic web host <span className="text-muted">(PHP backend)</span>
+        Generic web host… <span className="text-muted">(PHP backend)</span>
       </DropdownItem>
       <DropdownItem
         onClick={
@@ -103,7 +103,7 @@ const IOButton = (_, context) => {
           })
         }
       >
-        Upload to Netlify <span className="text-muted">(cloud provider)</span>
+        Upload to Netlify… <span className="text-muted">(cloud provider)</span>
       </DropdownItem>
       <DropdownItem
         onClick={
@@ -114,7 +114,7 @@ const IOButton = (_, context) => {
           })
         }
       >
-        Upload to Open Lab
+        Upload to Open Lab…
       </DropdownItem>
       <DropdownItem divider/>
       <DropdownItem header>Export as integration</DropdownItem>
@@ -127,7 +127,7 @@ const IOButton = (_, context) => {
           })
         }
       >
-        Generic survey tools <span className="text-muted">(Qualtrics, etc.)</span>
+        Generic survey tools… <span className="text-muted">(Qualtrics, etc.)</span>
       </DropdownItem>
       <DropdownItem
         onClick={ () => downloadStaticJatos(context.store.getState()) }
@@ -143,7 +143,7 @@ const IOButton = (_, context) => {
           })
         }
       >
-        The Experiment Factory <span className="text-muted">(v3)</span>
+        The Experiment Factory… <span className="text-muted">(v3)</span>
       </DropdownItem>
     </DropdownMenu>
   </Dropdown>
