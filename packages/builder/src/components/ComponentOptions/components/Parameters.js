@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Col, Row, InputGroup, Input } from 'reactstrap'
+import { Col, Row, InputGroup, Input, CardBody, FormGroup } from 'reactstrap'
 import { Control, actions } from 'react-redux-form'
 
 import Card from '../../Card'
@@ -66,9 +66,23 @@ export default ({ id, data }) =>
     <Form
       id={ id }
       data={ data }
-      keys={ ['parameters'] }
+      keys={ ['notes', 'parameters'] }
       getDispatch={ dispatch => this.formDispatch = dispatch }
     >
+      <CardBody className="border-bottom">
+        <FormGroup>
+          <Control.textarea
+            model=".notes"
+            className="form-control form-control-sm"
+            placeholder="Notes"
+            rows="5"
+            style={{
+              padding: '0.5rem 0.75rem',
+            }}
+            debounce={ 300 }
+          />
+        </FormGroup>
+      </CardBody>
       <Grid
         model=".parameters"
         HeaderContent={ DummyHeaderCell }

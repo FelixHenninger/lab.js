@@ -6,7 +6,6 @@ import Welcome from './components/Welcome'
 import Fallback from './components/Fallback'
 
 // General-purpose tabs
-import Notes from './components/Notes'
 import Behavior from './components/Behavior'
 import Scripts from './components/Scripts'
 import Files from './components/Files'
@@ -25,8 +24,6 @@ import { defaultTab } from '../../logic/components'
 
 const selectTab = (type, tab) => {
   switch(tab) {
-    case 'Notes':
-      return Notes
     case 'Content':
       switch(type) {
         case 'lab.canvas.Screen':
