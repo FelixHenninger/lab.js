@@ -219,7 +219,7 @@ class ColorDropdown extends Component {
           <DropdownItem divider />
           {/* Custom color selector */}
           <div className="dropdown-item">
-            <a
+            <div
               className="btn btn-outline-secondary"
               style={{ width: '126px' }}
               onClick={ () => {
@@ -230,7 +230,7 @@ class ColorDropdown extends Component {
               } }
             >
               <Icon icon="eye-dropper" />
-            </a>
+            </div>
           </div>
           <DropdownItem divider />
           {/* Manual (text-based) color input */}
