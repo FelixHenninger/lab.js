@@ -4,7 +4,6 @@
   "private": true,
   "devDependencies": {
     "glob": "^7.1.2",
-    "react-scripts": "^1.1.4",
     "shx": "^0.3.2"
   },
   "dependencies": {
@@ -36,6 +35,7 @@
     "react-monaco-editor": "^0.12.0",
     "react-redux": "^5.0.7",
     "react-redux-form": "^1.16.9",
+    "react-scripts": "2.0.3",
     "react-transition-group": "^2.4.0",
     "reactstrap": "^6.3.0",
     "redux": "^4.0.0",
