@@ -12,7 +12,6 @@ export default ({ id, data }) =>
       id={ id }
       data={ data }
       keys={ ['scrollTop', '_template'] }
-      getDispatch={ dispatch => this.formDispatch = dispatch }
     >
       <FormGroup row>
         <Col xs={2}>

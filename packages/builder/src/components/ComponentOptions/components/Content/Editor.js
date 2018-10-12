@@ -24,7 +24,6 @@ export default ({ id, data }) =>
         id={ id }
         data={ data }
         keys={ ['content'] }
-        getDispatch={ dispatch => this.formDispatch = dispatch }
         className="flex-grow-1 d-flex flex-column"
       >
         <Control.textarea

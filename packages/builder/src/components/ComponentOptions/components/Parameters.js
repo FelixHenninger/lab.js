@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { Col, Row, InputGroup, Input, CardBody, FormGroup } from 'reactstrap'
@@ -61,44 +61,53 @@ BodyCell.contextTypes = {
   formDispatch: PropTypes.func,
 }
 
-export default ({ id, data }) =>
-  <Card title="Parameters" wrapContent={false}>
-    <Form
-      id={ id }
-      data={ data }
-      keys={ ['notes', 'parameters'] }
-      getDispatch={ dispatch => this.formDispatch = dispatch }
-    >
-      <CardBody className="border-bottom">
-        <FormGroup>
-          <Control.textarea
-            model=".notes"
-            className="form-control form-control-sm"
-            placeholder="Notes"
-            rows="5"
-            style={{
-              padding: '0.5rem 0.75rem',
-            }}
-            debounce={ 300 }
-          />
-        </FormGroup>
-      </CardBody>
-      <Grid
-        model=".parameters"
-        HeaderContent={ DummyHeaderCell }
-        showHeader={ false }
-        defaultRow={ [ { name: '', value: '', type: 'string' } ] }
-        BodyContent={ BodyCell }
-        columns={ ['Parameters'] }
-        // TODO: Revise once nullish coalescing
-        // is available: grid should handle undefined data
-        data={ data.parameters ? data.parameters.rows : [] }
-        formDispatch={ action => this.formDispatch(action) }
-        // Parameter names are read-only in template mode
-        readOnly={ data._template }
-        cellProps={{
-          readOnly: data._template
-        }}
-      />
-    </Form>
-  </Card>
+export default class extends Component {
+  constructor(props) {
+    super(props)
+    this.formDispatch = () => console.log('invalid dispatch')
+  }
+
+  render() {
+    const { id, data } = this.props
+    return <Card title="Parameters" wrapContent={false}>
+      <Form
+        id={ id }
+        data={ data }
+        keys={ ['notes', 'parameters'] }
+        getDispatch={ dispatch => this.formDispatch = dispatch }
+      >
+        <CardBody className="border-bottom">
+          <FormGroup>
+            <Control.textarea
+              model=".notes"
+              className="form-control form-control-sm"
+              placeholder="Notes"
+              rows="5"
+              style={{
+                padding: '0.5rem 0.75rem',
+              }}
+              debounce={ 300 }
+            />
+          </FormGroup>
+        </CardBody>
+        <Grid
+          model=".parameters"
+          HeaderContent={ DummyHeaderCell }
+          showHeader={ false }
+          defaultRow={ [ { name: '', value: '', type: 'string' } ] }
+          BodyContent={ BodyCell }
+          columns={ ['Parameters'] }
+          // TODO: Revise once nullish coalescing
+          // is available: grid should handle undefined data
+          data={ data.parameters ? data.parameters.rows : [] }
+          formDispatch={ action => this.formDispatch(action) }
+          // Parameter names are read-only in template mode
+          readOnly={ data._template }
+          cellProps={{
+            readOnly: data._template
+          }}
+        />
+      </Form>
+    </Card>
+  }
+}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Control } from 'react-redux-form'
 import { CardBody, FormGroup, Col, Label,
   Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
@@ -283,25 +283,35 @@ const Timeline = ({ data }) =>
     </FormGroup>
   </Card>
 
-export default ({ id, data }) =>
-  <Form
-    id={ id }
-    data={ data }
-    keys={ [
-      'responses', 'correctResponse',
-      'skip', 'skipCondition',
-      'tardy', 'timeout',
-    ] }
-    getDispatch={ dispatch => this.formDispatch = dispatch }
-  >
-    <Timeline
+export default class extends Component {
+  constructor(props) {
+    super(props)
+    this.formDispatch = () => console.log('invalid dispatch')
+  }
+
+  render() {
+    const { id, data } = this.props
+
+    return <Form
       id={ id }
       data={ data }
-      formDispatch={ action => this.formDispatch(action) }
-    />
-    <Responses
-      id={ id }
-      data={ data }
-      formDispatch={ action => this.formDispatch(action) }
-    />
-  </Form>
+      keys={ [
+        'responses', 'correctResponse',
+        'skip', 'skipCondition',
+        'tardy', 'timeout',
+      ] }
+      getDispatch={ dispatch => this.formDispatch = dispatch }
+    >
+      <Timeline
+        id={ id }
+        data={ data }
+        formDispatch={ action => this.formDispatch(action) }
+      />
+      <Responses
+        id={ id }
+        data={ data }
+        formDispatch={ action => this.formDispatch(action) }
+      />
+    </Form>
+  }
+}
