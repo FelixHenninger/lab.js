@@ -87,18 +87,22 @@ in the documentation.
 [Yury Shevchenko](http://yuryshevchenko.com/) ·
 [Vanessa Sochat](https://vsoch.github.io/)
 
-#### Ideas, feedback and examples 💡
+#### Tasks and templates 🎁️
+
+[Michael Kriechbaumer](https://www.cognition.uni-landau.de/people/michael-kriechbaumer-msc/) ·
+[Felix Ludwig](https://www.cognition.uni-landau.de/people/felix-ludwig-msc/) ·
+[Merle M. Schuckart](https://github.com/MMarieSchuckart)
+
+#### Ideas and feedback 💡
 
 [Emily Elliott](https://lsu.edu/hss/psychology/faculty/cognitive/elliott.php) ·
 [Jeffrey Fisher](https://github.com/jeffslofish) ·
 [Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/) ·
 [Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
-Michael Kriechbaumer ·
-Felix Ludwig ·
 [Karthikeya Pammi](https://github.com/pvskarthikeya) ·
 [Sophie Scharf](http://cognition.uni-mannheim.de/mitarbeiter/m_sc_sophie_scharf/) ·
-[Merle M. Schuckart](https://github.com/MMarieSchuckart) ·
 [Hendrik Singmann](http://singmann.org) ·
+[Kevin Tiede](https://www.spds.uni-konstanz.de/kevin-tiede) ·
 [Andrew White](https://github.com/shiroandy) ·
 [Malte Zimdahl](http://psycho3.uni-mannheim.de/Personen/Malte%20Zimdahl,%20M.Sc./)
 
