@@ -100,6 +100,7 @@ const _FileTableBody = ({ files }) =>
         .filter(([_, { permanent }]) => !permanent)
         .map(([path, { content }]) =>
           <FileTableRow
+            key={ path }
             path={ path }
             content={ content }
           />
