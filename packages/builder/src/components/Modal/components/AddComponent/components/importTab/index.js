@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Uploader from '../../../../../Uploader'
 import { fromJSON } from '../../../../../../logic/io/load'
 
-const ImportTab = ({ parent, index }, context) =>
+const ImportTab = ({ parent, index }, { store }) =>
   <Uploader
     accept="application/json"
     maxSize={ 55 * 10**6 } // 55 MB
@@ -17,7 +17,7 @@ const ImportTab = ({ parent, index }, context) =>
           if (state.components.root.children.length === 1) {
             // If the root component has only a single child,
             // import that.
-            context.store.dispatch({
+            store.dispatch({
               type: 'IMPORT_COMPONENT',
               parent, index,
               id: state.components.root.children[0],
@@ -38,7 +38,7 @@ const ImportTab = ({ parent, index }, context) =>
             state.components.root.title =
               state.components.root.metadata.title || 'Unnamed task'
 
-            context.store.dispatch({
+            store.dispatch({
               type: 'IMPORT_COMPONENT',
               parent, index,
               id: 'root',
@@ -46,7 +46,7 @@ const ImportTab = ({ parent, index }, context) =>
             })
           }
 
-          context.store.dispatch({
+          store.dispatch({
             type: 'HIDE_MODAL',
           })
         } catch(e) {
