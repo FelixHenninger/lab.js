@@ -95,6 +95,14 @@ export default (state=defaultState, action) => {
       delete output.files[action.file]
 
       return output
+    case 'MERGE_FILES':
+      return {
+        ...state,
+        files: {
+          ...action.files,
+          ...state.files,
+        }
+      }
     case 'RESET_STATE':
       return defaultState
     default:

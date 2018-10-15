@@ -46,6 +46,12 @@ const ImportTab = ({ parent, index }, { store }) =>
             })
           }
 
+          // Merge files
+          store.dispatch({
+            type: 'MERGE_FILES',
+            files: state.files.files
+          })
+
           // Open component options
           store.dispatch({
             type: 'SHOW_COMPONENT_DETAIL',
