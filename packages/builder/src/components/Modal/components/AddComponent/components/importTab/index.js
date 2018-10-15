@@ -46,6 +46,12 @@ const ImportTab = ({ parent, index }, { store }) =>
             })
           }
 
+          // Open component options
+          store.dispatch({
+            type: 'SHOW_COMPONENT_DETAIL',
+            id: store.getState().components[parent].children[index],
+          })
+
           store.dispatch({
             type: 'HIDE_MODAL',
           })
