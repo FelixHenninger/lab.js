@@ -4,11 +4,12 @@ import { Card } from 'reactstrap'
 import { TaskList } from '../../../../../ComponentOptions/components/Welcome/components/ExampleTab'
 
 import './style.css'
+import importComponent from '../importTab'
 
 const basePath =
   'https://raw.githubusercontent.com/FelixHenninger/lab.js/master/templates/'
 
-const TemplateTab = ({ parent, index }, context) =>
+const TemplateTab = ({ parent, index }, { store }) =>
   <div className="template-tab">
     <h2 className="h5 mt-1">
       <span>Templates</span>
@@ -20,15 +21,7 @@ const TemplateTab = ({ parent, index }, context) =>
         taskLabel="templates"
         loadHandler={ data => {
           try {
-            context.store.dispatch({
-              type: 'IMPORT_COMPONENT',
-              parent, index,
-              id: data.components.root.children[0],
-              source: data.components,
-            })
-            context.store.dispatch({
-              type: 'HIDE_MODAL',
-            })
+            importComponent(parent, index, data, store)
           } catch(e) {
             // If things don't work out, let the user know
             alert('Couldn\'t load file, found error', e)
