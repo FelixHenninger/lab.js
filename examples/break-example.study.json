@@ -1,0 +1,415 @@
+{
+  "components": {
+    "3": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "before:prepare",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "id": "3",
+      "type": "lab.flow.Loop",
+      "children": [
+        "4"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "color",
+            "type": "string"
+          },
+          {
+            "name": "word",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "red",
+            "red"
+          ],
+          [
+            "red",
+            "red"
+          ],
+          [
+            "red",
+            "red"
+          ],
+          [
+            "red",
+            "green"
+          ],
+          [
+            "red",
+            "blue"
+          ],
+          [
+            "red",
+            "orange"
+          ],
+          [
+            "green",
+            "red"
+          ],
+          [
+            "green",
+            "green"
+          ],
+          [
+            "green",
+            "green"
+          ],
+          [
+            "green",
+            "green"
+          ],
+          [
+            "green",
+            "blue"
+          ],
+          [
+            "green",
+            "orange"
+          ],
+          [
+            "blue",
+            "red"
+          ],
+          [
+            "blue",
+            "green"
+          ],
+          [
+            "blue",
+            "blue"
+          ],
+          [
+            "blue",
+            "blue"
+          ],
+          [
+            "blue",
+            "blue"
+          ],
+          [
+            "blue",
+            "orange"
+          ],
+          [
+            "orange",
+            "red"
+          ],
+          [
+            "orange",
+            "green"
+          ],
+          [
+            "orange",
+            "blue"
+          ],
+          [
+            "orange",
+            "orange"
+          ],
+          [
+            "orange",
+            "orange"
+          ],
+          [
+            "orange",
+            "orange"
+          ]
+        ]
+      },
+      "title": "Stroop task",
+      "shuffle": true,
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "_tab": "Content"
+    },
+    "4": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "before:prepare",
+              "code": "class PauseStudy {\n  handle(context, event) {\n    switch (event) {\n      case 'before:prepare':\n        this.attachListeners(context)\n        break\n    }\n  }\n\n  attachListeners(root) {\n    // Attach event listeners to all screens/forms/etc.\n    lab.util.tree.traverse(\n      root,\n      (leaf) => {\n        if (leaf.constructor.metadata.nestedComponents.length === 0) {\n          console.log(`setting up event for ${ leaf.options.title }`)\n          leaf.options.events['click [data-labjs-action=\"pause\"]'] =\n            () => this.startBreak(leaf)\n        }\n      }\n    )\n  }\n\n  startBreak(leaf) {\n    console.log(`Starting break from ${ leaf.options.title }`)\n\n    // Stop internal timeout counter\n    if (leaf.internals.timeout) {\n      leaf.internals.timeout.cancel()\n    }\n\n    // Pause any pending frame requests\n    window.cancelAnimationFrame(\n      leaf.internals.frameRequest,\n    )\n\n    // Detach any event listeners\n    leaf.internals.domConnection.detach()\n\n    // Setup overlay\n    const overlay = document.createElement('div')\n    overlay.classList.add('container')\n    overlay.classList.add('fullscreen')\n    overlay.innerHTML = `\n      <main>\n        <img\n          src=\"http://yuryshevchenko.com/wp-content/uploads/2017/05/dot_200.png\"\n          style=\"max-width: 100%\" >\n\n     <footer>\n        Please press space to continue<br>\n        \n      </footer>\n    `\n    overlay.style.cssText =\n      'position: fixed; top: 0; left: 8px; ' +\n      'background-color: white;'\n\n    this.overlay = document.body.appendChild(overlay)\n\n    // Setup new DOM connection\n    // (this is super-hacky, but hey, it works)\n    this.domConnection = new leaf.internals.domConnection.constructor({\n      el: leaf.options.el,\n      events: {\n        'keypress(Space)': () => this.endBreak(leaf)\n      }\n    })\n    this.domConnection.attach()\n  }\n\n  endBreak(leaf) {\n    console.log(`Ending break from ${ leaf.options.title }`)\n    this.overlay.remove()\n    this.domConnection.detach()\n    return leaf.end('Resuming study')\n  }\n}\n\n\nthis.plugins.add(new PauseStudy())"
+            }
+          ]
+        ]
+      },
+      "id": "4",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "5",
+        "6",
+        "7"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "title": "Trial",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "_tab": "Scripts"
+    },
+    "5": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "id": "5",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "title": "Fixation cross",
+      "timeout": "500",
+      "content": "<header>\n  <button data-labjs-action=\"pause\">\n    Take a break\n  </button>\n</header>\n\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div style=\"font-size: 3.5rem\">\n    +\n  </div>\n</main>\n\n<footer class=\"content-vertical-center content-horizontal-center\">\n  <p>\n    What's the <em>color</em> of \n    the word shown above? <br>\n    Please press <kbd>r</kbd> for red,\n    <kbd>g</kbd> for green,\n    <kbd>b</kbd> for blue and <kbd>o</kbd> for orange.\n  </p>\n</footer>\n",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "6": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "id": "6",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "red",
+            "keypress",
+            "",
+            "r"
+          ],
+          [
+            "green",
+            "keypress",
+            "",
+            "g"
+          ],
+          [
+            "blue",
+            "keypress",
+            "",
+            "b"
+          ],
+          [
+            "orange",
+            "keypress",
+            "",
+            "o"
+          ]
+        ]
+      },
+      "title": "Stroop screen",
+      "content": "<header>\n  <button data-labjs-action=\"pause\">\n    Take a break\n  </button>\n</header>\n\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div style=\"\n    font-size: 3.5rem;\n    font-weight: bold;\n    color: ${ parameters.color };\n  \">\n    ${ parameters.word }\n  </div>\n</main>\n\n<footer class=\"content-vertical-center content-horizontal-center\">\n  <p>\n    What's the <em>color</em> of \n    the word shown above? <br>\n    Please press <kbd>r</kbd> for red,\n    <kbd>g</kbd> for green,\n    <kbd>b</kbd> for blue and <kbd>o</kbd> for orange.\n  </p>\n</footer>\n",
+      "correctResponse": "${ parameters.color }",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "7": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "id": "7",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "title": "Inter-trial interval",
+      "content": "<header>\n  <button data-labjs-action=\"pause\">\n    Take a break\n  </button>\n</header>\n\n<main class=\"content-vertical-center content-horizontal-center\">\n</main>\n\n<footer class=\"content-vertical-center content-horizontal-center\">\n  <p>\n    What's the <em>color</em> of \n    the word shown above? <br>\n    Please press <kbd>r</kbd> for red,\n    <kbd>g</kbd> for green,\n    <kbd>b</kbd> for blue and <kbd>o</kbd> for orange.\n  </p>\n</footer>\n",
+      "timeout": "500",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    },
+    "root": {
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "3"
+      ],
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "Stroop task",
+        "description": "An implementation of the classic paradigm introduced by Stroop (1935).",
+        "repository": "https://github.com/felixhenninger/lab.js/examples/",
+        "contributors": "Felix Henninger <mailbox@felixhenninger.com> (http://felixhenninger.com)"
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "version": [
+    2018,
+    0,
+    3
+  ],
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20lab.js%20library%20and%20default%20styles%20--%3E%0A%20%20%3Cscript%20src%3D%22lib%2Flab.js%22%20data-labjs-script%3D%22library%22%3E%3C%2Fscript%3E%0A%20%20%3Cscript%20src%3D%22lib%2Flab.fallback.js%22%20data-labjs-script%3D%22fallback%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22lib%2Flab.css%22%3E%0A%20%20%3C!--%20study%20code%20and%20styles%20--%3E%0A%20%20%3Cscript%20defer%20src%3D%22script.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22style.css%22%3E%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you're%20looking%20to%20fill%20all%20available%20browser%20space%2C%0A%20%20%20%20%20%20%20try%20replacing%20the%20class%20below%20with%20%22container%20fullscreen%22%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "permanent": true
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F",
+        "permanent": true
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      },
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.fallback.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js.map": {
+        "type": "text/plain"
+      }
+    }
+  }
+}
