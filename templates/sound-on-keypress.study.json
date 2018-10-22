@@ -1,0 +1,116 @@
+{
+  "components": {
+    "1": {
+      "id": "1",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "audio play",
+              "message": "run",
+              "code": "\ndocument.addEventListener('keydown', function(e) {\n  if (e.keyCode == 65) {\n    document.getElementById('audio').play();\n  }\n});"
+            }
+          ]
+        ]
+      },
+      "title": "play a sound",
+      "content": "<audio id=\"audio\" controls style=\"display:none\">\n  <source src='static/10ms1000Hz.mp3'> \n</audio>\n\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-m text-justify\">\n <p> Please make sure that your speakers are turned on.</p>\n <p> The speakers are ready? Try to press <strong>A</strong> to play a sound so you can check if the volume isn't too loud. </p>\n <br>\n </main>\n\n<footer style=\"background-color:grey;\">\n   <p><em>Please press space to continue.</p> </em>\n </footer>",
+      "_tab": "Content"
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "1"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "Play a sound on keypress",
+        "description": "shows how to play a sound on keypress",
+        "repository": "",
+        "contributors": "Merle Schuckart\nFelix Henninger\n"
+      }
+    }
+  },
+  "version": [
+    2018,
+    0,
+    4
+  ],
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20lab.js%20library%20and%20experiment%20code%20--%3E%0A%20%20%24%7B%20header%20%7D%0A%3C%2Fhead%3E%0A%20%3Cbody%20style%3D%22background-color%3Agrey%3B%22%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "permanent": true
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F",
+        "permanent": true
+      },
+      "static/10ms1000Hz.mp3": {
+        "content": "data:audio/mp3;base64,SUQzAwAAAAAAFlRQRTEAAAAMAAAASnVsaWFuIEtlaWz/+5DEAAAAAAAAAAAAAAAAAAAAAABJbmZvAAAADwAAAAIAAATkAICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgID//////////////////////////////////////////////////////////////////wAAADlMQU1FMy45OXIBzQAAAAAAAAAAFIAkBQdCAACAAAAE5JzbHI0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/+5DEAAAPxGM4dbyAE4cf5d89sAAAAluXOVu2sOhLLll3zBR0zlFNwZjUi4QEZqLicTKnLx5wLWaaUhUEPH0/9zrfNMkDDoprHa/D8spIxDD+P4/kOSynt5555516ekpKSwCAIAmD4Pg+fwQBAEwffLggCAY+XDGCAJg+D+oEAQDH3cuD4Pn+UOfBAEPB8/B9/xAAACCQmlEEAAAFwDTBmCZEQDxgsBAA0C4wXQRDB2BPMTgZswaACDGyYWMOYoszA13D4qp8MpEjIwo8DzHzBLNqFeY0JyjDR0wzE2MvWzTz816TMEOgcZmFjxi4AAj8w4KMMBg5PMHCBAJkAGqZYFaqkFLLOjKBdTFbBaJwWuwQ+tIWvaffcidZEmFL4JTFhrUaryq/L34lEsfvq/HdZU4atzzSnspltWzNfjK5/CksQYwFpr7XJ5pNLh2tTdy3S6/88///ptzVW5ayq0vqJSM4X+Ip23//Fn2L/+j/02gH91PUAAJzBAzMhDkwQIjNqmNmtQ16eCRMnHL+em0JuM0GYmycEgJtxSmXAWYfIxn/+5LEFgPVvKMAXc0AAAAANIAAAARUoGPREEAcxaA17o3bIIbGGSm4gm+bmmKhwV4QYBMQLMUFLow4pkhKRWa7SOEzprz9W4ZdmNWvxpaWlpcd0sppbOpVDUPWa0ajVN2lhmHbVWlpbP5U1MEgaDuDR4qCpUFXA0eER4qCsShosDMRB31u1A0oGjxU7/8FQVgqdLHiwdgrTEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV"
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.fallback.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      }
+    }
+  }
+}
