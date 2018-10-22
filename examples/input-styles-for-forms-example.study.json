@@ -1,0 +1,114 @@
+{
+  "components": {
+    "7": {
+      "id": "7",
+      "type": "lab.html.Form",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "questions",
+      "content": "\n<header>\n  <h3>A lot of questions</h3>\n  <!-- you can see different kinds of input styles for forms here-->\n</header>\n\n<main class=\"content-vertical-center content-horizontal-center\">\n<div class=\"w-m text-justify\">\n<p>We'd like to ask you too many uncomfortable questions now.</p>\n  <form id=\"form\"> \n    <!-- The form = \"form\" part links this input to the form in the main part. By inserting \"required\", people won't be able to proceed without answering. -->\n    <table class=\"table-plain\">      \n      <tr>\n        <th style=\"text-align: right;\">\n          Which gender do you most identify with? <!-- the option --- will be selected, but people won't be able to choose this as an answer. You do this by leaving the quotes empty (like this value=\" \"). ---> \n        </th>\n        <td style=\"text-align: left;\">\n          <select name=\"gender\" required>\n            <option value=\"\" selected> ------ </option> \n            <option value=\"g_male\"> male </option>\n            <option value=\"g_female\"> female </option>\n            <option value=\"g_nonbinary\"> non-binary </option>\n            <option value=\"g_noresp\"> don't want to answer that </option>\n          </select>\n        </td>\n      </tr>\n      <!--I used the following part to seperate the questions a bit although that's not that elegant. Maybe you can think of a better solution.-->\n      <th>\n      </th>\n      <td>\n      </td>\n     \n      <tr>\n        <th style=\"text-align: right;\">\n          <label for=\"bday\">Birthday? </label> \n          <!--This one is especially for collecting data in the form of dates, you can choose different types if you want another format, choose \"text\" instead of \"date\" for example if you want people to answer in a text field.-->\n        </th>\n        <td style=\"text-align: left;\"> \n        <input id=\"bday\" name=\"birthday\" type=\"date\" required> \n        </td>\n      </tr>\n\n      <th>\n      </th>\n      <td>\n      </td>\n\n      <tr>\n        <th style=\"text-align: right;\">\n          <label for=\"age\">How old are you?</label> \n          <!--Here we force participants to tell us how old they are (they can't proceed if they don't, because we're mean and used 'required' again), but they can only fill in numbers between 18 and 100. -->\n       </th>\n        <td style=\"text-align: left;\"> \n        <input id=\"age\" name=\"youlookolder\" type=\"number\" min=\"18\" max=\"100\" required> \n        </td>\n      </tr>\n\n      <th>\n      </th>\n      <td>\n      </td>\n\n     <tr>\n        <th style=\"text-align: right;\">\n          <label for=\"frogs\">Did you know you could let frogs levitate in an fMRI scanner? How do you feel about this?</label> \n          <!-- In this case we want people to fill in a text field. We can adjust the width of the textfield by using the style-element. -->\n       </th>\n        <td style=\"text-align: left;\"> \n        <input id=\"frogs\" name=\"funfact\" type=\"text\" style=\"width: 20em;\" required> \n        </td>\n      </tr>\n\n      <th>\n      </th>\n      <td>\n      </td>\n\n     <tr>\n        <th style=\"text-align: right;\">\n          <label for=\"stillfrogs\">Did you just google levitating frogs?</label> \n          <!-- Here participants can tick a checkbox. -->\n       </th>\n        <td style=\"text-align: left;\"> \n        <input id = \"stillfrogs\" name=\"google\" type=\"radio\" value = \"Yes\">  Maybe? <br>\n        <input id= \"stillfrogs\" name =\"google\" type=\"radio\" value=\"Liar\">  Of course not! <br> \n        </td>\n      </tr>\n  </table>\n\n<br>\n</main>\n\n<footer style=\"background-color: grey;\">\n      <button type=\"submit\" form=\"form\">\n        submit\n      </button>\n<!-- Only use a submit-button at the end of your study if you want to run the experiment online or otherwise you won't be able to save the data at the end (if the participant clicked the button).-->\n  </footer>\n</form>",
+      "_tab": "Content",
+      "scrollTop": true
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "7"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "input styles for forms",
+        "description": "shows how to use different input styles (different kinds of multiple choice questions, open questions, you get the idea)",
+        "repository": "",
+        "contributors": "Merle Schuckart\nFelix Henninger"
+      }
+    }
+  },
+  "version": [
+    2018,
+    0,
+    3
+  ],
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20lab.js%20library%20and%20default%20styles%20--%3E%0A%20%20%3Cscript%20src%3D%22lib%2Flab.js%22%20data-labjs-script%3D%22library%22%3E%3C%2Fscript%3E%0A%20%20%3Cscript%20src%3D%22lib%2Flab.fallback.js%22%20data-labjs-script%3D%22fallback%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22lib%2Flab.css%22%3E%0A%20%20%3C!--%20study%20code%20and%20styles%20--%3E%0A%20%20%3Cscript%20defer%20src%3D%22script.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22style.css%22%3E%0A%3C%2Fhead%3E%0A%3Cbody%20style%3D%22background-color%3Agrey%3B%22%3E%0A%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "permanent": true
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F",
+        "permanent": true
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      },
+      "lib/lab.fallback.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js.map": {
+        "type": "text/plain"
+      }
+    }
+  }
+}
