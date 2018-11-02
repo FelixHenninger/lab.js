@@ -4,7 +4,19 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const shell = require('shelljs');
+const shell = require('shelljs')
+
+// Minify code
+const reservedTerms = [
+  // Components
+  'Component', 'Dummy',
+  'Screen', 'Form', 'Frame',
+  'Sequence', 'Loop', 'Parallel',
+  // Plugins
+  'Debug', 'Download', 'Logger', 'Metadata', 'Transmit',
+  // Utilities
+  'Random', 'fromObject',
+]
 
 module.exports = (env, argv) => {
   const mode = argv.mode
@@ -26,23 +38,24 @@ module.exports = (env, argv) => {
   const babelPresets = {
     legacy: {
       presets: [
-        ['env', {
+        ['@babel/env', {
+          // Module generation is handled by webpack
           modules: false,
-          useBuiltIns: true,
+          useBuiltIns: 'usage',
         }],
       ],
       plugins: [
-        'transform-object-rest-spread',
-        'transform-class-properties',
+        '@babel/proposal-object-rest-spread',
+        '@babel/proposal-class-properties',
         'lodash',
-        ['fast-async', {
+        ['module:fast-async', {
           runtimePattern: './src/index.js'
         }],
       ],
     },
     default: {
       presets: [
-        ['env', {
+        ['@babel/env', {
           targets: {
             browsers: [
               '> 2%',
@@ -57,13 +70,14 @@ module.exports = (env, argv) => {
             'transform-async-to-generator',
             'transform-regenerator',
           ],
+          // Module generation is handled by webpack
           modules: false,
-          useBuiltIns: true,
+          useBuiltIns: 'usage',
         }],
       ],
       plugins: [
-        'transform-object-rest-spread',
-        'transform-class-properties',
+        '@babel/proposal-object-rest-spread',
+        '@babel/proposal-class-properties',
         'lodash',
       ],
     }
@@ -113,38 +127,22 @@ module.exports = (env, argv) => {
   // Optimize/minimize output
   // by including the corresponding plugins
   if (mode !== 'development') {
-    // Minify code
-    const reservedTerms = [
-      // Components
-      'Component', 'Dummy',
-      'Screen', 'Form', 'Frame',
-      'Sequence', 'Loop', 'Parallel',
-      // Plugins
-      'Debug', 'Download', 'Logger', 'Metadata', 'Transmit',
-      // Utilities
-      'Random', 'fromObject',
+    config.optimization = config.optimization || {}
+    config.optimization.minimizer = [
+      new UglifyJsPlugin({
+        sourceMap: true,
+        uglifyOptions: {
+          compress: {
+            inline: false,
+          },
+          reserve: reservedTerms,
+          mangle: {
+            reserved: reservedTerms,
+          },
+        },
+      })
     ]
 
-    config.optimization = {
-      minimizer: [
-        new UglifyJsPlugin({
-          sourceMap: true,
-          uglifyOptions: {
-            compress: {
-              inline: false,
-            },
-            reserve: reservedTerms,
-            mangle: {
-              reserved: reservedTerms,
-            },
-          },
-        }),
-      ],
-    };
-    config.plugins.push(
-      // eslint-disable-next-line comma-dangle
-      new webpack.optimize.OccurrenceOrderPlugin()
-    )
     if (target === 'analysis') {
       config.plugins.push(
         new BundleAnalyzerPlugin()
