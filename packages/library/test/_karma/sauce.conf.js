@@ -100,6 +100,15 @@ module.exports = (config) => {
     // Local web server port
     port: 9876,
 
+    plugins: [
+      'karma-babel-preprocessor',
+      'karma-chai',
+      'karma-mocha',
+      'karma-requirejs',
+      'karma-sauce-launcher',
+      'karma-sinon',
+    ],
+
     // Preprocess test files
     // (c.f. https://npmjs.org/browse/keyword/karma-preprocessor)
     preprocessors: {
