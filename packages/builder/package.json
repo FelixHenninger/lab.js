@@ -60,5 +60,11 @@
     "static:library": "shx mkdir -p public/api/_defaultStatic/lib/ && shx cp -R ../library/dist/labjs-starterkit/lib/* public/api/_defaultStatic/lib/",
     "static:monaco": "shx cp -R node_modules/monaco-editor/min/vs/ public/vs",
     "static:requirejs": "shx mkdir -p public/vendor && shx cp node_modules/requirejs/require.js public/vendor/"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
