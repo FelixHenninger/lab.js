@@ -927,6 +927,24 @@ describe('Core', () => {
       })
     })
 
+    describe('Files', () => {
+      it('makes available files through placeholders', () => {
+        const c = new lab.html.Screen({
+          files: {
+            'local/fancy.png': 'remote/long-uninteresting-hashed-url.png',
+          },
+          content: '<img src="${ files[\'local/fancy.png\'] }">'
+        })
+
+        return c.prepare().then(() => {
+          assert.equal(
+            c.options.content,
+            '<img src="remote/long-uninteresting-hashed-url.png">'
+          )
+        })
+      })
+    })
+
     describe('Data', () => {
       it('data store is automatically initialized during preparation', () => {
         return b.prepare().then(() => {

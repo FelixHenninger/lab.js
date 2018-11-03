@@ -167,6 +167,11 @@ export class Component extends EventHandler {
         audio: [],
         ...options.media,
       },
+      // Setup file handling
+      // (which will replace media at some time)
+      files: {
+        ...options.files,
+      },
 
       // Setup timing method
       timing: {
@@ -189,6 +194,7 @@ export class Component extends EventHandler {
           const candidate = parse(value, {
             parameters: this.aggregateParameters,
             state: this.options.datastore.state,
+            files: this.options.files,
           }, parsableOptions(this)[key], this)
 
           if (candidate !== value) {
@@ -293,6 +299,7 @@ export class Component extends EventHandler {
     const templateContext = Object.freeze({
       parameters: this.aggregateParameters,
       state: this.options.datastore.state,
+      files: this.options.files,
     })
 
     const parsedOptions = parseRequested(
