@@ -5,12 +5,34 @@ import { Fieldset, actions } from 'react-redux-form'
 import { uniqueId } from 'lodash'
 import classnames from 'classnames'
 
+import ButtonCell from './components/buttonCell'
 import ColGroup from './components/colgroup'
 import Header from './components/header'
 import Body from './components/body'
 import DefaultFooter from './components/footer'
 
 import './index.css'
+
+const defaultLeftColumn = ({ readOnly }) =>
+  <ButtonCell
+    icon="bars"
+    onClick={ () => null }
+    disabled={ readOnly }
+  />
+
+const defaultRightColumn = ({ data, rowIndex, readOnly, model, formDispatch }) =>
+  <ButtonCell
+    icon="trash"
+    onClick={
+      () => formDispatch(
+        actions.change(
+          `local${ model }.rows`,
+          data.filter((row, i) => i !== rowIndex)
+        )
+      )
+    }
+    disabled={ readOnly }
+  />
 
 class Grid extends Component {
   constructor(props) {
@@ -30,6 +52,8 @@ class Grid extends Component {
       className,
       readOnly, cellProps={}
     } = this.props
+    const LeftColumn = this.props.LeftColumn || defaultLeftColumn
+    const RightColumn = this.props.RightColumn || defaultRightColumn
     const HeaderContent = this.props.HeaderContent || (content => content)
     const BodyContent = this.props.BodyContent || (content => content)
     const Footer = this.props.Footer || DefaultFooter
@@ -84,6 +108,8 @@ class Grid extends Component {
             columns={ columns }
             model={ model }
             BodyContent={ BodyContent }
+            LeftColumn={ LeftColumn }
+            RightColumn={ RightColumn }
             readOnly={ readOnly }
             cellProps={ cellProps }
           />

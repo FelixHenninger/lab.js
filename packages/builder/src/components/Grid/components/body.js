@@ -1,8 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { actions } from 'react-redux-form'
-
-import ButtonCell from './buttonCell'
 
 const Cell = (
   { cellData, cellProps, rowIndex, colIndex, colData, BodyContent }
@@ -18,14 +15,19 @@ const Cell = (
   </td>
 
 const Row = (
-  { data, rowData, rowIndex, BodyContent, columns, model, readOnly, cellProps },
+  { data, rowData, rowIndex,
+    BodyContent, LeftColumn, RightColumn,
+    columns, model, readOnly, cellProps },
   { uniqueId, formDispatch }
 ) =>
   <tr>
-    <ButtonCell
-      icon="bars"
-      onClick={ () => null }
-      disabled={ readOnly }
+    <LeftColumn
+      data={ data }
+      rowData={ rowData }
+      rowIndex={ rowIndex }
+      readOnly={ readOnly }
+      model={ model }
+      formDispatch={ formDispatch }
     />
     {
       rowData.length > 0
@@ -42,17 +44,13 @@ const Row = (
           )
         : <td />
     }
-    <ButtonCell
-      icon="trash"
-      onClick={
-        () => formDispatch(
-          actions.change(
-            `local${ model }.rows`,
-            data.filter((row, i) => i !== rowIndex)
-          )
-        )
-      }
-      disabled={ readOnly }
+    <RightColumn
+      data={ data }
+      rowData={ rowData }
+      rowIndex={ rowIndex }
+      readOnly={ readOnly }
+      model={ model }
+      formDispatch={ formDispatch }
     />
   </tr>
 
