@@ -1,6 +1,6 @@
 {
   "name": "lab.js.builder",
-  "version": "2018.0.3",
+  "version": "2018.1.0",
   "private": true,
   "devDependencies": {
     "glob": "^7.1.2",

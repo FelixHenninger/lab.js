@@ -278,6 +278,15 @@ const updates = {
 
     return data
   },
+  '2018.0.4': data => ({
+    ...data,
+    version: [2018, 1, 0],
+    // Add files option to every component
+    components: mapValues(data.components, c => ({
+      ...c,
+      files: { rows: [] },
+    })),
+  }),
 }
 
 export default (data) => {

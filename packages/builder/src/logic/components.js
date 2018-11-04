@@ -46,6 +46,7 @@ export const metadata = {
     defaults: {
       type: 'lab.flow.Loop',
       children: [],
+      files: { rows: [] },
       parameters: {
         rows: [ [ { name: '', value: '', type: 'string' }, ], ],
       },
@@ -74,6 +75,7 @@ export const metadata = {
     defaults: {
       type: 'lab.flow.Sequence',
       children: [],
+      files: { rows: [] },
       parameters: {
         rows: [ [ { name: '', value: '', type: 'string' }, ], ],
       },
@@ -104,6 +106,7 @@ export const metadata = {
           <button type="submit">Submit</button>
         </form>
       `,
+      files: { rows: [] },
       parameters: {
         rows: [ [ { name: '', value: '', type: 'string' }, ], ],
       },
@@ -128,6 +131,7 @@ export const metadata = {
       type: 'lab.html.Frame',
       context: '<main data-labjs-section="frame">\n  <!-- Content gets inserted here -->\n</main>',
       contextSelector: '[data-labjs-section="frame"]',
+      files: { rows: [] },
       parameters: {
         rows: [ [ { name: '', value: '', type: 'string' }, ], ],
       },
@@ -152,6 +156,7 @@ export const metadata = {
     defaultTab: 'Content',
     defaults: {
       type: 'lab.html.Screen',
+      files: { rows: [] },
       parameters: {
         rows: [ [ { name: '', value: '', type: 'string' }, ], ],
       },
@@ -176,6 +181,7 @@ export const metadata = {
       type: 'lab.canvas.Frame',
       context: '<!-- Nested components use this canvas -->\n<canvas />',
       contextSelector: 'canvas',
+      files: { rows: [] },
       parameters: {
         rows: [ [ { name: '', value: '', type: 'string' }, ], ],
       },
@@ -201,6 +207,7 @@ export const metadata = {
     defaults: {
       type: 'lab.canvas.Screen',
       content: [],
+      files: { rows: [] },
       parameters: {
         rows: [ [ { name: '', value: '', type: 'string' }, ], ],
       },
