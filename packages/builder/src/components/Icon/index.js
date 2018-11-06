@@ -18,6 +18,7 @@ const replacements = {
   'arrows-v': 'arrows-alt-v',
   'arrows-h': 'arrows-alt-h',
   'expand': 'square',
+  'file-exclamation': 'exclamation-circle',
   'heart-circle': 'heart',
   'long-arrow-down': 'long-arrow-alt-down',
   'long-arrow-right': 'long-arrow-alt-right',
