@@ -284,7 +284,7 @@ const updates = {
     // Add files option to every component
     components: mapValues(data.components, c => ({
       ...c,
-      files: { rows: [] },
+      files: c.files || { rows: [] },
     })),
   }),
 }
