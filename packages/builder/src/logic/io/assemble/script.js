@@ -15,6 +15,13 @@ const processGrid = (grid, colnames=null, types=undefined) =>
     // use those, otherwise rely on the grid object
     .map( r => fromPairs(zip(colnames || grid.columns, r)) )
 
+const processFiles = files =>
+  fromPairs(
+    files.rows
+      .map(r => r[0])
+      .map(r => [r.path.trim(), r.file.trim()])
+  )
+
 const processMessageHandlers = (messageHandlers) =>
   fromPairs(
     messageHandlers.rows
@@ -86,6 +93,9 @@ const processNode = node => {
     !(key.startsWith('_') || filteredOptions.includes(key))
 
   return Object.assign({}, pickBy(node, filterOptions), {
+    files: node.files
+      ? processFiles(node.files)
+      : {},
     messageHandlers: node.messageHandlers
       ? processMessageHandlers(node.messageHandlers)
       : node.messageHandlers,
