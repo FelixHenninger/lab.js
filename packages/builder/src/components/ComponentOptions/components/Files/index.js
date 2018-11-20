@@ -6,6 +6,7 @@ import { Control } from 'react-redux-form'
 import Card from '../../../Card'
 import Grid from '../../../Grid'
 import ButtonCell from '../../../Grid/components/buttonCell'
+import Footer from './footer'
 
 import { dataURItoIcon } from '../../../../logic/util/fileType'
 
@@ -64,6 +65,7 @@ export default class FileGrid extends Component {
           BodyContent={ GridCell }
           HeaderContent={ HeaderCell }
           LeftColumn={ ConnectedLeftColumn }
+          Footer={ Footer }
           columnWidths={ [ 90 ] }
           columns={ ['path'] }
           defaultRow={ [ { path: '', file: '' }, ] }
