@@ -7168,7 +7168,7 @@ kleur@^2.0.1:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-2.0.2.tgz#b704f4944d95e255d038f0cb05fb8a602c55a300"
 
 "lab.js@file:packages/library":
-  version "2018.0.3"
+  version "2018.1.0"
   dependencies:
     "@babel/runtime" "^7.1.2"
     babel-polyfill "^6.23.0"
