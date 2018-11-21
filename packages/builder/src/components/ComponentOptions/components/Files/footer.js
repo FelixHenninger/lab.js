@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Button } from 'reactstrap'
 import { actions } from 'react-redux-form'
+import sha256 from 'hash.js/lib/hash/sha/256'
 
 import Uploader from '../../../Uploader'
 import Icon from '../../../Icon'
@@ -22,10 +23,12 @@ const Footer = (
             (fileContents, file) => {
               // Pick file
               try {
-                // Compute (user-changable) file name and
-                // (internal) file path
+                // Compute (user-changable) file path and
+                // (internal) file name
                 const path = file.name
-                const filePath = `static/${ file.name }`
+                const fileHash = sha256().update(fileContents).digest('hex')
+                const fileExtension = file.name.split('.').pop()
+                const filePath = `static/${ fileHash }.${ fileExtension }`
 
                 // Add file to global file repository
                 store.dispatch({
