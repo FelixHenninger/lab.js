@@ -287,6 +287,23 @@ const updates = {
       files: c.files || { rows: [] },
     })),
   }),
+  '2018.1.0': data => {
+    // Note source for files
+    Object.entries(data.files.files).forEach(([filename, payload]) => {
+      if (payload.permanent) {
+        data.files.files[filename].source = 'library'
+
+        // Remove permanent attribute
+        delete data.files.files[filename].permanent
+      } else {
+        // All other files (at the moment) have been embedded
+        data.files.files[filename].source = 'embedded'
+      }
+    })
+
+    data.version = [2018, 1, 1]
+    return data
+  }
 }
 
 export default (data) => {

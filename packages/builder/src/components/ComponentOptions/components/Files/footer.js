@@ -35,7 +35,8 @@ const Footer = (
                   type: 'ADD_FILE',
                   file: filePath,
                   data: {
-                    content: fileContents
+                    content: fileContents,
+                    source: 'embedded',
                   }
                 })
 

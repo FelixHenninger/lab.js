@@ -31,11 +31,11 @@ const defaultState = {
   files: {
     'index.html': {
       content: makeDataURI(index_html, 'text/html'),
-      permanent: true,
+      source: 'library',
     },
     'style.css': {
       content: makeDataURI(style_css, 'text/css'),
-      permanent: true,
+      source: 'library',
     }
   },
   bundledFiles: {

@@ -97,7 +97,7 @@ const _FileTableBody = ({ files }) =>
   <tbody>
     {
       sortBy(Object.entries(files), ([path, _]) => path)
-        .filter(([_, { permanent }]) => !permanent)
+        .filter(([_, { source }]) => source === 'embedded')
         .map(([path, { content }]) =>
           <FileTableRow
             key={ path }
