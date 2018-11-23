@@ -28,7 +28,7 @@ const Footer = (
                 const path = file.name
                 const fileHash = sha256().update(fileContents).digest('hex')
                 const fileExtension = file.name.split('.').pop()
-                const filePath = `static/${ fileHash }.${ fileExtension }`
+                const filePath = `embedded/${ fileHash }.${ fileExtension }`
 
                 // Add file to global file repository
                 store.dispatch({
