@@ -72,7 +72,7 @@ class AddComponentModal extends Component {
             className={classnames({ active: this.state.activeTab === 'template' })}
             onClick={() => { this.toggle('template'); }}
           >
-            <Icon icon="rocket" />
+            <Icon icon="box-open" />
           </NavLink>
         </NavItem>
         <NavItem>

@@ -14,7 +14,7 @@ import { metadata, defaultTab } from '../../logic/components'
 
 const tabIcons = {
   'Files': 'cloud',
-  'Parameters': 'toolbox',
+  'Parameters': 'box-open',
   // 'Scripts': 'fa-code', // TODO: This doesn't feel right atm
   'More': 'ellipsis-h',
 }
@@ -107,7 +107,7 @@ const Header = ({ id, type, title, tab, template }, { store }) => {
         typeName={ metadata[type].name }
         typeCategory={ metadata[type].category }
         template={ template }
-        icon={ template ? 'expand' : metadata[type].icon }
+        icon={ template ? 'box-open' : metadata[type].icon }
         iconWeight={ metadata[type].iconWeight }
         iconFallbackWeight={ metadata[type].iconFallbackWeight }
         onChange={ data => store.dispatch(updateComponent(id, data)) }
