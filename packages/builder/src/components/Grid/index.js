@@ -115,7 +115,7 @@ class Grid extends Component {
           />
           {
             readOnly
-              ? ''
+              ? null
               : <Footer
                   data={ data }
                   columns={ columns }
