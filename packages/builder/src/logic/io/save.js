@@ -1,9 +1,10 @@
-import { cloneDeep, pick, mapValues, omitBy, flatMap, pickBy } from 'lodash'
+import { cloneDeep, pick, mapValues, omitBy, pickBy } from 'lodash'
 import moment from 'moment'
 import FileSaver from 'file-saver'
 
 import { children } from '../tree'
 import { makeFilename } from './filename';
+import { embeddedFiles } from '../util/files'
 
 export const stateToJSON = (state, exportedComponent='root',
   { removeInternals=false }={}) => {
@@ -35,24 +36,14 @@ export const stateToJSON = (state, exportedComponent='root',
     ? components
     : mapValues(components, c => omitBy(c, (v, k) => k.startsWith('_')))
 
-  // Collect files embedded in components
-  // (extract files from component file setting,
-  // and the file URL from there)
-  const componentFiles = Object.entries(filteredComponents)
-    .map(([_, { files }]) => files && files.rows ? files.rows : [])
-    .filter(files => files.length > 0)
+  // Save only files that are embedded
+  const filesInUse = embeddedFiles(filteredComponents)
 
-  const embeddedFiles = flatMap(
-    componentFiles,
-    c => c.map(f => f[0].file)
-  )
-
-  // Filter files based on the above
   const files = pickBy(
     allFiles.files,
     (file, filename) =>
       file.source !== 'embedded' ||
-      embeddedFiles.includes(filename)
+      filesInUse.includes(filename)
   )
 
   return JSON.stringify({
