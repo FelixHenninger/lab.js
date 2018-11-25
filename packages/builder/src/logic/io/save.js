@@ -1,4 +1,4 @@
-import { cloneDeep, pick, mapValues, omitBy } from 'lodash'
+import { cloneDeep, pick, mapValues, omitBy, flatMap, pickBy } from 'lodash'
 import moment from 'moment'
 import FileSaver from 'file-saver'
 
@@ -7,7 +7,7 @@ import { makeFilename } from './filename';
 
 export const stateToJSON = (state, exportedComponent='root',
   { removeInternals=false }={}) => {
-  const { version, components: allComponents, files } = state
+  const { version, components: allComponents, files: allFiles } = state
 
   // From all available components,
   // include only the root, and those
@@ -35,10 +35,30 @@ export const stateToJSON = (state, exportedComponent='root',
     ? components
     : mapValues(components, c => omitBy(c, (v, k) => k.startsWith('_')))
 
+  // Collect files embedded in components
+  // (extract files from component file setting,
+  // and the file URL from there)
+  const componentFiles = Object.entries(filteredComponents)
+    .map(([_, { files }]) => files && files.rows ? files.rows : [])
+    .filter(files => files.length > 0)
+
+  const embeddedFiles = flatMap(
+    componentFiles,
+    c => c.map(f => f[0].file)
+  )
+
+  // Filter files based on the above
+  const files = pickBy(
+    allFiles.files,
+    (file, filename) =>
+      file.source !== 'embedded' ||
+      embeddedFiles.includes(filename)
+  )
+
   return JSON.stringify({
     components: filteredComponents,
     version,
-    files,
+    files: { files },
   }, null, 2)
 }
 
