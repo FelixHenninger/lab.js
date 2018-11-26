@@ -69,18 +69,18 @@ class AddComponentModal extends Component {
         </NavItem>
         <NavItem>
           <NavLink
-            className={classnames({ active: this.state.activeTab === 'template' })}
-            onClick={() => { this.toggle('template'); }}
-          >
-            <Icon icon="box-open" />
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink
             className={classnames({ active: this.state.activeTab === 'copy' })}
             onClick={() => { this.toggle('copy'); }}
           >
             <Icon icon="clone" fallbackWeight="r" />
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: this.state.activeTab === 'template' })}
+            onClick={() => { this.toggle('template'); }}
+          >
+            <Icon icon="box-open" fallbackWeight="s" />
           </NavLink>
         </NavItem>
         <NavItem>
