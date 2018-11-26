@@ -8,7 +8,8 @@ import { embeddedFiles } from '../util/files'
 
 export const stateToJSON = (state, exportedComponent='root',
   { removeInternals=false }={}) => {
-  const { version, components: allComponents, files: allFiles } = state
+  const { version, components: allComponents,
+    files: { files: allFiles, bundledFiles }} = state
 
   // From all available components,
   // include only the root, and those
@@ -40,7 +41,7 @@ export const stateToJSON = (state, exportedComponent='root',
   const filesInUse = embeddedFiles(filteredComponents)
 
   const files = pickBy(
-    allFiles.files,
+    allFiles,
     (file, filename) =>
       file.source !== 'embedded' ||
       filesInUse.includes(filename)
@@ -49,7 +50,10 @@ export const stateToJSON = (state, exportedComponent='root',
   return JSON.stringify({
     components: filteredComponents,
     version,
-    files: { files },
+    files: {
+      files,
+      bundledFiles,
+    },
   }, null, 2)
 }
 
