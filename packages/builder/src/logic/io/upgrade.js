@@ -296,8 +296,9 @@ const updates = {
         // Remove permanent attribute
         delete data.files.files[filename].permanent
       } else {
-        // All other files (at the moment) have been embedded
-        data.files.files[filename].source = 'embedded'
+        // All other files (at the moment) must
+        // have been embedded globally
+        data.files.files[filename].source = 'embedded-global'
       }
     })
 

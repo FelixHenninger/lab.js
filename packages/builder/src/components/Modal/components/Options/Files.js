@@ -29,7 +29,8 @@ const Files = ({ files }, { store }) =>
                     type: 'ADD_FILE',
                     file: `static/${ file.name }`,
                     data: {
-                      content: fileContents
+                      content: fileContents,
+                      source: 'embedded-global',
                     }
                   })
                 } catch(e) {
