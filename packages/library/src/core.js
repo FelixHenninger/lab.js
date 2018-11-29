@@ -207,6 +207,12 @@ export class Component extends EventHandler {
       },
     })
 
+    // Setup data cache
+    this.internals.cache = {
+      images: {},
+      audio: {},
+    }
+
     // Attach component event handlers
     Object.keys(this.options.messageHandlers).forEach(
       event => this.on(event, this.options.messageHandlers[event]),
@@ -354,8 +360,16 @@ export class Component extends EventHandler {
     }
 
     // Preload media
-    await Promise.all(this.options.media.images.map(preloadImage))
-    await Promise.all(this.options.media.audio.map(preloadAudio))
+    await Promise.all(
+      this.options.media.images.map(
+        img => preloadImage(img, this.internals.cache.images)
+      )
+    )
+    await Promise.all(
+      this.options.media.audio.map(
+        snd => preloadAudio(snd, this.internals.cache.audio)
+      )
+    )
 
     // Setup data
     this.data = {
