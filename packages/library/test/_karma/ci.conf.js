@@ -12,6 +12,7 @@ module.exports = (config) => {
     // Files or patterns to load in the browser
     files: [
       'packages/library/test/_karma/bootstrap.js',
+      { pattern: 'packages/library/test/static/*.*', included: false },
       { pattern: 'packages/library/dist/lab.js', included: false },
       { pattern: 'packages/library/node_modules/lodash/lodash.min.js', included: false },
       { pattern: 'packages/library/test/**/*.js', included: false },
@@ -21,6 +22,10 @@ module.exports = (config) => {
     exclude: [
       'packages/library/test/_karma/[^bootstrap].js',
     ],
+
+    proxies: {
+      "/static/": "/base/packages/library/test/static/"
+    },
 
     // Local web server port
     port: 9876,

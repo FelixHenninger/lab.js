@@ -21,6 +21,7 @@ module.exports = (config) => {
     // Files or patterns to load in the browser
     files: [
       'test/_karma/bootstrap.js',
+      { pattern: 'packages/library/test/static/*.*', included: false },
       { pattern: 'dist/lab.legacy.js', included: false },
       { pattern: 'node_modules/lodash/lodash.min.js', included: false },
       { pattern: 'test/**/*.js', included: false },
@@ -30,6 +31,10 @@ module.exports = (config) => {
     exclude: [
       'test/_karma/[^bootstrap].js',
     ],
+
+    proxies: {
+      "/static/": "/base/packages/library/test/static/"
+    },
 
     client: {
       args: ['flavor-legacy'],

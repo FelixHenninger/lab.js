@@ -142,6 +142,23 @@ describe('Core', () => {
         })
       })
 
+      it('caches images', () => {
+        const url = 'static/example_image.png'
+        b.options.media.images.push(url)
+
+        return b.prepare().then(() => {
+          assert.instanceOf(
+            b.internals.cache.images[url],
+            Image
+          )
+
+          // Check that loading completed
+          assert.ok(
+            b.internals.cache.images[url].complete
+          )
+        })
+      })
+
       it('directs output to default section if no other element is specified', () =>
         b.prepare().then(() => {
           assert.equal(
