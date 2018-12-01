@@ -24,8 +24,11 @@ export const preloadAudio = (url, cache) =>
     const audio = new Audio()
 
     // Resolve/reject the promise based on the
-    // preload results
+    // preload results. (the load event is for some
+    // safari versions, which trigger this instead
+    // of canplaythrough)
     audio.addEventListener('canplaythrough', resolve)
+    audio.addEventListener('load', resolve)
     audio.addEventListener('error', reject)
 
     // Require the browser to preload the file,
@@ -34,6 +37,9 @@ export const preloadAudio = (url, cache) =>
 
     // Set the path
     audio.src = url
+
+    // Trigger load
+    audio.load()
 
     // Add audio to cache, if present
     if (cache) {
