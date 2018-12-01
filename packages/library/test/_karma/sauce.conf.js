@@ -57,20 +57,20 @@ const customLaunchers = {
     deviceName: 'Android GoogleAPI Emulator',
     deviceOrientation: 'portrait'
   },
-  sl_ios_10: {
-    base: 'SauceLabs',
-    browserName: 'Safari',
-    platform: 'iOS',
-    version: '10.3',
-    deviceName: 'iPhone Simulator',
-    deviceOrientation: 'portrait'
-  },
   sl_ios_11: {
     base: 'SauceLabs',
     browserName: 'Safari',
     platform: 'iOS',
     version: '11.3',
     deviceName: 'iPhone X Simulator',
+    deviceOrientation: 'portrait'
+  },
+  sl_ios_12: {
+    base: 'SauceLabs',
+    browserName: 'Safari',
+    platform: 'iOS',
+    version: '12.0',
+    deviceName: 'iPhone XS Simulator',
     deviceOrientation: 'portrait'
   },
 }
