@@ -159,6 +159,32 @@ describe('Core', () => {
         })
       })
 
+      it('caches audio', () => {
+        const url = 'static/example_audio.mp3'
+        b.options.media.audio.push(url)
+
+        return b.prepare().then(() => {
+          const audio = b.internals.cache.audio[url]
+
+          assert.instanceOf(
+            audio, Audio
+          )
+
+          // Check that audio is loaded enough to play it to the end
+          assert.equal(
+            audio.readyState, 4
+          )
+
+          // Check that the audio is entirely seekable
+          assert.equal(
+            audio.seekable.start(0), 0
+          )
+          assert.equal(
+            audio.seekable.end(0), audio.duration
+          )
+        })
+      })
+
       it('directs output to default section if no other element is specified', () =>
         b.prepare().then(() => {
           assert.equal(
