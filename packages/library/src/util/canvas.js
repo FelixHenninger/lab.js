@@ -79,7 +79,7 @@ export const transform = (matrix, coordinates) =>
 
 // Generic render function -----------------------------------------------------
 
-const renderElement = (ctx, content) => {
+const renderElement = (ctx, content, cache={}) => {
   ctx.save()
 
   // Clear existing paths
@@ -133,6 +133,15 @@ const renderElement = (ctx, content) => {
       ctx.textBaseline = 'middle'
 
       break
+    case 'image':
+      // Load image element from cache
+      const img = cache.images[content.url]
+      ctx.drawImage(img,
+        -content.width / 2, -content.height / 2,
+        content.width, content.height,
+      )
+
+      break
     default:
       throw new Error('Unknown content type')
   }
@@ -180,5 +189,5 @@ const renderElement = (ctx, content) => {
   ctx.restore()
 }
 
-export const makeRenderFunction = content => (ts, canvas, ctx) =>
-  (content || []).forEach(c => renderElement(ctx, c))
+export const makeRenderFunction = (content, cache) => (ts, canvas, ctx) =>
+  (content || []).forEach(c => renderElement(ctx, c, cache))
