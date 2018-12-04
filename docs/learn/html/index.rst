@@ -16,3 +16,4 @@ Design screens with HTML
 
    1-basics.rst
    2-screen.rst
+   3-details.rst

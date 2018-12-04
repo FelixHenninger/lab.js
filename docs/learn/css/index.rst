@@ -14,4 +14,5 @@ Experiment in style
    :caption: Contents
    :maxdepth: 1
 
+   1-style-attribute.rst
    style.rst
