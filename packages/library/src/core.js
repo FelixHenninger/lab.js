@@ -359,9 +359,6 @@ export class Component extends EventHandler {
       })
     }
 
-    // Preload media
-    await this.preload()
-
     // Setup data
     this.data = {
       ...this.data,
@@ -373,6 +370,9 @@ export class Component extends EventHandler {
 
     // Update status
     this.status = status.prepared
+
+    // Preload media
+    await this.preload()
 
     // Trigger after:prepare event
     await this.triggerMethod('after:prepare')

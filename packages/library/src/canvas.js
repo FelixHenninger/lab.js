@@ -132,19 +132,14 @@ export class Screen extends Component {
     this.render = this.render.bind(this)
   }
 
-  onBeforePrepare() {
+  onPrepare() {
     // Add images to cached media
     if (this.options.content) {
       this.options.content
         .filter(c => c.type === 'image')
         .forEach(c => this.options.media.images.push(c.url))
     }
-    // (TODO this might not be the ideal spot, but
-    // the caches are filled between the before:prepare
-    // and prepare events)
-  }
 
-  onPrepare() {
     prepareCanvas.apply(this)
 
     // Generate generic render function,
