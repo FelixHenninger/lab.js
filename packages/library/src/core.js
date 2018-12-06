@@ -360,16 +360,7 @@ export class Component extends EventHandler {
     }
 
     // Preload media
-    await Promise.all(
-      this.options.media.images.map(
-        img => preloadImage(img, this.internals.cache.images)
-      )
-    )
-    await Promise.all(
-      this.options.media.audio.map(
-        snd => preloadAudio(snd, this.internals.cache.audio)
-      )
-    )
+    await this.preload()
 
     // Setup data
     this.data = {
@@ -385,6 +376,20 @@ export class Component extends EventHandler {
 
     // Trigger after:prepare event
     await this.triggerMethod('after:prepare')
+  }
+
+  async preload() {
+    // Preload media
+    await Promise.all(
+      this.options.media.images.map(
+        img => preloadImage(img, this.internals.cache.images)
+      )
+    )
+    await Promise.all(
+      this.options.media.audio.map(
+        snd => preloadAudio(snd, this.internals.cache.audio)
+      )
+    )
   }
 
   async run(frameTimestamp, frameSynced) {
