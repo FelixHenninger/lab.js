@@ -262,6 +262,7 @@ Screen.metadata = {
           width: { type: 'number' },
           height: { type: 'number' },
           angle: { type: 'number' },
+          src: {},
         },
       },
     },
