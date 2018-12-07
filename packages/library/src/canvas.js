@@ -137,7 +137,7 @@ export class Screen extends Component {
     if (this.options.content) {
       this.options.content
         .filter(c => c.type === 'image')
-        .forEach(c => this.options.media.images.push(c.url))
+        .forEach(c => this.options.media.images.push(c.src))
     }
 
     prepareCanvas.apply(this)

@@ -135,7 +135,7 @@ const renderElement = (ctx, content, cache={}) => {
       break
     case 'image':
       // Load image element from cache
-      const img = cache.images[content.url]
+      const img = cache.images[content.src]
       ctx.drawImage(img,
         -content.width / 2, -content.height / 2,
         content.width, content.height,
