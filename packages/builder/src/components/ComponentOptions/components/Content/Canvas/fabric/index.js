@@ -84,27 +84,33 @@ export default class FabricCanvas extends Component {
 
     fabric.IText.prototype.hasControls = false
 
-    // ViewPort overlay --------------------------------------------------------
+    // Load data from props, if provided ---------------------------------------
 
-    this.canvas.setOverlayImage(
-      // There used to be the option
-      // { multiplier: 1 / window.devicePixelRatio }
-      // in the call to toDataURL, but the extra scaling
-      // doesn't seem to be necessary any more
-      makeOverlay(this.width, this.height, viewPort).toDataURL(),
-      () => this.canvas.requestRenderAll(),
-      // This is somewhat weird -- the transformation
-      // should really also apply to the overlay,
-      { originX: 'center', originY: 'center'}
-    )
+    if (this.props.data) {
+      this.canvas.loadFromJSON(
+        { objects: this.props.data },
+        () => {
+          this.setupSnapping(gridSize, snapThreshold)
+          this.setupHandlers()
+          this.setupGrid(gridSize)
+          this.setupOverlay(viewPort)
+          this.canvas.requestRenderAll()
+        },
+      )
+    } else {
+      this.setupSnapping(gridSize, snapThreshold)
+      this.setupHandlers()
+      this.setupGrid(gridSize)
+      this.setupOverlay(viewPort)
+    }
+  }
 
-    // Snapping ----------------------------------------------------------------
-
+  setupSnapping(gridSize, threshold) {
     const nearestGrid = (x, stepSize=gridSize) =>
       Math.round(x / stepSize) * stepSize
 
     const snap = (x) =>
-      Math.abs(x - nearestGrid(x)) < snapThreshold
+      Math.abs(x - nearestGrid(x)) < threshold
 
     const snappedCoord = (x) =>
       snap(x) ? nearestGrid(x) : x
@@ -138,17 +144,10 @@ export default class FabricCanvas extends Component {
         })
       }
     })
+  }
 
-    // Load data from props, if provided ---------------------------------------
-
-    if (this.props.data) {
-      this.canvas.loadFromJSON(
-        { objects: this.props.data },
-        () => this.canvas.requestRenderAll(),
-      )
-    }
-
-    // Hand on any further changes ---------------------------------------------
+  setupHandlers() {
+    // Hand on any changes to appropriate handlers
     this.canvas.on('object:added', this.props.addHandler)
     this.canvas.on('object:removed', this.props.deleteHandler)
     this.canvas.on('object:modified', ({ target }) => {
@@ -171,27 +170,26 @@ export default class FabricCanvas extends Component {
     this.canvas.on('selection:created', this.props.updateSelectionHandler)
     this.canvas.on('selection:updated', this.props.updateSelectionHandler)
     this.canvas.on('selection:cleared', this.props.clearSelectionHandler)
+  }
 
-    // Grid --------------------------------------------------------------------
-    // (is defined last, otherwise would be overridden by loaded data)
-
+  setupGrid(gridSize) {
     this.canvas.setBackgroundColor(new fabric.Pattern({
       source: makeBackground(gridSize, this.offsetX, this.offsetY).getElement(),
     }))
+  }
 
-    // Mock data ---------------------------------------------------------------
-    /*
-    this.add('circle', { fill: 'orange' })
-    this.add('text', { content: 'hello world!' })
-    this.add('rect', { width: 10, height: 10, left: -395, top: -295 })
-    this.add('rect', { width: 10, height: 10, left: -395, top: +295 })
-    this.add('rect', { width: 10, height: 10, left: +395, top: +295 })
-    this.add('rect', { width: 10, height: 10, left: +395, top: -295 })
-    this.add('rect', { width: 10, height: 10, left: -405, top: -305 })
-    this.add('rect', { width: 10, height: 10, left: -405, top: +305 })
-    this.add('rect', { width: 10, height: 10, left: +405, top: +305 })
-    this.add('rect', { width: 10, height: 10, left: +405, top: -305 })
-    */
+  setupOverlay(viewPort) {
+    this.canvas.setOverlayImage(
+      // There used to be the option
+      // { multiplier: 1 / window.devicePixelRatio }
+      // in the call to toDataURL, but the extra scaling
+      // doesn't seem to be necessary any more
+      makeOverlay(this.width, this.height, viewPort).toDataURL(),
+      () => this.canvas.requestRenderAll(),
+      // This is somewhat weird -- the transformation
+      // should really also apply to the overlay,
+      { originX: 'center', originY: 'center'}
+    )
   }
 
   // TODO: External change handlers
