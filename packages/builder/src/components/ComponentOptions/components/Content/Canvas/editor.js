@@ -92,7 +92,6 @@ export default class CanvasEditor extends Component {
   addContent(target) {
     this.updateContent(target, false)
     this.updateOrder()
-    this.selection = target.id
   }
 
   deleteContent(target) {
@@ -130,6 +129,11 @@ export default class CanvasEditor extends Component {
 
     this.updateContent({
       ...newData,
+      // Preserve type information
+      // (which is sometimes lost through the form)
+      type: this.state.selection
+        ? this.state.data[this.state.selection].type
+        : undefined,
       id: this.state.selection,
     }, true) // also update canvas
   }
@@ -137,9 +141,8 @@ export default class CanvasEditor extends Component {
   updateForm() {
     if (this.formDispatch) {
       this.formDispatch(
-        actions.change(
-          'local', this.selection,
-          { silent: true }
+        actions.load(
+          'local', this.selection
         )
       )
     }
