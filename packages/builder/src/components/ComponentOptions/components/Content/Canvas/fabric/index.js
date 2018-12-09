@@ -194,9 +194,9 @@ export default class FabricCanvas extends Component {
 
   // TODO: External change handlers
   // need to call change handler directly
-  add(type, options={}) {
+  async add(type, options={}) {
     // This construction is dubious
-    const newObject = (() => {
+    const newObject = await (async () => {
       const defaults = {
         originX: 'center',
         originY: 'center',
