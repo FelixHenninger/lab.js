@@ -249,6 +249,20 @@ export default class FabricCanvas extends Component {
             ...defaults,
             ...options,
           })
+        case 'image':
+          const img = await new Promise((resolve, reject) => {
+            const image = new Image()
+
+            image.addEventListener('load', () => resolve(image))
+            image.addEventListener('error', e => reject(e))
+
+            image.src = options.src
+          })
+
+          return new fabric.Image(img, {
+            ...defaults,
+            ...options,
+          })
         default:
           return undefined
       }
