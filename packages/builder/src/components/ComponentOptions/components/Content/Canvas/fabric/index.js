@@ -6,6 +6,19 @@ import { findDOMNode } from 'react-dom'
 import makeBackground from './background'
 import makeOverlay from './overlay'
 
+// Customize JSON conversion ---------------------------------------------------
+
+fabric.Image.prototype.toObject = (function(toObject) {
+  return function(propertiesToInclude) {
+    const { width, height } = this.getOriginalSize()
+    return {
+      ...toObject.apply(this, [propertiesToInclude]),
+      naturalWidth: width,
+      naturalHeight: height,
+    }
+  };
+})(fabric.Image.prototype.toObject);
+
 // Canvas component ------------------------------------------------------------
 
 const handlePadding = 6
