@@ -55,6 +55,11 @@ export const toCanvas = object => {
       output.x2 = output.left + output.width / 2
       output.y1 = output.top
       output.y2 = output.top
+    } else if (output.type === 'image') {
+      output.scaleX = output.width / output.naturalWidth
+      output.scaleY = output.height / output.naturalHeight
+      output.width = output.naturalWidth
+      output.height = output.naturalHeight
     }
 
     return output
@@ -66,7 +71,7 @@ export const fromCanvas = (object, oldObject) => {
     return object
   }
 
-  return {
+  const output = {
     // Filter manipulation locks
     ...pickBy(object, (v, k) => !k.startsWith('lock')),
     // Placeholders can't be overridden
@@ -76,4 +81,11 @@ export const fromCanvas = (object, oldObject) => {
       }
     }),
   }
+
+  if (object.type === 'image') {
+    output.width = output.scaleX * output.naturalWidth
+    output.height = output.scaleY * output.naturalHeight
+  }
+
+  return output
 }
