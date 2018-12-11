@@ -166,13 +166,21 @@ export default class FabricCanvas extends Component {
     this.canvas.on('object:modified', ({ target }) => {
       // Normalize scaling
       target.set({
-        width: target.width ? target.width * target.scaleX : target.width,
-        height: target.height ? target.height * target.scaleY : target.height,
+        width: target.width && target.type !== 'image'
+          ? target.width * target.scaleX
+          : target.width,
+        height: target.height && target.type !== 'image'
+          ? target.height * target.scaleY
+          : target.height,
         radius: target.radius ? target.radius * target.scaleX : target.radius,
         rx: target.rx ? target.rx * target.scaleX : target.rx,
         ry: target.ry ? target.ry * target.scaleY : target.ry,
-        scaleX: 1,
-        scaleY: 1,
+        scaleX: target.type === 'image'
+          ? target.scaleX
+          : 1,
+        scaleY: target.type === 'image'
+          ? target.scaleY
+          : 1,
       })
 
       // Hand changes on
