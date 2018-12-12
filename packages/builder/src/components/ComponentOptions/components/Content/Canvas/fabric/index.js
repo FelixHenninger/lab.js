@@ -83,6 +83,7 @@ export default class FabricCanvas extends Component {
     // Per-type
     fabric.Circle.prototype.hasRotatingPoint = false
     fabric.Circle.prototype.lockUniScaling = true
+    fabric.Image.prototype.lockUniScaling = true
     fabric.Line.prototype.lockScalingY = true
     fabric.Line.prototype.setControlsVisibility({
       ml: true,
