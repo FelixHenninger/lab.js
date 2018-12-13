@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import Layout from '../Layout'
-import Modal from '../Modal'
+import ReduxModal from '../Modal/redux'
 
 import Sidebar from '../Sidebar'
 import Footer from '../Footer'
@@ -12,7 +12,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Modal />
+        <ReduxModal />
         <Layout
           sidebar={ <Sidebar /> }
           footer={ <Footer /> }
