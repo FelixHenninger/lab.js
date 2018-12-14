@@ -1,15 +1,53 @@
 import React, { Component } from 'react'
+import accept from 'attr-accept'
 
 class Uploader extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.handleClick = this.handleClick.bind(this)
-    this.handleUpload = this.handleUpload.bind(this)
+    this.handleDrop = this.handleDrop.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
   }
+
+  // User interactions ---------------------------------------------------------
 
   handleClick() {
     this.inputField.click()
   }
+
+  handleInputChange() {
+    // Select the first file that meets all criteria
+    const file = Array.from(this.inputField.files)
+      .filter( f => this.checkFile(f) )
+      .pop()
+
+    this.handleFile(file)
+  }
+
+  handleDrop(e) {
+    e.stopPropagation()
+    e.preventDefault()
+
+    if (e.dataTransfer.items) {
+      const file = Array.from(e.dataTransfer.items)
+        .filter(item => item.kind === 'file')
+        .map(item => item.getAsFile())
+        .filter(f => this.checkFile(f))
+        .pop()
+
+      this.handleFile(file)
+      e.dataTransfer.items.clear()
+    }
+  }
+
+  handleDragOver(e) {
+    // Capturing this event is necessary
+    // for the drop action to work
+    e.stopPropagation()
+    e.preventDefault()
+  }
+
+  // Internal file processing --------------------------------------------------
 
   checkFile(file) {
     if (file.size > this.props.maxSize) {
@@ -21,17 +59,15 @@ class Uploader extends Component {
 
     return (
       file.size <= this.props.maxSize &&
-      file.size >= this.props.minSize
+      file.size >= this.props.minSize &&
+      accept({
+        name: file.name,
+        type: file.type,
+      }, this.props.accept)
     )
   }
 
-  handleUpload() {
-    // Select the first file that meets all criteria
-
-    const file = Array.from(this.inputField.files)
-      .filter( f => this.checkFile(f) )
-      .pop()
-
+  handleFile(file) {
     // If there is a result, decode it and pass it on
     if (file) {
       const reader = new FileReader()
@@ -45,6 +81,8 @@ class Uploader extends Component {
     }
   }
 
+  // User interface ------------------------------------------------------------
+
   render() {
     // TODO: change wrapping <div> to array
     // as soon as react-popper is ready
@@ -52,8 +90,10 @@ class Uploader extends Component {
 
     return <div>
       <Wrapper
-        onClick={ this.handleClick }
         className={ this.props.className }
+        onClick={ this.handleClick }
+        onDrop={ this.handleDrop }
+        onDragOver={ this.handleDragOver }
       >
         { this.props.children }
       </Wrapper>
@@ -62,7 +102,7 @@ class Uploader extends Component {
         accept={ this.props.accept }
         style={{ display: 'none' }}
         ref={ field => this.inputField = field }
-        onChange={ this.handleUpload }
+        onChange={ this.handleInputChange }
         // Reset value when selected
         // (so that the same file can be uploaded twice)
         onClick={ (e) => e.target.value = null }
@@ -74,6 +114,7 @@ class Uploader extends Component {
 Uploader.defaultProps = {
   minSize: 0,
   maxSize: 100 * 1024 ** 2,
+  accept: '',
   decodeAs: 'text',
 }
 
