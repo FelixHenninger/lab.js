@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 
 import { Button } from 'reactstrap'
 import { actions } from 'react-redux-form'
-import sha256 from 'hash.js/lib/hash/sha/256'
 
 import Uploader from '../../../Uploader'
 import Icon from '../../../Icon'
+import { addEmbeddedFile } from '../../../../logic/util/files'
 
 const Footer = (
   { columns, data, model },
@@ -20,29 +20,16 @@ const Footer = (
           decodeAs="dataURL"
           maxSize={ 1 * 10**6 } // 1 MB
           onUpload={
-            (fileContents, file) => {
+            (fileContent, file) => {
               // Pick file
               try {
-                // Compute (user-changable) file path and
-                // (internal) file name
-                const path = file.name
-                const fileHash = sha256().update(fileContents).digest('hex')
-                const fileExtension = file.name.split('.').pop()
-                const filePath = `embedded/${ fileHash }.${ fileExtension }`
-
-                // Add file to global file repository
-                store.dispatch({
-                  type: 'ADD_FILE',
-                  file: filePath,
-                  data: {
-                    content: fileContents,
-                    source: 'embedded',
-                  }
-                })
+                const { path } = addEmbeddedFile(store, fileContent, file)
 
                 // Add file to local component
+                // (TODO: yes, this is named awkwardly)
                 const newRow = [{
-                  path, file: filePath,
+                  path: file.name,
+                  file: path,
                 }]
 
                 formDispatch(
