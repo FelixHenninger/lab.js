@@ -79,9 +79,9 @@ export const Footer = (
               accept='text/csv'
               maxSize={ 1 * 10**6 } // 1 MB
               onUpload={
-                fileContents => {
+                fileContent => {
                   const parseResult = parse(
-                    fileContents.trim(),
+                    fileContent.trim(),
                     { header: true }
                   )
 

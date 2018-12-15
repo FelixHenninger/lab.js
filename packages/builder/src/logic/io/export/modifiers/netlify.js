@@ -10,12 +10,12 @@ const form = `
   </form>\n</body>`
 
 const addSubmissionForm = (state) => {
-  // Extract contents of study's HTML file
+  // Extract content of study's HTML file
   const { data: index, mime } = readDataURI(
     state.files.files['index.html'].content
   )
 
-  // Add form to HTML file and replace file contents
+  // Add form to HTML file and replace file content
   state.files.files['index.html'].content = makeDataURI(
     index.replace('</body>', form),
     mime

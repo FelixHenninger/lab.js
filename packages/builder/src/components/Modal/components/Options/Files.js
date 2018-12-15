@@ -23,13 +23,13 @@ const Files = ({ files }, { store }) =>
             decodeAs="dataURL"
             maxSize={ 1 * 10**6 } // 1 MB
             onUpload={
-              (fileContents, file) => {
+              (fileContent, file) => {
                 try {
                   store.dispatch({
                     type: 'ADD_FILE',
                     file: `static/${ file.name }`,
                     data: {
-                      content: fileContents,
+                      content: fileContent,
                       source: 'embedded-global',
                     }
                   })

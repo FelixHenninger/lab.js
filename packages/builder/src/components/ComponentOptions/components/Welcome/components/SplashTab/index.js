@@ -73,7 +73,7 @@ const splashOptions = {
   start: {
     title: <p className="mb-1"><strong>Get started</strong></p>,
     icon: 'map',
-    contents: (switchTab) =>
+    content: (switchTab) =>
       <Container><Row className="text-center pt-3 pb-2">
         <SplashButton
           icon="shoe-prints"
@@ -112,7 +112,7 @@ const splashOptions = {
   learn: {
     title: <p className="mb-1"><strong>Learn</strong> more</p>,
     icon: 'graduation-cap',
-    contents: (switchTab) =>
+    content: (switchTab) =>
       <Container className="py-4">
         <p><strong>Wow, it's cool that you're interested!</strong> Here are some things we hope you'll find helpful:</p>
         <ul>
@@ -135,7 +135,7 @@ const splashOptions = {
   support: {
     title: <p className="mb-1">Find <strong>support</strong></p>,
     icon: 'life-ring',
-    contents: () =>
+    content: () =>
       <Container className="py-4">
         <p><strong>We'd love to support you!</strong> Please don't hesitate to reach out if there's anything we can do to help, we'd be glad to.</p>
         <p>The easiest way to find help is our <a href="https://nmbrcrnchrs.slack.com/" target="_blank" rel="noopener noreferrer"><strong>slack channel</strong></a>, where there's usually someone around to chat and provide information. You can <a href="https://slackin-nmbrcrnchrs.herokuapp.com/" target="_blank" rel="noopener noreferrer">join by providing your email address</a> — you'll receive access in seconds.</p>
@@ -182,7 +182,7 @@ class SplashAdditions extends Component {
       >
         {
           this.state.tab !== undefined
-            ? splashOptions[this.state.tab].contents(this.props.switchTab)
+            ? splashOptions[this.state.tab].content(this.props.switchTab)
             : ''
         }
       </Collapse>

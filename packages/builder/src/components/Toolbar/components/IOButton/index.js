@@ -47,10 +47,10 @@ const IOButton = (_, context) => {
         onUpload={
           // TODO: This smells like it should
           //   be extracted and abstracted
-          fileContents => {
+          fileContent => {
             try {
               // Parse file from JSON
-              const state = fromJSON(fileContents)
+              const state = fromJSON(fileContent)
               // Hydrate store from resulting object
               context.store.dispatch({
                 type: 'HYDRATE', state,

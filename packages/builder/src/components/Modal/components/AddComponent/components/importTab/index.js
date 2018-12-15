@@ -59,10 +59,10 @@ const ImportTab = ({ parent, index }, { store }) =>
     accept="application/json"
     maxSize={ 55 * 10**6 } // 55 MB
     onUpload={
-      fileContents => {
+      fileContent => {
         try {
           // Parse file from JSON
-          const data = fromJSON(fileContents)
+          const data = fromJSON(fileContent)
           importComponent(parent, index, data, store)
         } catch(e) {
           // If things don't work out, let the user know
