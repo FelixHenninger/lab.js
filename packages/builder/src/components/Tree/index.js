@@ -25,6 +25,6 @@ Tree.childContextTypes = {
   onNodeClick: PropTypes.func,
   onNodeAdd: PropTypes.func,
   onNodeDelete: PropTypes.func,
-};
+}
 
 export default Tree
