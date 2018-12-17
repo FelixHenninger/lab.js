@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 // Meta-screens
@@ -60,21 +61,40 @@ const selectTab = (type, tab) => {
   }
 }
 
-const componentDetail = ({ id, type, tab, data }) => {
-  // Catch special cases:
-  // Welcome screen and unknown component fallback
-  if (id === 'welcome') {
-    return <Welcome />
-  } else if (type === undefined) {
-    return <Fallback />
+class ComponentDetail extends Component {
+  getChildContext() {
+    return {
+      id: this.props.id,
+      type: this.props.type,
+    }
   }
 
-  // Select appropriate content tab
-  const Tab = selectTab(type, tab)
-  return <Tab
-    id={ id }
-    data={ data }
-  />
+  render() {
+    const { id, type, tab, data } = this.props
+
+    // Catch special cases:
+    // Welcome screen and unknown component fallback
+    if (id === 'welcome') {
+      return <Welcome />
+    } else if (type === undefined) {
+      return <Fallback />
+    }
+
+    // Select appropriate content tab
+    const Tab = selectTab(type, tab)
+    return <Tab
+      id={ id }
+      data={ data }
+    />
+  }
+}
+
+ComponentDetail.childContextTypes = {
+  id: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  type: PropTypes.string,
 }
 
 // Redux integration
@@ -99,4 +119,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(componentDetail)
+export default connect(mapStateToProps)(ComponentDetail)
