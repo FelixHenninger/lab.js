@@ -210,7 +210,23 @@ export default (state=defaultState, action) => {
         [action.id]: {
           ...state[action.id],
           ...action.data,
-        }
+        },
+      }
+
+    case 'ADD_COMPONENT_FILE':
+      const currentFiles = state[action.id].files || { rows: [] }
+
+      return {
+        ...state,
+        [action.id]: {
+          ...state[action.id],
+          files: {
+            rows: [
+              ...currentFiles.rows,
+              [{ path: action.path, file: action.file }],
+            ],
+          },
+        },
       }
 
     case 'RESET_STATE':
