@@ -15,7 +15,7 @@ export const embeddedFiles = components => {
   )
 }
 
-export const addEmbeddedFile = (store, fileContent, file) => {
+export const addEmbeddedFile = (store, fileContent, file, component) => {
   // Compute (user-changable) file path and
   // (internal) file name
   const fileHash = sha256().update(fileContent).digest('hex')
@@ -32,6 +32,16 @@ export const addEmbeddedFile = (store, fileContent, file) => {
       checkSum: fileHash,
     }
   })
+
+  // If a component is specified, add the file to a component's file pool
+  if (component) {
+    store.dispatch({
+      type: 'ADD_COMPONENT_FILE',
+      id: component,
+      file: filePath,
+      path: file.name,
+    })
+  }
 
   return {
     file: file,
