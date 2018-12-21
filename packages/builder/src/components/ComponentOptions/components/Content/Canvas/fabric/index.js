@@ -16,8 +16,8 @@ fabric.Image.prototype.toObject = (function(toObject) {
       naturalWidth: width,
       naturalHeight: height,
     }
-  };
-})(fabric.Image.prototype.toObject);
+  }
+})(fabric.Image.prototype.toObject)
 
 // Canvas component ------------------------------------------------------------
 

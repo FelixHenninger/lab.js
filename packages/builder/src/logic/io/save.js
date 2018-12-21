@@ -3,7 +3,7 @@ import moment from 'moment'
 import FileSaver from 'file-saver'
 
 import { children } from '../tree'
-import { makeFilename } from './filename';
+import { makeFilename } from './filename'
 import { embeddedFiles } from '../util/files'
 
 export const stateToJSON = (state, exportedComponent='root',

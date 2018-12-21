@@ -4,7 +4,7 @@ import Raven from 'raven-js'
 
 import assemble from '../assemble'
 import { readDataURI } from '../../util/dataURI'
-import { makeFilename } from '../filename';
+import { makeFilename } from '../filename'
 
 const createZip = ({ files, bundledFiles }) => {
   const zip = new JSZip()
