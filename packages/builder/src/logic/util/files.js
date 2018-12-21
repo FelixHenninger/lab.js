@@ -50,3 +50,22 @@ export const addEmbeddedFile = (store, fileContent, file, component) => {
     content: fileContent,
   }
 }
+
+export const getLocalFile = (store, componentId, localPath) => {
+  const state = store.getState()
+
+  if (state.components[componentId].files) {
+    const localFile = state.components[componentId].files.rows
+      .map(f => f[0]) // Remove nesting level
+      .filter(f => f.path === localPath) // Choose file
+      .pop() // Use the last match (arbitrarily)
+
+    if (localFile) {
+      // Look up file in global file store (by path)
+      return state.files.files[localFile.file]
+    }
+  }
+
+  // File not found
+  return undefined
+}
