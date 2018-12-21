@@ -63,7 +63,11 @@ export const AddDropDown = (
             onClick={ () =>
               fileSelector
                 .select()
-                .then(({ content }) => addHandler('image', { src: content }))
+                .then(({ file }) =>
+                  addHandler('image', {
+                    src: `\${ this.files["${ file.name }"] }`
+                  })
+                )
                 .catch(() => null)
             }
           >

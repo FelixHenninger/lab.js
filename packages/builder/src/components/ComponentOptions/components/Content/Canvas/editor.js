@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
 import { LocalForm, actions } from 'react-redux-form'
 import { FormGroup } from 'reactstrap'
 import { fromPairs, isObject, omit, uniqueId } from 'lodash'
@@ -112,7 +114,7 @@ export default class CanvasEditor extends Component {
 
       // Reflect modification on canvas
       if (updateCanvas) {
-        this.canvas.modifyActive('set', toCanvas(target))
+        this.canvas.modifyActive('set', toCanvas(target, this.context))
       }
     }
   }
@@ -157,7 +159,7 @@ export default class CanvasEditor extends Component {
 
     return <div>
       <FabricCanvas
-        data={ this.state.order.map(id => toCanvas(this.state.data[id])) }
+        data={ this.state.order.map(id => toCanvas(this.state.data[id], this.context)) }
         ref={ c => this.canvas = c }
         addHandler={ ({ target }) => this.addContent(target.toObject(['id'])) }
         deleteHandler={ ({ target }) => this.deleteContent(target) }
@@ -217,4 +219,12 @@ export default class CanvasEditor extends Component {
       </LocalForm>
     </div>
   }
+}
+
+CanvasEditor.contextTypes = {
+  id: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  store: PropTypes.object,
 }

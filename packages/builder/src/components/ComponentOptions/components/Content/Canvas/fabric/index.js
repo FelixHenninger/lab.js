@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import { fabric } from 'fabric'
 import { findDOMNode } from 'react-dom'
 
 import makeBackground from './background'
 import makeOverlay from './overlay'
+
+import { filePlaceholderRegex } from '../logic'
+import { getLocalFile } from '../../../../../../logic/util/files'
 
 // Customize JSON conversion ---------------------------------------------------
 
@@ -15,6 +19,12 @@ fabric.Image.prototype.toObject = (function(toObject) {
       ...toObject.apply(this, [propertiesToInclude]),
       naturalWidth: width,
       naturalHeight: height,
+      // Restore original (placeholder-based) path
+      // for export (this is useful mostly when new
+      // images are added, after that, updates to
+      // placeholder-based attributes are blocked by
+      // editor logic)
+      src: this._src ? this._src : this.src,
     }
   }
 })(fabric.Image.prototype.toObject)
@@ -272,6 +282,16 @@ export default class FabricCanvas extends Component {
             ...options,
           })
         case 'image':
+          const placeholderMatch = options.src.match(filePlaceholderRegex)
+          if (placeholderMatch) {
+            // Save original placeholder-based path
+            options._src = options.src
+            options.src = getLocalFile(
+              this.context.store,
+              this.context.id,
+              placeholderMatch[1]
+            ).content
+          }
           const img = await new Promise((resolve, reject) => {
             const image = new Image()
 
@@ -348,4 +368,12 @@ export default class FabricCanvas extends Component {
   render () {
     return <canvas />
   }
+}
+
+FabricCanvas.contextTypes = {
+  id: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  store: PropTypes.object,
 }

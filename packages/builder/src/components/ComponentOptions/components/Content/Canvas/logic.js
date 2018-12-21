@@ -1,4 +1,5 @@
 import { transform, pickBy } from 'lodash'
+import { getLocalFile } from '../../../../../logic/util/files'
 
 const defaults = {
   left: 0, top: 0,
@@ -6,6 +7,10 @@ const defaults = {
   angle: 0,
   stroke: null, fill: 'black'
 }
+
+// TODO: This is a mess :-/
+export const filePlaceholderRegex =
+  /^\s*\${\s*this\.files\[['"]([\d\w.]+)['"]\]\s*}\s*$/
 
 // TODO: Add proper validation mechanism
 // and alert user to nonsensical values
@@ -20,16 +25,19 @@ const toNumber = (s, fallback=0) => {
 const isPlaceholder = o =>
   typeof o === 'string' && o.includes('$')
 
-export const toCanvas = object => {
+const unprocessedOptions = ['text', 'src']
+
+export const toCanvas = (object, { store, id }) => {
   if (!object) {
     return object
   } else {
     const output = {
       ...object,
       // Substitute defaults where placeholders are used
-      // (except for text content, which is passed through)
+      // (except for text content which is passed through,
+      // and image srcs, which are handled below)
       ...transform(object, (result, v, k) => {
-        if (isPlaceholder(v) && k !== 'text') {
+        if (isPlaceholder(v) && !unprocessedOptions.includes(k)) {
           result[k] = defaults[k]
         } else if (['left', 'top', 'angle', 'width', 'height'].includes(k)) {
           result[k] = toNumber(
@@ -60,6 +68,13 @@ export const toCanvas = object => {
       output.scaleY = output.height / output.naturalHeight
       output.width = output.naturalWidth
       output.height = output.naturalHeight
+
+      // Look up and insert image data
+      const filePlaceholderMatch = output.src.match(filePlaceholderRegex)
+      if (filePlaceholderMatch) {
+        const imagePath = filePlaceholderMatch[1]
+        output.src = getLocalFile(store, id, imagePath).content
+      }
     }
 
     return output
