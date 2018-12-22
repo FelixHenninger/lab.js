@@ -10,7 +10,7 @@ const defaults = {
 
 // TODO: This is a mess :-/
 export const filePlaceholderRegex =
-  /^\s*\${\s*this\.files\[['"]([\d\w.]+)['"]\]\s*}\s*$/
+  /^\s*\${\s*this\.files\[['"]([^'"]+)['"]\]\s*}\s*$/
 
 // TODO: Add proper validation mechanism
 // and alert user to nonsensical values
