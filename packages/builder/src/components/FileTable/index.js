@@ -93,12 +93,12 @@ FileTableRow.contextTypes = {
   store: PropTypes.object
 }
 
-const _FileTableBody = ({ files }) =>
+const _FileTableBody = ({ files, sources=['embedded-global'] }) =>
   <tbody>
     {
       sortBy(Object.entries(files), ([path, _]) => path)
         // Ignore library files (keep embedded and embedded-global)
-        .filter(([_, { source }]) => source !== 'library')
+        .filter(([_, { source }]) => sources.includes(source))
         .map(([path, { content }]) =>
           <FileTableRow
             key={ path }
