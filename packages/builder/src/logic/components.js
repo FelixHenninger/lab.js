@@ -29,6 +29,7 @@ const defaultTabs = [
   'Behavior',
   'Scripts',
   'Files',
+  'Plugins',
   'Parameters',
   'More',
 ]

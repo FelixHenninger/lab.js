@@ -16,6 +16,7 @@ const tabIcons = {
   'Files': 'cloud',
   'Parameters': 'box-open',
   // 'Scripts': 'fa-code', // TODO: This doesn't feel right atm
+  'Plugins': 'plug',
   'More': 'ellipsis-h',
 }
 
