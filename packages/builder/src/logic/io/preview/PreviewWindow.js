@@ -12,14 +12,9 @@ export default class Preview {
   // Open, close, reload, ... the preview window
   open() {
     this.window = window.open(
-      this.url, 'labjs_preview',
+      `${ process.env.PUBLIC_URL }/api/_defaultStatic/empty.html`,
+      'labjs_preview',
       'menubar=no,location=no,resizable=yes,scrollbars=yes,status=no'
-    )
-    // Catching an edge case here, where the window
-    // would open to about:blank, and not move from
-    // there if the content was reloaded
-    this.window.addEventListener(
-      'load', () => (this.window.location = this.url), { once: true }
     )
     this.window.addEventListener(
       'unload', () => this.checkWindow(), { once: true }
@@ -34,10 +29,10 @@ export default class Preview {
     }
   }
 
-  reload() {
+  reload(url) {
     // Reset window location instead of merely reloading,
     // to make sure that the URL preview is correct.
-    this.window.location = this.url
+    this.window.location.href = url || this.url
   }
 
   focus() {

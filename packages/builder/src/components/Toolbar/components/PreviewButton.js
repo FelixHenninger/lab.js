@@ -37,6 +37,8 @@ export default class PreviewButton extends Component {
       state => addDownloadPlugin(addDebugPlugin(state)),
       // TODO: Ceci n'est pas une pipe
     ).then(
+      // Reload page to provided URL
+      // as soon as the preview study is complete.
       () => this.previewWindow.reload()
     ).catch(error => {
       console.log(`Received error while sending study data to API: ${ error }`)
