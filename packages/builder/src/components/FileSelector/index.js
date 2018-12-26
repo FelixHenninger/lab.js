@@ -5,8 +5,8 @@ import { ModalHeader, ModalBody } from 'reactstrap'
 import { addEmbeddedFile } from '../../logic/util/files'
 
 import Modal from '../Modal'
-import Uploader from '../Uploader'
-import Icon from '../Icon'
+
+import UploadTab from './Components/UploadTab'
 
 export default class FileSelector extends Component {
   constructor(props) {
@@ -77,27 +77,7 @@ export default class FileSelector extends Component {
           New image
         </ModalHeader>
         <ModalBody>
-          <Uploader
-            accept="image/*"
-            decodeAs="dataURL"
-            onUpload={ this.handleUpload }
-          >
-            <div
-              className="btn btn-outline-secondary btn-block text-center p-5"
-            >
-              <Icon
-                icon="file-upload"
-                className="d-block text-muted p-3"
-                style={{
-                  fontSize: '3.5rem',
-                }}
-              />
-              <small className="text-muted">
-                Please <strong>drop a file</strong> here,<br />
-                or <strong>click to choose</strong> one from your computer
-              </small>
-            </div>
-          </Uploader>
+          <UploadTab handleUpload={ this.handleUpload } />
         </ModalBody>
       </div>
     </Modal>
