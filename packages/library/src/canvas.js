@@ -272,55 +272,6 @@ Screen.metadata = {
   },
 }
 
-// Canvas-based sequence of components
-// drawing on the same canvas
-export class Sequence extends BaseSequence {
-  constructor(options={}) {
-    super(
-      addCanvasDefaults(options),
-    )
-
-    // Push canvas to nested components
-    if (!this.options.handMeDowns.includes('canvas')) {
-      this.options.handMeDowns.push('canvas', 'devicePixelScaling')
-    }
-  }
-
-  onPrepare() {
-    // Prepare canvas
-    prepareCanvas.apply(this)
-
-    // Check that all nested components
-    // use the Canvas
-    const isCanvasBased = e =>
-      e instanceof Screen ||
-      e instanceof Sequence
-
-    if (!this.options.content.every(isCanvasBased)) {
-      throw new Error(
-        'Content component not a canvas.Screen or canvas.Sequence',
-      )
-    }
-
-    // Prepare sequence as usual
-    return super.onPrepare()
-  }
-
-  onRun(frameTimestamp) {
-    // Insert canvas into DOM,
-    // if not present already
-    insertCanvas.apply(this)
-
-    // Run sequence as usual
-    return super.onRun(frameTimestamp)
-  }
-}
-
-Sequence.metadata = {
-  module: ['canvas'],
-  nestedComponents: ['content'],
-}
-
 export class Frame extends BaseFrame {
   constructor(options={}) {
     super(addCanvasDefaults({
@@ -342,7 +293,6 @@ export class Frame extends BaseFrame {
       acc && (
         c === this ||
         c instanceof Screen ||
-        c instanceof Sequence ||
         c instanceof BaseSequence ||
         c instanceof Loop ||
         c instanceof Parallel

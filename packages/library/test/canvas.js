@@ -496,144 +496,6 @@ describe('Canvas-based components', () => {
     })
   })
 
-  describe('Sequence', () => {
-    let s, a, b
-
-    beforeEach(() => {
-      a = new lab.canvas.Screen({
-        renderFunction: () => null, // dummy drawing function
-      })
-      b = new lab.canvas.Screen({
-        renderFunction: () => null,
-      })
-      s = new lab.canvas.Sequence({
-        devicePixelScaling: false,
-      })
-    })
-
-    it('adds canvas property to hand-me-downs', () => {
-      assert.include(
-        s.options.handMeDowns,
-        'canvas'
-      )
-    })
-
-    it('passes its canvas to nested components', () => {
-      s.options.content = [a, b]
-      return s.prepare().then(() => {
-        // The canvas should be shared
-        assert.equal(
-          s.options.canvas,
-          a.options.canvas
-        )
-
-        // Make sure that the canvas is actually a canvas,
-        // and not some undefined value.
-        assert.ok(
-          b.options.canvas instanceof HTMLCanvasElement
-        )
-      })
-    })
-
-    it('complains if any nested components are not canvas-based', () => {
-      s.options.content = [
-        a,
-        new lab.html.Screen({
-          content: ''
-        })
-      ]
-
-      // This should cause an error
-      return s.prepare()
-        .catch(
-          error => assert.equal(
-            error.message,
-            'Content component not a canvas.Screen or canvas.Sequence'
-          )
-        )
-    })
-
-    it('runs canvas drawing operations in sequence', () => {
-      a.options.renderFunction = (ts, canvas, ctx, screen) => {
-        ctx.rect(0, 0, 10, 10)
-        ctx.fill()
-      }
-      b.options.renderFunction = (ts, canvas, ctx, screen) => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
-        ctx.beginPath()
-        ctx.rect(10, 0, 10, 10)
-        ctx.fill()
-      }
-
-      // Don't translate the origin coordinates or scale the viewport,
-      // so that canvas data can be read more easily
-      a.options.translateOrigin = false
-      b.options.translateOrigin = false
-      a.options.viewportScale = 1
-      b.options.viewportScale = 1
-
-      s.options.content = [a, b]
-      s.options.canvas = document.createElement('canvas')
-      s.options.canvas.width = 200
-      s.options.canvas.height = 200
-
-      return s.run()
-        .then(() => {
-          // This used to run clock.next(), but the epilogue event
-          // uses a timer as shim for requestIdleCallback, which
-          // so that resolving a single queued timer was not enough.
-          clock.runToLast()
-          // After drawing the first screen ...
-          // ... left area should be black
-          assert.deepEqual(
-            Array.from(
-              s.options.canvas
-                .getContext('2d')
-                .getImageData(5, 5, 1, 1)
-                .data
-            ),
-            [0, 0, 0, 255]
-          )
-          // ... right area should be empty/blank
-          assert.deepEqual(
-            Array.from(
-              s.options.canvas
-                .getContext('2d')
-                .getImageData(15, 5, 1, 1)
-                .data
-            ),
-            [0, 0, 0, 0]
-          )
-          return a.end()
-        })
-        .then(() => b.run())
-        .then(() => {
-          clock.runToLast()
-          // After drawing the second screen ...
-          // ... left area should be empty
-          assert.deepEqual(
-            Array.from(
-              s.options.canvas
-                .getContext('2d')
-                .getImageData(5, 5, 1, 1)
-                .data
-            ),
-            [0, 0, 0, 0]
-          )
-          // ... right area should be filled
-          assert.deepEqual(
-            Array.from(
-              s.options.canvas
-                .getContext('2d')
-                .getImageData(15, 5, 1, 1)
-                .data
-            ),
-            [0, 0, 0, 255]
-          )
-        })
-    })
-  })
-
   describe('Frame', () => {
 
     let f, s, a, b
@@ -647,6 +509,11 @@ describe('Canvas-based components', () => {
         content: s,
         el: document.createElement('div'),
       })
+      document.body.appendChild(f.options.el)
+    })
+
+    afterEach(() => {
+      document.body.removeChild(f.options.el)
     })
 
     it('provides canvas to nested components', () =>
@@ -719,6 +586,83 @@ describe('Canvas-based components', () => {
         )
       })
     )
+
+    it('coordinates nested sequence', () => {
+      a.options.renderFunction = (ts, canvas, ctx, screen) => {
+        ctx.rect(0, 0, 10, 10)
+        ctx.fill()
+      }
+      b.options.renderFunction = (ts, canvas, ctx, screen) => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.beginPath()
+        ctx.rect(10, 0, 10, 10)
+        ctx.fill()
+      }
+
+      // Don't translate the origin coordinates or scale the viewport,
+      // so that canvas data can be read more easily
+      f.options.devicePixelScaling = false
+      a.options.translateOrigin = false
+      b.options.translateOrigin = false
+      a.options.viewportScale = 1
+      b.options.viewportScale = 1
+
+      return f.run()
+        .then(() => {
+          // This used to run clock.next(), but the epilogue event
+          // uses a timer as shim for requestIdleCallback, which
+          // so that resolving a single queued timer was not enough.
+          clock.runToLast()
+
+          // After drawing the first screen ...
+          // ... left area should be black
+          assert.deepEqual(
+            Array.from(
+              f.options.canvas
+                .getContext('2d')
+                .getImageData(5, 5, 1, 1)
+                .data
+            ),
+            [0, 0, 0, 255]
+          )
+          // ... right area should be empty/blank
+          assert.deepEqual(
+            Array.from(
+              f.options.canvas
+                .getContext('2d')
+                .getImageData(15, 5, 1, 1)
+                .data
+            ),
+            [0, 0, 0, 0]
+          )
+          return a.end()
+        })
+        .then(() => b.run())
+        .then(() => {
+          clock.runToLast()
+          // After drawing the second screen ...
+          // ... left area should be empty
+          assert.deepEqual(
+            Array.from(
+              f.options.canvas
+                .getContext('2d')
+                .getImageData(5, 5, 1, 1)
+                .data
+            ),
+            [0, 0, 0, 0]
+          )
+          // ... right area should be filled
+          assert.deepEqual(
+            Array.from(
+              f.options.canvas
+                .getContext('2d')
+                .getImageData(15, 5, 1, 1)
+                .data
+            ),
+            [0, 0, 0, 255]
+          )
+        })
+    })
   })
 })
 })
