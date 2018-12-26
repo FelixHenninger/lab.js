@@ -152,7 +152,10 @@ export class Screen extends Component {
     //   function
     if (this.options.renderFunction === null) {
       this.options.renderFunction =
-        makeRenderFunction(this.options.content, this.internals.cache)
+        makeRenderFunction(
+          this.options.content,
+          this.options.controller.cache,
+        )
     }
   }
 

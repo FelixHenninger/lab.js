@@ -78,10 +78,12 @@ describe('Plugins', () => {
         plugins: [ p ],
       })
 
-      sinon.stub(c.options.datastore, 'transmit')
-        .callsFake(() => Promise.resolve())
+      return c.prepare().then(() => {
+        sinon.stub(c.options.datastore, 'transmit')
+          .callsFake(() => Promise.resolve())
 
-      sinon.stub(c.options.datastore, 'queueIncrementalTransmission')
+        sinon.stub(c.options.datastore, 'queueIncrementalTransmission')
+      })
     })
 
     afterEach(() => {

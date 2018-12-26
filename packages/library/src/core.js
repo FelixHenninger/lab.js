@@ -22,11 +22,25 @@ export const status = Object.freeze({
 // Attributes to pass on to nested items (as names)
 export const handMeDowns = [
   'debug',
-  'datastore',
+  'controller',
   'el',
 ]
 
-// Generic building block for experiment
+// Controller: Coordinates overall study state ------------
+class Controller {
+  constructor() {
+    // Data storage
+    this.datastore = new Store()
+
+    // File cache
+    this.cache = {
+      images: {},
+      audio: {},
+    }
+  }
+}
+
+// Component: Generic building block for experiment -------
 export class Component extends EventHandler {
   status = status.initialized // Component status
   data = {} // Collected data
@@ -122,6 +136,8 @@ export class Component extends EventHandler {
       // Document node within which
       // the component operates
       el: null,
+      // Setup study controller
+      controller: null,
 
       // Title of the component as well as
       title: null,
@@ -144,7 +160,6 @@ export class Component extends EventHandler {
 
       // Setup data handling
       data: {},
-      datastore: null,
       datacommit: null,
 
       // Setup PRNG
@@ -207,12 +222,6 @@ export class Component extends EventHandler {
       },
     })
 
-    // Setup data cache
-    this.internals.cache = {
-      images: {},
-      audio: {},
-    }
-
     // Attach component event handlers
     Object.keys(this.options.messageHandlers).forEach(
       event => this.on(event, this.options.messageHandlers[event]),
@@ -267,10 +276,12 @@ export class Component extends EventHandler {
       )
     }
 
-    // Setup a datastore, if the component doesn't have one already
-    if (this.options.datastore === null) {
-      this.options.datastore = new Store()
+    // Setup a controller, if the component doesn't have one already
+    if (this.options.controller === null && !this.options.controller) {
+      this.options.controller = new Controller()
     }
+    // Connect datastore from controller
+    this.options.datastore = this.options.controller.datastore
 
     // Setup console output grouping when the component is run
     if (this.options.debug) {
@@ -382,12 +393,12 @@ export class Component extends EventHandler {
     // Preload media
     await Promise.all(
       this.options.media.images.map(
-        img => preloadImage(img, this.internals.cache.images)
+        img => preloadImage(img, this.options.controller.cache.images)
       )
     )
     await Promise.all(
       this.options.media.audio.map(
-        snd => preloadAudio(snd, this.internals.cache.audio)
+        snd => preloadAudio(snd, this.options.controller.cache.audio)
       )
     )
   }
