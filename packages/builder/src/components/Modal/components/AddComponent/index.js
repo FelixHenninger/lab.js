@@ -27,7 +27,7 @@ class AddComponentModal extends Component {
     }
   }
 
-  tabContent() {
+  renderTab() {
     const { parent, index } = this.props
     switch(this.state.activeTab) {
       case 'new':
@@ -61,32 +61,40 @@ class AddComponentModal extends Component {
       <Nav tabs>
         <NavItem>
           <NavLink
-            className={classnames({ active: this.state.activeTab === 'new' })}
-            onClick={() => { this.toggle('new'); }}
+            className={ classnames({
+              active: this.state.activeTab === 'new'
+            }) }
+            onClick={ () => this.toggle('new') }
           >
             <Icon icon="plus" weight="s" />
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink
-            className={classnames({ active: this.state.activeTab === 'copy' })}
-            onClick={() => { this.toggle('copy'); }}
+            className={ classnames({
+              active: this.state.activeTab === 'copy'
+            }) }
+            onClick={ () => this.toggle('copy') }
           >
             <Icon icon="clone" fallbackWeight="r" />
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink
-            className={classnames({ active: this.state.activeTab === 'template' })}
-            onClick={() => { this.toggle('template'); }}
+            className={ classnames({
+              active: this.state.activeTab === 'template'
+            }) }
+            onClick={ () => this.toggle('template') }
           >
             <Icon icon="box-open" fallbackWeight="s" />
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink
-            className={classnames({ active: this.state.activeTab === 'import' })}
-            onClick={() => { this.toggle('import'); }}
+            className={ classnames({
+              active: this.state.activeTab === 'import'
+            }) }
+            onClick={ () => this.toggle('import') }
           >
             <Icon icon="folder-open" fallbackWeight="r" />
           </NavLink>
@@ -108,7 +116,7 @@ class AddComponentModal extends Component {
         </NavItem>
       </Nav>
       <ModalBody>
-        { this.tabContent() }
+        { this.renderTab() }
       </ModalBody>
       <ModalFooter>
         <Button
