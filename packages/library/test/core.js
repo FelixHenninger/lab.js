@@ -148,13 +148,13 @@ describe('Core', () => {
 
         return b.prepare().then(() => {
           assert.instanceOf(
-            b.options.controller.cache.images[url],
+            b.internals.controller.cache.images[url],
             Image
           )
 
           // Check that loading completed
           assert.ok(
-            b.options.controller.cache.images[url].complete
+            b.internals.controller.cache.images[url].complete
           )
         })
       })
@@ -164,7 +164,7 @@ describe('Core', () => {
         b.options.media.audio.push(url)
 
         return b.prepare().then(() => {
-          const audio = b.options.controller.cache.audio[url]
+          const audio = b.internals.controller.cache.audio[url]
 
           assert.instanceOf(
             audio, Audio

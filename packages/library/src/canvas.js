@@ -154,7 +154,7 @@ export class Screen extends Component {
       this.options.renderFunction =
         makeRenderFunction(
           this.options.content,
-          this.options.controller.cache,
+          this.internals.controller.cache,
         )
     }
   }

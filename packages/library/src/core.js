@@ -22,7 +22,6 @@ export const status = Object.freeze({
 // Attributes to pass on to nested items (as names)
 export const handMeDowns = [
   'debug',
-  'controller',
   'el',
 ]
 
@@ -276,12 +275,16 @@ export class Component extends EventHandler {
       )
     }
 
-    // Setup a controller, if the component doesn't have one already
-    if (this.options.controller === null && !this.options.controller) {
-      this.options.controller = new Controller()
+    // Initialize controller
+    if (this.parent && this.parent.internals.controller) {
+      // Inherit controller from parent internals
+      this.internals.controller = this.parent.internals.controller
+    } else {
+      this.internals.controller = new Controller()
     }
+
     // Connect datastore from controller
-    this.options.datastore = this.options.controller.datastore
+    this.options.datastore = this.internals.controller.datastore
 
     // Setup console output grouping when the component is run
     if (this.options.debug) {
@@ -393,12 +396,12 @@ export class Component extends EventHandler {
     // Preload media
     await Promise.all(
       this.options.media.images.map(
-        img => preloadImage(img, this.options.controller.cache.images)
+        img => preloadImage(img, this.internals.controller.cache.images)
       )
     )
     await Promise.all(
       this.options.media.audio.map(
-        snd => preloadAudio(snd, this.options.controller.cache.audio)
+        snd => preloadAudio(snd, this.internals.controller.cache.audio)
       )
     )
   }
