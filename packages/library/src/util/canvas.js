@@ -65,16 +65,12 @@ export const makeTransformationMatrix = (canvasSize, viewportSize, opt={}) => {
   ]
 }
 
-export const transform = (matrix, coordinates) =>
+export const transform = (matrix, [x, y]) =>
   // Hard-coded matrix multiplication for a 2x3
   // transformation matrix and a 2d coordinate vector
   [
-    (coordinates[0] * matrix[0]) +
-      (coordinates[1] * matrix[2]) +
-      matrix[4],
-    (coordinates[0] * matrix[1]) +
-      (coordinates[1] * matrix[3]) +
-      matrix[5],
+    (x * matrix[0]) + (y * matrix[2]) + matrix[4],
+    (x * matrix[1]) + (y * matrix[3]) + matrix[5],
   ]
 
 // Generic render function -----------------------------------------------------
