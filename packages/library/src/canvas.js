@@ -246,6 +246,14 @@ export class Screen extends Component {
 
     return transform(this.internals.transformationMatrix, coordinates)
   }
+
+  transformEvent({ offsetX, offsetY }) {
+    // Translate local event coordinates
+    // to canvas coordinate system
+    return this.transform([
+      offsetX, offsetY
+    ])
+  }
 }
 
 Screen.metadata = {
