@@ -290,7 +290,7 @@ export default class FabricCanvas extends Component {
               this.context.store,
               this.context.id,
               placeholderMatch[1]
-            ).content
+            ).file.content
           }
           const img = await new Promise((resolve, reject) => {
             const image = new Image()

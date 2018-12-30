@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { ModalHeader, ModalBody } from 'reactstrap'
 
-import { addEmbeddedFile } from '../../logic/util/files'
+import { addGlobalFile, addLocalFile } from '../../logic/util/files'
 
 import Modal from '../Modal'
 
@@ -35,15 +35,22 @@ export default class FileSelector extends Component {
   }
 
   handleUpload(content, file) {
-    const { poolPath } = addEmbeddedFile(
+    const { poolPath } = addGlobalFile(
       this.context.store,
-      content, file,
-      this.props.component,
+      content, file
     )
 
     const result = {
       localPath: file.name,
-      poolPath
+      poolPath,
+    }
+
+    if (this.props.component && this.props.addToComponent) {
+      addLocalFile(this.context.store, {
+        component: this.props.component,
+        localPath: result.localPath,
+        poolPath,
+      })
     }
 
     // Resolve promise
@@ -89,4 +96,8 @@ export default class FileSelector extends Component {
 
 FileSelector.contextTypes = {
   store: PropTypes.object
+}
+
+FileSelector.defaultProps = {
+  addToComponent: true,
 }

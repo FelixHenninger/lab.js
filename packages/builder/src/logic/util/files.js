@@ -15,7 +15,7 @@ export const embeddedFiles = components => {
   )
 }
 
-export const addEmbeddedFile = (store, fileContent, file, component) => {
+export const addGlobalFile = (store, fileContent, file) => {
   // Compute (user-changable) file path and
   // (internal) file name
   const fileHash = sha256().update(fileContent).digest('hex')
@@ -33,22 +33,21 @@ export const addEmbeddedFile = (store, fileContent, file, component) => {
     }
   })
 
-  // If a component is specified, add the file to a component's file pool
-  if (component) {
-    store.dispatch({
-      type: 'ADD_COMPONENT_FILE',
-      id: component,
-      poolPath: poolPath,
-      localPath: file.name,
-    })
-  }
-
   return {
     file, poolPath,
     extension: fileExtension,
     content: fileContent,
   }
 }
+
+export const addLocalFile = (
+  store, { component, localPath, poolPath }
+) =>
+  store.dispatch({
+    type: 'ADD_COMPONENT_FILE',
+    id: component,
+    poolPath, localPath,
+  })
 
 export const getLocalFile = (store, componentId, localPath) => {
   const state = store.getState()
@@ -61,7 +60,11 @@ export const getLocalFile = (store, componentId, localPath) => {
 
     if (localFile) {
       // Look up file in global file store (by path)
-      return state.files.files[localFile.poolPath]
+      return {
+        localPath,
+        poolPath: localFile.poolPath,
+        file: state.files.files[localFile.poolPath]
+      }
     }
   }
 

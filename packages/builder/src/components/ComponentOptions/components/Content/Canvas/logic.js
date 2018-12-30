@@ -73,7 +73,7 @@ export const toCanvas = (object, { store, id }) => {
       const filePlaceholderMatch = output.src.match(filePlaceholderRegex)
       if (filePlaceholderMatch) {
         const imagePath = filePlaceholderMatch[1]
-        output.src = getLocalFile(store, id, imagePath).content
+        output.src = getLocalFile(store, id, imagePath).file.content
       }
     }
 

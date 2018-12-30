@@ -9,7 +9,7 @@ import Icon from '../../../Icon'
 
 const Footer = (
   { columns, data, model },
-  { formDispatch }
+  { formDispatch, id }
 ) => {
   let fileSelector
 
@@ -19,6 +19,8 @@ const Footer = (
       <td colSpan={ columns.length }>
         <FileSelector
           ref={ ref => fileSelector = ref }
+          component={ id }
+          addToComponent={ false }
         />
         <Button
           size="sm" block
@@ -48,6 +50,10 @@ const Footer = (
 
 Footer.contextTypes = {
   formDispatch: PropTypes.func,
+  id: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
 }
 
 export default Footer
