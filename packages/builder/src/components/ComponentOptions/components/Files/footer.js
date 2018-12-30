@@ -27,11 +27,11 @@ const Footer = (
           onClick={ () =>
             fileSelector
               .select()
-              .then(({ file, path }) =>
+              .then(({ localPath, poolPath }) =>
                 formDispatch(
                   actions.change(
                     `local${ model }.rows`,
-                    [...data, [{ path: file.name, file: path }]]
+                    [...data, [{ localPath, poolPath }]]
                   )
                 )
               )

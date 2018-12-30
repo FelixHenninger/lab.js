@@ -35,13 +35,16 @@ export default class FileSelector extends Component {
   }
 
   handleUpload(content, file) {
-    const { path } = addEmbeddedFile(
+    const { poolPath } = addEmbeddedFile(
       this.context.store,
       content, file,
       this.props.component,
     )
 
-    const result = { content, file, path }
+    const result = {
+      localPath: file.name,
+      poolPath
+    }
 
     // Resolve promise
     if (this.promiseHandlers.resolve) {

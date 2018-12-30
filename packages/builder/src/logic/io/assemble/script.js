@@ -19,7 +19,7 @@ const processFiles = files =>
   fromPairs(
     files.rows
       .map(r => r[0])
-      .map(r => [r.path.trim(), r.file.trim()])
+      .map(r => [r.localPath.trim(), r.poolPath.trim()])
   )
 
 const processMessageHandlers = (messageHandlers) =>

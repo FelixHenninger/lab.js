@@ -13,7 +13,7 @@ import { dataURItoIcon } from '../../../../logic/util/fileType'
 const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
   <div>
     <Control.text
-      model={ `.rows[${ rowIndex }][${ colIndex }]['path']` }
+      model={ `.rows[${ rowIndex }][${ colIndex }]['localPath']` }
       className="form-control"
       placeholder="path"
       style={{
@@ -36,7 +36,7 @@ const LeftColumn = ({ icon }) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const file = state.files.files[ownProps.rowData[0].file]
+  const file = state.files.files[ownProps.rowData[0].poolPath]
 
   // If the file can't be found, something is wrong
   const icon = file
@@ -68,7 +68,7 @@ export default class FileGrid extends Component {
           Footer={ Footer }
           columnWidths={ [ 90 ] }
           columns={ ['path'] }
-          defaultRow={ [ { path: '', file: '' }, ] }
+          defaultRow={ [ { localPath: '', poolPath: '' }, ] }
           data={ data.files.rows }
           formDispatch={ action => this.dispatch(action) }
         />

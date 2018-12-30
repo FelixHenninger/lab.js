@@ -304,7 +304,20 @@ const updates = {
 
     data.version = [2018, 1, 1]
     return data
-  }
+  },
+  '2018.1.1': data => ({
+    ...data,
+    version: [2018, 1, 2],
+    // Improve Naming of component-level embedded files
+    components: mapValues(data.components, c => ({
+      ...c,
+      files: c.files
+        ? { rows: c.files.rows.map(
+          f => [{ localPath: f[0].path, poolPath: f[0].file }]
+        ) }
+        : undefined,
+    })),
+  }),
 }
 
 export default (data) => {

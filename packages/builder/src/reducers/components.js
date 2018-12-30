@@ -223,7 +223,7 @@ export default (state=defaultState, action) => {
           files: {
             rows: [
               ...currentFiles.rows,
-              [{ path: action.path, file: action.file }],
+              [{ localPath: action.localPath, poolPath: action.poolPath }],
             ],
           },
         },

@@ -11,7 +11,7 @@ export const embeddedFiles = components => {
 
   return flatMap(
     componentFiles,
-    c => c.map(f => f[0].file)
+    c => c.map(f => f[0].poolPath)
   )
 }
 
@@ -20,12 +20,12 @@ export const addEmbeddedFile = (store, fileContent, file, component) => {
   // (internal) file name
   const fileHash = sha256().update(fileContent).digest('hex')
   const fileExtension = file.name.split('.').pop()
-  const filePath = `embedded/${ fileHash }.${ fileExtension }`
+  const poolPath = `embedded/${ fileHash }.${ fileExtension }`
 
   // Add file to global file repository
   store.dispatch({
     type: 'ADD_FILE',
-    file: filePath,
+    file: poolPath,
     data: {
       content: fileContent,
       source: 'embedded',
@@ -38,14 +38,13 @@ export const addEmbeddedFile = (store, fileContent, file, component) => {
     store.dispatch({
       type: 'ADD_COMPONENT_FILE',
       id: component,
-      file: filePath,
-      path: file.name,
+      poolPath: poolPath,
+      localPath: file.name,
     })
   }
 
   return {
-    file: file,
-    path: filePath,
+    file, poolPath,
     extension: fileExtension,
     content: fileContent,
   }
@@ -57,12 +56,12 @@ export const getLocalFile = (store, componentId, localPath) => {
   if (state.components[componentId].files) {
     const localFile = state.components[componentId].files.rows
       .map(f => f[0]) // Remove nesting level
-      .filter(f => f.path === localPath) // Choose file
+      .filter(f => f.localPath === localPath) // Choose file
       .pop() // Use the last match (arbitrarily)
 
     if (localFile) {
       // Look up file in global file store (by path)
-      return state.files.files[localFile.file]
+      return state.files.files[localFile.poolPath]
     }
   }
 
