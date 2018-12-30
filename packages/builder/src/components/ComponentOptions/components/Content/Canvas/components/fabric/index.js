@@ -7,8 +7,8 @@ import { findDOMNode } from 'react-dom'
 import makeBackground from './background'
 import makeOverlay from './overlay'
 
-import { filePlaceholderRegex } from '../logic'
-import { getLocalFile } from '../../../../../../logic/util/files'
+import { filePlaceholderRegex } from '../../logic'
+import { getLocalFile } from '../../../../../../../logic/util/files'
 
 // Customize JSON conversion ---------------------------------------------------
 

@@ -1,0 +1,23 @@
+/* Color dropdowns */
+div.color-dropdown .dropdown-item {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: space-between;
+}
+
+div.color-dropdown .dropdown-item:active {
+  background-color: var(--light);
+}
+
+div.color-swatch {
+  width: 61px;
+  height: 40px;
+  border-radius: 4px;
+  transition: border-color 0.2s ease-in-out;
+}
+
+div.color-swatch:hover {
+  border-color: var(--gray) !important;
+}

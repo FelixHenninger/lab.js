@@ -5,9 +5,12 @@ import { LocalForm, actions } from 'react-redux-form'
 import { FormGroup } from 'reactstrap'
 import { fromPairs, isObject, omit, uniqueId } from 'lodash'
 
-import { AddDropDown, Style, Dimensions, Layers } from './form'
+import AddDropDown from './components/form/AddDropDown'
+import Dimensions from './components/form/Dimensions'
+import Layers from './components/form/Layers'
+import Style from './components/form/Style'
 
-import FabricCanvas from './fabric'
+import FabricCanvas from './components/fabric'
 import { fromCanvas, toCanvas } from './logic'
 
 const trulyUniqueId = (existingIds=[]) => {
