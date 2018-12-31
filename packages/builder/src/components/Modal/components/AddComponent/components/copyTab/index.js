@@ -19,7 +19,7 @@ const flatTree = (nodes, id='root', level=0) => {
   return output
 }
 
-const CopyTab = ({ parent, index }, context) => {
+const CopyTab = ({ parent, index }, { store }) => {
   let sourceSelect = null
 
   return <div className="copy-component-tab">
@@ -30,7 +30,7 @@ const CopyTab = ({ parent, index }, context) => {
       innerRef={ select => sourceSelect = select }
     >
       {
-        flatTree(context.store.getState().components).map(
+        flatTree(store.getState().components).map(
           ([id, level, data], index) =>
             <option value={ id } key={ index }>
               { level > 0 ? repeat(' ', level - 1) + '∙ ' : '' }
@@ -44,13 +44,13 @@ const CopyTab = ({ parent, index }, context) => {
         outline color="secondary"
         onClick={ () => {
           if (sourceSelect.value !== '') {
-            context.store.dispatch({
+            store.dispatch({
               type: 'COPY_COMPONENT',
               id: sourceSelect.value,
               parent, index,
             })
             // TODO: Show the new component
-            context.store.dispatch({
+            store.dispatch({
               type: 'HIDE_MODAL',
             })
           }
@@ -69,7 +69,7 @@ const CopyTab = ({ parent, index }, context) => {
               sourceSelect.value,
               ...children(
                 sourceSelect.value,
-                context.store.getState().components
+                store.getState().components
               ),
             ]
             if (sourceChildren.includes(parent)) {
@@ -81,13 +81,13 @@ const CopyTab = ({ parent, index }, context) => {
               )
               return
             }
-            context.store.dispatch({
+            store.dispatch({
               type: 'CLONE_COMPONENT',
               id: sourceSelect.value,
               parent, index,
             })
             // TODO: Show the new component
-            context.store.dispatch({
+            store.dispatch({
               type: 'HIDE_MODAL',
             })
           }
