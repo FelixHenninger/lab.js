@@ -173,6 +173,10 @@ const renderStore = (datastore) => {
 }
 
 export default class Debug {
+  constructor({ filePrefix='study' }) {
+    this.filePrefix = filePrefix
+  }
+
   handle(context, event) {
     switch (event) {
       case 'plugin:init':
@@ -214,7 +218,12 @@ export default class Debug {
         (e) => {
           e.preventDefault()
           if (this.context.options.datastore) {
-            this.context.options.datastore.download()
+            this.context.options.datastore.download(
+              'csv',
+              context.options.datastore.makeFilename(
+                this.filePrefix, 'csv'
+              )
+            )
           } else {
             alert('No datastore to download from')
           }
