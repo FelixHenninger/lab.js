@@ -11,6 +11,8 @@ import { fromJSON } from '../../../../logic/io/load'
 import { stateToDownload } from '../../../../logic/io/save'
 import downloadStaticLocal from '../../../../logic/io/export/modifiers/local'
 import downloadStaticJatos from '../../../../logic/io/export/modifiers/jatos'
+import { downloadSidecar as downloadPsychDS
+  } from '../../../../logic/metadata/psych-ds'
 
 const IOButton = (_, context) => {
   let dropdown = null
@@ -144,6 +146,16 @@ const IOButton = (_, context) => {
         }
       >
         The Experiment Factory… <span className="text-muted">(v3)</span>
+      </DropdownItem>
+      <DropdownItem divider/>
+      <DropdownItem header>Generate metadata</DropdownItem>
+      <DropdownItem
+        onClick={
+          () => downloadPsychDS(context.store.getState())
+        }
+      >
+        Psych-DS sidecar template{' '}
+        <span className="text-muted">(JSON-LD)</span>
       </DropdownItem>
     </DropdownMenu>
   </Dropdown>
