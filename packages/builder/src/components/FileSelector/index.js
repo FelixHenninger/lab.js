@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { ModalHeader, ModalBody } from 'reactstrap'
+import { Nav, NavItem, NavLink, ModalBody } from 'reactstrap'
+import classnames from 'classnames'
 
 import { addGlobalFile, addLocalFile } from '../../logic/util/files'
 
 import Modal from '../Modal'
+import Icon from '../Icon'
 
 import UploadTab from './Components/UploadTab'
 
@@ -14,6 +16,7 @@ export default class FileSelector extends Component {
 
     this.state = {
       active: false,
+      activeTab: 'new',
     }
     this.promiseHandlers = {}
 
@@ -31,6 +34,12 @@ export default class FileSelector extends Component {
 
       // Switch state
       return { active: !prevState.active }
+    })
+  }
+
+  toggleTab(name) {
+    this.setState({
+      activeTab: name
     })
   }
 
@@ -76,18 +85,47 @@ export default class FileSelector extends Component {
     )
   }
 
+  renderTab() {
+    switch (this.state.activeTab) {
+      default:
+        return <UploadTab handleUpload={ this.handleUpload } />
+    }
+  }
+
   render() {
     return <Modal
       isOpen={ this.state.active }
     >
       <div className="modal-content">
-        <ModalHeader
-          toggle={ this.toggle }
-        >
-          New image
-        </ModalHeader>
+        <Nav tabs>
+          <NavItem>
+            <NavLink
+              className={ classnames({
+                active: this.state.activeTab === 'new'
+              }) }
+              onClick={ () => this.toggleTab('new') }
+            >
+              <Icon icon="plus" weight="s" />
+            </NavLink>
+          </NavItem>
+          <NavItem
+            className="ml-auto"
+            style={{
+              padding: '0.25em 0',
+            }}
+          >
+            <button
+              type="button"
+              className="close"
+              aria-label="Close"
+              onClick={ this.toggle }
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </NavItem>
+        </Nav>
         <ModalBody>
-          <UploadTab handleUpload={ this.handleUpload } />
+          { this.renderTab() }
         </ModalBody>
       </div>
     </Modal>
