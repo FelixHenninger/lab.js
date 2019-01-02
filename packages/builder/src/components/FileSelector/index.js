@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { Nav, NavItem, NavLink, ModalBody } from 'reactstrap'
 import classnames from 'classnames'
 
-import { addGlobalFile, addLocalFile } from '../../logic/util/files'
+import { addGlobalFile, addLocalFile,
+  getLocalFile } from '../../logic/util/files'
 
 import Modal from '../Modal'
 import Icon from '../Icon'
@@ -21,6 +22,7 @@ export default class FileSelector extends Component {
     this.promiseHandlers = {}
 
     this.handleUpload = this.handleUpload.bind(this)
+    this.handleImport = this.handleImport.bind(this)
     this.select = this.select.bind(this)
     this.toggle = this.toggle.bind(this)
   }
@@ -55,6 +57,40 @@ export default class FileSelector extends Component {
     }
 
     if (this.props.component && this.props.addToComponent) {
+      addLocalFile(this.context.store, {
+        component: this.props.component,
+        localPath: result.localPath,
+        poolPath,
+      })
+    }
+
+    // Resolve promise
+    if (this.promiseHandlers.resolve) {
+      this.promiseHandlers.resolve(result)
+    }
+
+    return result
+  }
+
+  handleImport(sourceComponent, sourceLocalPath) {
+    const { poolPath } = getLocalFile(
+      this.context.store,
+      sourceComponent,
+      sourceLocalPath
+    )
+    // TODO: Consider whether it is ever possible
+    // that a file lookup might fail, and add error
+    // handling if so.
+
+    const result = {
+      localPath: sourceLocalPath,
+      poolPath,
+    }
+
+    if (
+      this.props.component && this.props.addToComponent &&
+      this.props.component !== sourceComponent
+    ) {
       addLocalFile(this.context.store, {
         component: this.props.component,
         localPath: result.localPath,
