@@ -10,6 +10,7 @@ import Modal from '../Modal'
 import Icon from '../Icon'
 
 import UploadTab from './Components/UploadTab'
+import PoolTab from './Components/PoolTab'
 
 export default class FileSelector extends Component {
   constructor(props) {
@@ -123,8 +124,16 @@ export default class FileSelector extends Component {
 
   renderTab() {
     switch (this.state.activeTab) {
+      case 'pool':
+        return <PoolTab
+          component={ this.props.component }
+          handleImport={ this.handleImport }
+          handleUpload={ this.handleUpload }
+        />
       default:
-        return <UploadTab handleUpload={ this.handleUpload } />
+        return <UploadTab
+          handleUpload={ this.handleUpload }
+        />
     }
   }
 
@@ -142,6 +151,16 @@ export default class FileSelector extends Component {
               onClick={ () => this.toggleTab('new') }
             >
               <Icon icon="plus" weight="s" />
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={ classnames({
+                active: this.state.activeTab === 'pool'
+              }) }
+              onClick={ () => this.toggleTab('pool') }
+            >
+              <Icon icon="cloud" />
             </NavLink>
           </NavItem>
           <NavItem
