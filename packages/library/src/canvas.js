@@ -4,7 +4,7 @@ import { Sequence as BaseSequence, Loop, Parallel,
   prepareNested } from './flow'
 import { Frame as BaseFrame } from './html'
 import { reduce } from './util/tree'
-import { makeRenderFunction, makeTransformationMatrix,
+import { makeRenderFunction, makeTransform,
   transform } from './util/canvas'
 
 // Global canvas functions used in all of the following components
@@ -173,18 +173,15 @@ export class Screen extends Component {
     // Save current transformation state
     this.options.ctx.save()
 
-    const tm = makeTransformationMatrix(
+    this.internals.transformationMatrix = makeTransform(
       [this.options.canvas.width, this.options.canvas.height],
       this.options.viewport,
       {
         translateOrigin: this.options.translateOrigin,
         viewportScale: this.options.viewportScale,
         devicePixelScaling: this.options.devicePixelScaling,
-        canvasClientRect: this.options.canvas.getBoundingClientRect(),
       },
     )
-    this.internals.transformationMatrix = tm[0]
-    this.internals.viewportTransformationMatrix = tm[1]
 
     this.options.ctx.setTransform(...this.internals.transformationMatrix)
   }
@@ -247,7 +244,7 @@ export class Screen extends Component {
     return transform(this.internals.transformationMatrix, coordinates)
   }
 
-  transformEvent({ offsetX, offsetY }) {
+  transformCanvasEvent({ offsetX, offsetY }) {
     // Translate local event coordinates
     // to canvas coordinate system
     return this.transform([

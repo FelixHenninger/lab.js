@@ -1,7 +1,7 @@
 import { toRadians } from './geometry'
 // Utilities -------------------------------------------------------------------
 
-export const makeTransformationMatrix = (canvasSize, viewportSize, opt={}) => {
+const calcTransformationParameters = (canvasSize, viewportSize, opt={}) => {
   const options = {
     translateOrigin: true,
     viewportScale: 'auto',
@@ -28,7 +28,7 @@ export const makeTransformationMatrix = (canvasSize, viewportSize, opt={}) => {
     : 1
 
   // Scale viewport to fill one dimension (if requested)
-  // The calculation needs to ajust for the fact that the
+  // The calculation needs to adjust for the fact that the
   // width and height of the canvas may represent virtual
   // coordinates on a latent high-resolution canvas
   /* eslint-disable indent */
@@ -45,23 +45,37 @@ export const makeTransformationMatrix = (canvasSize, viewportSize, opt={}) => {
   // pixels, and then onto hardware pixels
   const scale = viewportScale * pixelRatio
 
-  // Export transformation matrix and inverse
+  return {
+    translateX, translateY,
+    scale, viewportScale,
+    pixelRatio,
+  }
+}
+
+export const makeTransform = (canvasSize, viewportSize, opt) => {
+  const { translateX, translateY, scale } =
+    calcTransformationParameters(canvasSize, viewportSize, opt)
+
+  // Translate from the canvas coordinate system
+  // to device pixels
   return [
-    // Translate from the canvas coordinate system
-    // to device pixels
-    [
-      scale, 0,
-      0, scale,
-      translateX, translateY,
-    ],
-    // Translate from viewport coordinates
-    // to the canvas coordinate system
-    [
-      1 / viewportScale, 0,
-      0, 1 / viewportScale,
-      (-translateX / scale) - (options.canvasClientRect.left / viewportScale),
-      (-translateY / scale) - (options.canvasClientRect.top / viewportScale),
-    ],
+    scale, 0,
+    0, scale,
+    translateX, translateY,
+  ]
+}
+
+export const makeInverseTransform = (canvasSize, viewportSize, opt) => {
+  const { translateX, translateY, scale, viewportScale } =
+    calcTransformationParameters(canvasSize, viewportSize, opt)
+
+  // Translate from viewport coordinates
+  // to the canvas coordinate system
+  return [
+    1 / viewportScale, 0,
+    0, 1 / viewportScale,
+    (-translateX / scale) - (opt.canvasClientRect.left / viewportScale),
+    (-translateY / scale) - (opt.canvasClientRect.top / viewportScale),
   ]
 }
 
