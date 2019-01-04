@@ -23,3 +23,18 @@ export const parents = (target, tree) => {
     ...immediateParents.map(n => parents(n, tree))
   )
 }
+
+// Generate flat representation of tree,
+// alongside some component metadata
+export const flatTree = (tree, id='root', level=0) => {
+  const output = []
+  if (tree[id].children) {
+    tree[id].children.forEach(
+      c => output.push(
+        [ c, level, tree[c] ],
+        ...flatTree(tree, c, level + 1)
+      )
+    )
+  }
+  return output
+}

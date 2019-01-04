@@ -2,22 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { repeat } from 'lodash'
 import { Button, ButtonGroup, Input } from 'reactstrap'
-import { children } from '../../../../../../logic/tree'
+import { children, flatTree } from '../../../../../../logic/tree'
 
 import './style.css'
-
-const flatTree = (nodes, id='root', level=0) => {
-  const output = []
-  if (nodes[id].children) {
-    nodes[id].children.forEach(
-      c => output.push(
-        [ c, level, nodes[c] ],
-        ...flatTree(nodes, c, level + 1)
-      )
-    )
-  }
-  return output
-}
 
 const CopyTab = ({ parent, index }, { store }) => {
   let sourceSelect = null
