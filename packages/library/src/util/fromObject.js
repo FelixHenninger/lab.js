@@ -17,8 +17,8 @@ const fromObject = (options) => {
   // We assume that the library
   // is available as a global variable
   /* global lab:false */
-  const typePath = options.type.split('.').slice(1)
-  const constructor = retrieveNested(typePath, lab)
+  const [, ...componentPath] = options.type.split('.')
+  const constructor = retrieveNested(componentPath, lab)
 
   // Parse any nested components
   constructor.metadata.nestedComponents.forEach((o) => {
@@ -45,8 +45,12 @@ const fromObject = (options) => {
   // there is no need for e.g. nested hierarchies)
   if (options.plugins) {
     options.plugins = options.plugins.map((pluginOptions) => {
-      const pluginPath = pluginOptions.type.split('.').slice(1)
-      const PluginConstructor = retrieveNested(pluginPath, lab)
+      const [scope, ...pluginPath] = pluginOptions.type.split('.')
+      const PluginConstructor = retrieveNested(
+        pluginPath,
+        // Load plugins from the global scope if requested
+        scope === 'global' ? (global || window) : lab
+      )
       return new PluginConstructor(pluginOptions)
     })
   }

@@ -246,6 +246,28 @@ describe('Utilities', () => {
         c.plugins.plugins[0] instanceof lab.plugins.Debug
       )
     })
+
+    it('parses plugins from global scope', () => {
+      // Construct a minimal plugin in the global scope
+      window.MyPlugin = function MyPlugin() {
+        this.handle = function() {}
+      }
+
+      const pluginArgs = {
+        type: 'global.MyPlugin',
+      }
+
+      const c = lab.util.fromObject({
+        type: 'lab.core.Component',
+        plugins: [ pluginArgs ],
+      })
+
+      assert.ok(
+        c.plugins.plugins[0] instanceof window.MyPlugin
+      )
+
+      delete window.MyPlugin
+    })
   })
 
   describe('Geometry', () => {
