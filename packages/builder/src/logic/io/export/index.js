@@ -41,17 +41,21 @@ export const downloadZip = (data, filename='study_export.zip') =>
       }
     )
 
-export const createStaticBlob = (state, stateModifier=state => state,
-  additionalFiles={}) =>
+export const createStaticBlob = (state,
+  stateModifier=state => state,
+  options
+) =>
   createZip(
-    assemble(state, stateModifier, additionalFiles),
+    assemble(state, stateModifier, options),
   )
 
 // Bundle all files into a zip archive
-export const downloadStatic = (state, stateModifier=state => state,
-  additionalFiles={}) =>
+export const downloadStatic = (state,
+  stateModifier=state => state,
+  options
+) =>
   downloadZip(
-    assemble(state, stateModifier, additionalFiles),
+    assemble(state, stateModifier, options),
     makeFilename(state) + '-export.zip'
   )
 

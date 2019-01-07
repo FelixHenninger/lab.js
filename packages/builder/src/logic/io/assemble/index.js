@@ -4,7 +4,10 @@ import { makeDataURI } from '../../util/dataURI'
 import { makeScript } from './script.js'
 import { makeHTML } from './html.js'
 
-const assemble = (state, stateModifier=state => state, additionalFiles={}) => {
+const assemble = (state,
+  stateModifier=state => state,
+  { additionalFiles={} }={}
+) => {
   // Apply modification function to copy of current state
   const updatedState = stateModifier(cloneDeep(state))
 

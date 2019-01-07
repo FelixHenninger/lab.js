@@ -85,4 +85,7 @@ const addTransmitPlugin = (state) => {
 }
 
 export default state =>
-  downloadStatic(state, addTransmitPlugin, phpBackendStatic)
+  downloadStatic(
+    state, addTransmitPlugin,
+    { additionalFiles: phpBackendStatic }
+  )
