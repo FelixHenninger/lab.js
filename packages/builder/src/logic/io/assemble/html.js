@@ -16,31 +16,38 @@ const renderNode = ([type, attrs={}]) => {
   }
 }
 
-const defaultHeader = [
-  ['script', { src: 'lib/lab.js', 'data-labjs-script': 'library' }],
-  ['script', { src: 'lib/lab.fallback.js', 'data-labjs-script': 'fallback' }],
-  ['link', { rel: 'stylesheet', href: 'lib/lab.css' }],
-  ['comment', { content: 'study code and styles' }],
-  ['script', { src: 'script.js', defer: true }],
-  ['link', { rel: 'stylesheet', href: 'style.css' }],
-]
+const makeHeader = (state, { beforeHeader=[], libraryPath='lib' }={}) => {
+  const defaultHeader = [
+    ['comment', { content: 'lab.js library code' }],
+    ['script', {
+      'src': `${ libraryPath }/lab.js`,
+      'data-labjs-script': 'library'
+    }],
+    ['script', {
+      'src': `${ libraryPath }/lab.fallback.js`,
+      'data-labjs-script': 'fallback'
+    }],
+    ['link', { rel: 'stylesheet', href: `${ libraryPath }/lab.css` }],
+    ['comment', { content: 'study code and styles' }],
+    ['script', { src: 'script.js', defer: true }],
+    ['link', { rel: 'stylesheet', href: 'style.css' }],
+  ]
 
-const makeHeader = state => {
   // TBC ...
-  return defaultHeader
+  return [...beforeHeader, ...defaultHeader]
     .map(renderNode)
     .map((l, i) => i === 0 ? l : `  ${ l }`) // Indent from second line
     .join('\n')
 }
 
-export const makeHTML = state => {
+export const makeHTML = (state, headerOptions) => {
   const { data } = readDataURI(state.files.files['index.html'].content)
 
   const updatedHTML = template(data, {
     escape: '',
     evaluate: '',
   })({
-    header: makeHeader(state)
+    header: makeHeader(state, headerOptions)
   })
 
   return updatedHTML

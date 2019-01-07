@@ -4,9 +4,13 @@ import { makeDataURI } from '../../util/dataURI'
 import { makeScript } from './script.js'
 import { makeHTML } from './html.js'
 
+// TODO: At some later point, header options
+// should be derived from the study state
+// to the greatest possible extent (i.e. via plugins).
+
 const assemble = (state,
   stateModifier=state => state,
-  { additionalFiles={} }={}
+  { additionalFiles={}, headerOptions }={}
 ) => {
   // Apply modification function to copy of current state
   const updatedState = stateModifier(cloneDeep(state))
@@ -38,7 +42,7 @@ const assemble = (state,
       },
       'index.html': {
         content: makeDataURI(
-          makeHTML(updatedState),
+          makeHTML(updatedState, headerOptions),
           'text/html'
         )
       },
