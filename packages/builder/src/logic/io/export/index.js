@@ -1,5 +1,5 @@
 import JSZip from 'jszip'
-import FileSaver from 'file-saver'
+import { saveAs } from 'file-saver'
 import Raven from 'raven-js'
 
 import assemble from '../assemble'
@@ -33,7 +33,7 @@ const createZip = ({ files, bundledFiles }) => {
 export const downloadZip = (data, filename='study_export.zip') =>
   // Generate blob and save file
   createZip(data, filename)
-    .then(blob => FileSaver.saveAs(blob, filename))
+    .then(blob => saveAs(blob, filename))
     .catch(
       e => {
         Raven.captureException(e)

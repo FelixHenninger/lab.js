@@ -8,7 +8,7 @@ import Dropdown from '../../../../Dropdown'
 import Icon from '../../../../Icon'
 
 import Uploader from '../../../../Uploader'
-import FileSaver from 'file-saver'
+import { saveAs } from 'file-saver'
 import { parse, unparse } from 'papaparse'
 
 const exportGrid = (data, columns) => {
@@ -17,7 +17,7 @@ const exportGrid = (data, columns) => {
     data
   })
 
-  return FileSaver.saveAs(
+  return saveAs(
     new Blob(
       [ output ],
       { type: 'text/csv;charset=utf-8' }

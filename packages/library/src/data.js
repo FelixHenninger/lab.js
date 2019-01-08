@@ -1,4 +1,4 @@
-import FileSaver from 'file-saver'
+import { saveAs } from 'file-saver'
 
 import { isObject, flatten, difference, intersection,
   uniq, pick, omitBy, debounce } from 'lodash'
@@ -374,7 +374,7 @@ export class Store extends EventHandler {
   // Download data in a given format ----------------------
   download(filetype='csv', filename='data.csv') {
     // TODO: Generate a filename on-the-fly
-    return FileSaver.saveAs(
+    return saveAs(
       this.exportBlob(filetype),
       filename,
     )

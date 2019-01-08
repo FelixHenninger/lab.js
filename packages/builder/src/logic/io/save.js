@@ -1,6 +1,6 @@
 import { cloneDeep, pick, mapValues, omitBy, pickBy } from 'lodash'
 import moment from 'moment'
-import FileSaver from 'file-saver'
+import { saveAs } from 'file-saver'
 
 import { children } from '../tree'
 import { makeFilename } from './filename'
@@ -79,5 +79,5 @@ export const stateToDownload = (state, { exportedComponent='root',
     [ stateJSON ],
     { type: 'application/json;charset=utf-8' }
   )
-  return FileSaver.saveAs(output, filename)
+  return saveAs(output, filename)
 }
