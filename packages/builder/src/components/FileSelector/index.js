@@ -160,7 +160,7 @@ export default class FileSelector extends Component {
               }) }
               onClick={ () => this.toggleTab('pool') }
             >
-              <Icon icon="cloud" />
+              <Icon icon="folder" />
             </NavLink>
           </NavItem>
           <NavItem
