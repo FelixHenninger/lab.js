@@ -11,6 +11,7 @@ import { fromJSON } from '../../../../logic/io/load'
 import { stateToDownload } from '../../../../logic/io/save'
 import downloadStaticLocal from '../../../../logic/io/export/modifiers/local'
 import downloadStaticJatos from '../../../../logic/io/export/modifiers/jatos'
+import downloadStaticPavlovia from '../../../../logic/io/export/modifiers/pavlovia'
 import { downloadSidecar as downloadPsychDS
   } from '../../../../logic/metadata/psych-ds'
 
@@ -135,6 +136,11 @@ const IOButton = (_, context) => {
         onClick={ () => downloadStaticJatos(context.store.getState()) }
       >
         JATOS <span className="text-muted">(Just Another Tool for Online Studies)</span>
+      </DropdownItem>
+      <DropdownItem
+        onClick={ () => downloadStaticPavlovia(context.store.getState()) }
+      >
+        Pavlovia
       </DropdownItem>
       <DropdownItem
         onClick={
