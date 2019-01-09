@@ -19,7 +19,7 @@ const BodyCell = ({ cellData, rowIndex, colIndex, colName, readOnly },
     <Col xs="6" style={{ paddingRight: '0.25rem' }}>
       <Control.text
         model={ `.rows[${ rowIndex }][${ colIndex }]['name']` }
-        placeholder="name"
+        placeholder="parameter"
         style={{
           fontFamily: 'Fira Mono',
         }}
@@ -69,7 +69,7 @@ export default class extends Component {
 
   render() {
     const { id, data } = this.props
-    return <Card title="Parameters" wrapContent={false}>
+    return <Card title="Template" wrapContent={false}>
       <Form
         id={ id }
         data={ data }

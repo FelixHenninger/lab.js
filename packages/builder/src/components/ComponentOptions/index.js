@@ -11,7 +11,7 @@ import Behavior from './components/Behavior'
 import Scripts from './components/Scripts'
 import Files from './components/Files'
 import Plugins from './components/Plugins'
-import Parameters from './components/Parameters'
+import Template from './components/Template'
 import Advanced from './components/Advanced'
 
 // Content-specific tabs
@@ -52,7 +52,7 @@ const selectTab = (type, tab) => {
     case 'Plugins':
       return Plugins
     case 'Parameters':
-      return Parameters
+      return Template
     case 'More':
       return Advanced
     default:
