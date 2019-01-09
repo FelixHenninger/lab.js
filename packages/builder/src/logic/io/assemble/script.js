@@ -38,7 +38,7 @@ const processParameters = parameters =>
     parameters.rows
       .map(r => r[0])
       .filter(r => r.name.trim() !== '' && r.value.trim() !== '')
-      .map(r => [r.name, makeType(r.value, r.type)])
+      .map(r => [r.name.trim(), makeType(r.value, r.type)])
   )
 
 const createResponsePair = r =>
@@ -73,7 +73,7 @@ const processResponses = (responses) => {
 const processTemplateParameters = grid =>
   processGrid(
     grid,
-    grid.columns.map(c => c.name),
+    grid.columns.map(c => c.name.trim()),
     grid.columns.map(c => c.type)
   )
 
