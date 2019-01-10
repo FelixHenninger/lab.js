@@ -25,7 +25,7 @@ export const parsableOptions = component =>
     )),
   )
 
-export const parse = (raw, context, metadata, that) => {
+export const parse = (raw, context, metadata, that={}) => {
   // Don't parse anything without metadata
   if (!metadata) {
     return raw
@@ -33,9 +33,6 @@ export const parse = (raw, context, metadata, that) => {
 
   if (isString(raw)) {
     // Parse output
-    // TODO: Decide whether it is a good idea to expose
-    // the component here (via this). The alternative
-    // would be to be to set this to the window object
     const output = template(raw, {
       escape: '',
       evaluate: '',
