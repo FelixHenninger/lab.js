@@ -170,6 +170,16 @@ Loop.metadata = {
   module: ['flow'],
   nestedComponents: ['template'],
   parsableOptions: {
+    templateParameters: {
+      type: 'array',
+      content: {
+        // Parse the values of objects in
+        // the templateParameters array
+        content: {
+          '*': {},
+        },
+      },
+    },
     sample: {
       type: 'object',
       content: {

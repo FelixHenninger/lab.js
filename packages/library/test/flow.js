@@ -426,6 +426,29 @@ describe('Flow control', () => {
         )
       })
     })
+
+    it('parses template parameter content', () => {
+      const l = new lab.flow.Loop({
+        parameters: {
+          one: '1',
+          two: '2',
+        },
+        template: new lab.core.Component(),
+        templateParameters: [
+          { customParameter: '${ this.parameters.one }' },
+          { customParameter: '${ this.parameters.two }' },
+        ],
+      })
+
+      return l.prepare().then(() => {
+        assert.equal(
+          l.options.content[0].parameters.customParameter, '1'
+        )
+        assert.equal(
+          l.options.content[1].parameters.customParameter, '2'
+        )
+      })
+    })
   })
 
   describe('Parallel', () => {
