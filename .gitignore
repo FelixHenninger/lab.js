@@ -2,7 +2,10 @@
 docs/_build*
 __pycache__
 packages/library/dist
+
+# Test coverage reports
 packages/library/coverage
+coverage
 
 # Saucelabs connection logs
 packages/library/sauce_connect.log

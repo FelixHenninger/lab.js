@@ -27,7 +27,7 @@ require(['/base/packages/library/node_modules/lodash/lodash.min'], function(_) {
     baseUrl: '/base',
 
     paths: {
-      'lab': _.includes(window.__karma__.config.args, 'coverage')
+      'lab': libraryFlavor === 'coverage'
         ? '/base/packages/library/dist/lab.coverage'
         : '/base/packages/library/dist/lab',
       '_': '/base/packages/library/node_modules/lodash/lodash.min'
