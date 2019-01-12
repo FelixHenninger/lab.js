@@ -126,19 +126,32 @@ export class Loop extends Sequence {
         n: undefined,
         replace: false,
       },
+      shuffleGroups: undefined,
       ...options,
     })
   }
 
   onPrepare() {
-    // Sample parameters to make room for repetitions and subsampling
+    // Shuffle columns independently, if requested
+    const shuffleTable =
+      Array.isArray(this.options.shuffleGroups) &&
+      this.options.shuffleGroups.length
+
+    const shuffledParameters = shuffleTable
+      ? this.random.shuffleTable(
+          this.options.templateParameters,
+          this.options.shuffleGroups,
+        )
+      : this.options.templateParameters
+
+    // Sample parameters
     const templateParameters = this.options.sample.n
       ? this.random.sample(
-          this.options.templateParameters,
+          shuffledParameters,
           this.options.sample.n,
           this.options.sample.replace,
         )
-      : this.options.templateParameters
+      : shuffledParameters
 
     // Generate the content by cloning the template,
     // replacing the parameters each time, or by

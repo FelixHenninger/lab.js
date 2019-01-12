@@ -389,6 +389,62 @@ describe('Flow control', () => {
       })
     })
 
+    it('shuffles parameter table if required', () => {
+      const l1 = new lab.flow.Loop({
+        // Seed PRNG for reproducibility
+        random: {
+          algorithm: 'alea',
+          seed: 'abcd',
+        },
+        shuffleGroups: [
+          ['a', 'b'],
+          ['c']
+        ],
+        template: new lab.core.Component(),
+        templateParameters: [
+          { a: 1, b: 1, c: 1 },
+          { a: 2, b: 2, c: 2 },
+          { a: 3, b: 3, c: 3 },
+          { a: 4, b: 4, c: 4 },
+        ],
+      })
+
+      // Put to gether second example
+      const l2 = l1.clone()
+      l2.options.shuffleGroups = [['a'], ['c']]
+
+      // Helper function
+      const extractParameters = l =>
+        l.options.content.map(component => {
+          return { a, b, c } = component.options.parameters
+        })
+
+      return Promise.all([
+        l1.prepare(),
+        l2.prepare(),
+      ]).then(() => {
+        assert.deepEqual(
+          extractParameters(l1),
+          [
+            { a: 1, b:1, c: 3 },
+            { a: 2, b:2, c: 4 },
+            { a: 4, b:4, c: 1 },
+            { a: 3, b:3, c: 2 },
+          ]
+        )
+
+        assert.deepEqual(
+          extractParameters(l2),
+          [
+            { a: 1, b: 4, c: 3 },
+            { a: 2, b: 2, c: 4 },
+            { a: 4, b: 3, c: 1 },
+            { a: 3, b: 1, c: 2 }
+          ]
+        )
+      })
+    })
+
     it('doesn\'t choke when parameters are empty', () => {
       const l = new lab.flow.Loop({
         template: new lab.core.Component()
