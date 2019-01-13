@@ -508,6 +508,25 @@ export class Component extends EventHandler {
 
     // Store data (unless instructed otherwise)
     if (this.options.datacommit !== false) {
+      let duration
+      if (this.data.ended_on === 'timeout') {
+        // For timeouts, we can really only know the component's
+        // duration after the next component is rendered. We're making
+        // a preliminary guess here, and updating it later.
+        duration = this.internals.timestamps.end -
+          this.internals.timestamps.render
+      } else if (
+        this.data.ended_on === 'response' &&
+        window.navigator.userAgent.includes('Safari')
+      ) {
+        // Safari rAF timestamps are one frame ahead of event timing
+        duration = this.internals.timestamps.end -
+          this.internals.timestamps.render
+      } else {
+        duration = this.internals.timestamps.end -
+          this.internals.timestamps.show
+      }
+
       this.commit({
         ...this.data,
         ...this.aggregateParameters,
@@ -515,13 +534,7 @@ export class Component extends EventHandler {
         time_render: this.internals.timestamps.render,
         time_show: this.internals.timestamps.show,
         time_end: this.internals.timestamps.end,
-        duration: this.data.ended_on === 'timeout'
-          // For timeouts, we can really only know the component's
-          // duration after the next component is rendered. We're making
-          // a preliminary guess here, and updating it later.
-          ? this.internals.timestamps.end - this.internals.timestamps.render
-          // For responses, the duration can be determined immediately
-          : this.internals.timestamps.end - this.internals.timestamps.show
+        duration: duration,
       })
     }
 
