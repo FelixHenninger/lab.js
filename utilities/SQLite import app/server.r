@@ -13,6 +13,9 @@ library(jsonlite)
 library(tidyverse)
 library(janitor)
 
+# Increase maximum upload size
+options(shiny.maxRequestSize = 100*1024^2)
+
 processData <- function(database) {
   con <- dbConnect(
     drv=RSQLite::SQLite(),
