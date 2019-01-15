@@ -7,7 +7,7 @@ import { CardBody, CardText, CardTitle, CardSubtitle,
 import { fromObject } from '../../../../../logic/io/load'
 
 const basePath =
-  'https://raw.githubusercontent.com/FelixHenninger/lab.js/master/examples/'
+  'https://raw.githubusercontent.com/FelixHenninger/lab.js/master/tasks/'
 
 // Transform an array of names into an author list, e.g.
 // ['Felix', 'Yury', 'Ulf', 'Pascal', 'Ben'] => 'Felix, Yury, ... & Ben'
