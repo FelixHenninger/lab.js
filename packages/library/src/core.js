@@ -1,5 +1,6 @@
 import { cloneDeepWith } from 'lodash'
 import Proxy from 'es2015-proxy'
+import UAParser from 'ua-parser-js'
 
 import { Store } from './data'
 import { EventHandler } from './util/eventAPI'
@@ -17,6 +18,9 @@ export const status = Object.freeze({
   running:      2,
   done:         3,
 })
+
+// Detect user agent --------------------------------------
+const browserName = new UAParser().getBrowser().name
 
 // Default options ----------------------------------------
 // Attributes to pass on to nested items (as names)
@@ -516,8 +520,7 @@ export class Component extends EventHandler {
         duration = this.internals.timestamps.end -
           this.internals.timestamps.render
       } else if (
-        this.data.ended_on === 'response' &&
-        window.navigator.userAgent.includes('Safari')
+        this.data.ended_on === 'response' && browserName === 'Safari'
       ) {
         // Safari rAF timestamps are one frame ahead of event timing
         duration = this.internals.timestamps.end -
