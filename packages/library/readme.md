@@ -37,7 +37,7 @@ Each component can [provide information to participants](https://labjs.readthedo
 
 A `readme` like this one can only provide the most general overview. Please find all further details in the following places ...
 
-* [Project homepage](http://felixhenninger.github.io/lab.js/)
+* [Project homepage](https://lab.js.org/)
 * [Library reference](https://labjs.readthedocs.io/en/latest/reference/index.html)
 * [Repository](https://github.com/FelixHenninger/lab.js)
 * [Contributor's guide](https://github.com/FelixHenninger/lab.js/blob/master/contributing.md)
@@ -51,6 +51,6 @@ Finally, **we would love to have you as part of this project!** Ideas and sugges
 We [kindly request](https://www.youtube.com/watch?v=kVwl-Va7cNM) that you cite
 ``lab.js`` if you use it in your research. Here's how:
 
-> Henninger, F., Mertens, U. K., Shevchenko, Y., & Hilbig, B. E. (2017). lab.js: Browser-based behavioral research. doi: [10.5281/zenodo.597045](https://doi.org/10.5281/zenodo.597045)
+> Henninger, F., Shevchenko, Y., Mertens, U. K., Kieslich, P. J., & Hilbig, B. E. (2019). lab.js: Browser-based behavioral research. doi: [10.5281/zenodo.597045](https://doi.org/10.5281/zenodo.597045)
 
 (There are also [version-specific dois](https://doi.org/10.5281/zenodo.597045) if you prefer those)
