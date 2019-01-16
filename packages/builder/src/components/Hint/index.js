@@ -45,6 +45,8 @@ export default class HintPopover extends Component {
         <Popover
           target={ this.id }
           placement={ this.props.placement || "bottom" }
+          trigger="legacy"
+          delay={0}
           isOpen={ this.state.isOpen } toggle={ this.toggle }
         >
           <PopoverHeader>{ this.props.title }</PopoverHeader>
