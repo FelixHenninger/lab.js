@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Control, Errors } from 'react-redux-form'
-import { Col, CardBody, FormGroup, Label, FormText } from 'reactstrap'
+import { Col, CardBody,
+  FormGroup, Label, FormText, CustomInput } from 'reactstrap'
 
 import Form from '../../Form'
 import Card from '../../../../Card'
@@ -59,16 +60,15 @@ export default class extends Component {
               Order
             </Label>
             <Col xs={10}>
-              <FormGroup check>
-                <Label check>
-                  <Control.checkbox
-                    model=".shuffle"
-                    className="form-check-input"
-                  />
-                  &thinsp;
-                  Shuffle repetitions
-                </Label>
-              </FormGroup>
+              <Control.checkbox
+                model=".shuffle"
+                component={ CustomInput }
+                controlProps={{
+                  id: 'shuffle',
+                  type: 'checkbox',
+                  label: 'Shuffle repetitions',
+                }}
+              />
             </Col>
           </FormGroup>
           <FormGroup row>
@@ -99,15 +99,15 @@ export default class extends Component {
           </FormGroup>
           <FormGroup row>
             <Col xs={{ size: 10, offset: 2 }}>
-              <FormGroup check>
-                <Label check>
-                  <Control.checkbox
-                    model=".sample.replace"
-                    className="form-check-input"
-                  />
-                  Draw with replacement
-                </Label>
-              </FormGroup>
+              <Control.checkbox
+                model=".sample.replace"
+                component={ CustomInput }
+                controlProps={{
+                  id: 'replace',
+                  type: 'checkbox',
+                  label: 'Draw with replacement',
+                }}
+              />
             </Col>
           </FormGroup>
         </CardBody>

@@ -95,6 +95,11 @@ input.form-control[readonly]::placeholder {
   color: $gray-500;
 }
 
+// Custom checkboxes
+input.custom-control-input[type="checkbox"] + label.custom-control-label {
+  padding-left: 0.25rem;
+}
+
 code {
   font-size: 0.95em;
 }

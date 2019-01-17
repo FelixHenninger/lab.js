@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Col, FormGroup, Label } from 'reactstrap'
+import { Col, FormGroup, Label, CustomInput } from 'reactstrap'
 import { Control } from 'react-redux-form'
 
 import Form from '../../Form'
@@ -25,14 +25,15 @@ export default ({ id, data }) =>
         </Col>
         <Col xs={10}>
           <FormGroup check>
-            <Label check>
-              <Control.checkbox
-                model=".shuffle"
-                className="form-check-input"
-              />
-              &thinsp;
-              Shuffle nested components
-            </Label>
+            <Control.checkbox
+              model=".shuffle"
+              component={ CustomInput }
+              controlProps={{
+                id: 'shuffle',
+                type: 'checkbox',
+                label: 'Shuffle nested components',
+              }}
+            />
           </FormGroup>
         </Col>
       </FormGroup>

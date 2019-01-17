@@ -1,6 +1,6 @@
 import React from 'react'
 import { Control } from 'react-redux-form'
-import { FormGroup, Col, Label } from 'reactstrap'
+import { FormGroup, Col, Label, CustomInput } from 'reactstrap'
 
 import Form from './Form'
 import Card from '../../Card'
@@ -21,14 +21,16 @@ export default ({ id, data }) =>
         </Col>
         <Col xs={10}>
           <FormGroup check>
-            <Label check>
-              <Control.checkbox
-                model=".scrollTop"
-                className="form-check-input"
-              />
-              &thinsp;
-              Scroll to top before running
-            </Label>
+            <Control.checkbox
+              model=".scrollTop"
+              component={ CustomInput }
+              controlProps={{
+                id: 'scrollTop',
+                type: 'checkbox',
+                inline: true,
+                label: 'Scroll to top before running',
+              }}
+            />
             <Hint
               title="Scroll to Top"
               style={{
@@ -57,14 +59,16 @@ export default ({ id, data }) =>
         </Col>
         <Col xs={10}>
           <FormGroup check>
-            <Label check>
-              <Control.checkbox
-                model="._template"
-                className="form-check-input"
-              />
-              &thinsp;
-              Template
-            </Label>
+            <Control.checkbox
+              model="._template"
+              component={ CustomInput }
+              controlProps={{
+                id: '_template',
+                type: 'checkbox',
+                inline: true,
+                label: 'Template',
+              }}
+            />
             <Hint
               title="Template"
               style={{

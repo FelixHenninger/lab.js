@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Control } from 'react-redux-form'
 import { CardBody, FormGroup, Col, Label,
-  Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
+  Input, CustomInput,
+  InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
 
 import Card from '../../Card'
 import Grid from '../../Grid'
@@ -187,17 +188,15 @@ const Timeline = ({ data }) =>
           </p>
         </Hint>
       </Label>
-      <Col xs="10">
-        <FormGroup check className="pt-2">
-          <Control.checkbox
-            model=".tardy"
-            component={ Input }
-            controlProps={{
-              id: 'tardy',
-              type: 'checkbox',
-            }}
-          />
-        </FormGroup>
+      <Col xs="10" className="pt-2">
+        <Control.checkbox
+          model=".tardy"
+          component={ CustomInput }
+          controlProps={{
+            id: 'tardy',
+            type: 'checkbox',
+          }}
+        />
       </Col>
     </FormGroup>
     <FormGroup row>
@@ -221,9 +220,10 @@ const Timeline = ({ data }) =>
             <InputGroupText>
               <Control.checkbox
                 model=".skip"
-                component={ Input }
+                component={ CustomInput }
                 controlProps={{
                   addon: true,
+                  id: 'skip',
                   type: 'checkbox'
                 }}
               />
