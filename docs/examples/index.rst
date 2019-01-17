@@ -11,9 +11,9 @@ Examples & recipes
   version that we can share, or we can help you get started directly.
 
   Sorry for the trouble!
-  
-The current directory of examples studies is hosted 
-`in a repository <https://github.com/FelixHenninger/lab.js/tree/master/examples>`__
+
+The current directory of examples studies is hosted
+`in a repository <https://github.com/FelixHenninger/lab.js/tree/master/tasks>`__
 and available from within the builder interface.
 
 Contributions are very welcome!
