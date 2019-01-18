@@ -389,8 +389,24 @@ describe('Flow control', () => {
       })
     })
 
-    it('shuffles parameter table if required', () => {
-      const l1 = new lab.flow.Loop({
+    // Helper function
+    const extractParameters = l =>
+      l.options.content.map(component => {
+        return { a, b, c } = component.options.parameters
+      })
+
+    const exampleParameters = [
+      { a: 1, b: 1, c: 1 },
+      { a: 2, b: 2, c: 2 },
+      { a: 3, b: 3, c: 3 },
+      { a: 4, b: 4, c: 4 },
+    ]
+
+    // TODO: At least one of the following tests is probably redundant,
+    // or could be replaced by a spy on this.random.shuffleTable
+
+    it('shuffles parameter table if requested', () => {
+      const l = new lab.flow.Loop({
         // Seed PRNG for reproducibility
         random: {
           algorithm: 'alea',
@@ -401,40 +417,67 @@ describe('Flow control', () => {
           ['c']
         ],
         template: new lab.core.Component(),
-        templateParameters: [
-          { a: 1, b: 1, c: 1 },
-          { a: 2, b: 2, c: 2 },
-          { a: 3, b: 3, c: 3 },
-          { a: 4, b: 4, c: 4 },
-        ],
+        templateParameters: exampleParameters,
       })
 
-      // Put to gether second example
-      const l2 = l1.clone()
-      l2.options.shuffleGroups = [['a'], ['c']]
-
-      // Helper function
-      const extractParameters = l =>
-        l.options.content.map(component => {
-          return { a, b, c } = component.options.parameters
-        })
-
-      return Promise.all([
-        l1.prepare(),
-        l2.prepare(),
-      ]).then(() => {
+      return l.prepare().then(() => {
         assert.deepEqual(
-          extractParameters(l1),
+          extractParameters(l),
           [
-            { a: 1, b:1, c: 3 },
-            { a: 2, b:2, c: 4 },
-            { a: 4, b:4, c: 1 },
-            { a: 3, b:3, c: 2 },
+            { a: 1, b: 1, c: 3 },
+            { a: 2, b: 2, c: 4 },
+            { a: 4, b: 4, c: 1 },
+            { a: 3, b: 3, c: 2 }
           ]
         )
+      })
+    })
 
+    it('doesn\'t shuffle unnamed parameters by default', () => {
+      const l = new lab.flow.Loop({
+        // Seed PRNG for reproducibility
+        random: {
+          algorithm: 'alea',
+          seed: 'abcd',
+        },
+        shuffleGroups: [
+          ['a', 'b'],
+        ],
+        template: new lab.core.Component(),
+        templateParameters: exampleParameters,
+      })
+
+      return l.prepare().then(() => {
         assert.deepEqual(
-          extractParameters(l2),
+          extractParameters(l),
+          [
+            { a: 1, b: 1, c: 1 },
+            { a: 2, b: 2, c: 2 },
+            { a: 4, b: 4, c: 3 },
+            { a: 3, b: 3, c: 4 },
+          ]
+        )
+      })
+    })
+
+    it('shuffles unnamed parameters if told to', () => {
+      const l = new lab.flow.Loop({
+        // Seed PRNG for reproducibility
+        random: {
+          algorithm: 'alea',
+          seed: 'abcd',
+        },
+        shuffleGroups: [
+          ['a'], ['c'],
+        ],
+        shuffleUngrouped: true,
+        template: new lab.core.Component(),
+        templateParameters: exampleParameters,
+      })
+
+      return l.prepare().then(() => {
+        assert.deepEqual(
+          extractParameters(l),
           [
             { a: 1, b: 4, c: 3 },
             { a: 2, b: 2, c: 4 },

@@ -127,6 +127,7 @@ export class Loop extends Sequence {
         replace: false,
       },
       shuffleGroups: undefined,
+      shuffleUngrouped: false,
       ...options,
     })
   }
@@ -141,6 +142,7 @@ export class Loop extends Sequence {
       ? this.random.shuffleTable(
           this.options.templateParameters,
           this.options.shuffleGroups,
+          this.options.shuffleUngrouped,
         )
       : this.options.templateParameters
 
