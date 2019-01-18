@@ -97,16 +97,15 @@ export class Random {
 
   // Given an array of objects, shuffle groups
   // of keys independently.
-  shuffleTable(data, groups=[]) {
+  shuffleTable(data, groups=[], shuffleUngrouped=true) {
     // Split data into independent groups
     const groupedData = groups.map(
       columns => data.map(entry => pick(entry, columns))
     )
 
     // Collect remaining entries
-    groupedData.push(
-      data.map(entry => omit(entry, flatten(groups)))
-    )
+    const groupedColumns = flatten(groups)
+    const remainingData = data.map(entry => omit(entry, groupedColumns))
 
     // Shuffle and merge data
     // (moving things into a temporary key,
@@ -114,7 +113,9 @@ export class Random {
     return merge(
       ...groupedData.map(
         g => ({ data: this.shuffle(g) })
-      )
+      ),
+      // Shuffle ungrouped columns if requested
+      { data: shuffleUngrouped ? this.shuffle(remainingData) : remainingData }
     ).data
   }
 
