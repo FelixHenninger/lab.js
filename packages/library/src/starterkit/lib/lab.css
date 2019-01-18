@@ -71,7 +71,7 @@ main {
 }
 .container.fullscreen.frameless {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 /* Remove frame on small screens */
@@ -81,7 +81,7 @@ main {
     border: none;
     border-radius: 0;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
   }
 }
 
