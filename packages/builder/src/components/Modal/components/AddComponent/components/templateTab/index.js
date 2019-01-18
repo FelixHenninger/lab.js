@@ -4,7 +4,7 @@ import { Card } from 'reactstrap'
 import { TaskList } from '../../../../../ComponentOptions/components/Welcome/components/ExampleTab'
 
 import './style.css'
-import importComponent from '../importTab'
+import { importComponent } from '../importTab'
 
 const basePath =
   'https://raw.githubusercontent.com/FelixHenninger/lab.js/master/templates/'
