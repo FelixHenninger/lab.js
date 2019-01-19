@@ -127,7 +127,7 @@ TaskList.defaultProps = {
 export default () =>
   <div>
     <CardBody>
-      <CardTitle className="mt-2">Examples</CardTitle>
+      <CardTitle className="h5 mt-2">Examples</CardTitle>
       <CardSubtitle className="text-muted mb-3">
         Pre-made, ready-to-run studies
       </CardSubtitle>
