@@ -132,6 +132,7 @@ export default class FileSelector extends Component {
         />
       default:
         return <UploadTab
+          accept={ this.props.accept }
           handleUpload={ this.handleUpload }
         />
     }
@@ -193,4 +194,5 @@ FileSelector.contextTypes = {
 
 FileSelector.defaultProps = {
   addToComponent: true,
+  accept: '',
 }

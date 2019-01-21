@@ -3,9 +3,9 @@ import React from 'react'
 import Uploader from '../../Uploader'
 import Icon from '../../Icon'
 
-export default ({ handleUpload }) =>
+export default ({ handleUpload, accept='' }) =>
   <Uploader
-    accept="image/*"
+    accept={ accept }
     decodeAs="dataURL"
     onUpload={ handleUpload }
   >

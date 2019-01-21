@@ -96,6 +96,7 @@ const AddDropDown = (
     <FileSelector
       ref={ ref => fileSelector = ref }
       component={ id }
+      accept="image/*"
     />
   </div>
 }
