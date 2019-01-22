@@ -7,6 +7,8 @@ import accept from 'attr-accept'
 
 import { flatTree } from '../../../logic/tree'
 import { mimeFromDataURI } from '../../../logic/util/dataURI'
+import { mimeToIcon } from '../../../logic/util/fileType';
+import Icon from '../../Icon';
 
 // TODO: Move this component to state hooks
 // once they become available (planned for Q1 2019)
@@ -61,12 +63,10 @@ class PoolTab extends Component {
       <ListGroup>
         {
           localFiles.map((f, index) =>
-            <ListGroupItem
-              action tag="a"
+            <ListGroupItem action
               key={ index }
-              style={{
-                fontFamily: 'Fira Mono'
-              }}
+              tag="a" href="#"
+              className="d-flex justify-content-between align-items-center"
               disabled={
                 !accept(
                   { type: f.type, name: f.poolPath },
@@ -78,7 +78,19 @@ class PoolTab extends Component {
                 f.localPath
               ) }
             >
-              { f.localPath }
+              <span
+                style={{
+                  fontFamily: 'Fira Mono',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                { f.localPath }
+              </span>
+              <Icon
+                icon={ mimeToIcon(f.type) }
+                className="fa-fw ml-2"
+              />
             </ListGroupItem>
           )
         }
