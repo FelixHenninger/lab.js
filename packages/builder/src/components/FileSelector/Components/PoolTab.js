@@ -3,8 +3,10 @@ import PropTypes from 'prop-types'
 
 import { CustomInput, ListGroup, ListGroupItem } from 'reactstrap'
 import { repeat } from 'lodash'
+import accept from 'attr-accept'
 
 import { flatTree } from '../../../logic/tree'
+import { mimeFromDataURI } from '../../../logic/util/dataURI'
 
 // TODO: Move this component to state hooks
 // once they become available (planned for Q1 2019)
@@ -21,11 +23,18 @@ class PoolTab extends Component {
   }
 
   render() {
-    const store = this.context.store
+    const { components, files: { files } } = this.context.store.getState()
 
-    const components = store.getState().components
-    const files = components[this.state.component].files
-      ? components[this.state.component].files.rows.map(r => r[0])
+    // TODO: Rejoice when optional chaining makes it into CRA
+    const localFiles = components[this.state.component].files
+      ? components[this.state.component].files.rows
+        .map(r => ({
+          // Undo grid data format and look up mime type
+          type: files[r[0].poolPath]
+            ? mimeFromDataURI(files[r[0].poolPath].content)
+            : '',
+          ...r[0],
+        }))
       : []
 
     return <div>
@@ -51,13 +60,19 @@ class PoolTab extends Component {
       </CustomInput>
       <ListGroup>
         {
-          files.map((f, index) =>
+          localFiles.map((f, index) =>
             <ListGroupItem
               action tag="a"
               key={ index }
               style={{
                 fontFamily: 'Fira Mono'
               }}
+              disabled={
+                !accept(
+                  { type: f.type, name: f.poolPath },
+                  this.props.accept
+                )
+              }
               onClick={ () => this.props.handleImport(
                 this.state.component,
                 f.localPath
