@@ -129,7 +129,6 @@ export default class FileSelector extends Component {
           component={ this.props.component }
           accept={ this.props.accept }
           handleImport={ this.handleImport }
-          handleUpload={ this.handleUpload }
         />
       default:
         return <UploadTab
