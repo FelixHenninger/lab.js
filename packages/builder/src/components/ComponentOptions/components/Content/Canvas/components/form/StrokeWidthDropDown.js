@@ -18,6 +18,9 @@ export default ({ onChange, disabled }) =>
   <DropDown
     type="button"
     direction="up"
+    style={{
+      minWidth: '3.5rem',
+    }}
   >
     <DropdownToggle caret outline color="secondary" disabled={ disabled }>
       <Icon

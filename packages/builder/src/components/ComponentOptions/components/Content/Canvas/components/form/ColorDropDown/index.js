@@ -43,6 +43,9 @@ export default class ColorDropdown extends Component {
         direction="up"
         type="button"
         ref={ ref => this.dropdown = ref }
+        style={{
+          minWidth: '3.5rem',
+        }}
       >
         {/* Hidden color input used to capture freely chosen colors */}
         <input type="color"

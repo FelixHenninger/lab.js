@@ -18,6 +18,9 @@ export default ({ selection, changeHandler }) =>
     <DropdownToggle
       caret outline color="secondary"
       disabled={ selection.type !== 'i-text' }
+      style={{
+        minWidth: '3.5rem',
+      }}
     >
       <Icon icon="font" />
     </DropdownToggle>
