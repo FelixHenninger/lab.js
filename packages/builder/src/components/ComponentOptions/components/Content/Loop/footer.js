@@ -74,9 +74,9 @@ export const Footer = (
             }}
           />
           <DropdownMenu right>
-            <DropdownItem header>CSV</DropdownItem>
+            <DropdownItem header>CSV / TSV</DropdownItem>
             <Uploader
-              accept='text/csv'
+              accept="text/csv,text/tab-separated-values,.csv,.tsv"
               maxSize={ 1 * 10**6 } // 1 MB
               onUpload={
                 fileContent => {
