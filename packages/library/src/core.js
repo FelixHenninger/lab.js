@@ -392,6 +392,9 @@ export class Component extends EventHandler {
     // Preload media
     await this.preload()
 
+    // Prepare DOM connections
+    this.internals.domConnection.prepare()
+
     // Trigger after:prepare event
     await this.triggerMethod('after:prepare')
   }
