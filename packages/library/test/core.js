@@ -27,16 +27,6 @@ describe('Core', () => {
       key: key, // Define the key that was pressed
     })
 
-    // The library logic depends on the 'which' property,
-    // that returns the charcode of the key that was pressed.
-    // The property is not included in artificial events,
-    // so it is simulated as an object property here.
-    // (this hack is adapted from a Stack Overflow entry at
-    // https://stackoverflow.com/questions/10455626/#10520017 )
-    Object.defineProperty(event,
-      'which', { get: () => key.charCodeAt(0) }
-    )
-
     // Dispatch event
     target.dispatchEvent(event)
     return event
@@ -530,21 +520,31 @@ describe('Core', () => {
 
         const handler_specific = sinon.spy()
         const handler_general = sinon.spy()
+        const handler_global = sinon.spy()
         b.options.events = {
           'keypress(a,b)': handler_general,
           'keypress(a)': handler_specific,
+          'keypress': handler_global,
         }
 
         return b.run().then(() => {
+          const c_pressed = simulateKeyPress('c', b.options.el)
+          assert.ok(handler_global.calledOnce)
+          assert.ok(handler_global.firstCall.calledWith(c_pressed))
+
           const b_pressed = simulateKeyPress('b', b.options.el)
           assert.ok(handler_general.calledOnce)
           assert.ok(handler_general.firstCall.calledWith(b_pressed))
+          assert.ok(handler_global.calledTwice)
+          assert.ok(handler_global.secondCall.calledWith(b_pressed))
 
           const a_pressed = simulateKeyPress('a', b.options.el)
           assert.ok(handler_specific.calledOnce)
           assert.ok(handler_specific.firstCall.calledWith(a_pressed))
           assert.ok(handler_general.calledTwice)
           assert.ok(handler_general.secondCall.calledWith(a_pressed))
+          assert.ok(handler_global.calledThrice)
+          assert.ok(handler_global.thirdCall.calledWith(a_pressed))
 
           return b.end()
         })

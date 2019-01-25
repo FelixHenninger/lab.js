@@ -1,8 +1,11 @@
+// Shim keyboard event data for IE and Edge for the time being
+import "shim-keyboard-event-key"
+
 // Split an eventString into event name, options and selector
 const splitEventString = function(eventString) {
   // Split the eventString ('click(0) div > button')
   // into selector ('div > button'), event type ('click')
-  // and additional options ('0')
+  // and additional filters (button '0')
   const directHandlerRegEx = /^(\w+)\s*([^()]*)$/
   const wrappedHandlerRegEx = /^(\w+)\(([\w\s,]+)\)\s*(.*)$/
 
@@ -22,96 +25,69 @@ const splitEventString = function(eventString) {
   return [eventName, filters, selector]
 }
 
-const keycodeLabels = {
-  ' ': 32,
-  Enter: 13,
-  Tab: 19,
-  Backspace: 8,
-  ArrowLeft: 37,
-  ArrowUp: 38,
-  ArrowRight: 39,
-  ArrowDown: 40,
-}
-
 const keyValues = {
   Space: ' ',
 }
 
-// Provide basic automatic wrapping for event handlers
-// based on simple options, e.g. automatically filter
-// events based on keyboard and mouse buttons.
-const wrapHandler = function(handler, eventName, filters=null, context=null) {
+// Provide basic automatic wrapping for event handlers based on simple
+// options, e.g. automatically filter events based on keyboard and mouse
+// buttons.
+const wrapHandler = function(handler, eventName,
+  { filters=[], context=null, filterRepeat=true }) {
+
   // Add context if desired
   if (context !== null) {
     handler = handler.bind(context)
   }
 
-  // Handle additional event options, if any
-  if (filters === null) {
-    // Without further filters,
-    // use the handler as-is
-    return handler
-  } else {
-    // Otherwise, wrap the handler
-    // depending on the event type
-    switch (eventName) {
-      case 'keypress':
-      case 'keydown':
-      case 'keyup':
-        // Filters define keys that trigger the handler
-        // Keys, in turn, are defined in terms of the
-        // key event values supplied by the browser
-        // (cf. https://w3.org/TR/DOM-Level-3-Events-key).
-        // However, not all browsers support the
-        // key property (yet), so we provide a fallback
-        // based on key codes for the time being. The
-        // fallback is not complete in that it does not
-        // support the full range of keys defined in the
-        // spec, but rather those which we anticipate
-        // will be used most frequently.
-        // (enter, tab, backspace, and arrow keys)
+  // Wrap the handler depending on the event type
+  switch (eventName) {
+    case 'keypress':
+    case 'keydown':
+    case 'keyup':
+      // Filters define keys that trigger the handler. Keys, in turn,
+      // are defined in terms of the key event values supplied by the
+      // browser (cf. https://w3.org/TR/DOM-Level-3-Events-key).
+      // However, not all browsers support the key property (yet), so we
+      // provide a fallback based on key codes for the time being. The
+      // fallback is not complete in that it does not support the full
+      // range of keys defined in the spec, but rather those which we
+      // anticipate will be used most frequently. (enter, tab,
+      // backspace, and arrow keys)
 
-        // Translate some keys that we choose
-        // to represent differently (i.e. the
-        // space key, which is a litteral space
-        // character in the spec, but would be
-        // trimmed here)
-        const keys = filters.map(
-          key => keyValues[key] || key,
-        )
+      // Translate some keys that we choose to represent differently
+      // (i.e. the space key, which is a literal space character in the
+      // spec, but would be trimmed here)
+      const keys = (filters || []).map( // (replace null value)
+        key => keyValues[key] || key,
+      )
 
-        // Look up keycode for each key,
-        // in case the browser does not support the key
-        // property. This fallback will be removed as
-        // more browsers support the w3c standard referenced
-        // referenced above (specifically, Safari), c.f.
-        // https://caniuse.com/#feat=keyboardevent-key
-        const keycodes = keys.map(
-          key => keycodeLabels[key] || key.charCodeAt(0),
-        )
-
-        // Wrap the handler to fire only
-        // if the key pressed matches one
-        // of those specified in the filters
+      // Wrap the handler only if we pre-select events
+      if (keys.length > 0 || filterRepeat) {
         return function(e) {
+          // Fire the handler only if
+          // - we filter repeats, and the key is not one
+          // - target keys are defined, and the key pressed matches one
           if (
-            (e.key && keys.includes(e.key)) ||
-            (e.which && keycodes.includes(e.which))
+            !(filterRepeat && e.repeat) &&
+            !(keys.length > 0 && !keys.includes(e.key))
           ) {
             return handler(e)
           } else {
             return null
           }
         }
+      }
 
-      case 'click':
-      case 'mousedown':
-      case 'mouseup':
-        // Filter clicks on a certain button
-        const buttons = filters.map(
-          button => parseInt(button),
-        )
+    case 'click':
+    case 'mousedown':
+    case 'mouseup':
+      // Filter clicks on a certain button
+      const buttons = (filters || []).map(
+        button => parseInt(button),
+      )
 
+      if (buttons.length > 0) {
         // Wrap the handler accordingly
         return function(e) {
           if (buttons.includes(e.button)) {
@@ -120,10 +96,11 @@ const wrapHandler = function(handler, eventName, filters=null, context=null) {
             return null
           }
         }
+      }
 
-      default:
-        return handler
-    } // switch
+    default:
+      // Return the handler as-is
+      return handler
   }
 }
 
@@ -152,12 +129,12 @@ export class DomConnection {
         // selector, attaching a listener to each
 
         // Split event string into constituent components
-        const [eventName, filter, selector] = splitEventString(eventString)
+        const [eventName, filters, selector] = splitEventString(eventString)
 
         // Apply the wrapHandler function to the handler,
         // so that any additional filters etc. are added
         const wrappedHandler = wrapHandler(
-          handler, eventName, filter, this.context,
+          handler, eventName, { filters, context: this.context },
         )
 
         return [eventString, eventName, selector, wrappedHandler]

@@ -22,6 +22,7 @@
     "lodash": "^4.17.10",
     "nodent": "^3.2.6",
     "seedrandom": "^2.4.3",
+    "shim-keyboard-event-key": "^1.0.2",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "whatwg-fetch": "^2.0.4"
   },
