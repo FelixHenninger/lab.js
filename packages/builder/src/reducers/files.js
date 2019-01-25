@@ -1,4 +1,5 @@
 import { makeDataURI } from '../logic/util/dataURI'
+import { fromPairs } from 'lodash'
 
 const index_html = `<!doctype html>
 <html>
@@ -65,13 +66,16 @@ const defaultState = {
 
 export default (state=defaultState, action) => {
   switch (action.type) {
-    case 'ADD_FILE':
+    case 'ADD_FILES':
       return {
         ...state,
         files: {
           ...state.files,
-          [action.file]: action.data
-        }
+          ...fromPairs(action.files
+            .filter(f => f.data)
+            .map(f => [f.poolPath, f.data])
+          )
+        },
       }
     case 'UPDATE_FILE':
       return {

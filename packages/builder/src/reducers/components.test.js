@@ -318,3 +318,29 @@ it('imports nested components from external tree', () => {
     '8': {},
   })
 })
+
+it('adds files to a component', () => {
+  expect(updateComponent(
+    initialState,
+    {
+      type: 'ADD_FILES',
+      files: [{
+        component: 'A',
+        localPath: 'foo.png',
+        poolPath: 'bar.png',
+      }]
+    }
+  )).toEqual({
+    ...initialState,
+    'A': {
+      files: {
+        rows: [
+          [{
+            localPath: 'foo.png',
+            poolPath: 'bar.png',
+          }]
+        ]
+      }
+    },
+  })
+})

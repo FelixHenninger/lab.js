@@ -77,11 +77,12 @@ export const Footer = (
             <DropdownItem header>CSV / TSV</DropdownItem>
             <Uploader
               accept="text/csv,text/tab-separated-values,.csv,.tsv"
+              multiple={ false }
               maxSize={ 1 * 10**6 } // 1 MB
               onUpload={
-                fileContent => {
+                ([[content]]) => {
                   const parseResult = parse(
-                    fileContent.trim(),
+                    content.trim(),
                     { header: true }
                   )
 

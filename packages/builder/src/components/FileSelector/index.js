@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { Nav, NavItem, NavLink, ModalBody } from 'reactstrap'
 import classnames from 'classnames'
 
-import { addGlobalFile, addLocalFile,
-  getLocalFile } from '../../logic/util/files'
+import { addFiles, getLocalFile } from '../../logic/util/files'
 
 import Modal from '../Modal'
 import Icon from '../Icon'
@@ -46,24 +45,17 @@ export default class FileSelector extends Component {
     })
   }
 
-  handleUpload(content, file) {
-    const { poolPath } = addGlobalFile(
+  handleUpload(files) {
+    const result = addFiles(
       this.context.store,
-      content, file
-    )
-
-    const result = {
-      localPath: file.name,
-      poolPath,
-    }
-
-    if (this.props.component && this.props.addToComponent) {
-      addLocalFile(this.context.store, {
+      files.map(([content, file]) => ({
+        localPath: file.name,
         component: this.props.component,
-        localPath: result.localPath,
-        poolPath,
-      })
-    }
+        data: {
+          content,
+        },
+      }))
+    )
 
     // Resolve promise
     if (this.promiseHandlers.resolve) {
@@ -92,11 +84,11 @@ export default class FileSelector extends Component {
       this.props.component && this.props.addToComponent &&
       this.props.component !== sourceComponent
     ) {
-      addLocalFile(this.context.store, {
+      addFiles(this.context.store, [{
         component: this.props.component,
         localPath: result.localPath,
         poolPath,
-      })
+      }])
     }
 
     // Resolve promise

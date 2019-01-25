@@ -46,14 +46,13 @@ const IOButton = (_, context) => {
       </DropdownItem>
       <Uploader
         accept="application/json"
+        multiple={ false }
         maxSize={ 55 * 10**6 } // 55 MB (50MB + some headroom)
         onUpload={
-          // TODO: This smells like it should
-          //   be extracted and abstracted
-          fileContent => {
+          ([[content]]) => {
             try {
               // Parse file from JSON
-              const state = fromJSON(fileContent)
+              const state = fromJSON(content)
               // Hydrate store from resulting object
               context.store.dispatch({
                 type: 'HYDRATE', state,

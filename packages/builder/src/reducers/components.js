@@ -1,4 +1,5 @@
 import { defaultState } from '../logic/components'
+import { fromPairs } from 'lodash'
 
 // Provide unique ids for individual components
 let idCounter = 0
@@ -213,21 +214,31 @@ export default (state=defaultState, action) => {
         },
       }
 
-    case 'ADD_COMPONENT_FILE':
-      const currentFiles = state[action.id].files || { rows: [] }
+    case 'ADD_FILES':
+      return fromPairs(
+        Object.entries(state)
+          .map(([id, componentState]) => {
+            const newFiles = action.files.filter(f => f.component === id)
 
-      return {
-        ...state,
-        [action.id]: {
-          ...state[action.id],
-          files: {
-            rows: [
-              ...currentFiles.rows,
-              [{ localPath: action.localPath, poolPath: action.poolPath }],
-            ],
-          },
-        },
-      }
+            if (newFiles.length > 0) {
+              const currentFiles = state[id].files || { rows: [] }
+
+              return [id, {
+                ...state[id],
+                files: {
+                  rows: [
+                    ...currentFiles.rows,
+                    ...newFiles.map(
+                      f => [{ localPath: f.localPath, poolPath: f.poolPath }]
+                    ),
+                  ]
+                }
+              }]
+            } else {
+              return [id, componentState]
+            }
+          })
+      )
 
     case 'RESET_STATE':
       return defaultState

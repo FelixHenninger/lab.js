@@ -6,6 +6,7 @@ import { Table, Button } from 'reactstrap'
 import { FileTableHeader, FileTableBody, FileTableColGroup } from '../../../FileTable'
 import Icon from '../../../Icon'
 import Uploader from '../../../Uploader'
+import { addFiles } from '../../../../logic/util/files'
 
 const Files = ({ files }, { store }) =>
   // We borrow styles from the grid component,
@@ -23,18 +24,18 @@ const Files = ({ files }, { store }) =>
             decodeAs="dataURL"
             maxSize={ 1 * 10**6 } // 1 MB
             onUpload={
-              (fileContent, file) => {
+              files => {
                 try {
-                  store.dispatch({
-                    type: 'ADD_FILE',
-                    file: `static/${ file.name }`,
+                  addFiles(store, files.map(([content, file]) => ({
+                    poolPath: `static/${ file.name }`,
                     data: {
-                      content: fileContent,
+                      content: content,
                       source: 'embedded-global',
                     }
-                  })
+                  })))
                 } catch(e) {
-                  alert('Couldn\'t add file, found error', e)
+                  console.log('Error while adding file', e)
+                  alert('Encountered error while adding file:', e)
                 }
               }
             }

@@ -16,11 +16,13 @@ it('adds a file', () => {
   expect(fileReducer(
     initialState,
     {
-      type: 'ADD_FILE',
-      file: 'bar.png',
-      data: {
-        content: png,
-      }
+      type: 'ADD_FILES',
+      files: [{
+        poolPath: 'bar.png'  ,
+        data: {
+          content: png,
+        }
+      }]
     }
   )).toEqual(
     {

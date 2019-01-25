@@ -17,11 +17,10 @@ class Uploader extends Component {
 
   handleInputChange() {
     // Select the first file that meets all criteria
-    const file = Array.from(this.inputField.files)
+    const files = Array.from(this.inputField.files)
       .filter( f => this.checkFile(f) )
-      .pop()
 
-    this.handleFile(file)
+    this.handleFiles(files)
   }
 
   handleDrop(e) {
@@ -29,13 +28,12 @@ class Uploader extends Component {
     e.preventDefault()
 
     if (e.dataTransfer.items) {
-      const file = Array.from(e.dataTransfer.items)
+      const files = Array.from(e.dataTransfer.items)
         .filter(item => item.kind === 'file')
         .map(item => item.getAsFile())
         .filter(f => this.checkFile(f))
-        .pop()
 
-      this.handleFile(file)
+      this.handleFiles(files)
       e.dataTransfer.items.clear()
     }
   }
@@ -67,18 +65,20 @@ class Uploader extends Component {
     )
   }
 
-  handleFile(file) {
-    // If there is a result, decode it and pass it on
-    if (file) {
+  handleFiles(files) {
+    Promise.all(files.map(f => new Promise((resolve) => {
       const reader = new FileReader()
-      reader.onload = e => this.props.onUpload(e.target.result, file)
+      reader.onload = e => resolve([e.target.result, f])
+
       // reader.iMarriedHim
       if (this.props.decodeAs === 'text') {
-        reader.readAsText(file)
+        reader.readAsText(f)
       } else if (this.props.decodeAs === 'dataURL') {
-        reader.readAsDataURL(file)
+        reader.readAsDataURL(f)
       }
-    }
+    }))).then(results => {
+      this.props.onUpload(results)
+    })
   }
 
   // User interface ------------------------------------------------------------
@@ -100,6 +100,7 @@ class Uploader extends Component {
       <input
         type="file"
         accept={ this.props.accept }
+        multiple={ this.props.multiple }
         style={{ display: 'none' }}
         ref={ field => this.inputField = field }
         onChange={ this.handleInputChange }
@@ -115,6 +116,7 @@ Uploader.defaultProps = {
   minSize: 0,
   maxSize: 100 * 1024 ** 2,
   accept: '',
+  multiple: true,
   decodeAs: 'text',
 }
 

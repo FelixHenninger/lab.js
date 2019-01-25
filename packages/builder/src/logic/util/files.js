@@ -15,39 +15,48 @@ export const embeddedFiles = components => {
   )
 }
 
-export const addGlobalFile = (store, fileContent, file) => {
-  // Compute (user-changable) file path and
-  // (internal) file name
-  const fileHash = sha256().update(fileContent).digest('hex')
-  const fileExtension = file.name.split('.').pop()
-  const poolPath = `embedded/${ fileHash }.${ fileExtension }`
+export const addFiles = (store, files=[]) => {
+  // Normalize files for further processing and output
+  const processedFiles = files.map(f => {
+    if (
+      !(f.poolPath && f.data && f.data.content) && // New global file
+      !(f.component && f.localPath && f.poolPath) && // File import
+      !(f.component && f.localPath && f.data && f.data.content) // Add local
+    ) {
+      // These errors should only ever result from programming mistakes
+      console.log('Incomplete data for file', f)
+      throw Error('Incomplete data for file', f)
+    }
 
-  // Add file to global file repository
-  store.dispatch({
-    type: 'ADD_FILE',
-    file: poolPath,
-    data: {
-      content: fileContent,
-      source: 'embedded',
-      checkSum: fileHash,
+    let defaultPath = undefined
+    let data = undefined
+
+    if (f.data && f.data.content) {
+      const fileHash = sha256().update(f.data.content).digest('hex')
+      const fileExtension = (f.localPath || f.poolPath).split('.').pop()
+      defaultPath = `embedded/${ fileHash }.${ fileExtension }`
+      data = {
+        content: f.data.content,
+        source: f.data.source || 'embedded',
+        checkSum: fileHash,
+      }
+    }
+
+    return {
+      poolPath: f.poolPath || defaultPath,
+      localPath: f.localPath,
+      component: f.component,
+      data,
     }
   })
 
-  return {
-    file, poolPath,
-    extension: fileExtension,
-    content: fileContent,
-  }
-}
-
-export const addLocalFile = (
-  store, { component, localPath, poolPath }
-) =>
   store.dispatch({
-    type: 'ADD_COMPONENT_FILE',
-    id: component,
-    poolPath, localPath,
+    type: 'ADD_FILES',
+    files: processedFiles,
   })
+
+  return processedFiles
+}
 
 export const getLocalFile = (store, componentId, localPath) => {
   const state = store.getState()

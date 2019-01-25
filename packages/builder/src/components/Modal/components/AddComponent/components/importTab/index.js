@@ -57,9 +57,10 @@ export const importComponent = (parent, index, state, store) => {
 const ImportTab = ({ parent, index }, { store }) =>
   <Uploader
     accept="application/json"
+    multiple={ false }
     maxSize={ 55 * 10**6 } // 55 MB
     onUpload={
-      fileContent => {
+      ([[fileContent]]) => {
         try {
           // Parse file from JSON
           const data = fromJSON(fileContent)
