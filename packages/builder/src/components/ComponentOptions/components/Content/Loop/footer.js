@@ -78,7 +78,6 @@ export const Footer = (
             <Uploader
               accept="text/csv,text/tab-separated-values,.csv,.tsv"
               multiple={ false }
-              maxSize={ 1 * 10**6 } // 1 MB
               onUpload={
                 ([[content]]) => {
                   const parseResult = parse(

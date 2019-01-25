@@ -22,7 +22,6 @@ const Files = ({ files }, { store }) =>
         <td colSpan="2">
           <Uploader
             decodeAs="dataURL"
-            maxSize={ 1 * 10**6 } // 1 MB
             onUpload={
               files => {
                 try {

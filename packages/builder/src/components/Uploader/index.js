@@ -114,7 +114,7 @@ class Uploader extends Component {
 
 Uploader.defaultProps = {
   minSize: 0,
-  maxSize: 100 * 1024 ** 2,
+  maxSize: 2.5 * 1024 ** 2, // 2.5MB ought to be enough for anybody
   accept: '',
   multiple: true,
   decodeAs: 'text',

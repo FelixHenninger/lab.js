@@ -58,7 +58,7 @@ const ImportTab = ({ parent, index }, { store }) =>
   <Uploader
     accept="application/json"
     multiple={ false }
-    maxSize={ 55 * 10**6 } // 55 MB
+    maxSize={ 55 * 1024 ** 2 } // 55MB
     onUpload={
       ([[fileContent]]) => {
         try {
