@@ -7,6 +7,7 @@ import { sortBy } from 'lodash'
 
 import Icon from '../Icon'
 import { dataURItoIcon } from '../../logic/util/fileType'
+import { sizeFromDataURI } from '../../logic/util/dataURI'
 
 export const FileTableColGroup = () =>
   <colgroup>
@@ -57,19 +58,7 @@ const FileTableRow = ({ path, content }, { store }) =>
     </td>
     <td className="text-monospace text-right">
       <div style={{ padding: "0.55rem 0 0.2rem" }}>
-      {
-        // base64 encoding inflates the file, storing 6 bits in every
-        // 8-bit character; the initial data URI indicator and the
-        // trailing equal sign don't count toward the file size.
-        //
-        // TODO: Even with all of these corrections, this is an
-        // approximation, and will differ from OS file managers.
-        // Corrections are welcome!
-        Math.ceil(
-          0.75 * (content.length - content.indexOf(',') - 1)
-          / 1000
-        )
-      }
+        { sizeFromDataURI(content) }
       </div>
     </td>
     <td>

@@ -38,6 +38,20 @@ export const blobFromDataURI = uri => {
   }
 }
 
+export const sizeFromDataURI = uri =>
+  // Calculate a file size in KB
+  //
+  // base64 encoding inflates the file, storing 6 bits in every 8-bit
+  // character; the initial data URI indicator and the trailing equal
+  // sign don't count toward the file size.
+  //
+  // TODO: Even with all of these corrections, this is an approximation,
+  // and will differ from OS file managers. Corrections are welcome!
+  Math.ceil(
+    0.75 * (uri.length - uri.indexOf(',') - 1)
+    / 1000
+  )
+
 export const updateDataURI = (uri, updater, ...args) => {
   const { data, mime } = readDataURI(uri)
   const newData = updater(data, ...args)
