@@ -8,6 +8,8 @@ import Icon from '../../../Icon'
 import Uploader from '../../../Uploader'
 import { addFiles } from '../../../../logic/util/files'
 
+import FileStorage from '../../../FileStorageIndicator'
+
 const Files = ({ files }, { store }) =>
   // We borrow styles from the grid component,
   // please make global adjustments there.
@@ -62,4 +64,20 @@ Files.contextTypes = {
   store: PropTypes.object,
 }
 
-export default connect(mapStateToProps)(Files)
+const ConnectedFiles = connect(mapStateToProps)(Files)
+
+export default () =>
+  <div>
+    <h4 className="mt-1">
+      Storage in use
+    </h4>
+    <FileStorage />
+    <small className="text-muted d-block mt-2">While storage is not strictly limited, we strongly recommend that studies use substantially less than 50 MB overall, and ideally below 20MB. This is not because of technical limitations but to reduce loading time and network traffic. If larger media are required, for example videos, these should be hosted outside of the study.</small>
+
+    <hr />
+    <h5 className="h5 mt-1">
+      Study-wide static files
+    </h5>
+    <p className="text-muted">The following files are available study-wide from the <code>static</code> directory.</p>
+    <ConnectedFiles />
+  </div>
