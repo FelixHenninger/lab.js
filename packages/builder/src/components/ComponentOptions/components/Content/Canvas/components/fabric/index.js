@@ -10,15 +10,19 @@ import makeOverlay from './overlay'
 import { filePlaceholderRegex } from '../../logic'
 import { getLocalFile } from '../../../../../../../logic/util/files'
 
-// Customize JSON conversion ---------------------------------------------------
+// Customize image behavior ----------------------------------------------------
 
 fabric.Image.prototype.toObject = (function(toObject) {
   return function(propertiesToInclude) {
     const { width, height } = this.getOriginalSize()
     return {
       ...toObject.apply(this, [propertiesToInclude]),
-      naturalWidth: width,
-      naturalHeight: height,
+      // Save the image's original resolution,
+      // but fall back onto raw width and height
+      // if these are not available.
+      // (i.e. if the image couldn't be loaded)
+      naturalWidth: width || this.width,
+      naturalHeight: height || this.height,
       // Restore original (placeholder-based) path
       // for export (this is useful mostly when new
       // images are added, after that, updates to
@@ -28,6 +32,40 @@ fabric.Image.prototype.toObject = (function(toObject) {
     }
   }
 })(fabric.Image.prototype.toObject)
+
+fabric.Image.prototype._renderFill = (function(renderFill) {
+  return function(ctx) {
+    if (!this.src && !this._pattern) {
+      ctx.save()
+      ctx.beginPath()
+      const w = this.width || 50
+      const h = this.height || 50
+      ctx.fillStyle = 'rgba(50, 50, 50, 0.25)'
+      ctx.fillRect(
+        -w / 2, -h / 2,
+        w, h,
+      )
+      ctx.restore()
+    } else {
+      // Use standard rendering path
+      renderFill.apply(this, [ctx])
+    }
+  }
+})(fabric.Image.prototype._renderFill)
+
+fabric.Image.fromObject = function(_object, callback) {
+  var object = fabric.util.object.clone(_object)
+  fabric.util.loadImage(object.src, function(img, error) {
+    // Substitute empty image in case of error
+    const image = new fabric.Image(
+      error ? new Image() : img,
+      object
+    )
+
+    // Pretend that we were successful in any case
+    callback(image)
+  })
+}
 
 // Canvas component ------------------------------------------------------------
 
@@ -220,7 +258,7 @@ export default class FabricCanvas extends Component {
       () => this.canvas.requestRenderAll(),
       // This is somewhat weird -- the transformation
       // should really also apply to the overlay,
-      { originX: 'center', originY: 'center'}
+      { originX: 'center', originY: 'center', _pattern: true }
     )
   }
 

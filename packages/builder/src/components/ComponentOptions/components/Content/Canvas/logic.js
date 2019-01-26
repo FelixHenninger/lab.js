@@ -8,10 +8,6 @@ const defaults = {
   stroke: null, fill: 'black'
 }
 
-// TODO: This is a mess :-/
-export const filePlaceholderRegex =
-  /^\s*\${\s*this\.files\[['"]([^'"]+)['"]\]\s*}\s*$/
-
 // TODO: Add proper validation mechanism
 // and alert user to nonsensical values
 const toNumber = (s, fallback=0) => {
@@ -26,6 +22,24 @@ const isPlaceholder = o =>
   typeof o === 'string' && o.includes('$')
 
 const unprocessedOptions = ['text', 'src']
+
+// TODO: This is a mess :-/
+export const filePlaceholderRegex =
+  /^\s*\${\s*this\.files\[['"]([^'"]+)['"]\]\s*}\s*$/
+
+export const resolveImage = (src, store, id) => {
+  // Look up and insert image data
+  const filePlaceholderMatch = src.match(filePlaceholderRegex)
+  if (filePlaceholderMatch) {
+    const imagePath = filePlaceholderMatch[1]
+
+    // Check if the requested file exists
+    const file = getLocalFile(store, id, imagePath)
+    return file
+      ? file.file.content
+      : undefined
+  }
+}
 
 export const toCanvas = (object, { store, id }) => {
   if (!object) {
@@ -69,12 +83,7 @@ export const toCanvas = (object, { store, id }) => {
       output.width = output.naturalWidth
       output.height = output.naturalHeight
 
-      // Look up and insert image data
-      const filePlaceholderMatch = output.src.match(filePlaceholderRegex)
-      if (filePlaceholderMatch) {
-        const imagePath = filePlaceholderMatch[1]
-        output.src = getLocalFile(store, id, imagePath).file.content
-      }
+      output.src = resolveImage(object.src, store, id)
     }
 
     return output
