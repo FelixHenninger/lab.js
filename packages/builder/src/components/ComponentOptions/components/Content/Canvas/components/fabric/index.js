@@ -322,30 +322,26 @@ export default class FabricCanvas extends Component {
     // https://github.com/kangax/fabric.js/blob/10545cec7773cd1c00312c1428f09ea43fd8ac52/test/unit/canvas.js#L1263
     const selection = this.canvas.getActiveObjects()
 
-    // For now, ignore value to multiple selections
-    // (for the sake of the author's sanity)
-    if (method !== 'set' || selection.length === 1) {
-      selection.map(o => {
-        switch(method) {
-          case 'remove':
-            this.canvas.discardActiveObject()
-            return this.canvas.remove(o)
-          default:
-            // Call specified method while passing in
-            // selection as current scope
-            const output = o[method].call(o, ...args)
+    // At present, multiple selection is deactivated, so that this loop
+    // will only ever run once (there were some issues with multiple
+    // selection / concurrent modification)
+    selection.forEach(o => {
+      switch(method) {
+        case 'remove':
+          this.canvas.discardActiveObject()
+          this.canvas.remove(o)
+          break
+        default:
+          // Apply modifications
+          o[method].call(o, ...args)
 
-            // Update handle coordinates
-            o.setCoords()
+          // Update handle coordinates
+          o.setCoords()
+      }
+    })
 
-            // Return selection, just in case
-            return output
-        }
-      })
-
-      // Re-render canvas
-      this.canvas.requestRenderAll()
-    }
+    // Re-render canvas
+    this.canvas.requestRenderAll()
   }
 
   cloneActive() {
