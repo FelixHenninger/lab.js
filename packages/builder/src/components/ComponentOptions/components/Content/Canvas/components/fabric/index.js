@@ -370,6 +370,11 @@ export default class FabricCanvas extends Component {
           this.canvas.remove(o)
           break
         default:
+          // Update image src, if required (and then rerender)
+          if (o.type === 'image' && o.src !== args[0].src) {
+            o.setSrc(args[0].src, () => this.canvas.requestRenderAll())
+          }
+
           // Apply modifications
           o[method].call(o, ...args)
 
