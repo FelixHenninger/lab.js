@@ -5,12 +5,14 @@ import { DropdownToggle } from 'reactstrap'
 import DropDown from '../../../../../../../Dropdown'
 import Icon from '../../../../../../../Icon'
 
+import ImageOptions from './ImageOptions'
 import TextOptions from './TextOptions'
 
 import './index.css'
 
 const icons = {
   'i-text': 'font',
+  'image': 'image',
 }
 
 const Toggle = ({ type }) =>
@@ -28,6 +30,8 @@ const Options = (props) => {
   switch(props.selection.type) {
     case 'i-text':
       return <TextOptions { ...props } />
+    case 'image':
+      return <ImageOptions { ...props } />
     default:
       return null
   }
