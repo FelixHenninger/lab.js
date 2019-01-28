@@ -59,6 +59,7 @@ export default class ColorDropdown extends Component {
         {/* Remainder of the Dropdown */}
         <DropdownToggle
           caret outline color="secondary"
+          className="border-left-0"
           disabled={ this.props.disabled }
         >
           <Icon
