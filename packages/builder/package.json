@@ -34,7 +34,7 @@
     "react-dnd-html5-backend": "^5.0.1",
     "react-dom": "^16.4.1",
     "react-modal": "^3.5.1",
-    "react-monaco-editor": "^0.12.0",
+    "react-monaco-editor": "^0.14.0",
     "react-redux": "^5.0.7",
     "react-redux-form": "^1.16.9",
     "react-scripts": "2.1.1",

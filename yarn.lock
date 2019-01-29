@@ -10288,9 +10288,10 @@ react-modal@^3.5.1:
     react-lifecycles-compat "^3.0.0"
     warning "^3.0.0"
 
-react-monaco-editor@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/react-monaco-editor/-/react-monaco-editor-0.12.0.tgz#d96fbb07eb743eb4ad10b69d80f9985416f1a266"
+react-monaco-editor@^0.14.0:
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/react-monaco-editor/-/react-monaco-editor-0.14.1.tgz#f5163e119e8a7dc79b992cb3fd7af887547d7efd"
+  integrity sha512-IzBfRmtFy29XinBxSrvlPDxmJR4Bclp5HrLRgugNGr/bEMiRAjFDsSn0aQRyuIpbAAC6m8oSWF6T/kFmDQ1RMg==
   dependencies:
     monaco-editor "^0.10.0"
     prop-types "^15.5.10"
