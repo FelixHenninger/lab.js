@@ -75,10 +75,10 @@ export default class FileSelector extends Component {
     // that a file lookup might fail, and add error
     // handling if so.
 
-    const result = {
+    const result = [{
       localPath: sourceLocalPath,
       poolPath,
-    }
+    }]
 
     if (
       this.props.component && this.props.addToComponent &&
@@ -86,7 +86,7 @@ export default class FileSelector extends Component {
     ) {
       addFiles(this.context.store, [{
         component: this.props.component,
-        localPath: result.localPath,
+        localPath: result[0].localPath,
         poolPath,
       }])
     }
