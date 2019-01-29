@@ -222,7 +222,7 @@ const Timeline = ({ data }) =>
                 model=".skip"
                 component={ CustomInput }
                 controlProps={{
-                  addon: true,
+                  addon: 'true',
                   id: 'skip',
                   type: 'checkbox'
                 }}
