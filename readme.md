@@ -91,6 +91,7 @@ in the documentation.
 
 [Michael Kriechbaumer](https://www.cognition.uni-landau.de/people/michael-kriechbaumer-msc/) ·
 [Felix Ludwig](https://www.cognition.uni-landau.de/people/felix-ludwig-msc/) ·
+[Folco Panizza](https://sites.google.com/view/panizzafolco) ·
 [Merle M. Schuckart](https://github.com/MMarieSchuckart)
 
 #### Ideas and feedback 💡

@@ -6,5 +6,12 @@
       "Felix Henninger"
     ],
     "path": "Demography/demography-form-basic.study.json"
+  },
+  {
+    "name": "Multi-page instructions",
+    "contributors": [
+      "Folco Panizza"
+    ],
+    "path": "Instructions/instructions-multi-page.study.json"
   }
 ]
