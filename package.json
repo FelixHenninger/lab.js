@@ -34,14 +34,8 @@
       "**/karma-sauce-launcher/**",
       "**/mocha",
       "**/mocha/**",
-      "**/monaco-editor",
-      "**/monaco-editor/**",
       "**/sinon",
-      "**/sinon/**",
-      "**/react-monaco-editor",
-      "**/react-monaco-editor/**",
-      "**/requirejs",
-      "**/requirejs/**"
+      "**/sinon/**"
     ]
   }
 }

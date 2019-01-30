@@ -5,11 +5,6 @@ import { throttle } from 'lodash'
 
 import './editor-style-overrides.css'
 
-// TODO: I haven't found a way to reliably host the
-// monaco static files on another path than /vs .
-// It would be nice to be able to move it into the
-// /vendor directory
-
 export default class Editor extends React.Component {
   editorWillMount(monaco) {
     monaco.editor.defineTheme('labjs', {
@@ -81,21 +76,10 @@ export default class Editor extends React.Component {
   }
 
   render() {
-    const requireConfig = {
-      url: process.env.PUBLIC_URL + '/vendor/require.js',
-      paths: {
-        'vs': process.env.PUBLIC_URL + '/vs'
-      },
-      // Give the (large) editor script more time to load
-      // (the default is 7 seconds, 30 should
-      // be enough even for a 2G connection)
-      waitSeconds: 30,
-    }
     return <MonacoEditor
       width="100%"
       language="html" value={''}
       theme="labjs"
-      requireConfig={ requireConfig }
       editorDidMount={ this.editorDidMount.bind(this) }
       editorWillMount={ this.editorWillMount.bind(this) }
       options={{
