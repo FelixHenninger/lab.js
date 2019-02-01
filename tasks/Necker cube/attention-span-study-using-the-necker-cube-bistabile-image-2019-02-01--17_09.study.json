@@ -1,0 +1,845 @@
+{
+  "components": {
+    "1": {
+      "id": "1",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "Flip",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Necker show",
+      "content": "\n<div class=\"container\">\n  <main class=\"content-vertical-center content-horizontal-center\">\n      <div class=\"w-s text-justify\">\n        <p>Focus on the cube.</p>\n        <p>Hit the <kbd>Space</kbd> key, \n        as soon as your perception flips. </p>\n      </div>\n\n    <br />\n  </main>\n  <main class=\"content-vertical-center content-horizontal-center\">\n\n\n    <figure>\n      <img\n        src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Necker_cube.svg/2560px-Necker_cube.svg.png\" \n        width=\"600\" \n        height=\"600\">\n    </figure>\n\n  </main>\n</div>\n\n\n\n\n<footer>\n  Please press <kbd>space</kbd>\n  as soon as your perceptions flips.\n</footer>",
+      "_tab": "Content",
+      "timeout": "",
+      "tardy": true
+    },
+    "3": {
+      "id": "3",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Ready for round1?",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-s text-justify\">\n    <h1 class=\"text-center\">Read for round 1?</h1>\n\n    \n    \n    <p>Let's get going with round 1.</p>\n\n     <em> Try to hold your perspective as long as possible.</em>\n\n      <p>Please remember that your job is to hit the space key \n      as soon as and every time when your perception \n      of the cube changes.</p>\n   \n    <p>Please hit <kbd>Space</kbd>-Taste, if you are ready to start.\n  </div>\n</main>\n\n\n<footer>\n  Please press <kbd>Space</kbd> to begin the experiment.\n</footer>",
+      "_tab": "Content"
+    },
+    "4": {
+      "id": "4",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Welcome",
+      "content": "<header>\n  <h1>Welcome to the Necker cube study on attention processes</h1>\n</header>\n\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-m text-justify\">\n    <p>This study investigates attention processeses.</p>\n    <p>This study is part of ongoing research activities \n      of the department of psychology at the FOM university.\n      The principal investigator is Professor <a href=\"mailto:sebastian.sauer@fom.de\">Sebastian Sauer</a>. \n      Please contact him for any questions. \n      Your participation supports the research about mental processing.\n      </p>\n\n  <p>\n    Principal investigator: <br>\n    Professor Sebastian Sauer </br>\n    FOM University <br>\n    email: sebastian.sauer@fom.de <br>\n    url: <a href=\"https://www.fom.de/forschung/institute/iwp.html\"> \n    https://www.fom.de/forschung/institute/iwp.html </a>\n  </p>\n\n      <p>For more information on the study,\n      please press the <kbd>Space</kbd> bar to continue.</p>\n  </div>\n</main>\n\n\n<footer>\n  Please press <kbd>space</kbd>\n  to proceed to the participants' instructions for this study.\n</footer>",
+      "_tab": "Content"
+    },
+    "5": {
+      "id": "5",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Consent",
+      "content": "<header>\n  <h1>Informed Consent</h1>\n</header>\n\n\n\n\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-m text-justify\">\n   \n      <p>\n      We are conducting this web-based study in order to investigate\n      mental processes using bistabile images \n      (see next page for an example). \n      You will see an image on the screen \n      and you will be asked to press a button according to your \n      perception of the image.\n      </p>\n\n      <p>\n      <strong> Before participating it is important that you \n        understand what your participation would involve. \n        Please take time to read the following information carefully.  </strong>\n      </p>\n\n      <p>\n      In order to participate, you must be 18 years or older. \n      There are special incentives to participate in the study.\n      </p>\n   \n      <p>\n      Your participation in this study is completely voluntary \n      and you may withdraw at any time without penalty. \n      If you choose to participate, \n      it will take approximately 5-10 minutes of your time.\n      </p>\n\n      <p>    \n      Your privacy and safety will be respected at all times. \n      Participants will not be identified by the data collected.\n      Please do not enter \n      any information that may de-anonymize yourself \n      (such as email adresses). \n      Contact details will be repeated on the last page, so\n      that you can contact us for any question regarding the study.\n      </p>\n    \n      <p>\n      There are none known potential consequences of participating\n      in the study; potential risks, \n      adverse side effects or discomfort is not to be expected.\n      Participants do not have to answer all questions asked of them \n      and can stop their participation at any time\n      </p>\n\n      <p>\n      Data (anonymous) will be stored for research purposes \n      for an indefinite period of time. \n      It is planned to provide the data openly so that other researcher\n      may use them for subsequent research.\n      </p>\n\n      <p>\n      You are free to withdraw from the research study \n      at any time without explanation, disadvantage or consequence. \n      However, if you withdraw I would reserve the right to use \n      Material that you provide up until \n      the point of my analysis of the data. \n      </p>\n\n      <p> By clicking you confirm that you have read and understood \n       the information provided above. If you agree to participate, \n      please hit the <kbd>Space</kbd> bar.</p>\n\n    </div>\n\n</main>\n\n\n\n<footer>\n  Please press <kbd>space</kbd>\n  to proceed to the instructions for this study.\n</footer>",
+      "_tab": "Content"
+    },
+    "6": {
+      "id": "6",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Pseudonym",
+      "content": "<header>\n  <h1>Personal and study ID (optional)</h1>\n</header>\n\n\n\n<main class=\"content-vertical-center content-horizontal-center\">\n<div class=\"w-m text-justify\">\n\n <p> If you have a personal anonymous ID (pseudonym), \n   please enter it below. \n   Similarly, if have have been given an ID for this study, \n   please enter it in the second box.\n </p>\n\n <p>   \n   If you do not have that information, just skip the respective box.\n </p>\n\n\n<form id=\"form\"> \n    <!-- The form = \"form\" part links this input to the form in the main part. By inserting \"required\", people won't be able to proceed without answering. -->\n    <table class=\"table-plain\">      \n   \n  <tr>\n        <th style=\"text-align: right;\">\n          <label for=\"pseudonym\">Please enter your anonymous ID here:</label> \n          <!-- In this case we want people to fill in a text field. We can adjust the width of the textfield by using the style-element. -->\n       </th>\n        <td style=\"text-align: left;\"> \n        <input id=\"pseudonym\" name=\"pseudonym\" type=\"text\" style=\"width: 20em;\" required> \n        </td>  \n  </tr>\n  <tr>\n    <th style=\"text-align: right;\">\n          <label for=\"studyid\">Please enter your study ID here:</label> \n          <!-- In this case we want people to fill in a text field. We can adjust the width of the textfield by using the style-element. -->\n       </th>\n       <td style=\"text-align: left;\"> \n        <input id=\"studyid\" name=\"studyid\" type=\"text\" style=\"width: 20em;\" required> \n        </td>  \n      </tr>  \n</table>\n\n\n\n\n</main>\n\n<footer>\n  Please press <kbd>Space</kbd> to continue.\n</footer>",
+      "_tab": "More"
+    },
+    "7": {
+      "id": "7",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Instructions",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-s text-justify\">\n    <h1 class=\"text-center\">Instructions</h1>\n\n    \n    <p> There will be two rounds:</p>\n    \n    <p>1. In the first round, your task is to <em> hold the perspective as long as possible</em>. Don't let it flip as long as possible.</p> \n    <p> 2. In the second round, your task is to <em> flip the perspective as soon and as often</em> as possible. Don't let the perspective remain, try to make it flip.</p>\n\n    <p> Each round will consist of 20 flips; once you indicated that the Necker cube has flipped 20 times, the round will be over.</p>\n    \n    <p>In each round, your job is to hit the space key \n      as soon as and every time when your perception \n      of the cube changes.</p>\n    <p>It is important to remain focused and undisturbed \n      during the whole experiment. \n      Please make sure you direct your whole attention\n      to the task at hand. Please disable distractions.</p>\n\n\n    <p>Please hit <kbd>Space</kbd>-Taste, if you are ready to start.\n  </div>\n</main>\n\n\n<footer>\n  Please press <kbd>Space</kbd> to begin the experiment.\n</footer>",
+      "_tab": "Content"
+    },
+    "8": {
+      "id": "8",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "1",
+        "12"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": []
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Necker Trial",
+      "_tab": "Content"
+    },
+    "9": {
+      "id": "9",
+      "type": "lab.flow.Loop",
+      "children": [
+        "8"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "repetition",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "1"
+          ],
+          [
+            "2"
+          ],
+          [
+            "3"
+          ],
+          [
+            "4"
+          ],
+          [
+            "5"
+          ],
+          [
+            "6"
+          ],
+          [
+            "7"
+          ],
+          [
+            "8"
+          ],
+          [
+            "9"
+          ],
+          [
+            "10"
+          ],
+          [
+            "11"
+          ],
+          [
+            "12"
+          ],
+          [
+            "13"
+          ],
+          [
+            "14"
+          ],
+          [
+            "15"
+          ],
+          [
+            "16"
+          ],
+          [
+            "17"
+          ],
+          [
+            "18"
+          ],
+          [
+            "19"
+          ],
+          [
+            "20"
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "shuffle": false,
+      "title": "Necker Loop - hold as long as possible",
+      "sample": {
+        "n": "",
+        "replace": true
+      },
+      "_tab": "Content"
+    },
+    "10": {
+      "id": "10",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Necker Cube",
+      "content": "<header>\n  <h1>The \"Necker Cube\" - main research object of this study</h1>\n</header>\n\n\n\n\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-m text-justify\">\n    <p>Below you can seee the wire-frame \"Necker Cube\" (upper panel).\n     \n      If you look ath the cube long enough, \n      it will seem to \"flip\" between patterns.\n      These two patterns are depicted in the lower panel.\n      </p>\n\n      <p> Test it: Concentrate on the cube (upper panel) until your perception flips.</p>\n\n      <p> Your task will be to concentrate on the cube, \n        hitting the space key \n        <em>each time</em> and <em> as soon as</em> your perception flips.</p>\n\n      <p> It does not matter whether it flips from this to that perception,\n        or from that to this perception. \n        It does not matter how long it takes until it flips. \n        Just hit the space bar whenever a flip occurs.\n      </p>\n\n  </main>\n\n\n<main class=\"content-vertical-center content-horizontal-center\">\n\n\n    <figure>\n     \n      <img\n        src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Necker_cube.svg/2560px-Necker_cube.svg.png\" \n        width=\"300\" \n        \n        height=\"300\">\n        <br/>\n        <figcaption> Upper panel: The Necker cube  </figcaption>\n\n </figure>\n\n  </main>\n\n   <main class=\"content-vertical-center content-horizontal-center\">\n \n\n      <figure>\n        <img\n        src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Cube1.svg/2560px-Cube1.svg.png\" \n        width=\"200\" \n        height=\"200\"\n        title = \"Lower panel. Configuration A\"\n        align = \"left\">\n        <br/>\n        <figcaption> Lower panel. Configuration A</figcaption>\n      </figure>\n\n     <figure>\n        <img\n        src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Cube2.svg/2560px-Cube2.svg.png\" \n        width=\"200\" \n        height=\"200\"\n        title = \"Lower panel.  Configuration B\"\n\n        align = \"right\">      \n        <figcaption> Lower panel. Configuration B</figcaption>\n    </figure>\n\n  </main>\n\n\n\n<footer>\n  Please press <kbd>space</kbd>\n  to proceed to the instructions for this study.\n</footer>",
+      "_tab": "Content"
+    },
+    "11": {
+      "id": "11",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "keypress",
+            "",
+            "d"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "End",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n\n  <div>\n    <h2>Thank you for taking part!</h2>\n    The study is finished. You can close this window now.\n  </div>\n</main>\n\n\n\n<main class=\"content-vertical-center content-horizontal-center\">\n\n  <div class=\"w-m text-justify\">\n     <p>This study is part of ongoing research activities \n      of the department of psychology at the FOM university.\n      The principal investigator is Professor <a href=\"mailto:sebastian.sauer@fom.de\">Sebastian Sauer</a>. \n      Please contact him for any questions. \n      Your participation supports the research about mental processing.\n      </p>\n\n    <p>\n      Principal investigator: <br>\n      Professor Sebastian Sauer </br>\n      FOM University <br>\n      email: sebastian.sauer@fom.de <br>\n      url: <a href=\"https://www.fom.de/forschung/institute/iwp.html\"> \n      https://www.fom.de/forschung/institute/iwp.html </a>\n      </p>\n  </div>\n\n</main>\n\n",
+      "_tab": "Behavior"
+    },
+    "12": {
+      "id": "12",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": []
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Inter-trail interval",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div style=\"font-size: 3.5rem\">\n    +\n  </div>\n\n  \n  </main>\n\n\n\n<footer>\n  Please press <kbd>space</kbd>\n  as soon as your perceptions flips the next time.\n</footer>",
+      "_tab": "Behavior",
+      "timeout": "300"
+    },
+    "14": {
+      "id": "14",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "Continue",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Ready for round2?",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-s text-justify\">\n    <h1 class=\"text-center\">Read for round 2?</h1>\n\n    \n    \n    <p>Let's get going with the next (and last) round, round 2.</p> \n\n     This time, <em> Try to flip your perspective as quickly as possible.</em>\n\n      <p> Please remember that your job is to hit the space key \n      as soon as and every time when your perception \n      of the cube changes.</p>\n   \n    <p>Please hit <kbd>Space</kbd>-Taste, if you are ready to start.\n  </div>\n</main>\n\n\n<footer>\n  Please press <kbd>Space</kbd> to begin the experiment.\n</footer>",
+      "_tab": "Content"
+    },
+    "15": {
+      "id": "15",
+      "type": "lab.flow.Loop",
+      "children": [
+        "16"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "repetition",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "1"
+          ],
+          [
+            "2"
+          ],
+          [
+            "3"
+          ],
+          [
+            "4"
+          ],
+          [
+            "5"
+          ],
+          [
+            "6"
+          ],
+          [
+            "7"
+          ],
+          [
+            "8"
+          ],
+          [
+            "9"
+          ],
+          [
+            "10"
+          ],
+          [
+            "11"
+          ],
+          [
+            "12"
+          ],
+          [
+            "13"
+          ],
+          [
+            "14"
+          ],
+          [
+            "15"
+          ],
+          [
+            "16"
+          ],
+          [
+            "17"
+          ],
+          [
+            "18"
+          ],
+          [
+            "19"
+          ],
+          [
+            "20"
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "shuffle": false,
+      "title": "Necker Loop - flip as quicky as possible",
+      "sample": {
+        "n": "",
+        "replace": true
+      },
+      "_tab": "Content"
+    },
+    "16": {
+      "id": "16",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "17",
+        "18"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": []
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Necker Trial",
+      "_tab": "Content"
+    },
+    "17": {
+      "id": "17",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "Flip",
+            "keypress",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Necker show",
+      "content": "\n<div class=\"container\">\n  <main class=\"content-vertical-center content-horizontal-center\">\n      <div class=\"w-s text-justify\">\n        <p>Focus on the cube.</p>\n        <p>Hit the <kbd>Space</kbd> key, \n        as soon as your perception flips. </p>\n      </div>\n\n    <br />\n  </main>\n  <main class=\"content-vertical-center content-horizontal-center\">\n\n\n    <figure>\n      <img\n        src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Necker_cube.svg/2560px-Necker_cube.svg.png\" \n        width=\"600\" \n        height=\"600\">\n    </figure>\n\n  </main>\n</div>\n\n\n\n\n<footer>\n  Please press <kbd>space</kbd>\n  as soon as your perceptions flips.\n</footer>",
+      "_tab": "Content",
+      "timeout": "",
+      "tardy": true
+    },
+    "18": {
+      "id": "18",
+      "type": "lab.html.Screen",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": []
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Inter-trail interval",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div style=\"font-size: 3.5rem\">\n    +\n  </div>\n\n  \n  </main>\n\n\n\n<footer>\n  Please press <kbd>space</kbd>\n  as soon as your perceptions flips the next time.\n</footer>",
+      "_tab": "Behavior",
+      "timeout": "300"
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "4",
+        "5",
+        "10",
+        "7",
+        "3",
+        "9",
+        "14",
+        "15",
+        "6",
+        "11"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "Attention span study using the Necker Cube bistabile image",
+        "description": "",
+        "repository": "",
+        "contributors": "sebastian.sauer@fom.de"
+      }
+    }
+  },
+  "version": [
+    2018,
+    0,
+    3
+  ],
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20lab.js%20library%20and%20default%20styles%20--%3E%0A%20%20%3Cscript%20src%3D%22lib%2Flab.js%22%20data-labjs-script%3D%22library%22%3E%3C%2Fscript%3E%0A%20%20%3Cscript%20src%3D%22lib%2Flab.fallback.js%22%20data-labjs-script%3D%22fallback%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22lib%2Flab.css%22%3E%0A%20%20%3C!--%20study%20code%20and%20styles%20--%3E%0A%20%20%3Cscript%20defer%20src%3D%22script.js%22%3E%3C%2Fscript%3E%0A%20%20%3Clink%20rel%3D%22stylesheet%22%20href%3D%22style.css%22%3E%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "permanent": true
+      },
+      "style.css": {
+        "content": "data:text/css,.center%20%7B%0A%20%20display%3A%20block%3B%0A%20%20margin-left%3A%20auto%3B%0A%20%20margin-right%3A%20auto%3B%0A%20%20width%3A%2050%25%3B%0A%7D",
+        "permanent": true
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.fallback.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      }
+    }
+  }
+}
