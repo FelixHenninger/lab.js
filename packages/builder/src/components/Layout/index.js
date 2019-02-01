@@ -1,7 +1,7 @@
 import React from 'react'
 
 // Bootstrap integration
-import './bootstrap-custom.css'
+import './bootstrap-custom.scss'
 import { Container } from 'reactstrap'
 
 // Fira

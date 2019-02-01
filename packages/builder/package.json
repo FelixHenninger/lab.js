@@ -24,8 +24,7 @@
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "monaco-editor-webpack-plugin": "^1.7.0",
-    "node-sass-chokidar": "^1.3.3",
-    "npm-run-all": "^4.1.3",
+    "node-sass": "^4.11.0",
     "papaparse": "^4.5.0",
     "parse-author": "^2.0.0",
     "prop-types": "^15.6.2",
@@ -49,16 +48,12 @@
     "uuid4": "^1.0.0"
   },
   "scripts": {
-    "start": "npm-run-all -p watch-css start-js",
-    "build": "npm-run-all build-css build-js",
-    "start-js": "npm run static:library && react-app-rewired start",
-    "build-js": "npm run static:library && react-app-rewired build && node scripts/postprocess_build.js",
+    "start": "npm run static:library && react-app-rewired start",
+    "build": "npm run static:library && react-app-rewired build && node scripts/postprocess_build.js",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer build/static/js/main.*",
-    "build-css": "node-sass-chokidar src/ -o src/",
     "deploy": "node scripts/deploy.js",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "static:library": "shx mkdir -p public/api/_defaultStatic/lib/ && shx cp -R ../library/dist/labjs-starterkit/lib/* public/api/_defaultStatic/lib/"
   },
   "browserslist": [
