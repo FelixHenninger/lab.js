@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Control, actions } from 'react-redux-form'
+import { Control } from 'react-redux-form'
 
 import './style.css'
 
@@ -87,7 +87,7 @@ export const CellTypeSelector = ({ type, setType, actions, disabled=false }) =>
     </DropdownMenu>
   </Dropdown>
 
-export const HeaderCell = ({ columnData, index, deleteColumn }, { formDispatch }) =>
+export const HeaderCell = ({ columnData, index }, { gridDispatch }) =>
   <InputGroup>
     <Control.text
       model={ `.columns[${ index }]['name']` }
@@ -103,17 +103,15 @@ export const HeaderCell = ({ columnData, index, deleteColumn }, { formDispatch }
     <CellTypeSelector
       type={ columnData.type }
       setType={
-        value => formDispatch(
-          actions.change(
-            `local.templateParameters.columns[${ index }]['type']`,
-            value
-          )
-        )
+        value => gridDispatch('change', {
+          model: `local.templateParameters.columns[${ index }]['type']`,
+          value
+        })
       }
       actions={{
         'Delete': () => {
           if (window.confirm('Are you sure you want to delete this column?')) {
-            deleteColumn(index)
+            gridDispatch('deleteColumn', index)
           }
         }
       }}
@@ -121,5 +119,5 @@ export const HeaderCell = ({ columnData, index, deleteColumn }, { formDispatch }
   </InputGroup>
 
 HeaderCell.contextTypes = {
-  formDispatch: PropTypes.func,
+  gridDispatch: PropTypes.func,
 }

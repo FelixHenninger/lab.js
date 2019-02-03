@@ -16,7 +16,6 @@ const ColGroup = ({ columnWidths }, { uniqueId }) =>
   </colgroup>
 
 ColGroup.contextTypes = {
-  formDispatch: PropTypes.func,
   uniqueId: PropTypes.string,
 }
 

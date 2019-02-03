@@ -1,13 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { actions } from 'react-redux-form'
 
 import ButtonCell from './buttonCell'
 
 const Header = (
-  { columns, defaultColumn, addColumns, maxColumns,
-    data, HeaderContent, deleteColumn },
-  { uniqueId, formDispatch, model }
+  { columns, addColumns, maxColumns, HeaderContent },
+  { uniqueId, gridDispatch }
 ) =>
   <thead>
     <tr>
@@ -20,7 +18,6 @@ const Header = (
                   <HeaderContent
                     columnData={ columnData }
                     index={ index }
-                    deleteColumn={ () => deleteColumn(index) }
                   />
                 </th>
             )
@@ -34,25 +31,14 @@ const Header = (
               style={{
                 height: '42px',
               }}
-              onClick={ // Add additional column to data
-                () => formDispatch(
-                  actions.change(
-                    `${ model }`,
-                    {
-                      columns: [...columns, defaultColumn],
-                      rows: data.map(row => [...row, '']),
-                    }
-                  )
-                )
-              }
+              onClick={ () => gridDispatch('addColumn') }
             />
       }
     </tr>
   </thead>
 
 Header.contextTypes = {
-  formDispatch: PropTypes.func,
-  model: PropTypes.string,
+  gridDispatch: PropTypes.func,
   uniqueId: PropTypes.string,
 }
 

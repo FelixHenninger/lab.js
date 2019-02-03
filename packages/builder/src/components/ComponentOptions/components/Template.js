@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { Col, Row, InputGroup, Input, CardBody, FormGroup } from 'reactstrap'
-import { Control, actions } from 'react-redux-form'
+import { Control } from 'react-redux-form'
 
 import Card from '../../Card'
 import Form from './Form'
@@ -14,7 +14,7 @@ const DummyHeaderCell = () =>
   <div></div>
 
 const BodyCell = ({ cellData, rowIndex, colIndex, colName, readOnly },
-  { formDispatch }) =>
+  { gridDispatch }) =>
   <Row>
     <Col xs="6" style={{ paddingRight: '0.25rem' }}>
       <Control.text
@@ -44,12 +44,10 @@ const BodyCell = ({ cellData, rowIndex, colIndex, colName, readOnly },
         <CellTypeSelector
           type={ cellData.type }
           setType={
-            value => formDispatch(
-              actions.change(
-                `local.parameters.rows[${ rowIndex }][${ colIndex }]['type']`,
-                value
-              )
-            )
+            value => gridDispatch('change', {
+              model: `local.parameters.rows[${ rowIndex }][${ colIndex }]['type']`,
+              value
+            })
           }
           disabled={ readOnly }
         />
@@ -58,7 +56,7 @@ const BodyCell = ({ cellData, rowIndex, colIndex, colName, readOnly },
   </Row>
 
 BodyCell.contextTypes = {
-  formDispatch: PropTypes.func,
+  gridDispatch: PropTypes.func,
 }
 
 export default class extends Component {

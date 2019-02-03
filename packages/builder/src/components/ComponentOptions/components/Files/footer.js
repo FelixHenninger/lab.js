@@ -2,15 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Button } from 'reactstrap'
-import { actions } from 'react-redux-form'
 
 import FileSelector from '../../../FileSelector'
 import Icon from '../../../Icon'
 
-const Footer = (
-  { columns, data },
-  { formDispatch, id, model }
-) => {
+const Footer = ({ columns }, { id, gridDispatch }) => {
   let fileSelector
 
   return <tfoot>
@@ -20,24 +16,15 @@ const Footer = (
         <FileSelector
           ref={ ref => fileSelector = ref }
           component={ id }
-          addToComponent={ false }
         />
         <Button
           size="sm" block
           outline color="muted"
           className="hover-target"
-          onClick={ () =>
-            fileSelector
-              .select()
-              .then(files => formDispatch(
-                actions.change(`${ model }.rows`, [
-                  ...data,
-                  ...files.map(
-                    ({ localPath, poolPath }) => [{ localPath, poolPath }]
-                  )
-                ])
-              ))
-              .catch(() => null)
+          onClick={ () => fileSelector
+            .select()
+            .then(() => gridDispatch('reload'))
+            .catch(() => null)
           }
         >
           <Icon icon="plus" />
@@ -49,12 +36,11 @@ const Footer = (
 }
 
 Footer.contextTypes = {
-  formDispatch: PropTypes.func,
+  gridDispatch: PropTypes.func,
   id: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]),
-  model: PropTypes.string,
 }
 
 export default Footer

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Fieldset, actions } from 'react-redux-form'
 
-import { uniqueId } from 'lodash'
+import { uniqueId, fill } from 'lodash'
 import classnames from 'classnames'
 
 import ButtonCell from './components/buttonCell'
@@ -24,23 +24,15 @@ defaultLeftColumn.contextTypes = {
   readOnly: PropTypes.bool,
 }
 
-const defaultRightColumn = ({ data, rowIndex }, { readOnly, model, formDispatch }) =>
+const defaultRightColumn = ({ rowIndex }, { readOnly, gridDispatch }) =>
   <ButtonCell
     icon="trash"
-    onClick={
-      () => formDispatch(
-        actions.change(
-          `${ model }.rows`,
-          data.filter((row, i) => i !== rowIndex)
-        )
-      )
-    }
+    onClick={ () => gridDispatch('deleteRow', rowIndex) }
     disabled={ readOnly }
   />
 
 defaultRightColumn.contextTypes = {
-  formDispatch: PropTypes.func,
-  model: PropTypes.string,
+  gridDispatch: PropTypes.func,
   readOnly: PropTypes.bool,
 }
 
@@ -48,14 +40,113 @@ class Grid extends Component {
   constructor(props) {
     super(props)
     this.uniqueId = uniqueId('grid_')
+    this.dispatch = this.dispatch.bind(this)
   }
 
   getChildContext() {
     return {
+      gridDispatch: this.dispatch,
       formDispatch: this.props.formDispatch,
       readOnly: this.props.readOnly,
       uniqueId: this.uniqueId,
     }
+  }
+
+  dispatch(action, payload) {
+    switch(action) {
+      case 'change':
+        return this.handleChange(payload.model, payload.value)
+      case 'addColumn':
+        return this.handleColumnAdd()
+      case 'deleteColumn':
+        return this.handleColumnDelete(payload)
+      case 'addRow':
+      case 'addRows':
+        return this.handleRowAdd(payload)
+      case 'deleteRow':
+        return this.handleRowDelete(payload)
+      case 'overwrite':
+        return this.handleOverwrite(payload)
+      case 'reload':
+        return this.handleReload()
+      default:
+        return
+    }
+  }
+
+  handleChange(model, value) {
+    this.props.formDispatch(
+      actions.change(model, value)
+    )
+  }
+
+  handleColumnAdd() {
+    this.handleChange(
+      `local${ this.props.model }`,
+      {
+        columns: [...this.props.columns, this.props.defaultColumn],
+        rows: this.props.data.map(row => [...row, '']),
+      }
+    )
+  }
+
+  handleColumnDelete(index) {
+    this.handleChange(
+      `local${ this.props.model }`,
+      {
+        columns: this.props.columns.filter( (_, i) => i !== index ),
+        rows: this.props.data.map(
+          r => r.filter( (_, i) => i !== index)
+        )
+      }
+    )
+  }
+
+  handleRowAdd(newRows) {
+    const addition = newRows || (
+      this.props.defaultRow
+        ? [this.props.defaultRow]
+        : [fill( // As a fallback, add an array of empty strings
+            Array(
+              this.props.data[0]
+                ? this.props.data[0].length
+                : this.props.columns.length
+            ),
+            ''
+          )]
+    )
+
+    this.handleChange(
+      `local${ this.props.model }.rows`,
+      [
+        ...this.props.data,
+        ...addition,
+      ]
+    )
+  }
+
+  handleRowDelete(index) {
+    this.handleChange(
+      `local${ this.props.model }.rows`,
+      this.props.data.filter((_, i) => i !== index)
+    )
+  }
+
+  handleOverwrite({ columns, rows }) {
+    this.handleChange(
+      `local${ this.props.model }`,
+      { columns, rows }
+    )
+  }
+
+  handleReload() {
+    // Note that this reloads the grid content (rows) only
+    this.props.formDispatch(
+      actions.load(
+        `local${ this.props.model }.rows`,
+        this.props.data,
+      )
+    )
   }
 
   render() {
@@ -65,19 +156,6 @@ class Grid extends Component {
       columns.length > 0
         ? columns.map(() => 90 / columns.length)
         : [90]
-
-    const deleteColumn = index =>
-      this.props.formDispatch(
-        actions.change(
-          `local${ this.props.model }`,
-          {
-            columns: columns.filter( (_, i) => i !== index ),
-            rows: this.props.data.map(
-              r => r.filter( (_, i) => i !== index)
-            )
-          }
-        )
-      )
 
     return (
       <Fieldset model={ this.props.model }>
@@ -93,13 +171,10 @@ class Grid extends Component {
             columnWidths={ columnWidths }
           />
           <Header
-            data={ this.props.data }
             columns={ columns }
-            defaultColumn={ this.props.defaultColumn }
             addColumns={ this.props.addColumns }
             maxColumns={ this.props.maxColumns }
             HeaderContent={ this.props.HeaderContent }
-            deleteColumn={ deleteColumn }
           />
           <Body
             data={ this.props.data }
@@ -115,7 +190,6 @@ class Grid extends Component {
               : <Footer
                   data={ this.props.data }
                   columns={ columns }
-                  defaultRow={ this.props.defaultRow }
                 />
           }
         </table>
@@ -125,6 +199,7 @@ class Grid extends Component {
 }
 
 Grid.childContextTypes = {
+  gridDispatch: PropTypes.func,
   formDispatch: PropTypes.func,
   readOnly: PropTypes.bool,
   uniqueId: PropTypes.string,
