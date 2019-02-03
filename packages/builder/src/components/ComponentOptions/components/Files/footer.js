@@ -8,8 +8,8 @@ import FileSelector from '../../../FileSelector'
 import Icon from '../../../Icon'
 
 const Footer = (
-  { columns, data, model },
-  { formDispatch, id }
+  { columns, data },
+  { formDispatch, id, model }
 ) => {
   let fileSelector
 
@@ -30,7 +30,7 @@ const Footer = (
             fileSelector
               .select()
               .then(files => formDispatch(
-                actions.change(`local${ model }.rows`, [
+                actions.change(`${ model }.rows`, [
                   ...data,
                   ...files.map(
                     ({ localPath, poolPath }) => [{ localPath, poolPath }]
@@ -54,6 +54,7 @@ Footer.contextTypes = {
     PropTypes.string,
     PropTypes.number,
   ]),
+  model: PropTypes.string,
 }
 
 export default Footer

@@ -6,8 +6,8 @@ import ButtonCell from './buttonCell'
 
 const Header = (
   { columns, defaultColumn, addColumns, maxColumns,
-    data, HeaderContent, deleteColumn, model },
-  { uniqueId, formDispatch }
+    data, HeaderContent, deleteColumn },
+  { uniqueId, formDispatch, model }
 ) =>
   <thead>
     <tr>
@@ -37,7 +37,7 @@ const Header = (
               onClick={ // Add additional column to data
                 () => formDispatch(
                   actions.change(
-                    `local${ model }`,
+                    `${ model }`,
                     {
                       columns: [...columns, defaultColumn],
                       rows: data.map(row => [...row, '']),
@@ -52,6 +52,7 @@ const Header = (
 
 Header.contextTypes = {
   formDispatch: PropTypes.func,
+  model: PropTypes.string,
   uniqueId: PropTypes.string,
 }
 

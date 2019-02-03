@@ -13,26 +13,36 @@ import DefaultFooter from './components/footer'
 
 import './index.css'
 
-const defaultLeftColumn = ({ readOnly }) =>
+const defaultLeftColumn = (_, { readOnly }) =>
   <ButtonCell
     icon="bars"
     onClick={ () => null }
     disabled={ readOnly }
   />
 
-const defaultRightColumn = ({ data, rowIndex, readOnly, model, formDispatch }) =>
+defaultLeftColumn.contextTypes = {
+  readOnly: PropTypes.bool,
+}
+
+const defaultRightColumn = ({ data, rowIndex }, { readOnly, model, formDispatch }) =>
   <ButtonCell
     icon="trash"
     onClick={
       () => formDispatch(
         actions.change(
-          `local${ model }.rows`,
+          `${ model }.rows`,
           data.filter((row, i) => i !== rowIndex)
         )
       )
     }
     disabled={ readOnly }
   />
+
+defaultRightColumn.contextTypes = {
+  formDispatch: PropTypes.func,
+  model: PropTypes.string,
+  readOnly: PropTypes.bool,
+}
 
 class Grid extends Component {
   constructor(props) {
@@ -43,14 +53,14 @@ class Grid extends Component {
   getChildContext() {
     return {
       formDispatch: this.props.formDispatch,
+      readOnly: this.props.readOnly,
       uniqueId: this.uniqueId,
     }
   }
 
   render() {
-    const { model, data, columns, defaultRow,
-      className,
-      readOnly, cellProps={}
+    const { data, columns, defaultRow,
+      className, cellProps={}
     } = this.props
     const LeftColumn = this.props.LeftColumn || defaultLeftColumn
     const RightColumn = this.props.RightColumn || defaultRightColumn
@@ -70,7 +80,7 @@ class Grid extends Component {
     const deleteColumn = index =>
       this.props.formDispatch(
         actions.change(
-          `local${ model }`,
+          `local${ this.props.model }`,
           {
             columns: columns.filter( (_, i) => i !== index ),
             rows: data.map(
@@ -81,7 +91,7 @@ class Grid extends Component {
       )
 
     return (
-      <Fieldset model={ model }>
+      <Fieldset model={ this.props.model }>
         <table
           className={ classnames({
             'table': true,
@@ -96,7 +106,6 @@ class Grid extends Component {
           <Header
             data={ data }
             columns={ columns }
-            model={ model }
             defaultColumn={ defaultColumn }
             addColumns={ addColumns }
             maxColumns={ maxColumns }
@@ -106,20 +115,17 @@ class Grid extends Component {
           <Body
             data={ data }
             columns={ columns }
-            model={ model }
             BodyContent={ BodyContent }
             LeftColumn={ LeftColumn }
             RightColumn={ RightColumn }
-            readOnly={ readOnly }
             cellProps={ cellProps }
           />
           {
-            readOnly
+            this.props.readOnly
               ? null
               : <Footer
                   data={ data }
                   columns={ columns }
-                  model={ model }
                   defaultRow={ defaultRow }
                 />
           }
@@ -131,6 +137,7 @@ class Grid extends Component {
 
 Grid.childContextTypes = {
   formDispatch: PropTypes.func,
+  readOnly: PropTypes.bool,
   uniqueId: PropTypes.string,
 }
 

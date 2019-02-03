@@ -17,17 +17,14 @@ const Cell = (
 const Row = (
   { data, rowData, rowIndex,
     BodyContent, LeftColumn, RightColumn,
-    columns, model, readOnly, cellProps },
-  { uniqueId, formDispatch }
+    columns, cellProps },
+  { uniqueId }
 ) =>
   <tr>
     <LeftColumn
       data={ data }
       rowData={ rowData }
       rowIndex={ rowIndex }
-      readOnly={ readOnly }
-      model={ model }
-      formDispatch={ formDispatch }
     />
     {
       rowData.length > 0
@@ -48,14 +45,10 @@ const Row = (
       data={ data }
       rowData={ rowData }
       rowIndex={ rowIndex }
-      readOnly={ readOnly }
-      model={ model }
-      formDispatch={ formDispatch }
     />
   </tr>
 
 Row.contextTypes = {
-  formDispatch: PropTypes.func,
   uniqueId: PropTypes.string,
 }
 

@@ -6,8 +6,8 @@ import { actions } from 'react-redux-form'
 import Icon from '../../Icon'
 
 const Footer = (
-  { columns, data, defaultRow, model },
-  { formDispatch }
+  { columns, data, defaultRow },
+  { formDispatch, model }
 ) =>
   <tfoot>
     <tr>
@@ -20,7 +20,7 @@ const Footer = (
           onClick={
             () => formDispatch(
               actions.change(
-                `local${ model }.rows`,
+                `${ model }.rows`,
                 [
                   ...data,
                   defaultRow || Array // Create array of empty strings
@@ -43,6 +43,7 @@ const Footer = (
 
 Footer.contextTypes = {
   formDispatch: PropTypes.func,
+  model: PropTypes.string,
 }
 
 export default Footer

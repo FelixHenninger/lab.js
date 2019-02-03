@@ -27,8 +27,8 @@ const exportGrid = (data, columns) => {
 }
 
 export const Footer = (
-  { columns, data, defaultRow, model },
-  { formDispatch }
+  { columns, data, defaultRow },
+  { formDispatch, model }
 ) =>
   <tfoot>
     <tr>
@@ -46,7 +46,7 @@ export const Footer = (
             onClick={
               () => formDispatch(
                 actions.change(
-                  `local${ model }.rows`,
+                  `${ model }.rows`,
                   [
                     ...data,
                     defaultRow || Array // Create array of empty strings
@@ -88,7 +88,7 @@ export const Footer = (
                   if (parseResult.errors.length === 0) {
                     formDispatch(
                       actions.change(
-                        `local${ model }`,
+                        `${ model }`,
                         {
                           columns: Object.keys(parseResult.data[0])
                             .map(c => ({ name: c, type: 'string' })),
@@ -128,4 +128,5 @@ export const Footer = (
 
 Footer.contextTypes = {
   formDispatch: PropTypes.func,
+  model: PropTypes.string,
 }
