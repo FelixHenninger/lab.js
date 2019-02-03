@@ -59,18 +59,7 @@ class Grid extends Component {
   }
 
   render() {
-    const { data, columns, defaultRow,
-      className, cellProps={}
-    } = this.props
-    const LeftColumn = this.props.LeftColumn || defaultLeftColumn
-    const RightColumn = this.props.RightColumn || defaultRightColumn
-    const HeaderContent = this.props.HeaderContent || (content => content)
-    const BodyContent = this.props.BodyContent || (content => content)
-    const Footer = this.props.Footer || DefaultFooter
-
-    const addColumns = this.props.addColumns || false
-    const maxColumns = this.props.maxColumns || Infinity
-    const defaultColumn = this.props.defaultColumn || ''
+    const { columns, Footer } = this.props
 
     const columnWidths = this.props.columnWidths ||
       columns.length > 0
@@ -83,7 +72,7 @@ class Grid extends Component {
           `local${ this.props.model }`,
           {
             columns: columns.filter( (_, i) => i !== index ),
-            rows: data.map(
+            rows: this.props.data.map(
               r => r.filter( (_, i) => i !== index)
             )
           }
@@ -98,35 +87,35 @@ class Grid extends Component {
             'grid': true,
             'grid-slim': columns.length > 5,
             'no-header': this.props.showHeader === false
-          }, className) }
+          }, this.props.className) }
         >
           <ColGroup
             columnWidths={ columnWidths }
           />
           <Header
-            data={ data }
+            data={ this.props.data }
             columns={ columns }
-            defaultColumn={ defaultColumn }
-            addColumns={ addColumns }
-            maxColumns={ maxColumns }
-            HeaderContent={ HeaderContent }
+            defaultColumn={ this.props.defaultColumn }
+            addColumns={ this.props.addColumns }
+            maxColumns={ this.props.maxColumns }
+            HeaderContent={ this.props.HeaderContent }
             deleteColumn={ deleteColumn }
           />
           <Body
-            data={ data }
+            data={ this.props.data }
             columns={ columns }
-            BodyContent={ BodyContent }
-            LeftColumn={ LeftColumn }
-            RightColumn={ RightColumn }
-            cellProps={ cellProps }
+            BodyContent={ this.props.BodyContent }
+            LeftColumn={ this.props.LeftColumn }
+            RightColumn={ this.props.RightColumn }
+            cellProps={ this.props.cellProps }
           />
           {
             this.props.readOnly
               ? null
               : <Footer
-                  data={ data }
+                  data={ this.props.data }
                   columns={ columns }
-                  defaultRow={ defaultRow }
+                  defaultRow={ this.props.defaultRow }
                 />
           }
         </table>
@@ -139,6 +128,18 @@ Grid.childContextTypes = {
   formDispatch: PropTypes.func,
   readOnly: PropTypes.bool,
   uniqueId: PropTypes.string,
+}
+
+Grid.defaultProps = {
+  addColumns: false,
+  maxColumns: Infinity,
+  defaultColumn: '',
+  cellProps: {},
+  LeftColumn: defaultLeftColumn,
+  RightColumn: defaultRightColumn,
+  HeaderContent: content => content,
+  BodyContent: content => content,
+  Footer: DefaultFooter,
 }
 
 export default Grid
