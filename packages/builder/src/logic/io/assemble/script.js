@@ -2,6 +2,7 @@ import { fromPairs, zip, pickBy, isEmpty } from 'lodash'
 import serialize from 'serialize-javascript'
 
 import { makeType } from '../../util/makeType'
+import { adaptiveFunction } from '../../util/async'
 
 // Generic grid processing
 const processGrid = (grid, colnames=null, types=undefined) =>
@@ -29,8 +30,10 @@ const processMessageHandlers = (messageHandlers) =>
       .filter(h => h.message.trim() !== '' && h.code.trim() !== '')
       // TODO: Evaluate the safety implications
       // of the following de-facto-eval.
-      // eslint-disable-next-line no-new-func
-      .map(h => [h.message, new Function(h.code)])
+      .map(h => [
+        h.message,
+        adaptiveFunction(h.code)
+      ])
   )
 
 const processParameters = parameters =>

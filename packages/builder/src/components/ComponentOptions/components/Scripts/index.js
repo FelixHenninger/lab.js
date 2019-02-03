@@ -7,6 +7,8 @@ import Card from '../../../Card'
 import Grid from '../../../Grid'
 import Editor from '../../../Editor'
 
+import { adaptiveFunction } from '../../../../logic/util/async'
+
 import './style.css'
 
 const wrappedEditor = props =>
@@ -38,7 +40,7 @@ const parsingErrors = (code) => {
   //   to be some workarounds that, however, require
   //   a custom build.
   try {
-    new Function(code) // eslint-disable-line no-new-func
+    adaptiveFunction(code)
     return false
   } catch (e) {
     return {
