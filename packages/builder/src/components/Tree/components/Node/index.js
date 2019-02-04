@@ -130,23 +130,26 @@ const Node = ({ id, parentId, index, data, active, renderBody,
   return (
     <div className='tree-node'>
       {
-        renderBody !== false ?
-          connectDragSource(<div>
-            <NodeBody
-              id={ id }
-              parent={ parentId }
-              index={ index }
-              hasChildren={ (children || []).length > 0 }
-              active={ active }
-              collapsed={ collapsed }
-              skipped={ data.skip }
-              tardy={ data.tardy }
-              isDragging={ isDragging }
-            >
-              { data.title }
-            </NodeBody>
-          </div>) :
-          null
+        renderBody !== false
+          ? connectDragSource(
+              // (React-DnD requires a native element wrapper)
+              <div>
+                <NodeBody
+                  id={ id }
+                  parent={ parentId }
+                  index={ index }
+                  hasChildren={ (children || []).length > 0 }
+                  active={ active }
+                  collapsed={ collapsed }
+                  skipped={ data.skip }
+                  tardy={ data.tardy }
+                  isDragging={ isDragging }
+                >
+                  { data.title }
+                </NodeBody>
+              </div>
+            )
+          : null
       }
       {
         collapsed || template
