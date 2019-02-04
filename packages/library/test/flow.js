@@ -561,6 +561,24 @@ describe('Flow control', () => {
       })
     })
 
+    it('prepares nested components', () => {
+      const a_prepare = sinon.spy()
+      const b_prepare = sinon.spy()
+      a.on('prepare', a_prepare)
+      // Add a lengthy preparation step
+      a.on('prepare', function() {
+        return new Promise(resolve => setTimeout(resolve, 25))
+      })
+      b.on('prepare', b_prepare)
+
+      return p.prepare().then(() => {
+        assert.equal(a.status, 1)
+        assert.equal(b.status, 1)
+        assert.ok(a_prepare.calledOnce)
+        assert.ok(b_prepare.calledOnce)
+      })
+    })
+
     it('runs components in parallel', () => {
       const a_run = sinon.spy()
       const b_run = sinon.spy()

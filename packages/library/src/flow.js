@@ -221,8 +221,8 @@ export class Parallel extends Component {
     })
   }
 
-  onPrepare() {
-    prepareNested(this.options.content, this)
+  async onPrepare() {
+    await prepareNested(this.options.content, this)
   }
 
   // The run method is overwritten at this point,
