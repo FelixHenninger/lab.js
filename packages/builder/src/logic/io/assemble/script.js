@@ -1,4 +1,4 @@
-import { fromPairs, zip, pickBy, isEmpty } from 'lodash'
+import { fromPairs, zip, pickBy, groupBy, isEmpty } from 'lodash'
 import serialize from 'serialize-javascript'
 
 import { makeType } from '../../util/makeType'
@@ -80,6 +80,18 @@ const processTemplateParameters = grid =>
     grid.columns.map(c => c.type)
   )
 
+const processShuffleGroups = columns =>
+  Object.values(
+    // Collect columns with the same shuffleGroup property
+    groupBy(
+      columns.filter(c => c.shuffleGroup !== undefined),
+      'shuffleGroup'
+    )
+  ).map(
+    // Extract column names
+    g => g.map(c => c.name)
+  )
+
 // Process any single node in isolation
 const processNode = node => {
   // Options to exclude from JSON output
@@ -112,6 +124,9 @@ const processNode = node => {
     templateParameters: node.templateParameters
       ? processTemplateParameters(node.templateParameters)
       : node.templateParameters,
+    shuffleGroups: node.templateParameters
+      ? processShuffleGroups(node.templateParameters.columns || [])
+      : node.shuffleGroups,
   })
 }
 
