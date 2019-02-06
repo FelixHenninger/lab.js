@@ -228,28 +228,26 @@ export class Store extends EventHandler {
   // Extract a single column for the data,
   // also filtering by sender, if desired
   extract(column, senderRegExp=RegExp('.*')) {
-    // If a string is provided, assume that
-    // the user is performing an exact search.
-    // Convert the string into the corresponding
+    // If the filter is defined a a string,
+    // convert it into the corresponding
     // regular expression.
-    if (typeof senderRegExp === 'string') {
-      senderRegExp = RegExp(`^${ senderRegExp }$`)
-    }
+    const filter = typeof senderRegExp === 'string'
+      ? RegExp(`^${ senderRegExp }$`)
+      : senderRegExp
 
     // Filter the data using the sender column,
     // and then extract the column in question
     return this.data
       .filter(
-        e => senderRegExp.test(e.sender),
-      )
-      .map(
+        e => filter.test(e.sender),
+      ).map(
         e => e[column],
       )
   }
 
   // Select the columns that should be present in the data
   // Input is an array of strings, a string, or a filter function
-  select(selector) {
+  select(selector, senderRegExp=RegExp('.*')) {
     let columns
     if (typeof selector === 'function') {
       columns = this.keys().filter(selector)
@@ -266,9 +264,16 @@ export class Store extends EventHandler {
       )
     }
 
+    // As above
+    const filter = typeof senderRegExp === 'string'
+      ? RegExp(`^${ senderRegExp }$`)
+      : senderRegExp
+
     return this.data
-      .map(
-        e => pick(e, columns)
+      .filter(
+        e => filter.test(e.sender),
+      ).map(
+        e => pick(e, columns),
       )
   }
 
