@@ -713,6 +713,7 @@ Component.metadata = {
   nestedComponents: [],
   parsableOptions: {
     correctResponse: {},
+    responses:       { content: { '*': 'string' } },
     timeout:         { type: 'number' },
     skip:            { type: 'boolean' },
   },
