@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "glob": "^7.1.2",
-    "redux-devtools-extension": "^2.13.7",
+    "redux-devtools-extension": "^2.13.8",
     "shx": "^0.3.2"
   },
   "dependencies": {
