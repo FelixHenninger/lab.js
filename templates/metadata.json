@@ -8,6 +8,14 @@
     "path": "Demography/demography-form-basic.study.json"
   },
   {
+    "name": "Fixation Target",
+    "description": "Stabilising fixation target due to Thaler et al. (2013)",
+    "contributors": [
+      "Felix Henninger"
+    ],
+    "path": "Stimuli/fixation-target-stabiliser.study.json"
+  },
+  {
     "name": "Multi-page instructions",
     "contributors": [
       "Folco Panizza"
