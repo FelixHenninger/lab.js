@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Dropdown from '../../../../Dropdown'
-import { DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { UncontrolledDropdown, DropdownToggle,
+  DropdownMenu, DropdownItem } from 'reactstrap'
 
 /* TODO: Importing an external helper like this totally breaks
    the idea of decoupled components. For the moment, however,
@@ -12,7 +12,7 @@ import { stateToDownload } from '../../../../../logic/io/save'
 import './index.css'
 
 const NodeDropdown = ({ id, parent, index, onDelete, hasChildren }, context) =>
-  <Dropdown>
+  <UncontrolledDropdown>
     <DropdownToggle
       caret size="sm"
       outline color="secondary"
@@ -50,7 +50,7 @@ const NodeDropdown = ({ id, parent, index, onDelete, hasChildren }, context) =>
           : null
       }
     </DropdownMenu>
-  </Dropdown>
+  </UncontrolledDropdown>
 
 NodeDropdown.contextTypes = {
   store: PropTypes.object

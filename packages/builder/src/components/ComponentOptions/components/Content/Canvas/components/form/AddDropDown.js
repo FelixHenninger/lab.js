@@ -2,10 +2,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { DropdownToggle, DropdownMenu, DropdownItem,
+import { UncontrolledButtonDropdown,
+  DropdownToggle, DropdownMenu, DropdownItem,
   Button, ButtonGroup } from 'reactstrap'
 
-import DropDown from '../../../../../../Dropdown'
 import Icon from '../../../../../../Icon'
 import FileSelector from '../../../../../../FileSelector'
 
@@ -17,7 +17,7 @@ const AddDropDown = (
 
   return <div>
     <ButtonGroup>
-      <DropDown type="button" direction="up">
+      <UncontrolledButtonDropdown direction="up">
         <DropdownToggle outline color="secondary">
           <Icon
             icon="plus"
@@ -87,7 +87,7 @@ const AddDropDown = (
             Duplicate
           </DropdownItem>
         </DropdownMenu>
-      </DropDown>
+      </UncontrolledButtonDropdown>
       <Button
         outline color="secondary"
         onClick={ removeHandler }

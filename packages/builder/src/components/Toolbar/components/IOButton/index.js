@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import Dropdown from '../../../Dropdown'
-import { Button, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { ButtonDropdown, Button, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 import Uploader from '../../../Uploader'
 import Icon from '../../../Icon'
@@ -16,11 +15,11 @@ import { downloadSidecar as downloadPsychDS
   } from '../../../../logic/metadata/psych-ds'
 
 const IOButton = (_, context) => {
-  let dropdown = null
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
-  return <Dropdown
-    type="button"
-    ref={ c => (dropdown = c) }
+  return <ButtonDropdown
+    isOpen={ dropdownOpen }
+    toggle={ () => setDropdownOpen(!dropdownOpen) }
   >
     <Button id="caret" outline color="secondary"
       onClick={ e => stateToDownload(
@@ -61,7 +60,8 @@ const IOButton = (_, context) => {
               // If things don't work out, let the user know
               alert('Couldn\'t load file, found error', e)
             } finally {
-              dropdown.toggle()
+              // TODO: Close this earlier if possible
+              setDropdownOpen(false)
             }
           }
         }
@@ -163,7 +163,7 @@ const IOButton = (_, context) => {
         <span className="text-muted">(JSON-LD)</span>
       </DropdownItem>
     </DropdownMenu>
-  </Dropdown>
+  </ButtonDropdown>
 }
 
 IOButton.contextTypes = {

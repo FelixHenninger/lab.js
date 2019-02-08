@@ -1,8 +1,7 @@
 import React from 'react'
 
-import { DropdownToggle } from 'reactstrap'
+import { UncontrolledButtonDropdown, DropdownToggle } from 'reactstrap'
 
-import DropDown from '../../../../../../../Dropdown'
 import Icon from '../../../../../../../Icon'
 
 import ImageOptions from './ImageOptions'
@@ -38,10 +37,7 @@ const Options = (props) => {
 }
 
 export default ({ selection, changeHandler }) =>
-  <DropDown
-    direction="up"
-    type="button"
-  >
+  <UncontrolledButtonDropdown direction="up">
     <Toggle
       type={ selection.type }
     />
@@ -49,4 +45,4 @@ export default ({ selection, changeHandler }) =>
       selection={ selection }
       changeHandler={ changeHandler }
     />
-  </DropDown>
+  </UncontrolledButtonDropdown>

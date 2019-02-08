@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { UncontrolledButtonDropdown,
+  DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
-import DropDown from '../../../../../../Dropdown'
 import Icon from '../../../../../../Icon'
 
 const Line = ({ height }) =>
@@ -15,8 +15,7 @@ const Line = ({ height }) =>
   />
 
 export default ({ onChange, disabled }) =>
-  <DropDown
-    type="button"
+  <UncontrolledButtonDropdown
     direction="up"
     style={{
       minWidth: '3.5rem',
@@ -49,4 +48,4 @@ export default ({ onChange, disabled }) =>
         )
       }
     </DropdownMenu>
-  </DropDown>
+  </UncontrolledButtonDropdown>

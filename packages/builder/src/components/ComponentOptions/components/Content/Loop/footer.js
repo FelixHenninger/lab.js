@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { Button, DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap'
+import { ButtonDropdown, Button,
+  DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap'
 
-import Dropdown from '../../../../Dropdown'
 import Icon from '../../../../Icon'
 
 import Uploader from '../../../../Uploader'
@@ -25,85 +25,97 @@ const exportGrid = (data, columns) => {
   )
 }
 
-export const Footer = ({ columns, data }, { gridDispatch }) =>
-  <tfoot>
-    <tr>
-      <td />
-      <td colSpan={ columns.length }>
-        <Dropdown
-          type="button"
-          size="sm"
-          className="w-100"
-        >
-          <Button
-            block size="sm"
-            outline color="muted"
-            className="hover-target"
-            onClick={ () => gridDispatch('addRow') }
-            onMouseUp={
-              e => e.target.blur()
-            }
-            style={{
-              paddingLeft: '32px', // 6px standard + 24px toggle width
-            }}
-          >
-            <Icon icon="plus" />
-          </Button>
-          <DropdownToggle
-            caret split size="sm"
-            outline color="muted"
-            className="hover-target"
-            style={{
-              width: '24px',
-            }}
-          />
-          <DropdownMenu right>
-            <DropdownItem header>CSV / TSV</DropdownItem>
-            <Uploader
-              accept="text/csv,text/tab-separated-values,.csv,.tsv"
-              multiple={ false }
-              onUpload={
-                ([[content]]) => {
-                  const parseResult = parse(
-                    content.trim(),
-                    { header: true }
-                  )
+export const Footer = ({ columns, data }, { gridDispatch }) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
-                  if (parseResult.errors.length === 0) {
-                    gridDispatch('overwrite', {
-                      columns: Object.keys(parseResult.data[0])
-                        .map(c => ({ name: c, type: 'string' })),
-                      rows: parseResult.data.map(r => Object.values(r))
-                    })
-                  } else {
-                    console.log(
-                      'CSV import found errors: ',
-                      parseResult.errors
+  return (
+    <tfoot>
+      <tr>
+        <td />
+        <td colSpan={ columns.length }>
+          <ButtonDropdown
+            size="sm"
+            className="w-100"
+            isOpen={ dropdownOpen }
+            toggle={ () => setDropdownOpen(!dropdownOpen) }
+          >
+            <Button
+              block size="sm"
+              outline color="muted"
+              className="hover-target"
+              onClick={ () => gridDispatch('addRow') }
+              onMouseUp={
+                e => e.target.blur()
+              }
+              style={{
+                paddingLeft: '32px', // 6px standard + 24px toggle width
+              }}
+            >
+              <Icon icon="plus" />
+            </Button>
+            <DropdownToggle
+              caret split size="sm"
+              outline color="muted"
+              className="hover-target"
+              style={{
+                width: '24px',
+              }}
+            />
+            <DropdownMenu right>
+              <DropdownItem header>CSV / TSV</DropdownItem>
+              <Uploader
+                accept="text/csv,text/tab-separated-values,.csv,.tsv"
+                multiple={ false }
+                onUpload={
+                  ([[content]]) => {
+                    // TODO: Close the dropdown when the file selector
+                    // is shown. This needs some more work to make sure
+                    // that the uploader component isn't removed from the
+                    // page in between
+                    setDropdownOpen(false)
+
+                    const parseResult = parse(
+                      content.trim(),
+                      { header: true }
                     )
-                    alert(
-                      'Sorry, I couldn\'t parse that CSV file. ' +
-                      'There seems to be an error. ' +
-                      'Could you check it, please?'
-                    )
+
+                    if (parseResult.errors.length === 0) {
+                      gridDispatch('overwrite', {
+                        columns: Object.keys(parseResult.data[0])
+                          .map(c => ({ name: c, type: 'string' })),
+                        rows: parseResult.data.map(r => Object.values(r))
+                      })
+                    } else {
+                      console.log(
+                        'CSV import found errors: ',
+                        parseResult.errors
+                      )
+                      alert(
+                        'Sorry, I couldn\'t parse that CSV file. ' +
+                        'There seems to be an error. ' +
+                        'Could you check it, please?'
+                      )
+                    }
                   }
                 }
-              }
-            >
-              <div className="dropdown-item">
-                Import
-              </div>
-            </Uploader>
-            <DropdownItem
-              onClick={ () => exportGrid(data, columns) }
-            >
-              Export
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </td>
-      <td />
-    </tr>
-  </tfoot>
+              >
+                <div className="dropdown-item">
+                  Import
+                </div>
+              </Uploader>
+              <DropdownItem
+                onClick={ () => exportGrid(data, columns) }
+              >
+                Export
+              </DropdownItem>
+            </DropdownMenu>
+          </ButtonDropdown>
+        </td>
+        <td />
+      </tr>
+    </tfoot>
+  )
+}
 
 Footer.contextTypes = {
   gridDispatch: PropTypes.func,
