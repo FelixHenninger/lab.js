@@ -32,10 +32,10 @@ const addComponent = (store, type, parent, index) => {
   })
 }
 
-const ComponentShortcut = ({ type, parent, index }, context) =>
+const ComponentShortcut = ({ type, parent, index }, { store }) =>
   <Card
     className="add-component-card"
-    onClick={ () => addComponent(context.store, type, parent, index) }
+    onClick={ () => addComponent(store, type, parent, index) }
   >
     <CardHeader
       className="text-center"
@@ -65,7 +65,7 @@ ComponentShortcut.contextTypes = {
   store: PropTypes.object,
 }
 
-const ComponentList = ({ parent, index }, context) =>
+const ComponentList = ({ parent, index }, { store }) =>
   <div> {
     Object.entries(getMetadataByCategory()).map(([category, types]) =>
       <CollapsingCard
@@ -82,7 +82,7 @@ const ComponentList = ({ parent, index }, context) =>
                 tag="a" href="#" action
                 className="d-flex justify-content-between"
                 onClick={
-                  () => addComponent(context.store, type, parent, index)
+                  () => addComponent(store, type, parent, index)
                 }
               >
                 <span>

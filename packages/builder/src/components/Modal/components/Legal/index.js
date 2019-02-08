@@ -1,28 +1,23 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import Confirm from '../Confirm'
 
-class ExternalContent extends Component {
-  constructor(props) {
-    super(props)
-    this.url = props.url
-    this.state = { state: 'empty', content: '' }
-  }
+const ExternalContent = ({ url }) => {
+  const [state, setState] = useState({ state: 'empty', content: '' })
 
-  componentDidMount() {
-    fetch(this.url)
+  useEffect(() => {
+    fetch(url)
       .then(response => response.text())
-      .then(content => this.setState({ state: 'loaded', content, }) )
-      .catch(() => this.setState({ state: 'error' }) )
-  }
+      .then(content => setState({ state: 'loaded', content }) )
+      .catch(() => setState({ state: 'error' }) )
+  }, [url])
 
-  render() {
-    return <div dangerouslySetInnerHTML={{ __html: this.state.content }}></div>
-  }
+  return <div dangerouslySetInnerHTML={{ __html: state.content }}></div>
 }
 
-const Legal = ({ closeHandler }, { store }) =>
+
+const Legal = ({ closeHandler }) =>
   <Confirm
     title={ <span>Legal</span> }
     closeLabel="Done"

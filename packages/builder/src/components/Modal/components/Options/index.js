@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { ModalBody, ModalFooter, Nav, NavItem, NavLink, Button } from 'reactstrap'
@@ -12,99 +12,87 @@ import Icon from '../../../Icon'
 import { makeDataURI, readDataURI } from '../../../../logic/util/dataURI'
 import './style.css'
 
-class OptionsModal extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      activeTab: 'meta'
-    }
+const TabContent = ({ tab }, { store }) => {
+  const files = store.getState().files.files
+  switch(tab) {
+    case 'meta':
+      return <MetadataForm />
+    case 'files':
+      return <Files />
+    case 'html':
+      return <Editor
+        key="html"
+        height="400"
+        value={ readDataURI(files['index.html'].content).data }
+        onChange={
+          newContent => store.dispatch({
+            type: 'UPDATE_FILE',
+            file: 'index.html',
+            data: {
+              content: makeDataURI(newContent, 'text/html')
+            }
+          })
+        }
+      />
+    case 'css':
+      return <Editor
+        key="css"
+        height="400"
+        language="css"
+        value={ readDataURI(files['style.css'].content).data }
+        onChange={
+          newContent => store.dispatch({
+            type: 'UPDATE_FILE',
+            file: 'style.css',
+            data: {
+              content: makeDataURI(newContent, 'text/css')
+            }
+          })
+        }
+      />
+    default:
+      return <div>Requested tab not found</div>
   }
+}
 
-  toggle(tab) {
-    if (this.state.activeTab !== tab) {
-      this.setState({
-        activeTab: tab
-      })
-    }
-  }
+TabContent.contextTypes = {
+  store: PropTypes.object,
+}
 
-  tabContent() {
-    const files = this.context.store.getState().files.files
-    switch(this.state.activeTab) {
-      case 'meta':
-        return <MetadataForm />
-      case 'files':
-        return <Files />
-      case 'html':
-        return <Editor
-          key="html"
-          height="400"
-          value={ readDataURI(files['index.html'].content).data }
-          onChange={
-            newContent => this.context.store.dispatch({
-              type: 'UPDATE_FILE',
-              file: 'index.html',
-              data: {
-                content: makeDataURI(newContent, 'text/html')
-              }
-            })
-          }
-        />
-      case 'css':
-        return <Editor
-          key="css"
-          height="400"
-          language="css"
-          value={ readDataURI(files['style.css'].content).data }
-          onChange={
-            newContent => this.context.store.dispatch({
-              type: 'UPDATE_FILE',
-              file: 'style.css',
-              data: {
-                content: makeDataURI(newContent, 'text/css')
-              }
-            })
-          }
-        />
-      default:
-        return <div>Requested tab not found</div>
-    }
-  }
+const OptionsModal = ({ closeHandler }) => {
+  const [tab, setTab] = useState('meta')
 
-  render() {
-    // TODO: This should be cleaned up
-    const { closeHandler } = this.props
-    return <div className="modal-content">
+  return (
+    <div className="modal-content">
       <Nav tabs>
         <NavItem>
           <NavLink
-            className={classnames({ active: this.state.activeTab === 'meta' })}
-            onClick={() => { this.toggle('meta'); }}
+            className={ classnames({ active: tab === 'meta' }) }
+            onClick={ () => setTab('meta') }
           >
             <Icon icon="info" weight="s" />
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink
-            className={classnames({ active: this.state.activeTab === 'files' })}
-            onClick={() => { this.toggle('files'); }}
+            className={ classnames({ active: tab === 'files' }) }
+            onClick={ () => setTab('files') }
           >
             <Icon icon="folder" />
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink
-            className={classnames({ active: this.state.activeTab === 'html' })}
-            onClick={() => { this.toggle('html'); }}
+            className={ classnames({ active: tab === 'html' }) }
+            onClick={ () => setTab('html') }
           >
             HTML
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink
-            className={classnames({ active: this.state.activeTab === 'css' })}
-            onClick={() => { this.toggle('css'); }}
+            className={ classnames({ active: tab === 'css' }) }
+            onClick={ () => setTab('css') }
           >
             CSS
           </NavLink>
@@ -126,7 +114,7 @@ class OptionsModal extends Component {
         </NavItem>
       </Nav>
       <ModalBody>
-        { this.tabContent() }
+        <TabContent tab={ tab } />
       </ModalBody>
       <ModalFooter>
         <Button
@@ -137,11 +125,7 @@ class OptionsModal extends Component {
         </Button>
       </ModalFooter>
     </div>
-  }
-}
-
-OptionsModal.contextTypes = {
-  store: PropTypes.object,
+  )
 }
 
 export default OptionsModal

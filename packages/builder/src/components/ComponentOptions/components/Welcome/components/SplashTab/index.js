@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 
 import { CardBody, CardText,
   Container, Row, Col, Collapse, Badge } from 'reactstrap'
@@ -146,48 +146,40 @@ const splashOptions = {
   },
 }
 
-class SplashAdditions extends Component {
-  constructor(props) {
-    super(props)
+const SplashAdditions = ({ switchTab }) => {
+  const [tab, setTab] = useState(undefined)
 
-    this.state = {
-      tab: undefined,
-    }
-  }
-
-  render() {
-    return <div>
-      <Container className="border-top text-center">
-        <Row>
-          {
-            Object.entries(splashOptions).map(([k, o], i) =>
-              <SplashTab
-                key={ `splash-tab-${ k }` }
-                icon={ o.icon }
-                onClick={ () => this.setState({ tab: k }) }
-                active={ this.state.tab === k }
-                borderRight={ i !== Object.entries(splashOptions).length - 1 }
-                borderBottom={
-                  this.state.tab !== undefined && this.state.tab !== k
-                }
-              >
-                { o.title }
-              </SplashTab>
-            )
-          }
-        </Row>
-      </Container>
-      <Collapse
-        isOpen={ this.state.tab !== undefined }
-      >
+  return <div>
+    <Container className="border-top text-center">
+      <Row>
         {
-          this.state.tab !== undefined
-            ? splashOptions[this.state.tab].content(this.props.switchTab)
-            : ''
+          Object.entries(splashOptions).map(([k, o], i) =>
+            <SplashTab
+              key={ `splash-tab-${ k }` }
+              icon={ o.icon }
+              onClick={ () => setTab(k) }
+              active={ tab === k }
+              borderRight={ i !== Object.entries(splashOptions).length - 1 }
+              borderBottom={
+                tab !== undefined && tab !== k
+              }
+            >
+              { o.title }
+            </SplashTab>
+          )
         }
-      </Collapse>
-    </div>
-  }
+      </Row>
+    </Container>
+    <Collapse
+      isOpen={ tab !== undefined }
+    >
+      {
+        tab !== undefined
+          ? splashOptions[tab].content(switchTab)
+          : ''
+      }
+    </Collapse>
+  </div>
 }
 
 export default ({ switchTab }) =>

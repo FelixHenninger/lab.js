@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 
 import { Button, ModalBody, ModalFooter, Nav, NavItem, NavLink } from 'reactstrap'
 import classnames from 'classnames'
@@ -10,61 +10,33 @@ import TemplateTab from './components/templateTab'
 import CopyTab from './components/copyTab'
 import ImportTab from './components/importTab'
 
-class AddComponentModal extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      activeTab: 'new'
-    }
+const TabContent = ({ tab, ...tabProps }) => {
+  switch(tab) {
+    case 'new':
+      return <NewTab { ...tabProps } />
+    case 'template':
+      return <TemplateTab { ...tabProps } />
+    case 'copy':
+      return <CopyTab { ...tabProps } />
+    case 'import':
+      return <ImportTab { ...tabProps } />
+    default:
+      return <div>Requested tab not found</div>
   }
+}
 
-  toggle(tab) {
-    if (this.state.activeTab !== tab) {
-      this.setState({
-        activeTab: tab
-      })
-    }
-  }
+export default ({ parent, index, closeHandler }) => {
+  const [tab, setTab] = useState('new')
 
-  renderTab() {
-    const { parent, index } = this.props
-    switch(this.state.activeTab) {
-      case 'new':
-        return <NewTab
-          parent={ parent }
-          index={ index }
-        />
-      case 'template':
-        return <TemplateTab
-          parent={ parent }
-          index={ index }
-        />
-      case 'copy':
-        return <CopyTab
-          parent={ parent }
-          index={ index }
-        />
-      case 'import':
-        return <ImportTab
-          parent={ parent }
-          index={ index }
-        />
-      default:
-        return <div>Requested tab not found</div>
-    }
-  }
-
-  render() {
-    const { closeHandler } = this.props
-    return <div className="modal-content">
+  return (
+    <div className="modal-content">
       <Nav tabs>
         <NavItem>
           <NavLink
             className={ classnames({
-              active: this.state.activeTab === 'new'
+              active: tab === 'new'
             }) }
-            onClick={ () => this.toggle('new') }
+            onClick={ () => setTab('new') }
           >
             <Icon icon="plus" weight="s" />
           </NavLink>
@@ -72,9 +44,9 @@ class AddComponentModal extends Component {
         <NavItem>
           <NavLink
             className={ classnames({
-              active: this.state.activeTab === 'copy'
+              active: tab === 'copy'
             }) }
-            onClick={ () => this.toggle('copy') }
+            onClick={ () => setTab('copy') }
           >
             <Icon icon="clone" fallbackWeight="r" />
           </NavLink>
@@ -82,9 +54,9 @@ class AddComponentModal extends Component {
         <NavItem>
           <NavLink
             className={ classnames({
-              active: this.state.activeTab === 'template'
+              active: tab === 'template'
             }) }
-            onClick={ () => this.toggle('template') }
+            onClick={ () => setTab('template') }
           >
             <Icon icon="box-open" fallbackWeight="s" />
           </NavLink>
@@ -92,9 +64,9 @@ class AddComponentModal extends Component {
         <NavItem>
           <NavLink
             className={ classnames({
-              active: this.state.activeTab === 'import'
+              active: tab === 'import'
             }) }
-            onClick={ () => this.toggle('import') }
+            onClick={ () => setTab('import') }
           >
             <Icon icon="folder-open" fallbackWeight="r" />
           </NavLink>
@@ -116,7 +88,7 @@ class AddComponentModal extends Component {
         </NavItem>
       </Nav>
       <ModalBody>
-        { this.renderTab() }
+        <TabContent tab={ tab } parent={ parent } index={ index }/>
       </ModalBody>
       <ModalFooter>
         <Button
@@ -127,7 +99,5 @@ class AddComponentModal extends Component {
         </Button>
       </ModalFooter>
     </div>
-  }
+  )
 }
-
-export default AddComponentModal

@@ -118,7 +118,7 @@ export default class FileSelector extends Component {
     switch (this.state.activeTab) {
       case 'pool':
         return <PoolTab
-          component={ this.props.component }
+          initialComponent={ this.props.component }
           accept={ this.props.accept }
           handleImport={ this.handleImport }
         />
