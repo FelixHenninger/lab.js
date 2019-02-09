@@ -26,6 +26,7 @@ const Footer = ({ columns }, { id, gridDispatch }) => {
             .then(() => gridDispatch('reload'))
             .catch(() => null)
           }
+          onMouseUp={ e => e.target.blur() }
         >
           <Icon icon="plus" />
         </Button>
