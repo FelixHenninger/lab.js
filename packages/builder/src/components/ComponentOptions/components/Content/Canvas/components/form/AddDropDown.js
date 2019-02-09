@@ -13,7 +13,7 @@ const AddDropDown = (
   { addHandler, cloneHandler, removeHandler },
   { id }
 ) => {
-  let fileSelector
+  let fileSelector = React.createRef()
 
   return <div>
     <ButtonGroup>
@@ -58,7 +58,7 @@ const AddDropDown = (
           <DropdownItem header>Media</DropdownItem>
           <DropdownItem
             onClick={ () =>
-              fileSelector
+              fileSelector.current
                 .select()
                 .then(files =>
                   files.forEach(({ localPath }) => {
@@ -96,7 +96,7 @@ const AddDropDown = (
       </Button>
     </ButtonGroup>
     <FileSelector
-      ref={ ref => fileSelector = ref }
+      ref={ fileSelector }
       component={ id }
       accept="image/*"
     />

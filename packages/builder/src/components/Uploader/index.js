@@ -7,17 +7,18 @@ class Uploader extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.handleDrop = this.handleDrop.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.inputField = React.createRef()
   }
 
   // User interactions ---------------------------------------------------------
 
   handleClick() {
-    this.inputField.click()
+    this.inputField.current.click()
   }
 
   handleInputChange() {
     // Select the first file that meets all criteria
-    const files = Array.from(this.inputField.files)
+    const files = Array.from(this.inputField.current.files)
       .filter( f => this.checkFile(f) )
 
     this.handleFiles(files)
@@ -102,7 +103,7 @@ class Uploader extends Component {
         accept={ this.props.accept }
         multiple={ this.props.multiple }
         style={{ display: 'none' }}
-        ref={ field => this.inputField = field }
+        ref={ this.inputField }
         onChange={ this.handleInputChange }
         // Reset value when selected
         // (so that the same file can be uploaded twice)

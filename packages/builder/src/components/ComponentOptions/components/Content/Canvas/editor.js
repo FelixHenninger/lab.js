@@ -62,6 +62,8 @@ export default class CanvasEditor extends Component {
       selection: undefined,
     }
     this.updateState = this.updateState.bind(this)
+
+    this.canvas = React.createRef()
   }
 
   setState(data) {
@@ -73,7 +75,7 @@ export default class CanvasEditor extends Component {
 
   updateState() {
     this.props.onChange(
-      this.canvas.canvas._objects.map(o => this.state.data[o.id])
+      this.canvas.current.canvas._objects.map(o => this.state.data[o.id])
     )
   }
 
@@ -117,13 +119,13 @@ export default class CanvasEditor extends Component {
 
       // Reflect modification on canvas
       if (updateCanvas) {
-        this.canvas.modifyActive('set', toCanvas(target, this.context))
+        this.canvas.current.modifyActive('set', toCanvas(target, this.context))
       }
     }
   }
 
   updateOrder() {
-    this.setState({ order: this.canvas.canvas._objects.map(o => o.id) })
+    this.setState({ order: this.canvas.current.canvas._objects.map(o => o.id) })
   }
 
   // Form data handling --------------------------------------------------------
@@ -163,7 +165,7 @@ export default class CanvasEditor extends Component {
     return <div>
       <FabricCanvas
         data={ this.state.order.map(id => toCanvas(this.state.data[id], this.context)) }
-        ref={ c => this.canvas = c }
+        ref={ this.canvas }
         addHandler={ ({ target }) => this.addContent(target.toObject(['id'])) }
         deleteHandler={ ({ target }) => this.deleteContent(target) }
         updateHandler={ ({ target }) => {
@@ -187,20 +189,20 @@ export default class CanvasEditor extends Component {
       >
         <FormGroup className="toolbar d-flex">
           <AddDropDown
-            addHandler={ (...args) => this.canvas.add(...args) }
-            removeHandler={ () => this.canvas.modifyActive('remove') }
-            cloneHandler={ () => this.canvas.cloneActive() }
+            addHandler={ (...args) => this.canvas.current.add(...args) }
+            removeHandler={ () => this.canvas.current.modifyActive('remove') }
+            cloneHandler={ () => this.canvas.current.cloneActive() }
           />
           <Layers
             type={ selection.type }
             upHandler={ () => {
-              this.canvas.modifyActive('bringForward')
+              this.canvas.current.modifyActive('bringForward')
               // The canvas does not signal this modification,
               // so trigger update manually
               this.updateOrder()
             } }
             downHandler={ () => {
-              this.canvas.modifyActive('sendBackwards')
+              this.canvas.current.modifyActive('sendBackwards')
               this.updateOrder()
             } }
           />

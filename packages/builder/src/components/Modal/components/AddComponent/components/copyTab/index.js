@@ -7,14 +7,14 @@ import { children, flatTree } from '../../../../../../logic/tree'
 import './style.css'
 
 const CopyTab = ({ parent, index }, { store }) => {
-  let sourceSelect = null
+  let sourceSelect = React.createRef()
 
   return <div className="copy-component-tab">
     <Input
       type="select" bsSize="lg"
       name="copySelect" id="copySelect"
       className="custom-select"
-      innerRef={ select => sourceSelect = select }
+      innerRef={ sourceSelect }
     >
       {
         flatTree(store.getState().components).map(
@@ -30,10 +30,10 @@ const CopyTab = ({ parent, index }, { store }) => {
       <Button
         outline color="secondary"
         onClick={ () => {
-          if (sourceSelect.value !== '') {
+          if (sourceSelect.current.value !== '') {
             store.dispatch({
               type: 'COPY_COMPONENT',
-              id: sourceSelect.value,
+              id: sourceSelect.current.value,
               parent, index,
             })
             // TODO: Show the new component
@@ -48,14 +48,14 @@ const CopyTab = ({ parent, index }, { store }) => {
       <Button
         outline color="secondary"
         onClick={ () => {
-          if (sourceSelect.value !== '') {
+          if (sourceSelect.current.value !== '') {
             // Check whether a component is being
             // cloned into itself, thus creating
             // and infinite recursion.
             const sourceChildren = [
               sourceSelect.value,
               ...children(
-                sourceSelect.value,
+                sourceSelect.current.value,
                 store.getState().components
               ),
             ]
@@ -70,7 +70,7 @@ const CopyTab = ({ parent, index }, { store }) => {
             }
             store.dispatch({
               type: 'CLONE_COMPONENT',
-              id: sourceSelect.value,
+              id: sourceSelect.current.value,
               parent, index,
             })
             // TODO: Show the new component
