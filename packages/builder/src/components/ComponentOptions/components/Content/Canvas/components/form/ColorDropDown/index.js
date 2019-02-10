@@ -75,10 +75,7 @@ export default ({ value, onChange, disabled,
       </DropdownToggle>
       <DropdownMenu right className="color-dropdown">
         {/* Predefined colors */}
-        <div
-          className="dropdown-item"
-          style={{ height: '136px' }}
-        >
+        <DropdownItem tag="div" style={{ height: '136px' }} toggle={ false }>
           {
             colors.map(c =>
               <Swatch
@@ -87,13 +84,10 @@ export default ({ value, onChange, disabled,
               />
             )
           }
-        </div>
+        </DropdownItem>
         <DropdownItem divider />
         {/* Grey values */}
-        <div
-          className="dropdown-item"
-          style={{ height: '90px' }}
-        >
+        <DropdownItem tag="div" style={{ height: '90px' }} toggle={ false }>
           {
             grays.map(c =>
               <Swatch
@@ -102,10 +96,10 @@ export default ({ value, onChange, disabled,
               />
             )
           }
-        </div>
+        </DropdownItem>
         <DropdownItem divider />
         {/* Custom color selector */}
-        <DropdownItem toggle={ false }>
+        <DropdownItem tag="div" toggle={ false }>
           <div
             className="btn btn-outline-secondary"
             style={{ width: '126px' }}
@@ -121,7 +115,7 @@ export default ({ value, onChange, disabled,
         </DropdownItem>
         <DropdownItem divider />
         {/* Manual (text-based) color input */}
-        <DropdownItem toggle={ false }>
+        <DropdownItem tag="div" toggle={ false }>
           <input
             className="form-control w-100"
             style={{ fontFamily: 'Fira Mono' }}

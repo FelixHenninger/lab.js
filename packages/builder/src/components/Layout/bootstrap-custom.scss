@@ -79,6 +79,14 @@ button.btn, .form-control {
   padding: 0.5rem 1rem;
 }
 
+// Optionally remove click indicator on dropdown items
+.dropdown-item.mute:active {
+  background-color: var(--light);
+}
+.dropdown-item.mute:focus {
+  outline: none;
+}
+
 // Change footer color in cards with warnings
 .card.border-warning .card-footer {
   border-top-color: $warning;

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { DropdownMenu,
+import { DropdownMenu, DropdownItem,
   InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap'
 import { Control } from 'react-redux-form'
 
@@ -12,7 +12,7 @@ export default () =>
       width: '500px',
     }}
   >
-    <div className="dropdown-item">
+    <DropdownItem tag="div" toggle={ false } className="mute">
       <InputGroup>
         <InputGroupAddon addonType="prepend">
           <InputGroupText>
@@ -28,5 +28,5 @@ export default () =>
           style={{ fontFamily: 'Fira Mono' }}
         />
       </InputGroup>
-    </div>
+    </DropdownItem>
   </DropdownMenu>

@@ -14,7 +14,7 @@ export default ({ selection, changeHandler }) =>
   >
     {/* <divs> are needed here because DropdownItems are buttons,
         and the buttons here can't be nested within. */}
-    <div className="dropdown-item">
+    <DropdownItem tag="div" toggle={ false } className="mute">
       <Control.select
         model=".fontFamily"
         className="form-control custom-select"
@@ -23,8 +23,8 @@ export default ({ selection, changeHandler }) =>
         <option value="sans-serif">Sans-serif</option>
         <option value="monospace">Monospace</option>
       </Control.select>
-    </div>
-    <div className="dropdown-item">
+    </DropdownItem>
+    <DropdownItem tag="div" toggle={ false } className="mute">
       <ButtonGroup className="w-100 typography-font-style">
         <Button
           outline color={
@@ -61,9 +61,9 @@ export default ({ selection, changeHandler }) =>
           <Icon icon="bold" />
         </Button>
       </ButtonGroup>
-    </div>
+    </DropdownItem>
     <DropdownItem divider />
-    <div className="dropdown-item">
+    <DropdownItem tag="div" toggle={ false } className="mute">
       <InputGroup>
         <InputGroupAddon addonType="prepend">
           <InputGroupText>
@@ -79,9 +79,9 @@ export default ({ selection, changeHandler }) =>
           style={{ fontFamily: 'Fira Mono' }}
         />
       </InputGroup>
-    </div>
+    </DropdownItem>
     <DropdownItem divider />
-    <div className="dropdown-item">
+    <DropdownItem tag="div" toggle={ false } className="mute">
       <ButtonGroup className="typography-alignment">
       {
         /* Ideally, highlighting of the selected option
@@ -104,5 +104,5 @@ export default ({ selection, changeHandler }) =>
         )
       }
       </ButtonGroup>
-    </div>
+    </DropdownItem>
   </DropdownMenu>
