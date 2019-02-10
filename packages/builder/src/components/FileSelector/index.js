@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Nav, NavItem, NavLink, ModalBody } from 'reactstrap'
-import classnames from 'classnames'
+import { Nav, ModalBody } from 'reactstrap'
 
 import { addFiles, getLocalFile } from '../../logic/util/files'
 
 import Modal from '../Modal'
 import Icon from '../Icon'
+import { NavEntry, NavCloseModal } from '../Nav'
 
 import UploadTab from './Components/UploadTab'
 import PoolTab from './Components/PoolTab'
@@ -25,6 +25,7 @@ export default class FileSelector extends Component {
     this.handleImport = this.handleImport.bind(this)
     this.select = this.select.bind(this)
     this.toggle = this.toggle.bind(this)
+    this.setTab = this.setTab.bind(this)
   }
 
   toggle() {
@@ -39,7 +40,7 @@ export default class FileSelector extends Component {
     })
   }
 
-  toggleTab(name) {
+  setTab(name) {
     this.setState({
       activeTab: name
     })
@@ -136,41 +137,21 @@ export default class FileSelector extends Component {
     >
       <div className="modal-content">
         <Nav tabs>
-          <NavItem>
-            <NavLink
-              className={ classnames({
-                active: this.state.activeTab === 'new'
-              }) }
-              onClick={ () => this.toggleTab('new') }
-            >
-              <Icon icon="plus" weight="s" />
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={ classnames({
-                active: this.state.activeTab === 'pool'
-              }) }
-              onClick={ () => this.toggleTab('pool') }
-            >
-              <Icon icon="folder" />
-            </NavLink>
-          </NavItem>
-          <NavItem
-            className="ml-auto"
-            style={{
-              padding: '0.25em 0',
-            }}
+          <NavEntry
+            id="new"
+            activeId={ this.state.activeTab }
+            setId={ this.setTab }
           >
-            <button
-              type="button"
-              className="close"
-              aria-label="Close"
-              onClick={ this.toggle }
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </NavItem>
+            <Icon icon="plus" weight="s" />
+          </NavEntry>
+          <NavEntry
+            id="pool"
+            activeId={ this.state.activeTab }
+            setId={ this.setTab }
+          >
+            <Icon icon="folder" />
+          </NavEntry>
+          <NavCloseModal onClick={ this.toggle } />
         </Nav>
         <ModalBody>
           { this.renderTab() }

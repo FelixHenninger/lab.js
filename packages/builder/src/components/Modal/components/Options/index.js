@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { ModalBody, ModalFooter, Nav, NavItem, NavLink, Button } from 'reactstrap'
-import classnames from 'classnames'
+import { ModalBody, ModalFooter, Nav, Button } from 'reactstrap'
 
 import MetadataForm from './MetadataForm'
 import Files from './Files'
 import Editor from '../../../Editor'
+import { NavEntry, NavCloseModal } from '../../../Nav'
 import Icon from '../../../Icon'
 
 import { makeDataURI, readDataURI } from '../../../../logic/util/dataURI'
@@ -65,53 +65,19 @@ const OptionsModal = ({ closeHandler }) => {
   return (
     <div className="modal-content">
       <Nav tabs>
-        <NavItem>
-          <NavLink
-            className={ classnames({ active: tab === 'meta' }) }
-            onClick={ () => setTab('meta') }
-          >
-            <Icon icon="info" weight="s" />
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink
-            className={ classnames({ active: tab === 'files' }) }
-            onClick={ () => setTab('files') }
-          >
-            <Icon icon="folder" />
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink
-            className={ classnames({ active: tab === 'html' }) }
-            onClick={ () => setTab('html') }
-          >
-            HTML
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink
-            className={ classnames({ active: tab === 'css' }) }
-            onClick={ () => setTab('css') }
-          >
-            CSS
-          </NavLink>
-        </NavItem>
-        <NavItem
-          className="ml-auto"
-          style={{
-            padding: '0.25em 0',
-          }}
-        >
-          <button
-            type="button"
-            className="close"
-            aria-label="Close"
-            onClick={ closeHandler }
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </NavItem>
+        <NavEntry id="meta" activeId={ tab } setId={ setTab }>
+          <Icon icon="info" weight="s" />
+        </NavEntry>
+        <NavEntry id="files" activeId={ tab } setId={ setTab }>
+          <Icon icon="folder" />
+        </NavEntry>
+        <NavEntry id="html" activeId={ tab } setId={ setTab }>
+          HTML
+        </NavEntry>
+        <NavEntry id="css" activeId={ tab } setId={ setTab }>
+          CSS
+        </NavEntry>
+        <NavCloseModal onClick={ closeHandler } />
       </Nav>
       <ModalBody>
         <TabContent tab={ tab } />

@@ -6,6 +6,7 @@ import classnames from 'classnames'
 
 import Icon from '../../../Icon'
 
+import { NavEntry } from '../../../Nav'
 import SplashTab from './components/SplashTab'
 import ExampleTab from './components/ExampleTab'
 
@@ -35,16 +36,9 @@ export default () => {
       >
         <CardHeader>
           <Nav tabs className="card-header-tabs justify-content-center">
-            <NavItem>
-              <NavLink
-                className={ classnames({
-                  active: tab === 'splash'
-                }) }
-                onClick={ () => setTab('splash') }
-              >
-                <Icon icon="heart" />
-              </NavLink>
-            </NavItem>
+            <NavEntry id="splash" activeId={ tab } setId={ setTab }>
+              <Icon icon="heart" />
+            </NavEntry>
             <NavItem>
               <NavLink
                 id="splash-tab-examples"
