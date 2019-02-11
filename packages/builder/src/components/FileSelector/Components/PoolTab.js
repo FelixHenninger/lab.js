@@ -76,7 +76,8 @@ const PoolTab = ({ accept, handleImport, initialComponent }, { store }) => {
             </span>
             <Icon
               icon={ mimeToIcon(f.type) }
-              className="fa-fw ml-2"
+              fixedWidth
+              className="ml-2"
             />
           </ListGroupItem>
         )

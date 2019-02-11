@@ -42,7 +42,7 @@ const FileTableRow = ({ path, content }, { store }) =>
       >
         <Icon
           icon={ dataURItoIcon(content) }
-          className="fa-fw"
+          fixedWidth
           style={{
             color: '#ced4da',
             position: 'relative',
@@ -72,7 +72,7 @@ const FileTableRow = ({ path, content }, { store }) =>
       >
         <Icon
           icon="trash"
-          className="fa-fw"
+          fixedWidth
         />
       </Button>
     </td>

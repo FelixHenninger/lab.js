@@ -11,7 +11,7 @@ export default ({ type }) =>
   <InputGroup className="dimension-toolbar minimal-width-addons ml-2">
     <InputGroupAddon addonType="prepend">
       <span className="input-group-text">
-        <Icon icon="long-arrow-right" className="fa-fw" />
+        <Icon icon="long-arrow-right" fixedWidth />
       </span>
     </InputGroupAddon>
     <Control
@@ -25,7 +25,7 @@ export default ({ type }) =>
     />
     <InputGroupAddon addonType="prepend">
       <InputGroupText>
-        <Icon icon="long-arrow-down" className="fa-fw" />
+        <Icon icon="long-arrow-down" fixedWidth />
       </InputGroupText>
     </InputGroupAddon>
     <Control
@@ -39,7 +39,7 @@ export default ({ type }) =>
     />
     <InputGroupAddon addonType="prepend">
       <InputGroupText>
-        <Icon icon="redo" className="fa-fw" />
+        <Icon icon="redo" fixedWidth />
       </InputGroupText>
     </InputGroupAddon>
     <Control
@@ -53,7 +53,7 @@ export default ({ type }) =>
     />
     <InputGroupAddon addonType="prepend">
       <InputGroupText>
-        <Icon icon="arrows-h" className="fa-fw" />
+        <Icon icon="arrows-h" fixedWidth />
       </InputGroupText>
     </InputGroupAddon>
     <Control
@@ -67,7 +67,7 @@ export default ({ type }) =>
     />
     <InputGroupAddon addonType="prepend">
       <InputGroupText>
-        <Icon icon="arrows-v" className="fa-fw" />
+        <Icon icon="arrows-v" fixedWidth />
       </InputGroupText>
     </InputGroupAddon>
     <Control

@@ -27,11 +27,13 @@ const replacements = {
   'tachometer': 'tachometer-alt',
 }
 
-const Icon = ({ icon, weight, fallbackWeight, id, className, title, style }) =>
+const Icon = ({ icon, fixedWidth, weight, fallbackWeight,
+  id, className, title, style }) =>
   <i
     className={ classnames(
       `fa${ iconSet === 'pro' ? weight : fallbackWeight } `,
       `fa-${ iconSet === 'pro' ? icon : replacements[icon] || icon }`,
+      fixedWidth ? 'fa-fw' : null,
       className
     )}
     aria-hidden

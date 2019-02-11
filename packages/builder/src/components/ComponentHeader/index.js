@@ -45,8 +45,8 @@ const HeaderForm = ({ title, typeCategory, typeName, template,
           <span className="input-group-text">
             <Icon
               id="typeIcon"
-              className="fa-fw"
               icon={ icon }
+              fixedWidth
               weight={ iconWeight }
               fallbackWeight={ iconFallbackWeight }
             />
@@ -87,7 +87,7 @@ const HeaderNav = ({ tabs, tab, onChange }) =>
         >
           {
             tabIcons[t]
-              ? <Icon icon={ tabIcons[t] } weight="s" className="fa-fw" />
+              ? <Icon icon={ tabIcons[t] } weight="s" fixedWidth />
               : t
           }
         </NavLink>
