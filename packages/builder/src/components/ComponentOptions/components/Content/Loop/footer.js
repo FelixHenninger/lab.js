@@ -79,7 +79,13 @@ export const Footer = ({ columns, data }, { gridDispatch }) => {
                       { header: true }
                     )
 
-                    if (parseResult.errors.length === 0) {
+                    if (
+                      // No detected issues
+                      parseResult.errors.length === 0 ||
+                      // Data is present, but no delimiter found
+                      (parseResult.data && parseResult.errors.length === 1 &&
+                        parseResult.errors[0].code === 'UndetectableDelimiter')
+                    ) {
                       gridDispatch('overwrite', {
                         columns: Object.keys(parseResult.data[0])
                           .map(c => ({ name: c, type: 'string' })),
