@@ -371,7 +371,10 @@ export default class FabricCanvas extends Component {
           break
         default:
           // Update image src, if required (and then rerender)
-          if (o.type === 'image' && o.src !== args[0].src) {
+          if (o.type === 'image' &&
+            args[0] && args[0].src && // new options are provided ...
+            o.src !== args[0].src     // ... and the src changed
+          ) {
             o.setSrc(args[0].src, () => this.canvas.requestRenderAll())
           }
 
