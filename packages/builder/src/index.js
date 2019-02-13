@@ -30,7 +30,7 @@ if (
 import { check } from './logic/util/compatibility'
 import { persistState } from './logic/util/persistence'
 import installPreviewWorker from './logic/io/preview/worker'
-import registerServiceWorker from './registerServiceWorker'
+import { register as registerServiceWorker } from './registerServiceWorker'
 import { SystemContextProvider } from './components/System'
 /* eslint-enable import/first */
 
