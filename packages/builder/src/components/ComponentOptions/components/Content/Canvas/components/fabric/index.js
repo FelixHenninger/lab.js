@@ -61,6 +61,7 @@ fabric.Image.fromObject = function(_object, callback) {
       error ? new Image() : img,
       object
     )
+    image.crossOrigin = "anonymous"
 
     // Pretend that we were successful in any case
     callback(image)
@@ -336,6 +337,7 @@ export default class FabricCanvas extends Component {
             image.addEventListener('load', () => resolve(image))
             image.addEventListener('error', e => reject(e))
 
+            image.crossOrigin = "anonymous"
             image.src = options.src
           })
 
