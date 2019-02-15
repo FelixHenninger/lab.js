@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { UncontrolledButtonDropdown, DropdownToggle } from 'reactstrap'
+import { ButtonDropdown, DropdownToggle } from 'reactstrap'
 
 import Icon from '../../../../../../../Icon'
 
@@ -36,13 +36,29 @@ const Options = (props) => {
   }
 }
 
-export default ({ selection, changeHandler }) =>
-  <UncontrolledButtonDropdown direction="up">
-    <Toggle
-      type={ selection.type }
-    />
-    <Options
-      selection={ selection }
-      changeHandler={ changeHandler }
-    />
-  </UncontrolledButtonDropdown>
+export default ({ selection, changeHandler }) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+
+  return (
+    <ButtonDropdown
+      direction="up"
+      isOpen={ dropdownOpen }
+      toggle={ () => setDropdownOpen(!dropdownOpen) }
+      // Don't close the dropdown menu on any click
+      // (otherwise, clicking inside the modal triggers
+      // the toggle. Note that this is a hack, because
+      // this property happens to do what we want,
+      // but that is not guaranteed)
+      inNavbar={ true }
+    >
+      <Toggle
+        type={ selection.type }
+      />
+      <Options
+        selection={ selection }
+        changeHandler={ changeHandler }
+        toggle={ () => setDropdownOpen(false) }
+      />
+    </ButtonDropdown>
+  )
+}
