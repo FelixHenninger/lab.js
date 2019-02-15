@@ -17,7 +17,7 @@ export default class FileSelector extends Component {
 
     this.state = {
       active: false,
-      activeTab: 'new',
+      activeTab: this.props.tab,
     }
     this.promiseHandlers = {}
 
@@ -168,4 +168,5 @@ FileSelector.contextTypes = {
 FileSelector.defaultProps = {
   addToComponent: true,
   accept: '',
+  tab: 'new',
 }
