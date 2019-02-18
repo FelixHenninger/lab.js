@@ -1,6 +1,5 @@
 import { cloneDeepWith } from 'lodash'
 import Proxy from 'es2015-proxy'
-import UAParser from 'ua-parser-js'
 
 import { Store } from './data'
 import { EventHandler } from './util/eventAPI'
@@ -10,6 +9,7 @@ import { parse, parsableOptions, parseRequested } from './util/options'
 import { ensureHighResTime, StackTimeout, FrameTimeout,
   requestIdleCallback } from './util/timing'
 import { preloadImage, preloadAudio } from './util/preload'
+import { browserName } from './util/browser'
 
 // Define status codes
 export const status = Object.freeze({
@@ -19,8 +19,6 @@ export const status = Object.freeze({
   done:         3,
 })
 
-// Detect user agent --------------------------------------
-const browserName = new UAParser().getBrowser().name
 
 // Default options ----------------------------------------
 // Attributes to pass on to nested items (as names)
