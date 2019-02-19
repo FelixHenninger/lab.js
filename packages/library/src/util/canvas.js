@@ -146,9 +146,19 @@ const renderElement = (ctx, content, cache={}) => {
     case 'image':
       // Load image element from cache
       const img = cache.images[content.src]
+
+      // Recalculate width and height
+      // to preserve aspect ratio, if requested
+      const width = content.autoScale === "width"
+        ? img.naturalWidth * (content.height / img.naturalHeight)
+        : content.width
+      const height = content.autoScale === "height"
+        ? img.naturalHeight * (content.width / img.naturalWidth)
+        : content.height
+
       ctx.drawImage(img,
-        -content.width / 2, -content.height / 2,
-        content.width, content.height,
+        -width / 2, -height / 2,
+        width, height,
       )
 
       break
