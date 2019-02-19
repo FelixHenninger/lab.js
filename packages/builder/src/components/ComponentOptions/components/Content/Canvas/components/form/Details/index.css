@@ -1,5 +1,8 @@
-/* Typography dropdown */
+/* Make sure the active button's borders are visible */
 div.btn-group.typography-alignment button.btn-outline-primary,
 div.btn-group.typography-font-style button.btn-outline-primary {
   z-index: 2;
+}
+div.input-group.image-autoscale button.btn-outline-primary {
+  z-index: 3;
 }

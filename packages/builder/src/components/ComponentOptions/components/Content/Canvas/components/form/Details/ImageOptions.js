@@ -2,13 +2,14 @@ import React, { createRef } from 'react'
 import PropTypes from 'prop-types'
 
 import { DropdownMenu, DropdownItem,
-  InputGroup, InputGroupAddon, Input, Button } from 'reactstrap'
+  InputGroup, InputGroupAddon, InputGroupText,
+  Input, Button } from 'reactstrap'
 import { Control } from 'react-redux-form'
 
 import FileSelector from '../../../../../../../FileSelector'
 import Icon from '../../../../../../../Icon'
 
-const ImageOptions = ({ changeHandler }, { id }) => {
+const ImageOptions = ({ selection, changeHandler }, { id }) => {
   const fileSelector = createRef()
 
   return (
@@ -49,6 +50,47 @@ const ImageOptions = ({ changeHandler }, { id }) => {
               } }
             >
               <Icon icon="folder" />
+            </Button>
+          </InputGroupAddon>
+        </InputGroup>
+      </DropdownItem>
+      <DropdownItem tag="div" toggle={ false } className="mute">
+        <InputGroup className="d-flex flex-row image-autoscale" size="sm">
+          <InputGroupAddon addonType="prepend" style={{ width: '25%' }}>
+            <InputGroupText className="w-100 text-center">
+              Auto resize
+            </InputGroupText>
+          </InputGroupAddon>
+          <InputGroupAddon
+            className="flex-fill"
+            addonType="append"
+          >
+            <Button outline
+              color={
+                !['width', 'height'].includes(selection.autoScale)
+                  ? 'primary'
+                  : 'secondary'
+              }
+              style={{ width: '35%' }}
+              onClick={ () => changeHandler('autoScale', false) }
+            >
+              <Icon icon="power-off" />
+            </Button>
+            <Button outline
+              color={ selection.autoScale === 'width'
+                ? 'primary' : 'secondary' }
+              style={{ width: '32.5%' }}
+              onClick={ () => changeHandler('autoScale', 'width') }
+            >
+              <Icon icon="arrows-alt-h" />
+            </Button>
+            <Button outline
+              color={ selection.autoScale === 'height'
+                ? 'primary' : 'secondary' }
+              style={{ width: '32.5%' }}
+              onClick={ () => changeHandler('autoScale', 'height') }
+            >
+              <Icon icon="arrows-alt-v" />
             </Button>
           </InputGroupAddon>
         </InputGroup>

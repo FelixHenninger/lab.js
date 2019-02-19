@@ -109,6 +109,7 @@ export const fromCanvas = (object, oldObject) => {
   if (object.type === 'image') {
     output.width = output.scaleX * output.naturalWidth
     output.height = output.scaleY * output.naturalHeight
+    output.autoScale = oldObject.autoScale
   }
 
   return output
