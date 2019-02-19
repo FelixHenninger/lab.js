@@ -207,6 +207,7 @@ export default class CanvasEditor extends Component {
             } }
           />
           <Dimensions
+            selection={ selection }
             type={ selection.type }
           />
           <Style

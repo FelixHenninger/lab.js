@@ -7,7 +7,7 @@ import Icon from '../../../../../../../Icon'
 
 import './index.css'
 
-export default ({ type }) =>
+export default ({ selection, type }) =>
   <InputGroup className="dimension-toolbar minimal-width-addons ml-2">
     <InputGroupAddon addonType="prepend">
       <span className="input-group-text">
@@ -60,7 +60,10 @@ export default ({ type }) =>
       model=".width"
       defaultValue=""
       placeholder="width"
-      disabled={ ['i-text', undefined].includes(type) }
+      disabled={
+        ['i-text', undefined].includes(type)
+        || (type === 'image' && selection.autoScale === 'width')
+      }
       debounce={ 200 }
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
@@ -74,7 +77,10 @@ export default ({ type }) =>
       model=".height"
       defaultValue=""
       placeholder="height"
-      disabled={ ['line', 'circle', 'i-text', undefined].includes(type) }
+      disabled={
+        ['line', 'circle', 'i-text', undefined].includes(type)
+        || (type === 'image' && selection.autoScale === 'height')
+      }
       debounce={ 200 }
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
