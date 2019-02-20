@@ -1,7 +1,7 @@
 {
   "components": {
-    "1": {
-      "id": "1",
+    "3": {
+      "id": "3",
       "type": "lab.html.Screen",
       "files": {
         "rows": []
@@ -33,20 +33,21 @@
             {
               "title": "",
               "message": "before:prepare",
-              "code": "const setVisibility = (selector, isVisible) => {\r\n  // Extract the content from the current element\r\n  const target = this.options.el.querySelector(selector)\r\n\r\n  target.style.visibility = isVisible ? 'visible' : 'hidden'\r\n}\r\n\r\nconst moveForth = (selector) => {\r\n  const target = this.options.el.querySelector(selector)\r\n  if(target.nextElementSibling){\r\n    target.classList.add(\"hidden\"); // hide current screen\r\n    target.nextElementSibling.classList.remove(\"hidden\"); //show next screen\r\n    \r\n    setVisibility('#bck', true) // make sure that 'back' button is visible\r\n\r\n    if(!target.nextElementSibling.nextElementSibling){ // if the end is reached\r\n      setVisibility('#fwd', false) // hide the forward button\r\n      setVisibility('#done', true) // show the end button\r\n    }\r\n  }\r\n}\r\n\r\nconst moveBack = (selector) => {\r\n  target = this.options.el.querySelector(selector);\r\n  if(target.previousElementSibling){ //.innerHTML !== undefined\r\n    target.classList.add(\"hidden\");  // hide current screen\r\n    target.previousElementSibling.classList.remove(\"hidden\"); // show previous screen\r\n\r\n    setVisibility('#fwd', true) // make sure that 'forward' button is visible\r\n    setVisibility('#done', false) // hide the 'done' button\r\n\r\n    if(!target.previousElementSibling.previousElementSibling){ // if the beginning is reached\r\n      setVisibility('#bck', false) // hide the back button\r\n    }\r\n  } \r\n}\r\n\r\nthis.options.events['keydown(ArrowRight)'] = function(){\r\n  moveForth(\"section[id^='page']:not(.hidden)\")\r\n  moveForth(\"h2[id^='head']:not(.hidden)\")\r\n}\r\n\r\nthis.options.events['keydown(ArrowLeft)'] = function(){\r\n  moveBack(\"section[id^='page']:not(.hidden)\")\r\n  moveBack(\"h2[id^='head']:not(.hidden)\")\r\n}"
+              "code": "let done = false // is it the last screen?\r\n\r\nconst setVisibility = (selector, isVisible) => {\r\n  // Extract the content from the current element\r\n  const target = this.options.el.querySelector(selector)\r\n\r\n  target.style.visibility = isVisible ? 'visible' : 'hidden'\r\n}\r\n\r\nconst moveForth = (selector) => {\r\n  const target = this.options.el.querySelector(selector)\r\n  if(target.nextElementSibling){\r\n    target.classList.add(\"hidden\"); // hide current screen\r\n    target.nextElementSibling.classList.remove(\"hidden\"); //show next screen\r\n    \r\n    setVisibility('#bck', true) // make sure that 'back' button is visible\r\n\r\n    if(!target.nextElementSibling.nextElementSibling){ // if the end is reached\r\n      setVisibility('#fwd', false) // hide the forward button\r\n      setVisibility('#done', true) // show the end button\r\n      done = true\r\n    }\r\n  }\r\n}\r\n\r\nconst moveBack = (selector) => {\r\n  target = this.options.el.querySelector(selector);\r\n  if(target.previousElementSibling){ //.innerHTML !== undefined\r\n    target.classList.add(\"hidden\");  // hide current screen\r\n    target.previousElementSibling.classList.remove(\"hidden\"); // show previous screen\r\n\r\n    setVisibility('#fwd', true) // make sure that 'forward' button is visible\r\n    setVisibility('#done', false) // hide the 'done' button\r\n    done = false\r\n\r\n    if(!target.previousElementSibling.previousElementSibling){ // if the beginning is reached\r\n      setVisibility('#bck', false) // hide the back button\r\n    }\r\n  } \r\n}\r\n\r\nthis.options.events['keydown(ArrowRight)'] = function(){\r\n  moveForth(\"section[id^='page']:not(.hidden)\")\r\n  moveForth(\"h2[id^='head']:not(.hidden)\")\r\n}\r\n\r\nthis.options.events['keydown(ArrowLeft)'] = function(){\r\n  moveBack(\"section[id^='page']:not(.hidden)\")\r\n  moveBack(\"h2[id^='head']:not(.hidden)\")\r\n}\r\n\r\nthis.options.events['keypress(Space)'] = function() {\r\n    if(done)\r\n      // End instructions\r\n      this.end('done')\r\n}"
             }
           ]
         ]
       },
       "title": "Instructions",
-      "content": "<header>\r\n  <h2 id=\"head1\">Header #1</h2>\r\n  <h2 id=\"head2\" class=\"hidden\">Header #2</h2>\r\n  <h2 id=\"head3\" class=\"hidden\">Header #3</h2>\r\n</header>\r\n\r\n<main class=\"content-horizontal-center content-vertical-center\">\r\n  <section id=\"page1\" class=\"w-l text-justify\">\r\n    <p>Paragraph #1</p>\r\n  </section>\r\n  <section id=\"page2\" class=\"w-l text-justify hidden\">\r\n    <p>Paragraph #2</p>\r\n  </section>\r\n  <section id=\"page3\" class=\"w-l text-justify hidden\">\r\n    <p>Paragraph #3</p>\r\n  </section>\r\n</main>\r\n\r\n<footer>\r\n  <table class=\"table-plain\">\r\n    <tr>\r\n      <td id=\"bck\" style=\"visibility: hidden\">\r\n        press the left arrow <kbd>&larr;</kbd> for the previous screen \r\n      </td>\r\n      <td id=\"done\" style=\"visibility: hidden\">\r\n        press the <kbd>space bar</kbd> to continue \r\n      </td>\r\n      <td id=\"fwd\">\r\n        press the right arrow <kbd>&rarr;</kbd> for the next screen \r\n      </td>\r\n    </tr>\r\n  </table>\r\n</footer>"
+      "content": "<header>\r\n  <h2 id=\"head1\">Header #1</h2>\r\n  <h2 id=\"head2\" class=\"hidden\">Header #2</h2>\r\n  <h2 id=\"head3\" class=\"hidden\">Header #3</h2>\r\n</header>\r\n\r\n<main class=\"content-horizontal-center content-vertical-center\">\r\n  <section id=\"page1\" class=\"w-l text-justify\">\r\n    <p>Paragraph #1</p>\r\n  </section>\r\n  <section id=\"page2\" class=\"w-l text-justify hidden\">\r\n    <p>Paragraph #2</p>\r\n  </section>\r\n  <section id=\"page3\" class=\"w-l text-justify hidden\">\r\n    <p>Paragraph #3</p>\r\n  </section>\r\n</main>\r\n\r\n<footer>\r\n  <table class=\"table-plain\">\r\n    <tr>\r\n      <td id=\"bck\" style=\"visibility: hidden\">\r\n        press the left arrow <kbd>&larr;</kbd> for the previous screen \r\n      </td>\r\n      <td id=\"done\" style=\"visibility: hidden\">\r\n        press the <kbd>space bar</kbd> to continue \r\n      </td>\r\n      <td id=\"fwd\">\r\n        press the right arrow <kbd>&rarr;</kbd> for the next screen \r\n      </td>\r\n    </tr>\r\n  </table>\r\n</footer>",
+      "_tab": "Scripts"
     },
     "root": {
       "id": "root",
       "title": "root",
       "type": "lab.flow.Sequence",
       "children": [
-        "1"
+        "3"
       ],
       "parameters": {
         "rows": [
