@@ -3,6 +3,7 @@ import Proxy from 'es2015-proxy'
 
 import { Store } from './data'
 import { EventHandler } from './util/eventAPI'
+import { Timeline } from './util/timeline'
 import { DomConnection } from './util/domEvents'
 import { Random } from './util/random'
 import { parse, parsableOptions, parseRequested } from './util/options'
@@ -33,11 +34,39 @@ class Controller {
     // Data storage
     this.datastore = new Store()
 
-    // File cache
+    // Media cache
     this.cache = {
       images: {},
       audio: {},
     }
+
+    // Audio context
+    this.audioContext = new (window.AudioContext || window.webkitAudioContext)()
+
+    // Setup DOM connection for global events
+    this.domConnection = new DomConnection({
+      el: document,
+      context: this,
+    })
+    this.domConnection.events = {
+      // Capture user interactions to indicate activity
+      'keydown': this.indicateInteraction,
+      'mousedown': this.indicateInteraction,
+      'touchstart': this.indicateInteraction,
+    }
+    this.domConnection.prepare()
+    this.domConnection.attach()
+    // TODO: This doesn't seem optimal;
+    // there must be a better point to capture events
+  }
+
+  async indicateInteraction() {
+    // Unlock AudioContext if necessary
+    if (this.audioContext.state === 'suspended') {
+      await this.audioContext.resume()
+    }
+    // Remove registered events
+    this.domConnection.detach()
   }
 }
 
@@ -133,6 +162,8 @@ export class Component extends EventHandler {
       events: {},
       // Component event handlers
       messageHandlers: {},
+      // Timeline
+      timeline: [],
 
       // Document node within which
       // the component operates
@@ -288,6 +319,11 @@ export class Component extends EventHandler {
     // Connect datastore from controller
     this.options.datastore = this.internals.controller.datastore
 
+    // Create timeline
+    this.internals.timeline = new Timeline(
+      this.internals.controller,
+    )
+
     // Setup console output grouping when the component is run
     if (this.options.debug) {
       this.on('before:run',
@@ -350,6 +386,11 @@ export class Component extends EventHandler {
         }
       },
     )
+
+    // Prepare timeline
+    this.internals.timeline.events = this.options.timeline
+    this.internals.timeline.prepare()
+
     // Push existing events and el to DomConnection
     this.internals.domConnection.events = this.options.events
     this.internals.domConnection.el = this.options.el
@@ -401,12 +442,17 @@ export class Component extends EventHandler {
     // Preload media
     await Promise.all(
       this.options.media.images.map(
-        img => preloadImage(img, this.internals.controller.cache.images)
+        img => preloadImage(img,
+          this.internals.controller.cache.images
+        )
       )
     )
     await Promise.all(
       this.options.media.audio.map(
-        snd => preloadAudio(snd, this.internals.controller.cache.audio)
+        snd => preloadAudio(snd,
+          this.internals.controller.cache.audio,
+          this.internals.controller.audioContext
+        )
       )
     )
   }
@@ -452,8 +498,9 @@ export class Component extends EventHandler {
       // Log time
       this.internals.timestamps.render = renderFrame
 
-      // Trigger render logic
+      // Trigger render logic and timeline
       await this.triggerMethod('render', renderFrame)
+      this.internals.timeline.start(frameTimestamp + 16.66)
 
       // Log next frame time
       window.requestAnimationFrame(showFrame => {
@@ -510,6 +557,9 @@ export class Component extends EventHandler {
 
     // Complete a component's run and cleanup
     await this.triggerMethod('end', timestamp, frameSynced)
+
+    // End the timeline
+    await this.internals.timeline.end()
 
     // Store data (unless instructed otherwise)
     if (this.options.datacommit !== false) {

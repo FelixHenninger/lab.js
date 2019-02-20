@@ -157,20 +157,10 @@ describe('Core', () => {
           const audio = b.internals.controller.cache.audio[url]
 
           assert.instanceOf(
-            audio, Audio
+            audio, AudioBuffer
           )
-
-          // Check that audio is loaded enough to play it to the end
-          assert.equal(
-            audio.readyState, 4
-          )
-
-          // Check that the audio is entirely seekable
-          assert.equal(
-            audio.seekable.start(0), 0
-          )
-          assert.equal(
-            audio.seekable.end(0), audio.duration
+          assert.ok(
+            audio.length > 0
           )
         })
       })
