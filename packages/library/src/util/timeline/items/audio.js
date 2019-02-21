@@ -59,7 +59,16 @@ class AudioNodeItem {
   }
 
   prepare() {
-    this.node.connect(this.timeline.controller.audioContext.destination)
+    // Splice in gain node if gain is set
+    if (this.options.gain && this.options.gain !== 1) {
+      this.gainNode = this.timeline.controller.audioContext.createGain()
+      this.gainNode.gain.value = this.options.gain
+      this.node
+        .connect(this.gainNode)
+        .connect(this.timeline.controller.audioContext.destination)
+    } else {
+      this.node.connect(this.timeline.controller.audioContext.destination)
+    }
   }
 
   start(offset) {
@@ -83,6 +92,12 @@ class AudioNodeItem {
   teardown() {
     this.node.disconnect()
     this.node = null
+
+    // Remove gain node, if present
+    if (this.gainNode) {
+      this.gainNode.disconnect()
+      this.gainNode = null
+    }
   }
 }
 
