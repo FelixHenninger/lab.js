@@ -26,6 +26,7 @@ import Debug from './plugins/debug'
 import Download from './plugins/download'
 import Logger from './plugins/log'
 import Metadata from './plugins/metadata'
+import NavigationGuard from './plugins/navigationGuard'
 import PostMessage from './plugins/postmessage'
 import Submit from './plugins/submit'
 import Transmit from './plugins/transmit'
@@ -63,6 +64,7 @@ export const plugins = {
   Download,
   Logger,
   Metadata,
+  NavigationGuard,
   PostMessage,
   Submit,
   Transmit,
