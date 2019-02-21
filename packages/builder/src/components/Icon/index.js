@@ -27,12 +27,12 @@ const replacements = {
   'tachometer': 'tachometer-alt',
 }
 
-const Icon = ({ icon, fixedWidth, weight, fallbackWeight,
+const Icon = ({ icon, fixedWidth, weight, fallback, fallbackWeight,
   id, className, title, style }) =>
   <i
     className={ classnames(
       `fa${ iconSet === 'pro' ? weight : fallbackWeight } `,
-      `fa-${ iconSet === 'pro' ? icon : replacements[icon] || icon }`,
+      `fa-${ iconSet === 'pro' ? icon : replacements[icon] || fallback || icon }`,
       fixedWidth ? 'fa-fw' : null,
       className
     )}
