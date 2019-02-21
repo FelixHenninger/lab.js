@@ -1,13 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Control } from 'react-redux-form'
-import { CardBody, FormGroup, Col, Label,
-  Input, CustomInput,
-  InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
+import { CardBody, FormGroup, Col, Label, Input } from 'reactstrap'
 
-import Card from '../../Card'
-import Grid from '../../Grid'
-import Hint from '../../Hint'
-import Form from './Form'
+import Grid from '../../../../Grid'
+import Card from '../../../../Card'
+import Hint from '../../../../Hint'
 
 const GridCell = ({ cellData, rowIndex, colIndex, colName }) => {
   if (colIndex === 1) {
@@ -50,7 +47,7 @@ const HeaderCell = ({ columnData }) =>
     { columnData }
   </span>
 
-const Responses = ({ data, formDispatch }) =>
+export default ({ data, formDispatch }) =>
   <Card title="Responses" wrapContent={ false } className="mt-4">
     <Grid
       model=".responses"
@@ -167,151 +164,3 @@ const Responses = ({ data, formDispatch }) =>
       </FormGroup>
     </CardBody>
   </Card>
-
-const Timeline = ({ data }) =>
-  <Card title="Timeline">
-    <FormGroup row>
-      <Label for="tardy" xs="2">
-        Tardy
-        <Hint
-          title="Tardiness"
-          className="float-right"
-        >
-          <p className="font-weight-bold">
-            Prepare the component at the last possible moment, just before it is run.
-          </p>
-          <p className="text-muted">
-            This is useful if the component depends on information that becomes available only during the study, for example if a screen's content depends on participant behavior.
-          </p>
-          <p className="text-muted">
-            Ordinarily, a component is prepared when the page is loaded.
-          </p>
-        </Hint>
-      </Label>
-      <Col xs="10" className="pt-2">
-        <Control.checkbox
-          model=".tardy"
-          component={ CustomInput }
-          controlProps={{
-            id: 'tardy',
-            type: 'checkbox',
-          }}
-        />
-      </Col>
-    </FormGroup>
-    <FormGroup row>
-      <Label for="skip" xs="2">
-        Skip
-        <Hint
-          title="Skip"
-          className="float-right"
-        >
-          <p className="font-weight-bold">
-            Don't run the component during the study.
-          </p>
-          <p className="text-muted">
-            This will cause any component to be prepared, but not run.
-          </p>
-        </Hint>
-      </Label>
-      <Col xs="10">
-        <InputGroup>
-          <InputGroupAddon addonType="prepend">
-            <InputGroupText>
-              <Control.checkbox
-                model=".skip"
-                component={ CustomInput }
-                controlProps={{
-                  addon: 'true',
-                  id: 'skip',
-                  type: 'checkbox'
-                }}
-              />
-            </InputGroupText>
-          </InputGroupAddon>
-          <Control
-            model=".skipCondition"
-            component={ Input }
-            controlProps={{
-              disabled: data.skip
-            }}
-            // eslint-disable-next-line no-template-curly-in-string
-            placeholder="${ optional condition }"
-            type="text"
-            id="skipCondition"
-            style={{
-              fontFamily: 'Fira Mono',
-            }}
-            debounce={ 300 }
-          />
-        </InputGroup>
-      </Col>
-    </FormGroup>
-    <FormGroup row>
-      <Label for="timeout" xs="2">
-        Timeout
-        <Hint
-          title="Timeout"
-          className="float-right"
-        >
-          <p className="font-weight-bold">
-            End component automatically after a given number of milliseconds.
-          </p>
-          <p className="text-muted">
-            If responses are defined alongside a timeout, whichever comes first will end the component.
-          </p>
-        </Hint>
-      </Label>
-      <Col xs="10">
-        <InputGroup>
-          <Control
-            model=".timeout"
-            placeholder="Never"
-            pattern="(\d+)|(\$\{.*\})" // Accept number or placeholder
-            component={ Input }
-            id="timeout"
-            style={{
-              fontFamily: 'Fira Mono',
-            }}
-            debounce={ 300 }
-          />
-          <InputGroupAddon addonType="append">
-            <span className="input-group-text text-muted">ms</span>
-          </InputGroupAddon>
-        </InputGroup>
-      </Col>
-    </FormGroup>
-  </Card>
-
-export default class extends Component {
-  constructor(props) {
-    super(props)
-    this.formDispatch = () => console.log('invalid dispatch')
-  }
-
-  render() {
-    const { id, data } = this.props
-
-    return <Form
-      id={ id }
-      data={ data }
-      keys={ [
-        'responses', 'correctResponse',
-        'skip', 'skipCondition',
-        'tardy', 'timeout',
-      ] }
-      getDispatch={ dispatch => this.formDispatch = dispatch }
-    >
-      <Timeline
-        id={ id }
-        data={ data }
-        formDispatch={ action => this.formDispatch(action) }
-      />
-      <Responses
-        id={ id }
-        data={ data }
-        formDispatch={ action => this.formDispatch(action) }
-      />
-    </Form>
-  }
-}
