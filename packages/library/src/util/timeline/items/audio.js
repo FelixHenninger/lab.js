@@ -102,15 +102,30 @@ class AudioNodeItem {
 }
 
 export class BufferSourceItem extends AudioNodeItem {
-  prepare() {
+  async prepare() {
     // Populate buffer from cache
-    const options = {
-      buffer: this.timeline.controller.cache.audio[this.options.src],
-      ...(this.options.settings || {}),
+    const cache = this.timeline.controller.cache
+    let buffer
+    if (cache.audio[this.options.src]) {
+      buffer = cache.audio[this.options.src]
+    } else {
+      buffer = await load(
+        this.timeline.controller.audioContext,
+        this.options.src,
+        { mode: 'cors' }
+      )
+      cache.audio[this.options.src] = cache.audio[this.options.src] || buffer
     }
+    // TODO: This seems to be the wrong place for a fallback.
+    // Adjust the caching mechanism so that the preload stage knows
+    // about the audio file, so that the cache is always present.
+
     this.node = new AudioBufferSourceNode(
       this.timeline.controller.audioContext,
-      options
+      {
+        buffer,
+        ...(this.options.settings || {}),
+      }
     )
     super.prepare()
   }
