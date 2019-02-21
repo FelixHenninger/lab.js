@@ -38,6 +38,10 @@ export const resolveImage = (src, store, id) => {
     return file
       ? file.file.content
       : undefined
+  } else if (isPlaceholder(src)) {
+    return undefined
+  } else {
+    return src
   }
 }
 
