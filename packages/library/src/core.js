@@ -500,7 +500,7 @@ export class Component extends EventHandler {
 
       // Trigger render logic and timeline
       await this.triggerMethod('render', renderFrame)
-      this.internals.timeline.start(frameTimestamp + 16.66)
+      this.internals.timeline.start(renderFrame + 16.66)
 
       // Log next frame time
       window.requestAnimationFrame(showFrame => {
