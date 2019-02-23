@@ -764,6 +764,23 @@ Component.metadata = {
     responses:       { content: { '*': 'string' } },
     timeout:         { type: 'number' },
     skip:            { type: 'boolean' },
+    timeline:        {
+      type: 'array',
+      content: {
+        'type': 'object',
+        'content': {
+          'start':         { type: 'number' },
+          'stop':          { type: 'number' },
+          'gain':          { type: 'number' },
+          'src':           {},
+          '*':             'string',
+          'options':       {
+            type: 'object',
+            content:         { '*': 'string' }
+          },
+        }
+      },
+    },
   },
 }
 
