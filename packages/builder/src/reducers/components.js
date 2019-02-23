@@ -240,6 +240,24 @@ export default (state=defaultState, action) => {
           })
       )
 
+    case 'UPDATE_TIMELINE_ITEM':
+      return {
+        ...state,
+        [action.id]: {
+          ...state[action.id],
+          timeline: state[action.id].timeline.map((item, i) => {
+            if (i === action.item) {
+              return {
+                ...item,
+                ...action.data,
+              }
+            } else {
+              return item
+            }
+          })
+        },
+      }
+
     case 'RESET_STATE':
       return defaultState
 

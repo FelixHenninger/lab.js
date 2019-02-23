@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import Timeline from './components/Timeline'
 import Responses from './components/Responses'
+import Meta from './components/Meta'
 
 import Form from '../Form'
 
@@ -20,7 +21,7 @@ export default class extends Component {
       keys={ [
         'responses', 'correctResponse',
         'skip', 'skipCondition',
-        'tardy', 'timeout',
+        'tardy', 'timeline', 'timeout',
       ] }
       getDispatch={ dispatch => this.formDispatch = dispatch }
     >
@@ -33,6 +34,9 @@ export default class extends Component {
         id={ id }
         data={ data }
         formDispatch={ action => this.formDispatch(action) }
+      />
+      <Meta
+        data={ data }
       />
     </Form>
   }

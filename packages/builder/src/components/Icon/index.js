@@ -25,6 +25,8 @@ const replacements = {
   'long-arrow-right': 'long-arrow-alt-right',
   'repeat': 'redo',
   'tachometer': 'tachometer-alt',
+  'tachometer-average': 'tachometer-alt',
+  'volume': 'volume-up',
 }
 
 const Icon = ({ icon, fixedWidth, weight, fallback, fallbackWeight,
