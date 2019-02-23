@@ -124,7 +124,7 @@ export class BufferSourceItem extends AudioNodeItem {
       this.timeline.controller.audioContext,
       {
         buffer,
-        ...(this.options.settings || {}),
+        ...(this.options.options || {}),
       }
     )
     super.prepare()
@@ -135,7 +135,7 @@ export class OscillatorItem extends AudioNodeItem {
   prepare() {
     this.node = new OscillatorNode(
       this.timeline.controller.audioContext,
-      this.options.settings
+      this.options.options
     )
     super.prepare()
   }

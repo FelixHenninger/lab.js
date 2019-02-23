@@ -266,7 +266,7 @@ const OscillatorForm = () =>
           icon="water" placeholder="type"
         >
           <Control.select
-            model=".settings.type"
+            model=".options.type"
             className="form-control custom-select"
             style={{ fontFamily: 'Fira Mono' }}
           >
@@ -281,13 +281,13 @@ const OscillatorForm = () =>
     <Row form>
       <Col>
         <SettingGroup
-          model=".settings.frequency"
+          model=".options.frequency"
           icon="music" placeholder="frequency" unit="Hz"
         />
       </Col>
       <Col>
         <SettingGroup
-          model=".settings.detune"
+          model=".options.detune"
           icon="tachometer-average" placeholder="detune" unit="cents"
         />
       </Col>
