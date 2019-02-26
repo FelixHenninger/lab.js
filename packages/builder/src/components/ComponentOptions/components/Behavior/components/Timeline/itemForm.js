@@ -185,7 +185,7 @@ const SoundForm = ({ handleChange }, { id }) => {
   return (
     <div>
       <FileSelector
-        accept="audio/*"
+        accept="audio/*,video/ogg"
         component={ id }
         ref={ fileSelector }
       />
