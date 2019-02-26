@@ -41,7 +41,7 @@ const Item = (
       <Rect
         ref={ box }
         x={ 0.5 } y={ 0.5 }
-        height={ height } width={ w }
+        height={ height } width={ Math.max(w, 10) } // Minimum width
         cornerRadius={ 4 }
         fill={ active ? colors.active : 'white' }
         stroke={ active ? 'white' : colors.buttonBorder }
