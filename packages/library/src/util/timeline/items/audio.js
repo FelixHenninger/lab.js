@@ -13,8 +13,15 @@ export const load = async (context, url, options) => {
 
   if (response.ok) {
     const buffer = await response.arrayBuffer()
-    const decodedData = await decodeAudioData(context, buffer)
-    return decodedData
+    try {
+      const decodedData = await decodeAudioData(context, buffer)
+      if (!decodedData) {
+        throw new Error(`No data available after decoding ${ url }`)
+      }
+      return decodedData
+    } catch (e) {
+      throw new Error(`Error decoding audio data from ${ url }`)
+    }
   } else {
     throw new Error(`Couldn't load audio from ${ response.url }`)
   }
