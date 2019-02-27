@@ -1,6 +1,6 @@
 import { mimeFromDataURI } from './dataURI'
 
-export const mimeToIcon = mime => {
+export const mimeToIcon = (mime='') => {
   const [family, ] = mime.split('/')
 
   const mimeFamilies = [
