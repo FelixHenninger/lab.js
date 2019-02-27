@@ -57,7 +57,7 @@ const toPerformanceTime = (context, t) => {
   return (t - contextTime + baseLatency) * 1000 + performanceTime
 }
 
-const createNode = (context, type, options={}) => {
+const createNode = (context, type, options={}, audioParams={}) => {
   // This provides a light wrapper around the context
   // audio node creation methods, as a stopgap until
   // all browsers support node constructor functions.
@@ -77,7 +77,10 @@ const createNode = (context, type, options={}) => {
 
   // Apply settings
   Object.entries(options).forEach(
-    ([setting, value]) => this.node[setting].value = value
+    ([setting, value]) => node[setting] = value
+  )
+  Object.entries(audioParams).forEach(
+    ([setting, value]) => node[setting].value = value
   )
 
   return node
@@ -156,7 +159,8 @@ export class BufferSourceItem extends AudioNodeItem {
     this.node = createNode(
       this.timeline.controller.audioContext,
       'bufferSource',
-      { buffer, ...(this.options.options || {}) },
+      { buffer },
+      this.options.options,
     )
     super.prepare()
   }
@@ -167,6 +171,7 @@ export class OscillatorItem extends AudioNodeItem {
     this.node = createNode(
       this.timeline.controller.audioContext,
       'oscillator',
+      {},
       this.options.options,
     )
 
