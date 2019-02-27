@@ -50,6 +50,32 @@ const toPerformanceTime = (context, t) => {
   return (t - contextTime + baseLatency) * 1000 + performanceTime
 }
 
+const createNode = (context, type, options={}) => {
+  // This provides a light wrapper around the context
+  // audio node creation methods, as a stopgap until
+  // all browsers support node constructor functions.
+  let node
+
+  // Generate node from context
+  switch(type) {
+    case 'oscillator':
+      node = context.createOscillator()
+      break
+    case 'bufferSource':
+      node = context.createBufferSource()
+      break
+    default:
+      throw new Error(`Can't create node of unknown type`)
+  }
+
+  // Apply settings
+  Object.entries(options).forEach(
+    ([setting, value]) => this.node[setting].value = value
+  )
+
+  return node
+}
+
 // Timeline items --------------------------------------------------------------
 
 class AudioNodeItem {
@@ -120,12 +146,10 @@ export class BufferSourceItem extends AudioNodeItem {
     // Adjust the caching mechanism so that the preload stage knows
     // about the audio file, so that the cache is always present.
 
-    this.node = new AudioBufferSourceNode(
+    this.node = createNode(
       this.timeline.controller.audioContext,
-      {
-        buffer,
-        ...(this.options.options || {}),
-      }
+      'bufferSource',
+      { buffer, ...(this.options.options || {}) },
     )
     super.prepare()
   }
@@ -133,10 +157,12 @@ export class BufferSourceItem extends AudioNodeItem {
 
 export class OscillatorItem extends AudioNodeItem {
   prepare() {
-    this.node = new OscillatorNode(
+    this.node = createNode(
       this.timeline.controller.audioContext,
-      this.options.options
+      'oscillator',
+      this.options.options,
     )
+
     super.prepare()
   }
 }
