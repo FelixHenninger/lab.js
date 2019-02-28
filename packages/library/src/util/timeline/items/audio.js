@@ -77,10 +77,10 @@ const createNode = (context, type, options={}, audioParams={}) => {
 
   // Apply settings
   Object.entries(options).forEach(
-    ([setting, value]) => node[setting] = value
+    ([setting, value]) => { if (value) node[setting] = value }
   )
   Object.entries(audioParams).forEach(
-    ([setting, value]) => node[setting].value = value
+    ([setting, value]) => { if (value) node[setting].value = value }
   )
 
   return node
