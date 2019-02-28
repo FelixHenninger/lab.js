@@ -86,25 +86,32 @@ const createNode = (context, type, options={}, audioParams={}) => {
   return node
 }
 
+const connectNodeChain = (source, chain, destination) =>
+  [source, ...chain, destination].reduce(
+    (prev, next) => prev.connect(next)
+  )
+
 // Timeline items --------------------------------------------------------------
 
 class AudioNodeItem {
   constructor(timeline, options={}) {
     this.timeline = timeline
     this.options = options
+    this.processingChain = []
   }
 
   prepare() {
-    // Splice in gain node if gain is set
+    // Add gain node
     if (this.options.gain && this.options.gain !== 1) {
-      this.gainNode = this.timeline.controller.audioContext.createGain()
-      this.gainNode.gain.value = this.options.gain
-      this.node
-        .connect(this.gainNode)
-        .connect(this.timeline.controller.audioContext.destination)
-    } else {
-      this.node.connect(this.timeline.controller.audioContext.destination)
+      const gainNode = this.timeline.controller.audioContext.createGain()
+      gainNode.gain.value = this.options.gain
+      this.processingChain.push(gainNode)
     }
+
+    connectNodeChain(
+      this.source, this.processingChain,
+      this.timeline.controller.audioContext.destination
+    )
   }
 
   start(offset) {
@@ -112,7 +119,7 @@ class AudioNodeItem {
       this.timeline.controller.audioContext,
       this.options.start + offset
     )
-    this.node.start(t)
+    this.source.start(t)
   }
 
   afterStart(offset) {
@@ -121,19 +128,16 @@ class AudioNodeItem {
         this.timeline.controller.audioContext,
         this.options.stop + offset
       )
-      this.node.stop(t)
+      this.source.stop(t)
     }
   }
 
   teardown() {
-    this.node.disconnect()
-    this.node = null
+    this.source.disconnect()
+    this.source = undefined
 
-    // Remove gain node, if present
-    if (this.gainNode) {
-      this.gainNode.disconnect()
-      this.gainNode = null
-    }
+    this.processingChain.forEach(n => n.disconnect())
+    this.processingChain = []
   }
 }
 
@@ -156,7 +160,7 @@ export class BufferSourceItem extends AudioNodeItem {
     // Adjust the caching mechanism so that the preload stage knows
     // about the audio file, so that the cache is always present.
 
-    this.node = createNode(
+    this.source = createNode(
       this.timeline.controller.audioContext,
       'bufferSource',
       { buffer },
@@ -168,7 +172,7 @@ export class BufferSourceItem extends AudioNodeItem {
 
 export class OscillatorItem extends AudioNodeItem {
   prepare() {
-    this.node = createNode(
+    this.source = createNode(
       this.timeline.controller.audioContext,
       'oscillator',
       {},
