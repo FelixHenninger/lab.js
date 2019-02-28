@@ -45,7 +45,7 @@ const outputTimestamps = context => {
 const toContextTime = (context, t) => {
   const { contextTime, performanceTime, baseLatency } =
     outputTimestamps(context)
-  return (t - performanceTime) / 1000 - baseLatency + contextTime
+  return (t - performanceTime) / 1000 + contextTime - baseLatency
 }
 
 const toPerformanceTime = (context, t) => {
@@ -115,20 +115,25 @@ class AudioNodeItem {
   }
 
   start(offset) {
-    const t = toContextTime(
+    const { start } = this.options
+
+    const startTime = toContextTime(
       this.timeline.controller.audioContext,
-      this.options.start + offset
+      offset + start
     )
-    this.source.start(t)
+
+    this.source.start(startTime)
   }
 
   afterStart(offset) {
-    if (this.options.stop) {
-      const t = toContextTime(
+    const { stop } = this.options
+
+    if (stop) {
+      const stopTime = toContextTime(
         this.timeline.controller.audioContext,
-        this.options.stop + offset
+        offset + stop
       )
-      this.source.stop(t)
+      this.source.stop(stopTime)
     }
   }
 
