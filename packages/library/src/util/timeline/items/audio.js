@@ -113,6 +113,17 @@ class AudioNodeItem {
       this.nodeOrder.gain = this.processingChain.push(gainNode) - 1
     }
 
+    // Add panner node
+    if (this.options.pan && this.options.pan !== 0) {
+      const pannerNode = this.timeline.controller.audioContext.createPanner()
+      pannerNode.panningModel = this.options.panningModel
+      pannerNode.setPosition(
+        this.options.pan, 0,
+        1 - Math.abs(this.options.pan)
+      )
+      this.processingChain.push(pannerNode)
+    }
+
     connectNodeChain(
       this.source, this.processingChain,
       this.timeline.controller.audioContext.destination
