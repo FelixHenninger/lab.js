@@ -98,14 +98,19 @@ class AudioNodeItem {
     this.timeline = timeline
     this.options = options
     this.processingChain = []
+    this.nodeOrder = {}
   }
 
   prepare() {
     // Add gain node
-    if (this.options.gain && this.options.gain !== 1) {
+    if (
+      (this.options.gain && this.options.gain !== 1) ||
+      (this.options.rampUp && this.options.rampUp !== 0) ||
+      (this.options.rampDown && this.options.rampDown !== 0)
+    ) {
       const gainNode = this.timeline.controller.audioContext.createGain()
-      gainNode.gain.value = this.options.gain
-      this.processingChain.push(gainNode)
+      gainNode.gain.value = this.options.rampUp ? 0.0001 : this.options.gain
+      this.nodeOrder.gain = this.processingChain.push(gainNode) - 1
     }
 
     connectNodeChain(
@@ -115,18 +120,51 @@ class AudioNodeItem {
   }
 
   start(offset) {
-    const { start } = this.options
+    const { start, rampUp } = this.options
 
     const startTime = toContextTime(
       this.timeline.controller.audioContext,
       offset + start
     )
 
+    if (rampUp) {
+      const gain = this.processingChain[this.nodeOrder.gain].gain
+
+      // Calculate transition point
+      const rampUpEnd = toContextTime(
+        this.timeline.controller.audioContext,
+        offset + start + parseFloat(rampUp)
+      )
+
+      // Cue transition
+      gain.setValueAtTime(0.0001, startTime)
+      gain.exponentialRampToValueAtTime(this.options.gain, rampUpEnd)
+    }
+
     this.source.start(startTime)
   }
 
   afterStart(offset) {
-    const { stop } = this.options
+    const { stop, rampDown } = this.options
+
+    if (stop && rampDown) {
+      const gain = this.processingChain[this.nodeOrder.gain].gain
+
+      const rampDownStart = toContextTime(
+        this.timeline.controller.audioContext,
+        offset + stop - parseFloat(rampDown)
+      )
+      const stopTime = toContextTime(
+        this.timeline.controller.audioContext,
+        offset + stop
+      )
+
+      // Cue transition (we can't go all the way because of the
+      // exponential transform, but the node will be stopped shortly,
+      // anyway)
+      gain.setValueAtTime(this.options.gain, rampDownStart)
+      gain.exponentialRampToValueAtTime(0.0001, stopTime)
+    }
 
     if (stop) {
       const stopTime = toContextTime(
@@ -143,6 +181,7 @@ class AudioNodeItem {
 
     this.processingChain.forEach(n => n.disconnect())
     this.processingChain = []
+    this.nodeOrder = {}
   }
 }
 
