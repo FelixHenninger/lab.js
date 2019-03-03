@@ -94,9 +94,17 @@ const connectNodeChain = (source, chain, destination) =>
 // Timeline items --------------------------------------------------------------
 
 class AudioNodeItem {
+  defaultOptions = {
+    gain: 1,
+    panningModel: 'equalpower',
+  }
+
   constructor(timeline, options={}) {
     this.timeline = timeline
-    this.options = options
+    this.options = {
+      ...this.defaultOptions,
+      ...options,
+    }
     this.processingChain = []
     this.nodeOrder = {}
   }
