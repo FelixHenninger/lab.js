@@ -122,62 +122,83 @@ const Header = ({ activeItem, add, duplicateCurrent, deleteCurrent }) => {
   </div>
 }
 
-const SettingGroup = ({
-  model, parser, children,
-  icon, fallbackIcon, placeholder, unit
-}) =>
-  <FormGroup>
-    <InputGroup>
-      <InputGroupAddon addonType="prepend">
-        <InputGroupText>
-          <Icon fixedWidth icon={ icon } fallback={ fallbackIcon } />
-        </InputGroupText>
-      </InputGroupAddon>
-      {
-        children
-          ? children
-          : <Control
-              model={ model }
-              parser={ parser }
-              component={ Input }
-              placeholder={ placeholder }
-              debounce={ 200 }
-              className="form-control"
-              style={{ fontFamily: 'Fira Mono' }}
-            />
-      }
-      {
-        unit
-          ? <InputGroupAddon addonType="append">
-              <InputGroupText
-                className="text-right"
-                style={{ minWidth: '3rem' }}
-              >
-                { unit }
-              </InputGroupText>
-            </InputGroupAddon>
-          : null
-      }
-    </InputGroup>
-  </FormGroup>
+// Setting input group ---------------------------------------------------------
 
-const TimingRow = () =>
-  <Row form>
-    <Col>
-      <SettingGroup
-        model=".start" parser={ toFloat }
-        icon="arrow-from-left" fallbackIcon="play-circle"
-        placeholder="start" unit="ms"
-      />
-    </Col>
-    <Col>
-      <SettingGroup
-        model=".stop" parser={ toFloat }
-        icon="arrow-to-right" fallbackIcon="stop-circle"
-        placeholder="stop" unit="ms"
-      />
-    </Col>
-  </Row>
+const SettingGroupIcon = ({ icon, fallbackIcon }) =>
+  <InputGroupAddon addonType="prepend">
+    <InputGroupText>
+      <Icon fixedWidth icon={ icon } fallback={ fallbackIcon } />
+    </InputGroupText>
+  </InputGroupAddon>
+
+const SettingGroupControl = ({ model, parser, defaultValue, placeholder }) =>
+  <Control
+    model={ model }
+    parser={ parser }
+    component={ Input }
+    placeholder={ placeholder }
+    defaultValue={ defaultValue }
+    debounce={ 200 }
+    className="form-control"
+    style={{ fontFamily: 'Fira Mono' }}
+  />
+
+const GlobalSettings = () =>
+  <div>
+    <Row form>
+      <Col>
+        <FormGroup>
+          <InputGroup>
+            <SettingGroupIcon
+              icon="arrow-from-left"
+              fallbackIcon="play-circle"
+            />
+            <SettingGroupControl
+              model=".start" parser={ toFloat }
+            />
+            <SettingGroupIcon
+              icon="arrow-to-right"
+              fallbackIcon="stop-circle"
+            />
+            <SettingGroupControl
+              model=".stop" parser={ toFloat }
+            />
+            <SettingGroupIcon
+              icon="volume"
+            />
+            <SettingGroupControl
+              model=".gain" placeholder="gain"
+              defaultValue={ 1.0 } parser={ toFloat }
+            />
+          </InputGroup>
+        </FormGroup>
+      </Col>
+      <Col>
+        <FormGroup>
+          <InputGroup>
+            <SettingGroupIcon
+              icon="location-arrow"
+            />
+            <SettingGroupControl
+              model=".pan" placeholder="pan" parser={ toFloat }
+            />
+            <SettingGroupIcon
+              icon="plane-departure"
+            />
+            <SettingGroupControl
+              model=".rampUp" parser={ toFloat }
+            />
+            <SettingGroupIcon
+              icon="plane-arrival"
+            />
+            <SettingGroupControl
+              model=".rampDown" parser={ toFloat }
+            />
+          </InputGroup>
+        </FormGroup>
+      </Col>
+    </Row>
+  </div>
 
 const SoundForm = ({ handleChange }, { id }) => {
   const fileSelector = createRef()
@@ -189,14 +210,8 @@ const SoundForm = ({ handleChange }, { id }) => {
         component={ id }
         ref={ fileSelector }
       />
-      <TimingRow />
+      <GlobalSettings />
       <Row form>
-        <Col>
-          <SettingGroup
-            model=".gain"
-            icon="volume" placeholder="gain" unit="x"
-          />
-        </Col>
         <Col>
           <FormGroup>
             <InputGroup>
@@ -253,43 +268,44 @@ SoundForm.contextTypes = {
 
 const OscillatorForm = () =>
   <div>
-    <TimingRow />
+    <GlobalSettings />
     <Row form>
       <Col>
-        <SettingGroup
-          model=".gain"
-          icon="volume" placeholder="gain" unit="x"
-        />
+        <FormGroup>
+          <InputGroup>
+            <SettingGroupIcon
+              icon="integral" fallbackIcon="water"
+            />
+            <Control.select
+              model=".options.type"
+              className="form-control custom-select"
+              style={{ fontFamily: 'Fira Mono' }}
+            >
+              <option value="sine">Sine wave</option>
+              <option value="square">Square wave</option>
+              <option value="sawtooth">Sawtooth</option>
+              <option value="triangle">Triangle</option>
+            </Control.select>
+          </InputGroup>
+        </FormGroup>
       </Col>
       <Col>
-        <SettingGroup
-          icon="water" placeholder="type"
-        >
-          <Control.select
-            model=".options.type"
-            className="form-control custom-select"
-            style={{ fontFamily: 'Fira Mono' }}
-          >
-            <option value="sine">Sine wave</option>
-            <option value="square">Square wave</option>
-            <option value="sawtooth">Sawtooth</option>
-            <option value="triangle">Triangle</option>
-          </Control.select>
-        </SettingGroup>
-      </Col>
-    </Row>
-    <Row form>
-      <Col>
-        <SettingGroup
-          model=".options.frequency"
-          icon="music" placeholder="frequency" unit="Hz"
-        />
-      </Col>
-      <Col>
-        <SettingGroup
-          model=".options.detune"
-          icon="tachometer-average" placeholder="detune" unit="cents"
-        />
+        <FormGroup>
+          <InputGroup>
+            <SettingGroupIcon
+              icon="music"
+            />
+            <SettingGroupControl
+              model=".options.frequency" placeholder="frequency (Hz)"
+            />
+            <SettingGroupIcon
+              icon="tachometer-average"
+            />
+            <SettingGroupControl
+              model=".options.detune" placeholder="detune (cents)"
+            />
+          </InputGroup>
+        </FormGroup>
       </Col>
     </Row>
   </div>
