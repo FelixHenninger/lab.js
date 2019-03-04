@@ -57,7 +57,7 @@ class TimelineStage extends Component {
 
   calcPosition(start, stop, layer) {
     return {
-      x: this.props.padding + parseInt(start),
+      x: parseInt(start),
       y: this.layerY(layer),
       w: parseInt(stop) - parseInt(start),
     }
@@ -139,22 +139,20 @@ class TimelineStage extends Component {
       id: this.context.id,
       item,
       data: {
-        start: x - this.props.padding,
-        stop: x + width - this.props.padding,
+        start: x,
+        stop: x + width,
         priority: this.closestLayer(y)
       }
     })
     // TODO: This is a hack!
     this.props.formDispatch(
       actions.load(
-        `local.timeline[${ item }].start`,
-        x - this.props.padding
+        `local.timeline[${ item }].start`, x
       )
     )
     this.props.formDispatch(
       actions.load(
-        `local.timeline[${ item }].stop`,
-        x + width - this.props.padding
+        `local.timeline[${ item }].stop`, x + width
       )
     )
     this.props.formDispatch(
@@ -212,6 +210,7 @@ class TimelineStage extends Component {
         <Stage
           ref={ this.stage }
           width={ width } height={ height }
+          offsetX={ -padding }
           draggable={ true }
           dragBoundFunc={ ({ x }) => ({
             x: clamp(x,
