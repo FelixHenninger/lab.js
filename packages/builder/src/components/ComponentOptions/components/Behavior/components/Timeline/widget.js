@@ -43,6 +43,7 @@ class TimelineStage extends Component {
 
   getChildContext() {
     return {
+      range: this.props.range,
       width: this.state.width,
       height: this.props.height,
       padding: this.props.padding,
@@ -204,11 +205,24 @@ class TimelineStage extends Component {
 
   render() {
     const { width } = this.state
-    const { data, height } = this.props
+    const { data, height, range, padding } = this.props
 
     return (
       <div>
-        <Stage ref={ this.stage } width={ width } height={ height }>
+        <Stage
+          ref={ this.stage }
+          width={ width } height={ height }
+          draggable={ true }
+          dragBoundFunc={ ({ x }) => ({
+            x: clamp(x,
+              // Sign reversed because the right-hand side
+              // is dragged leftward, and vice versa.
+              -(range.max - width + padding),
+              -(range.min + padding)
+            ),
+            y: 0
+          }) }
+        >
           <BackgroundLayer
             listening={ false }
           />
@@ -239,6 +253,7 @@ TimelineStage.defaultProps = {
   padding: 20,
   layerHeight: 30,
   layerGutter: 20,
+  range: { min: -100, max: 2000 },
 }
 
 TimelineStage.contextTypes = {
@@ -250,6 +265,7 @@ TimelineStage.contextTypes = {
 }
 
 TimelineStage.childContextTypes = {
+  range: PropTypes.object,
   width: PropTypes.number,
   height: PropTypes.number,
   padding: PropTypes.number,

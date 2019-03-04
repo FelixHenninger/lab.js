@@ -6,7 +6,7 @@ import { range } from 'lodash'
 
 import colors from './colors'
 
-const BackgroundLayer = (_, { height, padding }) =>
+const BackgroundLayer = (_, { range: timelineRange, height, padding }) =>
   <Layer>
     {
       range(-1, 20).map(i =>
@@ -43,11 +43,12 @@ const BackgroundLayer = (_, { height, padding }) =>
       y={ height - 0.5 }
       stroke={ colors.outline }
       strokeWidth={ 1 }
-      points={ [0, 0, 2000, 0] }
+      points={ [timelineRange.min, 0, timelineRange.max + padding , 0] }
     />
   </Layer>
 
 BackgroundLayer.contextTypes = {
+  range: PropTypes.object,
   height: PropTypes.number,
   padding: PropTypes.number,
 }
