@@ -5,6 +5,8 @@ import { clamp } from 'lodash'
 
 import colors from './colors'
 
+const minWidth = 10
+
 const Item = (
   { label, priority, start, stop, active, onClick, update },
   { range, calcPosition, closestLayerY, setCursor }
@@ -64,7 +66,7 @@ const Item = (
       <Rect
         ref={ box }
         x={ 0.5 } y={ 0.5 }
-        height={ height } width={ Math.max(w, 10) } // Minimum width
+        height={ height } width={ Math.max(w, minWidth) }
         cornerRadius={ 4 }
         fill={ active ? colors.active : 'white' }
         stroke={ active ? 'white' : colors.buttonBorder }
@@ -92,7 +94,7 @@ const Item = (
         fill={ colors.active } stroke={ 'white' } strokeWidth={ 2 }
         draggable
         dragBoundFunc={ ({ x: dragX }) => ({
-          x: clamp(dragX - translationX, 0, x + w) + translationX,
+          x: clamp(dragX - translationX, 0, x + w - minWidth) + translationX,
           y: closestLayerY(y) + height/2
         }) }
         onDragStart={ function() {
@@ -123,7 +125,10 @@ const Item = (
         draggable
         dragBoundFunc={ ({ x: dragX }) => ({
           // In absolute coordinates
-          x: clamp(dragX - translationX, x, range.max) + translationX,
+          x: clamp(dragX - translationX,
+              x + minWidth,
+              range.max
+            ) + translationX,
           y: closestLayerY(y) + height/2
         }) }
         onDragStart={ function() {
