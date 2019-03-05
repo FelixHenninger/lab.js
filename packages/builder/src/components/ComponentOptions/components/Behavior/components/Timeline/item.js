@@ -87,11 +87,12 @@ const Item = (
       {/* TODO: Simplify the pesky rendering offsets */}
       <Circle
         visible={ active } listening={ active }
-        x={ 0.5 } y={ height/2 } radius={ 6 }
+        x={ 0 } y={ height/2 } radius={ 6 }
+        offsetX={ -0.5 }
         fill={ colors.active } stroke={ 'white' } strokeWidth={ 2 }
         draggable
         dragBoundFunc={ ({ x: dragX }) => ({
-          x: clamp(dragX - translationX, 0.5, x + w + 0.5) + translationX,
+          x: clamp(dragX - translationX, 0, x + w) + translationX,
           y: closestLayerY(y) + height/2
         }) }
         onDragStart={ function() {
@@ -100,8 +101,8 @@ const Item = (
         } }
         onDragMove={ (e) => {
           const { x: dragX } = e.target.getAbsolutePosition()
-          const width = w - (dragX - translationX - 0.5 - x)
-          container.current.position({ x: dragX - translationX - 0.5, y })
+          const width = w - (dragX - translationX - x)
+          container.current.position({ x: dragX - translationX, y })
 
           // All other positions are relative to the container
           box.current.width(width)
@@ -116,7 +117,8 @@ const Item = (
       <Circle
         ref={ handleRight }
         visible={ active } listening={ active }
-        x={ w + 0.5 } y={ height/2 } radius={ 6 }
+        x={ w } y={ height/2 } radius={ 6 }
+        offsetX={ -0.5 }
         fill={ colors.active } stroke={ 'white' } strokeWidth={ 2 }
         draggable
         dragBoundFunc={ ({ x: dragX }) => ({
@@ -131,7 +133,7 @@ const Item = (
         onDragMove={ (e) => {
           box.current.width(
             // Remove circle offset
-            e.target.getAbsolutePosition().x - translationX - 0.5 - x
+            e.target.getAbsolutePosition().x - translationX - x
           )
         } }
         onDragEnd={ () => {
