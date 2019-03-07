@@ -6,7 +6,7 @@ import Tree from '../Tree'
 import Node from '../Tree/components/Node'
 
 const Sidebar = (props, context) =>
-  <div>
+  <>
     <div style={{ textAlign: 'center' }}>
       <Toolbar />
     </div>
@@ -49,7 +49,7 @@ const Sidebar = (props, context) =>
         })
       }
     />
-  </div>
+  </>
 
 Sidebar.contextTypes = {
   store: PropTypes.object

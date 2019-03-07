@@ -66,7 +66,7 @@ class OpenLabWidget extends Component {
           <i className="fas fa-spinner-third fa-spin" />
         </div>
       case 'done':
-        return <div>
+        return <>
           <p>
             <strong className="text-success">Uploaded study.</strong> Please finalize the transfer by following the link below.
           </p>
@@ -78,7 +78,7 @@ class OpenLabWidget extends Component {
           >
             Manage study on Open Lab
           </a>
-        </div>
+        </>
       case 'error':
         return <p>
           <strong className="text-warning">Something went wrong during transmission.</strong> Open Lab sent us an error <code>{ this.state.statusCode }</code>, which means { this.state.statusText }.
@@ -88,7 +88,7 @@ class OpenLabWidget extends Component {
           <strong className="text-danger">Something went wrong.</strong> We can't tell exactly what happened, but the transfer of the study to Open Lab was cancelled. Could you check your connection?
         </p>
       default:
-        return <div />
+        return null
     }
   }
 }

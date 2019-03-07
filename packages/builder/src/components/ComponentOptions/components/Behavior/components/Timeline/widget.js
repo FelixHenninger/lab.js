@@ -206,7 +206,7 @@ class TimelineStage extends Component {
     const { data, height, range, padding } = this.props
 
     return (
-      <div>
+      <>
         <Stage
           ref={ this.stage }
           width={ width } height={ height }
@@ -242,7 +242,7 @@ class TimelineStage extends Component {
           duplicateCurrent={ this.handleDuplicateCurrent }
           deleteCurrent={ this.handleDeleteCurrent }
         />
-      </div>
+      </>
     )
   }
 }

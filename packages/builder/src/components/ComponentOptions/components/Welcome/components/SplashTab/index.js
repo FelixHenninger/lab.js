@@ -149,7 +149,7 @@ const splashOptions = {
 const SplashAdditions = ({ switchTab }) => {
   const [tab, setTab] = useState(undefined)
 
-  return <div>
+  return <>
     <Container className="border-top text-center">
       <Row>
         {
@@ -179,11 +179,11 @@ const SplashAdditions = ({ switchTab }) => {
           : ''
       }
     </Collapse>
-  </div>
+  </>
 }
 
 export default ({ switchTab }) =>
-  <div>
+  <>
     <SplashHeader />
     <SplashAdditions switchTab={ switchTab } />
-  </div>
+  </>

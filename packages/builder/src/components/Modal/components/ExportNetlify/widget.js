@@ -137,7 +137,7 @@ class NetlifyWidget extends Component {
           <i className="fas fa-spinner-third fa-spin" />
         </div>
       case 'done':
-        return <div>
+        return <>
           <p>
             <strong className="text-success">Uploaded study.</strong> The final deployment is now in the hands of Netlify, and may take a few moments to complete.
           </p>
@@ -161,7 +161,7 @@ class NetlifyWidget extends Component {
               </NavLink>
             </NavItem>
           </Nav>
-        </div>
+        </>
       case 'error':
         return <p>
           <strong className="text-warning">Something went wrong.</strong> We got an error <code>{ this.state.statusCode }</code>, which means { this.state.statusText }. Please take a look at your <a href="https://app.netlify.com" target="_blank" rel="noopener noreferrer">Dashboard</a> for more detailed information.

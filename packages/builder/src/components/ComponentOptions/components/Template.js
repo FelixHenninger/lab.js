@@ -11,7 +11,7 @@ import Grid from '../../Grid'
 import { CellTypeSelector } from './Content/Loop/cells'
 
 const DummyHeaderCell = () =>
-  <div></div>
+  <div />
 
 const BodyCell = ({ cellData, rowIndex, colIndex, colName, readOnly },
   { gridDispatch }) =>

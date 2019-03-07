@@ -12,7 +12,7 @@ import ComponentOptions from '../ComponentOptions'
 class App extends Component {
   render() {
     return (
-      <div>
+      <>
         <Shortcuts />
         <ReduxModal />
         <Layout
@@ -22,7 +22,7 @@ class App extends Component {
           <ComponentHeader />
           <ComponentOptions />
         </Layout>
-      </div>
+      </>
     )
   }
 }

@@ -67,7 +67,7 @@ Files.contextTypes = {
 const ConnectedFiles = connect(mapStateToProps)(Files)
 
 export default () =>
-  <div>
+  <>
     <h4 className="mt-1">
       Storage in use
     </h4>
@@ -80,4 +80,4 @@ export default () =>
     </h5>
     <p className="text-muted">The following files are available study-wide from the <code>static</code> directory.</p>
     <ConnectedFiles />
-  </div>
+  </>

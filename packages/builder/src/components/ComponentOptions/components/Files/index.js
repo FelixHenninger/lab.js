@@ -11,22 +11,20 @@ import Footer from './footer'
 import { dataURItoIcon } from '../../../../logic/util/fileType'
 
 const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
-  <div>
-    <Control.text
-      model={ `.rows[${ rowIndex }][${ colIndex }]['localPath']` }
-      className="form-control"
-      placeholder="path"
-      style={{
-        fontFamily: 'Fira Mono',
-      }}
-      debounce={ 300 }
-    />
-  </div>
+  <Control.text
+    model={ `.rows[${ rowIndex }][${ colIndex }]['localPath']` }
+    className="form-control"
+    placeholder="path"
+    style={{
+      fontFamily: 'Fira Mono',
+    }}
+    debounce={ 300 }
+  />
 
 const HeaderCell = () =>
-  <div>
+  <>
     Path
-  </div>
+  </>
 
 const LeftColumn = ({ icon }) => {
   return <ButtonCell

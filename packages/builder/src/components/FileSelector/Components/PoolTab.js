@@ -26,7 +26,7 @@ const PoolTab = ({ accept, handleImport, initialComponent }, { store }) => {
       }))
     : []
 
-  return <div>
+  return <>
     <CustomInput
       type="select"
       id="component"
@@ -83,7 +83,7 @@ const PoolTab = ({ accept, handleImport, initialComponent }, { store }) => {
         )
       }
     </ListGroup>
-  </div>
+  </>
 }
 
 PoolTab.contextTypes = {

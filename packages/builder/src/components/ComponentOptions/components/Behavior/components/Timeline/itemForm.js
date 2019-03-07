@@ -89,8 +89,8 @@ InteractionWarning.contextTypes = {
   store: PropTypes.object,
 }
 
-const Header = ({ activeItem, add, duplicateCurrent, deleteCurrent }) => {
-  return <div>
+const Header = ({ activeItem, add, duplicateCurrent, deleteCurrent }) =>
+  <>
     <Row form className="clearfix">
       <Col>
         <Toolbar
@@ -119,8 +119,7 @@ const Header = ({ activeItem, add, duplicateCurrent, deleteCurrent }) => {
           </Row>
         : null
     }
-  </div>
-}
+  </>
 
 // Setting input group ---------------------------------------------------------
 
@@ -144,7 +143,7 @@ const SettingGroupControl = ({ model, parser, defaultValue, placeholder }) =>
   />
 
 const GlobalSettings = () =>
-  <div>
+  <>
     <Row form>
       <Col>
         <FormGroup>
@@ -198,13 +197,13 @@ const GlobalSettings = () =>
         </FormGroup>
       </Col>
     </Row>
-  </div>
+  </>
 
 const SoundForm = ({ handleChange }, { id }) => {
   const fileSelector = createRef()
 
   return (
-    <div>
+    <>
       <FileSelector
         accept="audio/*,video/ogg"
         component={ id }
@@ -255,7 +254,7 @@ const SoundForm = ({ handleChange }, { id }) => {
           <small className="text-muted">Please note that, for security reasons, audio files must be either embedded in the study, hosted on the same server on which the study is running, or on a server with <a href="https://enable-cors.org/server.html" target="_blank" rel="noopener noreferrer">cross-origin resource sharing</a> enabled. Please also note that Chrome and Safari do not support loading sounds offline; please consider hosting the study on a server instead.</small>
         </Col>
       </Row>
-    </div>
+    </>
   )
 }
 
@@ -267,7 +266,7 @@ SoundForm.contextTypes = {
 }
 
 const OscillatorForm = () =>
-  <div>
+  <>
     <GlobalSettings />
     <Row form>
       <Col>
@@ -308,7 +307,7 @@ const OscillatorForm = () =>
         </FormGroup>
       </Col>
     </Row>
-  </div>
+  </>
 
 
 const TypeForm = ({ type, item, handleChange }) => {

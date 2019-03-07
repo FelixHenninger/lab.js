@@ -66,53 +66,51 @@ ComponentShortcut.contextTypes = {
 }
 
 const ComponentList = ({ parent, index }, { store }) =>
-  <div> {
-    Object.entries(getMetadataByCategory()).map(([category, types]) =>
-      <CollapsingCard
-        key={ category }
-        title={ category } open={ false }
-        collapsable={ true }
-        wrapContent={ false }
-      >
-        <ListGroup className="list-group-flush">
-          {
-            types.map(type =>
-              <ListGroupItem
-                key={ type }
-                tag="a" href="#" action
-                className="d-flex justify-content-between"
-                onClick={
-                  () => addComponent(store, type, parent, index)
-                }
-              >
-                <span>
-                  <strong>
-                    { metadata[type].name }
-                  </strong>&nbsp;
-                  <small className="text-muted">
-                    · { metadata[type].description }
-                  </small>
-                </span>
-                <Icon
-                  icon={ metadata[type].icon }
-                  className="mt-1"
-                  weight={ metadata[type].iconWeight }
-                  fallbackWeight={ metadata[type].iconFallbackWeight }
-                />
-              </ListGroupItem>
-            )
-          }
-        </ListGroup>
-      </CollapsingCard>
-    )
-  } </div>
+  Object.entries(getMetadataByCategory()).map(([category, types]) =>
+    <CollapsingCard
+      key={ category }
+      title={ category } open={ false }
+      collapsable={ true }
+      wrapContent={ false }
+    >
+      <ListGroup className="list-group-flush">
+        {
+          types.map(type =>
+            <ListGroupItem
+              key={ type }
+              tag="a" href="#" action
+              className="d-flex justify-content-between"
+              onClick={
+                () => addComponent(store, type, parent, index)
+              }
+            >
+              <span>
+                <strong>
+                  { metadata[type].name }
+                </strong>&nbsp;
+                <small className="text-muted">
+                  · { metadata[type].description }
+                </small>
+              </span>
+              <Icon
+                icon={ metadata[type].icon }
+                className="mt-1"
+                weight={ metadata[type].iconWeight }
+                fallbackWeight={ metadata[type].iconFallbackWeight }
+              />
+            </ListGroupItem>
+          )
+        }
+      </ListGroup>
+    </CollapsingCard>
+  )
 
 ComponentList.contextTypes = {
   store: PropTypes.object,
 }
 
 export default ({ parent, index }, context) =>
-  <div>
+  <>
     <CardGroup className="mb-3">
       {
         defaults.map(type =>
@@ -129,4 +127,4 @@ export default ({ parent, index }, context) =>
       parent={ parent }
       index={ index }
     />
-  </div>
+  </>

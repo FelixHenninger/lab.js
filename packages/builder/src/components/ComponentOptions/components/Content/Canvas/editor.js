@@ -162,7 +162,7 @@ export default class CanvasEditor extends Component {
   render() {
     const selection = this.selection
 
-    return <div>
+    return <>
       <FabricCanvas
         data={ this.state.order.map(id => toCanvas(this.state.data[id], this.context)) }
         ref={ this.canvas }
@@ -223,7 +223,7 @@ export default class CanvasEditor extends Component {
           />
         </FormGroup>
       </LocalForm>
-    </div>
+    </>
   }
 }
 

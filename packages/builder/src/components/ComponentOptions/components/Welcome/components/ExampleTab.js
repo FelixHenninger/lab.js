@@ -125,7 +125,7 @@ TaskList.defaultProps = {
 }
 
 export default () =>
-  <div>
+  <>
     <CardBody>
       <CardTitle className="h5 mt-2">Examples</CardTitle>
       <CardSubtitle className="text-muted mb-3">
@@ -153,4 +153,4 @@ export default () =>
         Missing a task? Something to improve? Please <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html" target="_blank" rel="noopener noreferrer">suggest or contribute</a>!
       </small>
     </CardBody>
-  </div>
+  </>

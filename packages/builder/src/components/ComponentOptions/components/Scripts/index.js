@@ -51,10 +51,10 @@ const parsingErrors = (code) => {
 }
 
 const HeaderCell = () =>
-  <div></div>
+  <div />
 
 const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
-  <div>
+  <>
     <Row>
       <Col xs="6" style={{ paddingRight: '0.25rem' }}>
         <Control.text
@@ -98,7 +98,7 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
       }}
       debounce={ 300 }
     />
-  </div>
+  </>
 
 export default class extends Component {
   constructor(props) {

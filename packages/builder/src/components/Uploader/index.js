@@ -89,7 +89,7 @@ class Uploader extends Component {
     // as soon as react-popper is ready
     const Wrapper = this.props.tag || 'div'
 
-    return <div>
+    return <>
       <Wrapper
         className={ this.props.className }
         onClick={ this.handleClick }
@@ -109,7 +109,7 @@ class Uploader extends Component {
         // (so that the same file can be uploaded twice)
         onClick={ (e) => e.target.value = null }
       />
-    </div>
+    </>
   }
 }
 

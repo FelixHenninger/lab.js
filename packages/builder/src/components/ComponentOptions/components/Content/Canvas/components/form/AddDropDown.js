@@ -15,7 +15,7 @@ const AddDropDown = (
 ) => {
   let fileSelector = React.createRef()
 
-  return <div>
+  return <>
     <ButtonGroup>
       <UncontrolledButtonDropdown direction="up">
         <DropdownToggle outline color="secondary">
@@ -100,7 +100,7 @@ const AddDropDown = (
       component={ id }
       accept="image/*"
     />
-  </div>
+  </>
 }
 
 AddDropDown.contextTypes = {
