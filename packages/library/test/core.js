@@ -602,6 +602,23 @@ describe('Core', () => {
         })
       })
 
+      it('waits for async event handlers to resolve', () => {
+        let done = false
+        const handler = () => new Promise(resolve => {
+          window.setTimeout(() => {
+            done = true
+            resolve()
+          }, 20)
+        })
+
+        const c = new lab.core.Component()
+        c.on('event', handler)
+
+        return c.trigger('event').then(() => {
+          assert.ok(done)
+        })
+      })
+
       it('runs internal event handlers only once if requested', () => {
         const spy = sinon.spy()
         const spyOnce = sinon.spy()
