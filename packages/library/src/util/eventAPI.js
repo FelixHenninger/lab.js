@@ -61,7 +61,7 @@ export class EventHandler {
     // function.
     function onceHandler(...args) {
       this.off(event, onceHandler)
-      fn.apply(this, args)
+      return fn.apply(this, args)
     }
 
     // Hook up the specified handler to the above

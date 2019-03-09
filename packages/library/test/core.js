@@ -638,6 +638,24 @@ describe('Core', () => {
         assert.ok(spyOnce.calledOnce)
       })
 
+      it('waits for one-shot async event handlers', () => {
+        // ... as above, except for the call to once below
+        let done = false
+        const handler = () => new Promise(resolve => {
+          window.setTimeout(() => {
+            done = true
+            resolve()
+          }, 20)
+        })
+
+        const c = new lab.core.Component()
+        c.once('event', handler)
+
+        return c.trigger('event').then(() => {
+          assert.ok(done)
+        })
+      })
+
       it('accepts internal event handlers via the messageHandlers option', () => {
         const handler = () => null
         b = new lab.core.Component({
