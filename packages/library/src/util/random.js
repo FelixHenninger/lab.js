@@ -1,4 +1,4 @@
-import { clamp, pick, flatten, omit, merge  } from 'lodash'
+import { clamp, range, pick, flatten, omit, merge  } from 'lodash'
 import { alea } from 'seedrandom'
 
 // Random uuid4 generation
@@ -64,6 +64,43 @@ export class Random {
       // Draw without replacement
       // (shuffle and slice up to array length)
       return this.shuffle(array).slice(0, clamp(n, array.length))
+    }
+  }
+
+  sampleMode(array, samples, mode="draw") {
+    const n = samples || array.length
+    const repetitions = Math.floor(n / array.length)
+    const remainder = n % array.length
+
+    switch(mode) {
+      case 'sequential':
+        return [
+          // Repeat the array
+          ...range(repetitions).reduce(
+            a => a.concat(array), []
+          ),
+          // Append remainder
+          ...array.slice(0, remainder)
+        ]
+      case 'draw':
+      case 'draw-shuffle':
+        const output = [
+          // Repeat the array
+          ...range(repetitions).reduce(
+            a => a.concat(this.shuffle(array)), []
+          ),
+          // Append remainder
+          ...this.sample(array, remainder, false)
+        ]
+        if (mode === 'draw') {
+          return output
+        } else if (mode === 'draw-shuffle') {
+          return this.shuffle(output)
+        }
+      case 'draw-replace':
+        return this.sample(array, n, true)
+      default:
+        throw new Error('Unknown sample mode, please specify')
     }
   }
 

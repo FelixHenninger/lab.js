@@ -108,6 +108,48 @@ describe('Utilities', () => {
       )
     })
 
+    it('supports sequential mode', () => {
+      const array = [1, 2, 3, 4, 5]
+      assert.deepEqual(
+        rng_alea.sampleMode(array, 12, 'sequential'),
+        [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2]
+      )
+    })
+
+    it('supports draw-then-repeat sample mode', () => {
+      const array = [1, 2, 3, 4, 5]
+      assert.deepEqual(
+        rng_alea.sampleMode(array, 12, 'draw'),
+        [2, 1, 3, 5, 4, 3, 1, 5, 4, 2, 2, 3]
+      )
+    })
+
+    it('supports draw-then-repeat-then-shuffle mode', () => {
+      const array = [1, 2, 3, 4, 5]
+      assert.deepEqual(
+        rng_alea.sampleMode(array, 12, 'draw-shuffle'),
+        [3, 1, 3, 5, 3, 2, 2, 5, 1, 4, 4, 2]
+      )
+    })
+
+    it('defers sampling with replacement to sample method', () => {
+      const array = [1, 2, 3, 4, 5]
+      const spy = sinon.spy(rng_alea, 'sample')
+
+      rng_alea.sampleMode(array, 12, 'draw-replace'),
+
+      assert.ok(spy.calledOnce)
+      assert.ok(spy.calledWith(array, 12, true))
+    })
+
+    it('does not subsample if no number of samples is provided', () => {
+      const array = [1, 2, 3, 4, 5]
+      assert.deepEqual(
+        rng_alea.sampleMode(array, undefined, 'draw'),
+        [2, 1, 3, 5, 4]
+      )
+    })
+
     it('shuffles an array', () => {
       const array = [1, 2, 3, 4, 5]
       assert.deepEqual(
