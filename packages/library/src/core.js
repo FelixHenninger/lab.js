@@ -9,6 +9,7 @@ import { Random } from './util/random'
 import { parse, parsableOptions, parseRequested } from './util/options'
 import { ensureHighResTime, StackTimeout, FrameTimeout,
   requestIdleCallback } from './util/timing'
+import { awaitReadyState } from './util/readyState'
 import { preloadImage, preloadAudio } from './util/preload'
 import { browserName } from './util/browser'
 
@@ -314,6 +315,8 @@ export class Component extends EventHandler {
       this.internals.controller = this.parent.internals.controller
     } else {
       this.internals.controller = new Controller()
+      // Wait for the page to load completely before finishing preparation
+      this.once('after:prepare', awaitReadyState)
     }
 
     // Connect datastore from controller
