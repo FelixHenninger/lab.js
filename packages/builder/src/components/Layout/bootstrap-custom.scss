@@ -108,6 +108,11 @@ input.custom-control-input[type="checkbox"] + label.custom-control-label {
   padding-left: 0.25rem;
 }
 
+// Multiple addons in one input group
+input + .input-group-prepend > .input-group-text {
+  border-left: none;
+}
+
 code {
   font-size: 0.95em;
 }

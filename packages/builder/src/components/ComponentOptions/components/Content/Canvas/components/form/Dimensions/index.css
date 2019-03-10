@@ -2,9 +2,6 @@
 .minimal-width-addons .input-group-text {
   padding: 0.375rem 0.7rem;
 }
-input + .input-group-prepend > .input-group-text {
-  border-left: none;
-}
 
 .dimension-toolbar .form-control {
   height: 100%;
