@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Control, Errors, actions } from 'react-redux-form'
+import { Control, actions } from 'react-redux-form'
 import { Col, CardBody,
-  FormGroup, Label, FormText, CustomInput } from 'reactstrap'
+  FormGroup, Input, CustomInput, InputGroup, Label } from 'reactstrap'
 
 import { groupBy } from 'lodash'
 
@@ -11,6 +11,81 @@ import Grid from '../../../../Grid'
 import { GridCell, HeaderCell } from './cells'
 import { Footer } from './footer'
 import ShuffleGroups from './components/ShuffleGroups'
+
+const switchLabels = ({
+  templateParameters,
+  sample={ n: undefined }
+}, labels) => {
+  const samples = parseInt(sample.n)
+  const parameters = templateParameters.rows.length
+
+  if (samples < parameters) {
+    return labels[0]
+  } else if (isNaN(samples) || samples === parameters) {
+    return labels[1]
+  } else {
+    return labels[2]
+  }
+}
+
+const SampleWidget = ({ data }) =>
+  <FormGroup row>
+    <Label xs={ 2 } for="samples">
+      Sample
+    </Label>
+    <Col xs={10}>
+      <InputGroup>
+        <Control
+          id="sampleN"
+          model=".sample.n"
+          placeholder={
+            (data.sample || {}).mode === 'draw-replace'
+              ? 'As many as rows above'
+              : 'Use all'
+          }
+          type="number"
+          style={{
+            fontFamily: 'Fira Mono',
+          }}
+          component={ Input }
+          controlProps={{
+            min: 0
+          }}
+          debounce={ 300 }
+        />
+        <Control.select
+          id="sampleMode"
+          model=".sample.mode"
+          component={ CustomInput }
+          controlProps={{
+            type: 'select',
+          }}
+          style={{
+            fontFamily: 'Fira Mono',
+          }}
+        >
+          <option value="sequential">
+            In sequence
+          </option>
+          <option value="draw-shuffle">
+            {
+              switchLabels(data, [
+                'Sampled without replacement',
+                'In random order',
+                'Sampled without replacement (then shuffled)'
+              ])
+            }
+          </option>
+          <option value="draw">
+            Sampled without replacement (in blocks)
+          </option>
+          <option value="draw-replace">
+            Sampled with replacement
+          </option>
+        </Control.select>
+      </InputGroup>
+    </Col>
+  </FormGroup>
 
 export default class extends Component {
   constructor(props) {
@@ -29,17 +104,6 @@ export default class extends Component {
             data={ data }
             keys={ ['templateParameters', 'shuffle', 'sample'] }
             getDispatch={ dispatch => this.formDispatch = dispatch }
-            validators={{
-              '': {
-                sampleSize: v =>
-                  // Not valid if: Sample and replacement defined,
-                  // *but* sample size larger than available rows
-                  !(v.sample !== undefined &&
-                    v.sample.n !== undefined &&
-                    v.sample.replace !== true &&
-                    v.sample.n > v.templateParameters.rows.length)
-              },
-            }}
           >
             <Grid
               model=".templateParameters"
@@ -55,66 +119,7 @@ export default class extends Component {
               formDispatch={ action => this.formDispatch(action) }
             />
             <CardBody>
-              <FormGroup row>
-                <Label
-                  xs={ 2 }
-                  style={{
-                    paddingTop: '0', // This is a hack to override .col-form-label
-                  }}
-                >
-                  Order
-                </Label>
-                <Col xs={10}>
-                  <Control.checkbox
-                    model=".shuffle"
-                    component={ CustomInput }
-                    controlProps={{
-                      id: 'shuffle',
-                      type: 'checkbox',
-                      label: 'Shuffle repetitions',
-                    }}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-                <Label xs={ 2 } for="samples">
-                  Samples
-                </Label>
-                <Col xs={10}>
-                  <Control
-                    id="samples"
-                    model=".sample.n"
-                    placeholder="As many as specified"
-                    type="number"
-                    className="form-control"
-                    style={{
-                      fontFamily: 'Fira Mono',
-                    }}
-                    debounce={ 300 }
-                  />
-                  <Errors
-                    model="local"
-                    component={ props =>
-                      <FormText color="danger">{ props.children }</FormText> }
-                    messages={{
-                      sampleSize: 'Without replacement, the number of samples can\'t be larger than the number of rows specified above.'
-                    }}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-                <Col xs={{ size: 10, offset: 2 }}>
-                  <Control.checkbox
-                    model=".sample.replace"
-                    component={ CustomInput }
-                    controlProps={{
-                      id: 'replace',
-                      type: 'checkbox',
-                      label: 'Draw with replacement',
-                    }}
-                  />
-                </Col>
-              </FormGroup>
+              <SampleWidget data={ data } />
             </CardBody>
           </Form>
         </Card>
@@ -141,7 +146,7 @@ export default class extends Component {
                   )
                 )
             }
-            globalShuffle={ data.shuffle }
+            globalShuffle={ data.sample.mode !== 'sequential' }
           />
         </Card>
       </>

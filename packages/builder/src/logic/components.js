@@ -55,13 +55,15 @@ export const metadata = {
         columns: [{ name: '', type: 'string' }, { name: '', type: 'string' }],
         rows: [ ['', ''] ],
       },
+      sample: {
+        mode: 'draw-shuffle',
+      },
       responses: {
         rows: [ ['', '', '', ''] ],
       },
       messageHandlers: {
         rows: [ [ { title: '', message: '', code: '' }, ], ],
       },
-      shuffle: true,
     }
   },
   'lab.flow.Sequence': {

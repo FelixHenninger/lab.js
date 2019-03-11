@@ -318,6 +318,36 @@ const updates = {
         : undefined,
     })),
   }),
+  '2018.1.2': data => ({
+    ...data,
+    version: [19, 0, 0],
+    // Rework shuffle and sample options
+    components: mapValues(data.components, c => {
+      if (c.type === 'lab.flow.Loop') {
+        c.sample = c.sample || {}
+        if (['', undefined].includes(c.sample.n)) {
+          if (c.shuffle) {
+            c.sample.mode = 'draw-shuffle'
+          } else {
+            c.sample.mode = 'sequential'
+          }
+        } else {
+          if (c.sample.replace) {
+            c.sample.mode = 'draw-replace'
+          } else {
+            c.sample.mode = 'draw-shuffle'
+          }
+        }
+        // Deprecated options
+        delete c.sample.replace
+        delete c.shuffle
+
+        return c
+      } else {
+        return c
+      }
+    }),
+  }),
 }
 
 export default (data) => {
