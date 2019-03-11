@@ -507,7 +507,6 @@ describe('Flow control', () => {
         },
         sample: {
           n: 3,
-          replace: false,
         },
         template: new lab.core.Component(),
         templateParameters: [

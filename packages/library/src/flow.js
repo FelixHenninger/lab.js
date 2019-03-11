@@ -124,7 +124,7 @@ export class Loop extends Sequence {
       templateParameters: [],
       sample: {
         n: undefined,
-        replace: false,
+        mode: 'draw-shuffle',
       },
       shuffleGroups: undefined,
       shuffleUngrouped: false,
@@ -148,10 +148,12 @@ export class Loop extends Sequence {
 
     // Sample parameters
     const templateParameters = this.options.sample.n
-      ? this.random.sample(
+      ? this.random.sampleMode(
           shuffledParameters,
           this.options.sample.n,
-          this.options.sample.replace,
+          this.options.sample.replace === true
+            ? 'draw-replace' // Fallback for deprecated syntax
+            : this.options.sample.mode, // Future syntax
         )
       : shuffledParameters
 
@@ -200,6 +202,7 @@ Loop.metadata = {
       content: {
         n: { type: 'number' },
         replace: { type: 'boolean' },
+        mode: {},
       },
     },
   },

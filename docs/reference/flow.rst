@@ -111,9 +111,22 @@ Loop
           templateParameters: stroopTrials,
         })
 
-  .. js:attribute:: options.shuffle
+  .. js:attribute:: options.sample.n
 
-    Whether to shuffle iterations (``false``, see :js:class:`flow.Sequence`).
+    The number of samples to draw from the :js:attr:`templateParameters <options.templateParameters>`. If not specified, the number of samples defaults to the number of available parameter sets.
+
+    Thus, in ``sequential``, ``draw`` and ``draw-shuffle`` :js:attr:`mode <options.sample.mode>`, leaving this option unset ensures that all parameter sets are used.
+
+  .. js:attribute:: options.sample.mode
+
+    How to sample from the iterations while constructing the loop. Several distinct modes are available (the default is ``draw-shuffle``):
+
+    * ``sequential``: Run through the parameter sets **in order**. If all parameter sets have been run through, but more samples are required, re-start from the top.
+    * ``draw``: Sample from all parameter sets **without replacement**. When all sets have been drawn, start over.
+    * ``draw-shuffle``: Like ``draw``, but shuffle the result when oversampling.
+    * ``draw-replace``: Sample from the parameter sets **with replacement**.
+
+    The ``draw`` and ``draw-shuffle`` modes only differ when the number of samples, :js:attr:`n <options.sample.n>` exceeds the number of available parameter sets. In this case, the ``draw`` algorithm will lead to blocks of shuffled parameter sets. For example, given three parameter sets ``[1, 2, 3]``, over-sampling five sets might lead to a resulting order of ``[2, 3, 1, 2, 1]`` (notice that all sets are exhausted before the first repetition occurs). The ``draw-shuffle`` mode adds a shuffle step after sampling that breaks this restiction (which might lead to the result of ``[2, 3, 3, 2, 1]``). Thus in ``draw-shuffle`` mode, the block structure is broken up, but the frequency of parameter sets will be roughly equal.
 
   .. js:attribute:: options.handMeDowns
 

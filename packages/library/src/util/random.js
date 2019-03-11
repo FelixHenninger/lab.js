@@ -67,7 +67,7 @@ export class Random {
     }
   }
 
-  sampleMode(array, samples, mode="draw") {
+  sampleMode(array, samples, mode='draw-shuffle') {
     const n = samples || array.length
     const repetitions = Math.floor(n / array.length)
     const remainder = n % array.length
@@ -92,10 +92,11 @@ export class Random {
           // Append remainder
           ...this.sample(array, remainder, false)
         ]
-        if (mode === 'draw') {
-          return output
-        } else if (mode === 'draw-shuffle') {
+        // Shuffle again if oversampling and so instructed
+        if (mode === 'draw-shuffle' && n > array.length) {
           return this.shuffle(output)
+        } else {
+          return output
         }
       case 'draw-replace':
         return this.sample(array, n, true)
