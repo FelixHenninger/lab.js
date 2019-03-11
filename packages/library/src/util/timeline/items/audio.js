@@ -235,8 +235,7 @@ export class BufferSourceItem extends AudioNodeItem {
 
 export class OscillatorItem extends AudioNodeItem {
   prepare() {
-    const { type } = this.options.options
-    const { frequency, detune } = this.options.options
+    const { type, frequency, detune } = this.options.options || {}
 
     this.source = createNode(
       this.timeline.controller.audioContext,
