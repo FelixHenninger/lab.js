@@ -3,7 +3,7 @@ import { Control, actions } from 'react-redux-form'
 import { Col, CardBody,
   FormGroup, Input, CustomInput, InputGroup, Label } from 'reactstrap'
 
-import { groupBy } from 'lodash'
+import { uniqBy, groupBy } from 'lodash'
 
 import Form from '../../Form'
 import Card from '../../../../Card'
@@ -95,6 +95,7 @@ export default class extends Component {
 
   render() {
     const { id, data } = this.props
+    const { columns, rows } = data.templateParameters
 
     return (
       <>
@@ -114,8 +115,8 @@ export default class extends Component {
               BodyContent={ GridCell }
               HeaderContent={ HeaderCell }
               Footer={ Footer }
-              columns={ data.templateParameters.columns }
-              data={ data.templateParameters.rows }
+              columns={ columns }
+              data={ rows }
               formDispatch={ action => this.formDispatch(action) }
             />
             <CardBody>
@@ -123,7 +124,12 @@ export default class extends Component {
             </CardBody>
           </Form>
         </Card>
-        <Card title="Shuffle and sample" wrapContent={ false }>
+        <Card title="Further options"
+          open={ uniqBy(columns, c => c.shuffleGroup).length > 1 }
+          collapsable={ true }
+          wrapContent={ false }
+          className="mt-4"
+        >
           <CardBody className="pb-0">
             <h2 className="h6">Parameter groups</h2>
           </CardBody>
@@ -131,7 +137,7 @@ export default class extends Component {
             id={ id }
             groups={
               groupBy(
-                data.templateParameters.columns
+                columns
                   .filter(c => c.name !== '')
                   .map((c, i) => ({ ...c, id: i })),
                 'shuffleGroup'
