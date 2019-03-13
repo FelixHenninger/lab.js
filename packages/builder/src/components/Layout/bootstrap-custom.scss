@@ -133,3 +133,9 @@ table.border-top-0 colgroup + thead tr:first-of-type th,
 table.border-top-0 colgroup + tbody tr:first-of-type td {
   border-top: none;
 }
+
+// Round all corners if a header is the last element
+// in a card (i.e. if the remainder is collapsed)
+.card > .card-header:last-child {
+  border-radius: $border-radius;
+}
