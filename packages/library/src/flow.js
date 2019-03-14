@@ -124,7 +124,7 @@ export class Loop extends Sequence {
       templateParameters: [],
       sample: {
         n: undefined,
-        mode: 'draw-shuffle',
+        mode: 'sequential',
       },
       shuffleGroups: undefined,
       shuffleUngrouped: false,
@@ -133,29 +133,35 @@ export class Loop extends Sequence {
   }
 
   onPrepare() {
-    // Shuffle columns independently, if requested
-    const shuffleTable =
-      Array.isArray(this.options.shuffleGroups) &&
-      this.options.shuffleGroups.length
+    let templateParameters = []
+    if (
+      Array.isArray(this.options.templateParameters) &&
+      this.options.templateParameters.length > 0
+    ) {
+      // Shuffle columns independently, if requested
+      const shuffleTable =
+        Array.isArray(this.options.shuffleGroups) &&
+        this.options.shuffleGroups.length
 
-    const shuffledParameters = shuffleTable
-      ? this.random.shuffleTable(
-          this.options.templateParameters,
-          this.options.shuffleGroups,
-          this.options.shuffleUngrouped,
-        )
-      : this.options.templateParameters
+      const shuffledParameters = shuffleTable
+        ? this.random.shuffleTable(
+            this.options.templateParameters,
+            this.options.shuffleGroups,
+            this.options.shuffleUngrouped,
+          )
+        : this.options.templateParameters
 
-    // Sample parameters
-    const templateParameters = this.options.sample.n
-      ? this.random.sampleMode(
-          shuffledParameters,
-          this.options.sample.n,
-          this.options.sample.replace === true
-            ? 'draw-replace' // Fallback for deprecated syntax
-            : this.options.sample.mode, // Future syntax
-        )
-      : shuffledParameters
+      // Sample parameters
+      templateParameters = this.random.sampleMode(
+        shuffledParameters,
+        this.options.sample.n,
+        this.options.sample.replace === true
+          ? 'draw-replace' // Fallback for deprecated syntax
+          : this.options.sample.mode, // Future syntax
+      )
+    } else {
+      console.warn('Empty or invalid parameter set for loop, no content generated')
+    }
 
     // Generate the content by cloning the template,
     // replacing the parameters each time, or by

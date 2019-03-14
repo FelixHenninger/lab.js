@@ -150,6 +150,20 @@ describe('Utilities', () => {
       )
     })
 
+    it('throws an error if asked to sample from an empty array', () => {
+      assert.throws(
+        () => rng_alea.sampleMode([]),
+        "Can't sample: Empty input, or not an array"
+      )
+    })
+
+    it('throws an error if the sample mode is unknown', () => {
+      assert.throws(
+        () => rng_alea.sampleMode([1, 2, 3], 2, 'unknown'),
+        'Unknown sample mode, please specify'
+      )
+    })
+
     it('shuffles an array', () => {
       const array = [1, 2, 3, 4, 5]
       assert.deepEqual(

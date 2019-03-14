@@ -68,6 +68,10 @@ export class Random {
   }
 
   sampleMode(array, samples, mode='draw-shuffle') {
+    if (!(Array.isArray(array) && array.length > 0)) {
+      throw new Error("Can't sample: Empty input, or not an array")
+    }
+
     const n = samples || array.length
     const repetitions = Math.floor(n / array.length)
     const remainder = n % array.length

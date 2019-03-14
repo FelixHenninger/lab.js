@@ -375,11 +375,30 @@ describe('Flow control', () => {
       })
     })
 
+    it('issues warning if templateParameters are empty or invalid', () => {
+      sinon.stub(console, 'warn')
+
+      return new lab.flow.Loop({
+        template: new lab.core.Dummy(),
+        templateParameters: undefined,
+      }).prepare().then(() => {
+        assert.ok(
+          console.warn.withArgs(
+            'Empty or invalid parameter set for loop, no content generated'
+          ).calledOnce
+        )
+        console.warn.restore()
+      })
+    })
+
     it('issues warning if no template, or an invalid one, is provided', () => {
       sinon.stub(console, 'warn')
 
       // This should someday be replaced by chai-as-promised
-      return new lab.flow.Loop().prepare().then(() => {
+      return new lab.flow.Loop({
+        template: undefined,
+        templateParameters: [{ one: 1 }],
+      }).prepare().then(() => {
         assert.ok(
           console.warn.withArgs(
             'Missing or invalid template in loop, no content generated'
