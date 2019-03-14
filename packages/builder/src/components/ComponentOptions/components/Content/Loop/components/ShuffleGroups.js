@@ -13,6 +13,8 @@ export default ({ groups, moveHandler, globalShuffle }) => {
     0
   ) + 1
 
+  const entries = Object.entries(groups)
+
   return (
     <Table className="border-top-0">
       <tbody>
@@ -23,10 +25,17 @@ export default ({ groups, moveHandler, globalShuffle }) => {
           key={ -1 }
           columns={ groups['undefined'] }
           move={ moveHandler }
+          children={
+            entries.length > 0
+              ? undefined
+              : <small className="text-muted font-italic">
+                  (no columns yet)
+                </small>
+          }
         />
         {/* Actual shuffled groups */}
         {
-          Object.entries(groups)
+          entries
             .filter(([group]) => group !== 'undefined')
             .map(([group, columns]) =>
               <Group
