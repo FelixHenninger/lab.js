@@ -45,7 +45,7 @@ export const resolveImage = (src, store, id) => {
   }
 }
 
-export const toCanvas = (object, { store, id }) => {
+export const toCanvas = (object, { store, id }, ignore=[]) => {
   if (!object) {
     return object
   } else {
@@ -89,6 +89,9 @@ export const toCanvas = (object, { store, id }) => {
 
       output.src = resolveImage(object.src, store, id)
     }
+
+    // Ignore specified keys (notably, text during updates from the form)
+    ignore.forEach(k => delete output[k])
 
     return output
   }

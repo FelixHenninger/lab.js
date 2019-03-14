@@ -119,7 +119,9 @@ export default class CanvasEditor extends Component {
 
       // Reflect modification on canvas
       if (updateCanvas) {
-        this.canvas.current.modifyActive('set', toCanvas(target, this.context))
+        this.canvas.current.modifyActive(
+          'set', toCanvas(target, this.context, ['text'])
+        )
       }
     }
   }
