@@ -5,6 +5,7 @@ import { Col, CardBody,
 
 import { uniqBy, groupBy } from 'lodash'
 
+import Hint from '../../../../Hint'
 import Form from '../../Form'
 import Card from '../../../../Card'
 import Grid from '../../../../Grid'
@@ -32,6 +33,34 @@ const SampleWidget = ({ data }) =>
   <FormGroup row>
     <Label xs={ 2 } for="samples">
       Sample
+      <Hint
+        title="Sampling"
+        className="float-right"
+        placement="left"
+      >
+        <p className="font-weight-bold">
+          Control how many, and which of the above parameter sets are used.
+        </p>
+        <p className="text-muted">
+          The <strong>number of samples</strong> defines the number of loop iterations. The <strong>mode</strong> determines how the interations are drawn from the entries above.
+        </p>
+        <dl className="text-muted">
+          <dt>Sequential</dt>
+          <dd>Proceed in order, starting from the top. If more samples are requested than entries are available, start over.</dd>
+
+          <dt>Random order</dt>
+          <dd>Present entries in shuffled order<br /> (only available without sampling).</dd>
+
+          <dt>Sample without replacement</dt>
+          <dd>Draw entries at random, starting over when all are exhausted. Shuffles the result for a completely random order.</dd>
+
+          <dt>Sample w/o replacement (in blocks)</dt>
+          <dd>As above, but without shuffling.<br /> If the number of samples exceeds the number of entries, this results in blocks of all entries in random order.</dd>
+
+          <dt>Sample with replacement</dt>
+          <dd>Draw entries without regard to which have already been selected.</dd>
+        </dl>
+      </Hint>
     </Label>
     <Col xs={10}>
       <InputGroup>
