@@ -26,6 +26,12 @@ class Shortcuts extends Component {
           this.context.store.getState(), { removeInternals: e.shiftKey }
         )
       }
+    } else if (e[commandKey] && e.key === 'p') {
+      // TODO: I would much rather call into the preview logic directly,
+      // as opposed to using the event interconnect.
+      e.preventDefault()
+      const event = new Event('preview:show')
+      window.dispatchEvent(event)
     }
   }
 

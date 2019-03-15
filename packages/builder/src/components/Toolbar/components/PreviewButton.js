@@ -27,9 +27,19 @@ export default class PreviewButton extends Component {
       `${ process.env.PUBLIC_URL }/api/labjs_preview/index.html`,
       windowState => this.setState({ windowState })
     )
+
+    this.openPreview = this.openPreview.bind(this)
   }
 
-  clickHandler() {
+  componentDidMount() {
+    window.addEventListener('preview:show', this.openPreview)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('preview:show', this.openPreview)
+  }
+
+  openPreview() {
     this.previewWindow.openOrFocus()
 
     return populateCache(
@@ -53,7 +63,7 @@ export default class PreviewButton extends Component {
           ({ previewActive }) =>
             <Button
               color="primary"
-              onClick={ () => this.clickHandler() }
+              onClick={ () => this.openPreview() }
               disabled={ !previewActive }
             >
               <Icon
