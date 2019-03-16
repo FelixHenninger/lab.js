@@ -27,11 +27,9 @@ class Shortcuts extends Component {
         )
       }
     } else if (e[commandKey] && e.key === 'p') {
-      // TODO: I would much rather call into the preview logic directly,
-      // as opposed to using the event interconnect.
+      window.dispatchEvent(new Event('preview:preempt'))
       e.preventDefault()
-      const event = new Event('preview:show')
-      window.dispatchEvent(event)
+      window.dispatchEvent(new Event('preview:show'))
     }
   }
 

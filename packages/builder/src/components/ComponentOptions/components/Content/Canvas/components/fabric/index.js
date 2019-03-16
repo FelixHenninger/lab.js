@@ -79,6 +79,8 @@ export default class FabricCanvas extends Component {
       objects: {},
       activeObject: null,
     }
+
+    this.updateActive = this.updateActive.bind(this)
   }
 
   componentDidMount() {
@@ -166,6 +168,13 @@ export default class FabricCanvas extends Component {
       this.setupGrid(gridSize)
       this.setupOverlay(viewPort)
     }
+
+    // Listen for preload event
+    window.addEventListener('preview:preempt', this.updateActive)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('preview:preempt', this.updateActive)
   }
 
   setupSnapping(gridSize, threshold) {
@@ -354,6 +363,15 @@ export default class FabricCanvas extends Component {
       this.canvas.add(newObject)
       this.canvas.setActiveObject(newObject)
     }
+  }
+
+  updateActive() {
+    const selection = this.canvas.getActiveObjects()
+    selection.forEach(o => {
+      if (o.type === 'i-text') {
+        this.props.updateHandler({ target: o })
+      }
+    })
   }
 
   modifyActive(method, ...args) {
