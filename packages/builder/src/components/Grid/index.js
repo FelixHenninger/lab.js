@@ -60,6 +60,8 @@ class Grid extends Component {
         return this.handleColumnAdd()
       case 'deleteColumn':
         return this.handleColumnDelete(payload)
+      case 'fillColumn':
+        return this.handleColumnFill(payload)
       case 'addRow':
       case 'addRows':
         return this.handleRowAdd(payload)
@@ -97,6 +99,29 @@ class Grid extends Component {
         columns: this.props.columns.filter( (_, i) => i !== index ),
         rows: this.props.data.map(
           r => r.filter( (_, i) => i !== index)
+        )
+      }
+    )
+  }
+
+  handleColumnFill(colIndex) {
+    // Gather cells with content
+    const availableCells = this.props.data
+      .map(r => r[colIndex])
+      .filter(r => r !== '')
+
+    // Impute remaining cells based on available data
+    this.handleChange(
+      `local${ this.props.model }`,
+      {
+        columns: this.props.columns,
+        rows: this.props.data.map(
+          (r, rowIndex) => {
+            const output = [...r]
+            output[colIndex] = output[colIndex] ||
+              availableCells[rowIndex % availableCells.length]
+            return output
+          }
         )
       }
     )

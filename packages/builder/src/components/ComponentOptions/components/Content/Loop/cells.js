@@ -120,6 +120,9 @@ export const HeaderCell = ({ columnData, index }, { gridDispatch }) =>
         })
       }
       actions={{
+        'Fill': () => {
+          gridDispatch('fillColumn', index)
+        },
         'Delete': () => {
           if (window.confirm('Are you sure you want to delete this column?')) {
             gridDispatch('deleteColumn', index)
