@@ -6,7 +6,7 @@ import { Fieldset, Control } from 'react-redux-form'
 import { Button, ButtonGroup,
   UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem,
   InputGroup, InputGroupAddon, InputGroupText, Input, FormGroup,
-  Row, Col, Alert } from 'reactstrap'
+  UncontrolledTooltip, Row, Col, Alert } from 'reactstrap'
 import { capitalize } from 'lodash'
 
 import Icon from '../../../../../Icon'
@@ -123,12 +123,30 @@ const Header = ({ activeItem, add, duplicateCurrent, deleteCurrent }) =>
 
 // Setting input group ---------------------------------------------------------
 
-const SettingGroupIcon = ({ icon, fallbackIcon }) =>
-  <InputGroupAddon addonType="prepend">
-    <InputGroupText>
-      <Icon fixedWidth icon={ icon } fallback={ fallbackIcon } />
-    </InputGroupText>
-  </InputGroupAddon>
+const SettingGroupIcon = ({ icon, fallbackIcon, tooltip, unit }) => {
+  const addon = createRef()
+  return (
+    <>
+      <div className="input-group-prepend" ref={ addon }>
+        <InputGroupText>
+          <Icon fixedWidth icon={ icon } fallback={ fallbackIcon } />
+        </InputGroupText>
+      </div>
+      {
+        tooltip
+        ? <UncontrolledTooltip
+            target={ addon }
+            placement="left"
+            delay={{ show: 0, hide: 150 }}
+          >
+            { tooltip }
+            { unit && <span class="text-muted"> ({ unit })</span> }
+          </UncontrolledTooltip>
+        : null
+      }
+    </>
+  )
+}
 
 const SettingGroupControl = ({ model, parser, defaultValue, placeholder }) =>
   <Control
@@ -151,6 +169,8 @@ const GlobalSettings = () =>
             <SettingGroupIcon
               icon="arrow-from-left"
               fallbackIcon="play-circle"
+              tooltip="Start"
+              unit="ms"
             />
             <SettingGroupControl
               model=".start" parser={ toFloat }
@@ -158,12 +178,16 @@ const GlobalSettings = () =>
             <SettingGroupIcon
               icon="arrow-to-right"
               fallbackIcon="stop-circle"
+              tooltip="End"
+              unit="ms"
             />
             <SettingGroupControl
               model=".stop" parser={ toFloat }
             />
             <SettingGroupIcon
               icon="volume"
+              tooltip="Gain"
+              unit="fraction"
             />
             <SettingGroupControl
               model=".gain" placeholder="gain"
@@ -177,18 +201,24 @@ const GlobalSettings = () =>
           <InputGroup>
             <SettingGroupIcon
               icon="location-arrow"
+              tooltip="Panning"
+              unit="-1 … +1"
             />
             <SettingGroupControl
               model=".pan" placeholder="pan" parser={ toFloat }
             />
             <SettingGroupIcon
               icon="plane-departure"
+              tooltip="Ramp up"
+              unit="ms"
             />
             <SettingGroupControl
               model=".rampUp" parser={ toFloat }
             />
             <SettingGroupIcon
               icon="plane-arrival"
+              tooltip="Ramp down"
+              unit="ms"
             />
             <SettingGroupControl
               model=".rampDown" parser={ toFloat }
@@ -274,6 +304,7 @@ const OscillatorForm = () =>
           <InputGroup>
             <SettingGroupIcon
               icon="integral" fallbackIcon="water"
+              tooltip="Waveform"
             />
             <Control.select
               model=".options.type"
@@ -293,12 +324,16 @@ const OscillatorForm = () =>
           <InputGroup>
             <SettingGroupIcon
               icon="music"
+              tooltip="Frequency"
+              unit="Hz"
             />
             <SettingGroupControl
               model=".options.frequency" placeholder="frequency (Hz)"
             />
             <SettingGroupIcon
               icon="tachometer-average"
+              tooltip="Detune"
+              unit="cents"
             />
             <SettingGroupControl
               model=".options.detune" placeholder="detune (cents)"
