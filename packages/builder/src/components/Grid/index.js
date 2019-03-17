@@ -110,21 +110,23 @@ class Grid extends Component {
       .map(r => r[colIndex])
       .filter(r => r !== '')
 
-    // Impute remaining cells based on available data
-    this.handleChange(
-      `local${ this.props.model }`,
-      {
-        columns: this.props.columns,
-        rows: this.props.data.map(
-          (r, rowIndex) => {
-            const output = [...r]
-            output[colIndex] = output[colIndex] ||
-              availableCells[rowIndex % availableCells.length]
-            return output
-          }
-        )
-      }
-    )
+    if (availableCells.length > 0) {
+      // Impute remaining cells based on available data
+      this.handleChange(
+        `local${ this.props.model }`,
+        {
+          columns: this.props.columns,
+          rows: this.props.data.map(
+            (r, rowIndex) => {
+              const output = [...r]
+              output[colIndex] = output[colIndex] ||
+                availableCells[rowIndex % availableCells.length]
+              return output
+            }
+          )
+        }
+      )
+    }
   }
 
   handleRowAdd(newRows) {
