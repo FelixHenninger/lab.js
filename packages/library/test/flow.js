@@ -508,12 +508,17 @@ describe('Flow control', () => {
     })
 
     it('doesn\'t choke when parameters are empty', () => {
+      // Catch the warning that is thrown
+      sinon.stub(console, 'warn')
+
       const l = new lab.flow.Loop({
         template: new lab.core.Component()
       })
 
       return l.run().then(() => {
         assert.equal(l.status, 3)
+        assert.ok(console.warn.calledOnce)
+        console.warn.restore()
       })
     })
 
