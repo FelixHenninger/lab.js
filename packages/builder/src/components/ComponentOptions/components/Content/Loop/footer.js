@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, createRef } from 'react'
 import PropTypes from 'prop-types'
 
 import { ButtonDropdown, Button,
   DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap'
 
 import Icon from '../../../../Icon'
+import FactorialModal from './components/FactorialModal'
 
 import Uploader from '../../../../Uploader'
 import { saveAs } from 'file-saver'
@@ -27,12 +28,14 @@ const exportGrid = (data, columns) => {
 
 export const Footer = ({ columns, data }, { gridDispatch }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const factorialModal = createRef()
 
   return (
     <tfoot>
       <tr>
         <td />
         <td colSpan={ columns.length }>
+          <FactorialModal ref={ factorialModal } />
           <ButtonDropdown
             size="sm"
             className="w-100"
@@ -62,6 +65,15 @@ export const Footer = ({ columns, data }, { gridDispatch }) => {
               }}
             />
             <DropdownMenu right>
+              <DropdownItem header>Generate</DropdownItem>
+              <DropdownItem
+                onClick={ () => factorialModal.current.show().then(result => {
+                  gridDispatch('overwrite', result)
+                }) }
+              >
+                Factorial design
+              </DropdownItem>
+              <DropdownItem divider />
               <DropdownItem header>CSV / TSV</DropdownItem>
               <Uploader
                 accept="text/csv,text/tab-separated-values,.csv,.tsv"

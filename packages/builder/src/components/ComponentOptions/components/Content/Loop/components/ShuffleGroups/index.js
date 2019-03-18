@@ -3,7 +3,7 @@ import React from 'react'
 import { Table } from 'reactstrap'
 
 import Group from './Group'
-import Icon from '../../../../../Icon'
+import Icon from '../../../../../../Icon'
 
 export default ({ groups, moveHandler, globalShuffle }) => {
   const nextGroup = Math.max(
