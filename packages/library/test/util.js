@@ -535,6 +535,20 @@ describe('Utilities', () => {
         ]
       )
     })
+
+    it('cartesian product accounts for empty sets', () => {
+      assert.deepEqual(
+        Array.from(lab.util.combinatorics.product(
+          ['A', 'B'], [], ['a', 'b']
+        )),
+        [
+          ['A', undefined, 'a'],
+          ['A', undefined, 'b'],
+          ['B', undefined, 'a'],
+          ['B', undefined, 'b']
+        ]
+      )
+    })
   })
 })
 
