@@ -23,9 +23,7 @@ export default (store) => {
         console.log(`Preview worker registered successfully at ${ rootUrl }`)
 
         // Prepopulate cache with library files
-        prePopulateCache()
-
-        return Promise.resolve()
+        return prePopulateCache()
       })
   } else {
     return Promise.reject(new Error('Service workers not available'))

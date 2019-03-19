@@ -18,63 +18,65 @@ const bundledFiles = [
   'lib/loading.svg',
 ]
 
-export const prePopulateCache = () =>
-  caches.open(cacheName).then(
-    cache => cache.addAll(
-      bundledFiles.map(
-        path => `${ process.env.PUBLIC_URL }/api/_defaultStatic/${ path }`
-      )
+export const prePopulateCache = async () => {
+  const cache = await caches.open(cacheName)
+  await cache.addAll(
+    bundledFiles.map(
+      path => `${ process.env.PUBLIC_URL }/api/_defaultStatic/${ path }`
     )
   )
+}
 
 // Generate study preview ------------------------------------------------------
 
 // Drop a single file into cache
 // (cache passed as an object)
-const putFile = (cache, [path, { content, type }], previewPath) =>
-  cache.put(
+const putFile = async (cache, [path, { content, type }], previewPath) =>
+  await cache.put(
     new Request(`/api/${ previewPath }/${ path }`),
     new Response(blobFromDataURI(content)),
   )
 
 // Create link to default static files in preview location
-const linkStatic = (cache, [path, data], previewPath) =>
-  cache.match(`/api/_defaultStatic/${ path }`)
-    .then(response => cache.put(
-      new Request(`/api/${ previewPath }/${ path }`),
-      response
-    ))
+const linkStatic = async (cache, [path, data], previewPath) => {
+  const response = await cache.match(`/api/_defaultStatic/${ path }`)
+
+  await cache.put(
+    new Request(`/api/${ previewPath }/${ path }`),
+    response
+  )
+}
 
 // Setup study preview
-export const populateCache = (state, stateModifier,
+export const populateCache = async (state, stateModifier,
   previewPath='labjs_preview') => {
+  const cache = await caches.open(cacheName)
 
-  return caches.open(cacheName).then(cache =>
     // Empty cache, except for copy of library static files
-    cache.keys().then(keylist => Promise.all(
-      keylist.map(
-        // TODO: Think about filtering using
-        // the bundledFiles array above
-        key => !key.url.includes('_defaultStatic') ? cache.delete(key) : null
-      )
-    )).then(() => cache)
-  ).then(cache => {
+  await cache.keys().then(keylist => Promise.all(
+    keylist.map(
+      // TODO: Think about filtering using
+      // the bundledFiles array above
+      key => !key.url.includes('_defaultStatic') ? cache.delete(key) : null
+    )
+  ))
+
+  try {
     const study = assemble(state, stateModifier)
 
     // Place generated study files into the cache
-    return Promise.all([
+    await Promise.all([
       ...Object.entries(study.files)
         .map(file => putFile(cache, file, previewPath)),
       // Update links to static library files
       ...Object.entries(study.bundledFiles)
         .map(path => linkStatic(cache, path, previewPath))
     ])
-  }).then(
-    () => console.log('Preview cache updated successfully')
-  ).catch(
-    error => {
-      Raven.captureException(error)
-      console.log(`Error during preview cache update: ${ error }`)
-    }
-  )
+
+    console.log('Preview cache updated successfully')
+  } catch (e) {
+    Raven.captureException(e)
+    console.log(`Error during preview cache update: ${ e }`)
+    throw e
+  }
 }
