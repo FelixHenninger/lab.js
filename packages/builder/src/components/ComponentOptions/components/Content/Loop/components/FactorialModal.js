@@ -144,8 +144,8 @@ class FactorialModal extends Component {
               Generate factorial design
             </ModalHeader>
             <ModalBody>
-              <p>Please specify the factors in your design, as well as their levels. In the generated loop, all factors will be fully crossed.</p>
-              <hr />
+              <p><strong>Please specify the factors in your design, as well as their levels.</strong> <span className="text-muted">The resulting design is fully crossed, meaning that in the loop, every level of a factor is combined with every level of every other factor.</span></p>
+              <hr style={{ marginBottom: '0' }} />
             </ModalBody>
             <Grid
               model=".factors"

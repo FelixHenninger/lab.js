@@ -42,7 +42,7 @@ const SampleWidget = ({ data }) =>
           Control how many, and which of the above parameter sets are used.
         </p>
         <p className="text-muted">
-          The <strong>number of samples</strong> defines the number of loop iterations. The <strong>mode</strong> determines how the interations are drawn from the entries above.
+          The <strong>sample size</strong> defines the number of loop iterations. The <strong>mode</strong> determines how the iterations are drawn from the entries above.
         </p>
         <dl className="text-muted">
           <dt>Sequential</dt>
@@ -58,7 +58,7 @@ const SampleWidget = ({ data }) =>
           <dd>As above, but without shuffling.<br /> If the number of samples exceeds the number of entries, this results in blocks of all entries in random order.</dd>
 
           <dt>Sample with replacement</dt>
-          <dd>Draw entries without regard to which have already been selected.</dd>
+          <dd>Draw entries without regard to which have been selected before.</dd>
         </dl>
       </Hint>
     </Label>
