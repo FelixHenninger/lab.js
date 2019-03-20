@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'reactstrap'
+import Raven from 'raven-js'
 
 import Icon from '../../Icon'
 import { SystemContext } from '../../System'
@@ -39,20 +40,36 @@ export default class PreviewButton extends Component {
     window.removeEventListener('preview:show', this.openPreview)
   }
 
-  openPreview() {
+  async openPreview() {
     this.previewWindow.openOrFocus()
 
-    return populateCache(
-      this.context.store.getState(),
-      state => addDownloadPlugin(addDebugPlugin(state)),
-      // TODO: Ceci n'est pas une pipe
-    ).then(
+    try {
+      await populateCache(
+        this.context.store.getState(),
+        state => addDownloadPlugin(addDebugPlugin(state)),
+        // TODO: Ceci n'est pas une pipe
+      )
+
       // Reload page to provided URL
       // as soon as the preview study is complete.
-      () => this.previewWindow.reload()
-    ).catch(error => {
-      console.log(`Received error while sending study data to API: ${ error }`)
-    })
+      this.previewWindow.reload()
+    } catch (error) {
+      this.previewWindow.close()
+      if (error.name === 'QuotaExceededError') {
+        alert(
+          "Sorry, we couldn't generate the preview because " +
+          "the browser wouldn't allow us to use storage space. " +
+          "Could you check whether there's room on your hard drive?"
+        )
+      } else {
+        console.log(`Received error while generating preview: ${ error }`)
+        Raven.captureException(error)
+        alert(
+          'Sorry, an error occured while we were trying ' +
+          `to put together the study preview: ${ error }`
+        )
+      }
+    }
   }
 
   render() {
