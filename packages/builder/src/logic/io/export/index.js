@@ -6,7 +6,7 @@ import assemble from '../assemble'
 import { readDataURI } from '../../util/dataURI'
 import { makeFilename } from '../filename'
 
-const createZip = ({ files, bundledFiles }) => {
+const createZip = async ({ files, bundledFiles }) => {
   const zip = new JSZip()
 
   const addFile = ([filename, payload]) => {
@@ -17,29 +17,29 @@ const createZip = ({ files, bundledFiles }) => {
   // Include study-specific static files
   Object.entries(files).forEach(addFile)
 
-  return Promise.all(
+  await Promise.all(
     // Add library static files to bundle
     Object.entries(bundledFiles).map(
       ([path, data]) =>
         fetch(`${ process.env.PUBLIC_URL }/api/_defaultStatic/${ data.source }`)
           .then(data => zip.file(path, data.blob()))
     )
-  ).then(
-    // Generate zip file and return blob
-    () => zip.generateAsync({ type: 'blob' })
   )
+
+  // Generate zip file and return blob
+  return await zip.generateAsync({ type: 'blob' })
 }
 
-export const downloadZip = (data, filename='study_export.zip') =>
+export const downloadZip = async (data, filename='study_export.zip') => {
   // Generate blob and save file
-  createZip(data, filename)
-    .then(blob => saveAs(blob, filename))
-    .catch(
-      e => {
-        Raven.captureException(e)
-        alert(`Couldn't export bundle: ${ e }`)
-      }
-    )
+  try {
+    const blob = await createZip(data, filename)
+    return saveAs(blob, filename)
+  } catch (error) {
+    Raven.captureException(error)
+    alert(`Couldn't export bundle: ${ error }`)
+  }
+}
 
 export const createStaticBlob = (state,
   stateModifier=state => state,
