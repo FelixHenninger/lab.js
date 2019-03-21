@@ -261,15 +261,15 @@ const SoundForm = ({ handleChange }, { id }) => {
                 <Button
                   outline color="secondary"
                   style={{ minWidth: '3rem' }}
-                  onClick={ () => {
-                    fileSelector.current
-                      .select()
-                      .then(files => {
-                        handleChange(
-                          'src', `\${ this.files["${ files[0].localPath }"] }`
-                        )
-                      })
-                      .catch(e => console.log('Error while inserting audio', e))
+                  onClick={ async () => {
+                    try {
+                      const files = await fileSelector.current.select()
+                      handleChange(
+                        'src', `\${ this.files["${ files[0].localPath }"] }`
+                      )
+                    } catch (error) {
+                      console.log('Error while inserting audio', error)
+                    }
                   } }
                 >
                   <Icon fixedWidth icon="folder" />

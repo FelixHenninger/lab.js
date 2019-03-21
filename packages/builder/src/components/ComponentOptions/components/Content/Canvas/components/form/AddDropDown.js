@@ -57,18 +57,18 @@ const AddDropDown = (
           <DropdownItem divider />
           <DropdownItem header>Media</DropdownItem>
           <DropdownItem
-            onClick={ () =>
-              fileSelector.current
-                .select()
-                .then(files =>
-                  files.forEach(({ localPath }) => {
-                    addHandler('image', {
-                      src: `\${ this.files["${ localPath }"] }`
-                    })
+            onClick={ async () => {
+              try {
+                const files = await fileSelector.current.select()
+                files.forEach(({ localPath }) => {
+                  addHandler('image', {
+                    src: `\${ this.files["${ localPath }"] }`
                   })
-                )
-                .catch(() => null)
-            }
+                })
+              } catch (error) {
+                console.log('Error while inserting images', error)
+              }
+            } }
           >
             Image
           </DropdownItem>

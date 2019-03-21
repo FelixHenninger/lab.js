@@ -38,15 +38,15 @@ const ImageOptions = ({ selection, changeHandler }, { id }) => {
             <Button
               outline color="secondary"
               style={{ padding: '0 1rem' }}
-              onClick={ () => {
-                fileSelector.current
-                  .select()
-                  .then(files => {
-                    changeHandler(
-                      'src', `\${ this.files["${ files[0].localPath }"] }`
-                    )
-                  })
-                  .catch(e => console.log('Error while inserting image', e))
+              onClick={ async () => {
+                try {
+                  const files = await fileSelector.current.select()
+                  changeHandler(
+                    'src', `\${ this.files["${ files[0].localPath }"] }`
+                  )
+                } catch (error) {
+                  console.log('Error while inserting image', error)
+                }
               } }
             >
               <Icon icon="folder" />

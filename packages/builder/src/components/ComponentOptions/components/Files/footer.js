@@ -21,11 +21,14 @@ const Footer = ({ columns }, { id, gridDispatch }) => {
           size="sm" block
           outline color="muted"
           className="hover-target"
-          onClick={ () => fileSelector.current
-            .select()
-            .then(() => gridDispatch('reload'))
-            .catch(() => null)
-          }
+          onClick={ async () => {
+            try {
+              await fileSelector.current.select()
+              gridDispatch('reload')
+            } catch (error) {
+              console.log('Error while adding file', error)
+            }
+          } }
           onMouseUp={ e => e.target.blur() }
         >
           <Icon icon="plus" />
