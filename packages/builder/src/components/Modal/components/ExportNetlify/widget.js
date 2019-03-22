@@ -6,6 +6,8 @@ import { LocalForm, Control, Errors } from 'react-redux-form'
 import { FormGroup, Label, Input, FormText,
   Nav, NavItem,  NavLink } from 'reactstrap'
 
+import Icon from '../../../Icon'
+
 import exportStaticNetlify from '../../../../logic/io/export/modifiers/netlify'
 
 // Validators
@@ -78,7 +80,7 @@ class NetlifyWidget extends Component {
     this._form.submit()
   }
 
-  send(data) {
+  async send(data) {
     this.setState({ widgetState: 'submitting' })
 
     // If a site has been specified, deploy to it,
@@ -87,54 +89,58 @@ class NetlifyWidget extends Component {
       ? `https://api.netlify.com/api/v1/sites/${ data.site }/deploys`
       : 'https://api.netlify.com/api/v1/sites'
 
-    return exportStaticNetlify(
+    const studyBlob = await exportStaticNetlify(
       this.context.store.getState(),
       { site: data.site },
     )
-      .then(studyBlob => fetch(url, {
+
+    try {
+      const r = await fetch(url, {
         method: 'post',
         headers: {
           'Content-Type': 'application/zip',
           'Authorization': `Bearer ${ data.apiKey }`,
         },
         body: studyBlob,
-      })).then(r => {
-        // Transmission succeeded
-        if (r.ok) {
-          // Response 2xx
-          r.json().then(
-            d => this.setState({
-              widgetState: 'done',
-              site_url: d.ssl_url
-                || `https://${ d.subdomain }.netlify.com/`,
-              admin_url: d.admin_url
-                || `https://app.netlify.com/sites/${ d.subdomain }/`,
-              statusCode: r.status,
-              statusText: r.statusText,
-            })
-          )
-        } else {
-          // Non-2xx response
-          this.setState({
-            widgetState: 'error',
-            statusCode: r.status,
-            statusText: r.statusText,
-          })
-        }
-      }).catch(
-        e => this.setState({
-          widgetState: 'error_transmission',
-          statusCode: undefined,
-          statusText: undefined,
+      })
+
+      // Transmission succeeded
+      if (r.ok) {
+        // Response 2xx
+        const d = await r.json()
+
+        this.setState({
+          widgetState: 'done',
+          site_url: d.ssl_url
+            || `https://${ d.subdomain }.netlify.com/`,
+          admin_url: d.admin_url
+            || `https://app.netlify.com/sites/${ d.subdomain }/`,
+          statusCode: r.status,
+          statusText: r.statusText,
         })
-      )
+      } else {
+        // Non-2xx response
+        this.setState({
+          widgetState: 'error',
+          statusCode: r.status,
+          statusText: r.statusText,
+        })
+      }
+    } catch (error) {
+      this.setState({
+        widgetState: 'error_transmission',
+        statusCode: undefined,
+        statusText: undefined,
+      })
+      console.log('transmission error', error)
+    }
   }
 
   render() {
     switch(this.state.widgetState) {
       case 'submitting':
         return <div className="text-center">
-          <i className="fas fa-spinner-third fa-spin" />
+          <Icon icon="spinner-third" className="fa-spin" />
         </div>
       case 'done':
         return <>

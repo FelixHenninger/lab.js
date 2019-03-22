@@ -24,6 +24,7 @@ const replacements = {
   'long-arrow-down': 'long-arrow-alt-down',
   'long-arrow-right': 'long-arrow-alt-right',
   'repeat': 'redo',
+  'spinner-third': 'spinner',
   'tachometer': 'tachometer-alt',
   'tachometer-average': 'tachometer-alt',
   'volume': 'volume-up',
