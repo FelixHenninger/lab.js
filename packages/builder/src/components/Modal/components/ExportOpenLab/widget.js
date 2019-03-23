@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
+import Icon from '../../../Icon'
+
 import { stateToJSON } from '../../../../logic/io/save'
 
 class OpenLabWidget extends Component {
@@ -10,7 +13,7 @@ class OpenLabWidget extends Component {
     }
   }
 
-  submit() {
+  async submit() {
     this.setState({ widgetState: 'submitting' })
 
     const state = this.context.store.getState()
@@ -30,11 +33,13 @@ class OpenLabWidget extends Component {
     data.append('description',
       state.components['root'].metadata.description)
 
-    // Send study to Open Lab
-    return fetch('https://open-lab.online/tests/labjs', {
-      method: 'POST',
-      body: data,
-    }).then(r => {
+    try {
+      // Send study to Open Lab
+      const r = await fetch('https://open-lab.online/tests/labjs', {
+        method: 'POST',
+        body: data,
+      })
+
       if (r.ok) {
         this.setState({
           widgetState: 'done',
@@ -50,20 +55,21 @@ class OpenLabWidget extends Component {
           statusText: r.statusText,
         })
       }
-    }).catch(() => {
+    } catch (error) {
       this.setState({
         widgetState: 'error_transmission',
         statusCode: undefined,
         statusText: undefined,
       })
-    })
+      console.log('transmission error', error)
+    }
   }
 
   render() {
     switch(this.state.widgetState) {
       case 'submitting':
         return <div className="text-center">
-          <i className="fas fa-spinner-third fa-spin" />
+          <Icon icon="spinner-third" className="fa-spin" />
         </div>
       case 'done':
         return <>
