@@ -6,12 +6,16 @@ import Confirm from '../Confirm'
 const ExternalContent = ({ url }) => {
   const [state, setState] = useState({ state: 'empty', content: '' })
 
-  useEffect(() => {
-    fetch(url)
-      .then(response => response.text())
-      .then(content => setState({ state: 'loaded', content }) )
-      .catch(() => setState({ state: 'error' }) )
-  }, [url])
+  const load = async (url) => {
+    try {
+      const response = await fetch(url)
+      const content = await response.text()
+      setState({ state: 'loaded', content })
+    } catch (error) {
+      setState({ state: 'error' })
+    }
+  }
+  useEffect(() => { load(url) }, [url])
 
   return <div dangerouslySetInnerHTML={{ __html: state.content }}></div>
 }
