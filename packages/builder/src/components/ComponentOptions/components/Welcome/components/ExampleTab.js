@@ -44,27 +44,20 @@ export class TaskList extends Component {
     }
   }
 
-  componentDidMount() {
-    fetch(this.props.path + 'metadata.json')
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          state: 'loaded',
-          tasks: data,
-        })
-      })
-      .catch(() => {
-        this.setState({
-          state: 'error',
-        })
-      })
+  async componentDidMount() {
+    try {
+      const response = await fetch(this.props.path + 'metadata.json')
+      const data = await response.json()
+      this.setState({ state: 'loaded', tasks: data })
+    } catch {
+      this.setState({ state: 'error' })
+    }
   }
 
-  loadTask(path) {
-    fetch(this.props.path + path)
-      .then(response => response.json())
-      .then(data => fromObject(data))
-      .then(task => this.props.loadHandler(task, this.context.store.dispatch))
+  async loadTask(path) {
+    const response = await fetch(this.props.path + path)
+    const task = fromObject(await response.json())
+    this.props.loadHandler(task, this.context.store.dispatch)
   }
 
   render() {
