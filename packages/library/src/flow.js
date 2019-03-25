@@ -58,9 +58,9 @@ export class Sequence extends Component {
     await prepareNested(this.options.content, this)
   }
 
-  async onRun(frameTimeStamp) {
+  async onRun(frameTimeStamp, frameSynced) {
     // Make the first step
-    return this.step(frameTimeStamp)
+    return this.step(frameTimeStamp, frameSynced)
   }
 
   onEnd() {
@@ -82,7 +82,7 @@ export class Sequence extends Component {
     // Move through the content
     const next = this.internals.iterator.next()
     if (next.done) {
-      return this.end('completion', frameTimeStamp)
+      return this.end('completion', frameTimeStamp, frameSynced)
     } else {
       [this.internals.currentPosition, this.internals.currentComponent] =
         next.value

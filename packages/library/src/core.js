@@ -489,7 +489,7 @@ export class Component extends EventHandler {
     }
 
     // Run a component by showing it
-    await this.triggerMethod('run')
+    await this.triggerMethod('run', frameTimestamp, frameSynced)
 
     return this.render(frameTimestamp, frameSynced)
   }

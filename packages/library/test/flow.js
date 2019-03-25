@@ -571,6 +571,50 @@ describe('Flow control', () => {
         )
       })
     })
+
+    it('doesn\'t skip frames when wrapping sequence', () => {
+      // Simulate timers
+      clock = sinon.useFakeTimers({
+        shouldAdvanceTime: true
+      })
+
+      // Capture nested screens in an array
+      const screens = []
+
+      // Simulate a trial structure, with a loop,
+      // a nested trial sequence, and a screen within.
+      const l = new lab.flow.Loop({
+        title: 'Loop',
+        template: (i) => {
+          const screen = new lab.canvas.Screen({
+            timeout: 32,
+            title: `Screen ${ i }`,
+          })
+          screens.push(screen)
+
+          return new lab.flow.Sequence({
+            title: `Sequence ${ i }`,
+            content: [ screen ]
+          })
+        },
+        templateParameters: [1, 2],
+        el: document.createElement('div'),
+      })
+
+      return l.run().then(() => {
+        return l.waitFor('end')
+      }).then(() => {
+        assert.equal(
+          screens[0].internals.timestamps.end,
+          screens[1].internals.timestamps.render,
+        )
+        assert.equal(
+          screens[0].internals.timestamps.switch,
+          screens[1].internals.timestamps.show,
+        )
+        clock.restore()
+      })
+    })
   })
 
   describe('Parallel', () => {
