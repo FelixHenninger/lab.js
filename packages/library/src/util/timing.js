@@ -1,3 +1,7 @@
+export const timingParameters = {
+  frameInterval: 16.68,
+}
+
 export const ensureHighResTime = t => (
   // This is built to replace a missing or
   // old-style timestamp created via Date.now().
@@ -81,13 +85,19 @@ export class FrameTimeout {
   }
 
   tick(frameTime=performance.now(), frameSynced=false) {
-    // This is a rough approximation -- we can't assume that every
-    // monitor is running at 60Hz, but the interval between animation
-    // frames is also an imperfect proxy for the monitor's refresh time
-    const frameDuration = (frameTime - this._lastAnimationFrame) || 16.66
+    // Estimate the current frame interval, falling back
+    // onto the minimum observed interval if necessary
+    const frameInterval =
+      (frameTime - this._lastAnimationFrame) || timingParameters.frameInterval
+
+    // Update minimum frame interval if necessary
+    if (frameInterval < timingParameters.frameInterval) {
+      timingParameters.frameInterval = frameInterval
+    }
 
     // Calculate the remaining time in frames
-    const remainingFrames = (this.targetTime - frameTime) / frameDuration
+    // (at the current frame rate)
+    const remainingFrames = (this.targetTime - frameTime) / frameInterval
 
     if (remainingFrames <= thresholds[this.mode]) {
       // Fire callback
