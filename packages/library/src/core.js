@@ -7,7 +7,8 @@ import { Timeline } from './util/timeline'
 import { DomConnection } from './util/domEvents'
 import { Random } from './util/random'
 import { parse, parsableOptions, parseRequested } from './util/options'
-import { ensureHighResTime, StackTimeout, FrameTimeout,
+import { ensureHighResTime, timingParameters,
+  StackTimeout, FrameTimeout,
   requestIdleCallback } from './util/timing'
 import { awaitReadyState } from './util/readyState'
 import { preloadImage, preloadAudio } from './util/preload'
@@ -503,7 +504,9 @@ export class Component extends EventHandler {
 
       // Trigger render logic and timeline
       await this.triggerMethod('render', renderFrame)
-      this.internals.timeline.start(renderFrame + 16.66)
+      this.internals.timeline.start(
+        renderFrame + timingParameters.frameInterval
+      )
 
       // Log next frame time
       window.requestAnimationFrame(showFrame => {
@@ -561,8 +564,8 @@ export class Component extends EventHandler {
     // Complete a component's run and cleanup
     await this.triggerMethod('end', timestamp, frameSynced)
 
-    // End the timeline
-    await this.internals.timeline.end()
+    // End the timeline (without waiting)
+    this.internals.timeline.end(timestamp + timingParameters.frameInterval)
 
     // Store data (unless instructed otherwise)
     if (this.options.datacommit !== false) {
