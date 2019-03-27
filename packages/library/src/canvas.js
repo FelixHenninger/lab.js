@@ -227,6 +227,12 @@ export class Screen extends Component {
     }
   }
 
+  onEpilogue() {
+    // Dereference canvas and context
+    delete this.options.ctx
+    delete this.options.canvas
+  }
+
   clear() {
     this.options.ctx.save()
     this.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
@@ -374,6 +380,12 @@ export class Frame extends BaseFrame {
     await this.options.content.run(frameTimestamp, true)
     // TODO: It might be useful to make the framesync
     // optional for slow components (see html.Frame).
+  }
+
+  onEpilogue() {
+    // Dereference canvas and context
+    delete this.options.canvas
+    delete this.internals.parsedContext
   }
 }
 
