@@ -42,7 +42,11 @@ export class Timeline {
     this.items.forEach(i => i.afterStart(this.offset))
   }
 
-  async end() {
+  end() {
+    // Not populated yet
+  }
+
+  async teardown() {
     await Promise.all(this.items.map(i => i.teardown()))
   }
 }

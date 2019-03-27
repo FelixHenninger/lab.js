@@ -629,7 +629,7 @@ export class Component extends EventHandler {
 
       // Queue housekeeping as a final step
       requestIdleCallback(
-        () => this.triggerMethod('epilogue')
+        () => this.epilogue()
       )
     }
 
@@ -647,6 +647,11 @@ export class Component extends EventHandler {
     }
 
     return timestamp
+  }
+
+  epilogue() {
+    this.internals.timeline.teardown()
+    this.triggerMethod('epilogue')
   }
 
   // Data collection --------------------------------------
