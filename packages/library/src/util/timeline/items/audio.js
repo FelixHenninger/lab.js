@@ -27,8 +27,8 @@ export const load = async (context, url, options) => {
   }
 }
 
-const outputTimestamps = context => {
-  if ('getOutputTimestamp' in context) {
+const outputTimestamps = (context, useContextTiming=false) => {
+  if (useContextTiming && 'getOutputTimestamp' in context) {
     return {
       ...context.getOutputTimestamp(),
       baseLatency: context.baseLatency || 0,
