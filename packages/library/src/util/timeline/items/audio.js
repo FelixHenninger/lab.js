@@ -143,9 +143,12 @@ class AudioNodeItem {
     const { start } = this.options
     const { rampUp } = this.payload
 
-    const startTime = toContextTime(
-      this.timeline.controller.audioContext,
-      offset + start
+    const startTime = Math.max(
+      0,
+      toContextTime(
+        this.timeline.controller.audioContext,
+        offset + start
+      )
     )
 
     if (rampUp) {
