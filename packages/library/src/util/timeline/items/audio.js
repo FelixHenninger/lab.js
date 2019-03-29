@@ -212,18 +212,26 @@ class AudioNodeItem {
 
 export class BufferSourceItem extends AudioNodeItem {
   async prepare() {
-    // Populate buffer from cache
+    // Populate buffer from cache, if possible
     const cache = this.timeline.controller.cache
     let buffer
     if (cache.audio[this.payload.src]) {
       buffer = cache.audio[this.payload.src]
     } else {
-      buffer = await load(
-        this.timeline.controller.audioContext,
-        this.payload.src,
-        { mode: 'cors' }
-      )
-      cache.audio[this.payload.src] = cache.audio[this.payload.src] || buffer
+      // Otherwise, load audio file from URL
+      try {
+        buffer = await load(
+          this.timeline.controller.audioContext,
+          this.payload.src,
+          { mode: 'cors' }
+        )
+        cache.audio[this.payload.src] = cache.audio[this.payload.src] || buffer
+      } catch (e) {
+        console.warn(
+          'Audio timeline item missing content, will remain silent.',
+          `Source: ${ this.payload.src }, Error: ${ e.message }`
+        )
+      }
     }
     // TODO: This seems to be the wrong place for a fallback.
     // Adjust the caching mechanism so that the preload stage knows
