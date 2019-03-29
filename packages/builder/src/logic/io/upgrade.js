@@ -1,4 +1,4 @@
-import { mapValues } from 'lodash'
+import { mapValues, omit } from 'lodash'
 import { makeDataURI, updateDataURI } from '../util/dataURI'
 import { stripIndent } from 'common-tags'
 
@@ -348,6 +348,27 @@ const updates = {
       }
     }),
   }),
+  '19.0.0': data => ({
+    ...data,
+    version: [19, 0, 1],
+    components: mapValues(data.components, c => {
+      if (c.timeline && Array.isArray(c.timeline)) {
+        c.timeline = c.timeline.map(i => ({
+          // Only save position data at the top level ...
+          type: i.type,
+          start: i.start,
+          stop: i.stop,
+          priority: i.priority,
+          // ... everything else goes in the payload
+          payload: omit(
+            { ...i, ...i.options },
+            ['type', 'start', 'stop', 'priority', 'options'],
+          ),
+        }) )
+      }
+      return c
+    })
+  })
 }
 
 export default (data) => {

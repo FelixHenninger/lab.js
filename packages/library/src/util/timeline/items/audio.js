@@ -94,16 +94,17 @@ const connectNodeChain = (source, chain, destination) =>
 // Timeline items --------------------------------------------------------------
 
 class AudioNodeItem {
-  defaultOptions = {
+  defaultPayload = {
     gain: 1,
     panningModel: 'equalpower',
   }
 
-  constructor(timeline, options={}) {
+  constructor(timeline, options={}, payload={}) {
     this.timeline = timeline
-    this.options = {
-      ...this.defaultOptions,
-      ...options,
+    this.options = options
+    this.payload = {
+      ...this.defaultPayload,
+      ...payload,
     }
     this.processingChain = []
     this.nodeOrder = {}
@@ -112,22 +113,22 @@ class AudioNodeItem {
   prepare() {
     // Add gain node
     if (
-      (this.options.gain && this.options.gain !== 1) ||
-      (this.options.rampUp && this.options.rampUp !== 0) ||
-      (this.options.rampDown && this.options.rampDown !== 0)
+      (this.payload.gain && this.payload.gain !== 1) ||
+      (this.payload.rampUp && this.payload.rampUp !== 0) ||
+      (this.payload.rampDown && this.payload.rampDown !== 0)
     ) {
       const gainNode = this.timeline.controller.audioContext.createGain()
-      gainNode.gain.value = this.options.rampUp ? 0.0001 : this.options.gain
+      gainNode.gain.value = this.payload.rampUp ? 0.0001 : this.payload.gain
       this.nodeOrder.gain = this.processingChain.push(gainNode) - 1
     }
 
     // Add panner node
-    if (this.options.pan && this.options.pan !== 0) {
+    if (this.payload.pan && this.payload.pan !== 0) {
       const pannerNode = this.timeline.controller.audioContext.createPanner()
-      pannerNode.panningModel = this.options.panningModel
+      pannerNode.panningModel = this.payload.panningModel
       pannerNode.setPosition(
-        this.options.pan, 0,
-        1 - Math.abs(this.options.pan)
+        this.payload.pan, 0,
+        1 - Math.abs(this.payload.pan)
       )
       this.processingChain.push(pannerNode)
     }
@@ -139,7 +140,8 @@ class AudioNodeItem {
   }
 
   start(offset) {
-    const { start, rampUp } = this.options
+    const { start } = this.options
+    const { rampUp } = this.payload
 
     const startTime = toContextTime(
       this.timeline.controller.audioContext,
@@ -157,14 +159,15 @@ class AudioNodeItem {
 
       // Cue transition
       gain.setValueAtTime(0.0001, startTime)
-      gain.exponentialRampToValueAtTime(this.options.gain, rampUpEnd)
+      gain.exponentialRampToValueAtTime(this.payload.gain, rampUpEnd)
     }
 
     this.source.start(startTime)
   }
 
   afterStart(offset) {
-    const { stop, rampDown } = this.options
+    const { stop } = this.options
+    const { rampDown } = this.payload
 
     if (stop && rampDown) {
       const gain = this.processingChain[this.nodeOrder.gain].gain
@@ -181,7 +184,7 @@ class AudioNodeItem {
       // Cue transition (we can't go all the way because of the
       // exponential transform, but the node will be stopped shortly,
       // anyway)
-      gain.setValueAtTime(this.options.gain, rampDownStart)
+      gain.setValueAtTime(this.payload.gain, rampDownStart)
       gain.exponentialRampToValueAtTime(0.0001, stopTime)
     }
 
@@ -209,15 +212,15 @@ export class BufferSourceItem extends AudioNodeItem {
     // Populate buffer from cache
     const cache = this.timeline.controller.cache
     let buffer
-    if (cache.audio[this.options.src]) {
-      buffer = cache.audio[this.options.src]
+    if (cache.audio[this.payload.src]) {
+      buffer = cache.audio[this.payload.src]
     } else {
       buffer = await load(
         this.timeline.controller.audioContext,
-        this.options.src,
+        this.payload.src,
         { mode: 'cors' }
       )
-      cache.audio[this.options.src] = cache.audio[this.options.src] || buffer
+      cache.audio[this.payload.src] = cache.audio[this.payload.src] || buffer
     }
     // TODO: This seems to be the wrong place for a fallback.
     // Adjust the caching mechanism so that the preload stage knows
@@ -227,7 +230,6 @@ export class BufferSourceItem extends AudioNodeItem {
       this.timeline.controller.audioContext,
       'bufferSource',
       { buffer },
-      this.options.options,
     )
     super.prepare()
   }
@@ -235,7 +237,7 @@ export class BufferSourceItem extends AudioNodeItem {
 
 export class OscillatorItem extends AudioNodeItem {
   prepare() {
-    const { type, frequency, detune } = this.options.options || {}
+    const { type, frequency, detune } = this.payload
 
     this.source = createNode(
       this.timeline.controller.audioContext,

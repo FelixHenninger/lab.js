@@ -190,7 +190,7 @@ const GlobalSettings = () =>
               unit="fraction"
             />
             <SettingGroupControl
-              model=".gain" placeholder="gain"
+              model=".payload.gain" placeholder="gain"
               defaultValue={ 1.0 } parser={ toFloat }
             />
           </InputGroup>
@@ -205,7 +205,7 @@ const GlobalSettings = () =>
               unit="-1 … +1"
             />
             <SettingGroupControl
-              model=".pan" placeholder="pan" parser={ toFloat }
+              model=".payload.pan" placeholder="pan" parser={ toFloat }
             />
             <SettingGroupIcon
               icon="plane-departure"
@@ -213,7 +213,7 @@ const GlobalSettings = () =>
               unit="ms"
             />
             <SettingGroupControl
-              model=".rampUp" parser={ toFloat }
+              model=".payload.rampUp" parser={ toFloat }
             />
             <SettingGroupIcon
               icon="plane-arrival"
@@ -221,7 +221,7 @@ const GlobalSettings = () =>
               unit="ms"
             />
             <SettingGroupControl
-              model=".rampDown" parser={ toFloat }
+              model=".payload.rampDown" parser={ toFloat }
             />
           </InputGroup>
         </FormGroup>
@@ -250,7 +250,7 @@ const SoundForm = ({ handleChange }, { id }) => {
                 </InputGroupText>
               </InputGroupAddon>
               <Control
-                model=".src"
+                model=".payload.src"
                 component={ Input }
                 placeholder="source"
                 debounce={ 200 }
@@ -265,7 +265,8 @@ const SoundForm = ({ handleChange }, { id }) => {
                     try {
                       const files = await fileSelector.current.select()
                       handleChange(
-                        'src', `\${ this.files["${ files[0].localPath }"] }`
+                        'payload.src',
+                        `\${ this.files["${ files[0].localPath }"] }`
                       )
                     } catch (error) {
                       console.log('Error while inserting audio', error)
@@ -307,7 +308,7 @@ const OscillatorForm = () =>
               tooltip="Waveform"
             />
             <Control.select
-              model=".options.type"
+              model=".payload.type"
               className="form-control custom-select"
               style={{ fontFamily: 'Fira Mono' }}
             >
@@ -328,7 +329,7 @@ const OscillatorForm = () =>
               unit="Hz"
             />
             <SettingGroupControl
-              model=".options.frequency" placeholder="frequency (Hz)"
+              model=".payload.frequency" placeholder="frequency (Hz)"
             />
             <SettingGroupIcon
               icon="tachometer-average"
@@ -336,7 +337,7 @@ const OscillatorForm = () =>
               unit="cents"
             />
             <SettingGroupControl
-              model=".options.detune" placeholder="detune (cents)"
+              model=".payload.detune" placeholder="detune (cents)"
             />
           </InputGroup>
         </FormGroup>

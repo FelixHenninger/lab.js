@@ -771,10 +771,8 @@ Component.metadata = {
   module: ['core'],
   nestedComponents: [],
   parsableOptions: {
-    correctResponse: {},
     responses:       { content: { '*': 'string' } },
-    timeout:         { type: 'number' },
-    skip:            { type: 'boolean' },
+    correctResponse: {},
     timeline:        {
       type: 'array',
       content: {
@@ -782,16 +780,19 @@ Component.metadata = {
         'content': {
           'start':         { type: 'number' },
           'stop':          { type: 'number' },
-          'gain':          { type: 'number' },
-          'src':           {},
           '*':             'string',
-          'options':       {
+          'payload':       {
             type: 'object',
-            content:         { '*': 'string' }
+            content:       {
+              'gain':      { type: 'number' },
+              '*':         'string',
+            },
           },
         }
       },
     },
+    timeout:         { type: 'number' },
+    skip:            { type: 'boolean' },
   },
 }
 

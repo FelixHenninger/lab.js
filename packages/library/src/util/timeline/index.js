@@ -1,4 +1,4 @@
-import { sortBy } from 'lodash'
+import { sortBy, omit } from 'lodash'
 
 import { BufferSourceItem, OscillatorItem } from './items/audio'
 import { requestIdleCallback } from '../timing'
@@ -19,11 +19,14 @@ export class Timeline {
     )
 
     this.items = orderedEvents.map(e => {
+      const options = omit(e, 'payload')
+      const payload = e.payload
+
       switch(e.type) {
         case 'sound':
-          return new BufferSourceItem(this, e)
+          return new BufferSourceItem(this, options, payload)
         case 'oscillator':
-          return new OscillatorItem(this, e)
+          return new OscillatorItem(this, options, payload)
         default:
           console.warn(`Unknown event type ${ e.type }, skipping`)
       }
