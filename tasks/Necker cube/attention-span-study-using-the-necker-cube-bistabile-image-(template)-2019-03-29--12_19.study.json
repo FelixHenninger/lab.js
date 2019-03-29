@@ -36,7 +36,7 @@
         ]
       },
       "title": "Necker show",
-      "content": "\n  <main class=\"content-vertical-center content-horizontal-center\">\n      <div class=\"w-s text-justify\">\n        <p>Focus on the cube.</p>\n        <p>Hit the <kbd>Space</kbd> key, \n        as soon as your perception flips. </p>\n      </div>\n\n    <br />\n  </main>\n  <main class=\"content-vertical-center content-horizontal-center\">\n\n\n    <figure>\n      <img src=\"static/Necker-Cube-crop.png\" \n        alt=\"Necker Cube\"     \n        width=\"300\" \n        height=\"300\">\n    </figure>\n\n  </main>\n\n\n\n\n<footer>\n  Please press <kbd>space</kbd>\n  as soon as your perceptions flips.\n</footer>",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <figure>\n    <img src=\"static/Necker-Cube-crop.png\" \n      alt=\"Necker Cube\"     \n      width=\"300\" \n      height=\"300\">\n  </figure>\n</main>\n\n<footer>\n  <p class=\"font-weight-bold\">Please focus on the cube.</p>\n  <p>Please press <kbd>space</kbd>\n  as soon as your perception flips.</p>\n</footer>",
       "_tab": "Content",
       "timeout": "",
       "tardy": true,
@@ -80,7 +80,7 @@
         ]
       },
       "title": "Ready for round1?",
-      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-s text-justify\">\n    <h1 class=\"text-center\">Read for round 1?</h1>\n\n    \n    \n    <p>Let's get going with round 1.</p>\n\n     <em> Try to hold your perspective as long as possible.</em>\n\n      Please remember that your job is to hit the space key \n      as soon as and every time when your perception \n      of the cube changes.</p>\n   \n    <p>Please hit <kbd>Space</kbd>, if you are ready to start.\n  </div>\n</main>\n\n\n<footer>\n  Please press <kbd>Space</kbd> to begin the experiment.\n</footer>",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-s text-justify\">\n    <h1 class=\"text-center\">Read for round 1?</h1>\n\n    <p>Let's get going with round 1.</p>\n\n    <p><em>Try to hold your perspective as long as possible</em>.</p>\n\n    <p>Please remember that your job is to hit the space key as soon as and every time when your perception of the cube changes.</p>\n   \n    <p>Please hit <kbd>Space</kbd>, if you are ready to start.\n  </div>\n</main>\n\n<footer>\n  Please press <kbd>Space</kbd> to begin the experiment.\n</footer>",
       "_tab": "Content",
       "files": {
         "rows": []
@@ -122,7 +122,7 @@
         ]
       },
       "title": "Welcome",
-      "content": "<header>\n  <h1>Welcome to the Necker cube study on attention processes</h1>\n</header>\n\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-m text-justify\">\n    <p>This study investigates attention processeses.</p>\n    <p>This study is part of ongoing research activities \n      of the department of psychology at the XXX university.\n      The principal investigator is Professor Dr. YOU \n      Please contact this person for any questions. \n      Your participation supports the research about mental processing.\n      </p>\n\n  <p>\n    Principal investigator: <br>\n    NAME </br>\n    SOME University <br>\n    email: SOME.ONE@SOME.EDU <br>\n    url: <a href=\"https://www.some.url\"> \n    https://www.some.url/page.html </a>\n  </p>\n\n      <p>For more information on the study,\n      please press the <kbd>Space</kbd> bar to continue.</p>\n  </div>\n</main>\n\n\n<footer>\n  Please press <kbd>space</kbd>\n  to proceed to the participants' instructions for this study.\n</footer>",
+      "content": "<header>\n  <h1>Welcome to the Necker cube study on attention processes</h1>\n</header>\n\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-m text-justify\">\n    <p>This study investigates attention processeses.</p>\n    <p>This study is part of ongoing research activities \n      of the department of psychology at the XXX university.\n      The principal investigator is Professor Dr. XYZ. \n      Please contact this person for any questions. \n      Your participation supports the research about mental processing.\n      </p>\n\n  <p>\n    Principal investigator: <br>\n    NAME </br>\n    SOME University <br>\n    email: SOME.ONE@SOME.EDU <br>\n    url: <a href=\"https://www.some.url\"> \n    https://www.some.url/page.html </a>\n  </p>\n\n      <p>For more information on the study,\n      please press the <kbd>Space</kbd> bar to continue.</p>\n  </div>\n</main>\n\n\n<footer>\n  Please press <kbd>space</kbd>\n  to proceed to the participants' instructions for this study.\n</footer>",
       "_tab": "Content",
       "files": {
         "rows": []
@@ -164,7 +164,7 @@
         ]
       },
       "title": "Consent",
-      "content": "<header>\n  <h1>Informed Consent</h1>\n</header>\n\n\n\n\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-m text-justify\">\n   \n      <p>\n      We are conducting this web-based study in order to investigate\n      mental processes using bistabile images \n      (see next page for an example). \n      You will see an image on the screen \n      and you will be asked to press a button according to your \n      perception of the image.\n      </p>\n\n      <p>\n      <strong> Before participating it is important that you \n        understand what your participation would involve. \n        Please take time to read the following information carefully.  </strong>\n      </p>\n\n      <p>\n      In order to participate, you must be 18 years or older. \n      There are special incentives to participate in the study.\n      </p>\n   \n      <p>\n      Your participation in this study is completely voluntary \n      and you may withdraw at any time without penalty. \n      If you choose to participate, \n      it will take approximately 5-10 minutes of your time.\n      </p>\n\n      <p>    \n      Your privacy and safety will be respected at all times. \n      Participants will not be identified by the data collected. \n      Please note that it will therefore not be possible to request \n      or delete your data, as it will not be possible to identify it.\n      Please do not enter \n      any information that may de-anonymize yourself \n      (such as email adresses). \n      Contact details will be repeated on the last page, so\n      that you can contact us for any question regarding the study.\n      </p>\n    \n      <p>\n      There are none known potential consequences of participating\n      in the study; potential risks, \n      adverse side effects or discomfort are not to be expected.\n      Participants do not have to answer all questions asked of them \n      and can stop their participation at any time\n      </p>\n\n      <p>\n      Data (anonymous) will be stored for research purposes \n      for an indefinite period of time. \n      It is planned to provide the data openly so that other researcher\n      may use them for subsequent research.\n      </p>\n\n      <p>\n      You are free to withdraw from the research study \n      at any time without explanation, disadvantage or consequence. \n      However, if you withdraw, I would reserve the right to use \n      Material that you provide up until \n      the point of my analysis of the data. \n      </p>\n\n      <p> By clicking you confirm that you have read and understood \n       the information provided above. If you agree to participate, \n      please hit the <kbd>Space</kbd> bar.</p>\n\n    </div>\n\n</main>\n\n\n\n<footer>\n  Please press <kbd>space</kbd>\n  to proceed to the instructions for this study.\n</footer>",
+      "content": "<header>\n  <h1>Informed Consent</h1>\n</header>\n\n\n\n\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-m text-justify\">\n   \n      <p>\n      We are conducting this web-based study in order to investigate\n      mental processes using bistabile images \n      (see next page for an example). \n      You will see an image on the screen \n      and you will be asked to press a button according to your \n      perception of the image.\n      </p>\n\n      <p>\n      <strong> Before participating it is important that you \n        understand what your participation would involve. \n        Please take time to read the following information carefully.  \n      </strong>\n      </p>\n\n      <p>\n      In order to participate, you must be 18 years or older. \n      There are special incentives to participate in the study.\n      </p>\n   \n      <p>\n      Your participation in this study is completely voluntary \n      and you may withdraw at any time without penalty. \n      If you choose to participate, \n      it will take approximately 5-10 minutes of your time.\n      </p>\n\n      <p>    \n      Your privacy and safety will be respected at all times. \n      Participants will not be identified by the data collected. \n      Please note that it will therefore not be possible to request \n      or delete your data, as it will not be possible to identify it.\n      Please do not enter \n      any information that may de-anonymize yourself \n      (such as email adresses). \n      Contact details will be repeated on the last page, so\n      that you can contact us for any question regarding the study.\n      </p>\n    \n      <p>\n      There are none known potential consequences of participating\n      in the study; potential risks, \n      adverse side effects or discomfort are not to be expected.\n      Participants do not have to answer all questions asked of them \n      and can stop their participation at any time\n      </p>\n\n      <p>\n      Data (anonymous) will be stored for research purposes \n      for an indefinite period of time. \n      It is planned to provide the data openly so that other researcher\n      may use them for subsequent research.\n      </p>\n\n      <p>\n      You are free to withdraw from the research study \n      at any time without explanation, disadvantage or consequence. \n      However, if you withdraw, I would reserve the right to use \n      Material that you provide up until \n      the point of my analysis of the data. \n      </p>\n\n      <p> By proceeding the the next page you confirm that you have read and understood the information provided above. \n\n    </div>\n\n</main>\n\n\n\n<footer>\n  Please press <kbd>space</kbd>\n  to proceed to the instructions for this study.\n</footer>",
       "_tab": "Content",
       "files": {
         "rows": []
@@ -489,7 +489,7 @@
         ]
       },
       "title": "End",
-      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n\n  <div>\n    <h2>Thank you for taking part!</h2>\n    The study is finished. You can close this window now.\n  </div>\n</main>\n\n\n\n<main class=\"content-vertical-center content-horizontal-center\">\n\n  <div class=\"w-m text-justify\">\n     <p>This study is part of ongoing research activities \n      of the department of psychology at the FOM university.\n      The principal investigator is Professor <a href=\"mailto:sebastian.sauer@fom.de\">Sebastian Sauer</a>. \n      Please contact him for any questions. \n      Your participation supports the research about mental processing.\n      </p>\n\n    <p>\n      Principal investigator: <br>\n      Professor Sebastian Sauer </br>\n      FOM University <br>\n      email: sebastian.sauer@fom.de <br>\n      url: <a href=\"https://www.fom.de/forschung/institute/iwp.html\"> \n      https://www.fom.de/forschung/institute/iwp.html </a>\n      </p>\n  </div>\n\n</main>\n\n",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n\n  <div>\n    <h2>Thank you for taking part!</h2>\n    The study is finished. You can close this window now.\n  </div>\n</main>\n\n\n\n<main class=\"content-vertical-center content-horizontal-center\">\n\n  <div class=\"w-m text-justify\">\n     <p>This study is part of ongoing research activities \n      of the department of psychology at the XXX university.\n      The principal investigator is Dr. <a href=\"mailto:firstname.lastname@someuni.edu\">Firstname Lastname</a>. \n      Please contact him for any questions. \n      Your participation supports the research about mental processing.\n      </p>\n\n    <p>\n      Principal investigator: <br>\n      Dr Firstname Lastname </br>\n      XXX University <br>\n      email: firstname.lastname@someuni.edu <br>\n      url: <a href=\"https://www.someuni.edu\"> \n     https://www.someuni.edu </a>\n      </p>\n  </div>\n\n</main>\n\n",
       "files": {
         "rows": []
       }
@@ -522,9 +522,9 @@
           ]
         ]
       },
-      "title": "Inter-trail interval",
-      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div style=\"font-size: 3.5rem\">\n    +\n  </div>\n\n  \n  </main>\n\n\n",
-      "_tab": "Behavior",
+      "title": "Inter-trial interval",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div style=\"font-size: 3.5rem\">\n    +\n  </div>\n</main>\n\n<footer>\n  <p class=\"font-weight-bold\">Please focus on the cube.</p>\n  <p>Please press <kbd>space</kbd>\n  as soon as your perception flips.</p>\n</footer>",
+      "_tab": "Content",
       "timeout": "300",
       "files": {
         "rows": []
@@ -566,7 +566,7 @@
         ]
       },
       "title": "Ready for round2?",
-      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-s text-justify\">\n    <h1 class=\"text-center\">Read for round 2?</h1>\n\n    \n    \n    <p>Let's get going with the next (and last) round, round 2.</p> \n\n     This time, <em> Try to flip your perspective as quickly as possible.</em>\n\n      Please remember that your job is to hit the space key \n      as soon as and every time when your perception \n      of the cube changes.</p>\n   \n    <p>Please hit <kbd>Space</kbd>, if you are ready to start.\n  </div>\n</main>\n\n\n<footer>\n  Please press <kbd>Space</kbd> to begin the experiment.\n</footer>",
+      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-s text-justify\">\n    <h1 class=\"text-center\">Read for round 2?</h1>\n \n    <p>Let's get going with the next (and last) round, round 2.</p> \n\n    <p>This time, <em>try to flip your perspective as quickly as possible.</em></p>\n\n    <p>Please remember that your job is to hit the space key as soon as and every time when your perception of the cube changes.</p>\n   \n    <p>Please hit <kbd>Space</kbd>, if you are ready to start.\n  </div>\n</main>\n\n<footer>\n  Please press <kbd>Space</kbd> to begin the experiment.\n</footer>",
       "_tab": "Content",
       "files": {
         "rows": []
@@ -576,7 +576,7 @@
       "id": "15",
       "type": "lab.flow.Loop",
       "children": [
-        "16"
+        "8"
       ],
       "parameters": {
         "rows": [
@@ -691,124 +691,6 @@
         "rows": []
       }
     },
-    "16": {
-      "id": "16",
-      "type": "lab.flow.Sequence",
-      "children": [
-        "17",
-        "18"
-      ],
-      "parameters": {
-        "rows": [
-          [
-            {
-              "name": "",
-              "value": "",
-              "type": "string"
-            }
-          ]
-        ]
-      },
-      "responses": {
-        "rows": []
-      },
-      "messageHandlers": {
-        "rows": [
-          [
-            {
-              "title": "",
-              "message": "",
-              "code": ""
-            }
-          ]
-        ]
-      },
-      "title": "Necker Trial",
-      "_tab": "Content",
-      "files": {
-        "rows": []
-      }
-    },
-    "17": {
-      "id": "17",
-      "type": "lab.html.Screen",
-      "parameters": {
-        "rows": [
-          [
-            {
-              "name": "",
-              "value": "",
-              "type": "string"
-            }
-          ]
-        ]
-      },
-      "responses": {
-        "rows": [
-          [
-            "Flip",
-            "keypress",
-            "",
-            "Space"
-          ]
-        ]
-      },
-      "messageHandlers": {
-        "rows": [
-          [
-            {
-              "title": "",
-              "message": "",
-              "code": ""
-            }
-          ]
-        ]
-      },
-      "title": "Necker show",
-      "content": "\n<div class=\"container\">\n  <main class=\"content-vertical-center content-horizontal-center\">\n      <div class=\"w-s text-justify\">\n        <p>Focus on the cube.</p>\n        <p>Hit the <kbd>Space</kbd> key, \n        as soon as your perception flips. </p>\n      </div>\n\n    <br />\n  </main>\n  <main class=\"content-vertical-center content-horizontal-center\">\n\n\n    <figure>\n      <img src=\"static/Necker-Cube-crop.png\" \n        alt=\"Necker Cube\"     \n        width=\"300\" \n        height=\"300\">\n\n      <br/>\n        <figcaption> Upper panel: The Necker cube  </figcaption>\n\n    </figure>\n\n  </main>\n</div>\n\n\n\n\n<footer>\n  Please press <kbd>space</kbd>\n  as soon as your perceptions flips.\n</footer>",
-      "_tab": "Content",
-      "timeout": "",
-      "tardy": true,
-      "files": {
-        "rows": []
-      }
-    },
-    "18": {
-      "id": "18",
-      "type": "lab.html.Screen",
-      "parameters": {
-        "rows": [
-          [
-            {
-              "name": "",
-              "value": "",
-              "type": "string"
-            }
-          ]
-        ]
-      },
-      "responses": {
-        "rows": []
-      },
-      "messageHandlers": {
-        "rows": [
-          [
-            {
-              "title": "",
-              "message": "",
-              "code": ""
-            }
-          ]
-        ]
-      },
-      "title": "Inter-trail interval",
-      "content": "<main class=\"content-vertical-center content-horizontal-center\">\n  <div style=\"font-size: 3.5rem\">\n    +\n  </div>\n\n  \n  </main>\n\n\n\n<footer>\n  Please press <kbd>space</kbd>\n  as soon as your perceptions flips the next time.\n</footer>",
-      "_tab": "Behavior",
-      "timeout": "300",
-      "files": {
-        "rows": []
-      }
-    },
     "root": {
       "id": "root",
       "title": "root",
@@ -842,10 +724,10 @@
         }
       ],
       "metadata": {
-        "title": "Attention span study using the Necker Cube bistabile image",
-        "description": "This study investigates attentional processes using a well-known bistabile image paradigm. Precisely, participants watch the Necker cube, a simple wire frame cube. The necker cube can be perceived in one of two perspectives. After a couple of seconds, the perspective \"flips\" from one perspective to the other. This flip or change in perception cannot (readily) suspended by will, although there is some variation in the inter-flip interval. For instance, the flip span has be associated with the temporal expansion of the working memory (cf. Sauer et al., 2012).\n\nLiterature\nSauer, S., Lemke, J., Wittmann, M., Kohls, N., Mochty, U., & Walach, H. (2012). How long is now for mindfulness meditators? Personality and Individual Differences, 52(6), 750–754. https://doi.org/10.1016/j.paid.2011.12.026\n\nAccess:\nhttps://s3.amazonaws.com/academia.edu.documents/44855192/How_long_is_now_for_mindfulness_meditato20160418-529-obhjyj.pdf?AWSAccessKeyId=AKIAIWOWYYGZ2Y53UL3A&Expires=1549041333&Signature=EuubJvXVF3j5vCF6E70H7EBfqB8%3D&response-content-disposition=inline%3B%20filename%3DHow_long_is_now_for_mindfulness_meditato.pdf",
-        "repository": "",
-        "contributors": "sebastian.sauer@fom.de"
+        "title": "Attention span study using the Necker Cube bistabile image (template)",
+        "description": "This study investigates attentional processes using a well-known bistabile image paradigm. Precisely, participants watch the Necker cube, a simple wire frame cube. The necker cube can be perceived in one of two perspectives. After a couple of seconds, the perspective \"flips\" from one perspective to the other. This flip or change in perception cannot (readily) suspended by will, although there is some variation in the inter-flip interval. For instance, the flip span has be associated with the temporal expansion of the working memory (cf. Sauer et al., 2012).\n\n\nLiterature:\nSauer, S., Lemke, J., Wittmann, M., Kohls, N., Mochty, U., & Walach, H. (2012). How long is now for mindfulness meditators? Personality and Individual Differences, 52(6), 750-754.\nhttp://dx.doi.org/10.1016/j.paid.2011.12.026\n\nAbstract\nThe experience of the present moment is characterized by an integrative mechanism that fuses successive events into a unitary phenomenological experience with a temporal limit of about 3s. We hypothesized that proficiency of mindfulness expands the ability to stabilize an ambiguous percept in a bistable image paradigm using the Necker Cube, and that this effect is associated with individual differences in the level of mindfulness. Expanded duration of nowness as indicated by the ability to stabilize a bistable image stimulus for a longer period of time may improve cognitive resources and thus be of practical interest. In a sample of n = 38 meditators and n = 38 non-meditators, meditators showed longer duration of subjective nowness. This effect was associated with individual mindfulness levels. It is concluded that the subjective now can be longer for meditators than for non-meditators, and individual levels of mindfulness may convey this effect. (PsycINFO Database Record (c) 2016 APA, all rights reserved)\n\n",
+        "repository": "https://osf.io/4y2jp/",
+        "contributors": "Sebastian Sauer <sebastian.sauer@fom.de>"
       },
       "files": {
         "rows": []
