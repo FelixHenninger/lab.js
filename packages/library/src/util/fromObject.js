@@ -52,13 +52,20 @@ const fromObject = (options, libraryRoot) => {
   // there is no need for e.g. nested hierarchies)
   if (options.plugins) {
     options.plugins = options.plugins.map((pluginOptions) => {
-      const [scope, ...pluginPath] = pluginOptions.type.split('.')
-      const PluginConstructor = retrieveNested(
-        pluginPath,
-        // Load plugins from the global scope if requested
-        scope === 'global' ? (global || window) : library
-      )
-      return new PluginConstructor(pluginOptions)
+      try {
+        const [scope, ...pluginPath] = pluginOptions.type.split('.')
+        const PluginConstructor = retrieveNested(
+          pluginPath,
+          // Load plugins from the global scope if requested
+          scope === 'global' ? (global || window) : library
+        )
+        return new PluginConstructor(pluginOptions)
+      } catch (e) {
+        throw new Error(
+          `Couldn't instantiate plugin ${ pluginOptions.type }. ` +
+          `Error: ${ e.message }`
+        )
+      }
     })
   }
 
