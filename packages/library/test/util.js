@@ -256,12 +256,20 @@ describe('Utilities', () => {
         libraryInjected = true
         window.lab = lab
       }
+
+      // Construct a minimal plugin in the global scope
+      window.MyPlugin = function MyPlugin() {
+        this.handle = function() {}
+      }
     })
 
     afterEach(() => {
       if (libraryInjected) {
         delete window.lab
       }
+
+      // Remove plugin
+      delete window.MyPlugin
     })
 
     it('creates a lab.js component from a base object', () => {
@@ -326,11 +334,6 @@ describe('Utilities', () => {
     })
 
     it('parses plugins from global scope', () => {
-      // Construct a minimal plugin in the global scope
-      window.MyPlugin = function MyPlugin() {
-        this.handle = function() {}
-      }
-
       const pluginArgs = {
         type: 'global.MyPlugin',
       }
@@ -343,8 +346,31 @@ describe('Utilities', () => {
       assert.ok(
         c.plugins.plugins[0] instanceof window.MyPlugin
       )
+    })
 
-      delete window.MyPlugin
+    it('loads plugins via the path option', () => {
+      const pluginArgs = {
+        type: 'global.UnavailablePlugin',
+        path: 'global.MyPlugin',
+      }
+
+      const c = lab.util.fromObject({
+        type: 'lab.core.Component',
+        plugins: [ pluginArgs ],
+      })
+
+      assert.ok(
+        c.plugins.plugins[0] instanceof window.MyPlugin
+      )
+    })
+
+    it('throws error if plugin is not available', () => {
+      assert.throws(
+        () => lab.util.fromObject({
+          type: 'lab.core.Component',
+          plugins: [{ path: 'global.UnavailablePlugin' }]
+        })
+      )
     })
   })
 
