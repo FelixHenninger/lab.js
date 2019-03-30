@@ -53,7 +53,10 @@ const fromObject = (options, libraryRoot) => {
   if (options.plugins) {
     options.plugins = options.plugins.map((pluginOptions) => {
       try {
-        const [scope, ...pluginPath] = pluginOptions.type.split('.')
+        // Load the plugin from either the path or the type
+        // option (TODO: Consider deprecating one of these)
+        const [scope, ...pluginPath] =
+          (pluginOptions.path || pluginOptions.type).split('.')
         const PluginConstructor = retrieveNested(
           pluginPath,
           // Load plugins from the global scope if requested
