@@ -13,12 +13,19 @@ const retrieveNested = (path, object) =>
 // (as would be passed to a regular object)
 // and a type field that specifies the
 // component type (e.g. 'lab.html.Screen')
-const fromObject = (options) => {
-  // We assume that the library
-  // is available as a global variable
-  /* global lab:false */
+const fromObject = (options, libraryRoot) => {
+  // If not explicitly specified, we assume that
+  // the library is available as a global variable.
+  const library = libraryRoot || window.lab
+
+  if (library === undefined) {
+    throw new Error(
+      `Couldn't find library in global scope, and no root object available`
+    )
+  }
+
   const [, ...componentPath] = options.type.split('.')
-  const constructor = retrieveNested(componentPath, lab)
+  const constructor = retrieveNested(componentPath, library)
 
   // Parse any nested components
   constructor.metadata.nestedComponents.forEach((o) => {
@@ -26,10 +33,10 @@ const fromObject = (options) => {
     if (options[o]) {
       if (Array.isArray(options[o])) {
         // ... and it is an array ...
-        options[o] = options[o].map(fromObject)
+        options[o] = options[o].map(o => fromObject(o, library))
       } else if (isObject(options[o])) {
         // ... or an object ...
-        options[o] = fromObject(options[o])
+        options[o] = fromObject(options[o], library)
       }
       // ... otherwise ignore it.
       // (another option would be to delete
@@ -49,7 +56,7 @@ const fromObject = (options) => {
       const PluginConstructor = retrieveNested(
         pluginPath,
         // Load plugins from the global scope if requested
-        scope === 'global' ? (global || window) : lab
+        scope === 'global' ? (global || window) : library
       )
       return new PluginConstructor(pluginOptions)
     })
