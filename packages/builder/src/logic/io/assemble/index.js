@@ -1,4 +1,4 @@
-import { pickBy, cloneDeep, fromPairs } from 'lodash'
+import { pickBy, cloneDeep, fromPairs, mapValues } from 'lodash'
 import { embeddedFiles } from '../../util/files'
 import { embedPlugins } from '../../plugins'
 import { makeDataURI } from '../../util/dataURI'
@@ -27,7 +27,9 @@ const assemble = (state,
   )
 
   // Collect plugin data
-  const { pluginFiles, pluginHeaders } = embedPlugins(updatedState)
+  const { pluginFiles, pluginHeaders, pluginPaths } = embedPlugins(updatedState)
+
+  // Inject plugin headers
   const updatedHeaderOptions = {
     ...headerOptions,
     beforeHeader: [
@@ -35,6 +37,19 @@ const assemble = (state,
       ...pluginHeaders,
     ]
   }
+
+  // Inject plugin paths, where available
+  updatedState.components = mapValues(updatedState.components, c => ({
+    ...c,
+    plugins: c.plugins
+      ? c.plugins.map(p => ({
+          ...p,
+          path: Object.keys(pluginPaths).includes(p.type)
+            ? pluginPaths[p.type]
+            : p.path
+        }) )
+      : c.plugins
+  }) )
 
   // Reassemble state object that now includes the generated script,
   // as well as any additional files required for the deployment target

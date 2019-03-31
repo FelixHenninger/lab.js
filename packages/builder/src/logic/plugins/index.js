@@ -47,8 +47,16 @@ export const embedPlugins = state => {
     .map(p => parseHeaders(p.headers, p.name))
     .reduce((prev, a) => prev.concat(a), [])
 
+  // Collect plugin load path information
+  const pluginPaths = fromPairs(
+    loadedPlugins
+      .map(p => [p.name, p.path])
+      .filter(([, path]) => path !== undefined)
+  )
+
   return {
     pluginFiles,
     pluginHeaders,
+    pluginPaths,
   }
 }
