@@ -7,12 +7,14 @@ const customLaunchers = {
     version: 'latest',
     platform: 'Windows 10',
   },
+  /* Chrome beta disabled temporarily, crashes because of missing chromedriver
   sl_chrome_beta: {
     base: 'SauceLabs',
     browserName: 'chrome',
     version: 'beta',
     platform: 'Windows 10',
   },
+  */
   sl_firefox_latest: {
     base: 'SauceLabs',
     browserName: 'firefox',
