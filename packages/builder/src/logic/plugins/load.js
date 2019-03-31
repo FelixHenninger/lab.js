@@ -1,6 +1,5 @@
 const testingPlugin = {
   title: 'Test plugin',
-  name: 'testingPlugin',
   version: '0.0.1',
   path: 'global.TestPlugin',
   files: {

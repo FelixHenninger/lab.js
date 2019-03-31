@@ -34,23 +34,24 @@ export const embedPlugins = state => {
     .reduce((prev, a) => prev.concat(a), [])
 
   // Load plugins, ignoring unknown ones
+  // (plugins are represented in the following by [type, data] tuples)
   const loadedPlugins = plugins
-    .map(p => loadPlugin(p.type))
-    .filter(p => p !== undefined)
+    .map(data => [data.type, loadPlugin(data.type)])
+    .filter(([, data]) => data !== undefined)
 
   // Move files and update page headers
   const pluginFiles = loadedPlugins
-    .map(p => prependPath(p.files, p.name))
+    .map(([type, data]) => prependPath(data.files, type))
     .reduce((prev, o) => Object.assign(prev, o), {})
 
   const pluginHeaders = loadedPlugins
-    .map(p => parseHeaders(p.headers, p.name))
+    .map(([type, data]) => parseHeaders(data.headers, type))
     .reduce((prev, a) => prev.concat(a), [])
 
   // Collect plugin load path information
   const pluginPaths = fromPairs(
     loadedPlugins
-      .map(p => [p.name, p.path])
+      .map(([type, data]) => [type, data.path])
       .filter(([, path]) => path !== undefined)
   )
 
