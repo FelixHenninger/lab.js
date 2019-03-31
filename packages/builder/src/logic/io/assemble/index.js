@@ -1,5 +1,6 @@
 import { pickBy, cloneDeep, fromPairs } from 'lodash'
 import { embeddedFiles } from '../../util/files'
+import { embedPlugins } from '../../plugins'
 import { makeDataURI } from '../../util/dataURI'
 import { makeScript } from './script.js'
 import { makeHTML } from './html.js'
@@ -10,7 +11,7 @@ import { makeHTML } from './html.js'
 
 const assemble = (state,
   stateModifier=state => state,
-  { additionalFiles={}, headerOptions }={}
+  { additionalFiles={}, headerOptions={} }={}
 ) => {
   // Apply modification function to copy of current state
   const updatedState = stateModifier(cloneDeep(state))
@@ -25,12 +26,24 @@ const assemble = (state,
       filesInUse.includes(filename)
   )
 
+  // Collect plugin data
+  const { pluginFiles, pluginHeaders } = embedPlugins(updatedState)
+  const updatedHeaderOptions = {
+    ...headerOptions,
+    beforeHeader: [
+      ...(headerOptions.beforeHeader || []),
+      ...pluginHeaders,
+    ]
+  }
+
   // Reassemble state object that now includes the generated script,
   // as well as any additional files required for the deployment target
   return {
     files: {
       // Static files stored in state
       ...files,
+      // Files required by plugins
+      ...pluginFiles,
       // Additional files injected by the export modifier
       ...additionalFiles,
       // Generated experiment files
@@ -42,7 +55,7 @@ const assemble = (state,
       },
       'index.html': {
         content: makeDataURI(
-          makeHTML(updatedState, headerOptions),
+          makeHTML(updatedState, updatedHeaderOptions),
           'text/html'
         )
       },
