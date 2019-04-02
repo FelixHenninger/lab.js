@@ -95,7 +95,6 @@ const connectNodeChain = (source, chain, destination) =>
 
 class AudioNodeItem {
   defaultPayload = {
-    gain: 1,
     panningModel: 'equalpower',
   }
 
@@ -105,6 +104,8 @@ class AudioNodeItem {
     this.payload = {
       ...this.defaultPayload,
       ...payload,
+      // Only override gain if it is truly undefined (zero values are ok)
+      gain: payload.gain === undefined ? 1 : payload.gain,
     }
     this.processingChain = []
     this.nodeOrder = {}
