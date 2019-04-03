@@ -50,6 +50,12 @@ const dateString = (d=new Date()) =>
   `${ twoDigit(d.getDate().toString()) }--` +
   `${ d.toTimeString().split(' ')[0] }`
 
+const cleanData = data =>
+  // Filter keys that start with an underscore
+  data.map(
+    line => omitBy(line, (v, k) => k.startsWith('_'))
+  )
+
 // Data storage class -------------------------------------
 
 // eslint-disable-next-line import/prefer-default-export
@@ -278,10 +284,7 @@ export class Store extends EventHandler {
   }
 
   get cleanData() {
-    // Filter keys that start with an underscore
-    return this.data.map(
-      line => omitBy(line, (v, k) => k.startsWith('_'))
-    )
+    return cleanData(this.data)
   }
 
   // Export data in various formats -----------------------
