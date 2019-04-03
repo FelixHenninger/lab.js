@@ -414,7 +414,9 @@ export class Store extends EventHandler {
     }
 
     // Data is always sent as an array of entries
-    const data = this.cleanData.slice(slice)
+    // (we slice first and then clean data to save some time,
+    // rather than using the cleanData property and then slicing)
+    const data = cleanData(this.data.slice(slice))
 
     // Encode data
     let body, defaultHeaders = {}
