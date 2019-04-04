@@ -158,6 +158,27 @@ export class Component extends EventHandler {
     : undefined
   )
 
+  // Proxy files
+  files = (BUILD_FLAVOR !== 'legacy'
+    ? new window.Proxy({}, {
+        // Read from the aggregate parameters
+        get: (obj, prop) =>
+          this._aggregateFiles[prop],
+        // Redirect writes to the parameters option
+        set: (obj, prop, value) =>
+          (this.options.files[prop] = value) || true,
+        has: (obj, prop) =>
+          Reflect.has(this._aggregateFiles, prop),
+        ownKeys: (obj, prop) =>
+          Reflect.ownKeys(this._aggregateFiles),
+        getOwnPropertyDescriptor: (obj, prop) =>
+          Reflect.getOwnPropertyDescriptor(
+            this._aggregateFiles, prop
+          )
+      })
+    : undefined
+  )
+
   constructor(options={}) {
     // Construct the EventHandler first
     super({
@@ -244,7 +265,7 @@ export class Component extends EventHandler {
           const candidate = parse(value, {
             parameters: this.aggregateParameters,
             state: this.options.datastore.state,
-            files: this.options.files,
+            files: this._aggregateFiles,
           }, parsableOptions(this)[key], this)
 
           if (candidate !== value) {
@@ -362,7 +383,7 @@ export class Component extends EventHandler {
     const templateContext = Object.freeze({
       parameters: this.aggregateParameters,
       state: this.options.datastore.state,
-      files: this.options.files,
+      files: this._aggregateFiles,
     })
 
     const parsedOptions = parseRequested(
@@ -694,6 +715,14 @@ export class Component extends EventHandler {
   // Parameters -------------------------------------------
   get aggregateParameters() {
     return aggregateParentOption(this, 'parameters')
+  }
+
+  // Files ------------------------------------------------
+  // (in contrast to aggregateParameters, this is not
+  // intended for public use, and thus starts with an
+  // underscore)
+  get _aggregateFiles() {
+    return aggregateParentOption(this, 'files')
   }
 
   // Duplication ------------------------------------------

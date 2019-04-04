@@ -1011,6 +1011,23 @@ describe('Core', () => {
           )
         })
       })
+
+      it('inherits files from parent components', () => {
+        const c = new lab.core.Component()
+        const s = new lab.flow.Sequence({
+          files: {
+            'local/fromParent.png': 'remote/fromParent.png',
+          },
+          content: [c]
+        })
+
+        return s.prepare().then(() => {
+          assert.equal(
+            c.files['local/fromParent.png'],
+            'remote/fromParent.png'
+          )
+        })
+      })
     })
 
     describe('Data', () => {
