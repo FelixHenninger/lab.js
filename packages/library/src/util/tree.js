@@ -35,3 +35,9 @@ export const reduce = (root, callback, initialValue) => {
 
   return accumulator
 }
+
+export const aggregateParentOption = (leaf, option) =>
+  Object.assign({},
+    ...leaf.parents.map(o => o.options[option] || {}),
+    leaf.options[option],
+  )

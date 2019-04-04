@@ -13,6 +13,7 @@ import { ensureHighResTime, timingParameters,
 import { awaitReadyState } from './util/readyState'
 import { preloadImage, preloadAudio } from './util/preload'
 import { browserName } from './util/browser'
+import { aggregateParentOption } from './util/tree'
 
 // Define status codes
 export const status = Object.freeze({
@@ -692,10 +693,7 @@ export class Component extends EventHandler {
 
   // Parameters -------------------------------------------
   get aggregateParameters() {
-    return Object.assign({},
-      ...this.parents.map(o => o.options.parameters),
-      this.options.parameters,
-    )
+    return aggregateParentOption(this, 'parameters')
   }
 
   // Duplication ------------------------------------------
