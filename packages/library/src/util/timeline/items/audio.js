@@ -1,4 +1,4 @@
-import { toContextTime } from '../util/audioTime'
+import { audioSync, toContextTime } from '../util/audioTime'
 
 // Utilities -------------------------------------------------------------------
 
@@ -115,12 +115,14 @@ class AudioNodeItem {
   start(offset) {
     const { start } = this.options
     const { rampUp } = this.payload
+    this.audioSyncOrigin = audioSync(this.timeline.controller.audioContext)
 
     const startTime = Math.max(
       0,
       toContextTime(
         this.timeline.controller.audioContext,
-        offset + start
+        offset + start,
+        this.audioSyncOrigin,
       )
     )
 
@@ -130,7 +132,8 @@ class AudioNodeItem {
       // Calculate transition point
       const rampUpEnd = toContextTime(
         this.timeline.controller.audioContext,
-        offset + start + parseFloat(rampUp)
+        offset + start + parseFloat(rampUp),
+        this.audioSyncOrigin,
       )
 
       // Cue transition
@@ -150,11 +153,13 @@ class AudioNodeItem {
 
       const rampDownStart = toContextTime(
         this.timeline.controller.audioContext,
-        offset + stop - parseFloat(rampDown)
+        offset + stop - parseFloat(rampDown),
+        this.audioSyncOrigin,
       )
       const stopTime = toContextTime(
         this.timeline.controller.audioContext,
-        offset + stop
+        offset + stop,
+        this.audioSyncOrigin,
       )
 
       // Cue transition (we can't go all the way because of the
@@ -167,7 +172,8 @@ class AudioNodeItem {
     if (stop) {
       const stopTime = toContextTime(
         this.timeline.controller.audioContext,
-        offset + stop
+        offset + stop,
+        this.audioSyncOrigin,
       )
       this.source.stop(stopTime)
     }
