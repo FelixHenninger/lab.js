@@ -1,4 +1,4 @@
-const outputTimestamps = (context, useContextTiming=false) => {
+export const audioSync = (context, useContextTiming=false) => {
   if (useContextTiming && 'getOutputTimestamp' in context) {
     return {
       ...context.getOutputTimestamp(),
@@ -15,7 +15,7 @@ const outputTimestamps = (context, useContextTiming=false) => {
 
 export const toContextTime = (context, t, syncTimestamps) => {
   const { contextTime, performanceTime, baseLatency } =
-    syncTimestamps || outputTimestamps(context)
+    syncTimestamps || audioSync(context)
   return (t - performanceTime) / 1000 + contextTime - baseLatency
 }
 
@@ -24,6 +24,6 @@ export const toPerformanceTime = (context, t, syncTimestamps) => {
   // latency compensation, as per specification.
   // See https://webaudio.github.io/web-audio-api/
   const { contextTime, performanceTime, baseLatency } =
-    syncTimestamps || outputTimestamps(context)
+    syncTimestamps || audioSync(context)
   return (t - contextTime + baseLatency) * 1000 + performanceTime
 }
