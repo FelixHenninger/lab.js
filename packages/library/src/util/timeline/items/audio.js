@@ -1,4 +1,5 @@
 import { audioSync, toContextTime } from '../util/audioTime'
+import { requestIdleCallback } from '../../timing'
 
 // Utilities -------------------------------------------------------------------
 
@@ -177,6 +178,27 @@ class AudioNodeItem {
       )
       this.source.stop(stopTime)
     }
+  }
+
+  end(t, force) {
+    const endNow = force || !this.options.stop
+    const endTime = endNow ? t : this.timeline.offset + this.options.stop
+
+    // Schedule item stop if necessary
+    if (endNow) {
+      const stopTime = toContextTime(
+        this.timeline.controller.audioContext,
+        t,
+        this.audioSyncOrigin,
+      )
+      this.source.stop(stopTime)
+    }
+
+    // Schedule teardown
+    window.setTimeout(
+      () => requestIdleCallback(() => this.teardown()),
+      endTime - performance.now() + 20, // pad for good measure
+    )
   }
 
   teardown() {
