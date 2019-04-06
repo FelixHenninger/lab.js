@@ -140,7 +140,7 @@ const SettingGroupIcon = ({ icon, fallbackIcon, tooltip, unit }) => {
             delay={{ show: 0, hide: 150 }}
           >
             { tooltip }
-            { unit && <span class="text-muted"> ({ unit })</span> }
+            { unit && <span className="text-muted"> ({ unit })</span> }
           </UncontrolledTooltip>
         : null
       }
