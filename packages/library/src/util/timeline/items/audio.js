@@ -92,11 +92,7 @@ class AudioNodeItem {
   }
 
   schedule(t) {
-    return toContextTime(
-      this.timeline.controller.audioContext,
-      t,
-      this.audioSyncOrigin,
-    )
+    return toContextTime(t, this.audioSyncOrigin)
   }
 
   // Event handlers ------------------------------------------------------------
