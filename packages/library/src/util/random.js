@@ -31,7 +31,7 @@ export class Random {
   constructor(options={}) {
     if (options.algorithm === 'alea') {
       // Generate a PRNG using the alea algorithm
-      this.random = alea(options.seed)
+      this.random = alea(options.seed || autoSeed())
     } else {
       // Fallback to the built-in random generator
       this.random = Math.random
