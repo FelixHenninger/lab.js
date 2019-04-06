@@ -84,6 +84,23 @@ class AudioNodeItem {
     this.nodeOrder = {}
   }
 
+  // Scheduling helpers --------------------------------------------------------
+
+  setAudioOrigin() {
+    // Save timing information
+    this.audioSyncOrigin = audioSync(this.timeline.controller.audioContext)
+  }
+
+  schedule(t) {
+    return toContextTime(
+      this.timeline.controller.audioContext,
+      t,
+      this.audioSyncOrigin,
+    )
+  }
+
+  // Event handlers ------------------------------------------------------------
+
   prepare() {
     // Add gain node
     if (
@@ -116,26 +133,15 @@ class AudioNodeItem {
   start(offset) {
     const { start } = this.options
     const { rampUp } = this.payload
-    this.audioSyncOrigin = audioSync(this.timeline.controller.audioContext)
 
-    const startTime = Math.max(
-      0,
-      toContextTime(
-        this.timeline.controller.audioContext,
-        offset + start,
-        this.audioSyncOrigin,
-      )
-    )
+    this.setAudioOrigin()
+    const startTime = Math.max(0, this.schedule(offset + start))
 
     if (rampUp) {
       const gain = this.processingChain[this.nodeOrder.gain].gain
 
       // Calculate transition point
-      const rampUpEnd = toContextTime(
-        this.timeline.controller.audioContext,
-        offset + start + parseFloat(rampUp),
-        this.audioSyncOrigin,
-      )
+      const rampUpEnd = this.schedule(offset + start + parseFloat(rampUp))
 
       // Cue transition
       gain.setValueAtTime(0.0001, startTime)
@@ -152,16 +158,8 @@ class AudioNodeItem {
     if (stop && rampDown) {
       const gain = this.processingChain[this.nodeOrder.gain].gain
 
-      const rampDownStart = toContextTime(
-        this.timeline.controller.audioContext,
-        offset + stop - parseFloat(rampDown),
-        this.audioSyncOrigin,
-      )
-      const stopTime = toContextTime(
-        this.timeline.controller.audioContext,
-        offset + stop,
-        this.audioSyncOrigin,
-      )
+      const rampDownStart = this.schedule(offset + stop - parseFloat(rampDown))
+      const stopTime = this.schedule(offset + stop)
 
       // Cue transition (we can't go all the way because of the
       // exponential transform, but the node will be stopped shortly,
@@ -171,11 +169,7 @@ class AudioNodeItem {
     }
 
     if (stop) {
-      const stopTime = toContextTime(
-        this.timeline.controller.audioContext,
-        offset + stop,
-        this.audioSyncOrigin,
-      )
+      const stopTime = this.schedule(offset + stop)
       this.source.stop(stopTime)
     }
   }
@@ -186,11 +180,7 @@ class AudioNodeItem {
 
     // Schedule item stop if necessary
     if (endNow) {
-      const stopTime = toContextTime(
-        this.timeline.controller.audioContext,
-        t,
-        this.audioSyncOrigin,
-      )
+      const stopTime = this.schedule(t)
       this.source.stop(stopTime)
     }
 
