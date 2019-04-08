@@ -176,104 +176,132 @@
           {
             "name": "word",
             "type": "string"
+          },
+          {
+            "name": "phase",
+            "type": "string"
           }
         ],
         "rows": [
           [
             "red",
-            "red"
+            "red",
+            "task"
           ],
           [
             "red",
-            "red"
+            "red",
+            "task"
           ],
           [
             "red",
-            "red"
+            "red",
+            "task"
           ],
           [
             "red",
-            "green"
+            "green",
+            "task"
           ],
           [
             "red",
-            "blue"
+            "blue",
+            "task"
           ],
           [
             "red",
-            "orange"
+            "orange",
+            "task"
           ],
           [
             "green",
-            "red"
+            "red",
+            "task"
           ],
           [
             "green",
-            "green"
+            "green",
+            "task"
           ],
           [
             "green",
-            "green"
+            "green",
+            "task"
           ],
           [
             "green",
-            "green"
+            "green",
+            "task"
           ],
           [
             "green",
-            "blue"
+            "blue",
+            "task"
           ],
           [
             "green",
-            "orange"
+            "orange",
+            "task"
           ],
           [
             "blue",
-            "red"
+            "red",
+            "task"
           ],
           [
             "blue",
-            "green"
+            "green",
+            "task"
           ],
           [
             "blue",
-            "blue"
+            "blue",
+            "task"
           ],
           [
             "blue",
-            "blue"
+            "blue",
+            "task"
           ],
           [
             "blue",
-            "blue"
+            "blue",
+            "task"
           ],
           [
             "blue",
-            "orange"
+            "orange",
+            "task"
           ],
           [
             "orange",
-            "red"
+            "red",
+            "task"
           ],
           [
             "orange",
-            "green"
+            "green",
+            "task"
           ],
           [
             "orange",
-            "blue"
+            "blue",
+            "task"
           ],
           [
             "orange",
-            "orange"
+            "orange",
+            "task"
           ],
           [
             "orange",
-            "orange"
+            "orange",
+            "task"
           ],
           [
             "orange",
-            "orange"
+            "orange",
+            "task"
           ]
         ]
       },
@@ -662,24 +690,32 @@
           {
             "name": "word",
             "type": "string"
+          },
+          {
+            "name": "phase",
+            "type": "string"
           }
         ],
         "rows": [
           [
             "red",
-            "red"
+            "red",
+            "practice"
           ],
           [
             "green",
-            "green"
+            "green",
+            "practice"
           ],
           [
             "blue",
-            "blue"
+            "blue",
+            "practice"
           ],
           [
             "orange",
-            "orange"
+            "orange",
+            "practice"
           ]
         ]
       },
