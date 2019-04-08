@@ -131,6 +131,15 @@ class AudioNodeItem {
     const { start } = this.options
     const { rampUp } = this.payload
 
+    const audioContext = this.timeline.controller.audioContext
+    if (audioContext.state !== 'running') {
+      console.warn(
+        `Sending audio to a context in ${ audioContext.state } state.`,
+        'This may result in missing sounds —',
+        'Please make sure that users interact with the page before using audio.'
+      )
+    }
+
     this.setAudioOrigin()
     const startTime = Math.max(0, this.schedule(offset + start))
 
