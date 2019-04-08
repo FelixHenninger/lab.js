@@ -11,8 +11,8 @@ const decodeAudioData = (context, buffer) => {
   })
 }
 
-export const load = async (context, url, options) => {
-  const response = await fetch(url, options)
+export const load = async (url, context, fetchOptions) => {
+  const response = await fetch(url, fetchOptions)
 
   if (response.ok) {
     const buffer = await response.arrayBuffer()
@@ -30,14 +30,14 @@ export const load = async (context, url, options) => {
   }
 }
 
-const createNode = (context, type, options={}, audioParams={}) => {
+const createNode = (type, context, options={}, audioParams={}) => {
   // This provides a light wrapper around the context
   // audio node creation methods, as a stopgap until
   // all browsers support node constructor functions.
   let node
 
   // Generate node from context
-  switch(type) {
+  switch (type) {
     case 'oscillator':
       node = context.createOscillator()
       break
@@ -60,9 +60,7 @@ const createNode = (context, type, options={}, audioParams={}) => {
 }
 
 const connectNodeChain = (source, chain, destination) =>
-  [source, ...chain, destination].reduce(
-    (prev, next) => prev.connect(next)
-  )
+  [source, ...chain, destination].reduce((prev, next) => prev.connect(next))
 
 // Timeline items --------------------------------------------------------------
 
@@ -98,20 +96,22 @@ class AudioNodeItem {
   // Event handlers ------------------------------------------------------------
 
   prepare() {
+    const audioContext = this.timeline.controller.audioContext
+
     // Add gain node
     if (
       (this.payload.gain && this.payload.gain !== 1) ||
       (this.payload.rampUp && this.payload.rampUp !== 0) ||
       (this.payload.rampDown && this.payload.rampDown !== 0)
     ) {
-      const gainNode = this.timeline.controller.audioContext.createGain()
+      const gainNode = audioContext.createGain()
       gainNode.gain.value = this.payload.rampUp ? 0.0001 : this.payload.gain
       this.nodeOrder.gain = this.processingChain.push(gainNode) - 1
     }
 
     // Add panner node
     if (this.payload.pan && this.payload.pan !== 0) {
-      const pannerNode = this.timeline.controller.audioContext.createPanner()
+      const pannerNode = audioContext.createPanner()
       pannerNode.panningModel = this.payload.panningModel
       pannerNode.setPosition(
         this.payload.pan, 0,
@@ -121,8 +121,9 @@ class AudioNodeItem {
     }
 
     connectNodeChain(
-      this.source, this.processingChain,
-      this.timeline.controller.audioContext.destination
+      this.source,
+      this.processingChain,
+      audioContext.destination,
     )
   }
 
@@ -201,17 +202,15 @@ export class BufferSourceItem extends AudioNodeItem {
   async prepare() {
     // Populate buffer from cache, if possible
     const cache = this.timeline.controller.cache
+    const audioContext = this.timeline.controller.audioContext
+
     let buffer
     if (cache.audio[this.payload.src]) {
       buffer = cache.audio[this.payload.src]
     } else {
       // Otherwise, load audio file from URL
       try {
-        buffer = await load(
-          this.timeline.controller.audioContext,
-          this.payload.src,
-          { mode: 'cors' }
-        )
+        buffer = await load(this.payload.src, audioContext, { mode: 'cors' })
         cache.audio[this.payload.src] = cache.audio[this.payload.src] || buffer
       } catch (e) {
         console.warn(
@@ -224,11 +223,7 @@ export class BufferSourceItem extends AudioNodeItem {
     // Adjust the caching mechanism so that the preload stage knows
     // about the audio file, so that the cache is always present.
 
-    this.source = createNode(
-      this.timeline.controller.audioContext,
-      'bufferSource',
-      { buffer },
-    )
+    this.source = createNode('bufferSource', audioContext, { buffer })
     super.prepare()
   }
 }
@@ -238,8 +233,8 @@ export class OscillatorItem extends AudioNodeItem {
     const { type, frequency, detune } = this.payload
 
     this.source = createNode(
-      this.timeline.controller.audioContext,
       'oscillator',
+      this.timeline.controller.audioContext,
       { type },
       { frequency, detune },
     )

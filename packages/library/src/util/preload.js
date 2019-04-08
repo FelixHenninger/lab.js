@@ -23,6 +23,6 @@ export const preloadImage = (url, cache) =>
 // Preload audio
 export const preloadAudio = async (url, cache, audioContext) => {
   if (cache && !(url in cache)) {
-    cache[url] = await loadAudioBuffer(audioContext, url)
+    cache[url] = await loadAudioBuffer(url, audioContext)
   }
 }
