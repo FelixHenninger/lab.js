@@ -13,6 +13,14 @@ const testingPlugin = {
     // eslint-disable-next-line no-template-curly-in-string
     ['script', { src: '${ pluginPath }/index.js' }],
   ],
+  options: {
+    'whatever': {
+      label: 'Plugin option', type: 'string',
+      default: 'My hovercraft is full of eels.',
+      placeholder: 'Feel free to add whatever',
+      help: 'This option is purely for illustrative purposes and accomplishes absolutely nothing',
+    }
+  }
 }
 
 const plugins = {
