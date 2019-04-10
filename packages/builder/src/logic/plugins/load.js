@@ -1,5 +1,6 @@
 const testingPlugin = {
   title: 'Test plugin',
+  description: 'Inert plugin for testing purposes',
   version: '0.0.1',
   path: 'global.TestPlugin',
   files: {

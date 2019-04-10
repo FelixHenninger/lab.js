@@ -1,21 +1,41 @@
 import React from 'react'
+import { CardBody } from 'reactstrap'
 
 import Card from '../../../Card'
-import Icon from '../../../Icon'
 
-export default () =>
-  <Card title="Plugins">
-    <div className="text-center p-5">
-      <Icon
-        icon="flask-potion"
-        className="d-block text-muted p-3"
-        style={{
-          fontSize: '3.5rem',
-        }}
-      />
-      <div className="text-muted">
-        <strong>We're still working on this!</strong><br />
-        <small>Please check back soon.</small>
-      </div>
-    </div>
+import loadPlugin from '../../../../logic/plugins/load'
+
+const PluginHeader = ({ metaData }) =>
+  <>
+    <h3 className="h5">
+      { metaData.title }
+      {
+        metaData.description
+          && <small className="text-muted"> · { metaData.description }</small>
+      }
+    </h3>
+  </>
+
+const Plugin = ({ index, data, metaData }) =>
+  <CardBody>
+    <PluginHeader index={ index } data={ data } metaData={ metaData } />
+  </CardBody>
+
+export default ({ id, data }) =>
+  <Card title="Plugins" wrapContent={ false }>
+    {
+      (data.plugins || [])
+        .map(pluginData => ({
+          pluginData,
+          metaData: loadPlugin(pluginData.type),
+        }))
+        .filter(({ metaData }) => metaData !== undefined)
+        .map(({ pluginData, metaData }, index) =>
+          <Plugin
+            key={ `plugin-${ index }` }
+            data={ pluginData }
+            metaData={ metaData }
+          />
+        )
+    }
   </Card>
