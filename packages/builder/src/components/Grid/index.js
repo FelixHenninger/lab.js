@@ -233,6 +233,7 @@ Grid.childContextTypes = {
 }
 
 Grid.defaultProps = {
+  data: [],
   addColumns: false,
   maxColumns: Infinity,
   defaultColumn: '',
