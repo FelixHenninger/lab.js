@@ -56,8 +56,8 @@ export class Random {
 
   // Sample multiple random elements from an array,
   // with or without replacement
-  sample(array, n=1, replacement=false) {
-    if (replacement) {
+  sample(array, n=1, replace=false) {
+    if (replace) {
       // Draw independent samples
       return Array(n).fill(0).map(() => this.choice(array))
     } else {
