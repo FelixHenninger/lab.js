@@ -139,3 +139,17 @@ table.border-top-0 colgroup + tbody tr:first-of-type td {
 .card > .card-header:last-child {
   border-radius: $border-radius;
 }
+
+.card.card-flush {
+  max-height: 225px;
+  overflow-y: auto;
+  margin: 0 -1rem;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+}
+
+.card.card-flush .list-group-item {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
