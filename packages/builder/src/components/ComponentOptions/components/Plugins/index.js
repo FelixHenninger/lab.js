@@ -5,7 +5,7 @@ import { Fieldset, Control } from 'react-redux-form'
 import Card from '../../../Card'
 import ComponentForm from '../Form'
 
-import loadPlugin from '../../../../logic/plugins/load'
+import { loadPlugin } from '../../../../logic/plugins/library'
 
 const PluginHeader = ({ metaData }) =>
   <>

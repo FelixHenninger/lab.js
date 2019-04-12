@@ -1,6 +1,6 @@
 import { fromPairs, mapValues, template } from 'lodash'
 
-import loadPlugin from './load'
+import { loadPlugin } from './library'
 
 // File management
 // Plugin files are placed in `lib/plugins/${ pluginName }`.

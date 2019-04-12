@@ -23,10 +23,8 @@ const testingPlugin = {
   }
 }
 
-const plugins = {
+export const plugins = {
   testingPlugin,
 }
 
-const loadPlugin = name => plugins[name]
-
-export default loadPlugin
+export const loadPlugin = name => plugins[name]
