@@ -16,6 +16,7 @@ const PluginHeader = ({ metaData }) =>
           && <small className="text-muted"> · { metaData.description }</small>
       }
     </h3>
+    <hr />
   </>
 
 const PluginOption = ({ option, value, label, type, defaultValue,
