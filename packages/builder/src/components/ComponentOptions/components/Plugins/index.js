@@ -60,7 +60,7 @@ const PluginOptions = ({ index, data, metaData }) =>
   </Fieldset>
 
 const Plugin = ({ index, data, metaData }) =>
-  <CardBody>
+  <CardBody className="border-bottom">
     <PluginHeader index={ index } data={ data } metaData={ metaData } />
     <PluginOptions index={ index } data={ data } metaData={ metaData } />
   </CardBody>
