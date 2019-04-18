@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FormGroup, Input, Label, Col, Button, CardBody } from 'reactstrap'
 import { Fieldset, Control } from 'react-redux-form'
 
 import Card from '../../../Card'
 import Icon from '../../../Icon'
 import ComponentForm from '../Form'
+import Modal from '../../../Modal'
+import Confirm from '../../../Modal/components/Confirm'
 
 import { loadPlugin } from '../../../../logic/plugins/library'
 
@@ -60,16 +62,39 @@ const PluginOptions = ({ index, data, metaData }) =>
     }
   </Fieldset>
 
-const PluginAdd = ({}, {}) =>
-  <CardBody>
-    <Button
-      size="sm" block
-      outline color="muted"
-      className="hover-target"
+const PluginAddModal = ({ isOpen, onRequestClose: requestClose }) =>
+  <Modal
+    isOpen={ isOpen }
+    onRequestClose={ requestClose }
+  >
+    <Confirm
+      title="Add Plugin"
+      closeHandler={ requestClose }
     >
-      <Icon icon="plus" />
-    </Button>
-  </CardBody>
+      Foo bar
+    </Confirm>
+  </Modal>
+
+const PluginAddButton = () => {
+  const [modalOpen, setModalOpen] = useState(false)
+
+  return (
+    <CardBody>
+      <PluginAddModal
+        isOpen={ modalOpen }
+        onRequestClose={ () => setModalOpen(false) }
+      />
+      <Button
+        size="sm" block
+        outline color="muted"
+        className="hover-target"
+        onClick={ () => setModalOpen(true) }
+      >
+        <Icon icon="plus" />
+      </Button>
+    </CardBody>
+  )
+}
 
 const Plugin = ({ index, data, metaData }) =>
   <CardBody className="border-bottom">
@@ -101,5 +126,5 @@ export default ({ id, data }) =>
           )
       }
     </ComponentForm>
-    <PluginAdd />
+    <PluginAddButton />
   </Card>
