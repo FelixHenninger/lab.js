@@ -1,8 +1,9 @@
 import React from 'react'
-import { FormGroup, Input, Label, Col, CardBody } from 'reactstrap'
+import { FormGroup, Input, Label, Col, Button, CardBody } from 'reactstrap'
 import { Fieldset, Control } from 'react-redux-form'
 
 import Card from '../../../Card'
+import Icon from '../../../Icon'
 import ComponentForm from '../Form'
 
 import { loadPlugin } from '../../../../logic/plugins/library'
@@ -59,6 +60,17 @@ const PluginOptions = ({ index, data, metaData }) =>
     }
   </Fieldset>
 
+const PluginAdd = ({}, {}) =>
+  <CardBody>
+    <Button
+      size="sm" block
+      outline color="muted"
+      className="hover-target"
+    >
+      <Icon icon="plus" />
+    </Button>
+  </CardBody>
+
 const Plugin = ({ index, data, metaData }) =>
   <CardBody className="border-bottom">
     <PluginHeader index={ index } data={ data } metaData={ metaData } />
@@ -89,4 +101,5 @@ export default ({ id, data }) =>
           )
       }
     </ComponentForm>
+    <PluginAdd />
   </Card>
