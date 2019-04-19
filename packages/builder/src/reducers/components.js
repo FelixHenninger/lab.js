@@ -258,6 +258,18 @@ export default (state=defaultState, action) => {
         },
       }
 
+    case 'ADD_PLUGIN':
+      return {
+        ...state,
+        [action.id]: {
+          ...state[action.id],
+          plugins: [
+            ...(state[action.id].plugins || []),
+            { type: action.pluginType },
+          ]
+        }
+      }
+
     case 'RESET_STATE':
       return defaultState
 

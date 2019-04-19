@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+
 import { FormGroup, Input, Label, Col,
   Button, ListGroup, ListGroupItem,
   Card as BaseCard, CardBody } from 'reactstrap'
@@ -64,7 +66,7 @@ const PluginOptions = ({ index, data, metaData }) =>
     }
   </Fieldset>
 
-const PluginAddModal = ({ isOpen, onRequestClose: requestClose }) =>
+const PluginAddModal = ({ isOpen, onRequestClose: requestClose, onAdd }) =>
   <Modal
     isOpen={ isOpen }
     onRequestClose={ requestClose }
@@ -80,6 +82,10 @@ const PluginAddModal = ({ isOpen, onRequestClose: requestClose }) =>
             Object.entries(plugins).map(([type, pluginData]) =>
               <ListGroupItem
                 action style={{ cursor: 'pointer' }}
+                onClick={ () => {
+                  onAdd(type)
+                  requestClose()
+                } }
               >
                 <strong>{ pluginData.title }</strong>
               </ListGroupItem>
@@ -95,14 +101,22 @@ const PluginAddModal = ({ isOpen, onRequestClose: requestClose }) =>
     </Confirm>
   </Modal>
 
-const PluginAddButton = () => {
+const PluginAddButton = (_, { store, id }) => {
   const [modalOpen, setModalOpen] = useState(false)
+  const addPlugin = (type) => {
+    console.log('adding plugin of type', type)
+    return store.dispatch({
+      type: 'ADD_PLUGIN',
+      id, pluginType: type,
+    })
+  }
 
   return (
     <CardBody>
       <PluginAddModal
         isOpen={ modalOpen }
         onRequestClose={ () => setModalOpen(false) }
+        onAdd={ addPlugin }
       />
       <Button
         size="sm" block
@@ -114,6 +128,14 @@ const PluginAddButton = () => {
       </Button>
     </CardBody>
   )
+}
+
+PluginAddButton.contextTypes = {
+  store: PropTypes.object,
+  id: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
 }
 
 const Plugin = ({ index, data, metaData }) =>
