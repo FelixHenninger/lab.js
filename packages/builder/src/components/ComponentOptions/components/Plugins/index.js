@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { FormGroup, Input, Label, Col, Button, CardBody } from 'reactstrap'
+import { FormGroup, Input, Label, Col,
+  Button, ListGroup, ListGroupItem,
+  Card as BaseCard, CardBody } from 'reactstrap'
 import { Fieldset, Control } from 'react-redux-form'
 
 import Card from '../../../Card'
@@ -8,7 +10,7 @@ import ComponentForm from '../Form'
 import Modal from '../../../Modal'
 import Confirm from '../../../Modal/components/Confirm'
 
-import { loadPlugin } from '../../../../logic/plugins/library'
+import { plugins, loadPlugin } from '../../../../logic/plugins/library'
 
 const PluginHeader = ({ metaData }) =>
   <>
@@ -38,7 +40,7 @@ const PluginOption = ({ option, value, label, type, defaultValue,
         debounce={ 300 }
       />
       {
-        help && <small class="form-text text-muted">{ help }</small>
+        help && <small className="form-text text-muted">{ help }</small>
       }
     </Col>
   </FormGroup>
@@ -68,10 +70,28 @@ const PluginAddModal = ({ isOpen, onRequestClose: requestClose }) =>
     onRequestClose={ requestClose }
   >
     <Confirm
-      title="Add Plugin"
+      title="Plugins"
       closeHandler={ requestClose }
     >
-      Foo bar
+      <p><strong>Plugins change the behavior of a component</strong>, and can add further functionality. Please select one to include it.</p>
+      <BaseCard className="card-flush">
+        <ListGroup className="list-group-flush">
+          {
+            Object.entries(plugins).map(([type, pluginData]) =>
+              <ListGroupItem
+                action style={{ cursor: 'pointer' }}
+              >
+                <strong>{ pluginData.title }</strong>
+              </ListGroupItem>
+            )
+          }
+        </ListGroup>
+      </BaseCard>
+      <div className="mt-3">
+        <small className="text-muted">
+          Missing something? Ideas for improving things? Please <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html" target="_blank" rel="noopener noreferrer">suggest or contribute</a>!
+        </small>
+      </div>
     </Confirm>
   </Modal>
 
