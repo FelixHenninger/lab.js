@@ -79,8 +79,9 @@ const PluginAddModal = ({ isOpen, onRequestClose: requestClose, onAdd }) =>
       <BaseCard className="card-flush">
         <ListGroup className="list-group-flush">
           {
-            Object.entries(plugins).map(([type, pluginData]) =>
+            Object.entries(plugins).map(([type, pluginData], index) =>
               <ListGroupItem
+                key={ `plugin-available-${ index }` }
                 action style={{ cursor: 'pointer' }}
                 onClick={ () => {
                   onAdd(type)
@@ -140,6 +141,12 @@ PluginAddButton.contextTypes = {
 
 const Plugin = ({ index, data, metaData }) =>
   <CardBody className="border-bottom">
+    {/* Hidden field to preserve the plugin type option */}
+    <Control.text
+      model={ `.plugins[${ index }].type` }
+      defaultValue={ data.type }
+      hidden={ true }
+    />
     <PluginHeader index={ index } data={ data } metaData={ metaData } />
     <PluginOptions index={ index } data={ data } metaData={ metaData } />
   </CardBody>
@@ -150,10 +157,17 @@ export default ({ id, data }) =>
       id={ id }
       data={ data }
       keys={ ['plugins'] }
+      // The react-redux-form logic converts the plugins array into
+      // an object. This reverts that change before saving the data.
+      postProcess={ data => ({
+        ...data,
+        plugins: Array.isArray(data.plugins)
+          ? data.plugins
+          : Object.values(data.plugins)
+      }) }
     >
       {
-        (data.plugins || [])
-          .map(pluginData => ({
+        (data.plugins || []).map(pluginData => ({
             pluginData,
             metaData: loadPlugin(pluginData.type),
           }))
