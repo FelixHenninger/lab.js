@@ -30,6 +30,8 @@ class Shortcuts extends Component {
       window.dispatchEvent(new Event('preview:preempt'))
       e.preventDefault()
       window.dispatchEvent(new Event('preview:show'))
+    } else if (e.key === 'Backspace' && e.target === document.body) {
+      e.preventDefault()
     }
   }
 
