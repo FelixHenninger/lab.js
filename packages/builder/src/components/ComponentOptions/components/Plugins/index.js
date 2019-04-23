@@ -102,7 +102,7 @@ const PluginAddModal = ({ isOpen, onRequestClose: requestClose, onAdd }) =>
     </Confirm>
   </Modal>
 
-const PluginAddButton = (_, { store, id }) => {
+const PluginAddButton = ({ muted }, { store, id }) => {
   const [modalOpen, setModalOpen] = useState(false)
   const addPlugin = (type) => {
     console.log('adding plugin of type', type)
@@ -121,7 +121,7 @@ const PluginAddButton = (_, { store, id }) => {
       />
       <Button
         size="sm" block
-        outline color="muted"
+        outline color={ muted ? 'muted' : 'secondary' }
         className="hover-target"
         onClick={ () => setModalOpen(true) }
       >
@@ -151,8 +151,28 @@ const Plugin = ({ index, data, metaData }) =>
     <PluginOptions index={ index } data={ data } metaData={ metaData } />
   </CardBody>
 
+const PluginHint = ({ visible }) =>
+  visible
+    ? <div className="text-center p-5 pb-2">
+        <Icon
+          icon="plug"
+          className="d-block text-muted p-3"
+          style={{
+            fontSize: '3.5rem',
+          }}
+        />
+        <div className="text-muted">
+          <strong>
+            Plugins extend components' functionality
+          </strong><br />
+          <small>Please click below to add one.</small>
+        </div>
+      </div>
+    : null
+
 export default ({ id, data }) =>
   <Card title="Plugins" wrapContent={ false }>
+    <PluginHint visible={ (data.plugins || []).length === 0 } />
     <ComponentForm
       id={ id }
       data={ data }
@@ -182,5 +202,5 @@ export default ({ id, data }) =>
           )
       }
     </ComponentForm>
-    <PluginAddButton />
+    <PluginAddButton muted={ (data.plugins || []).length > 0 } />
   </Card>
