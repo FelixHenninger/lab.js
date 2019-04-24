@@ -1,7 +1,8 @@
 import { saveAs } from 'file-saver'
 
-import { isObject, flatten, difference, intersection,
-  uniq, pick, omitBy, debounce } from 'lodash'
+import { isObject, cloneDeep, flatten,
+  difference, intersection, uniq,
+  pick, omitBy, debounce } from 'lodash'
 import { EventHandler } from './util/eventAPI'
 
 // Default column names -----------------------------------
@@ -153,7 +154,7 @@ export class Store extends EventHandler {
 
     // Remember the index of the new entry
     const logIndex = this.data.push(
-      this.staging
+      cloneDeep(this.staging)
     ) - 1
 
     // Make persistent data copy if desired

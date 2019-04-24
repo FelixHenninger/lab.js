@@ -139,6 +139,18 @@ describe('Data handling', () => {
         )
       })
 
+      it('clones stored information, breaking references', () => {
+        const someObject = { one: 1 }
+        ds.commit({
+          someObject: someObject
+        })
+        ds.state.someObject.one = 2
+
+        // State should changed, but not the stored data
+        assert.equal(ds.state.someObject.one, 2)
+        assert.equal(ds.data[0].someObject.one, 1)
+      })
+
       it('clears the staging area on commit', () => {
         ds.set({
           'one': 1,
