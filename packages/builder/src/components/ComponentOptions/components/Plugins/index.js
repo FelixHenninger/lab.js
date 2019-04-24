@@ -124,6 +124,7 @@ const PluginAddButton = ({ muted }, { store, id }) => {
         outline color={ muted ? 'muted' : 'secondary' }
         className="hover-target"
         onClick={ () => setModalOpen(true) }
+        onMouseUp={ e => e.target.blur() }
       >
         <Icon icon="plus" />
       </Button>
