@@ -211,6 +211,24 @@ describe('Data handling', () => {
       })
     })
 
+    describe('State proxy', () => {
+      it('reads via get method', () => {
+        ds.set({ 'one': 1, 'two': 2 })
+        const spy = sinon.spy(ds, 'get')
+
+        assert.equal(ds.stateProxy['one'], 1)
+        assert.ok(spy.withArgs('one').calledOnce)
+      })
+
+      it('writes via set method', () => {
+        const spy = sinon.spy(ds, 'set')
+
+        ds.stateProxy['one'] = 1
+        assert.equal(ds.get('one'), 1)
+        assert.ok(spy.withArgs('one', 1).calledOnce)
+      })
+    })
+
     describe('Metadata', () => {
       it('computes column keys', () => {
         ds.commit({

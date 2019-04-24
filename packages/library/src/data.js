@@ -148,6 +148,22 @@ export class Store extends EventHandler {
     return this.state[key]
   }
 
+  // The stateProxy property provides proxy-mediated access
+  // to the datastore state, while saving changes to staging.
+  // Over time, as proxies are more widespread in browsers,
+  // this will replace the datastore's state property. (TODO)
+  stateProxy = (BUILD_FLAVOR !== 'legacy'
+    ? new window.Proxy({}, {
+        get: (_, prop) => this.get(prop),
+        set: (_, prop, value) => this.set(prop, value) || true,
+        has: (_, prop) => Reflect.has(this.state, prop),
+        ownKeys: () => Reflect.ownKeys(this.state),
+        getOwnPropertyDescriptor: (_, prop) =>
+          Reflect.getOwnPropertyDescriptor(this.state, prop)
+      })
+    : undefined
+  )
+
   // Commit data to storage -------------------------------
   commit(key={}, value) {
     this.set(key, value, true)
