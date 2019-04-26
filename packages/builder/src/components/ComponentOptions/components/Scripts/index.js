@@ -124,7 +124,7 @@ export default class extends Component {
           columnWidths={ [ 90 ] }
           columns={ ['label'] }
           defaultRow={ [ { title: '', message: '', code: '' }, ] }
-          data={ data.messageHandlers.rows }
+          data={ data.messageHandlers ? data.messageHandlers.rows : [] }
           formDispatch={ action => this.formDispatch(action) }
         />
       </Form>
