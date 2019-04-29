@@ -172,7 +172,7 @@ const PluginHint = ({ visible }) =>
     : null
 
 export default ({ id, data }) =>
-  <Card title="Plugins" wrapContent={ false }>
+  <Card title="Plugins" badge="Beta" wrapContent={ false }>
     <PluginHint visible={ (data.plugins || []).length === 0 } />
     <ComponentForm
       id={ id }
