@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Card as BaseCard, CardHeader, CardBody } from 'reactstrap'
+import { Card as BaseCard, CardHeader, Badge, CardBody } from 'reactstrap'
 import classnames from 'classnames'
 
 class Card extends Component {
@@ -12,7 +12,9 @@ class Card extends Component {
   }
 
   render() {
-    const { title, children, className, collapsable, wrapContent } = this.props
+    const { title, badge, children,
+      className,
+      collapsable, wrapContent } = this.props
     const content = wrapContent !== false
       ? <CardBody>{ children }</CardBody>
       : children
@@ -32,6 +34,7 @@ class Card extends Component {
               } }
             >
               { title }
+              { badge && <>&nbsp;<Badge color="secondary">{ badge }</Badge></> }
             </CardHeader>
           : null
       }
