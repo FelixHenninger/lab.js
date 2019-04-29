@@ -1,19 +1,15 @@
 import React from 'react'
 import { Control } from 'react-redux-form'
-import { Card, CardHeader, CardBody, Badge,
-  FormGroup, Col, Label,
+import { CardBody, FormGroup, Col, Label,
   Input, InputGroup, InputGroupAddon } from 'reactstrap'
 
+import Card from '../../../../../Card'
 import Hint from '../../../../../Hint'
 
 import TimelineWidget from './widget'
 
 export default ({ formDispatch, data }) =>
-  <Card>
-    <CardHeader>
-      Timeline{' '}
-      <Badge color="secondary">Beta</Badge>
-    </CardHeader>
+  <Card title="Timeline" badge="Beta" wrapContent={ false }>
     <TimelineWidget data={ data } formDispatch={ formDispatch } />
     <hr />
     <CardBody>
