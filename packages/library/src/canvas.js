@@ -366,7 +366,7 @@ export class Frame extends BaseFrame {
   // of duplicated code from html.Frame that might be
   // worth refactoring. For example, this might call
   // super.onRun and pass insertCanvas as a fallback.
-  async onRun(frameTimestamp) {
+  async onRun(frameTimestamp, frameSynced) {
     // Clear element content, and insert context
     this.options.el.innerHTML = ''
     Array.from(this.internals.parsedContext.body.children)
@@ -377,7 +377,7 @@ export class Frame extends BaseFrame {
     insertCanvas.apply(this, [false, this.options.canvas.parentElement])
 
     // Run nested content (synced to animation frame)
-    await this.options.content.run(frameTimestamp, true)
+    await this.options.content.run(frameTimestamp, frameSynced)
     // TODO: It might be useful to make the framesync
     // optional for slow components (see html.Frame).
   }

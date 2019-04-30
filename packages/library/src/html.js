@@ -241,16 +241,14 @@ export class Frame extends Component {
     await prepareNested([this.options.content], this)
   }
 
-  async onRun(frameTimestamp) {
-    // TODO: Think about whether this should be onRender instead
-
+  async onRun(frameTimestamp, frameSynced) {
     // Clear element content, and insert context
     this.options.el.innerHTML = ''
     Array.from(this.internals.parsedContext.body.children)
       .forEach(c => this.options.el.appendChild(c))
 
     // Run nested content (synced to animation frame)
-    await this.options.content.run(frameTimestamp, true)
+    await this.options.content.run(frameTimestamp, frameSynced)
     // TODO: It might be useful to make the framesync
     // optional for slow components (see canvas.Frame).
   }
