@@ -1,5 +1,6 @@
 // Shim keyboard event data for IE and Edge for the time being
 import "shim-keyboard-event-key"
+import { ensureHighResTime } from './timing'
 
 // Split an eventString into event name, options and selector
 const splitEventString = function(eventString) {
@@ -68,7 +69,7 @@ const wrapHandler = function(handler, eventName,
           // Fire the handler only if
           // - we filter repeats, and the key is not one
           // - target keys are defined, and the key pressed matches one
-          if (e.timeStamp <= startTime) {
+          if (ensureHighResTime(e.timeStamp) <= startTime) {
             return null
           } else if (
             !(filterRepeat && e.repeat) &&
@@ -92,7 +93,7 @@ const wrapHandler = function(handler, eventName,
       if (buttons.length > 0) {
         // Wrap the handler accordingly
         return function(e) {
-          if (e.timeStamp <= startTime) {
+          if (ensureHighResTime(e.timeStamp) <= startTime) {
             return null
           } else if (buttons.includes(e.button)) {
             return handler(e)
