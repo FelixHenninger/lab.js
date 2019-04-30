@@ -33,7 +33,7 @@ const keyValues = {
 // options, e.g. automatically filter events based on keyboard and mouse
 // buttons.
 const wrapHandler = function(handler, eventName,
-  { filters=[], context=null, filterRepeat=true }) {
+  { filters=[], context=null, filterRepeat=true, startTime=-Infinity }) {
 
   // Add context if desired
   if (context !== null) {
@@ -68,7 +68,9 @@ const wrapHandler = function(handler, eventName,
           // Fire the handler only if
           // - we filter repeats, and the key is not one
           // - target keys are defined, and the key pressed matches one
-          if (
+          if (e.timeStamp <= startTime) {
+            return null
+          } else if (
             !(filterRepeat && e.repeat) &&
             !(keys.length > 0 && !keys.includes(e.key))
           ) {
@@ -90,7 +92,9 @@ const wrapHandler = function(handler, eventName,
       if (buttons.length > 0) {
         // Wrap the handler accordingly
         return function(e) {
-          if (buttons.includes(e.button)) {
+          if (e.timeStamp <= startTime) {
+            return null
+          } else if (buttons.includes(e.button)) {
             return handler(e)
           } else {
             return null
@@ -119,6 +123,9 @@ export class DomConnection {
     // Define default context
     // in which to run handlers
     this.context = options.context || this
+
+    // Define time from which to accept responses
+    this.startTime = -Infinity
   }
 
   // Handler preprocessing -----------------------------------------------------
@@ -134,7 +141,8 @@ export class DomConnection {
         // Apply the wrapHandler function to the handler,
         // so that any additional filters etc. are added
         const wrappedHandler = wrapHandler(
-          handler, eventName, { filters, context: this.context },
+          handler, eventName,
+          { filters, context: this.context, startTime: this.startTime },
         )
 
         return [eventString, eventName, selector, wrappedHandler]

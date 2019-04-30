@@ -540,6 +540,23 @@ describe('Core', () => {
         })
       })
 
+      it('does not trigger handler before startTime', () => {
+        // Set a startTime in the future
+        b.internals.domConnection.startTime = performance.now() + 1000
+
+        // Setup handler and target element
+        const handler = sinon.spy()
+        b.options.el = document.querySelector('[data-labjs-section="main"]')
+        b.options.events = {
+          'keypress': handler,
+        }
+
+        return b.run().then(() => {
+          simulateKeyPress('a', b.options.el)
+          assert.ok(handler.notCalled)
+        })
+      })
+
       it('deals with spaces in event string options', () => {
         b.options.el = document.querySelector('[data-labjs-section="main"]')
 
