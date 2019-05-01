@@ -10,6 +10,8 @@ module.exports = {
     )
     return config
   },
+  // NOTE: This pulls in babel-jest as a dependency;
+  // remove the dependency when reverting the custom config
   jest: (config) => {
     config.transformIgnorePatterns = ["../../node_modules/monaco-editor"]
     return config
