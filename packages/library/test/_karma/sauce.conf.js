@@ -7,27 +7,24 @@ const customLaunchers = {
     version: 'latest',
     platform: 'Windows 10',
   },
-  /* Chrome beta disabled temporarily, crashes because of missing chromedriver
   sl_chrome_beta: {
     base: 'SauceLabs',
     browserName: 'chrome',
     version: 'beta',
     platform: 'Windows 10',
   },
-  */
   sl_firefox_latest: {
     base: 'SauceLabs',
     browserName: 'firefox',
     version: 'latest',
     platform: 'Windows 10',
   },
-  /* Firefox beta is very buggy on SL
   sl_firefox_beta: {
     base: 'SauceLabs',
     browserName: 'firefox',
     version: 'beta',
     platform: 'Windows 10',
-  }, */
+  },
   sl_edge_latest: {
     base: 'SauceLabs',
     browserName: 'microsoftedge',
@@ -38,7 +35,7 @@ const customLaunchers = {
   sl_safari_latest: {
     base: 'SauceLabs',
     browserName: 'safari',
-    platform: 'OS X 10.12',
+    platform: 'OS X 10.13',
     version: 'latest',
   },
   // Safari beta is not available (yet?)
@@ -59,6 +56,14 @@ const customLaunchers = {
     deviceName: 'Android GoogleAPI Emulator',
     deviceOrientation: 'portrait'
   },
+  sl_android_8: {
+    base: 'SauceLabs',
+    browserName: 'Chrome',
+    platform: 'Android',
+    version: '8.1',
+    deviceName: 'Android GoogleAPI Emulator',
+    deviceOrientation: 'portrait'
+  },
   sl_ios_11: {
     base: 'SauceLabs',
     browserName: 'Safari',
@@ -71,7 +76,7 @@ const customLaunchers = {
     base: 'SauceLabs',
     browserName: 'Safari',
     platform: 'iOS',
-    version: '12.0',
+    version: '12.2',
     deviceName: 'iPhone XS Simulator',
     deviceOrientation: 'portrait'
   },
