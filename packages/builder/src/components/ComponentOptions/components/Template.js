@@ -10,13 +10,14 @@ import Grid from '../../Grid'
 
 import { CellTypeSelector } from './Content/Loop/cells'
 
-const DummyHeaderCell = () =>
-  <div />
+const DummyHeaderCell = () => null
 
-const BodyCell = ({ cellData, rowIndex, colIndex, colName, readOnly },
-  { gridDispatch }) =>
-  <Row>
-    <Col xs="6" style={{ paddingRight: '0.25rem' }}>
+const BodyCell = (
+  { cellData, rowIndex, colIndex, readOnly },
+  { gridDispatch }
+) =>
+  <Row form>
+    <Col xs="6">
       <Control.text
         model={ `.rows[${ rowIndex }][${ colIndex }]['name']` }
         placeholder="parameter"
@@ -30,7 +31,7 @@ const BodyCell = ({ cellData, rowIndex, colIndex, colName, readOnly },
         }}
       />
     </Col>
-    <Col xs="6" style={{ paddingLeft: '0.25rem' }}>
+    <Col xs="6">
       <InputGroup>
         <Control.text
           model={ `.rows[${ rowIndex }][${ colIndex }]['value']` }

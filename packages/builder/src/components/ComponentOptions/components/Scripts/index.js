@@ -50,13 +50,12 @@ const parsingErrors = (code) => {
   }
 }
 
-const HeaderCell = () =>
-  <div />
+const HeaderCell = () => null
 
-const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
+const GridCell = ({ cellData, rowIndex, colIndex }) =>
   <>
-    <Row>
-      <Col xs="6" style={{ paddingRight: '0.25rem' }}>
+    <Row form>
+      <Col xs="6">
         <Control.text
           model={ `.rows[${ rowIndex }][${ colIndex }]['title']` }
           className="form-control"
@@ -67,7 +66,7 @@ const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
           debounce={ 300 }
         />
       </Col>
-      <Col xs="6" style={{ paddingLeft: '0.25rem' }}>
+      <Col xs="6">
         <Control.select
           model={ `.rows[${ rowIndex }][${ colIndex }].message` }
           className="form-control custom-select"
