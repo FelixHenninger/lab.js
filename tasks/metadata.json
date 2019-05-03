@@ -47,6 +47,14 @@
     "path": "Paired recall (free)/paired-recall-(free).study.json"
   },
   {
+    "name": "Simon task",
+    "contributors": [
+      "Michael Kriechbaumer",
+      "Felix Henninger"
+    ],
+    "path": "Simon task/simon-task.study.json"
+  },
+  {
     "name": "Stroop task",
     "contributors": [
       "Felix Henninger"
