@@ -1,0 +1,673 @@
+{
+  "components": {
+    "1": {
+      "id": "1",
+      "type": "lab.html.Screen",
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "click",
+            "button",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Instructions",
+      "content": "<header>\n  <h1>Your task</h1>\n</header>\n\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-m text-justify\">\n    <p>In the following, your task is to indicate whether a figure contains the letter <strong>T</strong>, hidden among a number of <strong>L</strong>s.</p>\n    <p>If you spot a <strong>T</strong>, please indicate its presence using the <kbd>Y</kbd> key; otherwise, please use <kbd>N</kbd> if only the figure contains only the letter <strong>L</strong>. Please answer as quickly as you can while remaining accurate.</p>\n    <p>Please keep the index fingers of you left and right hands on the <kbd>Y</kbd> and <kbd>N</kbd> keys throughout the task. The task will start when you klick on the button below.</p>\n  </div>\n</main>\n\n<footer class=\"content-horizontal-right\">\n  <button id=\"continue\">Continue &rarr;</button>\n</footer>"
+    },
+    "2": {
+      "id": "2",
+      "type": "lab.canvas.Frame",
+      "context": "<main>\n  <!-- Nested components use this canvas -->\n  <canvas />\n</main>\n<footer class=\"content-vertical-center content-horizontal-center\">\n  <p>\n    Is there a <strong>T</strong> among the letters?<br>\n    Press <kbd>Y</kbd> for <em>yes</em> and <kbd>N</kbd> for <em>no</em>.\n  </p>\n</footer>",
+      "contextSelector": "canvas",
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Frame",
+      "children": [
+        "3"
+      ]
+    },
+    "3": {
+      "id": "3",
+      "type": "lab.flow.Loop",
+      "children": [
+        "4"
+      ],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "set_size",
+            "type": "number"
+          },
+          {
+            "name": "target_present",
+            "type": "boolean"
+          }
+        ],
+        "rows": [
+          [
+            "10",
+            "false"
+          ],
+          [
+            "10",
+            "false"
+          ],
+          [
+            "10",
+            "true"
+          ],
+          [
+            "10",
+            "true"
+          ],
+          [
+            "15",
+            "false"
+          ],
+          [
+            "15",
+            "false"
+          ],
+          [
+            "15",
+            "true"
+          ],
+          [
+            "15",
+            "true"
+          ],
+          [
+            "20",
+            "false"
+          ],
+          [
+            "20",
+            "false"
+          ],
+          [
+            "20",
+            "true"
+          ],
+          [
+            "20",
+            "true"
+          ],
+          [
+            "25",
+            "false"
+          ],
+          [
+            "25",
+            "false"
+          ],
+          [
+            "25",
+            "true"
+          ],
+          [
+            "25",
+            "true"
+          ],
+          [
+            "30",
+            "false"
+          ],
+          [
+            "30",
+            "false"
+          ],
+          [
+            "30",
+            "true"
+          ],
+          [
+            "30",
+            "true"
+          ],
+          [
+            "35",
+            "false"
+          ],
+          [
+            "35",
+            "false"
+          ],
+          [
+            "35",
+            "true"
+          ],
+          [
+            "35",
+            "true"
+          ]
+        ]
+      },
+      "sample": {
+        "mode": "draw-shuffle",
+        "n": ""
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Visual search task"
+    },
+    "4": {
+      "id": "4",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "5",
+        "6",
+        "7"
+      ],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Trial"
+    },
+    "5": {
+      "id": "5",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "rect",
+          "version": "2.7.0",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 0,
+          "width": "225",
+          "height": "225",
+          "fill": "transparent",
+          "stroke": "#aaaaaa",
+          "strokeWidth": 2,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "rx": 0,
+          "ry": 0,
+          "id": "16"
+        },
+        {
+          "type": "i-text",
+          "version": "2.7.0",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 0,
+          "width": 18.69,
+          "height": 36.16,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "+",
+          "fontSize": 32,
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "44",
+          "styles": {}
+        }
+      ],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "viewport": [
+        800,
+        600
+      ],
+      "title": "Fixation",
+      "timeout": "500"
+    },
+    "6": {
+      "id": "6",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "rect",
+          "version": "2.7.0",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 0,
+          "width": "225",
+          "height": "225",
+          "fill": "transparent",
+          "stroke": "#aaaaaa",
+          "strokeWidth": 2,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "rx": 0,
+          "ry": 0,
+          "id": "16"
+        }
+      ],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "yes",
+            "keydown",
+            "",
+            "y"
+          ],
+          [
+            "no",
+            "keydown",
+            "",
+            "n"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Prepare stimulus",
+              "message": "before:prepare",
+              "code": "// Preparation ----------------------------------------------------\n\n// Enumerate all possible positions and rotations.\n// Because we place stimuli on a 10x10 grid, there\n// are 100 possible positions.\nconst positions = Array(100).fill().map((_, i) => i)\nconst rotations = [0, 45, 90, 135, 180, 225, 270, 315]\n\n// Extract the stimulus parameters from the study state\nconst targetPresent = this.parameters.target_present\n\n// If a target is present, we need to generate \n// one additional item\nconst setSize = targetPresent \n  ? this.parameters.set_size + 1\n  : this.parameters.set_size\n\n// Stimulus generation --------------------------------------------\n\nconst draw_stimulus = (position, rotation, content) => {\n  const x = (position % 10) * 20 - 100\n  const y = Math.floor(position / 10) * 20 - 100\n\n  this.options.content.push({\n    type: 'text',\n    left: x, top: y, angle: rotation,\n    text: content,\n    fontSize: 16,\n    fontFamily: 'Helvetica, Arial, Sans-Serif',\n    fill: 'black'\n  })\n}\n\n// Sample positions and rotations\nconst item_positions = this.random.sample(\n  positions, setSize, false // without replacement\n)\nconst item_rotations = this.random.sample(\n  rotations, setSize, true // *with* replacement\n)\n\n// Render the target first\nif (targetPresent) {\n  draw_stimulus(\n    item_positions.pop(),\n    item_rotations.pop(),\n    'T'\n  )\n}\n\n// Render the distractor items one by one\nitem_positions.forEach((position, i) => {\n  draw_stimulus(\n    position,\n    item_rotations[i],\n    'L'\n  )\n})"
+            }
+          ]
+        ]
+      },
+      "viewport": [
+        800,
+        600
+      ],
+      "title": "Stimulus",
+      "correctResponse": "${ this.parameters.target_present ? 'yes' : 'no' }"
+    },
+    "7": {
+      "id": "7",
+      "type": "lab.canvas.Screen",
+      "content": [],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "viewport": [
+        800,
+        600
+      ],
+      "title": "Inter-trial interval",
+      "timeout": "1000"
+    },
+    "8": {
+      "id": "8",
+      "type": "lab.html.Screen",
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Thanks",
+      "content": "<header>\n  <h1>Thank you!</h1>\n</header>\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"m-w text-center\">\n    <p><strong>The experiment is now complete.</strong></p>\n    <p>Thank you for taking the time!</p>\n  </div>\n</main>\n<footer>\n  <p>You can now close this window.</p>\n</footer>"
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "1",
+        "2",
+        "8"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "Visual search task",
+        "description": "",
+        "repository": "",
+        "contributors": "Michael Kriechbaumer\nFelix Henninger"
+      }
+    }
+  },
+  "version": [
+    19,
+    0,
+    1
+  ],
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20viewport%20setup%20--%3E%0A%20%20%3Cmeta%20name%3D%22viewport%22%20content%3D%22width%3Ddevice-width%2C%20initial-scale%3D1%22%3E%0A%20%20%3C!--%20lab.js%20library%20and%20experiment%20code%20--%3E%0A%20%20%24%7B%20header%20%7D%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "source": "library"
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F",
+        "source": "library"
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.fallback.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      }
+    }
+  }
+}

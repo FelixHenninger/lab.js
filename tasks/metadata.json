@@ -75,5 +75,13 @@
       "Felix Henninger"
     ],
     "path": "Timing validation/timing-validation.study.json"
+  },
+  {
+    "name": "Visual search task",
+    "contributors": [
+      "Michael Kriechbaumer",
+      "Felix Henninger"
+    ],
+    "path": "Visual search task/visual-search.study.json"
   }
 ]
