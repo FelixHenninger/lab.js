@@ -47,6 +47,14 @@
     "path": "Paired recall (free)/paired-recall-(free).study.json"
   },
   {
+    "name": "Posner cueing task",
+    "contributors": [
+      "Felix Ludwig",
+      "Felix Henninger"
+    ],
+    "path": "Posner cueing/posner-cueing.study.json"
+  },
+  {
     "name": "Simon task",
     "contributors": [
       "Michael Kriechbaumer",
