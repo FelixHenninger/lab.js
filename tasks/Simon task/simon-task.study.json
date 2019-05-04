@@ -402,9 +402,9 @@
       "messageHandlers": {
         "rows": []
       },
-      "title": "End Screen",
+      "title": "Thanks",
       "notes": "Finishing the experiment and offering download of data (to be included)",
-      "content": "<header>\r\n    <h1> \r\n      Finished! \r\n    </h1>\r\n</header>\r\n\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n\r\n  <div>\r\n    <h2> \r\n      Thank you for participating! \r\n    </h2>\r\n    <p> \r\n      You finished the experiment. You can now close the browser window.\r\n    </p>\r\n  </div>\r\n\r\n</main>",
+      "content": "<header>\r\n  <h1>Thank you!</h1>\r\n</header>\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"m-w text-center\">\r\n    <p><strong>The experiment is now complete.</strong></p>\r\n    <p>Thank you for taking the time!</p>\r\n  </div>\r\n</main>\r\n<footer>\r\n  <p>You can now close this window.</p>\r\n</footer>",
       "parameters": {
         "rows": [
           [

@@ -234,13 +234,13 @@
             {
               "title": "Change style back",
               "message": "run",
-              "code": "document.body.style.backgroundColor = \"white\"\r\ndocument.querySelector(\".container\").style.border = \"solid\""
+              "code": "document.body.style.backgroundColor = \"white\"\r\ndocument.querySelector(\".container\").style.border = \"1px solid var(--color-border)\""
             }
           ]
         ]
       },
-      "title": "Thank you",
-      "content": "<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"w-m text-center\" style=\"color: white\">\r\n    <p class=\"font-weight-bold\">The experiment is now complete. Thank you!</p>\r\n    <p>You may now close this window</p>\r\n  </div>\r\n</main>",
+      "title": "Thanks",
+      "content": "<header>\r\n  <h1>Thank you!</h1>\r\n</header>\r\n<main class=\"content-vertical-center content-horizontal-center\">\r\n  <div class=\"m-w text-center\">\r\n    <p><strong>The experiment is now complete.</strong></p>\r\n    <p>Thank you for taking the time!</p>\r\n  </div>\r\n</main>\r\n<footer>\r\n  <p>You can now close this window.</p>\r\n</footer>",
       "files": {
         "rows": []
       }
