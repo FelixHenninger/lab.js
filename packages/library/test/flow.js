@@ -189,6 +189,10 @@ describe('Flow control', () => {
             a.internals.timestamps.end,
             b.internals.timestamps.render,
           )
+          assert.equal(
+            a.internals.timestamps.switch,
+            b.internals.timestamps.show,
+          )
         })
     })
 
