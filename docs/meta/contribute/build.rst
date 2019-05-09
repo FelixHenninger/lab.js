@@ -32,7 +32,7 @@ The library and builder interface are contained in the same repository because t
 
   yarn && yarn run bootstrap
 
-.. _Lerna: https://lernajs.io/
+.. _Lerna: https://lerna.js.org/
 
 ----
 
