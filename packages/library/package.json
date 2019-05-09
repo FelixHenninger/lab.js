@@ -123,16 +123,16 @@
     "build:js:development": "webpack --mode=development",
     "build:js:legacy": "NODE_ENV=legacy webpack --mode=production",
     "build:js:production": "webpack --mode=production",
-    "build:js": "npm run build:js:development && npm run build:js:production && npm run build:js:legacy",
+    "build:js": "yarn run build:js:development && yarn run build:js:production && yarn run build:js:legacy",
     "build:css": "postcss --local-plugins -u postcss-preset-env -o dist/lab.css src/starterkit/lib/lab.css",
-    "build:starterkit": "npm run build:js && npm run build:css && node scripts/bundle_starterkit.js",
+    "build:starterkit": "yarn run build:js && yarn run build:css && node scripts/bundle_starterkit.js",
     "clean": "shx rm -rf dist && shx mkdir dist",
     "lint": "eslint src",
-    "prepare": "npm run build:starterkit",
+    "prepare": "yarn run build:starterkit",
     "test": "karma start test/_karma/ci.conf.js",
-    "test:coverage": "npm run build:js:coverage && karma start test/_karma/coverage.conf.js",
+    "test:coverage": "yarn run build:js:coverage && karma start test/_karma/coverage.conf.js",
     "test:sauce": "karma start test/_karma/sauce.conf.js",
     "test:sauce:legacy": "karma start test/_karma/sauce_legacy.conf.js",
-    "watch:js": "onchange 'src/**/*' -- npm run build:js"
+    "watch:js": "onchange 'src/**/*' -- yarn run build:js"
   }
 }

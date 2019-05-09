@@ -51,8 +51,8 @@
     "uuid4": "^1.0.0"
   },
   "scripts": {
-    "start": "npm run static:library && react-app-rewired start",
-    "build": "npm run static:library && react-app-rewired build && node scripts/postprocess_build.js",
+    "start": "yarn run static:library && react-app-rewired start",
+    "build": "yarn run static:library && react-app-rewired build && node scripts/postprocess_build.js",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer build/static/js/main.*",
