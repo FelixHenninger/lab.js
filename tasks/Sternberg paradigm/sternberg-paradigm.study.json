@@ -1,0 +1,2397 @@
+{
+  "components": {
+    "1": {
+      "id": "1",
+      "type": "lab.html.Screen",
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "click",
+            "button",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Instructions",
+      "content": "<header>\n  <h2>Your task</h2>\n</header>\n<main class=\"content-horizontal-center content-vertical-center\">\n  <div class=\"w-m text-justify\">\n    <p class=\"font-weight-bold\">In the following, your task will be to memorize a sequence of digits.</p>\n    <p>The length of this sequence can vary from one to six digits. After the presentation, we will ask you to indicate whether a certain digit was included in the sequence. Please do so by pressing <kbd>y</kbd>, if you think that the digit was in the set. If not, please press <kbd>n</kbd>.</p>\n    <p>Once you have made your decision, we will ask you to type in the entire sequence. There will be a total of sixty sequences in this experiment.</p>\n  </div>\n</main>\n<footer>\n  Please press the <kbd>space</kbd> bar to proceed to the experiment.\n  <button>foo</button>\n</footer>"
+    },
+    "2": {
+      "id": "2",
+      "type": "lab.flow.Loop",
+      "children": [
+        "3"
+      ],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "sequence_length",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "1",
+            ""
+          ],
+          [
+            "2",
+            ""
+          ],
+          [
+            "3",
+            ""
+          ],
+          [
+            "4",
+            ""
+          ],
+          [
+            "5",
+            ""
+          ],
+          [
+            "6",
+            ""
+          ]
+        ]
+      },
+      "sample": {
+        "mode": "draw-shuffle",
+        "n": "60"
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Sternberg task"
+    },
+    "3": {
+      "id": "3",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "11",
+        "13",
+        "9"
+      ],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Generate stimulus",
+              "message": "before:prepare",
+              "code": "const stimuli = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n\n// Draw a sequence at random\nconst sequence = this.random.sample(\n  stimuli,\n  this.parameters.sequence_length\n)\n// Decide on the type of probe\nconst probeType = this.random.choice(\n  ['positive', 'negative']\n)\n// Use the remaining stimuli as distractors\nconst distractors = stimuli.filter(\n  x => !sequence.includes(x)\n)\n// Draw a probe\nconst probe = probeType === 'positive'\n  ? this.random.choice(sequence)\n  : this.random.choice(distractors)\n\n// Save data as parameters\nthis.parameters.sequence = sequence\nthis.parameters.probe_type = probeType\nthis.parameters.probe = probe"
+            }
+          ]
+        ]
+      },
+      "title": "Trial"
+    },
+    "4": {
+      "id": "4",
+      "type": "lab.flow.Loop",
+      "children": [
+        "5"
+      ],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "digit_position",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "1",
+            ""
+          ],
+          [
+            "2",
+            ""
+          ],
+          [
+            "3",
+            ""
+          ],
+          [
+            "4",
+            ""
+          ],
+          [
+            "5",
+            ""
+          ],
+          [
+            "6",
+            ""
+          ],
+          [
+            "7",
+            ""
+          ],
+          [
+            "8",
+            ""
+          ],
+          [
+            "9",
+            ""
+          ],
+          [
+            "10",
+            ""
+          ]
+        ]
+      },
+      "sample": {
+        "mode": "sequential",
+        "n": ""
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "before:prepare",
+              "code": "this.options.sample.n = this.parameters.sequence_length"
+            }
+          ]
+        ]
+      },
+      "title": "Digit loop"
+    },
+    "5": {
+      "id": "5",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "i-text",
+          "version": "2.7.0",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 0,
+          "width": 323.98,
+          "height": 36.16,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "${ this.parameters.digit }",
+          "fontSize": "42",
+          "fontWeight": "bold",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "37",
+          "styles": {}
+        }
+      ],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "before:prepare",
+              "code": "this.parameters.digit = this.parameters.sequence[this.parameters.digit_position - 1]"
+            }
+          ]
+        ]
+      },
+      "viewport": [
+        800,
+        600
+      ],
+      "title": "Digit presentation",
+      "timeout": "1200"
+    },
+    "6": {
+      "id": "6",
+      "type": "lab.canvas.Screen",
+      "content": [],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "viewport": [
+        800,
+        600
+      ],
+      "title": "Retention interval",
+      "timeout": "2000"
+    },
+    "7": {
+      "id": "7",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "i-text",
+          "version": "2.7.0",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 0,
+          "width": 520.53,
+          "height": 47.46,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "${ this.parameters.probe }",
+          "fontSize": "42",
+          "fontWeight": "bold",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "119",
+          "styles": {}
+        },
+        {
+          "type": "i-text",
+          "version": "2.7.0",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 75,
+          "width": 284.92,
+          "height": 18.08,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "Was this digit included in the sequence?",
+          "fontSize": "16",
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "120",
+          "styles": {}
+        }
+      ],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "positive",
+            "keydown",
+            "",
+            "y"
+          ],
+          [
+            "negative",
+            "keydown",
+            "",
+            "n"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "viewport": [
+        800,
+        600
+      ],
+      "title": "Probe",
+      "correctResponse": "${ this.parameters.probe_type }"
+    },
+    "8": {
+      "id": "8",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "circle",
+          "version": "2.7.0",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 0,
+          "width": 55,
+          "height": 55,
+          "fill": "${ this.state.correct ? 'green' : 'red' }",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "radius": 27.5,
+          "startAngle": 0,
+          "endAngle": 6.283185307179586,
+          "id": "160"
+        },
+        {
+          "type": "i-text",
+          "version": "2.7.0",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 75,
+          "width": 284.92,
+          "height": 18.08,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "Was this digit included in the sequence?",
+          "fontSize": "16",
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "161",
+          "styles": {
+            "0": {
+              "0": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "1": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "2": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "3": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "4": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "5": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "6": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "7": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "8": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "9": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "10": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "11": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "12": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "13": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "14": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "15": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "16": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "17": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "18": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "19": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "20": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "21": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "22": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "23": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "24": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "25": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "26": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "27": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "28": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "29": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "30": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "31": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "32": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "33": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "34": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "35": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "36": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "37": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "38": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "39": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              }
+            }
+          }
+        }
+      ],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "viewport": [
+        800,
+        600
+      ],
+      "title": "Feedback",
+      "tardy": true,
+      "timeout": "2000"
+    },
+    "9": {
+      "id": "9",
+      "type": "lab.html.Form",
+      "content": "<main class=\"content-horizontal-center content-vertical-center\">\n  <div class=\"m-w\">\n    <p>\n      <strong>Please recall<br>\n      the entire sequence in order,</strong><br>\n      as best you can.\n    </p>\n    <form id=\"recall\" autocomplete=\"off\">\n      <input\n        name=\"sequence_recall\"\n        autofocus\n        style=\"\n          font-size: 72px;\n          text-align: center;\n          letter-spacing: 18px;\n        \"\n      >\n    </form>\n    <p>\n      Press <kbd>Enter</kbd> to continue\n    </p>\n  </div>\n</main>\n<footer class=\"content-horizontal-center content-vertical-center\">\n  &nbsp;\n</footer>\n",
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Recode response",
+              "message": "end",
+              "code": "\nthis.data.response = this.data.sequence_recall\n  .split('')\n  .filter(x => x.match(/\\d/))\n  .map(x => Number(x))\n\ndelete this.data.sequence_recall\n\nthis.data.correct = \n  (this.data.response.length === this.parameters.sequence.length) &&\n  (this.parameters.sequence.every((x, i) => x === this.data.response[i]))\n"
+            }
+          ]
+        ]
+      },
+      "title": "Full sequence recall"
+    },
+    "10": {
+      "id": "10",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "i-text",
+          "version": "2.7.0",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 0,
+          "width": 30.37,
+          "height": 58.76,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "+",
+          "fontSize": "52",
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "100",
+          "styles": {}
+        },
+        {
+          "type": "i-text",
+          "version": "2.7.0",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 75,
+          "width": 284.92,
+          "height": 18.08,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "Was this digit included in the sequence?",
+          "fontSize": "16",
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "130",
+          "styles": {
+            "0": {
+              "0": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "1": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "2": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "3": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "4": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "5": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "6": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "7": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "8": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "9": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "10": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "11": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "12": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "13": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "14": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "15": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "16": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "17": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "18": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "19": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "20": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "21": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "22": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "23": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "24": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "25": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "26": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "27": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "28": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "29": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "30": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "31": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "32": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "33": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "34": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "35": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "36": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "37": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "38": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              },
+              "39": {
+                "stroke": null,
+                "strokeWidth": 1,
+                "fill": "black",
+                "fontFamily": "sans-serif",
+                "fontSize": "16",
+                "fontWeight": "normal",
+                "fontStyle": "normal",
+                "underline": false,
+                "overline": false,
+                "linethrough": false,
+                "deltaY": 0,
+                "textBackgroundColor": ""
+              }
+            }
+          }
+        }
+      ],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "viewport": [
+        800,
+        600
+      ],
+      "title": "Warning signal / fixation cross",
+      "timeout": "500"
+    },
+    "11": {
+      "id": "11",
+      "type": "lab.canvas.Frame",
+      "context": "<!-- Nested components use this canvas -->\n<main>\n  <canvas />\n</main>\n<footer class=\"content-horizontal-center content-vertical-center\">\n  Please memorize these digits.\n</footer>",
+      "contextSelector": "canvas",
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Presentation frame",
+      "children": [
+        "12"
+      ]
+    },
+    "12": {
+      "id": "12",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "15",
+        "4"
+      ],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Presentation sequence"
+    },
+    "13": {
+      "id": "13",
+      "type": "lab.canvas.Frame",
+      "context": "<!-- Nested components use this canvas -->\n<main>\n  <canvas />\n</main>\n<footer class=\"content-horizontal-center content-vertical-center\">\n  Please recall the digits you saw.\n</footer>",
+      "contextSelector": "canvas",
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Recall frame",
+      "children": [
+        "14"
+      ]
+    },
+    "14": {
+      "id": "14",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "6",
+        "10",
+        "7",
+        "8"
+      ],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Recall sequence"
+    },
+    "15": {
+      "id": "15",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "i-text",
+          "version": "2.7.0",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 0,
+          "width": 162.12,
+          "height": 43.93,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "Please press space\nto see the sequence",
+          "fontSize": "18",
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.25,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "194",
+          "styles": {}
+        }
+      ],
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "keydown",
+            "",
+            "Space"
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "viewport": [
+        800,
+        600
+      ],
+      "title": "Pause"
+    },
+    "16": {
+      "id": "16",
+      "type": "lab.html.Screen",
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Thanks",
+      "content": "<header>\n  <h1>Thank you!</h1>\n</header>\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"m-w text-center\">\n    <p><strong>The experiment is now complete.</strong></p>\n    <p>Thank you for taking the time!</p>\n  </div>\n</main>\n<footer>\n  <p>You can now close this window.</p>\n</footer>"
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "1",
+        "2",
+        "16"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "Sternberg Paradigm",
+        "description": "Implemented following Sternberg (1966), Experiment 1, shortened slightly for demonstration purposes\n\nSternberg, S. (1966). High-speed scanning in human memory. Science, 153(3736), 652-654.",
+        "repository": "",
+        "contributors": "Felix Ludwig\nFelix Henninger"
+      }
+    }
+  },
+  "version": [
+    19,
+    0,
+    1
+  ],
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20viewport%20setup%20--%3E%0A%20%20%3Cmeta%20name%3D%22viewport%22%20content%3D%22width%3Ddevice-width%2C%20initial-scale%3D1%22%3E%0A%20%20%3C!--%20lab.js%20library%20and%20experiment%20code%20--%3E%0A%20%20%24%7B%20header%20%7D%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "source": "library"
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F",
+        "source": "library"
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.fallback.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      }
+    }
+  }
+}
