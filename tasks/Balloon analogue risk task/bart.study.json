@@ -1,0 +1,480 @@
+{
+  "components": {
+    "1": {
+      "id": "1",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "2",
+        "4",
+        "5"
+      ],
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Define balloon",
+              "message": "before:prepare",
+              "code": "\nconst balloonColor = '#3771c8'\n\nconst makeKeyframes = (finalSize, burstSize, maxScale=2.5) => {\n  if (burstSize && burstSize <= finalSize) {\n    return `\n      @keyframes inflate {\n        0%   {\n          transform: translate(100px,142.45101px) scale(0.5);\n        }\n        ${ burstSize / 128 * 80 }% {\n          transform: translate(100px,142.45101px) scale(${ finalSize / 128 * maxScale });\n          fill: ${ balloonColor };\n          opacity: 1;\n        }\n        ${ burstSize / 128 * 80 + 20 }% {\n          transform: translate(100px,142.45101px) scale(${ 10 });\n          fill: red;\n          opacity: 0;\n        }\n        100% {\n          transform: translate(100px,142.45101px) scale(${ 10 });\n          fill: red;\n          opacity: 0;\n        }\n      }`\n  } else {\n    return `\n      @keyframes inflate {\n        0%   {\n          transform: translate(100px,142.45101px) scale(0.5);\n        }\n        ${ finalSize / 128 * 80 }% {\n          transform: translate(100px,142.45101px) scale(${ finalSize / 128 * maxScale });\n        }\n        100% {\n          transform: translate(100px,142.45101px) scale(${ finalSize / 128 * maxScale });\n        }\n      }`\n  }\n}\n\nwindow.makeBalloon = (finalSize, burstSize=undefined, dashedSize=undefined, maxScale=2.5) => \n  `\n  <style type=\"text/css\">\n    ${ makeKeyframes(finalSize, burstSize, maxScale) }\n    #balloon_filled {\n      transform: translate(100px,142.45101px);\n      animation: 1.5s linear 0s inflate;\n      animation-iteration-count: 1;\n      animation-fill-mode: forwards;\n      fill: ${ balloonColor };\n      stroke: white;\n      stroke-width:2;\n      stroke-linecap:butt;\n      stroke-linejoin:round;\n      vector-effect:non-scaling-stroke;\n    }\n    #balloon_dashed {\n      transform: translate(100px,142.45101px) scale(${ dashedSize / 128 * maxScale });\n      fill: none;\n      stroke: ${ dashedSize ? '#666' : 'none'};\n      stroke-dasharray: 5 5;\n      stroke-width:2;\n      stroke-linecap:butt;\n      stroke-linejoin:round;\n      vector-effect:non-scaling-stroke;\n    }\n  </style>\n  <svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\n    viewBox=\"0 0 200 200\"\n    style=\"width:400px\">\n    <g transform=\"translate(0,-852.36216)\">\n      <!-- cord -->\n      <path\n        d=\"\n          m 100.15232,1000.4094\n          c 0,2.6033 -3.088308,4.9961 -3.088308,8.0709\n            0,3.0748 5.431788,6.1695 5.431788,9.1113\n            0,2.9417 -3.321701,8.3723 -3.321701,8.3723\n          \"\n        style=\"\n          fill:none;\n          stroke:#000000;\n          stroke-width:1px;\n          stroke-linecap:butt;\n          stroke-linejoin:miter;\n          \"\n        />\n      <!-- bottom piece -->\n      <path\n        id=\"path4204\"\n        d=\"\n          m 98.110605,994.50013\n          c 0,0 1.516755,0.38598 3.523825,0\n            0,0 2.65014,2.62561 1.44609,5.41706\n            -2.47024,0.38601 -3.55273,0.37121 -5.791385,0.0238\n            -1.042723,-3.12069 0.82147,-5.44086 0.82147,-5.44086\n            z\"\n        style=\"\n          fill: ${ balloonColor };\n          stroke:#ffffff;\n          stroke-width:1;\n          stroke-linecap:butt;\n          stroke-linejoin:round\n          \"\n        />\n    </g>\n    <path\n      id=\"balloon_filled\"\n      d=\"\n        m 21.84711,-28\n        c 0,14.3594 -14.60335,27.81454 -21.84711,28\n        c -7.243756,0.18546 -21.847107,-13.6406 -21.847107,-28\n        c 0,-14.3594 9.781283,-24 21.847107,-24\n        c 12.06583,0 21.84711,9.6406 21.84711,24\n        z\"\n    />\n    <path\n      id=\"balloon_dashed\"\n      d=\"\n        m 21.84711,-28\n        c 0,14.3594 -14.60335,27.81454 -21.84711,28\n        c -7.243756,0.18546 -21.847107,-13.6406 -21.847107,-28\n        c 0,-14.3594 9.781283,-24 21.847107,-24\n        c 12.06583,0 21.84711,9.6406 21.84711,24\n        z\"\n    />\n  </svg>\n  `"
+            }
+          ]
+        ]
+      },
+      "title": "Trial",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "files": {
+        "rows": []
+      }
+    },
+    "2": {
+      "id": "2",
+      "type": "lab.html.Form",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Setup slider handler",
+              "message": "before:prepare",
+              "code": "this.options.events['input input'] = function() {\n  const pumps = document.getElementById('pumps').value\n  document.getElementById('balloon_filled')\n    .setAttribute(\n      'transform',\n      `translate(100,142.45101) scale(${ 0.5 + pumps / 64 })`\n    )\n}"
+            }
+          ]
+        ]
+      },
+      "title": "Judgment",
+      "content": "<main class=\"content-horizontal-center content-vertical-center\">\n  <div>\n    <svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\n      viewBox=\"0 0 200 200\"\n      style=\"width: 400px; display: block\">\n      <g transform=\"translate(0, -852.36216)\">\n        <!-- cord -->\n        <path\n          d=\"\n            m 100.15232,1000.4094\n            c 0,2.6033 -3.088308,4.9961 -3.088308,8.0709\n              0,3.0748 5.431788,6.1695 5.431788,9.1113\n              0,2.9417 -3.321701,8.3723 -3.321701,8.3723\n            \"\n          style=\"\n            fill:none;\n            stroke:#000000;\n            stroke-width:1px;\n            stroke-linecap:butt;\n            stroke-linejoin:miter;\n            \"\n          />\n        <!-- bottom piece -->\n        <path\n          id=\"path4204\"\n          d=\"\n            m 98.110605,994.50013\n            c 0,0 1.516755,0.38598 3.523825,0\n              0,0 2.65014,2.62561 1.44609,5.41706\n              -2.47024,0.38601 -3.55273,0.37121 -5.791385,0.0238\n              -1.042723,-3.12069 0.82147,-5.44086 0.82147,-5.44086\n              z\"\n          style=\"\n            fill:#3771c8;\n            stroke:#ffffff;\n            stroke-width:1;\n            stroke-linecap:butt;\n            stroke-linejoin:round\n            \"\n          />\n      </g>\n      <g transform=\"translate(100,142.45101)\" id=\"balloon_filled\">\n        <path\n          id=\"path4201\"\n          d=\"\n            m 21.84711,-28\n            c 0,14.3594 -14.60335,27.81454 -21.84711,28\n            c -7.243756,0.18546 -21.847107,-13.6406 -21.847107,-28\n            c 0,-14.3594 9.781283,-24 21.847107,-24\n            c 12.06583,0 21.84711,9.6406 21.84711,24\n            z\"\n          style=\"\n            fill:none;\n            stroke:#3771c8;\n            stroke-dasharray: 5 5;\n            stroke-width:2;\n            stroke-linecap:butt;\n            stroke-linejoin:round;\n            vector-effect:non-scaling-stroke;\n            \"\n        />\n      </g>\n    </svg>\n    <div class=\"m-l\" style=\"height: 200px\">\n      <p class=\"font-weight-bold\">\n        How far would you like to inflate the balloon?\n      </p>\n      <form id=\"pumps-form\">\n        <input \n          type=\"range\" \n          name=\"pumps\" id=\"pumps\"\n          class=\"w-100\"\n          min=\"1\" max=\"128\" step=\"1\"\n        >\n      </form>\n    </div>\n  </div>\n</main>\n<footer class=\"content-horizontal-right content-vertical-center\">\n  <button type=\"submit\" form=\"pumps-form\">\n    Inflate! &rarr;\n  </button>\n</footer>",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "files": {
+        "rows": []
+      }
+    },
+    "3": {
+      "id": "3",
+      "type": "lab.flow.Loop",
+      "children": [
+        "1"
+      ],
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "burstPoint",
+            "type": "number"
+          }
+        ],
+        "rows": [
+          [
+            "1"
+          ],
+          [
+            "13"
+          ],
+          [
+            "18"
+          ],
+          [
+            "22"
+          ],
+          [
+            "28"
+          ],
+          [
+            "30"
+          ],
+          [
+            "33"
+          ],
+          [
+            "37"
+          ],
+          [
+            "47"
+          ],
+          [
+            "49"
+          ],
+          [
+            "50"
+          ],
+          [
+            "55"
+          ],
+          [
+            "56"
+          ],
+          [
+            "58"
+          ],
+          [
+            "61"
+          ],
+          [
+            "67"
+          ],
+          [
+            "70"
+          ],
+          [
+            "72"
+          ],
+          [
+            "73"
+          ],
+          [
+            "78"
+          ],
+          [
+            "79"
+          ],
+          [
+            "81"
+          ],
+          [
+            "91"
+          ],
+          [
+            "95"
+          ],
+          [
+            "98"
+          ],
+          [
+            "100"
+          ],
+          [
+            "106"
+          ],
+          [
+            "110"
+          ],
+          [
+            "115"
+          ],
+          [
+            "128"
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "BART",
+      "sample": {
+        "n": "5",
+        "mode": "draw-shuffle"
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "files": {
+        "rows": []
+      }
+    },
+    "4": {
+      "id": "4",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "click",
+            "button",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Result",
+      "content": "<main class=\"content-horizontal-center content-vertical-center\">\n  <div>\n    ${ window.makeBalloon(this.state.pumps, this.parameters.burstPoint, this.state.pumps) }\n    <div class=\"m-l\" style=\"height: 200px\">\n    </div>\n  </div>\n</main>\n<footer class=\"content-horizontal-right\">\n</footer>",
+      "tardy": true,
+      "timeout": "2000",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "files": {
+        "rows": []
+      }
+    },
+    "5": {
+      "id": "5",
+      "type": "lab.html.Screen",
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Calculate payoff",
+              "message": "before:prepare",
+              "code": "const ds = this.options.datastore\n\n// Extract previous behavior\nconst pumps = ds.extract('pumps', 'Judgment').map(x => parseInt(x))\nconst burstPoints = ds.extract('burstPoint', 'Judgment')\n\n// Compute per-trial gains\nconst wins = pumps.map((p, i) => p < burstPoints[i] ? p : 0)\n\n// Write results to state\nthis.state.burst = wins[wins.length-1] === 0\nthis.state.currentPoints = wins[wins.length - 1]\nthis.state.totalPoints = wins.reduce((prev, cur) => prev + cur, 0)"
+            }
+          ]
+        ]
+      },
+      "title": "Feedback",
+      "tardy": true,
+      "timeout": "3500",
+      "content": "<main class=\"content-horizontal-center content-vertical-center\">\n  <div>\n    <span class=\"text-muted font-weight-bold\">\n      Your balloon ${ this.state.burst ? 'burst' : 'held' }, so you received\n    </span>\n    <div style=\"font-size: 5em; line-height: 1.2em; font-weight: bold\">\n      ${ this.state.currentPoints } Points\n    </div>\n    <span class=\"text-muted\">\n      In total, you have collected <strong>${ this.state.totalPoints }</strong> points so far.\n    </span>\n  </div>\n</main>\n<footer>\n</footer>",
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "files": {
+        "rows": []
+      }
+    },
+    "39": {
+      "id": "39",
+      "type": "lab.html.Screen",
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "continue",
+            "click",
+            "button",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Instructions",
+      "content": "<header>\n  <h1>Your task</h1>\n</header>\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"w-m text-justify\">\n    <p><strong>The goal of the following task is to inflate balloons. You will decide how far to inflate it &mdash; the further you inflate it, the more points you can gain.</strong></p>\n    <p><strong>However, the balloons can also burst, in which case you will not receive any points.</strong> The more you inflate a balloon, the more likely it is that it will burst.</p>\n    <p><strong>Whether balloons burst or not is a matter of luck</strong> &mdash; some burst with just the smallest amount of air, some don't burst even if they are inflated to the limit. Almost every balloon bursts at some point, though.</p>\n    <p>In the following, <strong>please indicate how far you would like to inflate the balloon using a slider</strong>. A visualization indicates the size that the balloon will reach. With the click of a button, the balloon is slowly inflated to that level.</p>\n  </div>\n</main>\n<footer class=\"content-horizontal-right\">\n  <button id=\"continue\">Continue &rarr;</button>\n</footer>"
+    },
+    "40": {
+      "id": "40",
+      "type": "lab.html.Screen",
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Thanks",
+      "content": "<header>\n  <h1>Thank you!</h1>\n</header>\n<main class=\"content-vertical-center content-horizontal-center\">\n  <div class=\"m-w text-center\">\n    <p><strong>The experiment is now complete.</strong></p>\n    <p>Thank you for taking the time!</p>\n  </div>\n</main>\n<footer>\n  <p>You can now close this window.</p>\n</footer> "
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "39",
+        "3",
+        "40"
+      ],
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "BART",
+        "description": "Automatic version of the Balloon Analogue Risk Task, as presented in Pleskac et al. (2008).\n\nPleskac, T. J., Wallsten, T. S., Wang, P., & Lejuez, C. W. (2008). Development of an automatic response mode to improve the clinical utility of sequential risk-taking tasks. Experimental and Clinical Psychopharmacology, 16(6), 555–564. https://doi.org/10.1037/a0014245",
+        "repository": "",
+        "contributors": "Felix Henninger <mailbox@felixhenninger.com> (http://felixhenninger.com)"
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "files": {
+        "rows": []
+      }
+    }
+  },
+  "version": [
+    19,
+    0,
+    1
+  ],
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20lab.js%20library%20and%20experiment%20code%20--%3E%0A%20%20%24%7B%20header%20%7D%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "source": "library"
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F%0A%0Ainput%5Btype%3D%22range%22%5D%20%7B%0A%20%20border%3A%20none%3B%0A%7D",
+        "source": "library"
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      },
+      "lib/lab.fallback.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js.map": {
+        "type": "text/plain"
+      }
+    }
+  }
+}

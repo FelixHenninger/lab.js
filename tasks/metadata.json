@@ -1,5 +1,13 @@
 [
   {
+    "name": "Balloon analogue risk task",
+    "contributors": [
+      "Felix Henninger",
+      "Michael Kriechbaumer"
+    ],
+    "path": "Balloon analogue risk task/bart.study.json"
+  },
+  {
     "name": "City size task",
     "contributors": [
       "Felix Ludwig",
