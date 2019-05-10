@@ -16,6 +16,14 @@
     "path": "Stimuli/fixation-target-stabiliser.study.json"
   },
   {
+    "name": "Headphone screening",
+    "description": "Headphone calibration and screening as described by Woods et al. (2017)",
+    "contributors": [
+      "Felix Henninger"
+    ],
+    "path": "Helpers/headphone-screening.study.json"
+  },
+  {
     "name": "Multi-page instructions",
     "contributors": [
       "Folco Panizza"
