@@ -14,7 +14,7 @@ import { Footer } from './footer'
 import ShuffleGroups from './components/ShuffleGroups'
 
 const switchLabels = ({
-  templateParameters,
+  templateParameters={ rows: [] },
   sample={ n: undefined }
 }, labels) => {
   const samples = parseInt(sample.n)
@@ -124,7 +124,7 @@ export default class extends Component {
 
   render() {
     const { id, data } = this.props
-    const { columns, rows } = data.templateParameters
+    const { columns=[], rows=[] } = data.templateParameters || {}
 
     return (
       <>
