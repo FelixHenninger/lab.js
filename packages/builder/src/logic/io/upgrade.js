@@ -368,7 +368,11 @@ const updates = {
       }
       return c
     })
-  })
+  }),
+  '19.0.1': data => ({
+    ...data,
+    version: [19, 1, 0],
+  }),
 }
 
 export default (data) => {

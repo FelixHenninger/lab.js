@@ -1,6 +1,6 @@
 {
   "name": "lab.js.builder",
-  "version": "19.0.1",
+  "version": "19.1.0",
   "private": true,
   "devDependencies": {
     "babel-jest": "^24.7.1",
