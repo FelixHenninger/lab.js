@@ -14,21 +14,26 @@ import ComponentOptions from '../ComponentOptions'
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = { error: null }
+    this.defaultState = { error: null, errorInfo: {} }
+    this.state = { ...this.defaultState }
   }
 
   componentDidCatch(error, info) {
     Raven.captureException(error, { extra: info })
-    this.setState({ error })
+    this.setState({ error, errorInfo: info })
   }
 
   resetError() {
-    this.setState({ error: null })
+    this.setState({ ...this.defaultState })
   }
 
   render() {
     if (this.state.error) {
-      return <Error reset={ () => this.resetError() } />
+      return <Error
+        error={ this.state.error }
+        errorInfo={ this.state.errorInfo }
+        reset={ () => this.resetError() }
+      />
     } else {
       return (
         <>

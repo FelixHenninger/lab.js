@@ -5,6 +5,7 @@ import { Container, Row, Col, Alert, Button, ButtonGroup } from 'reactstrap'
 import { sample } from 'lodash'
 
 import { stateToDownload } from '../../logic/io/save'
+import Card from '../Card'
 
 // Source: https://en.wiktionary.org/wiki/Category:English_minced_oaths
 // and https://en.wiktionary.org/wiki/Appendix:Fictional_English_curse_words
@@ -24,7 +25,7 @@ const gifs = [
   'https://media.giphy.com/media/8QIgBwVvZVrG0/giphy.mp4', // Ford?
 ]
 
-const Error = ({ reset }, { store }) => {
+const Error = ({ reset, error, errorInfo }, { store }) => {
   const [backup, setBackup] = useState(false)
 
   return (
@@ -108,11 +109,31 @@ const Error = ({ reset }, { store }) => {
                 with an empty study
               </Button>
             </ButtonGroup>
+            <Card
+              title="Guru meditation / technical details"
+              className="mt-3"
+              collapsable={ true }
+              open={ false }
+            >
+              <dl>
+                <dt>Error message</dt>
+                <dd>{ (error && error.toString()) || <em>(unavailable)</em> }</dd>
+                <dt>Component stack</dt>
+                <dd style={{ whiteSpace: "pre-wrap" }}>
+                  { errorInfo.componentStack || <em>(unavailable)</em> }
+                </dd>
+              </dl>
+            </Card>
           </Alert>
         </Col>
       </Row>
     </Container>
   )
+}
+
+Error.defaultProps = {
+  error: undefined,
+  errorInfo: {},
 }
 
 Error.contextTypes = {
