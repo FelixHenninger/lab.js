@@ -25,9 +25,9 @@ export default async (store) => {
       // Prepopulate cache with library files
       await prePopulateCache()
     } catch (error) {
-      console.log('Error during preview worker setup', error)
+      throw error
     }
   } else {
-    return new Error('Service workers not available')
+    throw new Error('Service workers not available')
   }
 }
