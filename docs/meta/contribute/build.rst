@@ -51,7 +51,7 @@ will install all dependencies for the ``lab.js`` library, whereafter
 
   yarn run build:js
 
-will output a transpiled version in the ``packages/library/build`` directory. If you would like the transpiled output to be updated automatically as you make changes, ``yarn run watch:js`` will do that for you.
+will output a transpiled version in the ``packages/library/dist`` directory. If you would like the transpiled output to be updated automatically as you make changes, ``yarn run watch:js`` will do that for you.
 
 .. code::
 
