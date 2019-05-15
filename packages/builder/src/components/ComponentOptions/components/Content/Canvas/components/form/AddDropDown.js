@@ -55,6 +55,13 @@ const AddDropDown = (
             Rectangle
           </DropdownItem>
           <DropdownItem divider />
+          <DropdownItem header>Text</DropdownItem>
+          <DropdownItem
+            onClick={ () => addHandler('text', { content: 'text' }) }
+          >
+            Text
+          </DropdownItem>
+          <DropdownItem divider />
           <DropdownItem header>Media</DropdownItem>
           <DropdownItem
             onClick={ async () => {
@@ -71,13 +78,6 @@ const AddDropDown = (
             } }
           >
             Image
-          </DropdownItem>
-          <DropdownItem divider />
-          <DropdownItem header>Text</DropdownItem>
-          <DropdownItem
-            onClick={ () => addHandler('text', { content: 'text' }) }
-          >
-            Text
           </DropdownItem>
           <DropdownItem divider />
           <DropdownItem header>From selected</DropdownItem>
