@@ -211,3 +211,27 @@ const renderElement = (ctx, content, cache={}) => {
 
 export const makeRenderFunction = (content, cache) => (ts, canvas, ctx) =>
   (content || []).forEach(c => renderElement(ctx, c, cache))
+
+export const makePath = (ctx, content) => {
+  // Transformation as above
+  ctx.save()
+  ctx.beginPath()
+  ctx.translate(content.left, content.top)
+  ctx.rotate(toRadians(content.angle))
+
+  const path = new Path2D()
+
+  // Type-specific path extensions
+  switch (content.type) {
+    case 'rect':
+      path.rect(
+        -content.width / 2, -content.height / 2,
+        content.width, content.height,
+      )
+    break
+    // TODO: cover remaining object types
+  }
+
+  ctx.restore()
+  return path
+}
