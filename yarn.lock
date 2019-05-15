@@ -9226,11 +9226,12 @@ konva@^2.6.0:
   integrity sha512-LCOoavICTD9PYoAqtWo8sbxYtCiXdgEeY7vj/Sq8b2bwFmrQr9Ak0RkD4/jxAf5fcUQRL5e1zPLyfRpVndp20A==
 
 "lab.js@file:packages/library":
-  version "19.0.1"
+  version "19.1.0"
   dependencies:
     "@babel/runtime" "^7.1.2"
     babel-polyfill "^6.23.0"
     core-js "^2.5.6"
+    cross-env "^5.2.0"
     es2015-proxy "^0.1.7"
     es6-promise "^4.1.0"
     fast-async "^7.0.0"
