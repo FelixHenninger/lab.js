@@ -68,6 +68,21 @@ fabric.Image.fromObject = function(_object, callback) {
   })
 }
 
+// Add AOI object type ---------------------------------------------------------
+
+// (apparently fabric requires camelcased constructors)
+fabric.Aoi = fabric.util.createClass(fabric.Rect, {
+  type: 'aoi',
+  initialize: function(options={}) {
+    options.fill = 'rgba(0, 0, 0, 0.2)'
+    this.callSuper('initialize', options)
+  },
+})
+
+fabric.Aoi.fromObject = function(object, callback, forceAsync) {
+  return fabric.Object._fromObject('Aoi', object, callback, forceAsync);
+}
+
 // Canvas component ------------------------------------------------------------
 
 const handlePadding = 6
@@ -353,6 +368,11 @@ export default class FabricCanvas extends Component {
           return new fabric.Image(img, {
             ...defaults,
             ...options,
+          })
+        case 'aoi':
+          return new fabric.Aoi({
+            width: 50, height: 50,
+            ...defaults,
           })
         default:
           return undefined

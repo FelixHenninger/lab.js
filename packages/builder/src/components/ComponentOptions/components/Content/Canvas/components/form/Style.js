@@ -17,7 +17,7 @@ export default ({ selection, changeHandler }) =>
       model=".strokeWidth"
       component={ StrokeWidthDropdown }
       controlProps={{
-        disabled: ['image', undefined].includes(selection.type),
+        disabled: ['image', 'aoi', undefined].includes(selection.type),
       }}
     />
     <Control
@@ -26,7 +26,7 @@ export default ({ selection, changeHandler }) =>
       controlProps={{
         icon: 'circle',
         iconFallbackWeight: 'r',
-        disabled: ['image', undefined].includes(selection.type),
+        disabled: ['image', 'aoi', undefined].includes(selection.type),
       }}
     />
     <Control
@@ -35,7 +35,7 @@ export default ({ selection, changeHandler }) =>
       controlProps={{
         icon: 'circle',
         iconWeight: 's',
-        disabled: ['line', 'image', undefined].includes(selection.type),
+        disabled: ['line', 'image', 'aoi', undefined].includes(selection.type),
       }}
     />
   </ButtonGroup>

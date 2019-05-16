@@ -80,6 +80,13 @@ const AddDropDown = (
             Image
           </DropdownItem>
           <DropdownItem divider />
+          <DropdownItem header>Interaction</DropdownItem>
+          <DropdownItem
+            onClick={ () => addHandler('aoi') }
+          >
+            AOI
+          </DropdownItem>
+          <DropdownItem divider />
           <DropdownItem header>From selected</DropdownItem>
           <DropdownItem
             onClick={ cloneHandler }
