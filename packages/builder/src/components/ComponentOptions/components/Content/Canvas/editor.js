@@ -26,20 +26,22 @@ const trulyUniqueId = (existingIds=[]) => {
 
 const prepareData = data => {
   const existingIds = data
+    .filter(c => isObject(c) && c.id !== undefined)
     .map(c => c.id)
-    .filter(id => id !== undefined)
 
-  const output = data.map(c => {
-    // Add new id where not already present
-    if (c.id) {
-      return [c.id, c]
-    } else {
-      const newId = trulyUniqueId(existingIds)
-      existingIds.push(newId)
-      c.id = newId
-      return [c.id, c]
-    }
-  })
+  const output = data
+    .filter(c => isObject(c))
+    .map(c => {
+      // Add new id where not already present
+      if (c.id) {
+        return [c.id, c]
+      } else {
+        const newId = trulyUniqueId(existingIds)
+        existingIds.push(newId)
+        c.id = newId
+        return [c.id, c]
+      }
+    })
 
   return [
     fromPairs(output), // Object with id => data mapping
