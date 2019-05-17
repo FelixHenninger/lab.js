@@ -10,7 +10,7 @@ import Icon from '../../../../../../Icon'
 import FileSelector from '../../../../../../FileSelector'
 
 const AddDropDown = (
-  { addHandler, cloneHandler, removeHandler },
+  { addHandler, cloneHandler, removeHandler, selection },
   { id }
 ) => {
   let fileSelector = React.createRef()
@@ -90,6 +90,7 @@ const AddDropDown = (
           <DropdownItem header>From selected</DropdownItem>
           <DropdownItem
             onClick={ cloneHandler }
+            disabled={ !selection || selection.type === undefined }
           >
             Duplicate
           </DropdownItem>
@@ -98,6 +99,7 @@ const AddDropDown = (
       <Button
         outline color="secondary"
         onClick={ removeHandler }
+        disabled={ !selection || selection.type === undefined }
       >
         <Icon icon="trash" />
       </Button>

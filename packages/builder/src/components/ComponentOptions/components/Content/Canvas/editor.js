@@ -196,6 +196,7 @@ export default class CanvasEditor extends Component {
             addHandler={ (...args) => this.canvas.current.add(...args) }
             removeHandler={ () => this.canvas.current.modifyActive('remove') }
             cloneHandler={ () => this.canvas.current.cloneActive() }
+            selection={ selection }
           />
           <Layers
             type={ selection.type }
