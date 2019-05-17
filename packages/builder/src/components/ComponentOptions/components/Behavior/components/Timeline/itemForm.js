@@ -14,7 +14,7 @@ import FileSelector from '../../../../../FileSelector'
 
 const toFloat = x => parseFloat(x) || 0
 
-const Toolbar = ({ add, duplicateCurrent, deleteCurrent }) =>
+const Toolbar = ({ add, duplicateCurrent, deleteCurrent, activeItem }) =>
   <div className="float-right">
     <ButtonGroup>
       <UncontrolledButtonDropdown direction="up">
@@ -50,6 +50,7 @@ const Toolbar = ({ add, duplicateCurrent, deleteCurrent }) =>
       </UncontrolledButtonDropdown>
       <Button
         outline color="secondary"
+        disabled={ !activeItem }
         onClick={ deleteCurrent }
       >
         <Icon
@@ -97,6 +98,7 @@ const Header = ({ activeItem, add, duplicateCurrent, deleteCurrent }) =>
           add={ add }
           duplicateCurrent={ duplicateCurrent }
           deleteCurrent={ deleteCurrent }
+          activeItem={ activeItem }
         />
         {
           activeItem
