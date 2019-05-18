@@ -253,7 +253,7 @@ TimelineStage.defaultProps = {
   padding: 20,
   layerHeight: 30,
   layerGutter: 20,
-  range: { min: -100, max: 2000 },
+  range: { min: -100, max: 30000 },
 }
 
 TimelineStage.contextTypes = {
