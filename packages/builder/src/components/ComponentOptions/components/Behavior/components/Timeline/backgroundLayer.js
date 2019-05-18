@@ -6,21 +6,24 @@ import { range } from 'lodash'
 
 import colors from './colors'
 
-const BackgroundLayer = (_, { height }) =>
+const BackgroundLayer = (
+  { gridWidth=100 },
+  { range: timeline, height }
+) =>
   <Layer>
     {
-      range(-1, 20).map(i =>
-        <Group key={ `t-${ i }` }>
+      range(timeline.min, timeline.max + gridWidth, gridWidth).map((t, i) =>
+        <Group key={ `t-${ t }` }>
           <Rect
-            x={ i * 100 + 0.5 }
+            x={ t + 0.5 }
             y={ 0 }
-            width={ 100 }
+            width={ gridWidth }
             height={ height }
             fill={ i % 2 === 0 ? 'white' : colors.gray }
           />
           <Text
-            text={ `${ i * 100 }` }
-            x={ i * 100 + 6 }
+            text={ `${ t }` }
+            x={ t + 6 }
             y={ height - 15 }
             fontFamily="Fira Sans"
             fontSize={ 10 }
@@ -29,7 +32,7 @@ const BackgroundLayer = (_, { height }) =>
             verticalAlign="bottom"
           />
           <Line
-            x={ i * 100 + 0.5 }
+            x={ t + 0.5 }
             y={ 0 }
             stroke={ colors.gray }
             strokeWidth={ 1 }
