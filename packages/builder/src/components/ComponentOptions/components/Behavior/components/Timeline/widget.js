@@ -221,6 +221,7 @@ class TimelineStage extends Component {
             ),
             y: 0
           }) }
+          className="border-bottom"
         >
           <BackgroundLayer
             listening={ false }

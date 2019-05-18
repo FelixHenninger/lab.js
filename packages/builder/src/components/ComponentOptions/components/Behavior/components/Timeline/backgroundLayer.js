@@ -6,7 +6,7 @@ import { range } from 'lodash'
 
 import colors from './colors'
 
-const BackgroundLayer = (_, { range: timelineRange, height }) =>
+const BackgroundLayer = (_, { height }) =>
   <Layer>
     {
       range(-1, 20).map(i =>
@@ -21,7 +21,7 @@ const BackgroundLayer = (_, { range: timelineRange, height }) =>
           <Text
             text={ `${ i * 100 }` }
             x={ i * 100 + 6 }
-            y={ height - 16 }
+            y={ height - 15 }
             fontFamily="Fira Sans"
             fontSize={ 10 }
             fill={ colors.muted }
@@ -38,13 +38,6 @@ const BackgroundLayer = (_, { range: timelineRange, height }) =>
         </Group>
       )
     }
-    <Line
-      x={ 0 }
-      y={ height - 0.5 }
-      stroke={ colors.outline }
-      strokeWidth={ 1 }
-      points={ [timelineRange.min, 0, timelineRange.max, 0] }
-    />
   </Layer>
 
 BackgroundLayer.contextTypes = {
