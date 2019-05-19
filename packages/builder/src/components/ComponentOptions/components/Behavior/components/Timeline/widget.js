@@ -59,12 +59,12 @@ class TimelineStage extends Component {
 
   // Position math -------------------------------------------------------------
 
-  toX(t) {
-    return t / 10**this.state.zoom
+  toX(t, zoom=this.state.zoom) {
+    return t / 10**zoom
   }
 
-  toTime(x) {
-    return x * 10**this.state.zoom
+  toTime(x, zoom=this.state.zoom) {
+    return x * 10**zoom
   }
 
   calcPosition(start, stop, layer) {
@@ -229,7 +229,10 @@ class TimelineStage extends Component {
               // Sign reversed because the right-hand side
               // is dragged leftward, and vice versa.
               -(this.toX(range.max) - width + padding),
-              -(this.toX(range.min) + padding)
+              -(this.toX(range.min, 0) + padding)
+              // (the left bound is somewhat hackish -- this scales the
+              // left-side padding to 100ms at zoom level zero, though
+              // this breaks down at higher levels)
             ),
             y: 0
           }) }
