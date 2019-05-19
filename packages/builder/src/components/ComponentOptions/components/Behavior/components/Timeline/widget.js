@@ -11,15 +11,17 @@ import ItemLayer from './itemLayer'
 import ItemForm from './itemForm'
 
 class TimelineStage extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       width: 0,
       activeItem: undefined,
+      zoom: props.zoom,
     }
 
     // Bindings
     this.calcPosition = this.calcPosition.bind(this)
+    this.toX = this.toX.bind(this)
     this.closestLayerY = this.closestLayerY.bind(this)
     this.setActive = this.setActive.bind(this)
     this.setCursor = this.setCursor.bind(this)
@@ -44,6 +46,8 @@ class TimelineStage extends Component {
   getChildContext() {
     return {
       range: this.props.range,
+      zoom: this.state.zoom,
+      toX: this.toX,
       width: this.state.width,
       height: this.props.height,
       padding: this.props.padding,
@@ -55,11 +59,19 @@ class TimelineStage extends Component {
 
   // Position math -------------------------------------------------------------
 
+  toX(t) {
+    return t / 10**this.state.zoom
+  }
+
+  toTime(x) {
+    return x * 10**this.state.zoom
+  }
+
   calcPosition(start, stop, layer) {
     return {
-      x: parseInt(start),
+      x: this.toX(parseInt(start)),
       y: this.layerY(layer),
-      w: parseInt(stop) - parseInt(start),
+      w: this.toX(parseInt(stop) - parseInt(start)),
     }
   }
 
@@ -139,20 +151,20 @@ class TimelineStage extends Component {
       id: this.context.id,
       item,
       data: {
-        start: x,
-        stop: x + width,
+        start: this.toTime(x),
+        stop: this.toTime(x + width),
         priority: this.closestLayer(y)
       }
     })
     // TODO: This is a hack!
     this.props.formDispatch(
       actions.load(
-        `local.timeline[${ item }].start`, x
+        `local.timeline[${ item }].start`, this.toTime(x)
       )
     )
     this.props.formDispatch(
       actions.load(
-        `local.timeline[${ item }].stop`, x + width
+        `local.timeline[${ item }].stop`, this.toTime(x + width)
       )
     )
     this.props.formDispatch(
@@ -203,7 +215,7 @@ class TimelineStage extends Component {
 
   render() {
     const { width } = this.state
-    const { data, height, range, padding } = this.props
+    const { data, range, height, padding } = this.props
 
     return (
       <>
@@ -216,8 +228,8 @@ class TimelineStage extends Component {
             x: clamp(x,
               // Sign reversed because the right-hand side
               // is dragged leftward, and vice versa.
-              -(range.max - width + padding),
-              -(range.min + padding)
+              -(this.toX(range.max) - width + padding),
+              -(this.toX(range.min) + padding)
             ),
             y: 0
           }) }
@@ -254,6 +266,7 @@ TimelineStage.defaultProps = {
   layerHeight: 30,
   layerGutter: 20,
   range: { min: -100, max: 30000 },
+  zoom: 0,
 }
 
 TimelineStage.contextTypes = {
@@ -266,6 +279,8 @@ TimelineStage.contextTypes = {
 
 TimelineStage.childContextTypes = {
   range: PropTypes.object,
+  zoom: PropTypes.number,
+  toX: PropTypes.func,
   width: PropTypes.number,
   height: PropTypes.number,
   padding: PropTypes.number,
