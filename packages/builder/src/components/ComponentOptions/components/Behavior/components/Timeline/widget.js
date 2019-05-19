@@ -25,6 +25,7 @@ class TimelineStage extends Component {
     this.closestLayerY = this.closestLayerY.bind(this)
     this.setActive = this.setActive.bind(this)
     this.setCursor = this.setCursor.bind(this)
+    this.setZoom = this.setZoom.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.updateItem = this.updateItem.bind(this)
     this.handleAdd = this.handleAdd.bind(this)
@@ -54,6 +55,7 @@ class TimelineStage extends Component {
       calcPosition: this.calcPosition,
       closestLayerY: this.closestLayerY,
       setCursor: this.setCursor,
+      setZoom: this.setZoom,
     }
   }
 
@@ -131,6 +133,10 @@ class TimelineStage extends Component {
 
   setCursor(cursor) {
     this.stage.current.container().style.cursor = cursor
+  }
+
+  setZoom(level) {
+    this.setState({ zoom: level })
   }
 
   // Store/form interaction ----------------------------------------------------
@@ -290,6 +296,7 @@ TimelineStage.childContextTypes = {
   calcPosition: PropTypes.func,
   closestLayerY: PropTypes.func,
   setCursor: PropTypes.func,
+  setZoom: PropTypes.func,
 }
 
 export default TimelineStage

@@ -14,7 +14,10 @@ import FileSelector from '../../../../../FileSelector'
 
 const toFloat = x => parseFloat(x) || 0
 
-const Toolbar = ({ add, duplicateCurrent, deleteCurrent, activeItem }) =>
+const Toolbar = (
+  { add, duplicateCurrent, deleteCurrent, activeItem },
+  { zoom, setZoom }
+) =>
   <div className="float-right">
     <ButtonGroup>
       <UncontrolledButtonDropdown direction="up">
@@ -62,7 +65,40 @@ const Toolbar = ({ add, duplicateCurrent, deleteCurrent, activeItem }) =>
          />
       </Button>
     </ButtonGroup>
+    <ButtonGroup className="ml-2">
+      <Button
+        outline color="secondary"
+        disabled={ zoom === 0 }
+        onClick={ () => setZoom(0) }
+      >
+        <Icon
+          icon="search-plus" fixedWidth
+          style={{
+            position: 'relative',
+            top: '0.5px'
+          }}
+         />
+      </Button>
+      <Button
+        outline color="secondary"
+        disabled={ zoom === 1 }
+        onClick={ () => setZoom(1) }
+      >
+        <Icon
+          icon="search-minus" fixedWidth
+          style={{
+            position: 'relative',
+            top: '0.5px'
+          }}
+         />
+      </Button>
+    </ButtonGroup>
   </div>
+
+Toolbar.contextTypes = {
+  zoom: PropTypes.number,
+  setZoom: PropTypes.func,
+}
 
 const InteractionWarning = (_, { id, store }) => {
   // Check whether the current component is the first in the study
