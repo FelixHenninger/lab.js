@@ -6,24 +6,32 @@ import { range } from 'lodash'
 
 import colors from './colors'
 
+const floor = (x, digits) => Math.floor(x / 10**digits) * 10**digits
+
 const BackgroundLayer = (
   { gridWidth=100 },
-  { range: timeline, height }
+  { range: timeline, height, toX, zoom }
 ) =>
   <Layer>
     {
-      range(timeline.min, timeline.max + gridWidth, gridWidth).map((t, i) =>
+      range(
+        // Background blocks must start at t with an even number of digits
+        // FIXME: Here be dragons
+        floor(timeline.min - gridWidth * 10**zoom, zoom + 2),
+        timeline.max + gridWidth,
+        gridWidth * 10**zoom
+      ).map((t, i) =>
         <Group key={ `t-${ t }` }>
           <Rect
-            x={ t + 0.5 }
+            x={ toX(t) + 0.5 }
             y={ 0 }
             width={ gridWidth }
             height={ height }
-            fill={ i % 2 === 0 ? 'white' : colors.gray }
+            fill={ i % 2 === 0 ? 'white' : colors.gray  }
           />
           <Text
             text={ `${ t }` }
-            x={ t + 6 }
+            x={ toX(t) + 6 }
             y={ height - 15 }
             fontFamily="Fira Sans"
             fontSize={ 10 }
@@ -32,7 +40,7 @@ const BackgroundLayer = (
             verticalAlign="bottom"
           />
           <Line
-            x={ t + 0.5 }
+            x={ toX(t) + 0.5 }
             y={ 0 }
             stroke={ colors.gray }
             strokeWidth={ 1 }
@@ -45,6 +53,8 @@ const BackgroundLayer = (
 
 BackgroundLayer.contextTypes = {
   range: PropTypes.object,
+  zoom: PropTypes.number,
+  toX: PropTypes.func,
   height: PropTypes.number,
   padding: PropTypes.number,
 }
