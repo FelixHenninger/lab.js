@@ -8,6 +8,11 @@ import colors from './colors'
 
 const floor = (x, digits) => Math.floor(x / 10**digits) * 10**digits
 
+const label = (t, zoom) =>
+  zoom === 0
+    ? `${ t }ms`
+    : `${ t/1000 }s`
+
 const BackgroundLayer = (
   { gridWidth=100 },
   { range: timeline, height, toX, zoom }
@@ -30,7 +35,7 @@ const BackgroundLayer = (
             fill={ i % 2 === 0 ? 'white' : colors.gray  }
           />
           <Text
-            text={ `${ t }` }
+            text={ label(t, zoom) }
             x={ toX(t) + 6 }
             y={ height - 15 }
             fontFamily="Fira Sans"
