@@ -18,7 +18,7 @@ const Toolbar = (
   { add, duplicateCurrent, deleteCurrent, activeItem },
   { zoom, setZoom }
 ) =>
-  <div className="float-right">
+  <div style={{ position: 'absolute', right: '0' }}>
     <ButtonGroup>
       <UncontrolledButtonDropdown direction="up">
         <DropdownToggle outline color="secondary">
@@ -129,7 +129,7 @@ InteractionWarning.contextTypes = {
 const Header = ({ activeItem, add, duplicateCurrent, deleteCurrent }) =>
   <>
     <Row form className="clearfix">
-      <Col>
+      <Col style={{ position: 'relative' }}>
         <Toolbar
           add={ add }
           duplicateCurrent={ duplicateCurrent }
