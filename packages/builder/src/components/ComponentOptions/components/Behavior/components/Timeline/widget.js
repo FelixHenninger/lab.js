@@ -14,7 +14,7 @@ class TimelineStage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      width: 0,
+      width: 0, offset: 0,
       activeItem: undefined,
       zoom: props.zoom,
     }
@@ -136,7 +136,27 @@ class TimelineStage extends Component {
   }
 
   setZoom(level) {
-    this.setState({ zoom: level })
+    // We try to keep the center centered, changing only the scale
+    const currentCenter = this.toTime(
+      -1 * (this.stage.current.x() - this.state.width / 2)
+      // The horizontal offset is always negative because the underlying
+      // coordinate system is shifted into the opposite direction
+    )
+    // So the new horizontal offset retains the former center position,
+    // accounting for the future timeline width, at the new zoom level
+    const newOffset = currentCenter - this.toTime(this.state.width / 2, level)
+
+    // Make sure that the timeline bounds are applied
+    const clampedOffset = clamp(
+      this.toX(newOffset, level),
+      this.toX(0, level), // Padding is already applied through stage offset
+      this.toX(this.props.range.max, level) - this.state.width
+    )
+
+    this.setState({
+      zoom: level,
+      offset: -clampedOffset, // Reverse sign once more
+    })
   }
 
   // Store/form interaction ----------------------------------------------------
@@ -220,7 +240,7 @@ class TimelineStage extends Component {
   }
 
   render() {
-    const { width } = this.state
+    const { width, offset } = this.state
     const { data, range, height, padding } = this.props
 
     return (
@@ -228,7 +248,8 @@ class TimelineStage extends Component {
         <Stage
           ref={ this.stage }
           width={ width } height={ height }
-          offsetX={ -padding }
+          x={ offset } // Stage scroll/viewBox offset (changes w/ scrolling)
+          offsetX={ -padding } // Horizontal axis offset (constant)
           draggable={ true }
           dragBoundFunc={ ({ x }) => ({
             x: clamp(x,
