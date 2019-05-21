@@ -12,12 +12,14 @@ export const sum = a =>
 export const mean = a =>
   sum(a) / a.length
 
-export const variance = a =>
+export const variance = (a) => {
   // The variance is the mean
   // of the sum of squares
-  mean(
-    a.map(x => (x - mean(a))**2)
+  const m = mean(a)
+  return mean(
+    a.map(x => (x - m)**2)
   )
+}
 
 export const std = a =>
   Math.sqrt(variance(a))
