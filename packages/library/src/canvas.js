@@ -7,6 +7,8 @@ import { reduce } from './util/tree'
 import { makeRenderFunction, makeTransform,
   transform } from './util/canvas'
 
+import { isObject } from 'lodash'
+
 // Global canvas functions used in all of the following components
 // (multiple inheritance would come in handy here, but alas...)
 
@@ -134,11 +136,9 @@ export class Screen extends Component {
 
   onPrepare() {
     // Add images to cached media
-    if (this.options.content) {
-      this.options.content
-        .filter(c => c.type === 'image')
-        .forEach(c => this.options.media.images.push(c.src))
-    }
+    (this.options.content || [])
+      .filter(c => isObject(c) && c.type === 'image' && c.src)
+      .forEach(c => this.options.media.images.push(c.src))
 
     prepareCanvas.apply(this)
 
@@ -153,7 +153,9 @@ export class Screen extends Component {
     if (this.options.renderFunction === null) {
       this.options.renderFunction =
         makeRenderFunction(
-          this.options.content,
+          // Exclude AOIs, and perform at least a rudimentary check
+          (this.options.content || [])
+            .filter(c => isObject(c) && c.type !== 'aoi'),
           this.internals.controller.cache,
         )
     }
