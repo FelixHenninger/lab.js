@@ -3,13 +3,13 @@ export const product = function* (...sets) {
   // Compute number of combinations to be had
   // from any set and all others to its right
   // (empty sets always contribute one value, undefined)
-  let thresholds = sets
+  const thresholds = sets
     .map(s => Math.max(s.length, 1)) // Map out lengths and ...
     .reverse() // ... compute the backwards cumulative product
     .reduce(
       (acc, current, i) => acc.concat([
-        (acc[i - 1] || 1) * current
-      ]), []
+        (acc[i - 1] || 1) * current,
+      ]), [],
     )
     .reverse()
 

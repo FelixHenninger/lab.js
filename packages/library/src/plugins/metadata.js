@@ -38,7 +38,7 @@ const extractURLSearchParams = search =>
           .map(entry => entry.split('=', 2)) // Split entries into k/v
           .map(([key, value]) => ([
             key,
-            decodeURIComponent(value).replace('+', ' ')
+            decodeURIComponent(value).replace('+', ' '),
           ]))
   )
 

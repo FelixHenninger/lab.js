@@ -129,7 +129,7 @@ const renderElement = (ctx, content, cache={}) => {
     case 'ellipse':
       ctx.ellipse(
         0, 0, content.width / 2, content.height / 2,
-        0, 0, toRadians(360)
+        0, 0, toRadians(360),
       )
       break
     case 'text':
@@ -149,10 +149,10 @@ const renderElement = (ctx, content, cache={}) => {
 
       // Recalculate width and height
       // to preserve aspect ratio, if requested
-      const width = content.autoScale === "width"
+      const width = content.autoScale === 'width'
         ? img.naturalWidth * (content.height / img.naturalHeight)
         : content.width
-      const height = content.autoScale === "height"
+      const height = content.autoScale === 'height'
         ? img.naturalHeight * (content.width / img.naturalWidth)
         : content.height
 
@@ -228,8 +228,10 @@ export const makePath = (ctx, content) => {
         -content.width / 2, -content.height / 2,
         content.width, content.height,
       )
-    break
-    // TODO: cover remaining object types
+      break
+    default:
+      console.error('Content type not yet implemented')
+      // TODO: cover remaining object types
   }
 
   ctx.restore()

@@ -1,7 +1,7 @@
 export default class PostMessage {
   constructor({ origin, target }) {
     this.origin = origin || '*'
-    this.target = target || parent
+    this.target = target || window.parent
   }
 
   handle(context, event) {

@@ -5,11 +5,10 @@ import { requestIdleCallback } from '../../timing'
 
 // Wrap context.decodeAudioData in a callback,
 // because Safari doesn't (as of now) support the promise-based variant
-const decodeAudioData = (context, buffer) => {
-  return new Promise((resolve, reject) => {
+const decodeAudioData = (context, buffer) =>
+  new Promise((resolve, reject) => {
     context.decodeAudioData(buffer, resolve, reject)
   })
-}
 
 export const load = async (url, context, fetchOptions) => {
   const response = await fetch(url, fetchOptions)
@@ -115,7 +114,7 @@ class AudioNodeItem {
       pannerNode.panningModel = this.payload.panningModel
       pannerNode.setPosition(
         this.payload.pan, 0,
-        1 - Math.abs(this.payload.pan)
+        1 - Math.abs(this.payload.pan),
       )
       this.processingChain.push(pannerNode)
     }
@@ -136,7 +135,8 @@ class AudioNodeItem {
       console.warn(
         `Sending audio to a context in ${ audioContext.state } state.`,
         'This may result in missing sounds —',
-        'Please make sure that users interact with the page before using audio.'
+        'Please make sure that users interact with the page',
+        'before using audio.',
       )
     }
 
@@ -210,8 +210,7 @@ class AudioNodeItem {
 export class BufferSourceItem extends AudioNodeItem {
   async prepare() {
     // Populate buffer from cache, if possible
-    const cache = this.timeline.controller.cache
-    const audioContext = this.timeline.controller.audioContext
+    const { cache, audioContext } = this.timeline.controller
 
     let buffer
     if (cache.audio[this.payload.src]) {
@@ -224,7 +223,7 @@ export class BufferSourceItem extends AudioNodeItem {
       } catch (e) {
         console.warn(
           'Audio timeline item missing content, will remain silent.',
-          `Source: ${ this.payload.src }, Error: ${ e.message }`
+          `Source: ${ this.payload.src }, Error: ${ e.message }`,
         )
       }
     }

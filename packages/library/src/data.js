@@ -10,7 +10,7 @@ import { EventHandler } from './util/eventAPI'
 const defaultIdColumns = [
   // TODO: Standardize the id column and document
   // a single preferred name for it
-  'id', 'participant', 'participant_id'
+  'id', 'participant', 'participant_id',
 ]
 
 const defaultMetadata = [
@@ -159,7 +159,7 @@ export class Store extends EventHandler {
         has: (_, prop) => Reflect.has(this.state, prop),
         ownKeys: () => Reflect.ownKeys(this.state),
         getOwnPropertyDescriptor: (_, prop) =>
-          Reflect.getOwnPropertyDescriptor(this.state, prop)
+          Reflect.getOwnPropertyDescriptor(this.state, prop),
       })
     : undefined
   )
@@ -336,12 +336,12 @@ export class Store extends EventHandler {
     // Extract the data from each entry
     const rows = data.map((e) => {
       const cells = keys.map((k) => {
-          if (Object.hasOwnProperty.call(e, k)) {
-            return e[k]
-          } else {
-            return null
-          }
-        })
+        if (Object.hasOwnProperty.call(e, k)) {
+          return e[k]
+        } else {
+          return null
+        }
+      })
 
       return cells
         .map(escapeCsvCell) // Escape special characters in cells
@@ -389,11 +389,11 @@ export class Store extends EventHandler {
   // Suggest a filename -----------------------------------
   makeFilename(prefix='study', filetype='csv') {
     // Extract an id from the data, if available
-    const id = this.id
+    const { id } = this
 
     return prefix + '--' +
-      ( id ? `${ id }--` : '' ) + dateString() +
-      ( filetype ? `.${ filetype }` : '')
+      (id ? `${ id }--` : '') + dateString() +
+      (filetype ? `.${ filetype }` : '')
   }
 
   // Download data in a given format ----------------------
@@ -415,7 +415,7 @@ export class Store extends EventHandler {
 
   // Send data via POST request ---------------------------
   transmit(url, metadata={},
-    { headers:customHeaders={}, incremental=false, encoding='json' }={}
+    { headers: customHeaders={}, incremental=false, encoding='json' }={}
   ) {
     this.triggerMethod('transmit')
 
@@ -451,7 +451,7 @@ export class Store extends EventHandler {
           ...metadata,
         },
         url: window.location.href,
-        data: data,
+        data,
       })
       defaultHeaders = {
         'Accept': 'application/json', // eslint-disable-line quote-props
@@ -473,15 +473,14 @@ export class Store extends EventHandler {
   // Incremental transmission -----------------------------
   _debouncedTransmit = debounce(
     this.transmit,
-    2500
+    2500,
   )
   _lastIncrementalTransmission = 0
 
   queueIncrementalTransmission(url, metadata, options) {
-    this._debouncedTransmit(
-      url, metadata, {
+    this._debouncedTransmit(url, metadata, {
       incremental: true,
-      ...options
+      ...options,
     })
   }
 

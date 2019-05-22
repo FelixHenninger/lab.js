@@ -1,5 +1,5 @@
 // Shim keyboard event data for IE and Edge for the time being
-import "shim-keyboard-event-key"
+import 'shim-keyboard-event-key'
 import { ensureHighResTime } from './timing'
 
 // Split an eventString into event name, options and selector

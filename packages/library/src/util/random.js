@@ -84,7 +84,7 @@ export class Random {
             a => a.concat(array), []
           ),
           // Append remainder
-          ...array.slice(0, remainder)
+          ...array.slice(0, remainder),
         ]
       case 'draw':
       case 'draw-shuffle':
@@ -94,7 +94,7 @@ export class Random {
             a => a.concat(this.shuffle(array)), []
           ),
           // Append remainder
-          ...this.sample(array, remainder, false)
+          ...this.sample(array, remainder, false),
         ]
         // Shuffle again if oversampling and so instructed
         if (mode === 'draw-shuffle' && n > array.length) {
@@ -157,7 +157,7 @@ export class Random {
         g => ({ data: this.shuffle(g) })
       ),
       // Shuffle ungrouped columns if requested
-      { data: shuffleUngrouped ? this.shuffle(remainingData) : remainingData }
+      { data: shuffleUngrouped ? this.shuffle(remainingData) : remainingData },
     ).data
   }
 

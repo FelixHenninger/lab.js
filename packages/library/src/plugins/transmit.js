@@ -17,8 +17,7 @@ export default class Transmit {
   }
 
   handle(context, event) {
-    const url = this.url
-    const metadata = this.metadata
+    const { url, metadata } = this
 
     switch (event) {
       case 'prepare':
@@ -29,7 +28,7 @@ export default class Transmit {
             this.queueIncrementalTransmission(
               url,
               { ...metadata, payload: 'incremental' },
-              { headers: this.headers, encoding: this.encoding }
+              { headers: this.headers, encoding: this.encoding },
             )
           })
         }
@@ -45,8 +44,8 @@ export default class Transmit {
             .transmit(
               url,
               { ...metadata, payload: 'full' },
-              { headers: this.headers, encoding: this.encoding }
-            ).then(response => {
+              { headers: this.headers, encoding: this.encoding },
+            ).then((response) => {
               if (this.updates.incremental) {
                 context.options.datastore.flushIncrementalTransmissionQueue()
               }

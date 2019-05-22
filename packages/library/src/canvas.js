@@ -1,4 +1,6 @@
 // Canvas-based displays for lab.js
+import { isObject } from 'lodash'
+
 import { Component } from './core'
 import { Sequence as BaseSequence, Loop, Parallel,
   prepareNested } from './flow'
@@ -6,8 +8,6 @@ import { Frame as BaseFrame } from './html'
 import { reduce } from './util/tree'
 import { makeRenderFunction, makeTransform,
   transform } from './util/canvas'
-
-import { isObject } from 'lodash'
 
 // Global canvas functions used in all of the following components
 // (multiple inheritance would come in handy here, but alas...)

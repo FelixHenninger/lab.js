@@ -9,7 +9,7 @@ export default class Submit {
         // and DataTransfer once there is a standardized way
         // to accomplish this. See the whatwg issue at
         // https://github.com/whatwg/html/issues/3269
-        const transfer = new ClipboardEvent("").clipboardData ||
+        const transfer = new ClipboardEvent('').clipboardData ||
           new DataTransfer()
         transfer.items.add(
           new File([context.options.datastore.exportCsv()], 'data.csv')

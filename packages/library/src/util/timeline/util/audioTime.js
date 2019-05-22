@@ -19,10 +19,10 @@ export const audioSync = (context, useContextTiming=false) => {
 
 export const toContextTime = (
   t,
-  { contextTime, performanceTime, baseLatency }
+  { contextTime, performanceTime, baseLatency },
 ) => (t - performanceTime) / 1000 + contextTime - baseLatency
 
 export const toPerformanceTime = (
   t,
-  { contextTime, performanceTime, baseLatency }
+  { contextTime, performanceTime, baseLatency },
 ) => (t - contextTime + baseLatency) * 1000 + performanceTime

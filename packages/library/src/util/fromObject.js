@@ -33,7 +33,7 @@ const fromObject = (options, libraryRoot) => {
     if (options[o]) {
       if (Array.isArray(options[o])) {
         // ... and it is an array ...
-        options[o] = options[o].map(o => fromObject(o, library))
+        options[o] = options[o].map(nested => fromObject(nested, library))
       } else if (isObject(options[o])) {
         // ... or an object ...
         options[o] = fromObject(options[o], library)
@@ -60,7 +60,7 @@ const fromObject = (options, libraryRoot) => {
         const PluginConstructor = retrieveNested(
           pluginPath,
           // Load plugins from the global scope if requested
-          scope === 'global' ? (global || window) : library
+          scope === 'global' ? (global || window) : library,
         )
         return new PluginConstructor(pluginOptions)
       } catch (e) {

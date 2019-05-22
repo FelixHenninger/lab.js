@@ -43,7 +43,7 @@ export class StackTimeout {
     if (!this._running) {
       this._timeoutHandle = window.setTimeout(
         this.f, this.delay,
-        ...this.params
+        ...this.params,
       )
       this._running = true
     } else {
@@ -57,9 +57,9 @@ export class StackTimeout {
 }
 
 const thresholds = {
-  'overshoot': 1,
-  'closest': 1.5,
-  'undershoot': 2,
+  overshoot: 1,
+  closest: 1.5,
+  undershoot: 2,
 }
 
 export class FrameTimeout {
@@ -117,7 +117,7 @@ export class FrameTimeout {
       // (to be exact, wait for half of the remaining time, minus 100ms)
       this._timeoutHandle = window.setTimeout(
         this.tick,
-        (this.targetTime - frameTime - 100) / 2
+        (this.targetTime - frameTime - 100) / 2,
       )
     }
   }

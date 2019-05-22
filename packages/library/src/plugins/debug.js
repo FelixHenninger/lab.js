@@ -221,8 +221,8 @@ export default class Debug {
             this.context.options.datastore.download(
               'csv',
               context.options.datastore.makeFilename(
-                this.filePrefix, 'csv'
-              )
+                this.filePrefix, 'csv',
+              ),
             )
           } else {
             alert('No datastore to download from')

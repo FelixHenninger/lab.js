@@ -31,8 +31,8 @@ export default class Download {
             this.fileType,
             context.options.datastore.makeFilename(
               this.filePrefix,
-              this.fileType
-            )
+              this.fileType,
+            ),
           )
           window.removeEventListener('beforeunload', unloadHandler)
         },

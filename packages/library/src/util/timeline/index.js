@@ -15,18 +15,17 @@ export class Timeline {
   async prepare() {
     const orderedEvents = sortBy(
       this.events,
-      [e => e.start, e => e.priority]
+      [e => e.start, e => e.priority],
     )
 
     this.items = orderedEvents.map(e => {
       const options = omit(e, 'payload')
-      const payload = e.payload
 
-      switch(e.type) {
+      switch (e.type) {
         case 'sound':
-          return new BufferSourceItem(this, options, payload)
+          return new BufferSourceItem(this, options, e.payload)
         case 'oscillator':
-          return new OscillatorItem(this, options, payload)
+          return new OscillatorItem(this, options, e.payload)
         default:
           console.warn(`Unknown event type ${ e.type }, skipping`)
       }
@@ -46,7 +45,7 @@ export class Timeline {
   }
 
   async end(t, force=false) {
-    await Promise.all(this.items.map(i => i.end(t, force)))
+    return Promise.all(this.items.map(i => i.end(t, force)))
   }
 
   async teardown() {

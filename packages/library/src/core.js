@@ -103,7 +103,7 @@ export class Component extends EventHandler {
         getOwnPropertyDescriptor: (obj, prop) =>
           Reflect.getOwnPropertyDescriptor(
             this.aggregateParameters, prop
-          )
+          ),
       })
     : undefined
   )
@@ -174,7 +174,7 @@ export class Component extends EventHandler {
         getOwnPropertyDescriptor: (obj, prop) =>
           Reflect.getOwnPropertyDescriptor(
             this._aggregateFiles, prop
-          )
+          ),
       })
     : undefined
   )
@@ -355,7 +355,7 @@ export class Component extends EventHandler {
       this.on('before:run',
         () => console.group(
           `${ this.options.title } %c(${ this.type })`,
-          'font-weight: normal'
+          'font-weight: normal',
         ))
       this.on('after:end',
         () => console.groupEnd())
@@ -430,7 +430,7 @@ export class Component extends EventHandler {
       // Add a timeout to end the component automatically
       // after the specified duration.
       this.internals.timeout = new Timeout(
-        (timestamp) => this.end('timeout', timestamp, true),
+        timestamp => this.end('timeout', timestamp, true),
         this.options.timeout,
       )
       this.on('show', (showTimestamp) => {
@@ -477,7 +477,7 @@ export class Component extends EventHandler {
       this.options.media.audio.map(
         snd => preloadAudio(snd,
           this.internals.controller.cache.audio,
-          this.internals.controller.audioContext
+          this.internals.controller.audioContext,
         )
       )
     )
@@ -641,7 +641,7 @@ export class Component extends EventHandler {
           duration: d.ended_on === 'timeout'
             ? s - d.time_show
             : d.duration
-        })
+        }),
       )
 
       // Signal upcoming idle period to data store
@@ -815,7 +815,7 @@ Component.metadata = {
               '*':         'string',
             },
           },
-        }
+        },
       },
     },
     timeout:         { type: 'number' },

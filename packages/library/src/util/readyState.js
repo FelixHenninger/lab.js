@@ -1,6 +1,6 @@
 export const awaitReadyState = (target='complete') =>
   // Wait for the document to be completely loaded
-  new Promise(resolve => {
+  new Promise((resolve) => {
     if (document.readyState === target) {
       resolve()
     } else {

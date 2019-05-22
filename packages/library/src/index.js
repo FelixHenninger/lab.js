@@ -101,7 +101,7 @@ export const util = {
     toRadians,
   },
   stats: {
-    sum, mean, variance, std
+    sum, mean, variance, std,
   },
   timing: {
     FrameTimeout,

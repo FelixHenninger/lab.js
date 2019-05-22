@@ -24,6 +24,7 @@
     "nodent": "^3.2.6",
     "seedrandom": "^2.4.3",
     "shim-keyboard-event-key": "^1.0.2",
+    "ua-parser-js": "^0.7.19",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "whatwg-fetch": "^2.0.4"
   },
