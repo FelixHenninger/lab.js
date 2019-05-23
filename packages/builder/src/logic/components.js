@@ -171,6 +171,32 @@ export const metadata = {
       },
     },
   },
+  'lab.html.Questionnaire': {
+    name: 'Questionnaire',
+    description: 'Graphical questionnaire builder',
+    category: 'HTML',
+    icon: 'clipboard-list',
+    iconWeight: 'r',
+    iconFallbackWeight: 's',
+    minChildren: 0,
+    maxChildren: 0,
+    tabs: defaultTabs,
+    defaultTab: 'Content',
+    defaults: {
+      type: 'lab.html.Questionnaire',
+      questions: { rows: [] },
+      files: { rows: [] },
+      parameters: {
+        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
+      },
+      responses: {
+        rows: [ ['', '', '', ''] ],
+      },
+      messageHandlers: {
+        rows: [ [ { title: '', message: '', code: '' }, ], ],
+      },
+    },
+  },
   'lab.canvas.Frame': {
     name: 'Frame',
     description: 'Provide a common canvas for nested components',
