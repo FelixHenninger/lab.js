@@ -92,6 +92,11 @@ const processShuffleGroups = columns =>
     g => g.map(c => c.name)
   )
 
+const processQuestions = questions =>
+  questions.rows
+    .map(r => r[0])
+    .filter(q => q.label !== '')
+
 // Process any single node in isolation
 const processNode = node => {
   // Options to exclude from JSON output
@@ -117,6 +122,9 @@ const processNode = node => {
     parameters: node.parameters
       ? processParameters(node.parameters)
       : {},
+    questions: node.questions
+      ? processQuestions(node.questions)
+      : null,
     responses: node.responses
       ? processResponses(node.responses)
       : {},
