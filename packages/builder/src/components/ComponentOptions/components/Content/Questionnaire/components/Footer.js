@@ -53,7 +53,7 @@ const AddWidget = () => {
             <Item>
               Image
             </Item>
-            <Item>
+            <Item data={{ type: 'divider' }}>
               Divider
             </Item>
             <DropdownItem divider />
