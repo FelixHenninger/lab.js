@@ -68,7 +68,7 @@ const AddWidget = () => {
             <DropdownItem header>
               Free-form input
             </DropdownItem>
-            <Item>
+            <Item data={{ type: 'input' }}>
               Single-line
             </Item>
             <Item>

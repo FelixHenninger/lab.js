@@ -17,6 +17,7 @@ const replacements = {
   'alarm-clock': 'clock',
   'arrows-v': 'arrows-alt-v',
   'arrows-h': 'arrows-alt-h',
+  'comment-alt-minus': 'comment-alt',
   'expand': 'square',
   'file-exclamation': 'exclamation-circle',
   'flask-potion': 'flask',
