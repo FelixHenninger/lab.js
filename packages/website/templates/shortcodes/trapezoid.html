@@ -1,0 +1,19 @@
+{% set slope = offset | default(value='3vw') %}
+{% set bg = background | default(value='white') %}
+<section
+  class="
+    trapezoid
+  "
+  style="
+    background-image: linear-gradient({{ bg }}, {{ bg }});
+    clip-path: polygon(
+      0 {{ slope }},
+      100% 0,
+      100% 100%,
+      0 calc(100% - {{ slope }})
+    );
+    padding: calc({{ slope }} + 1rem) 0;
+  "
+>
+  {{ body | safe }}
+</section>

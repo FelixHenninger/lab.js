@@ -1,0 +1,119 @@
+@charset "utf-8";
+
+@import url('https://code.cdn.mozilla.net/fonts/fira.css');
+
+// Basic layout
+$line-height-base: 1.6;
+$font-family-sans-serif: "Fira Sans", sans-serif;
+$font-family-monospace: "Fira Mono", monospace;
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+// Navbar
+.navbar {
+  background-color: white;
+
+  .container {
+    padding: 0 $spacer;
+  }
+
+  .navbar-brand {
+    font-weight: bold;
+  }
+
+  // Nav item positioning
+  .nav-item {
+    position: relative;
+    top: 0.07rem;
+  }
+  .fab.fa-github {
+    position: relative;
+    top: 0.05rem;
+  }
+
+  .navbar-collapse.collapse.show .d-md-none,
+  .navbar-collapse.collapsing .d-md-none {
+    display: none;
+  }
+}
+
+// Jumbotron
+.jumbotron {
+  background-color: white;
+
+  h2 {
+    position: relative;
+    left: -0.15rem; // Visual alignment
+  }
+
+  code {
+    color: $gray-800;
+  }
+}
+
+// Typography
+.media strong {
+  font-weight: 500;
+}
+.media > i {
+  font-size: 3em;
+  width: 64px;
+  text-align: center;
+  color: $gray-600;
+  position: relative;
+  top: 0.5rem;
+}
+code {
+  font-size: inherit;
+}
+.font-weight-light {
+  h5 {
+    font-weight: 400;
+  }
+}
+.text-light {
+  a {
+    color: white !important;
+    opacity: 0.75;
+  }
+  code {
+    color: white !important;
+    opacity: 0.75;
+  }
+}
+
+.trapezoid {
+  .h4 {
+    font-weight: 400;
+  }
+
+  p {
+    font-weight: 400;
+  }
+
+  strong {
+    font-weight: 500;
+  }
+}
+
+// Footer
+footer {
+  opacity: 0.6;
+  color: $gray-800;
+  transition: opacity 0.2s;
+}
+footer:hover {
+  opacity: 0.8;
+}
+
+.screenshot {
+  text-align: center;
+  img {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+  }
+  small {
+    display: block;
+    margin-top: 1em;
+  }
+}

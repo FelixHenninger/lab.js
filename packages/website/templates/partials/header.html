@@ -1,0 +1,36 @@
+{% import "partials/header-macros.html" as macros %}
+<nav class="navbar navbar-expand navbar-light my-2">
+  <div class="container">
+    <a class="navbar-brand" href="#">lab.js</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        {{ macros::navitem(title="Overview", href="/") }}
+        {% set audiences = get_section(path="for/_index.md") %}
+        {% for page in audiences.pages %}
+          {{ macros::navitem(title=page.title, href=page.path) }}
+        {% endfor %}
+      </ul>
+      <ul class="navbar-nav mt-2 mt-lg-0">
+        {{ macros::navitem(
+          title="Builder",
+          href="https://labjs.felixhenninger.com",
+          target="_blank"
+        ) }}
+        {{ macros::navitem(
+            title="Documentation",
+            href="https://labjs.readthedocs.org",
+            target="_blank"
+        ) }}
+        {% set resources = get_section(path="resources/_index.md") %}
+        {% for page in resources.pages %}
+          {{ macros::navitem(title=page.title, href=page.path) }}
+        {% endfor %}
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fab fa-github fa-lg pl-2" aria-hidden="true"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

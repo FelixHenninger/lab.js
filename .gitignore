@@ -25,3 +25,7 @@ packages/library/bundleStats.json
 
 # Shiny app credentials
 utilities/SQLite import app/rsconnect
+
+# Website builder and output
+packages/website/zola
+packages/website/public

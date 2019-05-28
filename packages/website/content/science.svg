@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="b411f001-b16f-4358-a5a6-150c98662c8c"
+   data-name="Layer 1"
+   width="987.62"
+   height="650"
+   viewBox="0 0 987.62 650"
+   version="1.1"
+   sodipodi:docname="science.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata180">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1853"
+     inkscape:window-height="1136"
+     id="namedview178"
+     showgrid="false"
+     inkscape:zoom="1.0152179"
+     inkscape:cx="549.58961"
+     inkscape:cy="367.12318"
+     inkscape:window-x="67"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="b411f001-b16f-4358-a5a6-150c98662c8c" />
+  <defs
+     id="defs9">
+    <linearGradient
+       id="74856d48-f61b-42c8-be79-e45253bc3d47"
+       x1="903.3"
+       y1="782.16"
+       x2="903.3"
+       y2="259.8"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="gray"
+         stop-opacity="0.25"
+         id="stop2" />
+      <stop
+         offset="0.54"
+         stop-color="gray"
+         stop-opacity="0.12"
+         id="stop4" />
+      <stop
+         offset="1"
+         stop-color="gray"
+         stop-opacity="0.1"
+         id="stop6" />
+    </linearGradient>
+  </defs>
+  <title
+     id="title11">science</title>
+  <path
+     d="M445,90.55c29.21-26,75.07-31.33,116.8-29.26,131.09,6.51,249.42,69.8,351.78,141.39,37.06,25.91,73.54,53.84,97.59,89.53,49,72.64,34.44,173.28-33.64,233.13-23.17,20.36-51.25,36-80.08,49.81-51.26,24.61-106.57,44.36-164.74,50-41.49,4-83.49.75-124.73-4.85C492.74,604.66,379.63,570.1,284.83,511,243.25,485,204.05,452.8,186.91,410.85s-6.17-95.11,36.29-119.94c17.56-10.27,38.56-14.91,59.11-19.26,30.26-6.41,61-12.73,88.31-25.77,28.2-13.46,61.59-39.49,56-69.28C420.64,144.63,415.83,116.55,445,90.55Z"
+     transform="translate(-106.19 -56.3)"
+     fill="#4285f4"
+     opacity="0.1"
+     id="path31" />
+  <g
+     id="g4717"
+     transform="matrix(0.74770064,0.10789324,-0.10789324,0.74770064,167.30528,-52.413608)">
+    <ellipse
+       id="ellipse27"
+       ry="10.41"
+       rx="103.75"
+       cy="832.67407"
+       cx="431.01505"
+       style="opacity:0.1;fill:#4285f4"
+       inkscape:transform-center-x="-2.7838198"
+       inkscape:transform-center-y="155.75007"
+       transform="rotate(-7.9243004)" />
+    <path
+       id="path33"
+       d="M 687.05,448.08 V 257.14 h 26 v -57 h -186.3 v 57 h 26 v 190.94 a 189.38,189.38 0 0 0 -122.14,177 c 0,104.55 84.76,189.3 189.31,189.3 104.55,0 189.3,-84.75 189.3,-189.3 a 189.37,189.37 0 0 0 -122.17,-177 z"
+       inkscape:connector-curvature="0"
+       style="opacity:0.9;fill:#96b7fe"
+       transform="translate(-106.19,-56.3)" />
+    <rect
+       id="rect35"
+       height="2.5699999"
+       width="134.34"
+       y="200.25"
+       x="446.51999"
+       style="opacity:0.1" />
+    <path
+       id="path37"
+       transform="translate(-106.19,-56.3)"
+       d="m 514,620 c 0,0 114,-2 171,-30.53 57,-28.53 89.57,-3.06 86.51,14.25 -3.06,17.31 -19.33,50.88 -84.47,55 C 621.9,662.84 514,620 514,620 Z"
+       inkscape:connector-curvature="0"
+       style="fill:#4285f4" />
+    <path
+       id="path39"
+       transform="translate(-106.19,-56.3)"
+       d="m 514,620 c 0,0 114,-2 171,-30.53 57,-28.53 89.57,-3.06 86.51,14.25 -3.06,17.31 -19.33,50.88 -84.47,55 C 621.9,662.84 514,620 514,620 Z"
+       inkscape:connector-curvature="0"
+       style="opacity:0.1" />
+    <path
+       id="path41"
+       transform="translate(-106.19,-56.3)"
+       d="m 465.18,601.7 c 0,0 -12.18,168.95 147.57,172 159.75,3.05 158.77,-170 158.77,-170 0,0 -59,64.11 -198.46,11.19 0,0.04 -72.26,-19.3 -107.88,-13.19 z"
+       inkscape:connector-curvature="0"
+       style="fill:#4285f4" />
+    <path
+       id="path43"
+       transform="translate(-106.19,-56.3)"
+       d="M 771,604.31 C 767.81,643.23 747.12,765.06 612.81,762.49 481.15,760 466.24,644.9 465.07,604.41 c -0.73,21.73 -0.08,166.45 147.71,169.28 159.79,3 158.77,-170 158.77,-170 0,0 -0.2,0.25 -0.55,0.62 z"
+       inkscape:connector-curvature="0"
+       style="opacity:0.1" />
+    <circle
+       id="circle45"
+       r="20.73"
+       cy="472.5"
+       cx="507.53"
+       style="opacity:0.3;fill:#4285f4" />
+    <circle
+       id="circle47"
+       r="12.83"
+       cy="389.57001"
+       cx="519.37"
+       style="opacity:0.3;fill:#4285f4" />
+    <circle
+       id="circle49"
+       r="12.83"
+       cy="315.51999"
+       cx="490.73999"
+       style="opacity:0.3;fill:#4285f4" />
+    <path
+       id="path51"
+       transform="translate(-106.19,-56.3)"
+       d="m 487,544.79 c -1.1,8.74 -0.88,19.68 6.93,23.76 -6.55,-3.42 20.3,-42.2 16.49,-50.12 -8.15,-16.9 -22.42,18.24 -23.42,26.36 z"
+       inkscape:connector-curvature="0"
+       style="opacity:0.2;fill:#ffffff" />
+    <circle
+       id="circle53"
+       r="20.73"
+       cy="85.010002"
+       cx="480.37"
+       style="opacity:0.3;fill:#4285f4" />
+    <circle
+       id="circle55"
+       r="15.41"
+       cy="49.470001"
+       cx="542.56"
+       style="opacity:0.3;fill:#4285f4" />
+    <circle
+       id="circle57"
+       r="8.0100002"
+       cy="8.0100002"
+       cx="498.14001"
+       style="opacity:0.3;fill:#4285f4" />
+  </g>
+  <path
+     d="M257,510.24c-1.1,8.74-.88,19.68,6.93,23.76-6.56-3.42,20.3-42.19,16.49-50.12C272.25,467,258,502.13,257,510.24Z"
+     transform="translate(-106.19 -56.3)"
+     fill="#fff"
+     opacity="0.2"
+     id="path77" />
+</svg>
