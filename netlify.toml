@@ -1,0 +1,18 @@
+[build]
+# assuming the Zola site is in a docs folder, if it isn't you don't need
+# to have a `base` variable but you do need the `publish` and `command`
+base    = "packages/website"
+publish = "packages/website/public"
+command = "zola build"
+
+[build.environment]
+# Set the version name that you want to use and Netlify will automatically use it
+ZOLA_VERSION = "0.7.0"
+
+# The magic for deploying previews of branches
+# We need to override the base url with whatever url Netlify assigns to our
+# preview site.  We do this using the Netlify environment variable
+# `$DEPLOY_PRIME_URL`.
+
+[context.deploy-preview]
+command = "zola build --base-url $DEPLOY_PRIME_URL"
