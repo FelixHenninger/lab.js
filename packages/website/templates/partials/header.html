@@ -1,32 +1,99 @@
 {% import "partials/header-macros.html" as macros %}
-<nav class="navbar navbar-expand navbar-light my-2">
+<nav class="navbar navbar-expand-md navbar-light my-2">
   <div class="container">
     <a class="navbar-brand" href="#">lab.js</a>
-    <div class="collapse navbar-collapse">
+    <button
+      class="navbar-toggler" type="button" data-toggle="collapse"
+      data-target="#navbar" aria-controls="navbar"
+      aria-expanded="false" aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar">
       <ul class="navbar-nav mr-auto">
         {{ macros::navitem(title="Overview", href="/") }}
         {% set audiences = get_section(path="for/_index.md") %}
-        {% for page in audiences.pages %}
-          {{ macros::navitem(title=page.title, href=page.path) }}
+        {% for p in audiences.pages %}
+          {{ macros::navitem(title=p.title, href=p.path) }}
         {% endfor %}
       </ul>
-      <ul class="navbar-nav mt-2 mt-lg-0">
+      <ul class="navbar-nav">
         {{ macros::navitem(
-          title="Builder",
-          href="https://labjs.felixhenninger.com",
-          target="_blank"
+          title="Builder", href="https://labjs.felixhenninger.com",
+          class="d-md-none d-lg-inline", target="_blank"
         ) }}
         {{ macros::navitem(
-            title="Documentation",
-            href="https://labjs.readthedocs.org",
-            target="_blank"
+          title="Documentation", href="https://labjs.readthedocs.org",
+          class="d-md-none d-lg-inline", target="_blank"
         ) }}
         {% set resources = get_section(path="resources/_index.md") %}
-        {% for page in resources.pages %}
-          {{ macros::navitem(title=page.title, href=page.path) }}
+        {% for p in resources.pages %}
+          {% if p.extra.menu and p.extra.menu == "header" %}
+            {{ macros::navitem(
+              title=p.title, href=p.path,
+              class="d-md-none d-lg-inline"
+            ) }}
+          {% endif %}
         {% endfor %}
-        <li class="nav-item">
-          <a class="nav-link" href="#">
+        {% if resources.pages | length() > 0 %}
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              data-toggle="dropdown" href="#" role="button"
+              aria-haspopup="true" aria-expanded="false"
+            >
+              Resources
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg-right">
+              <h6 class="dropdown-header d-lg-none">Quicklinks</h6>
+              <a
+                class="dropdown-item d-lg-none"
+                href="https://labjs.felixhenninger.com"
+                target="_blank"
+              >
+                Builder
+              </a>
+              <a
+                class="dropdown-item d-lg-none"
+                href="https://labjs.readthedocs.org"
+                target="_blank"
+              >
+                Documention
+              </a>
+              <a
+                class="dropdown-item d-lg-none"
+                href="https://github.com/felixhenninger/lab.js"
+                target="_blank"
+              >
+                Repository
+              </a>
+              <div class="dropdown-divider d-lg-none"></div>
+              <h6 class="dropdown-header d-lg-none">
+                More information
+              </h6>
+              {% for p in resources.pages %}
+                {% if p.extra.menu and p.extra.menu == "header" %}
+                  <a class="dropdown-item d-lg-none" href="{{ p.path }}">
+                    {{ p.title }}
+                  </a>
+                {% endif %}
+              {% endfor %}
+              {% for p in resources.pages %}
+                {% if not p.extra.menu or p.extra.menu != "header" %}
+                  <a class="dropdown-item" href="{{ p.path }}">
+                    {{ p.title }}
+                  </a>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </li>
+        {% endif %}
+        <li class="nav-item d-none d-lg-block">
+          <a
+            class="nav-link"
+            href="https://github.com/felixhenninger/lab.js"
+            target="_blank"
+          >
             <i class="fab fa-github fa-lg pl-2" aria-hidden="true"></i>
           </a>
         </li>
