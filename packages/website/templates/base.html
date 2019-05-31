@@ -2,12 +2,15 @@
 <html lang="en">
   <head>
     <title>
-      lab.js ·
-      {% if page %}
-        {{ page.title }}
-      {% elif section %}
-        {{ section.title }}
-      {% endif %}
+      lab.js · {% block title %}
+        {%- if page %}
+          {{ page.title }}
+        {% elif section %}
+          {{ section.title }}
+        {% elif title %}
+          {{ title }}
+        {% endif -%}
+      {% endblock %}
     </title>
 
     <!-- Page metadata -->
