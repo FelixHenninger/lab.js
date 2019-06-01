@@ -1,3 +1,4 @@
+{% import "macros/navitem.html" as macros %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -33,7 +34,6 @@
   </head>
   <body>
     {% include "partials/header.html" %}
-    {% import "macros/navitem.html" as macros %}
     {# Debugging info
       {{ current_path }}
       {{ current_url }}
