@@ -4,11 +4,11 @@
   {% else %}
     {% set path = "/" ~ href %}
   {% endif %}
-  {% set active = href == current_path or path == current_path or href == current_url %}
+  {%- set active = current_path and href == current_path or current_path and path == current_path or current_url and href == current_url -%}
   <li class="nav-item{% if class %} {{ class }}{% endif %}">
     <a
       class="nav-link{% if active %} active{% endif %}"
-      href="{{ path }}"
+      href="{{ path | safe }}"
       {% if target %}target="{{ target }}"{% endif %}
     >
       {{ title }}
