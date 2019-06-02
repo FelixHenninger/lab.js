@@ -92,7 +92,7 @@ export default (state) => {
     message: 'epilogue',
     code: stripIndent`
       var resultJson = study.options.datastore.exportJson();
-      jatos.submitResultData(resultJson, jatos.endStudy);
+      jatos.submitResultData(resultJson, jatos.startNextComponent);
     `
   }])
 
