@@ -1,12 +1,30 @@
 @charset "utf-8";
 
-@import url('https://code.cdn.mozilla.net/fonts/fira.css');
-
 // Basic layout
 $line-height-base: 1.6;
 $font-family-sans-serif: "Fira Sans", sans-serif;
 $font-family-monospace: "Fira Mono", monospace;
-@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+// Bootstrap core
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/utilities";
+
+// Bootstrap components
+@import "../node_modules/bootstrap/scss/root";
+@import "../node_modules/bootstrap/scss/reboot";
+@import "../node_modules/bootstrap/scss/type";
+@import "../node_modules/bootstrap/scss/images";
+@import "../node_modules/bootstrap/scss/code";
+@import "../node_modules/bootstrap/scss/grid";
+@import "../node_modules/bootstrap/scss/dropdown";
+@import "../node_modules/bootstrap/scss/media";
+@import "../node_modules/bootstrap/scss/nav";
+@import "../node_modules/bootstrap/scss/navbar";
+@import "../node_modules/bootstrap/scss/card";
+@import "../node_modules/bootstrap/scss/jumbotron";
+@import "../node_modules/bootstrap/scss/alert";
 
 // Navbar
 .navbar {
