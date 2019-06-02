@@ -5,7 +5,10 @@ title = "A free, open, online study builder"
 {% jumbotron() %}
   <div class="container">
     <div class="row">
-      <div class="col-5 mt-5">
+      <div class="col-lg-7 order-lg-12">
+        <img class="w-100" src="science.svg">
+      </div>
+      <div class="col-lg-5 order-lg-1 mt-5 text-center text-lg-left">
         <h2 class="display-4 mb-4">
           Online research<br>made easy
         </h2>
@@ -19,9 +22,6 @@ title = "A free, open, online study builder"
           </span>
         </p>
       </div>
-      <div class="col-7">
-        <img class="w-100" src="science.svg">
-      </div>
     </div>
   </div>
 {% end %}
@@ -29,8 +29,11 @@ title = "A free, open, online study builder"
 {% trapezoid(background="#ffc32d") %}
   <div class="container my-5">
     <div class="row">
-      <div class="col text-right d-flex align-items-center justify-content-end">
-        <div class="pl-5">
+      <div class="col-lg order-lg-12 screenshot text-center text-lg-left">
+        <img src="builder_screenshot_1000.png" class="w-75" style="transform: rotate(2.5deg)">
+      </div>
+      <div class="col-lg order-lg-1 text-center text-lg-right d-lg-flex align-items-center justify-content-end">
+        <div class="pl-lg-5 pt-5 pt-lg-0">
           <h3 class="h4"><strong>No code</strong> required</h3>
           <p><strong><code>lab.js</code> provides a visual interface</strong><br>
           so you can see the study as you build it.</p>
@@ -38,24 +41,21 @@ title = "A free, open, online study builder"
           constructing studies couldn't be easier.</p>
         </div>
       </div>
-      <div class="col screenshot text-left">
-        <img src="builder_screenshot_1000.png" class="w-75" style="transform: rotate(2.5deg)">
-      </div>
     </div>
   </div>
 {% end %}
 
 {% trapezoid_inverse(background="#fff") %}
-  <div class="container">
+  <div class="container my-5">
     <div class="row">
-      <div class="col d-flex align-items-center justify-content-end">
+      <div class="col-lg text-center text-lg-right d-lg-flex align-items-center justify-content-end">
         <i
           class="fas fa-stopwatch fa-fw fa-10x text-muted"
           style="transform: rotate(-15deg)"
         ></i>
       </div>
-      <div class="col d-flex align-items-center justify-content-start">
-        <div class="pr-5">
+      <div class="col text-center text-lg-left d-lg-flex align-items-center justify-content-start">
+        <div class="pr-lg-5 pt-5 pt-lg-3">
           <h3 class="h4"><strong>Uncompromising</strong> performance</h3>
           <p>The power of laboratory software,<br>
           anywhere there's a browser.</p>
@@ -68,8 +68,14 @@ title = "A free, open, online study builder"
 {% trapezoid(background="#4285f4") %}
   <div class="container text-light my-5">
     <div class="row">
-      <div class="col d-flex align-items-center justify-content-end">
-        <div class="pr-5 text-right">
+      <div class="col-lg order-lg-12 text-center text-lg-left d-lg-flex align-items-center justify-content-start">
+        <i
+          class="fas fa-plug fa-fw fa-10x text-light"
+          style="transform: rotate(20deg)"
+        ></i>
+      </div>
+      <div class="col-lg order-lg-1 text-center text-lg-right d-lg-flex align-items-center justify-content-end">
+        <div class="pr-lg-5 pt-5 pt-lg-0">
           <h3 class="h4"><strong>Flexible</strong> and extensible</h3>
           <p>There are <strong>no limits</strong>:<br>
           If it's possible on a web page,<br>
@@ -80,12 +86,6 @@ title = "A free, open, online study builder"
           or running studies on your own server.</p>
         </div>
       </div>
-      <div class="col d-flex align-items-center justify-content-start">
-        <i
-          class="fas fa-plug fa-fw fa-10x text-light"
-          style="transform: rotate(20deg)"
-        ></i>
-      </div>
     </div>
   </div>
 {% end %}
@@ -93,15 +93,15 @@ title = "A free, open, online study builder"
 {% trapezoid(background="#fff") %}
   <div class="container">
     <div class="row">
-      <div class="col screenshot">
+      <div class="col-md screenshot py-4 pb-md-0">
         <img src="builder_screenshot_components_1000.png" class="w-100">
         <small class="text-muted">Studies are assembled<br>from individual <em>components</em> ...</small>
       </div>
-      <div class="col screenshot">
+      <div class="col-md screenshot py-4 pb-md-0">
         <img src="builder_screenshot_loop_1000.png" class="w-100">
         <small class="text-muted">... for example <em>loops</em>,<br>which repeat parts of a study ...</small>
       </div>
-      <div class="col screenshot">
+      <div class="col-md screenshot py-4 pb-md-0">
         <img src="builder_screenshot_preview_1000.png" class="w-100">
         <small class="text-muted">... an <em>immediate preview</em><br>shows changes immediately.</small>
       </div>
@@ -112,9 +112,9 @@ title = "A free, open, online study builder"
 {% trapezoid(background="#e9ecef") %}
   <div class="container py-4">
     <div class="row">
-      <div class="col">
+      <div class="col-lg pt-4 pt-md-0">
         <div class="pr-5">
-          <h2 class="mt-0 mb-1" style="font-weight: 300">There's <em>so</em> much more!</h2>
+          <h2 class="mt-0 mb-1" style="font-weight: 400">There's <em>so</em> much more!</h2>
           <p class="lead mt-2" style="font-weight: 300">Here are some things you can try:</p>
           <ul>
             <li>Learn how <code>lab.js</code> can help you with your <a href="/for/research">research</a> and <a href="/for/teaching">teaching</a>.</li>
@@ -123,7 +123,9 @@ title = "A free, open, online study builder"
           </ul>
         </div>
       </div>
-      <div class="col font-weight-light">
+      <div class="col-lg font-weight-light">
+        <hr class="d-lg-none py-2">
+        <h3 class="d-lg-none mt-1 mb-4" style="font-weight: 400">Further resources</h3>
         <div class="media mb-4">
           <div class="media-body pr-5">
             <h5 class="mt-0 mb-1">Support</h5>
