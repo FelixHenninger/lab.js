@@ -39,9 +39,16 @@ $font-family-monospace: "Fira Mono", monospace;
   }
 
   // Nav item positioning
-  .nav-item {
+  .navbar-nav .nav-item {
     position: relative;
     top: 0.07rem;
+
+    .nav-link {
+      color: rgba(0, 0, 0, 0.6);
+    }
+    .nav-link.active {
+      color: rgba(0, 0, 0, 0.9);
+    }
   }
   .fab.fa-github {
     position: relative;
@@ -118,9 +125,10 @@ footer {
   opacity: 0.6;
   color: $gray-800;
   transition: opacity 0.2s;
-}
-footer:hover {
-  opacity: 0.8;
+
+  :hover {
+    opacity: 0.8;
+  }
 }
 
 .screenshot {

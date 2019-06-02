@@ -6,7 +6,7 @@ title = "A free, open, online study builder"
   <div class="container">
     <div class="row">
       <div class="col-lg-7 order-lg-12">
-        <img class="w-100" src="science.svg">
+        <img src="science.svg" alt="Beaker with fluid and bubbles" class="w-100">
       </div>
       <div class="col-lg-5 order-lg-1 mt-5 text-center text-lg-left">
         <h2 class="display-4 mb-4">
@@ -30,7 +30,7 @@ title = "A free, open, online study builder"
   <div class="container my-5">
     <div class="row">
       <div class="col-lg order-lg-12 screenshot text-center text-lg-left">
-        <img src="builder_screenshot_1000.png" class="w-75" style="transform: rotate(2.5deg)">
+        <img src="builder_screenshot_1000.png" alt="lab.js builder interface screenshot" class="w-75" style="transform: rotate(2.5deg)">
       </div>
       <div class="col-lg order-lg-1 text-center text-lg-right d-lg-flex align-items-center justify-content-end">
         <div class="pl-lg-5 pt-5 pt-lg-0">
@@ -94,15 +94,15 @@ title = "A free, open, online study builder"
   <div class="container">
     <div class="row">
       <div class="col-md screenshot py-4 pb-md-0">
-        <img src="builder_screenshot_components_1000.png" class="w-100">
+        <img src="builder_screenshot_components_1000.png" alt="Adding components" class="w-100">
         <small class="text-muted">Studies are assembled<br>from individual <em>components</em> ...</small>
       </div>
       <div class="col-md screenshot py-4 pb-md-0">
-        <img src="builder_screenshot_loop_1000.png" class="w-100">
+        <img src="builder_screenshot_loop_1000.png" alt="Loop component view" class="w-100">
         <small class="text-muted">... for example <em>loops</em>,<br>which repeat parts of a study ...</small>
       </div>
       <div class="col-md screenshot py-4 pb-md-0">
-        <img src="builder_screenshot_preview_1000.png" class="w-100">
+        <img src="builder_screenshot_preview_1000.png" alt="Study preview" class="w-100">
         <small class="text-muted">... an <em>immediate preview</em><br>shows changes immediately.</small>
       </div>
     </div>
