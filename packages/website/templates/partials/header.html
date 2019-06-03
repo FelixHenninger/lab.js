@@ -19,11 +19,11 @@
       <ul class="navbar-nav">
         {{ macros::navitem(
           title="Builder", href="https://labjs.felixhenninger.com",
-          class="d-md-none d-lg-inline", target="_blank"
+          class="d-md-none d-lg-inline", target="_blank", rel="noopener"
         ) }}
         {{ macros::navitem(
           title="Documentation", href="https://labjs.readthedocs.org",
-          class="d-md-none d-lg-inline", target="_blank"
+          class="d-md-none d-lg-inline", target="_blank", rel="noopener"
         ) }}
         {% set resources = get_section(path="resources/_index.md") %}
         {% for p in resources.pages %}
@@ -48,21 +48,21 @@
               <a
                 class="dropdown-item d-lg-none"
                 href="https://labjs.felixhenninger.com"
-                target="_blank"
+                target="_blank" rel="noopener"
               >
                 Builder
               </a>
               <a
                 class="dropdown-item d-lg-none"
                 href="https://labjs.readthedocs.org"
-                target="_blank"
+                target="_blank" rel="noopener"
               >
                 Documention
               </a>
               <a
                 class="dropdown-item d-lg-none"
                 href="https://github.com/felixhenninger/lab.js"
-                target="_blank"
+                target="_blank" rel="noopener"
               >
                 Repository
               </a>
@@ -92,7 +92,7 @@
             class="nav-link"
             href="https://github.com/felixhenninger/lab.js"
             aria-label="Project repository on GitHub"
-            target="_blank"
+            target="_blank" rel="noopener"
           >
             <i class="fab fa-github fa-lg pl-2" aria-hidden="true"></i>
           </a>

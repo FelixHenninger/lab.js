@@ -1,4 +1,4 @@
-{% macro navitem(title, href, class="", target="") %}
+{% macro navitem(title, href, class="", target="", rel="") %}
   {% if href is starting_with("/") or href is starting_with("https://") %}
     {% set path = href %}
   {% else %}
@@ -10,6 +10,7 @@
       class="nav-link{% if active %} active{% endif %}"
       href="{{ path | safe }}"
       {% if target %}target="{{ target }}"{% endif %}
+      {% if rel %}rel="{{ rel }}"{% endif %}
     >
       {{ title }}
       {% if active %}<span class="sr-only">(current)</span>{% endif %}

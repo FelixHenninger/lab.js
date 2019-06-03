@@ -1,5 +1,6 @@
 +++
 title = "A free, open, online study builder"
+description = "lab.js makes it easy to build powerful studies for the neuro- and behavioral sciences"
 +++
 
 {% jumbotron() %}
@@ -118,8 +119,8 @@ title = "A free, open, online study builder"
           <p class="lead mt-2" style="font-weight: 300">Here are some things you can try:</p>
           <ul>
             <li>Learn how <code>lab.js</code> can help you with your <a href="/for/research">research</a> and <a href="/for/teaching">teaching</a>.</li>
-            <li>Try the <a href="https://labjs.felixhenninger.com" target="_blank">builder interface</a> online.</li>
-            <li>Watch our <a href="https://labjs.readthedocs.io/en/latest/learn/builder/" target="_blank">introductory tutorial</a> and build your first study in minutes.</li>
+            <li>Try the <a href="https://labjs.felixhenninger.com" target="_blank" rel="noopener">builder interface</a> online.</li>
+            <li>Watch our <a href="https://labjs.readthedocs.io/en/latest/learn/builder/" target="_blank" rel="noopener">introductory tutorial</a> and build your first study in minutes.</li>
           </ul>
         </div>
       </div>
@@ -129,7 +130,7 @@ title = "A free, open, online study builder"
         <div class="media mb-4">
           <div class="media-body pr-5">
             <h5 class="mt-0 mb-1">Support</h5>
-            You'll always find friendly people in our <a href="https://slackin-nmbrcrnchrs.herokuapp.com/" target="_blank"><strong>Slack channel</strong></a>. We're happy to help!
+            You'll always find friendly people in our <a href="https://slackin-nmbrcrnchrs.herokuapp.com/" target="_blank" rel="noopener"><strong>Slack channel</strong></a>. We're happy to help!
           </div>
           <i class="ml-3 fas fa-life-ring fa-fw"></i>
         </div>

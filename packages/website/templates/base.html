@@ -16,6 +16,11 @@
 
     <!-- Page metadata -->
     <meta charset="utf-8">
+    {% if page.description %}
+      <meta name="Description" content="{{ page.description }}">
+    {% elif section.description %}
+      <meta name="Description" content="{{ section.description }}">
+    {% endif %}
     <meta name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="/favicon.ico">
