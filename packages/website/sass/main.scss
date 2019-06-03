@@ -45,9 +45,13 @@ $font-family-monospace: "Fira Mono", monospace;
 
     .nav-link {
       color: rgba(0, 0, 0, 0.6);
-    }
-    .nav-link.active {
-      color: rgba(0, 0, 0, 0.9);
+
+      &:hover {
+        color: rgba(0, 0, 0, 0.75);
+      }
+      &.active {
+        color: rgba(0, 0, 0, 0.9);
+      }
     }
   }
   .fab.fa-github {
@@ -126,7 +130,7 @@ footer {
   color: $gray-800;
   transition: opacity 0.2s;
 
-  :hover {
+  &:hover {
     opacity: 0.8;
   }
 }
