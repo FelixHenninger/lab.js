@@ -62,6 +62,8 @@ class Grid extends Component {
         return this.handleColumnDelete(payload)
       case 'fillColumn':
         return this.handleColumnFill(payload)
+      case 'clearColumn':
+        return this.handleColumnClear(payload)
       case 'addRow':
       case 'addRows':
         return this.handleRowAdd(payload)
@@ -127,6 +129,22 @@ class Grid extends Component {
         }
       )
     }
+  }
+
+  handleColumnClear(colIndex) {
+    this.handleChange(
+      `local${ this.props.model }`,
+      {
+        columns: this.props.columns,
+        rows: this.props.data.map(
+          (r) => {
+            const output = [...r]
+            output[colIndex] = ''
+            return output
+          }
+        )
+      }
+    )
   }
 
   handleRowAdd(newRows) {

@@ -123,6 +123,9 @@ export const HeaderCell = ({ columnData, index }, { gridDispatch }) =>
         'Fill': () => {
           gridDispatch('fillColumn', index)
         },
+        'Clear': () => {
+          gridDispatch('clearColumn', index)
+        },
         'Delete': () => {
           if (window.confirm('Are you sure you want to delete this column?')) {
             gridDispatch('deleteColumn', index)
