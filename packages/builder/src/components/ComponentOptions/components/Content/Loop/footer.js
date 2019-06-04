@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import { ButtonDropdown, Button,
   DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap'
+import { range } from 'lodash'
 
 import Icon from '../../../../Icon'
 import FactorialModal from './components/FactorialModal'
@@ -72,6 +73,34 @@ export const Footer = ({ columns, data }, { gridDispatch }) => {
                 }) }
               >
                 Factorial design
+              </DropdownItem>
+              <DropdownItem divider />
+              <DropdownItem header>Repeat</DropdownItem>
+              <DropdownItem
+                onClick={ () => {
+                  const n = window.prompt('How many times?')
+                  if (n) {
+                    gridDispatch('overwrite', {
+                      columns,
+                      rows: data.flatMap(r => range(n).map(() => r)),
+                    })
+                  }
+                } }
+              >
+                Each row
+              </DropdownItem>
+              <DropdownItem
+                onClick={ () => {
+                  const n = window.prompt('How many times?')
+                  if (n) {
+                    gridDispatch('overwrite', {
+                      columns,
+                      rows: range(n).flatMap(() => data),
+                    })
+                  }
+                } }
+              >
+                Entire grid
               </DropdownItem>
               <DropdownItem divider />
               <DropdownItem header>CSV / TSV</DropdownItem>
