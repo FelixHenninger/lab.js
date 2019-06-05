@@ -1,3 +1,3 @@
 <div class="container{% if class %} {{ class }}{% endif %}">
-  {{ body | safe }}
+  {{ body | safe | markdown() }}
 </div>
