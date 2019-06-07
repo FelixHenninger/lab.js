@@ -69,11 +69,12 @@ main {
 
 /* Frameless layout */
 .container.frameless {
-  margin: 0;
+  margin: 0 auto;
   border: none;
   border-radius: 0;
 }
 .container.fullscreen.frameless {
+  margin: 0;
   width: 100vw;
   min-height: 100vh;
 }
