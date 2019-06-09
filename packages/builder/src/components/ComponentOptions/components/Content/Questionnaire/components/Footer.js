@@ -34,9 +34,11 @@ const AddWidget = () => {
         outline color="muted" size="sm"
         className="hover-target"
       >
+        <Icon icon="plus" fixedWidth />
         <Icon
-          icon="plus"
-          style={{ position: 'relative', top: '1px' }}
+          icon="caret-down"
+          className="float-right"
+          style={{ position: 'relative', top: '3px' }}
         />
       </DropdownToggle>
       <DropdownMenu
