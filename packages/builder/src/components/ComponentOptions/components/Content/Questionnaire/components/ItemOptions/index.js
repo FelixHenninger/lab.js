@@ -3,6 +3,7 @@ import React from 'react'
 import Text from './components/Text'
 import Divider from './components/Divider'
 import Input from './components/Input'
+import Radio from './components/Radio'
 
 const selectItem = (type) => {
   switch(type) {
@@ -12,6 +13,8 @@ const selectItem = (type) => {
       return Divider
     case 'input':
       return Input
+    case 'radio':
+      return Radio
     default:
       return null
   }

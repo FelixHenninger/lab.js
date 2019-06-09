@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createContext } from 'react'
 import { Fieldset } from 'react-redux-form'
 
 import Form from '../../Form'
@@ -11,9 +11,16 @@ import Footer from './components/Footer'
 
 const HeaderCell = () => null
 
+export const ItemContext = createContext(undefined)
+
 const GridCell = ({ cellData, rowIndex }) =>
   <Fieldset model={ `.rows[${ rowIndex }][0]` } >
-    <ItemOptions type={ cellData.type } data={ cellData } />
+    <ItemContext.Provider value={ `.rows[${ rowIndex }][0]` }>
+      <ItemOptions
+        type={ cellData.type }
+        data={ cellData }
+      />
+    </ItemContext.Provider>
   </Fieldset>
 
 export default class extends Component {

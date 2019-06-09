@@ -80,7 +80,7 @@ const AddWidget = () => {
             <DropdownItem header>
               Structured input
             </DropdownItem>
-            <Item>
+            <Item data={{ type: 'radio', options: [] }}>
               Multiple choice
             </Item>
             <Item>
