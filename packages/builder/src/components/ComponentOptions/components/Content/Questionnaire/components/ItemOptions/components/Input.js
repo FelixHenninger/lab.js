@@ -9,6 +9,7 @@ export default () =>
       <Col>
         <Control
           model=".label"
+          placeholder="Question"
           component={ Input }
         />
       </Col>
@@ -17,6 +18,7 @@ export default () =>
       <Col>
         <Control.textarea
           model=".help"
+          placeholder="Help"
           component={ Input }
           controlProps={{ type: 'textarea', bsSize: 'sm', rows: 1 }}
           className="mt-2 text-muted"

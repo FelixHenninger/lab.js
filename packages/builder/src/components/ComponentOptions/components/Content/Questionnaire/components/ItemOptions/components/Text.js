@@ -9,6 +9,7 @@ export default () =>
       <Col>
         <Control
           model=".title"
+          placeholder="Title"
           component={ Input }
           className="font-weight-bold"
         />
@@ -18,6 +19,7 @@ export default () =>
       <Col>
         <Control.textarea
           model=".content"
+          placeholder="Text"
           component={ Input }
           controlProps={{ type: 'textarea' }}
           className="mt-2"
