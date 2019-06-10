@@ -4,6 +4,7 @@ import Text from './components/Text'
 import Divider from './components/Divider'
 import Input from './components/Input'
 import Radio from './components/Radio'
+import Checkbox from './components/Checkbox'
 
 const selectItem = (type) => {
   switch(type) {
@@ -15,6 +16,8 @@ const selectItem = (type) => {
       return Input
     case 'radio':
       return Radio
+    case 'checkbox':
+      return Checkbox
     default:
       return null
   }

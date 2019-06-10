@@ -83,7 +83,7 @@ const AddWidget = () => {
             <Item data={{ type: 'radio', options: [] }}>
               Multiple choice
             </Item>
-            <Item>
+            <Item data={{ type: 'checkbox', options: [] }}>
               Check all that apply
             </Item>
           </Col>

@@ -9,6 +9,7 @@ const icons = {
   'text': 'info',
   'input': 'comment-alt-minus',
   'radio': 'list-ul',
+  'checkbox': 'tasks',
 }
 
 export const LeftColumn = ({ rowData: [{ type }] }) =>
