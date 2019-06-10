@@ -1,5 +1,6 @@
 import React, { Component, createContext } from 'react'
-import { Fieldset } from 'react-redux-form'
+import { Fieldset, Control } from 'react-redux-form'
+import { CardFooter, InputGroup, Input, CustomInput } from 'reactstrap'
 
 import Form from '../../Form'
 import Card from '../../../../Card'
@@ -7,7 +8,7 @@ import Grid from '../../../../Grid'
 
 import ItemOptions from './components/ItemOptions'
 import { LeftColumn, RightColumn } from './components/Columns'
-import Footer from './components/Footer'
+import GridFooter from './components/Footer'
 
 const HeaderCell = () => null
 
@@ -23,6 +24,52 @@ const GridCell = ({ cellData, rowIndex }) =>
     </ItemContext.Provider>
   </Fieldset>
 
+const Footer = ({ data={} }) =>
+  <CardFooter className="px-0">
+    <table className="table grid no-header border-bottom-0 my-0">
+      <colgroup>
+        <col style={{ width: '5%' }} />
+        <col style={{ width: '90%' }} />
+        <col style={{ width: '5%' }} />
+      </colgroup>
+      <tbody>
+        <tr>
+          <td><div style={{ width: '40px' }} /></td>
+          <td>
+            <InputGroup>
+              <Control
+                model=".submitButtonText"
+                component={ Input }
+                controlProps={{
+                  disabled: data.submitButtonPosition === 'hidden'
+                }}
+                placeholder="Submit button text"
+                default="Continue →"
+                type="text"
+                debounce={ 300 }
+              />
+              <Control.select
+                model=".submitButtonPosition"
+                component={ CustomInput }
+                controlProps={{
+                  type: 'select',
+                }}
+              >
+                <option value="right">
+                  Show submit button
+                </option>
+                <option value="hidden">
+                  Hide submit button
+                </option>
+              </Control.select>
+            </InputGroup>
+          </td>
+          <td><div style={{ width: '42px' }} /></td>
+        </tr>
+      </tbody>
+    </table>
+  </CardFooter>
+
 export default class extends Component {
   constructor(props) {
     super(props)
@@ -37,7 +84,7 @@ export default class extends Component {
         <Form
           id={ id }
           data={ data }
-          keys={ ['questions'] }
+          keys={ ['questions', 'submitButtonText', 'submitButtonPosition'] }
           getDispatch={ dispatch => this.formDispatch = dispatch }
         >
           <Grid
@@ -46,7 +93,7 @@ export default class extends Component {
             BodyContent={ GridCell }
             LeftColumn={ LeftColumn }
             RightColumn={ RightColumn }
-            Footer={ Footer }
+            Footer={ GridFooter }
             columnWidths={ [ 90 ] }
             columns={ ['questions'] }
             showHeader={ false }
@@ -55,7 +102,9 @@ export default class extends Component {
             }
             data={ data.questions ? data.questions.rows : [] }
             formDispatch={ action => this.formDispatch(action) }
+            className="mb-0 border-bottom-0"
           />
+          <Footer data={ data } />
         </Form>
       </Card>
     )

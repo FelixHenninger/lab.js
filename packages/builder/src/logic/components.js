@@ -195,6 +195,8 @@ export const metadata = {
       messageHandlers: {
         rows: [ [ { title: '', message: '', code: '' }, ], ],
       },
+      submitButtonText: 'Continue →',
+      submitButtonPosition: 'right',
     },
   },
   'lab.canvas.Frame': {
