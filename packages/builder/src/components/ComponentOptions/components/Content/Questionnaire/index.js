@@ -52,6 +52,7 @@ const Footer = ({ data={} }) =>
                 model=".submitButtonPosition"
                 component={ CustomInput }
                 controlProps={{
+                  id: 'submitButtonPosition',
                   type: 'select',
                 }}
               >
