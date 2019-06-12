@@ -13,6 +13,7 @@ const selectItem = (type) => {
     case 'divider':
       return Divider
     case 'input':
+    case 'textarea':
       return Input
     case 'radio':
       return Radio

@@ -8,6 +8,7 @@ import Icon from '../../../../../Icon'
 const icons = {
   'text': 'info',
   'input': 'comment-alt-minus',
+  'textarea': 'comment-alt-lines',
   'radio': 'list-ul',
   'checkbox': 'tasks',
 }

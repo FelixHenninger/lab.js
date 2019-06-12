@@ -73,7 +73,7 @@ const AddWidget = () => {
             <Item data={{ type: 'input' }}>
               Single-line
             </Item>
-            <Item>
+            <Item data={{ type: 'textarea' }}>
               Multi-line
             </Item>
             <DropdownItem divider />
