@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Control } from 'react-redux-form'
 import { CardBody, FormGroup, Col, Label,
   Input, InputGroup, InputGroupAddon } from 'reactstrap'
 
 import Card from '../../../../../Card'
 import Hint from '../../../../../Hint'
+import Spinner from '../../../../../Spinner'
 
-import TimelineWidget from './widget'
+const TimelineWidget = lazy(() => import('./widget'))
 
 export default ({ formDispatch, data }) =>
   <Card title="Timeline" badge="Beta" wrapContent={ false }>
-    <TimelineWidget data={ data } formDispatch={ formDispatch } />
+    <Suspense fallback={ <Spinner /> }>
+      <TimelineWidget data={ data } formDispatch={ formDispatch } />
+    </Suspense>
     <hr />
     <CardBody>
       <FormGroup row>
