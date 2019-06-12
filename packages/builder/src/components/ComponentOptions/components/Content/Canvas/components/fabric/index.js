@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 
 import { fabric } from 'fabric'
-import { findDOMNode } from 'react-dom'
 
 import makeBackground from './background'
 import makeOverlay from './overlay'
@@ -96,6 +95,7 @@ export default class FabricCanvas extends Component {
     }
 
     this.updateActive = this.updateActive.bind(this)
+    this.canvasRef = createRef()
   }
 
   componentDidMount() {
@@ -105,11 +105,11 @@ export default class FabricCanvas extends Component {
     const viewPort = [800, 600]
 
     // Initialize canvas element
-    const el = findDOMNode(this)
+    const el = this.canvasRef.current.parentElement
 
-    this.width = el.parentElement.clientWidth - 15
+    this.width = el.clientWidth - 15
     this.height = Math.max(
-      Math.ceil(el.parentElement.clientWidth * 9/16),
+      Math.ceil(el.clientWidth * 9/16),
       viewPort[1] + 2 * gridSize,
     )
 
@@ -120,7 +120,7 @@ export default class FabricCanvas extends Component {
 
     // Initialize fabric canvas
     this.canvas = new fabric.Canvas()
-    this.canvas.initialize(el, {
+    this.canvas.initialize(this.canvasRef.current, {
       width: this.width,
       height: this.height,
       preserveObjectStacking: true,
@@ -448,7 +448,7 @@ export default class FabricCanvas extends Component {
   }
 
   render () {
-    return <canvas />
+    return <canvas ref={ this.canvasRef } />
   }
 }
 

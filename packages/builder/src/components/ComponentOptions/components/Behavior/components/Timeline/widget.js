@@ -1,7 +1,6 @@
 import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 
-import ReactDOM from 'react-dom'
 import { clamp, sortBy } from 'lodash'
 import { Stage } from 'react-konva'
 import { actions } from 'react-redux-form'
@@ -34,13 +33,13 @@ class TimelineStage extends Component {
 
     // Refs
     this.stage = createRef()
+    this.wrapper = createRef()
   }
 
   componentDidMount() {
     // Calculate available space
-    const parent = ReactDOM.findDOMNode(this).parentNode
     this.setState({
-      width: parent.clientWidth,
+      width: this.wrapper.current.clientWidth,
     })
   }
 
@@ -244,7 +243,7 @@ class TimelineStage extends Component {
     const { data, range, height, padding } = this.props
 
     return (
-      <>
+      <div ref={ this.wrapper }>
         <Stage
           ref={ this.stage }
           width={ width } height={ height }
@@ -285,7 +284,7 @@ class TimelineStage extends Component {
           duplicateCurrent={ this.handleDuplicateCurrent }
           deleteCurrent={ this.handleDeleteCurrent }
         />
-      </>
+      </div>
     )
   }
 }

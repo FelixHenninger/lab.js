@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 
@@ -14,9 +14,9 @@ import exportStaticNetlify from '../../../../logic/io/export/modifiers/netlify'
 const required = v => v && v.length
 const length = len => v => !v || v.length === len
 
-const NetlifyForm = ({ formRef, onSubmit }) =>
+const NetlifyForm = forwardRef(({ onSubmit }, ref) =>
   <LocalForm
-    ref={ formRef }
+    ref={ ref }
     onSubmit={ onSubmit }
   >
     <FormGroup>
@@ -62,6 +62,7 @@ const NetlifyForm = ({ formRef, onSubmit }) =>
       </FormText>
     </FormGroup>
   </LocalForm>
+)
 
 class NetlifyWidget extends Component {
   constructor() {
@@ -69,15 +70,11 @@ class NetlifyWidget extends Component {
     this.state = {
       widgetState: 'form'
     }
-  }
-
-  attachForm(form) {
-    this._form = findDOMNode(form)
-    window.foo = this._form
+    this.formRef = createRef()
   }
 
   triggerSubmit() {
-    this._form.submit()
+    findDOMNode(this.formRef.current).submit()
   }
 
   async send(data) {
@@ -178,7 +175,7 @@ class NetlifyWidget extends Component {
         </p>
       default:
         return <NetlifyForm
-          formRef={ form => this.attachForm(form) }
+          ref={ this.formRef }
           onSubmit={ data => this.send(data) }
         />
     }
