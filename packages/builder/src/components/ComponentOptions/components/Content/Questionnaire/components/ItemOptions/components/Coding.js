@@ -8,7 +8,10 @@ import { Row, Col, Input,
 
 import Icon from '../../../../../../../Icon'
 
-const CodingPair = ({ icon, model, index, itemModel }, { formDispatch }) => {
+const CodingPair = (
+  { icon, model, index, itemModel, totalPairs },
+  { formDispatch }
+) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
   return (
@@ -49,6 +52,23 @@ const CodingPair = ({ icon, model, index, itemModel }, { formDispatch }) => {
           <Icon icon="caret-down" className="text-muted" />
         </DropdownToggle>
         <DropdownMenu right>
+          <DropdownItem header>
+            Add and delete
+          </DropdownItem>
+          <DropdownItem
+            onClick={ () => formDispatch(
+              actions.change(
+                `local.questions${ itemModel }${ model }`,
+                items => [
+                  ...items.slice(0, index + 1),
+                  {},
+                  ...items.slice(index + 1, items.length)
+                ]
+              )
+            ) }
+          >
+            Add below
+          </DropdownItem>
           <DropdownItem
             onClick={ () => formDispatch(
               actions.remove(
@@ -58,6 +78,32 @@ const CodingPair = ({ icon, model, index, itemModel }, { formDispatch }) => {
             ) }
           >
             Delete
+          </DropdownItem>
+          <DropdownItem divider />
+          <DropdownItem header>
+            Move
+          </DropdownItem>
+          <DropdownItem
+            onClick={ () => formDispatch(
+              actions.move(
+                `local.questions${ itemModel }${ model }`,
+                index, index - 1
+              )
+            ) }
+            disabled={ index === 0 }
+          >
+            Up
+          </DropdownItem>
+          <DropdownItem
+            onClick={ () => formDispatch(
+              actions.move(
+                `local.questions${ itemModel }${ model }`,
+                index, index + 1
+              )
+            ) }
+            disabled={ index >= totalPairs - 1 }
+          >
+            Down
           </DropdownItem>
         </DropdownMenu>
       </InputGroupButtonDropdown>
@@ -75,6 +121,9 @@ export const CodingGroup = ({ data=[], model, itemModel, icon }) =>
   // (the full path still needs to be reconstructed at some point,
   // because the action creator above needs access to it -- sadly,
   // the fieldset doesn't help here.)
+  // ----
+  // Also, think about moving the manipulation logic out of the
+  // individual pairs, and up to a higher level such as this one.
   <div className="pt-1">
     {
       [...data, {}].map((x, i) =>
@@ -85,6 +134,7 @@ export const CodingGroup = ({ data=[], model, itemModel, icon }) =>
               model={ `${ model }` }
               itemModel={ itemModel }
               index={ i }
+              totalPairs={ data.length }
             />
           </Col>
         </Row>
