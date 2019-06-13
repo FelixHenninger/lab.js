@@ -19,18 +19,6 @@ export default ({ rowIndex }) =>
     </Row>
     <Row form>
       <Col>
-        <Control.textarea
-          model=".help"
-          placeholder="Help"
-          component={ Input }
-          controlProps={{ type: 'textarea', bsSize: 'sm', rows: 1 }}
-          className="mt-2 text-muted"
-          style={{ padding: '6px 12px' }}
-        />
-      </Col>
-    </Row>
-    <Row form>
-      <Col>
         <ItemContext.Consumer>
           {
             ({ openItem }) =>

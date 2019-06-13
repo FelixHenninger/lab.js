@@ -36,4 +36,19 @@ export const BaseOptions = ({ rowIndex }) =>
         />
       </Col>
     </Row>
+    <Row form className="my-2">
+      <Col>
+        <Control.textarea
+          model=".help"
+          placeholder="Help / further instructions"
+          component={ Input }
+          controlProps={{
+            type: 'textarea', bsSize: 'sm',
+            rows: 3
+          }}
+          className="mt-2 text-muted"
+          style={{ padding: '6px 12px' }}
+        />
+      </Col>
+    </Row>
   </>
