@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Button } from 'reactstrap'
-
 import Icon from '../../../../../Icon'
+
+import { ItemContext } from '../index'
 
 const icons = {
   'text': 'info',
@@ -39,17 +40,31 @@ export const LeftColumn = ({ rowData: [{ type }] }) =>
   </td>
 
 export const RightColumn = (
-  { rowIndex, rowData: [{ type }] },
+  { rowIndex, rowData: [{ type }], onClickOptions },
   { gridDispatch }
 ) =>
   <td>
     {
       type !== 'divider'
-        ? <Button
-            block outline color="muted"
-          >
-            <Icon icon="cog" />
-          </Button>
+        ? <ItemContext.Consumer>
+            {
+              ({ openItem, setOpenItem }) =>
+                <Button
+                  block outline color="muted"
+                  onClick={ () => {
+                    // TODO: Think about moving logic into the ItemContext
+                    if (openItem === rowIndex) {
+                      setOpenItem(undefined)
+                    } else {
+                      setOpenItem(rowIndex)
+                    }
+                  } }
+                >
+                  <Icon icon="cog" />
+                </Button>
+            }
+          </ItemContext.Consumer>
+
         : null
     }
     <Button

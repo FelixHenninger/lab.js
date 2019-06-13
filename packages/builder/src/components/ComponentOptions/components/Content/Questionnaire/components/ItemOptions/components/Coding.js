@@ -7,7 +7,6 @@ import { Row, Col, Input,
   DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap'
 
 import Icon from '../../../../../../../Icon'
-import { ItemContext } from '../../../index'
 
 const CodingPair = ({ icon, model, index, itemModel }, { formDispatch }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -70,23 +69,25 @@ CodingPair.contextTypes = {
   formDispatch: PropTypes.func,
 }
 
-export const CodingGroup = ({ data=[], model, icon }) =>
+export const CodingGroup = ({ data=[], model, itemModel, icon }) =>
+  // TODO: Simplify form field coordination. Splitting the path
+  // into model, itemmodel and index seems overly complicated
+  // (the full path still needs to be reconstructed at some point,
+  // because the action creator above needs access to it -- sadly,
+  // the fieldset doesn't help here.)
   <div className="pt-1">
-    <ItemContext.Consumer>
-    { itemModel => (
+    {
       [...data, {}].map((x, i) =>
         <Row form key={ `coding-${ model }-${ i }` }>
           <Col className="pt-1">
             <CodingPair
               icon={ icon }
               model={ `${ model }` }
-              index={ i }
               itemModel={ itemModel }
+              index={ i }
             />
           </Col>
         </Row>
       )
-    )}
-
-    </ItemContext.Consumer>
+    }
   </div>
