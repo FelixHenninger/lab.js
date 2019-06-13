@@ -1,9 +1,12 @@
 import React from 'react'
 
 import { Control } from 'react-redux-form'
-import { Row, Col, Input } from 'reactstrap'
+import { Row, Col, Input, Collapse } from 'reactstrap'
 
-export default () =>
+import { ItemContext } from '../../../index'
+import { BaseOptions } from './BaseOptions'
+
+export default ({ rowIndex }) =>
   <>
     <Row form>
       <Col>
@@ -24,6 +27,20 @@ export default () =>
           className="mt-2 text-muted"
           style={{ padding: '6px 12px' }}
         />
+      </Col>
+    </Row>
+    <Row form>
+      <Col>
+        <ItemContext.Consumer>
+          {
+            ({ openItem }) =>
+              <Collapse isOpen={ openItem === rowIndex }>
+                <BaseOptions
+                  rowIndex={ rowIndex }
+                />
+              </Collapse>
+          }
+        </ItemContext.Consumer>
       </Col>
     </Row>
   </>
