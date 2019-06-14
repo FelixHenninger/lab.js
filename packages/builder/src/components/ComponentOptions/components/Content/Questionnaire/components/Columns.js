@@ -15,11 +15,14 @@ const icons = {
   'checkbox': 'tasks',
 }
 
-export const LeftColumn = ({ rowData: [{ type }], rowIndex }) =>
+export const LeftColumn = (
+  { rowData: [{ type }], rowIndex, isFirstRow, isLastRow },
+  { gridDispatch }
+) =>
   <td>
     <ItemContext.Consumer>
       {
-        ({ openItem }) =>
+        ({ openItem, setOpenItem }) =>
           <>
             {
               <div
@@ -43,12 +46,50 @@ export const LeftColumn = ({ rowData: [{ type }], rowIndex }) =>
                 >
                   <Icon icon="bars" />
                 </Button>
+                <Button
+                  block
+                  outline color="muted"
+                  className="mt-2"
+                  onClick={ () => {
+                    const o = openItem
+                    setOpenItem(undefined)
+                    gridDispatch(
+                      'moveRow',
+                      { from: rowIndex, to: rowIndex - 1 }
+                    )
+                    setOpenItem(o - 1)
+                  } }
+                  disabled={ isFirstRow }
+                >
+                  <Icon icon="arrow-up" />
+                </Button>
+                <Button
+                  block
+                  outline color="muted"
+                  className="mt-2"
+                  onClick={ () => {
+                    const o = openItem
+                    setOpenItem(undefined)
+                    gridDispatch(
+                      'moveRow',
+                      { from: rowIndex, to: rowIndex + 1 }
+                    )
+                    setOpenItem(o + 1)
+                  } }
+                  disabled={ isLastRow }
+                >
+                  <Icon icon="arrow-down" />
+                </Button>
               </Collapse>
             }
           </>
       }
     </ItemContext.Consumer>
   </td>
+
+LeftColumn.contextTypes = {
+  gridDispatch: PropTypes.func,
+}
 
 export const RightColumn = (
   { rowIndex, rowData: [{ type }], onClickOptions },
