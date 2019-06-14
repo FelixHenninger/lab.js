@@ -17,7 +17,8 @@ const Cell = (
 const Row = (
   { data, rowData, rowIndex,
     BodyContent, LeftColumn, RightColumn,
-    columns, cellProps },
+    columns, cellProps,
+    isFirstRow, isLastRow },
   { uniqueId }
 ) =>
   <tr>
@@ -25,6 +26,8 @@ const Row = (
       data={ data }
       rowData={ rowData }
       rowIndex={ rowIndex }
+      isFirstRow={ isFirstRow }
+      isLastRow={ isLastRow }
     />
     {
       rowData.length > 0
@@ -45,6 +48,8 @@ const Row = (
       data={ data }
       rowData={ rowData }
       rowIndex={ rowIndex }
+      isFirstRow={ isFirstRow }
+      isLastRow={ isLastRow }
     />
   </tr>
 
@@ -60,6 +65,8 @@ const Body = (props, { uniqueId }) =>
         key={ `grid_${ uniqueId }_row_${ rowIndex }` }
         rowData={ rowData }
         rowIndex={ rowIndex }
+        isFirstRow={ rowIndex === 0 }
+        isLastRow={ rowIndex === props.data.length - 1 }
         { ...props }
       />
     )

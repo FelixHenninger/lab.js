@@ -69,6 +69,8 @@ class Grid extends Component {
         return this.handleRowAdd(payload)
       case 'deleteRow':
         return this.handleRowDelete(payload)
+      case 'moveRow':
+        return this.handleRowMove(payload.from, payload.to)
       case 'overwrite':
         return this.handleOverwrite(payload)
       case 'reload':
@@ -174,6 +176,15 @@ class Grid extends Component {
     this.handleChange(
       `local${ this.props.model }.rows`,
       this.props.data.filter((_, i) => i !== index)
+    )
+  }
+
+  handleRowMove(from, to) {
+    this.props.formDispatch(
+      actions.move(
+        `local${ this.props.model }.rows`,
+        from, to
+      )
     )
   }
 
