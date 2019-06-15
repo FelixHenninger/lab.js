@@ -1,9 +1,9 @@
 {% macro navitem(title, href, class="", target="", rel="") %}
-  {% if href is starting_with("/") or href is starting_with("https://") %}
+  {%- if href is starting_with("/") or href is starting_with("https://") %}
     {% set path = href %}
   {% else %}
     {% set path = "/" ~ href %}
-  {% endif %}
+  {% endif -%}
   {%- set active = current_path and href == current_path or current_path and path == current_path or current_url and href == current_url -%}
   <li class="nav-item{% if class %} {{ class }}{% endif %}">
     <a
@@ -13,7 +13,7 @@
       {% if rel %}rel="{{ rel }}"{% endif %}
     >
       {{ title }}
-      {% if active %}<span class="sr-only">(current)</span>{% endif %}
+      {%- if active %} <span class="sr-only">(current)</span>{% endif %}
     </a>
   </li>
 {% endmacro navitem %}

@@ -11,10 +11,10 @@
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="navbar-nav mr-auto">
         {{ macros::navitem(title="Overview", href="/") }}
-        {% set audiences = get_section(path="for/_index.md") %}
-        {% for p in audiences.pages %}
+        {%- set audiences = get_section(path="for/_index.md") -%}
+        {%- for p in audiences.pages %}
           {{ macros::navitem(title=p.title, href=p.path) }}
-        {% endfor %}
+        {% endfor -%}
       </ul>
       <ul class="navbar-nav">
         {{ macros::navitem(
@@ -25,15 +25,15 @@
           title="Documentation", href="https://labjs.readthedocs.org",
           class="d-md-none d-lg-inline", target="_blank", rel="noopener"
         ) }}
-        {% set resources = get_section(path="resources/_index.md") %}
-        {% for p in resources.pages %}
+        {%- set resources = get_section(path="resources/_index.md") -%}
+        {%- for p in resources.pages %}
           {% if p.extra.menu and p.extra.menu == "header" %}
             {{ macros::navitem(
               title=p.title, href=p.path,
               class="d-md-none d-lg-inline"
             ) }}
           {% endif %}
-        {% endfor %}
+        {% endfor -%}
         {% if resources.pages | length() > 0 %}
           <li class="nav-item dropdown">
             <a
