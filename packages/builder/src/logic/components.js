@@ -171,9 +171,9 @@ export const metadata = {
       },
     },
   },
-  'lab.html.Questionnaire': {
-    name: 'Questionnaire',
-    description: 'Graphical questionnaire builder',
+  'lab.html.Page': {
+    name: 'Page',
+    description: 'Graphical page builder',
     category: 'HTML',
     icon: 'clipboard-list',
     iconWeight: 'r',
@@ -183,8 +183,8 @@ export const metadata = {
     tabs: defaultTabs,
     defaultTab: 'Content',
     defaults: {
-      type: 'lab.html.Questionnaire',
-      questions: { rows: [] },
+      type: 'lab.html.Page',
+      items: { rows: [] },
       files: { rows: [] },
       parameters: {
         rows: [ [ { name: '', value: '', type: 'string' }, ], ],

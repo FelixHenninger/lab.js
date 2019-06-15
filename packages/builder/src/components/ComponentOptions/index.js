@@ -20,7 +20,7 @@ import EditorContent from './components/Content/Editor'
 import FrameContent from './components/Content/Frame'
 import LoopContent from './components/Content/Loop'
 import SequenceContent from './components/Content/Sequence'
-import QuestionnaireContent from './components/Content/Questionnaire'
+import PageContent from './components/Content/Page'
 
 // Tab selection helper
 import { defaultTab } from '../../logic/components'
@@ -38,7 +38,8 @@ const selectTab = (type, tab) => {
         case 'lab.html.Frame':
           return FrameContent
         case 'lab.html.Questionnaire':
-          return QuestionnaireContent
+        case 'lab.html.Page':
+          return PageContent
         case 'lab.flow.Loop':
           return LoopContent
         case 'lab.flow.Sequence':

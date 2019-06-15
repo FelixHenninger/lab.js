@@ -58,7 +58,7 @@ const CodingPair = (
           <DropdownItem
             onClick={ () => formDispatch(
               actions.change(
-                `local.questions${ itemModel }${ model }`,
+                `local.items${ itemModel }${ model }`,
                 items => [
                   ...items.slice(0, index + 1),
                   {},
@@ -72,7 +72,7 @@ const CodingPair = (
           <DropdownItem
             onClick={ () => formDispatch(
               actions.remove(
-                `local.questions${ itemModel }${ model }`,
+                `local.items${ itemModel }${ model }`,
                 index
               )
             ) }
@@ -86,7 +86,7 @@ const CodingPair = (
           <DropdownItem
             onClick={ () => formDispatch(
               actions.move(
-                `local.questions${ itemModel }${ model }`,
+                `local.items${ itemModel }${ model }`,
                 index, index - 1
               )
             ) }
@@ -97,7 +97,7 @@ const CodingPair = (
           <DropdownItem
             onClick={ () => formDispatch(
               actions.move(
-                `local.questions${ itemModel }${ model }`,
+                `local.items${ itemModel }${ model }`,
                 index, index + 1
               )
             ) }

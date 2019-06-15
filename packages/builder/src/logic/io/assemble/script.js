@@ -92,10 +92,10 @@ const processShuffleGroups = columns =>
     g => g.map(c => c.name)
   )
 
-const processQuestions = questions =>
-  questions.rows
+const processItems = items =>
+  items.rows
     .map(r => r[0])
-    .filter(q => q.label !== '')
+    .filter(i => i.label !== '')
 
 // Process any single node in isolation
 const processNode = node => {
@@ -122,8 +122,8 @@ const processNode = node => {
     parameters: node.parameters
       ? processParameters(node.parameters)
       : {},
-    questions: node.questions
-      ? processQuestions(node.questions)
+    items: node.items
+      ? processItems(node.items)
       : null,
     responses: node.responses
       ? processResponses(node.responses)

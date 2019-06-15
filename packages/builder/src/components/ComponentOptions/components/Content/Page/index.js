@@ -136,24 +136,24 @@ export default class extends Component {
         <Form
           id={ id }
           data={ data }
-          keys={ ['questions', 'submitButtonText', 'submitButtonPosition'] }
+          keys={ ['items', 'submitButtonText', 'submitButtonPosition'] }
           getDispatch={ dispatch => this.formDispatch = dispatch }
         >
           <ItemContextProvider>
             <Grid
-              model=".questions"
+              model=".items"
               HeaderContent={ HeaderCell }
               BodyContent={ this.renderGridCell }
               LeftColumn={ LeftColumn }
               RightColumn={ this.renderRightColumn }
               Footer={ GridFooter }
               columnWidths={ [ 90 ] }
-              columns={ ['questions'] }
+              columns={ ['items'] }
               showHeader={ false }
               defaultRow={
                 [ { type: '' }, ]
               }
-              data={ data.questions ? data.questions.rows : [] }
+              data={ data.items ? data.items.rows : [] }
               formDispatch={ action => this.formDispatch(action) }
               className="mb-0 border-bottom-0"
             />
