@@ -44,7 +44,7 @@
               Resources
             </a>
             <div class="dropdown-menu dropdown-menu-lg-right">
-              <h6 class="dropdown-header d-lg-none">Quicklinks</h6>
+              <h6 class="dropdown-header">Quicklinks</h6>
               <a
                 class="dropdown-item d-lg-none"
                 href="https://labjs.felixhenninger.com"
@@ -66,8 +66,21 @@
               >
                 Repository
               </a>
-              <div class="dropdown-divider d-lg-none"></div>
-              <h6 class="dropdown-header d-lg-none">
+              <a
+                class="dropdown-item"
+                href="https://labjs-beta.netlify.com"
+                target="_blank" rel="noopener"
+              >
+                Development version
+                <span
+                  class="badge badge-pill badge-danger ml-2"
+                  style="position: relative; top: -2px; opacity: 0.5;"
+                >
+                  <i class="fas fa-tools fa-fw" style="position: relative; top: 0.25px;"></i>
+                </span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <h6 class="dropdown-header">
                 More information
               </h6>
               {% for p in resources.pages %}
