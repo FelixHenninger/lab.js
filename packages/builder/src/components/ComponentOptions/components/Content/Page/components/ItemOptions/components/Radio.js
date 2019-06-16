@@ -4,6 +4,7 @@ import { Control } from 'react-redux-form'
 import { Row, Col, Input } from 'reactstrap'
 
 import { CodingGroup } from './Coding'
+import { CollapsingOptions } from './BaseOptions'
 
 export default ({ data, rowIndex }) =>
   <>
@@ -22,5 +23,8 @@ export default ({ data, rowIndex }) =>
       model=".options"
       itemModel={ `.rows[${ rowIndex }][0]` }
       icon="circle"
+    />
+    <CollapsingOptions
+      rowIndex={ rowIndex }
     />
   </>

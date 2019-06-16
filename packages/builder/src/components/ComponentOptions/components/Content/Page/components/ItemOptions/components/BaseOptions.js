@@ -1,6 +1,10 @@
 import React from 'react'
 import { Control } from 'react-redux-form'
-import { FormGroup, Input, CustomInput, Label, FormText } from 'reactstrap'
+import { FormGroup, Input, CustomInput,
+  Label, FormText,
+  Row, Col, Collapse } from 'reactstrap'
+
+import { ItemContext } from '../../../index'
 
 export const BaseOptions = ({ rowIndex }) =>
   <>
@@ -67,3 +71,20 @@ export const BaseOptions = ({ rowIndex }) =>
       />
     </FormGroup>
   </>
+
+export const CollapsingOptions = ({ rowIndex, ...props }) =>
+  <Row form>
+    <Col>
+      <ItemContext.Consumer>
+        {
+          ({ openItem }) =>
+            <Collapse isOpen={ openItem === rowIndex }>
+              <BaseOptions
+                rowIndex={ rowIndex }
+                { ...props }
+              />
+            </Collapse>
+        }
+      </ItemContext.Consumer>
+    </Col>
+  </Row>

@@ -1,10 +1,9 @@
 import React from 'react'
 
 import { Control } from 'react-redux-form'
-import { Row, Col, Input, Collapse } from 'reactstrap'
+import { Row, Col, Input } from 'reactstrap'
 
-import { ItemContext } from '../../../index'
-import { BaseOptions } from './BaseOptions'
+import { CollapsingOptions } from './BaseOptions'
 
 export default ({ rowIndex }) =>
   <>
@@ -18,18 +17,7 @@ export default ({ rowIndex }) =>
         />
       </Col>
     </Row>
-    <Row form>
-      <Col>
-        <ItemContext.Consumer>
-          {
-            ({ openItem }) =>
-              <Collapse isOpen={ openItem === rowIndex }>
-                <BaseOptions
-                  rowIndex={ rowIndex }
-                />
-              </Collapse>
-          }
-        </ItemContext.Consumer>
-      </Col>
-    </Row>
+    <CollapsingOptions
+      rowIndex={ rowIndex }
+    />
   </>
