@@ -266,7 +266,7 @@ export const defaultTab = (tab, type) => {
 // TODO: This is awkwardly named
 export const defaults = [
   'lab.canvas.Screen',
-  'lab.html.Screen',
+  'lab.html.Page',
   'lab.flow.Sequence',
   'lab.flow.Loop',
 ]
