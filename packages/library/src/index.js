@@ -4,7 +4,7 @@ import 'babel-polyfill'
 // Components
 import { Component, Dummy } from './core'
 import { Screen as CanvasScreen, Frame as CanvasFrame } from './canvas'
-import { Screen, Form, Frame } from './html'
+import { Screen, Form, Frame, Page } from './html'
 import { Sequence, Parallel, Loop } from './flow'
 
 // Data storage
@@ -52,6 +52,7 @@ export const html = {
   Screen,
   Form,
   Frame,
+  Page,
 }
 
 export const flow = {

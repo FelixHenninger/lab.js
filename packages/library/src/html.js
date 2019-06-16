@@ -2,6 +2,8 @@
 import { Component, status } from './core'
 import { prepareNested } from './flow'
 
+import { makePage } from './util/page'
+
 // html.Screens display HTML when run
 export class Screen extends Component {
   constructor(options) {
@@ -278,4 +280,18 @@ Frame.metadata = {
   parsableOptions: {
     context: {},
   },
+}
+
+export class Page extends Form {
+  onPrepare() {
+    this.options.content = makePage(this.options.items, {
+      submitButtonText: this.options.submitButtonText,
+      submitButtonPosition: this.options.submitButtonPosition,
+    })
+  }
+}
+
+Page.metadata = {
+  module: ['html'],
+  nestedComponents: [],
 }

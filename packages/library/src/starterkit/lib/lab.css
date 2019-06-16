@@ -360,6 +360,14 @@ textarea {
   border: 2px solid var(--color-border);
   padding: 0 10px;
 }
+/* Page styles */
+#page-form .page-item-table td input[type="radio"],
+#page-form .page-item-table td input[type="checkbox"] {
+  margin: 4px 0 10px;
+}
+#page-form .page-item-table td label {
+  display: block;
+}
 
 /* Table */
 table {
