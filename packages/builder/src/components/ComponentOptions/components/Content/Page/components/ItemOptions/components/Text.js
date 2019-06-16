@@ -12,6 +12,7 @@ export default () =>
           placeholder="Title"
           component={ Input }
           className="font-weight-bold"
+          debounce={ 300 }
         />
       </Col>
     </Row>
@@ -23,6 +24,7 @@ export default () =>
           component={ Input }
           controlProps={{ type: 'textarea' }}
           className="mt-2"
+          debounce={ 300 }
         />
       </Col>
     </Row>

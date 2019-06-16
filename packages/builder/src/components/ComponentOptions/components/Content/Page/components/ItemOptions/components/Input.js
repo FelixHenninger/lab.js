@@ -14,6 +14,7 @@ export default ({ rowIndex }) =>
           model=".label"
           placeholder="Question"
           component={ Input }
+          debounce={ 300 }
         />
       </Col>
     </Row>

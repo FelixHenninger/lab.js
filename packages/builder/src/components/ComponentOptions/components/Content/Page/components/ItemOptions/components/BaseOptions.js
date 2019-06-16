@@ -21,6 +21,7 @@ export const BaseOptions = ({ rowIndex }) =>
           rows: 3
         }}
         className="mt-2 text-muted"
+        debounce={ 300 }
       />
     </FormGroup>
     <hr />
@@ -42,6 +43,7 @@ export const BaseOptions = ({ rowIndex }) =>
             fontFamily: 'Fira Mono',
           }
         }}
+        debounce={ 300 }
       />
     </FormGroup>
     <hr />
@@ -61,6 +63,7 @@ export const BaseOptions = ({ rowIndex }) =>
             fontFamily: 'Fira Mono',
           }
         }}
+        debounce={ 300 }
       />
     </FormGroup>
   </>
