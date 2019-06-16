@@ -3,6 +3,7 @@ import serialize from 'serialize-javascript'
 
 import { makeType } from '../../util/makeType'
 import { adaptiveFunction } from '../../util/async'
+import { slugify } from '../../util/slug'
 
 // Generic grid processing
 const processGrid = (grid, colnames=null, types=undefined) =>
@@ -96,6 +97,18 @@ const processItems = items =>
   items.rows
     .map(r => r[0])
     .filter(i => i.label !== '')
+    .map(i => {
+      // Provide a default name based on the label
+      // for the items that require one
+      if (['text', 'divider'].includes(i.type)) {
+        return i
+      } else {
+        return ({
+          ...i,
+          name: i.name || slugify(i.label || '')
+        })
+      }
+    })
 
 // Process any single node in isolation
 const processNode = node => {

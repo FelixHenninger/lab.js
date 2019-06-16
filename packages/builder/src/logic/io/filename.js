@@ -1,7 +1,4 @@
-import defaultSlugify from 'slugify'
-
-export const slugify = title =>
-  defaultSlugify(title).toLowerCase()
+import { slugify } from '../util/slug'
 
 export const makeFilename = state =>
   // TODO: Simplify this once optional chaining becomes available
