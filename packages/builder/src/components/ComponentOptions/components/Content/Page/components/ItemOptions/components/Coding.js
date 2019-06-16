@@ -48,9 +48,10 @@ const CodingPair = (
         toggle={ () => setDropdownOpen(!dropdownOpen) }
       >
         {/* For some reason, the rounded corners need to be set explicitly */}
-        <DropdownToggle outline color="secondary" className="rounded-right">
-          <Icon icon="caret-down" className="text-muted" />
-        </DropdownToggle>
+        <DropdownToggle
+          outline caret split
+          color="secondary" className="rounded-right"
+        />
         <DropdownMenu right>
           <DropdownItem header>
             Add and delete

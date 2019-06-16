@@ -38,6 +38,7 @@ const AddWidget = () => {
         <Icon
           icon="caret-down"
           className="float-right"
+          weight="s"
           style={{ position: 'relative', top: '3px' }}
         />
       </DropdownToggle>
