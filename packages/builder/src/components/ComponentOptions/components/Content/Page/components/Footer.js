@@ -10,7 +10,7 @@ import Icon from '../../../../../Icon'
 
 const Item = ({ data=undefined, children }, { gridDispatch }) =>
   <DropdownItem
-    onClick={ () => gridDispatch('addRows', [[ data ]]) }
+    onClick={ () => gridDispatch('addRows', [[ { required: true, ...data } ]]) }
     disabled={ data === undefined }
   >
     { children }
