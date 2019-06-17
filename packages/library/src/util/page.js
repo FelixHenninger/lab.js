@@ -16,6 +16,8 @@ const makeFooter = ({ submitButtonPosition='right', submitButtonText }) => {
         </footer>
       `
     )
+  } else {
+    return ''
   }
 }
 
@@ -87,8 +89,8 @@ export const processItem = i => {
       return (
         stripIndent`
           <div class="page-item page-item-text">
-            <h3>${ i.title }</h3>
-            ${ i.content }
+            <h3>${ i.title || '' }</h3>
+            ${ i.content || '' }
           </div>
         `
       )
@@ -104,7 +106,7 @@ export const processItem = i => {
       return (
         stripIndent`
           <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
-            ${ i.label }
+            ${ i.label || '' }
           </p>
           <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
             ${ i.help || '' }
@@ -119,7 +121,7 @@ export const processItem = i => {
       return (
         stripIndent`
           <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
-            ${ i.label }
+            ${ i.label || '' }
           </p>
           <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
             ${ i.help || '' }
@@ -135,7 +137,7 @@ export const processItem = i => {
       return (
         stripIndent`
           <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
-            ${ i.label }
+            ${ i.label || '' }
           </p>
           <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
             ${ i.help || '' }
@@ -155,7 +157,7 @@ export const processItem = i => {
       return (
         stripIndent`
           <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
-            ${ i.label }
+            ${ i.label || '' }
           </p>
           <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
             ${ i.help || '' }
