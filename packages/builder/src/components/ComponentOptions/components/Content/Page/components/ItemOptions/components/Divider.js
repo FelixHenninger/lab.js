@@ -4,6 +4,6 @@ export default () =>
   <hr
     style={{
       position: 'relative',
-      top: '1px',
+      top: '2px',
     }}
   />
