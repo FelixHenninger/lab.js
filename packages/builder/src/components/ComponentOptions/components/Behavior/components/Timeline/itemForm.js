@@ -30,7 +30,7 @@ const Toolbar = (
             }}
           />
         </DropdownToggle>
-        <DropdownMenu right>
+        <DropdownMenu>
           <DropdownItem header>Audio</DropdownItem>
           <DropdownItem
             onClick={ () => add({ type: 'sound' }) }
