@@ -220,6 +220,24 @@ export class Screen extends Component {
     )
   }
 
+  queueAnimationFrame() {
+    this.internals.frameRequest = window.requestAnimationFrame(
+      timestamp => {
+        if (this.options.clearCanvas) {
+          this.clear()
+        }
+
+        this.options.renderFunction.call(
+          this, // context
+          timestamp - this.internals.timestamps.render, // arguments ...
+          this.options.canvas,
+          this.options.ctx,
+          this,
+        )
+      }
+    )
+  }
+
   onEnd() {
     // Context is extracted in onRun, and may not be present
     // (i.e. if the component is skipped)
