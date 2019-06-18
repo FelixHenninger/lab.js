@@ -213,7 +213,7 @@ export class Screen extends Component {
 
     return this.options.renderFunction.call(
       this, // context
-      timestamp, // arguments ...
+      timestamp - this.internals.timestamps.render, // arguments ...
       this.options.canvas,
       this.options.ctx,
       this,
