@@ -24,7 +24,7 @@ const selectItem = (type) => {
   }
 }
 
-export default ({ type, ...props }) => {
-  const Item = selectItem(type)
+export default (props) => {
+  const Item = selectItem(props.type)
   return <Item { ...props } />
 }

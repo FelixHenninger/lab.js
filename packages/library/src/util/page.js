@@ -114,6 +114,7 @@ export const processItem = i => {
           <input name="${ i.name }"
             ${ i.required ? 'required' : '' }
             class="w-100"
+            ${ i.attributes && i.attributes.type ? `type="${ i.attributes.type }"` : '' }
           >
         `
       )

@@ -6,7 +6,7 @@ import { FormGroup, Input, CustomInput,
 
 import { ItemContext } from '../../../index'
 
-export const BaseOptions = ({ rowIndex }) =>
+export const BaseOptions = ({ rowIndex, validation }) =>
   <>
     <hr />
     <FormGroup className="my-2">
@@ -51,8 +51,8 @@ export const BaseOptions = ({ rowIndex }) =>
       />
     </FormGroup>
     <hr />
+    Validation
     <FormGroup className="my-2">
-      Validation
       <FormText color="muted" className="mb-2">
         Checks to run before accepting data
       </FormText>
@@ -70,6 +70,7 @@ export const BaseOptions = ({ rowIndex }) =>
         debounce={ 300 }
       />
     </FormGroup>
+    { validation }
   </>
 
 export const CollapsingOptions = ({ rowIndex, ...props }) =>
