@@ -46,6 +46,18 @@ body {
   margin: var(--padding-internal) auto;
   width: var(--width-container);
 }
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(140, 140, 140, 0.25);
+  /* Use backdrop-filter where available */
+  backdrop-filter: blur(10px);
+  padding: calc(2 * var(--padding-internal));
+}
+
 header, footer, main {
   padding: var(--padding-internal);
 }
