@@ -50,6 +50,35 @@ const ExtraOptions = ({ type }) => {
           </InputGroup>
         </FormGroup>
       </>
+    case 'date':
+      return <>
+        <FormGroup>
+          <InputGroup>
+            <InputGroupAddon addonType="prepend">
+              <InputGroupText>
+                <Icon icon="arrow-to-bottom" fallback="arrow-down" />
+              </InputGroupText>
+            </InputGroupAddon>
+            <Control
+              model=".attributes.min"
+              placeholder="No earliest date (yyyy-mm-dd)"
+              component={ Input }
+              style={{ fontFamily: 'Fira Mono' }}
+            />
+            <InputGroupAddon addonType="prepend">
+              <InputGroupText>
+                <Icon icon="arrow-to-top" fallback="arrow-up" />
+              </InputGroupText>
+            </InputGroupAddon>
+            <Control
+              model=".attributes.max"
+              placeholder="No latest date (yyyy-mm-dd)"
+              component={ Input }
+              style={{ fontFamily: 'Fira Mono' }}
+            />
+          </InputGroup>
+        </FormGroup>
+      </>
     default:
       return null
   }
