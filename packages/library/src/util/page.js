@@ -1,5 +1,10 @@
 import { stripIndent } from 'common-tags'
 
+const makeAttibutes = attrs =>
+  Object.entries(attrs)
+    .map(([attr, val]) => `${ attr }="${ val }"`)
+    .join(' ')
+
 const makeFooter = ({ submitButtonPosition='right', submitButtonText }) => {
   if (submitButtonPosition !== 'hidden') {
     return (
@@ -114,7 +119,7 @@ export const processItem = i => {
           <input name="${ i.name }"
             ${ i.required ? 'required' : '' }
             class="w-100"
-            ${ i.attributes && i.attributes.type ? `type="${ i.attributes.type }"` : '' }
+            ${ makeAttibutes(i.attributes) }
           >
         `
       )
