@@ -812,6 +812,7 @@ Component.metadata = {
             type: 'object',
             content:       {
               'gain':      { type: 'number' },
+              'loop':      { type: 'boolean' },
               '*':         'string',
             },
           },

@@ -317,6 +317,26 @@ const SoundForm = ({ handleChange }, { id }) => {
             </InputGroup>
           </FormGroup>
         </Col>
+        <Col>
+          <FormGroup>
+            <InputGroup>
+              <SettingGroupIcon
+                icon="repeat"
+                fallbackIcon="redo"
+                tooltip="Loop audio"
+                unit="boolean"
+              />
+              <Control.select
+                model=".payload.loop"
+                className="form-control custom-select"
+                style={{ fontFamily: 'Fira Mono' }}
+              >
+                <option value="false">Play sound once</option>
+                <option value="true">Repeat continuously</option>
+              </Control.select>
+            </InputGroup>
+          </FormGroup>
+        </Col>
       </Row>
       <Row>
         <Col>

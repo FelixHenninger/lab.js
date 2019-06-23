@@ -211,19 +211,20 @@ export class BufferSourceItem extends AudioNodeItem {
   async prepare() {
     // Populate buffer from cache, if possible
     const { cache, audioContext } = this.timeline.controller
+    const { src, loop } = this.payload
 
     let buffer
-    if (cache.audio[this.payload.src]) {
-      buffer = cache.audio[this.payload.src]
+    if (cache.audio[src]) {
+      buffer = cache.audio[src]
     } else {
       // Otherwise, load audio file from URL
       try {
-        buffer = await load(this.payload.src, audioContext, { mode: 'cors' })
-        cache.audio[this.payload.src] = cache.audio[this.payload.src] || buffer
+        buffer = await load(src, audioContext, { mode: 'cors' })
+        cache.audio[src] = cache.audio[src] || buffer
       } catch (e) {
         console.warn(
           'Audio timeline item missing content, will remain silent.',
-          `Source: ${ this.payload.src }, Error: ${ e.message }`,
+          `Source: ${ src }, Error: ${ e.message }`,
         )
       }
     }
@@ -231,7 +232,7 @@ export class BufferSourceItem extends AudioNodeItem {
     // Adjust the caching mechanism so that the preload stage knows
     // about the audio file, so that the cache is always present.
 
-    this.source = createNode('bufferSource', audioContext, { buffer })
+    this.source = createNode('bufferSource', audioContext, { buffer, loop })
     super.prepare()
   }
 }
