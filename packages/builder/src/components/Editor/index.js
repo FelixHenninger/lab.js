@@ -82,6 +82,7 @@ export default class Editor extends React.Component {
       theme="labjs"
       editorDidMount={ this.editorDidMount.bind(this) }
       editorWillMount={ this.editorWillMount.bind(this) }
+      {...this.props}
       options={{
         // Behavior
         contextmenu: false,
@@ -103,8 +104,8 @@ export default class Editor extends React.Component {
         fontFamily: 'Fira Mono',
         fontSize: 18,
         lineHeight: 26,
+        ...this.props.options
       }}
-      {...this.props}
     />
   }
 }
