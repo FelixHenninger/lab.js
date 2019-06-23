@@ -9,6 +9,7 @@ import { ItemContext } from '../index'
 const icons = {
   'text': 'info',
   'divider': 'horizontal-rule', // could be page-break
+  'html': 'code',
   'input': 'comment-alt-minus',
   'textarea': 'comment-alt-lines',
   'radio': 'list-ul',

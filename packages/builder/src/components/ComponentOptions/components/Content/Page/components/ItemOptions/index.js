@@ -2,6 +2,7 @@ import React from 'react'
 
 import Text from './components/Text'
 import Divider from './components/Divider'
+import Raw from './components/Raw'
 import Input from './components/Input'
 import Radio from './components/Radio'
 import Checkbox from './components/Checkbox'
@@ -12,6 +13,8 @@ const selectItem = (type) => {
       return Text
     case 'divider':
       return Divider
+    case 'html':
+      return Raw
     case 'input':
     case 'textarea':
       return Input

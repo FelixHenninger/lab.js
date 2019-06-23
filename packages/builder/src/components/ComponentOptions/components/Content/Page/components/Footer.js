@@ -63,7 +63,7 @@ const AddWidget = () => {
             <DropdownItem header>
               Advanced
             </DropdownItem>
-            <Item>
+            <Item data={{ type: 'html' }}>
               Raw <code className="text-body">HTML</code>
             </Item>
           </Col>

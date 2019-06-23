@@ -99,6 +99,14 @@ export const processItem = i => {
           </div>
         `
       )
+    case 'html':
+      return (
+        stripIndent`
+          <div class="page-item page-item-html">
+            ${ i.content || '' }
+          </div>
+        `
+      )
     case 'divider':
       return (
         stripIndent`
