@@ -247,7 +247,7 @@ const GlobalSettings = () =>
             />
             <SettingGroupIcon
               icon="plane-departure"
-              tooltip="Ramp up"
+              tooltip="Ramp up duration"
               unit="ms"
             />
             <SettingGroupControl
@@ -255,7 +255,7 @@ const GlobalSettings = () =>
             />
             <SettingGroupIcon
               icon="plane-arrival"
-              tooltip="Ramp down"
+              tooltip="Ramp down duration"
               unit="ms"
             />
             <SettingGroupControl
