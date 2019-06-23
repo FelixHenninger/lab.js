@@ -7,6 +7,8 @@ import Card from '../../../../../Card'
 import Hint from '../../../../../Hint'
 import Spinner from '../../../../../Spinner'
 
+import { numberOrPlaceholder } from './util'
+
 const TimelineWidget = lazy(() => import('./widget'))
 
 export default ({ formDispatch, data }) =>
@@ -36,7 +38,7 @@ export default ({ formDispatch, data }) =>
             <Control
               model=".timeout"
               placeholder="Never"
-              pattern="(\d+)|(\$\{.*\})" // Accept number or placeholder
+              pattern={ numberOrPlaceholder }
               component={ Input }
               id="timeout"
               style={{

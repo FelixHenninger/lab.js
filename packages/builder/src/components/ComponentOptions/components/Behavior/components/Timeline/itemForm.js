@@ -12,7 +12,7 @@ import { capitalize } from 'lodash'
 import Icon from '../../../../../Icon'
 import FileSelector from '../../../../../FileSelector'
 
-const toFloat = x => parseFloat(x) || 0
+import { numberOrPlaceholder } from './util'
 
 const Toolbar = (
   { add, duplicateCurrent, deleteCurrent, activeItem },
@@ -186,16 +186,14 @@ const SettingGroupIcon = ({ icon, fallbackIcon, tooltip, unit }) => {
   )
 }
 
-const SettingGroupControl = ({ model, parser, defaultValue, placeholder }) =>
+const SettingGroupControl = ({ model, ...props }) =>
   <Control
     model={ model }
-    parser={ parser }
     component={ Input }
-    placeholder={ placeholder }
-    defaultValue={ defaultValue }
     debounce={ 200 }
     className="form-control"
     style={{ fontFamily: 'Fira Mono' }}
+    { ...props }
   />
 
 const GlobalSettings = () =>
@@ -211,7 +209,8 @@ const GlobalSettings = () =>
               unit="ms"
             />
             <SettingGroupControl
-              model=".start" parser={ toFloat }
+              model=".start"
+              pattern={ numberOrPlaceholder }
             />
             <SettingGroupIcon
               icon="arrow-to-right"
@@ -220,7 +219,8 @@ const GlobalSettings = () =>
               unit="ms"
             />
             <SettingGroupControl
-              model=".stop" parser={ toFloat }
+              model=".stop"
+              pattern={ numberOrPlaceholder }
             />
             <SettingGroupIcon
               icon="volume"
@@ -229,7 +229,7 @@ const GlobalSettings = () =>
             />
             <SettingGroupControl
               model=".payload.gain" placeholder="gain"
-              defaultValue={ 1.0 } parser={ toFloat }
+              pattern={ numberOrPlaceholder }
             />
           </InputGroup>
         </FormGroup>
@@ -243,7 +243,8 @@ const GlobalSettings = () =>
               unit="-1 … +1"
             />
             <SettingGroupControl
-              model=".payload.pan" placeholder="pan" parser={ toFloat }
+              model=".payload.pan" placeholder="pan"
+              pattern={ numberOrPlaceholder }
             />
             <SettingGroupIcon
               icon="plane-departure"
@@ -251,7 +252,9 @@ const GlobalSettings = () =>
               unit="ms"
             />
             <SettingGroupControl
-              model=".payload.rampUp" parser={ toFloat }
+              model=".payload.rampUp"
+              placeholder="0"
+              pattern={ numberOrPlaceholder }
             />
             <SettingGroupIcon
               icon="plane-arrival"
@@ -259,7 +262,9 @@ const GlobalSettings = () =>
               unit="ms"
             />
             <SettingGroupControl
-              model=".payload.rampDown" parser={ toFloat }
+              model=".payload.rampDown"
+              placeholder="0"
+              pattern={ numberOrPlaceholder }
             />
           </InputGroup>
         </FormGroup>
@@ -388,6 +393,7 @@ const OscillatorForm = () =>
             />
             <SettingGroupControl
               model=".payload.frequency" placeholder="frequency (Hz)"
+              pattern={ numberOrPlaceholder }
             />
             <SettingGroupIcon
               icon="tachometer-average"
@@ -396,6 +402,7 @@ const OscillatorForm = () =>
             />
             <SettingGroupControl
               model=".payload.detune" placeholder="detune (cents)"
+              pattern={ numberOrPlaceholder }
             />
           </InputGroup>
         </FormGroup>
