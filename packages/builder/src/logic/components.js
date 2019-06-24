@@ -184,7 +184,10 @@ export const metadata = {
     defaultTab: 'Content',
     defaults: {
       type: 'lab.html.Page',
-      items: { rows: [] },
+      items: { rows: [ [ {
+        type: 'text',
+        title: 'New page',
+      } ] ] },
       files: { rows: [] },
       parameters: {
         rows: [ [ { name: '', value: '', type: 'string' }, ], ],
