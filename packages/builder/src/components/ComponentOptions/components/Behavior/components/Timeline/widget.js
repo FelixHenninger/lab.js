@@ -70,9 +70,11 @@ class TimelineStage extends Component {
 
   calcPosition(start, stop, layer) {
     return {
-      x: this.toX(parseInt(start)),
+      x: this.toX(parseInt(start) || 0),
       y: this.layerY(layer),
-      w: this.toX(parseInt(stop) - parseInt(start)),
+      w: this.toX((parseInt(stop) - parseInt(start)) || 100),
+      lockStart: typeof start === 'string' && start.includes('$'),
+      lockStop: typeof stop === 'string' && stop.includes('$'),
     }
   }
 

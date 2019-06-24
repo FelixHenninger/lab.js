@@ -12,7 +12,8 @@ const Item = (
   { range, calcPosition, closestLayerY, setCursor }
 ) => {
   const height = 36
-  const { x, y, w } = calcPosition(start, stop, priority)
+  const { x, y, w, lockStart, lockStop } = calcPosition(start, stop, priority)
+  const draggable = !lockStart && !lockStop
 
   // Difference between absolute and relative position
   // (populated and used during dragging for bound calculation)
@@ -36,7 +37,7 @@ const Item = (
     <Group
       ref={ container }
       x={ x } y={ y }
-      draggable
+      draggable={ draggable }
       dragBoundFunc={ ({ x, y }) => ({
         x: clamp(x - translationX, 0, range.max - w) + translationX,
         y: closestLayerY(y)
@@ -72,7 +73,7 @@ const Item = (
         stroke={ active ? 'white' : colors.buttonBorder }
         strokeWidth={ 1 }
         onClick={ onClick }
-        onMouseEnter={ () => setCursor('grab') }
+        onMouseEnter={ () => draggable && setCursor('grab') }
         onMouseLeave={ () => setCursor('default') }
         shadowColor="rgba(0, 0, 0, 0.125)"
         shadowBlur={ 8 }
@@ -88,11 +89,12 @@ const Item = (
       />
       {/* TODO: Simplify the pesky rendering offsets */}
       <Circle
-        visible={ active } listening={ active }
+        visible={ active && !lockStart }
+        listening={ active && !lockStart }
         x={ 0 } y={ height/2 } radius={ 6 }
         offsetX={ -0.5 }
         fill={ colors.active } stroke={ 'white' } strokeWidth={ 2 }
-        draggable
+        draggable={ !lockStart }
         dragBoundFunc={ ({ x: dragX }) => ({
           x: clamp(dragX - translationX, 0, x + w - minWidth) + translationX,
           y: closestLayerY(y) + height/2
@@ -118,11 +120,12 @@ const Item = (
       />
       <Circle
         ref={ handleRight }
-        visible={ active } listening={ active }
+        visible={ active && !lockStop }
+        listening={ active && !lockStop }
         x={ w } y={ height/2 } radius={ 6 }
         offsetX={ -0.5 }
         fill={ colors.active } stroke={ 'white' } strokeWidth={ 2 }
-        draggable
+        draggable={ !lockStop }
         dragBoundFunc={ ({ x: dragX }) => ({
           // In absolute coordinates
           x: clamp(dragX - translationX,
