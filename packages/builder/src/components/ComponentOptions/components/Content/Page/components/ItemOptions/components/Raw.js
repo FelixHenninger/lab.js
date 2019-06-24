@@ -9,7 +9,7 @@ export default () =>
   <>
     <Row form>
       <Col>
-        <div className="border rounded py-1" style={{ height: '200px' }}>
+        <div className="border rounded py-2 pr-2" style={{ height: '220px' }}>
           <Control.textarea
             model=".content"
             component={ Editor }
