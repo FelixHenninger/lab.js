@@ -76,6 +76,7 @@ export class Form extends Screen {
           // This submission method simulates a button click
           // because a direct submission would not trigger handlers
           e.preventDefault()
+          e.stopPropagation()
           const submit = document.createElement('input')
           submit.type = 'submit'
           submit.style.display = 'none'
