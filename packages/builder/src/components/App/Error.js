@@ -76,7 +76,7 @@ const Error = ({ reset, error, errorInfo }, { store }) => {
             >
               Download study backup
             </Button>
-            <p className="mt-3"><strong>With the backup in hand, you're safe for the moment.</strong> Please <a target="_blank" rel="noopener noreferrer" href="https://slackin-nmbrcrnchrs.herokuapp.com/"> join the support channel</a> where we would be happy to help you track down and fix the bug. We make mistakes sometimes, but also love to learn how we can improve things, and would be glad to make things better for everyone!</p>
+            <p className="mt-3"><strong>With the backup in hand, you're safe for the moment.</strong> Please <a target="_blank" rel="noopener noreferrer" href="https://lab.js.org/resources/support/"> join the support channel</a> where we would be happy to help you track down and fix the bug. We make mistakes sometimes, but also love to learn how we can improve things, and would be glad to make things better for everyone!</p>
             <p>There are two more things you can try. <strong>We recommend to only attempt these in consultation with support.</strong> You'll need to download a backup of your current study first.</p>
             <ButtonGroup className="w-100">
               <Button
