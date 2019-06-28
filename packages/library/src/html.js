@@ -295,4 +295,26 @@ export class Page extends Form {
 Page.metadata = {
   module: ['html'],
   nestedComponents: [],
+  parsableOptions: {
+    items: {
+      type: 'array',
+      content: {
+        type: 'object',
+        content: {
+          '*': 'string',
+          attributes: {
+            type: 'object',
+            content: { '*': 'string' },
+          },
+          options: {
+            type: 'array',
+            content: {
+              type: 'object',
+              content: { '*': 'string' }
+            },
+          },
+        },
+      },
+    },
+  },
 }
