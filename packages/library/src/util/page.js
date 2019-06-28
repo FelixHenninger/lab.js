@@ -1,6 +1,6 @@
 import { stripIndent } from 'common-tags'
 
-const makeAttibutes = attrs =>
+const makeAttibutes = (attrs={}) =>
   Object.entries(attrs)
     .map(([attr, val]) => `${ attr }="${ val }"`)
     .join(' ')
