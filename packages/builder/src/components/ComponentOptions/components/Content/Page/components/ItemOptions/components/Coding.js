@@ -9,7 +9,7 @@ import { Row, Col, Input,
 import Icon from '../../../../../../../Icon'
 
 const CodingPair = (
-  { icon, model, index, itemModel, totalPairs },
+  { icon, iconFallbackWeight='r', model, index, itemModel, totalPairs },
   { formDispatch }
 ) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -20,7 +20,7 @@ const CodingPair = (
         <InputGroupText>
           <Icon
             icon={ icon } fixedWidth
-            fallbackWeight="r"
+            fallbackWeight={ iconFallbackWeight }
             className="text-muted"
           />
         </InputGroupText>
@@ -116,7 +116,10 @@ CodingPair.contextTypes = {
   formDispatch: PropTypes.func,
 }
 
-export const CodingGroup = ({ data=[], model, itemModel, icon }) =>
+export const CodingGroup = ({
+  data=[], model, itemModel,
+  icon, iconFallbackWeight
+}) =>
   // TODO: Simplify form field coordination. Splitting the path
   // into model, itemmodel and index seems overly complicated
   // (the full path still needs to be reconstructed at some point,
@@ -132,6 +135,7 @@ export const CodingGroup = ({ data=[], model, itemModel, icon }) =>
           <Col className="pt-1">
             <CodingPair
               icon={ icon }
+              iconFallbackWeight={ iconFallbackWeight }
               model={ `${ model }` }
               itemModel={ itemModel }
               index={ i }
