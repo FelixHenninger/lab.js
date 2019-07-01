@@ -6,8 +6,10 @@ import { FormGroup, Input, CustomInput,
 
 import { ItemContext } from '../../../index'
 
-export const BaseOptions = ({ rowIndex, validation }) =>
+export const BaseOptions = ({ children, rowIndex, validation }) =>
   <>
+    { children && <hr /> }
+    { children }
     <hr />
     <FormGroup className="my-2">
       <Label for={ `page-item-${ rowIndex }-help` } className="mb-0">
