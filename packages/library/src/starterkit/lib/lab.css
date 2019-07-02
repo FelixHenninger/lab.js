@@ -397,6 +397,8 @@ table td, table th {
 /* Table borders (except for plain) */
 table:not(.table-plain) > tr > td,
 table:not(.table-plain) > tr > th,
+table:not(.table-plain) > thead > tr > td,
+table:not(.table-plain) > thead > tr > th,
 table:not(.table-plain) > tbody > tr > td,
 table:not(.table-plain) > tbody > tr > th {
   border-bottom: 2px solid var(--color-border);
