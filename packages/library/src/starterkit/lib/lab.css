@@ -242,6 +242,11 @@ kbd.big {
 .content-vertical-space-around.content-horizontal-right {
   align-items: flex-end;
 }
+.sticky-top {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
 /* Text alignment */
 .text-left {
   text-align: left;
