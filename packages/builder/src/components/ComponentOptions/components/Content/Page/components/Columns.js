@@ -14,6 +14,7 @@ const icons = {
   'textarea': 'comment-alt-lines',
   'radio': 'list-ul',
   'checkbox': 'tasks',
+  'likert': 'grip-horizontal',
 }
 
 export const LeftColumn = (

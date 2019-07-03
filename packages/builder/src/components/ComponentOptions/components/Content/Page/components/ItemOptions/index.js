@@ -6,6 +6,7 @@ import Raw from './components/Raw'
 import Input from './components/Input'
 import Radio from './components/Radio'
 import Checkbox from './components/Checkbox'
+import Likert from './components/Likert'
 
 const selectItem = (type) => {
   switch(type) {
@@ -22,6 +23,8 @@ const selectItem = (type) => {
       return Radio
     case 'checkbox':
       return Checkbox
+    case 'likert':
+      return Likert
     default:
       return null
   }

@@ -19,6 +19,7 @@ const replacements = {
   'arrows-h': 'arrows-alt-h',
   'comment-alt-minus': 'comment-alt',
   'comment-alt-lines': 'comment-alt',
+  'ellipsis-h-alt': 'ellipsis-h',
   'expand': 'square',
   'file-exclamation': 'exclamation-circle',
   'flask-potion': 'flask',
