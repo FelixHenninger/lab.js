@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { range } from 'lodash'
 import { Control, Field } from 'react-redux-form'
 import { Row, Col, FormGroup, Label, FormText, Input } from 'reactstrap'
 
@@ -28,37 +29,69 @@ export default ({ data, rowIndex }) =>
     <CollapsingOptions
       rowIndex={ rowIndex }
     >
-      <FormGroup className="my-2">
-        <Label for={ `page-item-${ rowIndex }-width` } className="mb-0">
-          Scale width
-        </Label>
-        <FormText color="muted">
-          How many points to offer
-        </FormText>
-        <Field model=".width" className="mt-1">
-          <FormGroup>
-            {
-              [5, 7].map(w =>
-                <div
-                  key={ `page-item-${ rowIndex }-width-${ w }` }
-                  className="custom-radio custom-control"
-                >
-                  <input
-                    type="radio" value={ `${ w }` }
-                    id={ `page-item-${ rowIndex }-width-${ w }` }
-                    className="custom-control-input"
-                  />
-                  <label
-                    htmlFor={ `page-item-${ rowIndex }-width-${ w }` }
-                    className="custom-control-label"
-                  >
-                    { w }
-                  </label>
-                </div>
-              )
-            }
+      <Row>
+        <Col>
+          <FormGroup className="my-2">
+            <Label for={ `page-item-${ rowIndex }-width` } className="mb-0">
+              Scale width
+            </Label>
+            <FormText color="muted">
+              How many points to offer
+            </FormText>
+            <Field model=".width" className="mt-1">
+              <FormGroup>
+                {
+                  [5, 7].map(w =>
+                    <div
+                      key={ `page-item-${ rowIndex }-width-${ w }` }
+                      className="custom-radio custom-control"
+                    >
+                      <input
+                        type="radio" value={ `${ w }` }
+                        id={ `page-item-${ rowIndex }-width-${ w }` }
+                        className="custom-control-input"
+                      />
+                      <label
+                        htmlFor={ `page-item-${ rowIndex }-width-${ w }` }
+                        className="custom-control-label"
+                      >
+                        { w }
+                      </label>
+                    </div>
+                  )
+                }
+              </FormGroup>
+            </Field>
           </FormGroup>
-        </Field>
-      </FormGroup>
+        </Col>
+        <Col>
+          <FormGroup className="my-2">
+            <Label for={ `page-item-${ rowIndex }-anchors` } className="mb-0">
+              Anchors
+            </Label>
+            <FormText color="muted">
+              Scale anchors
+            </FormText>
+            <div className="mt-2">
+              {
+                range(data.width).map(i =>
+                  <Row form
+                    className="my-1"
+                    key={ `page-item-${ rowIndex }-anchors-${ i }` }
+                  >
+                    <Col>
+                      <Control
+                        model={ `.anchors[${ i }]` }
+                        component={ Input }
+                        debounce={ 300 }
+                      />
+                    </Col>
+                  </Row>
+                )
+              }
+            </div>
+          </FormGroup>
+        </Col>
+      </Row>
     </CollapsingOptions>
   </>

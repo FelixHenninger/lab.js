@@ -98,7 +98,7 @@ const AddWidget = () => {
             <Item>
               Visual analogue scale
             </Item>
-            <Item data={{ type: 'likert', items: [], width: 5 }}>
+            <Item data={{ type: 'likert', items: [], width: 5, anchors: [] }}>
               Likert scale
             </Item>
           </Col>
