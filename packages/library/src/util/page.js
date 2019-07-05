@@ -1,4 +1,5 @@
 import { stripIndent } from 'common-tags'
+import { range } from 'lodash'
 
 const makeAttibutes = (attrs={}) =>
   Object.entries(attrs)
@@ -70,6 +71,49 @@ const makeOptionRow = ({ label, coding }, { name, required=true }, widget) => {
     )
   }
 }
+
+const makeLikertHead = ({ width, anchors }) => {
+  if (anchors.every(a => !a)) {
+    return ''
+  } else {
+    return stripIndent`
+      <thead class="sticky-top" style="background-color: white">
+        <th class="sticky-top" style="background-color: white"></th>
+        ${
+          range(width).map(j => stripIndent`
+            <th
+              class="sticky-top text-center small"
+              style="background-color: white"
+            >
+              ${ anchors[j] || '' }
+             </th>
+          `).join('\n')
+        }
+      </thead>
+    `
+  }
+}
+
+const makeLikertRow = ({ label, coding }, { name, width, required=true }) =>
+  stripIndent`
+    <tr>
+      <td class="small" style="padding-left: 0">
+        ${ label }
+      </td>
+      ${
+        range(1, Number(width) + 1).map(i => stripIndent`
+          <td class="text-center">
+            <label style="height: 100%; padding: 10px 0">
+              <input type="radio"
+                name="${ name }-${ coding }" value="${ i }"
+                ${ required ? 'required' : '' }
+              >
+            </label>
+          </td>
+        `).join('\n')
+      }
+    </tr>
+  `
 
 export const makePage = (items, options) =>
   stripIndent`
@@ -183,6 +227,35 @@ export const processItem = i => {
             </colgroup>
             <tbody>
               ${ (i.options || []).map(o => makeOptionRow(o, i, 'checkbox')).join('\n') }
+            </tbody>
+          </table>
+        `
+      )
+    case 'likert':
+      return (
+        stripIndent`
+          <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
+            ${ i.label || '' }
+          </p>
+          <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
+            ${ i.help || '' }
+          </p>
+          <table class="page-item-table">
+            <colgroup>
+              <col style="width: 40%">
+              ${
+                range(i.width).map(() =>
+                  `<col style="width: ${ 60 / i.width }%">`
+                ).join('\n')
+              }
+            </colgroup>
+            ${ makeLikertHead(i) }
+            <tbody>
+              ${
+                (i.items || [])
+                  .map(item => makeLikertRow(item, i))
+                  .join('\n')
+              }
             </tbody>
           </table>
         `
