@@ -2,7 +2,8 @@ import React from 'react'
 
 import { range } from 'lodash'
 import { Control, Field } from 'react-redux-form'
-import { Row, Col, FormGroup, Label, FormText, Input } from 'reactstrap'
+import { Row, Col, FormGroup, Label, FormText,
+  Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
 
 import { CodingGroup } from './Coding'
 import { CollapsingOptions } from './BaseOptions'
@@ -80,11 +81,20 @@ export default ({ data, rowIndex }) =>
                     key={ `page-item-${ rowIndex }-anchors-${ i }` }
                   >
                     <Col>
-                      <Control
-                        model={ `.anchors[${ i }]` }
-                        component={ Input }
-                        debounce={ 300 }
-                      />
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <small className="text-monospace text-muted">
+                              { i + 1 }
+                            </small>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Control
+                          model={ `.anchors[${ i }]` }
+                          component={ Input }
+                          debounce={ 300 }
+                        />
+                      </InputGroup>
                     </Col>
                   </Row>
                 )
