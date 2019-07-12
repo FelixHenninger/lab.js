@@ -21,6 +21,7 @@
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.597045.svg)](https://doi.org/10.5281/zenodo.597045)
 [![Code is Science](https://img.shields.io/badge/Code%20is%20Science-%E2%9C%93-brightgreen.svg)](https://codeisscience.github.io/manifesto/)
 ![Made with all the love](https://img.shields.io/badge/made_with-❤️💛💚💙💜💖-e6e6e6.svg)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FFelixHenninger%2Flab.js.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FFelixHenninger%2Flab.js?ref=badge_shield)
 
 <div align="center">
   <img src="docs/media/promo/builder_teaser.png">
@@ -160,3 +161,6 @@ The studies you build based on the library, and those you create using the
 builder, are always your own, and you are free to distribute them as you see
 fit. When studies include the core library files, these files alone are governed
 by the aforementioned license.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FFelixHenninger%2Flab.js.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FFelixHenninger%2Flab.js?ref=badge_large)
