@@ -80,7 +80,7 @@ const updateIndex = (source, expId) => {
   return source
 }
 
-export default (state) => {
+const addJatosIntegration = (state) => {
   // Add logic for saving data
   state.components.root.messageHandlers =
     (state.components.root.messageHandlers || { rows: [] })
@@ -96,8 +96,12 @@ export default (state) => {
     `
   }])
 
+  return state
+}
+
+export default (state) => {
   // Generate files
-  const files = assemble(state)
+  const files = assemble(state, addJatosIntegration)
   const expId = makeFilename(state)
 
   // Add changes to index.html

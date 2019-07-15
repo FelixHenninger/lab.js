@@ -96,6 +96,7 @@ in the documentation.
 
 #### Ideas and feedback 💡
 
+[Ursa Bernardic](https://www.unige.ch/gsem/en/research/institutes/iom/team/phd-students/ursa-bernardic/) ·
 [Emily Elliott](https://lsu.edu/hss/psychology/faculty/cognitive/elliott.php) ·
 [Jeffrey Fisher](https://github.com/jeffslofish) ·
 [Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/) ·
