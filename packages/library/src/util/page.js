@@ -231,6 +231,22 @@ export const processItem = i => {
           </table>
         `
       )
+    case 'slider':
+      return (
+        stripIndent`
+          <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
+            ${ i.label || '' }
+          </p>
+          <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
+            ${ i.help || '' }
+          </p>
+          <input name="${ i.name }" type="range"
+            ${ i.required ? 'required' : '' }
+            class="w-100"
+            ${ makeAttibutes(i.attributes) }
+          >
+        `
+      )
     case 'likert':
       return (
         stripIndent`
