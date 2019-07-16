@@ -6,6 +6,7 @@ import Raw from './components/Raw'
 import Input from './components/Input'
 import Radio from './components/Radio'
 import Checkbox from './components/Checkbox'
+import Slider from './components/Slider'
 import Likert from './components/Likert'
 
 const selectItem = (type) => {
@@ -23,6 +24,8 @@ const selectItem = (type) => {
       return Radio
     case 'checkbox':
       return Checkbox
+    case 'slider':
+      return Slider
     case 'likert':
       return Likert
     default:

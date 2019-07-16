@@ -6,9 +6,10 @@ import { FormGroup, Input, CustomInput,
 
 import { ItemContext } from '../../../index'
 
-export const BaseOptions = ({ children, rowIndex, validation }) =>
+export const BaseOptions = ({ children, rowIndex,
+  validation, borderTop=true }) =>
   <>
-    { children && <hr /> }
+    { children && borderTop && <hr /> }
     { children }
     <hr />
     <FormGroup className="my-2">

@@ -92,7 +92,7 @@ const AddWidget = () => {
             <DropdownItem header>
               Ranges
             </DropdownItem>
-            <Item>
+            <Item data={{ type: 'slider' }}>
               Slider
             </Item>
             <Item>

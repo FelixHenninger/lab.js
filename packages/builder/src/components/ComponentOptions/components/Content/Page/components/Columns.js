@@ -14,6 +14,7 @@ const icons = {
   'textarea': 'comment-alt-lines',
   'radio': 'list-ul',
   'checkbox': 'tasks',
+  'slider': 'sliders-h',
   'likert': 'grip-horizontal',
 }
 
