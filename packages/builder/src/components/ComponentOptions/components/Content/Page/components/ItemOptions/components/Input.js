@@ -8,7 +8,7 @@ import { Row, Col,
 import { CollapsingOptions } from './BaseOptions'
 import Icon from '../../../../../../../Icon'
 
-const ExtraOptions = ({ type }) => {
+export const ExtraOptions = ({ type }) => {
   switch (type) {
     case 'number':
       return <>
@@ -98,7 +98,8 @@ export default ({ rowIndex, type, data }) =>
     </Row>
     <CollapsingOptions
       rowIndex={ rowIndex }
-      validation={
+    >
+      {
         type === 'input' && <>
           <FormGroup className="my-2">
             <Label for={ `page-item-${ rowIndex }-attrs-type` } className="mb-1">
@@ -124,5 +125,5 @@ export default ({ rowIndex, type, data }) =>
           <ExtraOptions type={ data.attributes && data.attributes.type } />
         </>
       }
-    />
+    </CollapsingOptions>
   </>
