@@ -1,0 +1,15 @@
+{
+  "name": "lab.js.runner",
+  "version": "0.1.0",
+  "description": "Run in-browser experiments on the desktop",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^5.0.0"
+  },
+  "dependencies": {
+    "esm": "^3.2.22"
+  }
+}
