@@ -5,6 +5,9 @@ import {app, BrowserWindow} from 'electron'
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+// Check for development mode.
+const inDevelopment = process.env.NODE_ENV !== 'production'
+
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -21,8 +24,10 @@ function createWindow () {
   // and load the index.html of the app.
   mainWindow.loadFile('src/index.html')
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // Open the DevTools if in development mode.
+  if (inDevelopment) {
+    mainWindow.webContents.openDevTools({ mode: 'detach' })
+  }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
