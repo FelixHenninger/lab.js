@@ -22,7 +22,7 @@ function createWindow () {
   })
 
   // and load the index.html of the app.
-  mainWindow.loadFile('src/index.html')
+  mainWindow.loadFile('src/windows/main/index.html')
 
   // Open the DevTools if in development mode.
   if (inDevelopment) {
