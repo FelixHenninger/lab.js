@@ -1,5 +1,6 @@
 // Modules to control application life and create native browser window
 import {app, BrowserWindow} from 'electron'
+import {createStudyWindow} from './study'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -23,6 +24,7 @@ function createWindow () {
 
   // and load the index.html of the app.
   mainWindow.loadFile('src/windows/main/index.html')
+  createStudyWindow(inDevelopment)
 
   // Open the DevTools if in development mode.
   if (inDevelopment) {
