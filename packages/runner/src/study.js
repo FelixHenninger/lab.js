@@ -12,6 +12,9 @@ export const createStudyWindow = (development=false) => {
     // Sandbox the web page
     webPreferences: {
       sandbox: true,
+      contextIsolation: true,
+      nodeIntegration: false,
+      preload: `${__dirname}/windows/study/preload.js`,
     },
   })
 
@@ -23,6 +26,11 @@ export const createStudyWindow = (development=false) => {
 
   studyWindow.loadFile('src/windows/study/index.html')
   studyWindow.show()
+
+  studyWindow.webContents.on('did-finish-load', () => {
+    console.log('sending event to study window')
+    studyWindow.webContents.send('ping', 'Hey I can send messages!')
+  })
 
   if (development) {
     studyWindow.webContents.openDevTools({ mode: 'detach' })
