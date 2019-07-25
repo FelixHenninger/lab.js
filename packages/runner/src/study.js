@@ -19,9 +19,13 @@ export const createStudyWindow = (development=false) => {
   })
 
   studyWindow.on('close', (e) => {
-    console.log('Prevented closing study window')
-    e.preventDefault()
-    return false
+    if (development) {
+      console.log('Would have prevented user from closing study window')
+    } else {
+      console.log('Prevented user from closing study window')
+      e.preventDefault()
+      return false
+    }
   })
 
   studyWindow.loadFile('src/windows/study/index.html')
