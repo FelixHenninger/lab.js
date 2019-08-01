@@ -1,44 +1,51 @@
 import {BrowserWindow} from 'electron'
 
-export const createStudyWindow = (development=false) => {
-  const studyWindow = new BrowserWindow({
-    title: 'Study',
-    show: false,
-    // Fullscreen *and* kiosk mode
-    fullscreen: !development,
-    kiosk: !development,
-    // Show a background color while loading
-    backgroundColor: 'white',
-    // Sandbox the web page
-    webPreferences: {
-      sandbox: true,
-      contextIsolation: true,
-      nodeIntegration: false,
-      preload: `${__dirname}/windows/study/preload.js`,
-    },
-  })
+export class StudyWindow {
+  constructor(development=false) {
+    // Create (initially hidden) study window
+    this.window = new BrowserWindow({
+      title: 'Study',
+      show: false,
+      // Fullscreen *and* kiosk mode
+      fullscreen: !development,
+      kiosk: !development,
+      // Show a background color while loading
+      backgroundColor: 'white',
+      // Sandbox the web page
+      webPreferences: {
+        sandbox: true,
+        contextIsolation: true,
+        nodeIntegration: false,
+        preload: `${__dirname}/windows/study/preload.js`,
+      },
+    })
 
-  studyWindow.on('close', (e) => {
+    // Prevent users from closing the window in a locked state
+    this.window.on('close', (e) => {
+      if (development) {
+        console.log('Would have prevented user from closing study window')
+      } else {
+        console.log('Prevented user from closing study window')
+        e.preventDefault()
+        return false
+      }
+    })
+
+    this.window.webContents.on('did-finish-load', () => {
+      console.log('sending event to study window')
+      this.window.webContents.send('ping', 'Hey I can send messages!')
+    })
+
+    // Load study page
+    this.window.loadFile('src/windows/study/index.html')
+
+    // Attach dev tools in development mode
     if (development) {
-      console.log('Would have prevented user from closing study window')
-    } else {
-      console.log('Prevented user from closing study window')
-      e.preventDefault()
-      return false
+      this.window.webContents.openDevTools({ mode: 'detach' })
     }
-  })
-
-  studyWindow.loadFile('src/windows/study/index.html')
-  studyWindow.show()
-
-  studyWindow.webContents.on('did-finish-load', () => {
-    console.log('sending event to study window')
-    studyWindow.webContents.send('ping', 'Hey I can send messages!')
-  })
-
-  if (development) {
-    studyWindow.webContents.openDevTools({ mode: 'detach' })
   }
 
-  return studyWindow
+  show() {
+    this.window.show()
+  }
 }
