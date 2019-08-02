@@ -1,7 +1,12 @@
-import {BrowserWindow} from 'electron'
+import {BrowserWindow, session} from 'electron'
 
 export class StudyWindow {
   constructor(development=false) {
+    // Create new session for the study window.
+    // (because the partition string does not start with 'persist',
+    // this is an in-memory session; note also the random partition name)
+    this.session = session.fromPartition(`labjs-study-${Math.random()}`)
+
     // Create (initially hidden) study window
     this.window = new BrowserWindow({
       title: 'Study',
@@ -17,6 +22,7 @@ export class StudyWindow {
         contextIsolation: true,
         nodeIntegration: false,
         preload: `${__dirname}/windows/study/preload.js`,
+        session: this.session,
       },
     })
 
