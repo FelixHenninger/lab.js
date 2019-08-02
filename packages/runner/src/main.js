@@ -18,7 +18,8 @@ function createWindow () {
     resizable: false,
     maximizable: false,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      partition: 'labjs-main',
     }
   })
 
