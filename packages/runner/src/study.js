@@ -1,4 +1,4 @@
-import {BrowserWindow, session} from 'electron'
+import {BrowserWindow, session, ipcMain} from 'electron'
 
 export class StudyWindow {
   constructor(development=false) {
@@ -26,14 +26,21 @@ export class StudyWindow {
       },
     })
 
+    // Setup locking
+    this.locked = true
+    ipcMain.on('study.unlock', () => {
+      console.log('unlocking study')
+      this.locked = false
+    })
+
     // Prevent users from closing the window in a locked state
     this.window.on('close', (e) => {
-      if (development) {
-        console.log('Would have prevented user from closing study window')
-      } else {
-        console.log('Prevented user from closing study window')
+      if (this.locked) {
+        console.log('Lock prevented user from closing study window')
         e.preventDefault()
         return false
+      } else {
+        console.log('Closing unlocked study window')
       }
     })
 
