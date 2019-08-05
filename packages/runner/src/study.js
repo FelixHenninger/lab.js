@@ -46,6 +46,11 @@ export class StudyWindow {
       }
     })
 
+    // Prevent changes to the window title
+    this.window.on('page-title-updated', (e) => {
+      e.preventDefault()
+    })
+
     this.window.webContents.on('did-finish-load', () => {
       console.log('sending event to study window')
       this.window.webContents.send('ping', 'Hey I can send messages!')
