@@ -28,6 +28,7 @@ export class StudyWindow {
 
     // Setup locking
     this.locked = true
+    this.closeAttempts = 0
     ipcMain.on('study.unlock', () => {
       console.log('unlocking study')
       this.locked = false
@@ -35,7 +36,8 @@ export class StudyWindow {
 
     // Prevent users from closing the window in a locked state
     this.window.on('close', (e) => {
-      if (this.locked) {
+      if (this.locked && this.closeAttempts < 10) {
+        this.closeAttempts += 1
         console.log('Lock prevented user from closing study window')
         e.preventDefault()
         return false
