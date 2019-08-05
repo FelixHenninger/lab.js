@@ -55,6 +55,14 @@ export class StudyWindow {
       console.log('sending event to study window')
       this.window.webContents.send('ping', 'Hey I can send messages!')
     })
+    this.window.webContents.once('did-finish-load', () => {
+      console.log('Reloading to activate service worker')
+      // Reload to activate service worker
+      this.window.webContents.reload()
+      // Then show window
+      // TODO: Replace delay with more appropriate event handling
+      setTimeout(() => this.window.show(), 50)
+    })
 
     // Load study page
     this.window.loadFile('src/windows/study/index.html')
@@ -63,9 +71,5 @@ export class StudyWindow {
     if (development) {
       this.window.webContents.openDevTools({ mode: 'detach' })
     }
-  }
-
-  show() {
-    this.window.show()
   }
 }
