@@ -51,17 +51,26 @@ export class StudyWindow {
       e.preventDefault()
     })
 
+    // Study loading cycle -----------------------------------------------------
     this.window.webContents.on('did-finish-load', () => {
       console.log('sending event to study window')
       this.window.webContents.send('ping', 'Hey I can send messages!')
     })
+    // Wait for the initial load, then trigger a reload
     this.window.webContents.once('did-finish-load', () => {
-      console.log('Reloading to activate service worker')
+      // Push files
+      setTimeout(() => {
+        this.window.webContents.send('study.update', {
+          'https://study.local/index.html': 'data:text/plain;base64,aGVsbG8gdXBkYXRlZCB3b3JsZCE='
+        })
+      }, 1000)
       // Reload to activate service worker
-      this.window.webContents.reload()
+      console.log('Reloading to activate service worker')
+      //this.window.webContents.reload()
+      setTimeout(() => this.window.webContents.reload(), 3000)
       // Then show window
       // TODO: Replace delay with more appropriate event handling
-      setTimeout(() => this.window.show(), 50)
+      setTimeout(() => this.window.show(), 5000)
     })
 
     // Load study page

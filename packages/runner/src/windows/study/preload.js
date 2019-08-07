@@ -87,6 +87,16 @@ const setupCache = async () => {
 
 setupCache()
 
+ipcRenderer.on('study.update', async (event, files) => {
+  // Clear cache
+  await caches.delete('labjs-preview')
+
+  // Update cache by inserting files
+  const cache = await caches.open('labjs-preview')
+  await bulkPut(cache, files)
+  console.log('Updated cache')
+})
+
 // Setup service worker --------------------------------------------------------
 
 navigator.serviceWorker.register('worker.js', {
