@@ -62,16 +62,27 @@ window.addEventListener('keydown', e => {
 
 // Setup study cache -----------------------------------------------------------
 
-caches.open('labjs-preview').then(cache => {
-  cache.put(
-    new Request('https://study.local/index.html'),
-    new Response(blobFromDataURI(
-      'data:text/plain;base64,SGVsbG8gd29ybGQh'
-    ))
-  )
-  console.log('Populated preview cache')
-}).catch(err => {
-  console.log('Error while populating preview cache', err)
+// If the cache is empty, load a minimal default
+caches.open('labjs-preview')
+  .then(cache => cache.keys())
+  .then(keys => {
+    if (keys.length === 0) {
+      return caches.open('labjs-preview')
+        .then(cache => {
+          cache.put(
+            new Request('https://study.local/index.html'),
+            new Response(blobFromDataURI(
+              'data:text/plain;base64,SGVsbG8gd29ybGQh'
+            ))
+          )
+          console.log('Loaded default preview cache')
+        }).catch(err => {
+          console.log('Error loading default preview cache', err)
+        })
+    } else {
+      console.log('Cache not empty, no change made')
+    }
+  })
 })
 
 // Setup service worker --------------------------------------------------------
