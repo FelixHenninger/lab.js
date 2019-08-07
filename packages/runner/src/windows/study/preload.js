@@ -62,28 +62,30 @@ window.addEventListener('keydown', e => {
 
 // Setup study cache -----------------------------------------------------------
 
-// If the cache is empty, load a minimal default
-caches.open('labjs-preview')
-  .then(cache => cache.keys())
-  .then(keys => {
-    if (keys.length === 0) {
-      return caches.open('labjs-preview')
-        .then(cache => {
-          cache.put(
-            new Request('https://study.local/index.html'),
-            new Response(blobFromDataURI(
-              'data:text/plain;base64,SGVsbG8gd29ybGQh'
-            ))
-          )
-          console.log('Loaded default preview cache')
-        }).catch(err => {
-          console.log('Error loading default preview cache', err)
-        })
-    } else {
-      console.log('Cache not empty, no change made')
-    }
-  })
-})
+const bulkPut = async (cache, files) =>
+  Promise.all(
+    Object.entries(files).map(([path, dataURI]) =>
+      cache.put(
+        new Request(path),
+        new Response(blobFromDataURI(dataURI))
+      )
+    )
+  )
+
+const setupCache = async () => {
+  const cache = await caches.open('labjs-preview')
+
+  if ((await cache.keys()).length === 0) {
+    await bulkPut(cache, {
+      'https://study.local/index.html': 'data:text/plain;base64,SGVsbG8gd29ybGQh'
+    })
+    console.log('Loaded default preview cache')
+  } else {
+    console.log('Preview cache not empty, no change made')
+  }
+}
+
+setupCache()
 
 // Setup service worker --------------------------------------------------------
 
