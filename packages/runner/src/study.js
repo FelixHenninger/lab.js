@@ -2,6 +2,8 @@ import {BrowserWindow, session, ipcMain} from 'electron'
 
 export class StudyWindow {
   constructor(development=false) {
+    this.development = development
+
     // Create new session for the study window.
     // (because the partition string does not start with 'persist',
     // this is an in-memory session; note also the random partition name)
@@ -51,33 +53,75 @@ export class StudyWindow {
       e.preventDefault()
     })
 
-    // Study loading cycle -----------------------------------------------------
-    this.window.webContents.on('did-finish-load', () => {
-      console.log('sending event to study window')
-      this.window.webContents.send('ping', 'Hey I can send messages!')
-    })
-    // Wait for the initial load, then trigger a reload
-    this.window.webContents.once('did-finish-load', () => {
-      // Push files
-      setTimeout(() => {
-        this.window.webContents.send('study.update', {
-          'https://study.local/index.html': 'data:text/plain;base64,aGVsbG8gdXBkYXRlZCB3b3JsZCE='
-        })
-      }, 1000)
-      // Reload to activate service worker
-      console.log('Reloading to activate service worker')
-      //this.window.webContents.reload()
-      setTimeout(() => this.window.webContents.reload(), 3000)
-      // Then show window
-      // TODO: Replace delay with more appropriate event handling
-      setTimeout(() => this.window.show(), 5000)
-    })
+    // Trigger study loading cycle ---------------------------------------------
+    this.load()
+  }
 
-    // Load study page
+  // Study window load progression ---------------------------------------------
+  // To load the study, the window goes through a series of steps
+  // that first load a dummy page, then inject the study content
+  // into a cache from which the service worker can load it,
+  // and finally reload the window with the study content in place.
+  // The following functions coordinate these steps, waiting for
+  // the necessary actions to complete before moving on. Importantly,
+  // the first steps take place before the window is visible, and
+  // are therefore hidden from the user.
+  // This progression are based on the author's not-entirely-complete
+  // understanding of what is going on, and it is not implausible
+  // that all of this logic is just coincidentally waiting long enough
+  // for the actual process to take place unperturbed.
+
+  // First, load the loading page, which sets up
+  // the (nearly-empty) cache and the service worker
+  async loadInitial() {
+    console.log('Study window: Loading initial content')
+    const output = new Promise((resolve, reject) => {
+      this.window.webContents.once('dom-ready', resolve)
+    })
     this.window.loadFile('src/windows/study/index.html')
+    return await output
+  }
+
+  // After loading the framework page, inject the study data
+  // into the cache, so that the service worker can serve it
+  async injectData() {
+    console.log('Study window: Injecting data')
+    const output = new Promise((resolve, reject) => {
+      ipcMain.once('study.did-update-cache', resolve)
+    })
+    this.window.webContents.send('study.update', {
+      'https://study.local/index.html': 'data:text/plain;base64,aGVsbG8gdXBkYXRlZCB3b3JsZCE='
+    })
+    return await output
+  }
+
+  // With the study data in place, reload the page
+  async loadInjected() {
+    console.log('Study window: Reloading with injecting data')
+    const output = new Promise((resolve, reject) => {
+      this.window.webContents.once('dom-ready', resolve)
+    })
+    this.window.reload()
+    return await output
+  }
+
+  // All together now
+  async load() {
+    await this.loadInitial()
+    await this.injectData()
+    // TODO: There is a magic moment between injecting the data
+    // and reloading the page that isn't captured by our code,
+    // so we insert a minute delay. It would be great to figure
+    // out how to more accurately determine when the window can
+    // be reloaded, but this escapes me so far. :-/
+    await new Promise(resolve => setTimeout(resolve, 100))
+    await this.loadInjected()
+
+    console.log('Study window: Done loading')
+    this.window.show()
 
     // Attach dev tools in development mode
-    if (development) {
+    if (this.development) {
       this.window.webContents.openDevTools({ mode: 'detach' })
     }
   }

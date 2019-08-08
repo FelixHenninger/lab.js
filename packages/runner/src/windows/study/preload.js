@@ -95,6 +95,7 @@ ipcRenderer.on('study.update', async (event, files) => {
   const cache = await caches.open('labjs-preview')
   await bulkPut(cache, files)
   console.log('Updated cache')
+  ipcRenderer.send('study.did-update-cache')
 })
 
 // Setup service worker --------------------------------------------------------
