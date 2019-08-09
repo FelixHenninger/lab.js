@@ -1,4 +1,4 @@
-import { isObject } from 'lodash'
+import { isObject, cloneDeep } from 'lodash'
 
 // Retrieve an entry from a nested object
 // hierarchy, given a path
@@ -8,12 +8,17 @@ const retrieveNested = (path, object) =>
     object,
   )
 
+// Copy the options object before passing it into the
+// (recursive) function that does the actual work
+const fromObject = (options, libraryRoot) =>
+  _fromObject(cloneDeep(options), libraryRoot)
+
 // Construct a component given only an
 // object that specifies the options
 // (as would be passed to a regular object)
 // and a type field that specifies the
 // component type (e.g. 'lab.html.Screen')
-const fromObject = (options, libraryRoot) => {
+const _fromObject = (options, libraryRoot) => {
   // If not explicitly specified, we assume that
   // the library is available as a global variable.
   const library = libraryRoot || window.lab
