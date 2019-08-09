@@ -75,11 +75,14 @@ export class StudyWindow {
   // the (nearly-empty) cache and the service worker
   async loadInitial() {
     console.log('Study window: Loading initial content')
-    const output = new Promise((resolve, reject) => {
+    const domReady = new Promise((resolve, reject) => {
       this.window.webContents.once('dom-ready', resolve)
     })
+    const workerActive = new Promise((resolve, reject) => {
+      ipcMain.once('study.did-activate-worker', resolve)
+    })
     this.window.loadFile('src/windows/study/index.html')
-    return await output
+    return Promise.all([domReady, workerActive])
   }
 
   // After loading the framework page, inject the study data
@@ -114,7 +117,7 @@ export class StudyWindow {
     // so we insert a minute delay. It would be great to figure
     // out how to more accurately determine when the window can
     // be reloaded, but this escapes me so far. :-/
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise(resolve => setTimeout(resolve, 20))
     await this.loadInjected()
 
     console.log('Study window: Done loading')

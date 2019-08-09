@@ -100,10 +100,22 @@ ipcRenderer.on('study.update', async (event, files) => {
 
 // Setup service worker --------------------------------------------------------
 
-navigator.serviceWorker.register('worker.js', {
+const worker = navigator.serviceWorker.register('worker.js', {
   scope: './'
-}).then((sw) => {
-  console.log('Registered preview worker:', sw)
+}).then(reg => {
+  console.log('Preview worker registration:', reg)
+  const worker = reg.installing || reg.waiting || reg.active
+
+  // Send notification once worker is activated
+  if (worker.state === 'activated') {
+    ipcRenderer.send('study.did-activate-worker')
+  } else {
+    worker.addEventListener('statechange', () => {
+      if (worker.state === 'activated') {
+        ipcRenderer.send('study.did-activate-worker')
+      }
+    })
+  }
 }).catch((err) => {
   console.log('Error while registering preview worker', err)
 })
