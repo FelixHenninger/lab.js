@@ -1,5 +1,11 @@
 import {BrowserWindow, session, ipcMain} from 'electron'
 
+const awaitMessage = (channel, message) =>
+  // Return a promise that resolves once a message is sent
+  // via an IPC channel.
+  new Promise(resolve => channel.once(message, resolve))
+  // TODO: Timeouts and error management
+
 export class StudyWindow {
   constructor(development=false) {
     this.development = development
@@ -75,12 +81,8 @@ export class StudyWindow {
   // the (nearly-empty) cache and the service worker
   async loadInitial() {
     console.log('Study window: Loading initial content')
-    const domReady = new Promise((resolve, reject) => {
-      this.window.webContents.once('dom-ready', resolve)
-    })
-    const workerActive = new Promise((resolve, reject) => {
-      ipcMain.once('study.did-activate-worker', resolve)
-    })
+    const domReady = awaitMessage(this.window.webContents, 'dom-ready')
+    const workerActive = awaitMessage(ipcMain, 'study.did-activate-worker')
     this.window.loadFile('src/windows/study/index.html')
     return Promise.all([domReady, workerActive])
   }
@@ -89,23 +91,19 @@ export class StudyWindow {
   // into the cache, so that the service worker can serve it
   async injectData() {
     console.log('Study window: Injecting data')
-    const output = new Promise((resolve, reject) => {
-      ipcMain.once('study.did-update-cache', resolve)
-    })
+    const cacheUpdated = awaitMessage(ipcMain, 'study.did-update-cache')
     this.window.webContents.send('study.update', {
       'https://study.local/index.html': 'data:text/plain;base64,aGVsbG8gdXBkYXRlZCB3b3JsZCE='
     })
-    return await output
+    return await cacheUpdated
   }
 
   // With the study data in place, reload the page
   async loadInjected() {
     console.log('Study window: Reloading with injecting data')
-    const output = new Promise((resolve, reject) => {
-      this.window.webContents.once('dom-ready', resolve)
-    })
+    const domReady = awaitMessage(this.window.webContents, 'dom-ready')
     this.window.reload()
-    return await output
+    return await domReady
   }
 
   // All together now
