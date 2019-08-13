@@ -15,11 +15,11 @@ export class StudyWindow {
     // this is an in-memory session; note also the random partition name)
     this.session = session.fromPartition(`labjs-study-${Math.random()}`)
 
-    // Trigger study loading cycle
+    // Trigger study loading sequence
     this.load(files)
   }
 
-  // Study window load progression ---------------------------------------------
+  // Study window loading sequence ---------------------------------------------
   // To load the study, the window goes through a series of steps
   // that first load a dummy page, then inject the study content
   // into a cache from which the service worker can load it,
@@ -28,7 +28,7 @@ export class StudyWindow {
   // the necessary actions to complete before moving on. Importantly,
   // the first steps take place before the window is visible, and
   // are therefore hidden from the user.
-  // This progression are based on the author's not-entirely-complete
+  // This sequence is based on the author's not-entirely-complete
   // understanding of what is going on, and it is not implausible
   // that all of this logic is just coincidentally waiting long enough
   // for the actual process to take place unperturbed.
