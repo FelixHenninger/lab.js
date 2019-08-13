@@ -7,7 +7,7 @@ const awaitMessage = (channel, message) =>
   // TODO: Timeouts and error management
 
 export class StudyWindow {
-  constructor({development=false}) {
+  constructor(files, {development=false}) {
     this.development = development
 
     // Create new session for the study window.
@@ -16,7 +16,7 @@ export class StudyWindow {
     this.session = session.fromPartition(`labjs-study-${Math.random()}`)
 
     // Trigger study loading cycle
-    this.load()
+    this.load(files)
   }
 
   // Study window load progression ---------------------------------------------
@@ -92,12 +92,10 @@ export class StudyWindow {
 
   // After loading the framework page, inject the study data
   // into the cache, so that the service worker can serve it
-  async injectData() {
+  async injectData(files) {
     console.log('Study window: Injecting data')
     const cacheUpdated = awaitMessage(ipcMain, 'study.did-update-cache')
-    this.window.webContents.send('study.update', {
-      'https://study.local/index.html': 'data:text/plain;base64,aGVsbG8gdXBkYXRlZCB3b3JsZCE='
-    })
+    this.window.webContents.send('study.update', files)
     return await cacheUpdated
   }
 
@@ -110,10 +108,10 @@ export class StudyWindow {
   }
 
   // All together now
-  async load() {
+  async load(files) {
     await this.createWindow()
     await this.loadInitial()
-    await this.injectData()
+    await this.injectData(files)
     // TODO: There is a magic moment between injecting the data
     // and reloading the page that isn't captured by our code,
     // so we insert a minute delay. It would be great to figure

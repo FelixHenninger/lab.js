@@ -25,7 +25,10 @@ function createWindow () {
 
   // and load the index.html of the app.
   mainWindow.loadFile('src/windows/main/index.html')
-  const studyWindow = new StudyWindow({development: inDevelopment})
+  const files = {
+    'https://study.local/index.html': 'data:text/plain;base64,aGVsbG8gdXBkYXRlZCB3b3JsZCE='
+  }
+  const studyWindow = new StudyWindow(files, {development: inDevelopment})
 
   // Open the DevTools if in development mode.
   if (inDevelopment) {
