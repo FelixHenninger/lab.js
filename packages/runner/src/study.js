@@ -7,7 +7,7 @@ const awaitMessage = (channel, message) =>
   // TODO: Timeouts and error management
 
 export class StudyWindow {
-  constructor(development=false) {
+  constructor({development=false}) {
     this.development = development
 
     // Create new session for the study window.
