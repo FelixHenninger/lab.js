@@ -46,7 +46,7 @@ const IOButton = (_, context) => {
       <Uploader
         accept="application/json"
         multiple={ false }
-        maxSize={ 105 * 1024 ** 2 } // 100MB + some headroom
+        maxSize={ 255 * 1024 ** 2 } // 250MB + some headroom
         onUpload={
           ([[content]]) => {
             try {
