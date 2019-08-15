@@ -1,18 +1,21 @@
+import { browserName, browserVersion } from './browser'
+
 export const timingParameters = {
   frameInterval: 16.68,
 }
 
+// Some browsers (notably FF < V54) don't provide useful event timestamps.
+// For these, we measure event time ourselves post-facto (see below).
+const invalidEventTime = browserName === 'Firefox' && browserVersion < 54
+
 export const ensureHighResTime = t => (
-  // This is built to replace a missing or
-  // old-style timestamp created via Date.now().
-  // (to be perfect, this would need to check
-  // against a new instance of Date.now(), minus
-  // a safety theshold; as it stands, the window
-  // would need to be open for a longer duration
-  // than between the page load and 1970-1-1 for
-  // this approximation not to work. The shortcut
-  // is for performance reasons)
-  t && t < performance.timing.navigationStart
+  // This is built to replace a missing or old-style timestamp created
+  // via Date.now(). (to be perfect, this would need to check against a
+  // new instance of Date.now(), minus a safety theshold; as it stands,
+  // the window would need to be open for a longer duration than between
+  // the page load and 1970-1-1 for this approximation not to work. The
+  // shortcut is for performance reasons)
+  t && !invalidEventTime && t < performance.timing.navigationStart
     ? t
     : performance.now()
 )
