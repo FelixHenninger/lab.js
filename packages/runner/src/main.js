@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-import {app, BrowserWindow} from 'electron'
+import {app, BrowserWindow, ipcMain} from 'electron'
 import {StudyWindow} from './study'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -25,15 +25,21 @@ function createWindow () {
 
   // and load the index.html of the app.
   mainWindow.loadFile('src/windows/main/index.html')
-  const files = {
-    'https://study.local/index.html': 'data:text/plain;base64,aGVsbG8gdXBkYXRlZCB3b3JsZCE='
-  }
-  const studyWindow = new StudyWindow(files, {development: inDevelopment})
 
   // Open the DevTools if in development mode.
   if (inDevelopment) {
     mainWindow.webContents.openDevTools({ mode: 'detach' })
   }
+
+  ipcMain.on('study.load', (e, paths) => {
+    console.log('loading file paths from', paths)
+    /*
+    const files = {
+      'https://study.local/index.html': 'data:text/plain;base64,aGVsbG8gdXBkYXRlZCB3b3JsZCE='
+    }
+    const studyWindow = new StudyWindow(files, {development: inDevelopment})
+    */
+  })
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
