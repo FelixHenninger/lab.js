@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
 import {app, BrowserWindow, ipcMain} from 'electron'
 import {StudyWindow} from './study'
+import {getFiles} from './util'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -31,8 +32,10 @@ function createWindow () {
     mainWindow.webContents.openDevTools({ mode: 'detach' })
   }
 
-  ipcMain.on('study.load', (e, paths) => {
+  ipcMain.on('study.load', async (e, paths) => {
     console.log('loading file paths from', paths)
+    const files = await getFiles(paths)
+    console.log('files are', files)
     /*
     const files = {
       'https://study.local/index.html': 'data:text/plain;base64,aGVsbG8gdXBkYXRlZCB3b3JsZCE='
