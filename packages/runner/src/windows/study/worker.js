@@ -31,10 +31,11 @@ self.addEventListener('activate', function(event) {
 // Request handling ------------------------------------------------------------
 
 self.addEventListener('fetch', function(event) {
-  console.log(`Retrieving ${ event.request.url } through preview worker`)
+  const url = event.request.url.replace(root, 'https://study.local')
+  console.log(`Retrieving ${ url } through preview worker`)
 
   event.respondWith(
     caches.open('labjs-preview')
-      .then(cache => cache.match(new Request('https://study.local/index.html')))
+      .then(cache => cache.match(new Request(url)))
   )
 })

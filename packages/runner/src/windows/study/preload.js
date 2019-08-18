@@ -66,7 +66,7 @@ const bulkPut = async (cache, files) =>
   Promise.all(
     Object.entries(files).map(([path, dataURI]) =>
       cache.put(
-        new Request(path),
+        new Request(`https://study.local/${path}`),
         new Response(blobFromDataURI(dataURI))
       )
     )
