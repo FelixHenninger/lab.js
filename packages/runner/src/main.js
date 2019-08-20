@@ -35,13 +35,9 @@ function createWindow () {
   ipcMain.on('study.load', async (e, paths) => {
     console.log('loading file paths from', paths)
     const files = await getFiles(paths)
-    console.log('files are', files)
-    /*
-    const files = {
-      'https://study.local/index.html': 'data:text/plain;base64,aGVsbG8gdXBkYXRlZCB3b3JsZCE='
-    }
-    */
-    const studyWindow = new StudyWindow(files, {development: inDevelopment})
+    const studyWindow = new StudyWindow(files, {
+      development: inDevelopment,
+    })
   })
 
   // Emitted when the window is closed.
