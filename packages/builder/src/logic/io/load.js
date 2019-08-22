@@ -1,6 +1,6 @@
 import upgrade from './upgrade'
 
-export const fromObject = o =>
+export const fromObject = (o) =>
   upgrade({
     // Inject an early fallback version,
     // in case the data doesn't include one
@@ -11,7 +11,14 @@ export const fromObject = o =>
     ...o,
   })
 
-export const fromJSON = input =>
-  fromObject(
-    JSON.parse(input)
-  )
+export const fromArrays = (o) =>
+  o.map((element) => {
+    element = upgrade({
+      version: [2017, 1, 7],
+      ...element,
+    })
+    return element
+  })
+
+export const fromJSON = (input) =>
+  Array.isArray(JSON.parse(input)) ? fromArrays(JSON.parse(input)) : fromObject(JSON.parse(input))
