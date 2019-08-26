@@ -1,4 +1,5 @@
 import {BrowserWindow, session, ipcMain} from 'electron'
+import {getFiles} from './util'
 
 const awaitMessage = (channel, message) =>
   // Return a promise that resolves once a message is sent
@@ -7,7 +8,7 @@ const awaitMessage = (channel, message) =>
   // TODO: Timeouts and error management
 
 export class StudyWindow {
-  constructor(files, {development=false}) {
+  constructor(filePaths, {development=false}) {
     this.development = development
 
     // Create new session for the study window.
@@ -16,7 +17,7 @@ export class StudyWindow {
     this.session = session.fromPartition(`labjs-study-${Math.random()}`)
 
     // Trigger study loading sequence
-    this.load(files)
+    this.load(filePaths)
   }
 
   // Study window loading sequence ---------------------------------------------
@@ -108,7 +109,8 @@ export class StudyWindow {
   }
 
   // All together now
-  async load(files) {
+  async load(paths) {
+    const files = await getFiles(paths)
     await this.createWindow()
     await this.loadInitial()
     await this.injectData(files)
