@@ -10,6 +10,7 @@ const awaitMessage = (channel, message) =>
 export class StudyWindow {
   constructor(filePaths, {development=false}) {
     this.development = development
+    this.root = undefined
 
     // Create new session for the study window.
     // (because the partition string does not start with 'persist',
@@ -110,7 +111,8 @@ export class StudyWindow {
 
   // All together now
   async load(paths) {
-    const files = await getFiles(paths)
+    const [prefix, files] = await getFiles(paths)
+    this.root = prefix
     await this.createWindow()
     await this.loadInitial()
     await this.injectData(files)

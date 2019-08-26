@@ -82,10 +82,13 @@ export const getFiles = async (paths) => {
     // TODO: Raise error
   }
 
-  // Generate map of paths to data URIs
-  return Object.fromEntries(
-    await Promise.all(
-      fullPaths.map(async (p, i) => [prunedPaths[i], await toDataURI(p)])
+  // Return common prefix, as well as a map of paths to data URIs
+  return [
+    prefix,
+    Object.fromEntries(
+      await Promise.all(
+        fullPaths.map(async (p, i) => [prunedPaths[i], await toDataURI(p)])
+      )
     )
-  )
+  ]
 }
