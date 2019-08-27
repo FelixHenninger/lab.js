@@ -42,6 +42,10 @@ export class StudyWindow {
       // Fullscreen *and* kiosk mode
       fullscreen: !this.development,
       kiosk: !this.development,
+      // Restrict window controls
+      closable: false,
+      minimizable: this.development,
+      fullscreenable: true,
       // Show a background color while loading
       backgroundColor: 'white',
       // Sandbox the web page
