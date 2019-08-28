@@ -6,7 +6,7 @@ import { Sequence as BaseSequence, Loop, Parallel,
   prepareNested } from './flow'
 import { Frame as BaseFrame } from './html'
 import { reduce } from './util/tree'
-import { makeRenderFunction, makeTransform,
+import { makeRenderFunction, makeTransform, makeInverseTransform,
   transform } from './util/canvas'
 
 // Global canvas functions used in all of the following components
@@ -268,6 +268,30 @@ export class Screen extends Component {
     }
 
     return transform(this.internals.transformationMatrix, coordinates)
+  }
+
+  transformInverse(coordinates) {
+    if (!this.internals.transformationMatrix) {
+      throw new Error('No transformation matrix set')
+    }
+
+    // TODO: The inverse tranformation matrix is currently computed
+    // on-the-fly, based on the argument that it's not going to be
+    // used as frequently, and thus might not be worth generating
+    // for every canvas-based screen. This might be wrong, and it's
+    // worth thinking about a mechanism that would at least cache
+    // the inverse matrix once it's generated.
+    const inverseTransformationMatrix = makeInverseTransform(
+      [this.options.canvas.width, this.options.canvas.height],
+      this.options.viewport,
+      {
+        translateOrigin: this.options.translateOrigin,
+        viewportScale: this.options.viewportScale,
+        devicePixelScaling: this.options.devicePixelScaling,
+      },
+    )
+
+    return transform(inverseTransformationMatrix, coordinates)
   }
 
   transformCanvasEvent({ offsetX, offsetY }) {
