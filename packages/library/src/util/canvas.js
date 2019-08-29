@@ -69,13 +69,20 @@ export const makeInverseTransform = (canvasSize, viewportSize, opt) => {
   const { translateX, translateY, scale, viewportScale } =
     calcTransformationParameters(canvasSize, viewportSize, opt)
 
+  // Optionally add (or ignore) offset created by
+  // the position of the canvas on the page
+  // TODO: Rethink option naming
+  const { left: offsetLeft, top: offsetTop } = opt.fromOffset === true
+    ? { left: 0, top: 0 }
+    : opt.canvasClientRect
+
   // Translate from viewport coordinates
   // to the canvas coordinate system
   return [
     1 / viewportScale, 0,
     0, 1 / viewportScale,
-    (-translateX / scale) - (opt.canvasClientRect.left / viewportScale),
-    (-translateY / scale) - (opt.canvasClientRect.top / viewportScale),
+    (-translateX / scale) - (offsetLeft / viewportScale),
+    (-translateY / scale) - (offsetTop  / viewportScale),
   ]
 }
 

@@ -270,7 +270,12 @@ export class Screen extends Component {
     return transform(this.internals.transformationMatrix, coordinates)
   }
 
-  transformInverse(coordinates) {
+  transformInverse(coordinates, fromOffset=false) {
+    // Translate from the browser coordinate system back into canvas
+    // coordinates. Use either the page origin (with fromOffset=false),
+    // or the canvas origin (with fromOffset=true).
+    // TODO: Rethink argument names
+
     if (!this.internals.transformationMatrix) {
       throw new Error('No transformation matrix set')
     }
@@ -288,6 +293,8 @@ export class Screen extends Component {
         translateOrigin: this.options.translateOrigin,
         viewportScale: this.options.viewportScale,
         devicePixelScaling: this.options.devicePixelScaling,
+        canvasClientRect: this.options.canvas.getBoundingClientRect(),
+        fromOffset,
       },
     )
 
