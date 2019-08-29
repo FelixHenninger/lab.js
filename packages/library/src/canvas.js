@@ -302,11 +302,8 @@ export class Screen extends Component {
   }
 
   transformCanvasEvent({ offsetX, offsetY }) {
-    // Translate local event coordinates
-    // to canvas coordinate system
-    return this.transform([
-      offsetX, offsetY
-    ])
+    // Translate local event coordinates to canvas coordinate system
+    return this.transformInverse([ offsetX, offsetY ], true)
   }
 }
 
