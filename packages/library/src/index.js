@@ -81,10 +81,6 @@ export const util = {
   fromObject,
   canvas: {
     makeRenderFunction,
-    // TODO: This is in here for backward compatibility,
-    // it has since moved to the geometry package;
-    // remove in a later version (2018+)
-    toRadians,
     transform,
   },
   combinatorics: {
