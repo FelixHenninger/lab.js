@@ -16,7 +16,7 @@ import fromObject from './util/fromObject'
 import { transform, makeRenderFunction } from './util/canvas'
 import { product } from './util/combinatorics'
 import { logTimestamp } from './util/events'
-import { toRadians, polygon, polygonVertex } from './util/geometry'
+import { distance, toRadians, polygon, polygonVertex } from './util/geometry'
 import { launch, exit } from './util/fullscreen'
 import { sum, mean, variance, std } from './util/stats'
 import { FrameTimeout } from './util/timing'
@@ -97,6 +97,7 @@ export const util = {
     launch, exit,
   },
   geometry: {
+    distance,
     polygon,
     polygonVertex,
     toRadians,
