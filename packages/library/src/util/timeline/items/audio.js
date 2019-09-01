@@ -59,7 +59,14 @@ const createNode = (type, context, options={}, audioParams={}) => {
 }
 
 const connectNodeChain = (source, chain, destination) =>
-  [source, ...chain, destination].reduce((prev, next) => prev.connect(next))
+  [source, ...chain, destination].reduce((prev, next) => {
+    // This code is necessary to fix a bug in older implementations
+    // of the web audio API, where node.connect(destination) does
+    // not return the destination. This was specifically an issue for
+    // Safari 12.0, and can be removed at a later point
+    prev.connect(next)
+    return next
+  })
 
 // Timeline items --------------------------------------------------------------
 
