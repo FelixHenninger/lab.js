@@ -448,6 +448,12 @@ table.table-striped tr:nth-child(odd) td {
 .container.fullscreen .popover {
   width: calc(100vw - 2*var(--padding-internal));
 }
+/* Repeated for frameless mode on small screens */
+@media (max-width: 600px), (max-height: 600px) {
+  .container.fullscreen .popover {
+    width: 100vw;
+  }
+}
 
 .popover > * {
   width: 80%;
