@@ -106,7 +106,7 @@ class AudioNodeItem {
 
     // Add gain node
     if (
-      (this.payload.gain && this.payload.gain !== 1) ||
+      (typeof this.payload.gain === 'number' && this.payload.gain !== 1) ||
       (this.payload.rampUp && this.payload.rampUp !== 0) ||
       (this.payload.rampDown && this.payload.rampDown !== 0)
     ) {
