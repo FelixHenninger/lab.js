@@ -111,7 +111,7 @@ class AudioNodeItem {
       (this.payload.rampDown && this.payload.rampDown !== 0)
     ) {
       const gainNode = audioContext.createGain()
-      gainNode.gain.value = this.payload.rampUp ? 0.0001 : this.payload.gain
+      gainNode.gain.value = this.payload.rampUp ? 10**-10 : this.payload.gain
       this.nodeOrder.gain = this.processingChain.push(gainNode) - 1
     }
 
@@ -157,7 +157,7 @@ class AudioNodeItem {
       const rampUpEnd = this.schedule(offset + start + parseFloat(rampUp))
 
       // Cue transition
-      gain.setValueAtTime(0.0001, startTime)
+      gain.setValueAtTime(10**-10, startTime)
       gain.exponentialRampToValueAtTime(this.payload.gain, rampUpEnd)
     }
 
