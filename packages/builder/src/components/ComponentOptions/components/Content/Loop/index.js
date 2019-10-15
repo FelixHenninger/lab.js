@@ -13,6 +13,9 @@ import { GridCell, HeaderCell } from './cells'
 import { Footer } from './footer'
 import ShuffleGroups from './components/ShuffleGroups'
 
+// TODO: Move to a general-purpose utility module
+import { numberOrPlaceholder } from '../../Behavior/components/Timeline/util'
+
 const switchLabels = ({
   templateParameters={ rows: [] },
   sample={ n: undefined }
@@ -72,14 +75,11 @@ const SampleWidget = ({ data }) =>
               ? 'As many as rows above'
               : 'Use all'
           }
-          type="number"
+          pattern={ numberOrPlaceholder }
           style={{
             fontFamily: 'Fira Mono',
           }}
           component={ Input }
-          controlProps={{
-            min: 0
-          }}
           debounce={ 300 }
         />
         <Control.select
