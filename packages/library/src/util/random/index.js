@@ -146,10 +146,10 @@ export class Random {
       constraintChecker = constraints
     } else {
       const checks = []
-      if (constraints.maximumRunLength) {
+      if (constraints.maxRepSeries) {
         checks.push(maxRepSeries(constraints.maxRepSeries))
       }
-      if (constraints.minimumDistance) {
+      if (constraints.minRepDistance) {
         checks.push(minRepDistance(constraints.minRepDistance))
       }
 
