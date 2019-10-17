@@ -50,6 +50,7 @@ export class Form extends Screen {
   constructor(options={}) {
     super({
       validator: () => true,
+      scrollTop: true,
       ...options,
     })
 
