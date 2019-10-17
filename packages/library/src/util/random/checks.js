@@ -1,4 +1,4 @@
-export const maxRunLength = (arr) => {
+export const maxRepSeries = (arr) => {
   // Given an array, compute the longest consecutive
   // sequence of identical elements
   if (arr.length === 0) return 0
@@ -33,7 +33,7 @@ export const maxRunLength = (arr) => {
   ]
 */
 
-export const minDistance = (arr) => {
+export const minRepDistance = (arr) => {
   // Given an array, compute the minimum distance
   // between two identical elements
   if (arr.length === 0) return undefined

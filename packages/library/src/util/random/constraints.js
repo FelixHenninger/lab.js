@@ -1,4 +1,4 @@
-import { maxRunLength, minDistance } from './checks'
+import { maxRepSeries as mrs, minRepDistance as mrd } from './checks'
 
-export const longestRun = (n) => (arr) => maxRunLength(arr) <= n
-export const minimumDistance = (n) => (arr) => minDistance(arr) >= n
+export const maxRepSeries = (n) => (arr) => mrs(arr) <= n
+export const minRepDistance = (n) => (arr) => mrd(arr) >= n
