@@ -1,5 +1,7 @@
-import { clamp, range, pick, flatten, omit, merge  } from 'lodash'
+import { clamp, range, isFunction, pick, flatten, omit, merge  } from 'lodash'
 import { alea } from 'seedrandom'
+
+import { maxRepSeries, minRepDistance } from './constraints'
 
 // Random uuid4 generation
 export const uuid4 = (random=Math.random) =>
@@ -135,6 +137,37 @@ export class Random {
     }
 
     return array
+  }
+
+  constrainedShuffle(a, constraints={}, maxIterations=10**4) {
+    // Generate constraint function, if necessary
+    let constraintChecker
+    if (isFunction(constraints)) {
+      constraintChecker = constraints
+    } else {
+      const checks = []
+      if (constraints.maximumRunLength) {
+        checks.push(maxRepSeries(constraints.maxRepSeries))
+      }
+      if (constraints.minimumDistance) {
+        checks.push(minRepDistance(constraints.minRepDistance))
+      }
+
+      // Combine constraints into checker function
+      constraintChecker = (arr) => checks.reduce(
+        (accumulator, check) => accumulator && check(arr),
+        true // start with true
+      )
+    }
+
+    // Shuffle until a candidate matches the constraints,
+    // or the maximum number of iterations is reached
+    let candidate
+    for (let i = 0; i < maxIterations; i++) {
+      candidate = this.shuffle(a)
+      if (constraintChecker(candidate)) break
+    }
+    return candidate
   }
 
   // Given an array of objects, shuffle groups
