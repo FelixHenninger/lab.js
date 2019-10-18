@@ -187,6 +187,53 @@ describe('Utilities', () => {
       )
     })
 
+    it('shuffles while checking a constraint function', () => {
+      const array = [1, 2, 3]
+      const constraint = (a) => a[0] === 1 && a[1] === 2 && a[2] === 3
+
+      assert.deepEqual(
+        rng_alea.constrainedShuffle(array, constraint),
+        [1, 2, 3]
+      )
+    })
+
+    it('constrained shuffle stops after a given number of iterations', () => {
+      const array = [1, 2, 3]
+
+      // Shim constraint that always fails
+      const constraint = sinon.stub()
+      constraint.returns(false)
+
+      const result = rng_alea.constrainedShuffle(array, constraint, 10)
+
+      // Check constraint calls
+      assert.equal(
+        constraint.callCount,
+        10
+      )
+      // Result is still shuffled
+      assert.deepEqual(
+        result,
+        [1, 3, 2]
+      )
+    })
+
+    it('shuffles with minimum distance constraint', () => {
+      const array = [1, 2, 2]
+      assert.deepEqual(
+        rng_alea.constrainedShuffle(array, { minRepDistance: 2 }),
+        [2, 1, 2]
+      )
+    })
+
+    it('shuffles with maximum run length constraint', () => {
+      const array = ['a', 'a', 'b', 'b']
+      assert.deepEqual(
+        rng_alea.constrainedShuffle(array, { maxRepSeries: 1 }),
+        ['b', 'a', 'b', 'a']
+      )
+    })
+
     it('shuffles groups of keys in a table independently', () => {
       const table = [
         { a: 1,  b: 2,  c: 3,  d: 4,  e: 5  },
