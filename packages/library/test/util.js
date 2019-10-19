@@ -204,7 +204,7 @@ describe('Utilities', () => {
       const constraint = sinon.stub()
       constraint.returns(false)
 
-      const result = rng_alea.constrainedShuffle(array, constraint, 10)
+      const result = rng_alea.constrainedShuffle(array, constraint, {}, 10)
 
       // Check constraint calls
       assert.equal(
@@ -231,6 +231,18 @@ describe('Utilities', () => {
       assert.deepEqual(
         rng_alea.constrainedShuffle(array, { maxRepSeries: 1 }),
         ['b', 'a', 'b', 'a']
+      )
+    })
+
+    it('can apply a custom equality function for evaluating run length', () => {
+      const array = [1, '1', 2, '2']
+      assert.deepEqual(
+        rng_alea.constrainedShuffle(array,
+          { maxRepSeries: 1 },
+          // Allow for type coercion when testing equality
+          { equality: (x, y) => x == y },
+        ),
+        ['2', '1', 2, 1]
       )
     })
 

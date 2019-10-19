@@ -1,4 +1,4 @@
-export const maxRepSeries = (arr) => {
+export const maxRepSeries = (arr, equalityFunc=(x, y) => x === y) => {
   // Given an array, compute the longest consecutive
   // sequence of identical elements
   if (arr.length === 0) return 0
@@ -11,7 +11,7 @@ export const maxRepSeries = (arr) => {
       longestSequenceLength = currentSequenceLength
     }
 
-    if (arr[i] === arr[i+1]) {
+    if (equalityFunc(arr[i], arr[i+1])) {
       currentSequenceLength++
     } else {
       currentSequenceLength = 1

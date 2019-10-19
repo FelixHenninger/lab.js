@@ -139,7 +139,7 @@ export class Random {
     return array
   }
 
-  constrainedShuffle(a, constraints={}, maxIterations=10**4) {
+  constrainedShuffle(a, constraints={}, helpers={}, maxIterations=10**4) {
     // Generate constraint function, if necessary
     let constraintChecker
     if (isFunction(constraints)) {
@@ -147,7 +147,7 @@ export class Random {
     } else {
       const checks = []
       if (constraints.maxRepSeries) {
-        checks.push(maxRepSeries(constraints.maxRepSeries))
+        checks.push(maxRepSeries(constraints.maxRepSeries, helpers.equality))
       }
       if (constraints.minRepDistance) {
         checks.push(minRepDistance(constraints.minRepDistance))
