@@ -150,7 +150,7 @@ export class Random {
         checks.push(maxRepSeries(constraints.maxRepSeries, helpers.equality))
       }
       if (constraints.minRepDistance) {
-        checks.push(minRepDistance(constraints.minRepDistance))
+        checks.push(minRepDistance(constraints.minRepDistance, helpers.hash))
       }
 
       // Combine constraints into checker function

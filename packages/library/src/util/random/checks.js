@@ -33,7 +33,7 @@ export const maxRepSeries = (arr, equalityFunc=(x, y) => x === y) => {
   ]
 */
 
-export const minRepDistance = (arr) => {
+export const minRepDistance = (arr, hashFunc=x => x) => {
   // Given an array, compute the minimum distance
   // between two identical elements
   if (arr.length === 0) return undefined
@@ -43,15 +43,16 @@ export const minRepDistance = (arr) => {
 
   for (let i = 0; i < arr.length; i++) {
     const candidate = arr[i]
+    const hash = hashFunc(candidate)
 
-    if (lastPositions[candidate] !== undefined) {
-      const distance = i - lastPositions[candidate]
+    if (lastPositions[hash] !== undefined) {
+      const distance = i - lastPositions[hash]
       if (minDistance > distance) {
         minDistance = distance
       }
     }
 
-    lastPositions[candidate] = i
+    lastPositions[hash] = i
   }
 
   return minDistance

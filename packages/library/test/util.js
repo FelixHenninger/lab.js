@@ -226,6 +226,17 @@ describe('Utilities', () => {
       )
     })
 
+    it('can apply a hash function before calculating distances', () => {
+      const array = [{ value: 1 }, { value: 2 }, { value: 2 }]
+      assert.deepEqual(
+        rng_alea.constrainedShuffle(array,
+          { minRepDistance: 2 },
+          { hash: x => x.value },
+        ),
+        [{ value: 2 }, { value: 1 }, { value: 2 }]
+      )
+    })
+
     it('shuffles with maximum run length constraint', () => {
       const array = ['a', 'a', 'b', 'b']
       assert.deepEqual(
