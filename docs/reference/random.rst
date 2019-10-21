@@ -42,6 +42,61 @@ In practice of course, you'll probably be randomly generating more useful inform
 
     :returns: A shuffled copy of the input ``array``.
 
+  .. js:function:: constrainedShuffle(array, constraints, [helpers={}, maxIterations=10**4])
+
+    :param array array: Array to be shuffled
+    :param constraints: Constraint specification as an object, or a check function (see below)
+    :param object helpers: Optional specification of ``equality`` check or ``hash`` function used while checking constraints.
+    :param int maxIterations: Maximum number of shuffle iterations to go through before giving up.
+
+    :returns: A shuffled copy of the input ``array``, subject to specified constraints.
+
+    This method will shuffle an array similar to the ``shuffle`` function described above, but will check whether constraints are met before returning the result.
+
+    **Defining constraints**
+
+    The ``constraints`` argument can be used to define desired properties of the shuffled result, specifically the *maximum number of repetitions* of the same value in series, and the *minimum distance between repetitions* of the same value. These are defined using the ``maxRepSeries`` and ``minRepDistance`` parameters, respectively.
+
+    ``maxRepSeries`` restricts the number of repetitions of the same value in immediate succession. For example, ``maxRepSeries: 1`` ensures that no value appears twice in sequence::
+
+      // Create a new RNG for demo purposes. Inside a component,
+      // scripts can use the built-in RNG via this.random
+      const rng = new lab.util.Random()
+
+      rng.constrainedShuffle( // (I was a terror since the public school era)
+        ['party', 'party', 'bullsh!*', 'bullsh!*'],
+        { maxRepSeries: 1 }
+      )
+      // ➝ ['party', 'bullsh!*', 'party', 'bullsh!*']
+
+    Similarly, ``minRepDistance`` ensures a minimum distance between successive repetitions of the same value (and implies ``maxRepSeries: 1``). Note that ``maxRepDistance: 2`` requires that there is at least one other entry in the shuffled array between subsequent repetitions of the same entry, ``3`` requires two entries in between, and so on::
+
+      rng.constrainedShuffle(
+        ['dj', 'dj', 'fan', 'fan', 'freak', 'freak'],
+        { minRepDistance: 3 }
+      )
+      // ➝ ['dj', 'fan', 'freak', 'dj', /* ... */]
+
+    **Custom constraint checkers**
+
+    As an alternative to desired properties of the shuffled result, it's possible to define a custom constraint checker. This is a function that evaluates a shuffled candidate array, and returns ``true`` or ``false`` to accept or reject the shuffled candidate, depending on whether it meets the desired properties::
+
+      // Function that evaluates to true only if
+      // the first array entry matches the provided value.
+      const firstThingsFirst = array => array[0] === "I'm the realest"
+
+      rng.constrainedShuffle(
+        [
+          "I'm the realest",
+          "givin' lessons in physics",
+          "put my name in bold",
+          "bring the hooks in, where the bass at?",
+          // ... who dat, who dat?
+        ],
+        firstThingsFirst
+      )
+      // ➝ Shuffled result with fixed first entry
+
   .. js:function:: shuffleTable(table, [columnGroups=[]])
 
     :returns: A shuffled copy of the input ``table``.
