@@ -117,7 +117,8 @@ In practice of course, you'll probably be randomly generating more useful inform
 
     Invoked without further options, for example as ``shuffleTable(stroopTable)``, the function shuffles the rows while keeping their structure intact. This changes if groups of columns are singled out for independent shuffling, as in this example::
 
-      shuffleTable(stroopTable, [['word'], ['color'])
+      const rng = new lab.util.Random()
+      rng.shuffleTable(stroopTable, [['word'], ['color']])
 
     Here, the ``word`` and ``color`` columns are shuffled independently of one another: The output will have the same number of rows and columns as the input, but values that were previously in a row are no longer joined. Two more things are worth noting:
 
