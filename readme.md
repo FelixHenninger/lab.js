@@ -105,6 +105,7 @@ in the documentation.
 [Alex Irvine](https://github.com/u01ai11) ·
 [Karthikeya Pammi](https://github.com/pvskarthikeya) ·
 [Sophie Scharf](http://cognition.uni-mannheim.de/mitarbeiter/m_sc_sophie_scharf/) ·
+[Nikoletta Symeonidou](https://www.sowi.uni-mannheim.de/en/erdfelder/team/academic-staff-members/symeonidou-nikoletta/) ·
 [Hendrik Singmann](http://singmann.org) ·
 [Kevin Tiede](https://www.spds.uni-konstanz.de/kevin-tiede) ·
 [Andrew White](https://github.com/shiroandy) ·

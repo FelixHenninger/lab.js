@@ -32,17 +32,27 @@ self.addEventListener('activate', event => {
 
 // Request handling ------------------------------------------------------------
 
+const removeSearchQuery = url => {
+  // Parse URL and include only origin and local path
+  const u = new URL(url)
+  return `${ u.origin }${ u.pathname }`
+}
+
 self.addEventListener('fetch', event => {
   // Limit preview worker to urls are nested under the root URL
   if (event.request.url.startsWith(root)) {
-    console.log(`Retrieving ${ event.request.url } through preview worker`)
+    // If present, remove the search query string from the URL
+    const request = event.request.url.includes('?')
+      ? new Request(removeSearchQuery(event.request.url))
+      : event.request
+    console.log(`Retrieving ${ request.url } through preview worker`)
 
     event.respondWith(
       caches
         // Open cache
         .open('labjs-preview')
         // Match response against cache contents
-        .then( cache => cache.match(event.request) )
+        .then( cache => cache.match(request) )
         // Respond
         .then( response => response || fetch(event.request) )
         .catch( error => {
