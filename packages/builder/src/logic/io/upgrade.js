@@ -373,6 +373,20 @@ const updates = {
     ...data,
     version: [19, 1, 0],
   }),
+  '19.1.0': data => ({
+    ...data,
+    version: [19, 1, 1],
+    components: mapValues(data.components, (c, id) => {
+      if (id === 'root' && c.messageHandlers && c.messageHandlers.rows) {
+        // Filter JATOS integrations that leaked from export into study
+        c.messageHandlers.rows = c.messageHandlers.rows.filter(
+          r => r[0].title !== "JATOS integration" &&
+            r[0].message !== "epilogue"
+        )
+      }
+      return c
+    })
+  }),
 }
 
 export default (data) => {

@@ -9203,7 +9203,7 @@ konva@^2.6.0:
   integrity sha512-LCOoavICTD9PYoAqtWo8sbxYtCiXdgEeY7vj/Sq8b2bwFmrQr9Ak0RkD4/jxAf5fcUQRL5e1zPLyfRpVndp20A==
 
 "lab.js@file:packages/library":
-  version "19.1.0"
+  version "19.1.1"
   dependencies:
     "@babel/runtime" "^7.1.2"
     babel-polyfill "^6.23.0"
