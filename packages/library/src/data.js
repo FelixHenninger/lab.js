@@ -4,6 +4,7 @@ import { isObject, cloneDeep, flatten,
   difference, intersection, uniq,
   pick, omitBy, debounce } from 'lodash'
 import { EventHandler } from './util/eventAPI'
+import { fetch as fetchRetry } from './util/network'
 
 // Default column names -----------------------------------
 
@@ -459,7 +460,7 @@ export class Store extends EventHandler {
       }
     }
 
-    return fetch(url, {
+    return fetchRetry(url, {
       method: 'post',
       headers: {
         ...defaultHeaders,
