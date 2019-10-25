@@ -702,6 +702,61 @@ describe('Data handling', () => {
           })
       })
 
+      it('will retry transmission if it fails', () => {
+        window.fetch.restore()
+
+        // And if at first you don't succeed ...
+        const fetch = sinon.stub(window, 'fetch')
+        fetch.onCall(0).callsFake(() => Promise.reject('not feeling like it'))
+        fetch.onCall(1).callsFake(() => Promise.reject('you want it when?'))
+        fetch.onCall(2).callsFake(() => Promise.reject('nah, not in the mood'))
+        fetch.onCall(3).callsFake(() => Promise.reject(`lalala can't hear you`))
+        fetch.onCall(4).callsFake(() => Promise.resolve(new window.Response()))
+
+        return ds.transmit('https://random.example').then(() => {
+          assert.equal(
+            fetch.callCount,
+            5
+          )
+        })
+      })
+
+      it('uses an exponential backoff', () => {
+        window.fetch.restore()
+
+        const timestamps = []
+        const fetch = sinon.stub(window, 'fetch')
+        fetch.callsFake(() => {
+          timestamps.push(performance.now())
+          return Promise.reject('nope')
+        })
+
+        return ds.transmit('https://random.example').catch(() => {
+          // Calculate timestamp deltas
+          const deltas = timestamps
+            .map((x, i, arr) => arr[i + 1] - x)
+            .filter(x => !isNaN(x))
+
+          // TODO: This is a very crude test
+          assert.ok(
+            deltas[0] < deltas[1] < deltas[2] < deltas[3]
+          )
+        })
+      })
+
+      it('gives up retrying eventually', () => {
+        window.fetch.restore()
+
+        // Abandon all hope, ye who enter here
+        const fetch = sinon.stub(window, 'fetch')
+        fetch.callsFake(() => Promise.reject('gonna nope right out of this'))
+
+        return ds.transmit('https://random.example').catch((error) => {
+          assert.equal(error, 'gonna nope right out of this')
+          assert.equal(fetch.callCount, 5)
+        })
+      })
+
       it('logs last incrementally transmitted row', () => {
         return ds.transmit(
           'https://random.example', {},
