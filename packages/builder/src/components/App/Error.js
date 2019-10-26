@@ -14,7 +14,7 @@ const mincedOaths = [
   'Dangnabbit!',
   'What the cabbage?',
   'What a total cluster-cuss.', // 🦊
-  'Belgum!',
+  'Belgium!', // 🇧🇪
 ]
 
 const gifs = [
