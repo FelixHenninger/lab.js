@@ -808,19 +808,28 @@ describe('Data handling', () => {
 
         // Queue and transmit first batch of data
         ds.queueIncrementalTransmission('https://random.example')
+
+        // Fast-forward through first transmission
         clock.runAll()
-
-        // Add new data, and transmit it
-        ds.commit({ six: 6 })
-        ds.queueIncrementalTransmission('https://random.example')
-        clock.runAll()
-
-        assert.deepEqual(
-          extractData(window.fetch.secondCall.args),
-          [{ five: 5, six: 6 }]
-        )
-
+        assert.ok(window.fetch.calledOnce)
         clock.restore()
+
+        return (new Promise(resolve => setImmediate(resolve)))
+          .then(() => {
+            const clock = sinon.useFakeTimers()
+            // Add new data, and transmit it
+            ds.commit({ six: 6 })
+            ds.queueIncrementalTransmission('https://random.example')
+
+            // Fast-forward again
+            clock.runAll()
+
+            assert.deepEqual(
+              extractData(window.fetch.secondCall.args),
+              [{ five: 5, six: 6 }]
+            )
+            clock.restore()
+          })
       })
 
       it('can flush pending transmissions', () => {

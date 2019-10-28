@@ -2,9 +2,9 @@ import { saveAs } from 'file-saver'
 
 import { isObject, cloneDeep, flatten,
   difference, intersection, uniq,
-  pick, omitBy, debounce } from 'lodash'
+  pick, omitBy } from 'lodash'
 import { EventHandler } from './util/eventAPI'
-import { fetch as fetchRetry } from './util/network'
+import { fetch as fetchRetry, debounceAsync } from './util/network'
 
 // Default column names -----------------------------------
 
@@ -472,7 +472,7 @@ export class Store extends EventHandler {
   }
 
   // Incremental transmission -----------------------------
-  _debouncedTransmit = debounce(
+  _debouncedTransmit = debounceAsync(
     this.transmit,
     2500,
   )
