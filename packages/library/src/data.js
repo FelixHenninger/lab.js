@@ -420,16 +420,11 @@ export class Store extends EventHandler {
   ) {
     this.triggerMethod('transmit')
 
-    // Determine start of transmission
-    let slice
-    if (incremental) {
-      // Start from last transmitted row
-      slice = this._lastIncrementalTransmission
-      this._lastIncrementalTransmission = this.data.length
-    } else {
-      // Start from beginning
-      slice = 0
-    }
+    // Determine start and end of transmission
+    const slice = incremental
+      ? this._lastIncrementalTransmission // ... from last transmitted row
+      : 0                                 // ... from beginning
+    const sliceEnd = this.data.length
 
     // Data is always sent as an array of entries
     // (we slice first and then clean data to save some time,
@@ -468,6 +463,13 @@ export class Store extends EventHandler {
       },
       body,
       credentials: 'include',
+    }).then(r => {
+      // If the transmission was successful, remember
+      // the point to which data was transmitted.
+      this._lastIncrementalTransmission = sliceEnd
+
+      // Pass on response
+      return r
     })
   }
 
