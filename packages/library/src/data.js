@@ -463,6 +463,9 @@ export class Store extends EventHandler {
       },
       body,
       credentials: 'include',
+      retry: {
+        times: incremental ? 2 : 3
+      }
     }).then(r => {
       // If the transmission was successful, remember
       // the point to which data was transmitted.
