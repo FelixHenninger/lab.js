@@ -415,9 +415,10 @@ export class Store extends EventHandler {
   }
 
   // Send data via POST request ---------------------------
-  transmit(url, metadata={},
-    { headers: customHeaders={}, incremental=false, encoding='json' }={}
-  ) {
+  transmit(url, metadata={}, {
+    incremental=false, encoding='json',
+    headers: customHeaders={}, retry={},
+  }={}) {
     this.triggerMethod('transmit')
 
     // Determine start and end of transmission
@@ -464,8 +465,9 @@ export class Store extends EventHandler {
       body,
       credentials: 'include',
       retry: {
-        times: incremental ? 2 : 3
-      }
+        times: incremental ? 2 : 3,
+        ...retry,
+      },
     }).then(r => {
       // If the transmission was successful, remember
       // the point to which data was transmitted.
