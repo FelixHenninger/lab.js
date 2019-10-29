@@ -713,7 +713,9 @@ describe('Data handling', () => {
         fetch.onCall(3).callsFake(() => Promise.reject(`lalala can't hear you`))
         fetch.onCall(4).callsFake(() => Promise.resolve(new window.Response()))
 
-        return ds.transmit('https://random.example').then(() => {
+        return ds.transmit('https://random.example', {}, {
+          retry: { delay: 0 }
+        }).then(() => {
           assert.equal(
             fetch.callCount,
             5
@@ -731,7 +733,9 @@ describe('Data handling', () => {
           return Promise.reject('nope')
         })
 
-        return ds.transmit('https://random.example').catch(() => {
+        return ds.transmit('https://random.example', {}, {
+          retry: { times: 2 }
+        }).catch(() => {
           // Calculate timestamp deltas
           const deltas = timestamps
             .map((x, i, arr) => arr[i + 1] - x)
@@ -739,7 +743,8 @@ describe('Data handling', () => {
 
           // TODO: This is a very crude test
           assert.ok(
-            deltas[0] < deltas[1] < deltas[2] < deltas[3]
+            (deltas[0] <= deltas[1]) &&
+            (deltas[1] <= deltas[2])
           )
         })
       })
@@ -751,7 +756,9 @@ describe('Data handling', () => {
         const fetch = sinon.stub(window, 'fetch')
         fetch.callsFake(() => Promise.reject('gonna nope right out of this'))
 
-        return ds.transmit('https://random.example').catch((error) => {
+        return ds.transmit('https://random.example', {}, {
+          retry: { delay: 1, factor: 1 }
+        }).catch((error) => {
           assert.equal(error, 'gonna nope right out of this')
           assert.equal(fetch.callCount, 5)
         })

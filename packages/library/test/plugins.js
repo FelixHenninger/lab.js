@@ -129,7 +129,7 @@ describe('Plugins', () => {
         // There really should be a better way of handling this.
         Promise.all([
           epiloguePromise,
-          new Promise(resolve => window.setTimeout(resolve, 200)),
+          new Promise(resolve => window.setTimeout(resolve, 50)),
         ])
       ).then(() => {
         assert.ok(c.options.datastore.transmit.calledOnce)
