@@ -486,7 +486,7 @@ export class Store extends EventHandler {
   _lastIncrementalTransmission = 0
 
   queueIncrementalTransmission(url, metadata, options) {
-    this._debouncedTransmit(url, metadata, {
+    return this._debouncedTransmit(url, metadata, {
       incremental: true,
       ...options,
     })
