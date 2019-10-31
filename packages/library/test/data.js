@@ -811,7 +811,9 @@ describe('Data handling', () => {
       })
 
       it('sends data in increments', () => {
-        const clock = sinon.useFakeTimers()
+        const clock = sinon.useFakeTimers({
+          toFake: ['setTimeout', 'clearTimeout']
+        })
 
         // Queue and transmit first batch of data
         ds.queueIncrementalTransmission('https://random.example')
@@ -819,11 +821,11 @@ describe('Data handling', () => {
         // Fast-forward through first transmission
         clock.runAll()
         assert.ok(window.fetch.calledOnce)
-        clock.restore()
 
         return (new Promise(resolve => setImmediate(resolve)))
           .then(() => {
-            const clock = sinon.useFakeTimers()
+            window.fetch.resetHistory()
+
             // Add new data, and transmit it
             ds.commit({ six: 6 })
             ds.queueIncrementalTransmission('https://random.example')
@@ -831,8 +833,9 @@ describe('Data handling', () => {
             // Fast-forward again
             clock.runAll()
 
+            assert.ok(window.fetch.calledOnce)
             assert.deepEqual(
-              extractData(window.fetch.secondCall.args),
+              extractData(window.fetch.lastCall.args),
               [{ five: 5, six: 6 }]
             )
             clock.restore()
