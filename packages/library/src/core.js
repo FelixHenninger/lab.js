@@ -610,8 +610,8 @@ export class Component extends EventHandler {
     // Store data (unless instructed otherwise)
     if (this.options.datacommit !== false) {
       this.commit({
-        ...this.data,
         ...this.aggregateParameters,
+        ...this.data,
         time_run: this.internals.timestamps.run,
         time_render: this.internals.timestamps.render,
         time_show: this.internals.timestamps.show,
