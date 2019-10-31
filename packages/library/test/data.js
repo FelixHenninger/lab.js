@@ -842,6 +842,45 @@ describe('Data handling', () => {
           })
       })
 
+      it('re-sends earlier data if incremental transmission fails', () => {
+        const clock = sinon.useFakeTimers()
+
+        // As above, but this time fail on a first set of transmissions
+        window.fetch.callsFake(() => Promise.reject('nope'))
+
+        // Fast-forward through first batch of data (failing)
+        ds.queueIncrementalTransmission('https://random.example')
+        clock.runAll()
+        clock.restore()
+
+        return (new Promise(resolve => setTimeout(resolve, 25)))
+          .then(() => {
+            const clock = sinon.useFakeTimers()
+
+            // This time, the transmission succeeds
+            window.fetch.resetHistory()
+            window.fetch.callsFake(() => Promise.resolve(new Response()))
+
+            // Add new data, and transmit it
+            ds.commit({ six: 6 })
+            ds.queueIncrementalTransmission('https://random.example')
+
+            // Fast-forward again
+            clock.runAll()
+
+            assert.ok(window.fetch.calledOnce)
+            assert.deepEqual(
+              extractData(window.fetch.lastCall.args),
+              [
+                { one: 1, two: 2 },
+                { three: 3, four: 4 },
+                { five: 5, six: 6 }
+              ]
+            )
+            clock.restore()
+          })
+      })
+
       it('can flush pending transmissions', () => {
         const clock = sinon.useFakeTimers()
 
