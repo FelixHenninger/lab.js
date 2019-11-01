@@ -34,23 +34,18 @@ export const fetch = (url,
 // the cancel and flush helpers that lodash's debounce offers.
 // Mistakes, of course, are entirely the present author's fault)
 
-export const debounceAsync = (fn, wait, { leading=false }={}) => {
+export const debounceAsync = (fn, wait) => {
   let timer
   let resolvers = []
-  let leadingValue
   let lastArgs, lastThis
 
   const invoke = function() {
-    // Reset timer
-    timer = null
-
     // Keep hold currently pending resolvers, and reset list
     const pendingResolvers = resolvers
     resolvers = []
 
     // Execute function and capture result
-    // (re-use the leading result if available)
-    const result = leading ? leadingValue : fn.apply(lastThis, lastArgs)
+    const result = fn.apply(lastThis, lastArgs)
 
     // Pass result to pending resolvers
     for (const [res, _] of pendingResolvers) {
@@ -67,32 +62,22 @@ export const debounceAsync = (fn, wait, { leading=false }={}) => {
 
   const cancel = function() {
     clearTimeout(timer)
-    timer = null
     lastArgs = lastThis = undefined
     resolvers = []
   }
 
   const debouncedFunc = function() {
     return new Promise((resolve, reject) => {
-      const runImmediately = leading && !timer
-
       // Save arguments and context
       lastArgs = arguments
       lastThis = this
 
-      // Stop the current timer
+      // Stop the current and setup a new timer
       clearTimeout(timer)
-
-      // Setup a new timer
       timer = setTimeout(invoke, wait)
 
-      // Invoke function immediately if required
-      if (runImmediately) {
-        leadingValue = fn.apply(lastThis, lastArgs)
-        resolve(leadingValue)
-      } else {
-        resolvers.push([resolve, reject])
-      }
+      // Save resolvers for future use
+      resolvers.push([resolve, reject])
     })
   }
   // Add further methods
