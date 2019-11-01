@@ -44,17 +44,18 @@ export const debounceAsync = (fn, wait, { leading=false }={}) => {
     // Reset timer
     timer = null
 
+    // Keep hold currently pending resolvers, and reset list
+    const pendingResolvers = resolvers
+    resolvers = []
+
     // Execute function and capture result
     // (re-use the leading result if available)
     const result = leading ? leadingValue : fn.apply(lastThis, lastArgs)
 
     // Pass result to pending resolvers
-    for (const [res, _] of resolvers) {
+    for (const [res, _] of pendingResolvers) {
       res(result)
     }
-
-    // Reset resolvers
-    resolvers = []
   }
 
   const flush = function() {
