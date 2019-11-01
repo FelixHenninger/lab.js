@@ -843,17 +843,16 @@ describe('Data handling', () => {
       })
 
       it('re-sends earlier data if incremental transmission fails', () => {
-        const clock = sinon.useFakeTimers()
-
         // As above, but this time fail on a first set of transmissions
         window.fetch.callsFake(() => Promise.reject('nope'))
 
-        // Fast-forward through first batch of data (failing)
-        ds.queueIncrementalTransmission('https://random.example')
+        const clock = sinon.useFakeTimers()
+        const p = ds.queueIncrementalTransmission('https://random.example')
         clock.runAll()
         clock.restore()
 
-        return (new Promise(resolve => setTimeout(resolve, 25)))
+        // Fast-forward through first batch of data (failing)
+        return p.catch(error => null) // Disregard error
           .then(() => {
             const clock = sinon.useFakeTimers()
 

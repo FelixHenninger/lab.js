@@ -29,27 +29,46 @@ export const fetch = (url,
 // is left as an exercise to the reader (PRs very much appreciated)
 
 // Debouncing/throttling for async functions -----------------------------------
-// (this is an extension of the excellent
+// (this is an heavily modified version of the excellent
 // https://github.com/sindresorhus/p-debounce that supports
 // the cancel and flush helpers that lodash's debounce offers.
 // Mistakes, of course, are entirely the present author's fault)
 
-export const debounceAsync = (fn, wait) => {
+export const debounceAsync = (fn, wait, { throttle=true }={}) => {
   let timer
   let resolvers = []
   let lastArgs, lastThis
+  let running = false
+  let skipped = false
 
   const invoke = function() {
-    // Keep hold currently pending resolvers, and reset list
-    const pendingResolvers = resolvers
-    resolvers = []
+    if (running && throttle) {
+      skipped = true
+    } else {
+      // Keep hold currently pending resolvers, and reset list
+      const pendingResolvers = resolvers
+      resolvers = []
 
-    // Execute function and capture result
-    const result = fn.apply(lastThis, lastArgs)
+      // Reset timer
+      timer = null
 
-    // Pass result to pending resolvers
-    for (const [res, _] of pendingResolvers) {
-      res(result)
+      // Execute function, capture and pass on result (or error)
+      running = true
+      Promise.resolve(fn.apply(lastThis, lastArgs))
+        .then(result => {
+          for (const [resolve, _] of pendingResolvers) {
+            resolve(result)
+          }
+        }).catch(error => {
+          for (const [_, reject] of pendingResolvers) {
+            reject(error)
+          }
+        }).finally(() => {
+          if (skipped && timer === null) {
+            flush()
+          }
+          running = skipped = false
+        })
     }
   }
 
@@ -62,6 +81,8 @@ export const debounceAsync = (fn, wait) => {
 
   const cancel = function() {
     clearTimeout(timer)
+    timer = null
+    skipped = false
     lastArgs = lastThis = undefined
     resolvers = []
   }
