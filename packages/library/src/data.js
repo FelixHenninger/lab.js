@@ -469,9 +469,11 @@ export class Store extends EventHandler {
         ...retry,
       },
     }).then(r => {
-      // If the transmission was successful, remember
-      // the point to which data was transmitted.
-      this._lastIncrementalTransmission = sliceEnd
+      // If an incremental transmission was successful,
+      // remember the point to which data was transmitted.
+      if (incremental) {
+        this._lastIncrementalTransmission = sliceEnd
+      }
 
       // Pass on response
       return r
