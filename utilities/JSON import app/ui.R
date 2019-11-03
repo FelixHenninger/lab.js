@@ -29,19 +29,29 @@ shinyUI(fluidPage(
   # Upload control
   fileInput(
     "data_file",
-    "Please upload your raw data file as CSV",
+    "Please upload your raw data",
     multiple=FALSE,
     accept=c(
-      "text/csv",
-      "application/vnd.ms-excel",
-      ".csv"
+      "text/csv", "application/vnd.ms-excel", "text/tab-separated-values",
+      ".csv", ".tsv"
+    )
+  ),
+  
+  selectInput(
+    'data_format',
+    'File format',
+    c(
+      'Please select'='',
+      'csv (comma delimited)'='csv',
+      'csv2 (semicolon delimited)'='csv2',
+      'tsv (tab delimited)'='tsv'
     )
   ),
   
   # Data column control
   textInput(
     "data_column",
-    "Which column contains the JSON data?",
+    "Which column contains the lab.js data?",
     "labjs-data"
   ),
   
