@@ -68,6 +68,7 @@ shinyServer(function(input, output) {
         ),
         con
       )
-    }
+    },
+    contentType='text/csv'
   )
 })
