@@ -53,19 +53,38 @@ processData <- function(datafile, format='csv', labjs_column='labjs-data', skip_
 
 # Define server logic
 shinyServer(function(input, output) {
+  data <- reactive({
+    shiny::validate(
+      need(
+        input$data_file != '',
+        message="Please select an input file"
+      ),
+      need(
+        input$data_format != '',
+        message="Please select a file format"
+      ),
+      need(
+        input$data_format == 'json' || input$data_column != '',
+        message="Please choose a data column"
+      )
+    )
+    
+    processData(
+      input$data_file[1, 'datapath'],
+      input$data_format,
+      input$data_column,
+      input$skip_rows,
+      input$skip_range
+    )
+  })
+  
   output$downloadData <- downloadHandler(
     filename = function() {
       paste('labjs-export-', Sys.Date(), '.csv', sep='')
     },
     content = function(con) {
       write_csv(
-        processData(
-          input$data_file[1, 'datapath'],
-          'csv',
-          input$data_column,
-          input$skip_rows,
-          input$skip_range
-        ),
+        data(),
         con
       )
     },
