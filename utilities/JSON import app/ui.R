@@ -90,6 +90,8 @@ shinyUI(fluidPage(
     
     hr()
   ),
+  
+  DT::dataTableOutput('preview'),
 
   downloadButton(
     "downloadData",

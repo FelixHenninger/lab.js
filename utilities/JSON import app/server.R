@@ -90,4 +90,8 @@ shinyServer(function(input, output) {
     },
     contentType='text/csv'
   )
+  
+  output$preview <- DT::renderDataTable({
+    data()
+  })
 })
