@@ -21,8 +21,7 @@ shinyUI(navbarPage(
   # Theme
   theme=shinytheme("flatly"),
 
-  tabPanel('Default',
-
+  tabPanel('Import from CSV',
     sidebarPanel(
       # Upload control
       fileInput(
@@ -37,7 +36,7 @@ shinyUI(navbarPage(
       
       selectInput(
         'data_format',
-        'File format',
+        'Which format is it in?',
         c(
           'Please select'='',
           'csv (comma delimited)'='csv',
@@ -92,7 +91,8 @@ shinyUI(navbarPage(
     
       downloadButton(
         "downloadData",
-        "Generate output CSV file"
+        "Download data as CSV file",
+        style="width: 100%"
       )
     ),
     
