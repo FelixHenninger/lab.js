@@ -11,90 +11,94 @@ library(shiny)
 library(shinythemes)
 
 # Define UI for application that draws a histogram
-shinyUI(fluidPage(
+shinyUI(navbarPage(
+  # Header
+  div(
+    span('lab.js', style="font-family: monospace; font-size: 0.9em"),
+    '· third-party data postprocessing' 
+  ),
+  
   # Theme
   theme=shinytheme("flatly"),
 
-  # Application title
-  titlePanel(
-    div(
-      span('lab.js', style="font-family: monospace; font-size: 0.9em"),
-      '· third-party data postprocessing' 
-    ),
-    "lab.js data postprocessing"
-  ),
+  tabPanel('Default',
 
-  hr(),
-
-  # Upload control
-  fileInput(
-    "data_file",
-    "Please upload your raw data",
-    multiple=FALSE,
-    accept=c(
-      "text/csv", "application/vnd.ms-excel", "text/tab-separated-values",
-      ".csv", ".tsv"
-    )
-  ),
-  
-  selectInput(
-    'data_format',
-    'File format',
-    c(
-      'Please select'='',
-      'csv (comma delimited)'='csv',
-      'csv2 (semicolon delimited)'='csv2',
-      'tsv (tab delimited)'='tsv',
-      'JSON'='json'
-    )
-  ),
-  
-  # Data column control
-  conditionalPanel(
-    condition="input.data_format !== 'json'", 
-    textInput(
-      "data_column",
-      "Which column contains the lab.js data?",
-      "labjs-data"
-    )
-  ),
-  
-  hr(),
-  
-  # Data filtering
-  conditionalPanel(
-    condition="input.data_format !== 'json'", 
-    strong('Data filtering'),
-    p(
-      'Some tools (i.e. Qualtrics) include further metadata in the header',
-      'section of their CSV outputs. These are non-standard and cannot',
-      'be usefully loaded into R. If necessary, please exclude them below.'
-    ),
-    p(
-      'We assume that the first row that\'s not skipped is the file header,',
-      'and that the actual data starts only after the skip range.',
-      'Please also note that empty lines are skipped automatically.',
-      class='text-muted'
-    ),
-    checkboxInput(
-      "skip_rows",
-      "Skip header rows in the input file",
-      value=FALSE
-    ),
-    sliderInput(
-      "skip_range",
-      "Rows to skip",
-      min=1, max=10, step=1,
-      value=c(2, 3)
+    sidebarPanel(
+      # Upload control
+      fileInput(
+        "data_file",
+        "Please upload your raw data",
+        multiple=FALSE,
+        accept=c(
+          "text/csv", "application/vnd.ms-excel", "text/tab-separated-values",
+          ".csv", ".tsv"
+        )
+      ),
+      
+      selectInput(
+        'data_format',
+        'File format',
+        c(
+          'Please select'='',
+          'csv (comma delimited)'='csv',
+          'csv2 (semicolon delimited)'='csv2',
+          'tsv (tab delimited)'='tsv',
+          'JSON'='json'
+        )
+      ),
+      
+      # Data column control
+      conditionalPanel(
+        condition="input.data_format !== 'json'", 
+        textInput(
+          "data_column",
+          "Which column contains the lab.js data?",
+          "labjs-data"
+        )
+      ),
+      
+      hr(),
+      
+      # Data filtering
+      conditionalPanel(
+        condition="input.data_format !== 'json'", 
+        strong('Data filtering'),
+        p(
+          'Some tools (i.e. Qualtrics) include further metadata in the header',
+          'section of their CSV outputs. These are non-standard and cannot',
+          'be usefully loaded into R. If necessary, please exclude them below.'
+        ),
+        p(
+          'We assume that the first row that\'s not skipped is the file header,',
+          'and that the actual data starts only after the skip range.',
+          'Please also note that empty lines are skipped automatically.',
+          class='text-muted'
+        ),
+        checkboxInput(
+          "skip_rows",
+          "Skip header rows in the input file",
+          value=FALSE
+        ),
+        sliderInput(
+          "skip_range",
+          "Rows to skip",
+          min=1, max=10, step=1,
+          value=c(2, 3)
+        ),
+        
+        hr()
+      ),
+      
+    
+      downloadButton(
+        "downloadData",
+        "Generate output CSV file"
+      )
     ),
     
-    hr()
-  ),
-  
-  DT::dataTableOutput('preview'),
-
-  downloadButton(
-    "downloadData",
-    "Generate output CSV file"
+    mainPanel(
+      DT::dataTableOutput('preview'),
+    )
   )
+
 ))
