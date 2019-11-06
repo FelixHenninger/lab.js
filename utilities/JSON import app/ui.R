@@ -22,6 +22,7 @@ shinyUI(navbarPage(
   theme=shinytheme("flatly"),
 
   tabPanel('Import from CSV',
+    includeCSS("style.css"),
     sidebarPanel(
       # Upload control
       fileInput(
