@@ -23,6 +23,10 @@ lerna-debug.log
 # Webpack
 packages/library/bundleStats.json
 
+# R projects
+.RProj.user
+.Rhistory
+
 # Shiny app credentials
 utilities/SQLite import app/rsconnect
 utilities/JSON import app/rsconnect
