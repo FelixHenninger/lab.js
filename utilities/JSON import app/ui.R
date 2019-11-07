@@ -39,56 +39,47 @@ shinyUI(navbarPage(
         'data_format',
         'Which format is it in?',
         c(
-          'Please select'='',
           'csv (comma delimited)'='csv',
           'csv2 (semicolon delimited)'='csv2',
-          'tsv (tab delimited)'='tsv',
-          'JSON'='json'
+          'tsv (tab delimited)'='tsv'
         )
       ),
       
       # Data column control
-      conditionalPanel(
-        condition="input.data_format !== 'json'", 
-        textInput(
-          "data_column",
-          "Which column contains the lab.js data?",
-          "labjs-data"
-        )
+      textInput(
+        "data_column",
+        "Which column contains the lab.js data?",
+        "labjs-data"
       ),
       
       hr(),
       
       # Data filtering
-      conditionalPanel(
-        condition="input.data_format !== 'json'", 
-        strong('Data filtering'),
-        p(
-          'Some tools (i.e. Qualtrics) include further metadata in the header',
-          'section of their CSV outputs. These are non-standard and cannot',
-          'be usefully loaded into R. If necessary, please exclude them below.'
-        ),
-        p(
-          'We assume that the first row that\'s not skipped is the file header,',
-          'and that the actual data starts only after the skip range.',
-          'Please also note that empty lines are skipped automatically.',
-          class='text-muted'
-        ),
-        checkboxInput(
-          "skip_rows",
-          "Skip header rows in the input file",
-          value=FALSE
-        ),
-        sliderInput(
-          "skip_range",
-          "Rows to skip",
-          min=1, max=10, step=1,
-          value=c(2, 3)
-        ),
-        
-        hr()
+      strong('Data filtering'),
+      p(
+        'Some tools (i.e. Qualtrics) include further metadata in the header',
+        'section of their CSV outputs. These are non-standard and cannot',
+        'be usefully loaded into R. If necessary, please exclude them below.'
+      ),
+      p(
+        'We assume that the first row that\'s not skipped is the file header,',
+        'and that the actual data starts only after the skip range.',
+        'Please also note that empty lines are skipped automatically.',
+        class='text-muted'
+      ),
+      checkboxInput(
+        "skip_rows",
+        "Skip header rows in the input file",
+        value=FALSE
+      ),
+      sliderInput(
+        "skip_range",
+        "Rows to skip",
+        min=1, max=10, step=1,
+        value=c(2, 3)
       ),
       
+      hr(),
     
       downloadButton(
         "downloadData",

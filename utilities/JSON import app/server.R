@@ -64,7 +64,7 @@ shinyServer(function(input, output) {
         message="Please select a file format"
       ),
       need(
-        input$data_format == 'json' || input$data_column != '',
+        input$data_column != '',
         message="Please choose a data column"
       )
     )
