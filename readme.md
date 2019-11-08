@@ -23,7 +23,7 @@
 ![Made with all the love](https://img.shields.io/badge/made_with-❤️💛💚💙💜💖-e6e6e6.svg)
 
 <div align="center">
-  <img src="docs/media/promo/builder_teaser.png">
+  <img src="docs/media/screenshots/builder_welcome.png">
 </div>
 
 ----
