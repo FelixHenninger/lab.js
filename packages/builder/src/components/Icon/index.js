@@ -17,6 +17,7 @@ const replacements = {
   'alarm-clock': 'clock',
   'arrows-v': 'arrows-alt-v',
   'arrows-h': 'arrows-alt-h',
+  'bullseye-pointer': 'hand-pointer',
   'comment-alt-minus': 'comment-alt',
   'comment-alt-lines': 'comment-alt',
   'ellipsis-h-alt': 'ellipsis-h',

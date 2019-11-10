@@ -4,12 +4,14 @@ import { ButtonDropdown, DropdownToggle } from 'reactstrap'
 
 import Icon from '../../../../../../../Icon'
 
+import AoiOptions from './AoiOptions'
 import ImageOptions from './ImageOptions'
 import TextOptions from './TextOptions'
 
 import './index.css'
 
 const icons = {
+  'aoi': 'bullseye-pointer',
   'i-text': 'font',
   'image': 'image',
 }
@@ -27,6 +29,8 @@ const Toggle = ({ type }) =>
 
 const Options = (props) => {
   switch(props.selection.type) {
+    case 'aoi':
+      return <AoiOptions { ...props } />
     case 'i-text':
       return <TextOptions { ...props } />
     case 'image':
