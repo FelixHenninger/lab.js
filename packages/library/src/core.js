@@ -672,6 +672,7 @@ export class Component extends EventHandler {
 
   epilogue() {
     this.internals.timeline.teardown()
+    this.internals.domConnection.teardown()
     this.triggerMethod('epilogue')
   }
 

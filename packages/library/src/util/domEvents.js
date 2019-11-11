@@ -187,4 +187,10 @@ export class DomConnection {
       }
     })
   }
+
+  teardown() {
+    // NOTE: Could also remove this.el, this.events and this.context,
+    // but it's probably easier to allow the entire DomConnection to be GCed
+    this.parsedEvents = null
+  }
 }
