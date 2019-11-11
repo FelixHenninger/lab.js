@@ -112,14 +112,11 @@ export class DomConnection {
   // Wrap event handlers such that a series of checks are applied
   // to each observed event, and the handler is triggered only
   // if all checks pass
-  wrapHandler(handler, eventName, checkOptions={}) {
+  wrapHandler(handler, checks) {
     // Add context if desired
     if (this.context !== null) {
       handler = handler.bind(this.context)
     }
-
-    // Create array for checks to be applied to the event
-    const checks = makeChecks(eventName, checkOptions)
 
     // Only trigger handler if all checks pass
     return function(e) {
@@ -132,17 +129,14 @@ export class DomConnection {
   prepare() {
     this.parsedEvents = Object.entries(this.events)
       .map(([eventString, handler]) => {
-        // ... loop over all elements matching the
-        // selector, attaching a listener to each
-
         // Split event string into constituent components
         const [eventName, filters, selector] = splitEventString(eventString)
 
-        // Apply the wrapHandler function to the handler,
-        // so that any additional filters etc. are added
+        // Apply the wrapHandler method to the handler,
+        // so that any additional checks etc. are added
         const wrappedHandler = this.wrapHandler(
-          handler, eventName,
-          { filters, startTime: this.startTime },
+          handler,
+          makeChecks(eventName, { filters, startTime: this.startTime })
         )
 
         return [eventString, eventName, selector, wrappedHandler]
