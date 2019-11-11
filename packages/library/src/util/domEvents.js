@@ -87,6 +87,9 @@ const makeChecks = function(eventName,
   return checks
 }
 
+const defaultProcessEvent = ([eventName, filters, selector]) =>
+  ({ eventName, filters, selector })
+
 // eslint-disable-next-line import/prefer-default-export
 export class DomConnection {
   constructor(options) {
@@ -102,6 +105,9 @@ export class DomConnection {
     // Define default context
     // in which to run handlers
     this.context = options.context || this
+
+    // Define event processor
+    this.processEvent = options.processEvent || defaultProcessEvent
 
     // Define time from which to accept responses
     this.startTime = -Infinity
@@ -129,15 +135,17 @@ export class DomConnection {
   prepare() {
     this.parsedEvents = Object.entries(this.events)
       .map(([eventString, handler]) => {
-        // Split event string into constituent components
-        const [eventName, filters, selector] = splitEventString(eventString)
+        // Split event string into constituent components,
+        // and pass result onto event processing
+        const { eventName, filters, selector, moreChecks=[] } =
+          this.processEvent(splitEventString(eventString))
 
         // Apply the wrapHandler method to the handler,
         // so that any additional checks etc. are added
-        const wrappedHandler = this.wrapHandler(
-          handler,
-          makeChecks(eventName, { filters, startTime: this.startTime })
-        )
+        const wrappedHandler = this.wrapHandler(handler, [
+          ...makeChecks(eventName, { filters, startTime: this.startTime }),
+          ...moreChecks,
+        ])
 
         return [eventString, eventName, selector, wrappedHandler]
       })
