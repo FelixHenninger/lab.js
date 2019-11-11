@@ -30,83 +30,61 @@ const keyValues = {
   Space: ' ',
 }
 
-// Provide basic automatic wrapping for event handlers based on simple
-// options, e.g. automatically filter events based on keyboard and mouse
-// buttons.
-const wrapHandler = function(handler, eventName,
-  { filters=[], context=null, filterRepeat=true, startTime=-Infinity }) {
+// Generate a sequence of checks to apply to an event
+// before triggering a handler function
+const makeChecks = function(eventName,
+  { filters=[], filterRepeat=true, startTime=-Infinity }) {
 
-  // Add context if desired
-  if (context !== null) {
-    handler = handler.bind(context)
+  const checks = []
+
+  // Check that event happened after the cut-off
+  checks.push(e => ensureHighResTime(e.timeStamp) >= startTime)
+
+  // Add additional checks depending on the event type
+  if (['keypress', 'keydown', 'keyup'].includes(eventName)) {
+    // Filters define keys that trigger the handler. Keys, in turn,
+    // are defined in terms of the key event values supplied by the
+    // browser (cf. https://w3.org/TR/DOM-Level-3-Events-key).
+    // However, not all browsers support the key property (yet), so we
+    // provide a fallback based on key codes for the time being. The
+    // fallback is not complete in that it does not support the full
+    // range of keys defined in the spec, but rather those which we
+    // anticipate will be used most frequently. (enter, tab,
+    // backspace, and arrow keys)
+
+    // Translate some keys that we choose to represent differently
+    // (i.e. the space key, which is a literal space character in the
+    // spec, but would be trimmed here)
+    const keys = (filters || []).map( // (replace null value)
+      key => keyValues[key] || key,
+    )
+
+    // Wrap the handler only if we pre-select events
+    if (keys.length > 0 || filterRepeat) {
+      checks.push(function(e) {
+        // Fire the handler only if
+        // - we filter repeats, and the key is not one
+        // - target keys are defined, and the key pressed matches one
+        return (
+          !(filterRepeat && e.repeat) &&
+          !(keys.length > 0 && !keys.includes(e.key))
+        )
+      })
+    }
+  } else if (['click', 'mousedown', 'mouseup'].includes(eventName)) {
+    const buttons = (filters || []).map(
+      button => parseInt(button),
+    )
+
+    if (buttons.length > 0) {
+      // Wrap the handler accordingly
+      checks.push(function(e) {
+        return buttons.includes(e.button)
+      })
+    }
   }
 
-  // Wrap the handler depending on the event type
-  switch (eventName) {
-    case 'keypress':
-    case 'keydown':
-    case 'keyup':
-      // Filters define keys that trigger the handler. Keys, in turn,
-      // are defined in terms of the key event values supplied by the
-      // browser (cf. https://w3.org/TR/DOM-Level-3-Events-key).
-      // However, not all browsers support the key property (yet), so we
-      // provide a fallback based on key codes for the time being. The
-      // fallback is not complete in that it does not support the full
-      // range of keys defined in the spec, but rather those which we
-      // anticipate will be used most frequently. (enter, tab,
-      // backspace, and arrow keys)
-
-      // Translate some keys that we choose to represent differently
-      // (i.e. the space key, which is a literal space character in the
-      // spec, but would be trimmed here)
-      const keys = (filters || []).map( // (replace null value)
-        key => keyValues[key] || key,
-      )
-
-      // Wrap the handler only if we pre-select events
-      if (keys.length > 0 || filterRepeat) {
-        return function(e) {
-          // Fire the handler only if
-          // - we filter repeats, and the key is not one
-          // - target keys are defined, and the key pressed matches one
-          if (ensureHighResTime(e.timeStamp) <= startTime) {
-            return null
-          } else if (
-            !(filterRepeat && e.repeat) &&
-            !(keys.length > 0 && !keys.includes(e.key))
-          ) {
-            return handler(e)
-          } else {
-            return null
-          }
-        }
-      }
-
-    case 'click':
-    case 'mousedown':
-    case 'mouseup':
-      // Filter clicks on a certain button
-      const buttons = (filters || []).map(
-        button => parseInt(button),
-      )
-
-      if (buttons.length > 0) {
-        // Wrap the handler accordingly
-        return function(e) {
-          if (ensureHighResTime(e.timeStamp) <= startTime) {
-            return null
-          } else if (buttons.includes(e.button)) {
-            return handler(e)
-          } else {
-            return null
-          }
-        }
-      }
-
-    default:
-      // Return the handler as-is
-      return handler
-  }
+  return checks
 }
 
 // eslint-disable-next-line import/prefer-default-export
@@ -130,6 +108,27 @@ export class DomConnection {
   }
 
   // Handler preprocessing -----------------------------------------------------
+
+  // Wrap event handlers such that a series of checks are applied
+  // to each observed event, and the handler is triggered only
+  // if all checks pass
+  wrapHandler(handler, eventName, checkOptions={}) {
+    // Add context if desired
+    if (this.context !== null) {
+      handler = handler.bind(this.context)
+    }
+
+    // Create array for checks to be applied to the event
+    const checks = makeChecks(eventName, checkOptions)
+
+    // Only trigger handler if all checks pass
+    return function(e) {
+      return checks.reduce((acc, check) => acc && check(e), true)
+        ? handler(e)
+        : null
+    }
+  }
+
   prepare() {
     this.parsedEvents = Object.entries(this.events)
       .map(([eventString, handler]) => {
@@ -141,9 +140,9 @@ export class DomConnection {
 
         // Apply the wrapHandler function to the handler,
         // so that any additional filters etc. are added
-        const wrappedHandler = wrapHandler(
+        const wrappedHandler = this.wrapHandler(
           handler, eventName,
-          { filters, context: this.context, startTime: this.startTime },
+          { filters, startTime: this.startTime },
         )
 
         return [eventString, eventName, selector, wrappedHandler]
