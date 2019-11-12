@@ -142,6 +142,41 @@ export class Screen extends Component {
 
     prepareCanvas.apply(this)
 
+    // Prepare AOI event handling
+    // Canvas.screen components implement one additional
+    // feature compared to any other component, namely the
+    // support for AOI filtering on events. In this case,
+    // the selector has the format @aoiName, which means
+    // we have to rewrite the target to be the current
+    // screen canvas, and also add a check to determine
+    // whether the event coordinates fall into the AOI region.
+    this.internals.domConnection.processEvent =
+      ([eventName, filters, selector]) => {
+        // TODO: Split multiple selectors
+        if (selector && selector.startsWith('@')) {
+          // Calculate applied pixel ratio
+          const pixelRatio = this.options.devicePixelScaling
+            ? window.devicePixelRatio
+            : 1
+
+          // Return modified event
+          return {
+            eventName, filters,
+            selector: 'canvas',
+            moreChecks: [
+              e => this.options.ctx.isPointInPath(
+                this.internals.paths[selector.slice(1)],
+                e.offsetX * pixelRatio,
+                e.offsetY * pixelRatio
+              )
+            ]
+          }
+        } else {
+          // Return unmodified event, following default behavior
+          return { eventName, filters, selector }
+        }
+      }
+
     // Generate generic render function,
     // unless a render function has been defined manually
     // TODO: This should probably not be the default.
