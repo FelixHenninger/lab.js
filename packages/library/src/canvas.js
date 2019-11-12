@@ -6,8 +6,8 @@ import { Sequence as BaseSequence, Loop, Parallel,
   prepareNested } from './flow'
 import { Frame as BaseFrame } from './html'
 import { reduce } from './util/tree'
-import { makeRenderFunction, makeTransform, makeInverseTransform,
-  transform } from './util/canvas'
+import { makeRenderFunction, makePathFunction,
+  makeTransform, makeInverseTransform, transform } from './util/canvas'
 
 // Global canvas functions used in all of the following components
 // (multiple inheritance would come in handy here, but alas...)
@@ -217,6 +217,13 @@ export class Screen extends Component {
       this.options.canvas,
       this.options.ctx,
       this,
+    )
+  }
+
+  onShow() {
+    this.internals.paths = makePathFunction(this.options.content || [])(
+      // TODO: Update paths
+      0, this.options.canvas, this.options.ctx
     )
   }
 

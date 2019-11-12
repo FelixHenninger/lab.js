@@ -1,4 +1,6 @@
+import { fromPairs } from 'lodash'
 import { toRadians } from './geometry'
+
 // Utilities -------------------------------------------------------------------
 
 const calcTransformationParameters = (canvasSize, viewportSize, opt={}) => {
@@ -219,6 +221,8 @@ const renderElement = (ctx, content, cache={}) => {
 export const makeRenderFunction = (content, cache) => (ts, canvas, ctx) =>
   (content || []).forEach(c => renderElement(ctx, c, cache))
 
+// Path handling ---------------------------------------------------------------
+
 export const makePath = (ctx, content) => {
   // Transformation as above
   ctx.save()
@@ -244,3 +248,10 @@ export const makePath = (ctx, content) => {
   ctx.restore()
   return path
 }
+
+export const makePathFunction = (content) => (ts, canvas, ctx) =>
+  fromPairs(
+    content
+      .filter(c => ['aoi'].includes(c.type)) // Currently supported content
+      .map(c => [c.label, makePath(ctx, c)]) // Key / path pairs
+  )
