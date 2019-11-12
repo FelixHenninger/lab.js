@@ -234,7 +234,7 @@ export const makePath = (ctx, content) => {
 
   // Type-specific path extensions
   switch (content.type) {
-    case 'rect':
+    case 'aoi':
       path.rect(
         -content.width / 2, -content.height / 2,
         content.width, content.height,
