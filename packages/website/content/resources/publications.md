@@ -30,6 +30,7 @@ weight = 3
         <div class="card-body">
           <h2 class="h5 card-title">Project introduction</h5>
           <p class="card-text">Our main project publication is <a href="https://psyarxiv.com/fqr49">Henninger et al. (2019)</a>, which describes the features and timing characteristics of the <code>lab.js</code> builder, and provides a brief tutorial.</p>
+          <p class="font-italic">In press at Behavior Research Methods</p>
           <a href="https://psyarxiv.com/fqr49" class="card-link">View on PsyArXiv</a>
           <a href="https://psyarxiv.com/fqr49/download" class="card-link">Download preprint</a>
           <hr>
