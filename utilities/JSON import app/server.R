@@ -15,7 +15,11 @@ library(janitor)
 # Increase maximum upload size
 options(shiny.maxRequestSize = 250*1024^2)
 
-processData <- function(datafile, format='csv', labjs_column='labjs-data', skip_rows=F, skip_range='') {
+processData <- function(datafile, format='csv', labjs_column='labjs-data',
+  skip_rows=F, skip_range='', columns_omit=c()) {
+  
+  columns_omit <- purrr::flatten_chr(columns_omit)
+  
   read_func <- switch(format,
     'csv'=read_csv,
     'csv2'=read_csv2,
@@ -46,8 +50,11 @@ processData <- function(datafile, format='csv', labjs_column='labjs-data', skip_
         fromJSON(.[[labjs_column]], flatten=T)
       ) %>%
       ungroup() %>%
-      # Remove column containing raw JSON
-      select(-matches(labjs_column))
+      select(
+        # Remove column containing raw JSON
+        -matches(labjs_column),
+        -one_of(columns_omit)
+      )
   )
 }
 
@@ -74,7 +81,8 @@ shinyServer(function(input, output) {
       input$data_format,
       input$data_column,
       input$skip_rows,
-      input$skip_range
+      input$skip_range,
+      stringi::stri_split_fixed(input$columns_omit, '\n', omit_empty=T)
     )
   })
   

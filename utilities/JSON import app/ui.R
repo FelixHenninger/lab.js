@@ -78,7 +78,18 @@ shinyUI(navbarPage(
         min=1, max=10, step=1,
         value=c(2, 3)
       ),
+      hr(),
       
+      strong('Output filtering'),
+      p(
+        'Please enter one column name per row',
+        class='text-muted'
+      ),
+      textAreaInput(
+        'columns_omit',
+        'Columns to omit',
+        rows=3
+      ),
       hr(),
     
       downloadButton(
