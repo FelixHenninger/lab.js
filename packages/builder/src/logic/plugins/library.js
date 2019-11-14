@@ -1,30 +1,31 @@
-const testingPlugin = {
-  title: 'Test plugin',
-  description: 'Inert plugin for testing purposes',
-  version: '0.0.1',
-  path: 'global.TestPlugin',
+const mousetrap = {
+  title: 'Mousetrap',
+  description: 'Mouse-tracking data collection',
+  version: '0.1.0',
+  path: 'global.MousetrapPlugin',
   files: {
-    'index.js': {
-      content: 'data:text/javascript;base64,Y2xhc3MgVGVzdFBsdWdpbiB7CiAgY29uc3RydWN0b3Iob3B0aW9ucykgewogICAgY29uc29sZS5sb2coJ1Rlc3RQbHVnaW4gaW5pdGlhbGl6ZWQgd2l0aCBvcHRpb25zJywgb3B0aW9ucykKICB9CgogIGhhbmRsZShjb250ZXh0LCBldmVudCkgewogICAgY29uc29sZS5sb2coYEhhbmRsaW5nICR7IGV2ZW50IH0gb25gLCBjb250ZXh0KQogIH0KfQoKd2luZG93LlRlc3RQbHVnaW4gPSBUZXN0UGx1Z2luCg==',
-    }
   },
   headers: [
-    ['comment', { content: 'TestingPlugin' }],
+    ['comment', { content: 'MousetrapPlugin' }],
     // eslint-disable-next-line no-template-curly-in-string
-    ['script', { src: '${ pluginPath }/index.js' }],
+    ['script', { src: 'https://mousetrap.felixhenninger.com/0.1.0/mousetrap.js' }],
   ],
   options: {
-    'whatever': {
-      label: 'Plugin option', type: 'string',
-      default: 'My hovercraft is full of eels.',
-      placeholder: 'Feel free to add whatever',
-      help: 'This option is purely for illustrative purposes and accomplishes absolutely nothing',
+    'mode': {
+      label: 'Data format',
+      type: 'select',
+      options: [
+        { label: 'Mousetrap default', coding: 'mousetrap' },
+        { label: 'Event stream', coding: 'events' },
+      ],
+      default: 'mousetrap',
+      help: 'Standard moustrap output or raw event stream',
     }
   }
 }
 
 export const plugins = {
-  testingPlugin,
+  mousetrap,
 }
 
 export const loadPlugin = name => plugins[name]
