@@ -26,12 +26,22 @@ const PluginHeader = ({ metaData }) =>
     <hr />
   </>
 
-const PluginOption = ({ option, value, label, type, defaultValue,
-  placeholder, help }) =>
-  <FormGroup row>
-    <Label for={ option } sm={ 3 }>{ label }</Label>
-    <Col sm={ 9 }>
-      <Control.text
+const PluginControl = ({ option, value, type, options, defaultValue, placeholder }) => {
+  switch (type) {
+    case 'select':
+      return <Control.select
+        defaultValue={ value || defaultValue }
+        model={ `.${ option }` }
+        className="form-control custom-select"
+        style={{
+          fontFamily: 'Fira Mono',
+        }}
+        debounce={ 300 }
+      >
+        { options.map(o => <option value={ o.coding }>{ o.label }</option>) }
+      </Control.select>
+    default:
+      return <Control.text
         defaultValue={ value || defaultValue }
         model={ `.${ option }` }
         component={ Input }
@@ -41,8 +51,17 @@ const PluginOption = ({ option, value, label, type, defaultValue,
         }}
         debounce={ 300 }
       />
+  }
+}
+
+const PluginOption = (props) =>
+  <FormGroup row>
+    <Label for={ props.option } sm={ 3 }>{ props.label }</Label>
+    <Col sm={ 9 }>
+      <PluginControl { ...props } />
       {
-        help && <small className="form-text text-muted">{ help }</small>
+        props.help &&
+          <small className="form-text text-muted">{ props.help }</small>
       }
     </Col>
   </FormGroup>
@@ -51,11 +70,12 @@ const PluginOptions = ({ index, data, metaData }) =>
   <Fieldset model={ `.plugins[${ index }]` }>
     {
       Object.entries(metaData.options).map(
-        ([option, { label, type, default: defaultValue, placeholder, help }]) =>
+        ([option, { label, type, options=[], default: defaultValue, placeholder, help }]) =>
           <PluginOption
             key={ `plugin-${ index }-${ option }` }
             option={ option }
             value={ data[option] }
+            options={ options }
             label={ label }
             type={ type }
             defaultValue={ defaultValue }
