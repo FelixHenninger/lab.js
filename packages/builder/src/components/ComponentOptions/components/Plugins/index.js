@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { FormGroup, Input, Label, Col,
@@ -14,7 +14,7 @@ import Confirm from '../../../Modal/components/Confirm'
 
 import { plugins, loadPlugin } from '../../../../logic/plugins/library'
 
-const PluginHeader = ({ metaData }) =>
+const PluginHeader = ({ index, metaData, formDispatch }) =>
   <>
     <h3 className="h5">
       { metaData.title }
@@ -160,7 +160,7 @@ PluginAddButton.contextTypes = {
   ]),
 }
 
-const Plugin = ({ index, data, metaData }) =>
+const Plugin = ({ index, data, metaData, formDispatch }) =>
   <CardBody className="border-bottom">
     {/* Hidden field to preserve the plugin type option */}
     <Control.text
@@ -168,7 +168,7 @@ const Plugin = ({ index, data, metaData }) =>
       defaultValue={ data.type }
       hidden={ true }
     />
-    <PluginHeader index={ index } data={ data } metaData={ metaData } />
+    <PluginHeader index={ index } data={ data } metaData={ metaData } formDispatch={ formDispatch }/>
     <PluginOptions index={ index } data={ data } metaData={ metaData } />
   </CardBody>
 
@@ -191,37 +191,51 @@ const PluginHint = ({ visible }) =>
       </div>
     : null
 
-export default ({ id, data }) =>
-  <Card title="Plugins" badge="Beta" wrapContent={ false }>
-    <PluginHint visible={ (data.plugins || []).length === 0 } />
-    <ComponentForm
-      id={ id }
-      data={ data }
-      keys={ ['plugins'] }
-      // The react-redux-form logic converts the plugins array into
-      // an object. This reverts that change before saving the data.
-      postProcess={ data => ({
-        ...data,
-        plugins: Array.isArray(data.plugins)
-          ? data.plugins
-          : Object.values(data.plugins)
-      }) }
-    >
-      {
-        (data.plugins || []).map(pluginData => ({
-            pluginData,
-            metaData: loadPlugin(pluginData.type),
-          }))
-          .filter(({ metaData }) => metaData !== undefined)
-          .map(({ pluginData, metaData }, index) =>
-            <Plugin
-              key={ `plugin-${ index }` }
-              index={ index }
-              data={ pluginData }
-              metaData={ metaData }
-            />
-          )
-      }
-    </ComponentForm>
-    <PluginAddButton muted={ (data.plugins || []).length > 0 } />
-  </Card>
+export default class extends Component {
+  constructor(props) {
+    super(props)
+    this.formDispatch = () => console.log('invalid dispatch')
+  }
+
+  render() {
+    const { id, data } = this.props
+    return (
+      <Card title="Plugins" badge="Beta" wrapContent={ false }>
+        <PluginHint visible={ (data.plugins || []).length === 0 } />
+        <ComponentForm
+          id={ id }
+          data={ data }
+          keys={ ['plugins'] }
+          // The react-redux-form logic converts the plugins array into
+          // an object. This reverts that change before saving the data.
+          postProcess={ data => ({
+            ...data,
+            plugins: Array.isArray(data.plugins)
+              ? data.plugins
+              : Object.values(data.plugins)
+          }) }
+          getDispatch={ dispatch => this.formDispatch = dispatch }
+        >
+          {
+            (data.plugins || []).map(pluginData => ({
+                pluginData,
+                metaData: loadPlugin(pluginData.type),
+              }))
+              .filter(({ metaData }) => metaData !== undefined)
+              .map(({ pluginData, metaData }, index) =>
+                <Plugin
+                  key={ `plugin-${ index }` }
+                  index={ index }
+                  data={ pluginData }
+                  metaData={ metaData }
+                  formDispatch={ action => this.formDispatch(action) }
+                  // TODO: Reduce prop drilling
+                />
+              )
+          }
+        </ComponentForm>
+        <PluginAddButton muted={ (data.plugins || []).length > 0 } />
+      </Card>
+    )
+  }
+}

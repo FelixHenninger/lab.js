@@ -270,6 +270,16 @@ export default (state=defaultState, action) => {
         }
       }
 
+    case 'DELETE_PLUGIN':
+      return {
+        ...state,
+        [action.id]: {
+          ...state[action.id],
+          plugins: (state[action.id].plugins || [])
+            .filter((_, i) => i !== action.index),
+        }
+      }
+
     case 'RESET_STATE':
       return defaultState
 
