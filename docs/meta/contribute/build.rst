@@ -74,7 +74,9 @@ The builder interface is created using Facebook's `create-react-app`_ template, 
 
 The main code is found in the ``packages/builder/src`` folder, where the ``components`` subdirectories contain all user-facing interface code, and ``logic`` holds the main application logic.
 
-To install a copy of the builder locally, please download the repository, navigate into the ``packages/builder`` folder, and run ``yarn`` to download all dependencies. Then, typing
+Before you can run the builder application, you have to follow ``Compiling the library`` and build it with the ``starterkit``.
+
+Then, to install a copy of the builder locally, please download the repository, navigate into the ``packages/builder`` folder, and run ``yarn`` to download all dependencies. Then, typing
 
 .. code::
 
