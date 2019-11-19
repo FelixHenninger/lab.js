@@ -8,6 +8,16 @@
     "path": "Demography/demography-form-basic.study.json"
   },
   {
+    "name": "Data transmission",
+    "contributors": [
+      "Felix Henninger"
+    ],
+    "badges": [
+      "beta"
+    ],
+    "path": "Data/transmit.study.json"
+  },
+  {
     "name": "Fixation Target",
     "description": "Stabilising fixation target due to Thaler et al. (2013)",
     "contributors": [
