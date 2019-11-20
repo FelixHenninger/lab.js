@@ -34,7 +34,7 @@ const switchLabels = ({
 
 const SampleWidget = ({ data }) =>
   <FormGroup row>
-    <Label xs={ 2 } for="samples">
+    <Label xs={ 2 } for="sampleN">
       Sample
       <Hint
         title="Sampling"
