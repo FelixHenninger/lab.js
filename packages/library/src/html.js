@@ -289,6 +289,7 @@ export class Page extends Form {
     this.options.content = makePage(this.options.items, {
       submitButtonText: this.options.submitButtonText,
       submitButtonPosition: this.options.submitButtonPosition,
+      width: this.options.width,
     })
   }
 }
