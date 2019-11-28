@@ -1,10 +1,12 @@
 import React, { Component, createContext, useState } from 'react'
 import { Fieldset, Control } from 'react-redux-form'
-import { CardFooter, InputGroup, Input, CustomInput } from 'reactstrap'
+import { CardFooter, FormGroup, InputGroup, Label, Input, CustomInput, Button,
+  Row, Col, Collapse } from 'reactstrap'
 
 import Form from '../../Form'
 import Card from '../../../../Card'
 import Grid from '../../../../Grid'
+import Icon from '../../../../Icon'
 
 import ItemOptions from './components/ItemOptions'
 import { LeftColumn, RightColumn } from './components/Columns'
@@ -24,52 +26,101 @@ const GridCell = ({ cellData, rowIndex, ...props }) =>
     />
   </Fieldset>
 
-const Footer = ({ data={} }) =>
-  <CardFooter className="px-0">
-    <table className="table grid no-header border-bottom-0 my-0">
-      <colgroup>
-        <col style={{ width: '5%' }} />
-        <col style={{ width: '90%' }} />
-        <col style={{ width: '5%' }} />
-      </colgroup>
-      <tbody>
-        <tr>
-          <td><div style={{ width: '40px' }} /></td>
-          <td>
-            <InputGroup>
-              <Control
-                model=".submitButtonText"
-                component={ Input }
-                controlProps={{
-                  disabled: data.submitButtonPosition === 'hidden'
-                }}
-                placeholder="Submit button text"
-                default="Continue →"
-                type="text"
-                debounce={ 300 }
-              />
-              <Control.select
-                model=".submitButtonPosition"
-                component={ CustomInput }
-                controlProps={{
-                  id: 'submitButtonPosition',
-                  type: 'select',
-                }}
+const Footer = ({ data={} }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <CardFooter className="px-0">
+      <table className="table grid no-header border-bottom-0 my-0">
+        <colgroup>
+          <col style={{ width: '5%' }} />
+          <col style={{ width: '90%' }} />
+          <col style={{ width: '5%' }} />
+        </colgroup>
+        <tbody>
+          <tr>
+            <td><div style={{ width: '40px' }} /></td>
+            <td>
+              <Row form>
+                <Col>
+                  <InputGroup>
+                    <Control
+                      model=".submitButtonText"
+                      component={ Input }
+                      controlProps={{
+                        disabled: data.submitButtonPosition === 'hidden'
+                      }}
+                      placeholder="Submit button text"
+                      default="Continue →"
+                      type="text"
+                      debounce={ 300 }
+                    />
+                    <Control.select
+                      model=".submitButtonPosition"
+                      component={ CustomInput }
+                      controlProps={{
+                        id: 'submitButtonPosition',
+                        type: 'select',
+                      }}
+                    >
+                      <option value="right">
+                        Show submit button
+                      </option>
+                      <option value="hidden">
+                        Hide submit button
+                      </option>
+                    </Control.select>
+                  </InputGroup>
+                </Col>
+              </Row>
+              <Collapse isOpen={ isOpen }>
+                <hr />
+                <h3 className="h6">Presentation</h3>
+                <FormGroup row className="mt-2">
+                  <Label xs={ 3 } for="width">
+                    Page width
+                  </Label>
+                  <Col xs={9}>
+                    <InputGroup>
+                      <Control.select
+                        id="width"
+                        model=".width"
+                        component={ CustomInput }
+                        controlProps={{
+                          id: 'width',
+                          type: 'select',
+                        }}
+                      >
+                        { /* TODO: Change order and set default */ }
+                        <option value="m">
+                          Medium
+                        </option>
+                        <option value="s">
+                          Small
+                        </option>
+                        <option value="l">
+                          Large
+                        </option>
+                      </Control.select>
+                    </InputGroup>
+                  </Col>
+                </FormGroup>
+              </Collapse>
+            </td>
+            <td>
+              <Button
+                block outline color="muted"
+                onClick={ () => setIsOpen(!isOpen) }
               >
-                <option value="right">
-                  Show submit button
-                </option>
-                <option value="hidden">
-                  Hide submit button
-                </option>
-              </Control.select>
-            </InputGroup>
-          </td>
-          <td><div style={{ width: '42px' }} /></td>
-        </tr>
-      </tbody>
-    </table>
-  </CardFooter>
+                <Icon icon="cog" />
+              </Button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </CardFooter>
+  )
+}
 
 // State management ------------------------------------------------------------
 
@@ -136,7 +187,11 @@ export default class extends Component {
         <Form
           id={ id }
           data={ data }
-          keys={ ['items', 'submitButtonText', 'submitButtonPosition'] }
+          keys={ [
+            'items',
+            'submitButtonText', 'submitButtonPosition',
+            'width'
+          ] }
           getDispatch={ dispatch => this.formDispatch = dispatch }
         >
           <ItemContextProvider>
