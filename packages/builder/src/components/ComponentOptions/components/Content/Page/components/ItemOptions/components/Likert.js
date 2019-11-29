@@ -42,7 +42,7 @@ export default ({ data, rowIndex }) =>
             <Field model=".width" className="mt-1">
               <FormGroup>
                 {
-                  [5, 7].map(w =>
+                  [5, 7, 9, 11].map(w =>
                     <div
                       key={ `page-item-${ rowIndex }-width-${ w }` }
                       className="custom-radio custom-control"
