@@ -24,4 +24,18 @@ command = "curl -sL https://github.com/getzola/zola/releases/download/v0.7.0/zol
   from = "/builder"
   to = "https://labjs.felixhenninger.com/"
   status = 302
-  force = true
+
+[[redirects]]
+  from = "/docs/*"
+  to = "https://labjs.readthedocs.io/:splat"
+  status = 302
+
+[[redirects]]
+  from = "/static/stable/*"
+  to = "https://labjs.felixhenninger.com/api/_defaultStatic/lib/:splat"
+  status = 302
+
+[[redirects]]
+  from = "/static/development/*"
+  to = "https://labjs-beta.netlify.com/api/_defaultStatic/lib/:splat"
+  status = 302
