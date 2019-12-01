@@ -179,12 +179,15 @@ kbd.big {
   width: 100%;
 }
 .w-s {
+  width: 100%;
   max-width: var(--width-min-container);
 }
 .w-m {
+  width: 100%;
   max-width: calc(1.5 * var(--width-min-container));
 }
 .w-l {
+  width: 100%;
   max-width: calc(2 * var(--width-min-container));
 }
 /* Block alignment based on flexbox */

@@ -123,7 +123,7 @@ export const makePage = (items, options) =>
         content-vertical-center
       "
     >
-      <div class="w-100 w-${ options.width || 'm' } text-left">
+      <div class="w-${ options.width || 'm' } text-left">
         <form id="page-form" style="display: block;">
           ${ items.map(processItem).join('\n') }
         </form>
