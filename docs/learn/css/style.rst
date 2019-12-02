@@ -1,7 +1,7 @@
 .. _tutorial/style:
 
-Styling your study
-==================
+Pre-made styles
+===============
 
 **Making a study look neat is helpful in several ways: A clear design helps
 participants navigate through the study, and it shows the professionalism of its
@@ -13,6 +13,8 @@ With ``lab.js``, we've included a basic set of styles with the `starter kit`_.
 These are provided to get you started quickly, and to save you some hassle when
 you're building your first experiment. The following section describes the
 styles that are available, and shows you how to apply them.
+
+.. vimeo:: 376720859
 
 .. important::
 
