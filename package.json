@@ -32,6 +32,8 @@
       "**/karma-mocha/**",
       "**/karma-sauce-launcher",
       "**/karma-sauce-launcher/**",
+      "**/lodash",
+      "**/lodash/**",
       "**/mocha",
       "**/mocha/**",
       "**/sinon",
