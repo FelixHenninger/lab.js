@@ -1,4 +1,4 @@
-.. _tutorial/deploy/third-party/JATOS:
+.. _tutorial/deploy/third-party/jatos:
 
 Collecting data with JATOS
 ==========================
