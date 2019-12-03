@@ -18,7 +18,7 @@
     "file-saver": "^2.0.2",
     "fira": "github:mozilla/Fira",
     "hash.js": "^1.1.7",
-    "htmlhint": "^0.9.13",
+    "htmlhint": "^0.11.0",
     "jszip": "^3.2.2",
     "konva": "^4.0.18",
     "lab.js": "file:../library",

@@ -46,7 +46,7 @@ export default class Editor extends React.Component {
       // The HTMLHint library loads many dependencies,
       // and is not needed directly when the editor
       // is first loaded, therefore it is split out here.
-      import('htmlhint').then(({ HTMLHint }) => {
+      import('htmlhint').then(({ default: HTMLHint }) => {
         model.onDidChangeContent(throttle(() => {
           const hints = HTMLHint.verify(
             model.getValue(), {
