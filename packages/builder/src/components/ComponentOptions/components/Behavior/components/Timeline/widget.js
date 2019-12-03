@@ -252,6 +252,7 @@ class TimelineStage extends Component {
           x={ offset } // Stage scroll/viewBox offset (changes w/ scrolling)
           offsetX={ -padding } // Horizontal axis offset (constant)
           draggable={ true }
+          onDragEnd={ () => null } // Avoid warning for missing drag handler
           dragBoundFunc={ ({ x }) => ({
             x: clamp(x,
               // Sign reversed because the right-hand side
