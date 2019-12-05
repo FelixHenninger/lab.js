@@ -75,8 +75,6 @@ export default class Editor extends React.Component {
                 message: hint.message,
                 severity: 1,
               }))
-
-              this.setEditorHeight(model)
               monaco.editor.setModelMarkers(model, 'custom-linter', hints)
             }, 500),
           )
