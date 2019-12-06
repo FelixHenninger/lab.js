@@ -1,23 +1,30 @@
-footer small.logo img {
-  width: 24px;
+footer a.logo img {
   position: relative;
   top: -2px;
-  filter: grayscale(100%) brightness(60%);
+  width: 24px;
   /* Use an exponential transition function
      to move the bulk of the action forward */
-  transition: filter .5s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: filter 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  filter: grayscale(100%) brightness(60%);
 }
 
-footer small.logo:hover img {
+footer a:hover {
+  text-decoration: none;
+}
+
+footer a.logo:hover img {
   filter: grayscale(0%) brightness(100%);
 }
 
-footer small.logo span {
-  color: #ffc32d;
+footer a.logo small {
+  color: #6c757d;
+  transition: all 0.3s ease-out;
   opacity: 0;
-  transition: opacity .15s ease-out;
 }
 
-footer small.logo:hover span {
+footer a.logo:hover small {
+  margin-left: 2px;
+  color: #ffc32d;
+  transition: all 0.3s ease-out, color 0s;
   opacity: 1;
 }
