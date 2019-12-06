@@ -17,14 +17,14 @@ footer a.logo:hover img {
 }
 
 footer a.logo small {
-  color: #6c757d;
+  color: var(--gray);
   transition: all 0.3s ease-out;
   opacity: 0;
 }
 
 footer a.logo:hover small {
   margin-left: 2px;
-  color: #ffc32d;
+  color: var(--warning);
   transition: all 0.3s ease-out, color 0s;
   opacity: 1;
 }
