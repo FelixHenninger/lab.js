@@ -14,13 +14,18 @@ export default () =>
   <footer>
     <hr />
     <div className="d-flex justify-content-between">
-      <small className="text-muted logo">
+      <a
+        className="text-muted text-decoration-none logo"
+        href="https://lab.js.org/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <img
           alt="lab.js logo"
           src={ logo }
         />{' '}
-        <span>{ message }</span>
-      </small>
+        <small>{ message }</small>
+      </a>
       <Imprint />
     </div>
   </footer>

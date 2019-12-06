@@ -1,4 +1,4 @@
-footer small.logo img {
+footer a.logo img {
   width: 24px;
   position: relative;
   top: -2px;
@@ -8,16 +8,18 @@ footer small.logo img {
   transition: filter .5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-footer small.logo:hover img {
+footer a.logo:hover img {
   filter: grayscale(0%) brightness(100%);
 }
 
-footer small.logo span {
-  color: #ffc32d;
+footer a.logo small {
+  color: #6c757d;
   opacity: 0;
-  transition: opacity .15s ease-out;
+  transition: all 0.3s ease-out;
 }
 
-footer small.logo:hover span {
+footer a.logo:hover small {
+  color: #ffc32d;
   opacity: 1;
+  margin-left: 2px;
 }
