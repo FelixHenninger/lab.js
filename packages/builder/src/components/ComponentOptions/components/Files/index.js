@@ -67,7 +67,7 @@ export default class FileGrid extends Component {
           columnWidths={ [ 90 ] }
           columns={ ['path'] }
           defaultRow={ [ { localPath: '', poolPath: '' }, ] }
-          data={ data.files ? data.files.rows : [] }
+          data={ data.files?.rows || [] }
           formDispatch={ action => this.dispatch(action) }
         />
       </Form>

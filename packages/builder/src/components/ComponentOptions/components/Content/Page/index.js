@@ -208,7 +208,7 @@ export default class extends Component {
               defaultRow={
                 [ { type: '' }, ]
               }
-              data={ data.items ? data.items.rows : [] }
+              data={ data.items?.rows || [] }
               formDispatch={ action => this.formDispatch(action) }
               className="mb-0 border-bottom-0"
             />
