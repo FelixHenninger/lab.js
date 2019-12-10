@@ -33,7 +33,7 @@
             {
               "title": "p5.js-based stimulus",
               "message": "run",
-              "code": "// Create a pointer to the current component,\n// to be used inside of p5.js\nconst component = this\n\n// p5.js initialization function\nconst s = ( p ) => {\n\n  let x = 100\n  let y = 100\n\n  p.setup = function() {\n    p.createCanvas(\n      component.options.el.clientWidth,\n      component.options.el.clientHeight\n    )\n  }\n\n  p.draw = function() {\n    p.background(0)\n    p.fill(255)\n    p.rect(x, y, 50, 50)\n  }\n}\n\n// p5.js instantiation\n// (note that the library script has been added\n// to the HTML page header via the study-wide options)\nlet myp5 = new p5(s, this.options.el)"
+              "code": "// Create a pointer to the current component,\n// to be used inside of p5.js\nconst component = this\n\n// p5.js initialization function\nconst s = ( p ) => {\n\n  let x = 100\n  let y = 100\n\n  p.setup = function() {\n    p.createCanvas(\n      component.options.el.clientWidth,\n      component.options.el.clientHeight\n    )\n  }\n\n  p.draw = function() {\n    p.background(0)\n    p.fill(255)\n    p.rect(x, y, 50, 50)\n  }\n}\n\n// p5.js instantiation\n// (note that the library script has been added\n// to the HTML page header via the study-wide options)\nconst myp5 = new p5(s, this.options.el)\n\n// Remove instance when component ends\nthis.on('end', () => myp5.remove())"
             }
           ]
         ]
