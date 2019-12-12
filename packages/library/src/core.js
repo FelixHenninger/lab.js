@@ -764,6 +764,13 @@ export class Component extends EventHandler {
   }
 
   // Metadata ---------------------------------------------
+  get id() {
+    // Experimental id splitting support
+    return this.options.id
+      .split('_')
+      .map(x => parseInt(x) || x)
+  }
+
   get metadata() {
     return {
       sender: this.options.title,
