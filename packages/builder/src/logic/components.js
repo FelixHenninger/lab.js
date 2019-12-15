@@ -186,7 +186,6 @@ export const metadata = {
       type: 'lab.html.Page',
       items: { rows: [ [ {
         type: 'text',
-        title: 'New page',
       } ] ] },
       files: { rows: [] },
       parameters: {
