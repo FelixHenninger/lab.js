@@ -3,13 +3,18 @@ footer a.logo img {
   position: relative;
   top: -2px;
   filter: grayscale(100%) brightness(60%);
+  transition-property: filter;
+  transition-duration: .5s;
   /* Use an exponential transition function
      to move the bulk of the action forward */
-  transition: filter .5s cubic-bezier(0.19, 1, 0.22, 1);
+  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+  /* Add a slight delay on mouseout */
+  transition-delay: 80ms;
 }
 
 footer a.logo:hover img {
   filter: grayscale(0%) brightness(100%);
+  transition-delay: 0ms;
 }
 
 footer a.logo small {
@@ -21,5 +26,5 @@ footer a.logo small {
 footer a.logo:hover small {
   color: #ffc32d;
   opacity: 1;
-  margin-left: 2px;
+  margin-left: 1px;
 }
