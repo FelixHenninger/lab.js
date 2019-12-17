@@ -44,7 +44,7 @@ const FileTableRow = ({ path, content }, { store }) =>
           icon={ dataURItoIcon(content) }
           fixedWidth
           style={{
-            color: '#ced4da',
+            color: 'var(--secondary)',
             position: 'relative',
             top: '1px',
           }}

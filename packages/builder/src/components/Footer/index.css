@@ -18,7 +18,7 @@ footer a.logo:hover img {
 }
 
 footer a.logo small {
-  color: #6c757d;
+  color: var(--gray);
   opacity: 0;
   transition: all 0.3s ease-out;
 }

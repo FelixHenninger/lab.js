@@ -1,17 +1,17 @@
 .splash-tab-icon {
-  color: #495057;
+  color: var(--gray-700);
   transition: color 0.125s, background-color 0.125s;
 }
 
 /* Hover effect */
 .splash-tab-icon:hover, .splash-tab-icon:active {
-  color: #212529;
-  background-color: #f8f9fa;
+  color: var(--gray-900);
+  background-color: var(--light);
 }
 
 /* Active tab */
 .splash-tab-icon.active {
-  color: #212529;
+  color: var(--gray-900);
 }
 .splash-tab-icon.active:hover {
   background-color: transparent;

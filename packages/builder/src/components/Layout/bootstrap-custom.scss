@@ -2,8 +2,15 @@
 $primary: #0275d8;
 $secondary: rgb(206, 212, 218);
 $card-cap-bg: rgb(248, 249, 250);
+$highlight: rgb(255, 195, 45);
 
 @import "node_modules/bootstrap/scss/bootstrap";
+
+:root {
+  --highlight: #{$highlight};
+  --gray-700: #{$gray-700};
+  --gray-900: #{$gray-900};
+}
 
 /*
 // TODO: Reconsider this fairly large-scale change

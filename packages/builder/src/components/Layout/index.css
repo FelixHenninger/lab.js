@@ -6,7 +6,7 @@
   grid-template-areas:
     "sidebar contents"
     "footer contents";
-  border-top: 6px solid rgb(255, 195, 45);
+  border-top: 6px solid var(--highlight);
 }
 
 .grid-sidebar {
