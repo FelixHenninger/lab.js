@@ -1,17 +1,21 @@
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button } from 'reactstrap'
 import Raven from 'raven-js'
-
+import React, { Component } from 'react'
+import { Button, UncontrolledTooltip } from 'reactstrap'
+import { addDownloadPlugin } from '../../../logic/io/export/modifiers/local'
+import { addDebugPlugin } from '../../../logic/io/export/modifiers/preview'
+import { populateCache } from '../../../logic/io/preview'
+import PreviewWindow from '../../../logic/io/preview/PreviewWindow'
 import Icon from '../../Icon'
 import { SystemContext } from '../../System'
 
-import { populateCache } from '../../../logic/io/preview'
-import { addDebugPlugin } from '../../../logic/io/export/modifiers/preview'
-import { addDownloadPlugin } from '../../../logic/io/export/modifiers/local'
-import PreviewWindow from '../../../logic/io/preview/PreviewWindow'
+
 
 export default class PreviewButton extends Component {
+  commandKey = navigator.platform.startsWith('Mac')
+    ? 'Cmd+p'
+    : 'Ctrl+p'
+
   constructor(props) {
     super(props)
     this.state = {
@@ -25,7 +29,7 @@ export default class PreviewButton extends Component {
       // TODO: When we enable multiple
       // parallel instances, change labjs_preview
       // with a variable instance identifier
-      `${ process.env.PUBLIC_URL }/api/labjs_preview/index.html`,
+      `${process.env.PUBLIC_URL}/api/labjs_preview/index.html`,
       windowState => this.setState({ windowState })
     )
 
@@ -62,11 +66,11 @@ export default class PreviewButton extends Component {
           "Could you check whether there's room on your hard drive?"
         )
       } else {
-        console.log(`Received error while generating preview: ${ error }`)
+        console.log(`Received error while generating preview: ${error}`)
         Raven.captureException(error)
         alert(
           'Sorry, an error occured while we were trying ' +
-          `to put together the study preview: ${ error }`
+          `to put together the study preview: ${error}`
         )
       }
     }
@@ -79,19 +83,23 @@ export default class PreviewButton extends Component {
         {
           ({ previewActive }) =>
             <Button
+              id="previewButton"
               color="primary"
-              onClick={ () => this.openPreview() }
-              onMouseEnter={ () => {
+              onClick={() => this.openPreview()}
+              onMouseEnter={() => {
                 // Prepare potential preview
                 const event = new Event('preview:preemt')
                 window.dispatchEvent(event)
               }}
-              disabled={ !previewActive }
+              disabled={!previewActive}
             >
               <Icon
-                icon={ windowState === 'closed' ? 'play' : 'sync-alt' }
+                icon={windowState === 'closed' ? 'play' : 'sync-alt'}
                 weight="s"
               />
+              <UncontrolledTooltip placement="bottom" target="previewButton">
+                {this.commandKey}
+              </UncontrolledTooltip>
             </Button>
         }
       </SystemContext.Consumer>
