@@ -52,7 +52,7 @@ export default ({ data, formDispatch }) =>
     <Grid
       model=".responses"
       className="border-top-0"
-      data={ data.responses ? data.responses.rows : [] }
+      data={ data.responses?.rows || [] }
       columns={ [
         <span>
           label

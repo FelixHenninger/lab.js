@@ -35,9 +35,7 @@ export const resolveImage = (src, store, id) => {
 
     // Check if the requested file exists
     const file = getLocalFile(store, id, imagePath)
-    return file
-      ? file.file.content
-      : undefined
+    return file?.file.content
   } else if (isPlaceholder(src)) {
     return undefined
   } else {

@@ -18,6 +18,14 @@
     "path": "Data/transmit.study.json"
   },
   {
+    "name": "Equation veracity",
+    "description": "Judge whether a random equation is correct",
+    "contributors": [
+      "Felix Henninger"
+    ],
+    "path": "Stimuli/equation-veracity.study.json"
+  },
+  {
     "name": "Fixation Target",
     "description": "Stabilising fixation target due to Thaler et al. (2013)",
     "contributors": [
