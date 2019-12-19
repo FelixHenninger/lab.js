@@ -1,45 +1,39 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-
-import Toolbar from '../Toolbar'
+import React from 'react'
 import Tree from '../Tree'
 import Node from '../Tree/components/Node'
 
-const Sidebar = (props, context) =>
+const Sidebar = (props, context) => (
   <>
-    <div style={{ textAlign: 'center' }}>
-      <Toolbar />
-    </div>
-    <hr style={{ marginBottom: '14px' }} />
     <Tree
-      Node={ Node }
+      Node={Node}
       rootId="root"
-      onNodeClick={
-        (e, id) => {
-          // Collapse view if shift key is pressed
-          if (e.shiftKey) {
-            context.store.dispatch({
-              type: 'COLLAPSE_COMPONENT', id,
-            })
-          } else {
-            context.store.dispatch({
-              type: 'SHOW_COMPONENT_DETAIL', id,
-            })
-          }
+      onNodeClick={(e, id) => {
+        // Collapse view if shift key is pressed
+        if (e.shiftKey) {
+          context.store.dispatch({
+            type: 'COLLAPSE_COMPONENT',
+            id,
+          })
+        } else {
+          context.store.dispatch({
+            type: 'SHOW_COMPONENT_DETAIL',
+            id,
+          })
         }
-      }
-      onNodeDelete={
-        (id, parent, index) => {
-          if (window.confirm('Do you really want to delete this component?')) {
-            context.store.dispatch({
-              type: 'DELETE_COMPONENT',
-              id, parent, index,
-            })
-          }
+      }}
+      onNodeDelete={(id, parent, index) => {
+        if (window.confirm('Do you really want to delete this component?')) {
+          context.store.dispatch({
+            type: 'DELETE_COMPONENT',
+            id,
+            parent,
+            index,
+          })
         }
-      }
-      onNodeAdd={
-        (parent, index) => context.store.dispatch({
+      }}
+      onNodeAdd={(parent, index) =>
+        context.store.dispatch({
           type: 'SHOW_MODAL',
           modalType: 'ADD_COMPONENT',
           modalProps: {
@@ -50,9 +44,10 @@ const Sidebar = (props, context) =>
       }
     />
   </>
+)
 
 Sidebar.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object,
 }
 
 export default Sidebar

@@ -1,0 +1,58 @@
+&.minimized {
+  grid-template-columns: 104px auto;
+  .grid-sidebar {
+    .sidenavToggle-btn {
+      transform: translate(50%) rotateY(180deg);
+      &:hover {
+        right: -4px;
+      }
+    }
+    .sidebar-toolbar {
+      .toolbar {
+        display: flex;
+        flex-direction: column;
+        .btn-group {
+          margin-bottom: 4px;
+        }
+      }
+    }
+    .sidebar-content {
+      .nav-item {
+        max-width: 100%;
+        .nav-link {
+          min-height: 26px;
+          .nav-link-main {
+            max-width: 100%;
+            height: 26px;
+            padding: 0.1em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .nav-link-tools {
+            padding: 0;
+            .dropdown-menu {
+              min-width: 3em;
+              > * {
+                padding-right: 0.5em;
+                padding-left: 0.5em;
+              }
+            }
+          }
+        }
+      }
+    }
+    .sidebar-footer {
+      footer {
+        > div {
+          flex-direction: column;
+          > small {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}
