@@ -1,14 +1,15 @@
+import { throttle } from 'lodash'
 import React from 'react'
 import MonacoEditor from 'react-monaco-editor'
-
-import { throttle } from 'lodash'
-
 import './editor-style-overrides.css'
 
 export default class Editor extends React.Component {
+  IDisposable = null
+
   editorWillMount(monaco) {
     monaco.editor.defineTheme('labjs', {
-      base: 'vs', inherit: true,
+      base: 'vs',
+      inherit: true,
       rules: [
         { token: 'attribute.name', foreground: '0275d8' },
         { token: 'attribute.value', foreground: '569cd6' },
@@ -41,71 +42,118 @@ export default class Editor extends React.Component {
       tabSize: 2,
     })
 
+    function createHtmlDependencyProposals(isInsideParenthesis = true) {
+      if (isInsideParenthesis) {
+        return [
+          {
+            label: '"this.parameters"',
+            kind: monaco.languages.CompletionItemKind.Function,
+            documentation:
+              'Access variable set inside the an html.Screen() object',
+
+            // eslint-disable-next-line
+            insertText: 'this.parameters',
+          },
+        ]
+      } else {
+        /** @TODO add outside parenthesis autocompletion
+         *  @Info on using this fonction, we loos the default autocompletion (why we aren't using outside autocompletion yet).
+         * */
+        return []
+      }
+    }
+
+    // @TODO Fix: load every time we open a new editor
+    this.IDisposable = monaco.languages.registerCompletionItemProvider('html', {
+      provideCompletionItems: function(model, position) {
+        var textUntilPosition = model.getValueInRange({
+          startLineNumber: position.lineNumber,
+          startColumn: position.column - 3, // stop autocompletion outside the ${}
+          endLineNumber: position.lineNumber,
+          endColumn: position.column - 1,
+        })
+        var match = textUntilPosition.match(/\$\{/)
+        var suggestions = match ? createHtmlDependencyProposals() : []
+        return {
+          suggestions: suggestions,
+        }
+      },
+    })
+
     // Hook up custom linter (currently only for HTML)
     if (this.props.language === 'html') {
       // The HTMLHint library loads many dependencies,
       // and is not needed directly when the editor
       // is first loaded, therefore it is split out here.
-      import('htmlhint').then(({ default: HTMLHint }) => {
-        model.onDidChangeContent(throttle(() => {
-          const hints = HTMLHint.verify(
-            model.getValue(), {
-              "tagname-lowercase": true,
-              "attr-lowercase": true,
-              "attr-value-double-quotes": true,
-              "tag-pair": true,
-              "spec-char-escape": true,
-              "id-unique": true,
-              "src-not-empty": true,
-              "attr-no-duplication": true,
-              "attr-unsafe-chars": true
-            }
-          ).map(hint => ({
-            startLineNumber: hint.line, startColumn: hint.col,
-            endLineNumber: hint.line, endColumn: hint.col + hint.raw.length,
-            message: hint.message,
-            severity: 1,
-          }))
+      import('htmlhint')
+        .then(({ default: HTMLHint }) => {
+          model.onDidChangeContent(
+            throttle(() => {
+              const hints = HTMLHint.verify(model.getValue(), {
+                'tagname-lowercase': true,
+                'attr-lowercase': true,
+                'attr-value-double-quotes': true,
+                'tag-pair': true,
+                'spec-char-escape': true,
+                'id-unique': true,
+                'src-not-empty': true,
+                'attr-no-duplication': true,
+                'attr-unsafe-chars': true,
+              }).map(hint => ({
+                startLineNumber: hint.line,
+                startColumn: hint.col,
+                endLineNumber: hint.line,
+                endColumn: hint.col + hint.raw.length,
+                message: hint.message,
+                severity: 1,
+              }))
 
-          monaco.editor.setModelMarkers(
-            model, 'custom-linter', hints
+              monaco.editor.setModelMarkers(model, 'custom-linter', hints)
+            }, 500),
           )
-        }, 500))
-      }).catch(e => console.log('Couldn\'t load HTMLHint:', e))
+        })
+        .catch(e => console.log("Couldn't load HTMLHint:", e))
     }
   }
 
+  componentWillUnmount = () => {
+    this.IDisposable.dispose()
+  }
+
   render() {
-    return <MonacoEditor
-      width="100%"
-      language="html" value={''}
-      theme="labjs"
-      editorDidMount={ this.editorDidMount.bind(this) }
-      editorWillMount={ this.editorWillMount.bind(this) }
-      {...this.props}
-      options={{
-        // Behavior
-        contextmenu: false,
-        cursorBlinking: 'solid',
-        lineNumbers: true,
-        lineNumbersMinChars: 4,
-        overviewRulerLanes: 0,
-        rulers: [80],
-        scrollbar: {
-          useShadows: false,
-        },
-        scrollBeyondLastLine: false,
-        tabSize: 2,
-        // Wrapping
-        wordWrap: 'wordWrapColumn',
-        wordWrapColumn: 80,
-        wrappingIndent: "indent",
-        // Style
-        fontFamily: 'Fira Mono',
-        fontSize: 18,
-        lineHeight: 26,
-        ...this.props.options
-      }}
-    />
+    return (
+      <MonacoEditor
+        model=""
+        language="html"
+        value={''}
+        theme="labjs"
+        editorDidMount={this.editorDidMount.bind(this)}
+        editorWillMount={this.editorWillMount.bind(this)}
+        {...this.props}
+        options={{
+          // Behavior
+          contextmenu: false,
+          cursorBlinking: 'solid',
+          lineNumbers: true,
+          lineNumbersMinChars: 4,
+          overviewRulerLanes: 0,
+          rulers: [80],
+          scrollbar: {
+            useShadows: false,
+          },
+          scrollBeyondLastLine: false,
+          tabSize: 2,
+          // Wrapping
+          wordWrap: 'wordWrapColumn',
+          wordWrapColumn: 80,
+          wrappingIndent: 'indent',
+          // Style
+          fontFamily: 'Fira Mono',
+          fontSize: 18,
+          lineHeight: 26,
+          ...this.props.options,
+        }}
+      />
+    )
   }
 }
