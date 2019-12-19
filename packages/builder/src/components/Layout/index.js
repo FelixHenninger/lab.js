@@ -1,27 +1,24 @@
-import React from 'react'
-
-// Bootstrap integration
-import './bootstrap-custom.scss'
-import { Container } from 'reactstrap'
-
 // Fira
 import 'fira/fira.css'
-
+import React from 'react'
+import { Container } from 'reactstrap'
+// Bootstrap integration
+import './bootstrap-custom.scss'
 // Grid layout
-import './index.css'
+import './index.scss'
 
-export default ({ sidebar, footer, children }) =>
+export default ({ toolbar, sidebar, footer, children }) => (
   <div className="grid-wrapper">
     <div className="grid-sidebar">
-      { sidebar }
-    </div>
-    <div className="grid-footer">
-      { footer }
+      <div className="sidebar-toolbar">{toolbar}</div>
+      <div className="sidebar-content">{sidebar}</div>
+      <div className="sidebar-footer">{footer}</div>
     </div>
     <div className="grid-contents">
       {/* TODO: Remove xs size jump to 510px,
           possibly by setting minWidth */}
-      <Container fluid
+      <Container
+        fluid
         className="h-100 d-flex flex-column"
         style={{
           minWidth: '510px',
@@ -30,7 +27,8 @@ export default ({ sidebar, footer, children }) =>
           padding: '0',
         }}
       >
-        { children }
+        {children}
       </Container>
     </div>
   </div>
+)

@@ -1,0 +1,27 @@
+.grid-wrapper {
+  display: grid;
+  max-height: calc(100vh - 6px);
+  min-height: calc(100vh - 6px);
+  grid-template-columns: 320px auto;
+  grid-template-rows: 1fr max-content;
+  grid-template-areas: 'sidebar contents';
+  border-top: 6px solid var(--yellow);
+
+  .grid-sidebar {
+    display: grid;
+    max-height: calc(100vh - 6px);
+    padding: 15px;
+    padding-top: 20px;
+    grid-area: sidebar;
+    grid-template-rows: min-content 1fr min-content;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    .sidebar-content {
+      overflow-y: auto;
+    }
+  }
+
+  .grid-contents {
+    padding: 20px 15px;
+    grid-area: contents;
+  }
+}

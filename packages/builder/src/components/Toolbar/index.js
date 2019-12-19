@@ -1,13 +1,12 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import { ButtonGroup, Button } from 'reactstrap'
-
-import PreviewButton from './components/PreviewButton'
-import IOButton from './components/IOButton'
+import React from 'react'
+import { Button, ButtonGroup } from 'reactstrap'
 import Icon from '../Icon'
+import IOButton from './components/IOButton'
+import PreviewButton from './components/PreviewButton'
 import './styles.css'
 
-const Toolbar = (props, context) =>
+const Toolbar = (props, context) => (
   <div className="toolbar">
     <ButtonGroup>
       <PreviewButton />
@@ -17,9 +16,10 @@ const Toolbar = (props, context) =>
     </ButtonGroup>{' '}
     <ButtonGroup>
       <Button
-        outline color="secondary"
-        onClick={
-          () => context.store.dispatch({
+        outline
+        color="secondary"
+        onClick={() =>
+          context.store.dispatch({
             type: 'SHOW_MODAL',
             modalType: 'OPTIONS',
             modalProps: {
@@ -31,10 +31,12 @@ const Toolbar = (props, context) =>
         <Icon icon="sliders-h" weight="l" />
       </Button>
     </ButtonGroup>
+    <hr />
   </div>
+)
 
 Toolbar.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object,
 }
 
 export default Toolbar

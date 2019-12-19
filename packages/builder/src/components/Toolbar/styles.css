@@ -1,4 +1,14 @@
-.toolbar button .fas, .toolbar button .far, .toolbar button .fal {
+.toolbar button .fas,
+.toolbar button .far,
+.toolbar button .fal {
   position: relative;
   top: 0.05rem;
+}
+
+.toolbar {
+  text-align: center;
+}
+
+hr {
+  margin-bottom: 14px;
 }
