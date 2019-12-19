@@ -1,7 +1,7 @@
 .grid-wrapper {
   display: grid;
-  max-height: calc(100vh - 6px);
-  min-height: calc(100vh - 6px);
+  max-height: 100vh;
+  min-height: 100vh;
   grid-template-columns: 320px auto;
   grid-template-rows: 1fr max-content;
   grid-template-areas: 'sidebar contents';
@@ -9,7 +9,7 @@
 
   .grid-sidebar {
     display: grid;
-    max-height: calc(100vh - 6px);
+    max-height: 100%;
     padding: 15px;
     padding-top: 20px;
     grid-area: sidebar;
