@@ -1,13 +1,8 @@
 import Raven from 'raven-js'
 import React, { Component } from 'react'
-import ComponentHeader from '../ComponentHeader'
-import ComponentOptions from '../ComponentOptions'
-import Footer from '../Footer'
 import Layout from '../Layout'
 import ReduxModal from '../Modal/redux'
 import Shortcuts from '../Shortcuts'
-import Sidebar from '../Sidebar'
-import Toolbar from '../Toolbar'
 import Error from './Error'
 
 class App extends Component {
@@ -40,14 +35,7 @@ class App extends Component {
         <>
           <Shortcuts />
           <ReduxModal />
-          <Layout
-            toolbar={<Toolbar />}
-            sidebar={<Sidebar />}
-            footer={<Footer />}
-          >
-            <ComponentHeader />
-            <ComponentOptions />
-          </Layout>
+          <Layout />
         </>
       )
     }
