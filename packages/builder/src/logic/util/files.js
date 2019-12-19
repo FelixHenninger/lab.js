@@ -6,7 +6,7 @@ export const embeddedFiles = components => {
   // (extract files from component file setting,
   // and the file URL from there)
   const componentFiles = Object.entries(components)
-    .map(([_, { files }]) => files && files.rows ? files.rows : [])
+    .map(([_, { files }]) => files?.rows || [])
     .filter(files => files.length > 0)
 
   return flatMap(

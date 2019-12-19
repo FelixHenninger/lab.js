@@ -27,6 +27,10 @@ const MODAL_COMPONENTS = {
   'LEGAL': LegalModal,
 }
 
+const MODAL_SIZES = {
+  'OPTIONS': 'xl'
+}
+
 // TODO: See if the Modal component from react-modal
 // can be replaced by its counterpart from reactstrap
 const CustomModal = ({ modalType, modalProps }, context) => {
@@ -39,7 +43,10 @@ const CustomModal = ({ modalType, modalProps }, context) => {
           type: 'HIDE_MODAL',
         })
       } }
-      modalProps={ modalProps }
+      modalProps={{
+        size: MODAL_SIZES[modalType] || 'md',
+        ...modalProps
+      }}
     >
       {
         SpecificModal !== undefined

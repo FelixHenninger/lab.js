@@ -12,7 +12,8 @@ export default ({ isOpen, onRequestClose, modalProps={}, children }) =>
     onRequestClose={ onRequestClose }
     className={ classnames({
       'modal-dialog': true,
-      'modal-lg': modalProps.large,
+      'modal-lg': modalProps.size === 'lg',
+      'modal-xl': modalProps.size === 'xl',
     }) }
     overlayClassName="modal fade show"
     contentLabel="App Modal"

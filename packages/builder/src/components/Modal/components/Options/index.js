@@ -20,36 +20,43 @@ const TabContent = ({ tab }, { store }) => {
     case 'files':
       return <Files />
     case 'html':
-      return <Editor
-        key="html"
-        height="400"
-        value={ readDataURI(files['index.html'].content).data }
-        onChange={
-          newContent => store.dispatch({
-            type: 'UPDATE_FILE',
-            file: 'index.html',
-            data: {
-              content: makeDataURI(newContent, 'text/html')
+      return (
+        <div className="d-flex flex-column" style={{ minHeight: '60vh' }}>
+          <Editor
+            key="html"
+            value={ readDataURI(files['index.html'].content).data }
+            onChange={
+              newContent => store.dispatch({
+                type: 'UPDATE_FILE',
+                file: 'index.html',
+                data: {
+                  content: makeDataURI(newContent, 'text/html')
+                }
+              })
             }
-          })
-        }
-      />
+          />
+        </div>
+      )
     case 'css':
-      return <Editor
-        key="css"
-        height="400"
-        language="css"
-        value={ readDataURI(files['style.css'].content).data }
-        onChange={
-          newContent => store.dispatch({
-            type: 'UPDATE_FILE',
-            file: 'style.css',
-            data: {
-              content: makeDataURI(newContent, 'text/css')
+      return (
+        <div className="d-flex flex-column" style={{ minHeight: '60vh' }}>
+          <Editor
+            key="css"
+            height="400"
+            language="css"
+            value={ readDataURI(files['style.css'].content).data }
+            onChange={
+              newContent => store.dispatch({
+                type: 'UPDATE_FILE',
+                file: 'style.css',
+                data: {
+                  content: makeDataURI(newContent, 'text/css')
+                }
+              })
             }
-          })
-        }
-      />
+          />
+        </div>
+      )
     default:
       return <div>Requested tab not found</div>
   }

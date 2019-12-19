@@ -129,7 +129,7 @@ class FactorialModal extends Component {
       <Modal
         isOpen={ this.state.open }
         modalProps={{
-          large: true
+          size: 'lg'
         }}
       >
         <LocalForm

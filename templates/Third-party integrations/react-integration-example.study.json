@@ -1,0 +1,125 @@
+{
+  "components": {
+    "1": {
+      "id": "1",
+      "type": "lab.html.Screen",
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "helloToWhat",
+              "value": "Universe",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Initialize component",
+              "message": "run",
+              "code": "class Hello extends React.Component {\n  render() {\n    return React.createElement(\n      'div', null,\n      `Hello ${this.props.toWhat}`\n    )\n  }\n}\n\nReactDOM.render(\n  React.createElement(Hello, \n    {toWhat: this.parameters.helloToWhat}, \n    null\n  ),\n  document.getElementById('react-root')\n)"
+            }
+          ],
+          [
+            {
+              "title": "Unmount component",
+              "message": "end",
+              "code": "ReactDOM.unmountComponentAtNode(\n  document.getElementById('react-root')\n)"
+            }
+          ]
+        ]
+      },
+      "title": "React-based screen",
+      "content": "<main>\n  <div id=\"react-root\"></div>\n</main>",
+      "_tab": "Scripts",
+      "notes": "This is a quick demo of a React-based template. You can specify below what it's going to say hello to:",
+      "_template": false
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "1"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "React integration example",
+        "description": "",
+        "repository": "",
+        "contributors": ""
+      }
+    }
+  },
+  "version": [
+    19,
+    1,
+    1
+  ],
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20viewport%20setup%20--%3E%0A%20%20%3Cmeta%20name%3D%22viewport%22%20content%3D%22width%3Ddevice-width%2C%20initial-scale%3D1%22%3E%0A%20%20%3Cscript%20src%3D%22https%3A%2F%2Funpkg.com%2Freact%4016.12.0%2Fumd%2Freact.development.js%22%3E%3C%2Fscript%3E%0A%20%20%3Cscript%20src%3D%22https%3A%2F%2Funpkg.com%2Freact-dom%4016.12.0%2Fumd%2Freact-dom.development.js%22%3E%3C%2Fscript%3E%0A%20%20%3C!--%20lab.js%20library%20and%20experiment%20code%20--%3E%0A%20%20%24%7B%20header%20%7D%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "source": "library"
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F",
+        "source": "library"
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.fallback.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      }
+    }
+  }
+}

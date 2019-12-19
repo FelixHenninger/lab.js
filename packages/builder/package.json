@@ -41,7 +41,7 @@
     "react-monaco-editor": "^0.25.0",
     "react-redux": "^5.0.7",
     "react-redux-form": "^1.16.14",
-    "react-scripts": "3.2.0",
+    "react-scripts": "3.3.0",
     "react-transition-group": "^4.3.0",
     "reactstrap": "^8.1.1",
     "redux": "^4.0.4",
