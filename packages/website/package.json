@@ -1,5 +1,5 @@
 {
-  "name": "@lab.js/website",
+  "name": "lab.js.website",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
