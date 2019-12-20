@@ -53,7 +53,7 @@ const CopyTab = ({ parent, index }, { store }) => {
             // cloned into itself, thus creating
             // and infinite recursion.
             const sourceChildren = [
-              sourceSelect.value,
+              sourceSelect.current.value,
               ...children(
                 sourceSelect.current.value,
                 store.getState().components
