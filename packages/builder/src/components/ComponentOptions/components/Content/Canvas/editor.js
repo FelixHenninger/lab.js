@@ -170,12 +170,14 @@ export default class CanvasEditor extends Component {
       <FabricCanvas
         data={ this.state.order.map(id => toCanvas(this.state.data[id], this.context)) }
         ref={ this.canvas }
-        addHandler={ ({ target }) => this.addContent(target.toObject(['id'])) }
+        addHandler={
+          ({ target }) => this.addContent(target.toObject(['id', 'label']))
+        }
         deleteHandler={ ({ target }) => this.deleteContent(target) }
         updateHandler={ ({ target }) => {
           this.updateContent(
             fromCanvas(
-              target.toObject(['id']),
+              target.toObject(['id', 'label']),
               this.state.data[target.id],
             ),
             false,

@@ -72,6 +72,7 @@ fabric.Image.fromObject = function(_object, callback) {
 // (apparently fabric requires camelcased constructors)
 fabric.Aoi = fabric.util.createClass(fabric.Rect, {
   type: 'aoi',
+  label: '',
   initialize: function(options={}) {
     options.fill = 'rgba(0, 0, 0, 0.2)'
     this.callSuper('initialize', options)
@@ -81,19 +82,6 @@ fabric.Aoi = fabric.util.createClass(fabric.Rect, {
 fabric.Aoi.fromObject = function(object, callback, forceAsync) {
   return fabric.Object._fromObject('Aoi', object, callback, forceAsync);
 }
-
-fabric.Aoi.prototype.toObject = (function(toObject) {
-  return function(propertiesToInclude) {
-    // TODO: It's unclear why adding the label property
-    // in the canvas-level toObject call below doesn't
-    // include it in the properties added to the output,
-    // (as it does for the id), so we manually add it
-    // by overriding the AOI-specific toObject method.
-    return {
-      ...toObject.call(this, [...propertiesToInclude, 'label']),
-    }
-  }
-})(fabric.Aoi.prototype.toObject)
 
 // Canvas component ------------------------------------------------------------
 
