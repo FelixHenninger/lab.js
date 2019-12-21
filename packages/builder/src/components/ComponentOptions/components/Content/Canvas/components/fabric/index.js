@@ -82,6 +82,19 @@ fabric.Aoi.fromObject = function(object, callback, forceAsync) {
   return fabric.Object._fromObject('Aoi', object, callback, forceAsync);
 }
 
+fabric.Aoi.prototype.toObject = (function(toObject) {
+  return function(propertiesToInclude) {
+    // TODO: It's unclear why adding the label property
+    // in the canvas-level toObject call below doesn't
+    // include it in the properties added to the output,
+    // (as it does for the id), so we manually add it
+    // by overriding the AOI-specific toObject method.
+    return {
+      ...toObject.call(this, [...propertiesToInclude, 'label']),
+    }
+  }
+})(fabric.Aoi.prototype.toObject)
+
 // Canvas component ------------------------------------------------------------
 
 const handlePadding = 6
