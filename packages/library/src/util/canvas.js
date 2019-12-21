@@ -223,19 +223,21 @@ export const makeRenderFunction = (content, cache) => (ts, canvas, ctx) =>
 
 // Path handling ---------------------------------------------------------------
 
-export const makePath = (ctx, content) => {
-  // Transformation as above
-  ctx.save()
-  ctx.beginPath()
-  ctx.translate(content.left, content.top)
-  ctx.rotate(toRadians(content.angle))
+// Load a matrix transformation class:
+// DOMMatrix if available, SVGMatrix otherwise
+const MatrixReadOnly = window.DOMMatrixReadOnly !== undefined
+  ? new window.DOMMatrixReadOnly()
+  : document
+      .createElementNS("http://www.w3.org/2000/svg", "svg")
+      .createSVGMatrix()
 
-  const path = new Path2D()
+export const makePath = (ctx, content) => {
+  const rawPath = new Path2D()
 
   // Type-specific path extensions
   switch (content.type) {
     case 'aoi':
-      path.rect(
+      rawPath.rect(
         -content.width / 2, -content.height / 2,
         content.width, content.height,
       )
@@ -245,8 +247,15 @@ export const makePath = (ctx, content) => {
       // TODO: cover remaining object types
   }
 
-  ctx.restore()
-  return path
+  // Create a copy of the path that has been translated into place
+  const translatedPath = new Path2D()
+  translatedPath.addPath(
+    rawPath,
+    MatrixReadOnly
+      .translate(content.left, content.top)
+      .rotate(content.angle) // (in degrees, for a change)
+  )
+  return translatedPath
 }
 
 export const makePathFunction = (content) => (ts, canvas, ctx) =>
