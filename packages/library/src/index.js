@@ -25,6 +25,7 @@ import { traverse, reduce } from './util/tree'
 // Plugins
 import Debug from './plugins/debug'
 import Download from './plugins/download'
+import Fullscreen from './plugins/fullscreen'
 import Logger from './plugins/log'
 import Metadata from './plugins/metadata'
 import NavigationGuard from './plugins/navigationGuard'
@@ -64,6 +65,7 @@ export const flow = {
 export const plugins = {
   Debug,
   Download,
+  Fullscreen,
   Logger,
   Metadata,
   NavigationGuard,
