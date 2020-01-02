@@ -52,10 +52,19 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
+  padding: calc(2 * var(--padding-internal));
   background: rgba(140, 140, 140, 0.25);
   /* Use backdrop-filter where available */
   backdrop-filter: blur(10px);
-  padding: calc(2 * var(--padding-internal));
+}
+.overlay .modal {
+  margin: var(--padding-internal) auto;
+  padding: calc(2 * var(--padding-internal)) var(--padding-internal);
+  min-height: 25vh;
+  background: white;
+  border: 1px solid rgba(140, 140, 140, 0.5);
+  border-radius: var(--border-radius-content);
+  box-shadow: 0 0 5px rgba(140, 140, 140, 0.25);
 }
 
 header, footer, main {
