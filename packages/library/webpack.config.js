@@ -47,6 +47,7 @@ module.exports = (env, argv) => {
       plugins: [
         '@babel/proposal-object-rest-spread',
         '@babel/proposal-class-properties',
+        '@babel/plugin-proposal-nullish-coalescing-operator',
         'lodash',
         ['module:fast-async', {
           runtimePattern: './src/index.js'
@@ -78,6 +79,7 @@ module.exports = (env, argv) => {
       plugins: [
         '@babel/proposal-object-rest-spread',
         '@babel/proposal-class-properties',
+        '@babel/plugin-proposal-nullish-coalescing-operator',
         'lodash',
       ],
     }
