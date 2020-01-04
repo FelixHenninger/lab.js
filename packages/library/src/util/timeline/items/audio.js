@@ -82,7 +82,7 @@ class AudioNodeItem {
       ...this.defaultPayload,
       ...payload,
       // Only override gain if it is truly undefined (zero values are ok)
-      gain: payload.gain === undefined ? 1 : payload.gain,
+      gain: payload.gain ?? 1,
     }
     this.processingChain = []
     this.nodeOrder = {}
