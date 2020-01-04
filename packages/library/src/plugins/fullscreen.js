@@ -1,8 +1,9 @@
 export default class FullscreenPlugin {
-  constructor({ message, hint }) {
+  constructor({ message, hint, close }) {
     this.options = {
       message: message || 'This experiment requires full screen display',
       hint: hint || 'Please click to continue in full screen mode',
+      close: close ?? true,
     }
   }
 
@@ -39,7 +40,7 @@ export default class FullscreenPlugin {
           resolve()
         }, { once: true })
       })
-    } else if (event === 'end') {
+    } else if (event === 'end' && this.options.close) {
       lab.util.fullscreen.exit()
     }
   }
