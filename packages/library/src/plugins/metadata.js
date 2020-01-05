@@ -27,19 +27,9 @@ const getMetadata = () => {
 
 const extractURLSearchParams = search =>
   fromPairs(
-    // TODO: Remove the polyfill when dropping support for IE11
-    window.URLSearchParams
-      ? Array.from(
-          new URLSearchParams(search).entries()
-        )
-      : search // Fairly naive polyfill for the above
-          .substr(1) // Remove prepended question mark
-          .split('&') // Split into individual parameters
-          .map(entry => entry.split('=', 2)) // Split entries into k/v
-          .map(([key, value]) => ([
-            key,
-            decodeURIComponent(value).replace('+', ' '),
-          ]))
+    Array.from(
+      new URLSearchParams(search).entries()
+    )
   )
 
 export default class Metadata {
