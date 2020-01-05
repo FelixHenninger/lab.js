@@ -1,5 +1,5 @@
-// Polyfill
-import 'babel-polyfill'
+// Load standard library polyfill
+import 'core-js/stable'
 
 // Components
 import { Component, Dummy } from './core'

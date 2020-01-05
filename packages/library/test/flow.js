@@ -303,11 +303,12 @@ describe('Flow control', () => {
       const a = new lab.core.Dummy()
       s.options.content = [a]
 
-      let error
-
       return s.run().then(() => {
-        s.step().catch(err => (error = err))
-      }).then(() => {
+        // Step beyond last sequence content, resolve error
+        // TODO: Extracting the error message here is not nice --
+        // it would be nicer to use chai-as-promised and assert.isRejected
+        return new Promise(resolve => s.step().catch(resolve))
+      }).then(error => {
         assert.equal(
           error.message,
           'Sequence ended, can\'t take any more steps'

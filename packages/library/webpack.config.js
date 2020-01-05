@@ -42,6 +42,7 @@ module.exports = (env, argv) => {
           // Module generation is handled by webpack
           modules: false,
           useBuiltIns: 'usage',
+          corejs: 3,
         }],
       ],
       plugins: [
@@ -74,6 +75,7 @@ module.exports = (env, argv) => {
           // Module generation is handled by webpack
           modules: false,
           useBuiltIns: 'usage',
+          corejs: 3,
         }],
       ],
       plugins: [

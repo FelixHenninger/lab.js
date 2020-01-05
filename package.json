@@ -37,6 +37,8 @@
       "lab.js/sinon",
       "lab.js/sinon/**",
       "lab.js.builder/bootstrap",
+      "lab.js.builder/react-scripts",
+      "lab.js.builder/react-scripts/**",
       "lab.js.website/bootstrap"
     ]
   }
