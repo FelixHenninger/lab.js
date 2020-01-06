@@ -97,7 +97,7 @@ Welcome to the **lab.js** documentation!
    :caption: Use
    :hidden:
 
-   examples/index.rst
+   recipes/index.rst
    reference/index.rst
    genindex.rst
 
