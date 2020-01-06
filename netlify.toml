@@ -23,6 +23,11 @@ command = "zola build --base-url $DEPLOY_PRIME_URL"
   status = 302
 
 [[redirects]]
+  from = "/builder/beta"
+  to = "https://labjs-beta.netlify.com/"
+  status = 302
+
+[[redirects]]
   from = "/docs/*"
   to = "https://labjs.readthedocs.io/:splat"
   status = 302
