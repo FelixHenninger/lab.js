@@ -1,11 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import Toolbar from '../Toolbar'
 import Tree from '../Tree'
 import Node from '../Tree/components/Node'
 
-const Sidebar = (props, context) =>
+const Sidebar = ({
+  collapseComponent, deleteComponent,
+  showComponentDetail, showAddModal
+}) =>
   <>
     <div style={{ textAlign: 'center' }}>
       <Toolbar />
@@ -18,41 +21,42 @@ const Sidebar = (props, context) =>
         (e, id) => {
           // Collapse view if shift key is pressed
           if (e.shiftKey) {
-            context.store.dispatch({
-              type: 'COLLAPSE_COMPONENT', id,
-            })
+            collapseComponent(id)
           } else {
-            context.store.dispatch({
-              type: 'SHOW_COMPONENT_DETAIL', id,
-            })
+            showComponentDetail(id)
           }
         }
       }
       onNodeDelete={
         (id, parent, index) => {
           if (window.confirm('Do you really want to delete this component?')) {
-            context.store.dispatch({
-              type: 'DELETE_COMPONENT',
-              id, parent, index,
-            })
+            deleteComponent(id, parent, index)
           }
         }
       }
-      onNodeAdd={
-        (parent, index) => context.store.dispatch({
-          type: 'SHOW_MODAL',
-          modalType: 'ADD_COMPONENT',
-          modalProps: {
-            parent: parent,
-            index: index,
-          },
-        })
-      }
+      onNodeAdd={ showAddModal }
     />
   </>
 
-Sidebar.contextTypes = {
-  store: PropTypes.object
+const mapDispatchToProps = {
+  collapseComponent: (id) => ({
+    type: 'COLLAPSE_COMPONENT', id,
+  }),
+  deleteComponent: (id, parent, index) => ({
+    type: 'DELETE_COMPONENT',
+    id, parent, index,
+  }),
+  showComponentDetail: (id) => ({
+    type: 'SHOW_COMPONENT_DETAIL', id,
+  }),
+  showAddModal: (parent, index) => ({
+    type: 'SHOW_MODAL',
+    modalType: 'ADD_COMPONENT',
+    modalProps: {
+      parent: parent,
+      index: index,
+    },
+  })
 }
 
-export default Sidebar
+export default connect(null, mapDispatchToProps)(Sidebar)
