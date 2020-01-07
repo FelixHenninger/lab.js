@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { Nav, NavItem, NavLink,
@@ -95,7 +94,7 @@ const HeaderNav = ({ tabs, tab, onChange }) =>
     )
   } </Nav>
 
-const Header = ({ id, type, title, tab, template }, { store }) => {
+const Header = ({ id, type, title, tab, template, updateComponent }) => {
   // Only show content if a valid id is provided
   if (id) {
     const visibleTabs = metadata[type].tabs
@@ -111,12 +110,12 @@ const Header = ({ id, type, title, tab, template }, { store }) => {
         icon={ template ? 'box-open' : metadata[type].icon }
         iconWeight={ metadata[type].iconWeight }
         iconFallbackWeight={ metadata[type].iconFallbackWeight }
-        onChange={ data => store.dispatch(updateComponent(id, data)) }
+        onChange={ data => updateComponent(id, data) }
       />
       <HeaderNav
         tabs={ visibleTabs }
         tab={ tab }
-        onChange={ _tab => store.dispatch(updateComponent(id, { _tab })) }
+        onChange={ _tab => updateComponent(id, { _tab }) }
       />
     </div>
   } else {
@@ -124,27 +123,30 @@ const Header = ({ id, type, title, tab, template }, { store }) => {
   }
 }
 
-Header.contextTypes = {
-  store: PropTypes.object
+const mapStateToProps = state => {
+  const id = state.componentDetail.viewProps.id
+
+  // Check whether the corresponding component exists
+  if (state.components[id]) {
+    const { type, title, _tab: tab, _template: template } =
+      state.components[id]
+    return {
+      key: id, id,
+      type, title, template,
+      tab: defaultTab(tab, type),
+    }
+  } else {
+    return {
+      id: undefined
+    }
+  }
+}
+
+const mapDispatchToProps = {
+  updateComponent,
 }
 
 export default connect(
-  (state, props) => {
-    const id = state.componentDetail.viewProps.id
-
-    // Check whether the corresponding component exists
-    if (state.components[id]) {
-      const { type, title, _tab: tab, _template: template } =
-        state.components[id]
-      return {
-        key: id, id,
-        type, title, template,
-        tab: defaultTab(tab, type),
-      }
-    } else {
-      return {
-        id: undefined
-      }
-    }
-  }
+  mapStateToProps,
+  mapDispatchToProps
 )(Header)
