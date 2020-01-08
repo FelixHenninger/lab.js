@@ -94,6 +94,18 @@ bundles all files necessary for **deployment**, and creates an optimized version
 .. _create-react-app: https://github.com/facebookincubator/create-react-app/
 .. _HTTPS: https://en.wikipedia.org/wiki/HTTPS
 
+Environment variables
+^^^^^^^^^^^^^^^^^^^^^
+
+During the build step, you can set several environment variables that customize the builder's behavior.
+
+* ``PUBLIC_URL`` provides the URL at which the builder will run, e.g. ``https://labjs.felixhenninger.com``
+* ``REACT_APP_EXAMPLE_PATH`` sets the URL from which the builder loads its repository of example studies. By default, this points to the `tasks directory`_ in the project repository, and thus the builder loads the `example collection metadata`_ from therein.
+* ``REACT_APP_TEMPLATE_PATH`` works just like the ``EXAMPLE_PATH`` above, but instead of loading examples, it loads the templates offered to users when they add new components. This path, too, is expected to contain a metadata ``JSON`` file that provides further information about the templates, like the one in the project repository.
+
+.. _tasks directory: https://github.com/FelixHenninger/lab.js/tree/master/tasks
+.. _example collection metadata: https://github.com/FelixHenninger/lab.js/blob/master/tasks/metadata.json
+
 ----
 
 Building the documentation
