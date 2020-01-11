@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import Card from '../../../../Card'
 import Spinner from '../../../../Spinner'
@@ -7,22 +7,20 @@ import { updateComponent } from '../../../../../actions/components'
 
 const CanvasEditor = lazy(() => import('./editor'))
 
-const Editor = ({ id, data }, { store }) =>
+const Editor = ({ id, data, updateComponent }) =>
   <Card title="Content">
     <Suspense fallback={ <Spinner /> }>
       <CanvasEditor
         data={ data.content }
         onChange={
-          newData => store.dispatch(
-            updateComponent(id, { content: newData })
-          )
+          newData => updateComponent(id, { content: newData })
         }
       />
     </Suspense>
   </Card>
 
-Editor.contextTypes = {
-  store: PropTypes.object
+const mapDispatchToProps = {
+  updateComponent
 }
 
-export default Editor
+export default connect(null, mapDispatchToProps)(Editor)
