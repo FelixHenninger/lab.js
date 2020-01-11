@@ -56,6 +56,7 @@ const customLaunchers = {
     deviceName: 'Android GoogleAPI Emulator',
     deviceOrientation: 'portrait'
   },
+  /*
   sl_android_8: {
     base: 'SauceLabs',
     browserName: 'Chrome',
@@ -64,6 +65,7 @@ const customLaunchers = {
     deviceName: 'Android GoogleAPI Emulator',
     deviceOrientation: 'portrait'
   },
+  */
   sl_ios_11: {
     base: 'SauceLabs',
     browserName: 'Safari',
