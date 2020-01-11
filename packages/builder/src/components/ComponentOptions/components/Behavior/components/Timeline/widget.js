@@ -8,6 +8,7 @@ import { actions } from 'react-redux-form'
 import BackgroundLayer from './backgroundLayer'
 import ItemLayer from './itemLayer'
 import ItemForm from './itemForm'
+import { connect } from 'react-redux'
 
 class TimelineStage extends Component {
   constructor(props) {
@@ -173,16 +174,13 @@ class TimelineStage extends Component {
   }
 
   updateItem(item, { x, y, width }) {
-    this.context.store.dispatch({
-      type: 'UPDATE_TIMELINE_ITEM',
-      id: this.context.id,
-      item,
-      data: {
+    this.props.updateTimelineItem(
+      this.context.id, item, {
         start: this.toTime(x),
         stop: this.toTime(x + width),
         priority: this.closestLayer(y)
       }
-    })
+    )
     // TODO: This is a hack!
     this.props.formDispatch(
       actions.load(
@@ -302,7 +300,6 @@ TimelineStage.defaultProps = {
 }
 
 TimelineStage.contextTypes = {
-  store: PropTypes.object,
   id: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -322,4 +319,12 @@ TimelineStage.childContextTypes = {
   setZoom: PropTypes.func,
 }
 
-export default TimelineStage
+const mapDispatchToProps = {
+  updateTimelineItem: (id, item, { start, stop, priority }) => ({
+    type: 'UPDATE_TIMELINE_ITEM',
+    id, item,
+    data: { start, stop, priority },
+  })
+}
+
+export default connect(null, mapDispatchToProps)(TimelineStage)
