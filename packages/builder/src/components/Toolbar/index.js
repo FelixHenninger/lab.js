@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { ButtonGroup, Button } from 'reactstrap'
 
 import PreviewButton from './components/PreviewButton'
@@ -7,7 +7,7 @@ import IOButton from './components/IOButton'
 import Icon from '../Icon'
 import './styles.css'
 
-const Toolbar = (props, context) =>
+const Toolbar = ({ showModal }) =>
   <div className="toolbar">
     <ButtonGroup>
       <PreviewButton />
@@ -19,13 +19,7 @@ const Toolbar = (props, context) =>
       <Button
         outline color="secondary"
         onClick={
-          () => context.store.dispatch({
-            type: 'SHOW_MODAL',
-            modalType: 'OPTIONS',
-            modalProps: {
-              large: 'true',
-            },
-          })
+          () => showModal('OPTIONS')
         }
       >
         <Icon icon="sliders-h" weight="l" />
@@ -33,8 +27,13 @@ const Toolbar = (props, context) =>
     </ButtonGroup>
   </div>
 
-Toolbar.contextTypes = {
-  store: PropTypes.object
+// TODO: This is a duplicated action creator,
+// refactor to share this with the Sidebar component
+const mapDispatchToProps = {
+  showModal: (type) => ({
+    type: 'SHOW_MODAL',
+    modalType: type,
+  })
 }
 
-export default Toolbar
+export default connect(null, mapDispatchToProps)(Toolbar)
