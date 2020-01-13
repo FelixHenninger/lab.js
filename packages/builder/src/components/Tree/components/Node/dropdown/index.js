@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { UncontrolledDropdown, DropdownToggle,
   DropdownMenu, DropdownItem } from 'reactstrap'
 
@@ -10,8 +9,9 @@ import { UncontrolledDropdown, DropdownToggle,
    pluggable, someday */
 import { stateToDownload } from '../../../../../logic/io/save'
 import './index.css'
+import { connect } from 'react-redux'
 
-const NodeDropdown = ({ id, parent, index, onDelete, hasChildren }, context) =>
+const NodeDropdown = ({ id, parent, index, onDelete, hasChildren, collapseComponent }, context) =>
   <UncontrolledDropdown>
     <DropdownToggle
       caret size="sm"
@@ -38,11 +38,7 @@ const NodeDropdown = ({ id, parent, index, onDelete, hasChildren }, context) =>
               <DropdownItem divider/>
               <DropdownItem header>View</DropdownItem>
               <DropdownItem
-                onClick={ () => {
-                  context.store.dispatch({
-                    type: 'COLLAPSE_COMPONENT', id
-                  })
-                } }
+                onClick={ () => collapseComponent(id) }
               >
                 Collapse
               </DropdownItem>
@@ -52,8 +48,12 @@ const NodeDropdown = ({ id, parent, index, onDelete, hasChildren }, context) =>
     </DropdownMenu>
   </UncontrolledDropdown>
 
-NodeDropdown.contextTypes = {
-  store: PropTypes.object
+// TODO: This is a duplicated action creator,
+// refactor to share this with the Sidebar component
+const mapDispatchToProps = {
+  collapseComponent: (id) => ({
+    type: 'COLLAPSE_COMPONENT', id
+  })
 }
 
-export default NodeDropdown
+export default connect(null, mapDispatchToProps)(NodeDropdown)
