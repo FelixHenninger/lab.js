@@ -1,4 +1,5 @@
 import React, { createRef } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { CardBody } from 'reactstrap'
@@ -100,11 +101,11 @@ Toolbar.contextTypes = {
   setZoom: PropTypes.func,
 }
 
-const InteractionWarning = (_, { id, store }) => {
+const _InteractionWarning = ({ firstComponentId }, { id }) => {
   // Check whether the current component is the first in the study
   // TODO: Add a more sophisticated check,
   // taking into account nested flow components
-  if (store.getState().components['root'].children[0] === id) {
+  if (firstComponentId === id) {
     return (
       <Alert color="warning">
         <h3 className="h6 mt-2">
@@ -118,13 +119,17 @@ const InteractionWarning = (_, { id, store }) => {
   }
 }
 
-InteractionWarning.contextTypes = {
+_InteractionWarning.contextTypes = {
   id: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]),
-  store: PropTypes.object,
 }
+
+const mapStateToProps = state => ({
+  firstComponentId: state.components['root'].children[0]
+})
+const InteractionWarning = connect(mapStateToProps)(_InteractionWarning)
 
 const Header = ({ activeItem, add, duplicateCurrent, deleteCurrent }) =>
   <>
