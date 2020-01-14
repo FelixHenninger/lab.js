@@ -1,17 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { LocalForm, Control } from 'react-redux-form'
 import { FormGroup, Label, Input, FormText, Col } from 'reactstrap'
 
 import { updateComponent } from '../../../../actions/components'
+import { connect } from 'react-redux'
 
-const MetadataForm = ({ data }, { store }) =>
+const MetadataForm = ({ data, updateComponent }) =>
   <LocalForm
-    initialState={ store.getState().components['root'].metadata }
-    onChange={ newData => {
-      store.dispatch(updateComponent('root', { metadata: newData }))
-    } }
+    initialState={ data }
+    onChange={ newData => updateComponent('root', { metadata: newData }) }
   >
     <h4 className="mt-1">
       Study information
@@ -106,8 +104,14 @@ const MetadataForm = ({ data }, { store }) =>
     </FormGroup>
   </LocalForm>
 
-MetadataForm.contextTypes = {
-  store: PropTypes.object,
+const mapStateToProps = state => ({
+  data: state.components['root'].metadata
+})
+const mapDispatchToProps = {
+  updateComponent
 }
 
-export default MetadataForm
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MetadataForm)
