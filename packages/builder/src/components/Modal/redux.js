@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import GenericModal from './index'
@@ -33,16 +32,12 @@ const MODAL_SIZES = {
 
 // TODO: See if the Modal component from react-modal
 // can be replaced by its counterpart from reactstrap
-const CustomModal = ({ modalType, modalProps }, context) => {
+const CustomModal = ({ modalType, modalProps, hideModal }) => {
   const SpecificModal = MODAL_COMPONENTS[modalType]
   return (
     <GenericModal
       isOpen={ modalType !== null }
-      onRequestClose={ () => {
-        context.store.dispatch({
-          type: 'HIDE_MODAL',
-        })
-      } }
+      onRequestClose={ hideModal }
       modalProps={{
         size: MODAL_SIZES[modalType] || 'md',
         ...modalProps
@@ -52,11 +47,7 @@ const CustomModal = ({ modalType, modalProps }, context) => {
         SpecificModal !== undefined
           ? <SpecificModal
               { ...modalProps }
-              closeHandler={() => {
-                context.store.dispatch({
-                  type: 'HIDE_MODAL',
-                })
-              }}
+              closeHandler={ hideModal }
             />
           : ''
       }
@@ -64,13 +55,15 @@ const CustomModal = ({ modalType, modalProps }, context) => {
   )
 }
 
-// Redux integration
-CustomModal.contextTypes = {
-  store: PropTypes.object
+// TODO: This is a duplicated action creator, pull out of component
+const mapStateToProps = (state) => state.modal
+const mapDispatchToProps = {
+  hideModal: () => ({
+    type: 'HIDE_MODAL',
+  })
 }
 
-const ConnectedModal = connect(
-  (state, ownProps) => state.modal
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(CustomModal)
-
-export default ConnectedModal
