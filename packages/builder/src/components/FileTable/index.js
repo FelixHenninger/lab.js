@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { Button } from 'reactstrap'
@@ -29,7 +28,7 @@ export const FileTableHeader = () =>
     </tr>
   </thead>
 
-const FileTableRow = ({ path, content }, { store }) =>
+const FileTableRow = ({ path, content, onDelete }) =>
   <tr>
     <td>
       <div
@@ -65,10 +64,7 @@ const FileTableRow = ({ path, content }, { store }) =>
       <Button
         block
         outline color="muted"
-        onClick={ () => store.dispatch({
-          type: 'DELETE_FILE',
-          file: path,
-        }) }
+        onClick={ onDelete }
       >
         <Icon
           icon="trash"
@@ -78,11 +74,7 @@ const FileTableRow = ({ path, content }, { store }) =>
     </td>
   </tr>
 
-FileTableRow.contextTypes = {
-  store: PropTypes.object
-}
-
-const _FileTableBody = ({ files, sources=['embedded-global'] }) =>
+const _FileTableBody = ({ files, sources=['embedded-global'], deleteFile }) =>
   <tbody>
     {
       sortBy(Object.entries(files), ([path, _]) => path)
@@ -93,13 +85,23 @@ const _FileTableBody = ({ files, sources=['embedded-global'] }) =>
             key={ path }
             path={ path }
             content={ content }
+            onDelete={ () => deleteFile(path) }
           />
         )
     }
   </tbody>
 
-export const FileTableBody = connect(
-  state => ({
-    files: state.files.files,
+const mapStateToProps = state => ({
+  files: state.files.files,
+})
+const mapDispatchToProps = {
+  deleteFile: (path) => ({
+    type: 'DELETE_FILE',
+    file: path,
   })
+}
+
+export const FileTableBody = connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(_FileTableBody)
