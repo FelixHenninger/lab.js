@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import { Button } from 'reactstrap'
 
@@ -33,7 +33,7 @@ const HelpHint = () =>
     </p>
   </Hint>
 
-const ImprintHint = (_, { store }) =>
+const _ImprintHint = ({ showModal }) =>
   <Hint
     target={ ({ id, onClick }) =>
       <span id={ id } onClick={ onClick } style={{ cursor: 'pointer' }}>
@@ -54,23 +54,20 @@ const ImprintHint = (_, { store }) =>
       size="sm" block
       color="primary" outline
       className="mb-2"
-      onClick={
-        () => store.dispatch({
-          type: 'SHOW_MODAL',
-          modalType: 'LEGAL',
-          modalProps: {
-            large: 'true',
-          },
-        })
-      }
+      onClick={ () => showModal('LEGAL', { large: 'true' }) }
     >
       Legal
     </Button>
   </Hint>
 
-ImprintHint.contextTypes = {
-  store: PropTypes.object
+const mapDispatchToProps = {
+  showModal: (modalType, modalProps) => ({
+    type: 'SHOW_MODAL',
+    modalType, modalProps,
+  })
 }
+
+const ImprintHint = connect(null, mapDispatchToProps)(_ImprintHint)
 
 export const Imprint = () =>
   <small className="text-muted">
