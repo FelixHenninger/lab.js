@@ -1,5 +1,6 @@
 import React, { useState, Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import { FormGroup, Input, Label, Col,
   Button, ListGroup, ListGroupItem,
@@ -122,22 +123,15 @@ const PluginAddModal = ({ isOpen, onRequestClose: requestClose, onAdd }) =>
     </Confirm>
   </Modal>
 
-const PluginAddButton = ({ muted }, { store, id }) => {
+const _PluginAddButton = ({ muted, addPlugin }, { id }) => {
   const [modalOpen, setModalOpen] = useState(false)
-  const addPlugin = (type) => {
-    console.log('adding plugin of type', type)
-    return store.dispatch({
-      type: 'ADD_PLUGIN',
-      id, pluginType: type,
-    })
-  }
 
   return (
     <CardBody>
       <PluginAddModal
         isOpen={ modalOpen }
         onRequestClose={ () => setModalOpen(false) }
-        onAdd={ addPlugin }
+        onAdd={ (type) => addPlugin(id, type) }
       />
       <Button
         size="sm" block
@@ -152,13 +146,21 @@ const PluginAddButton = ({ muted }, { store, id }) => {
   )
 }
 
-PluginAddButton.contextTypes = {
-  store: PropTypes.object,
+_PluginAddButton.contextTypes = {
   id: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]),
 }
+
+const mapDispatchToProps = {
+  addPlugin: (id, type) => ({
+    type: 'ADD_PLUGIN',
+    id, pluginType: type
+  })
+}
+
+const PluginAddButton = connect(null, mapDispatchToProps)(_PluginAddButton)
 
 const Plugin = ({ index, data, metaData, formDispatch }) =>
   <CardBody className="border-bottom">
