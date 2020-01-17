@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 
 import Confirm from '../Confirm'
 
@@ -29,9 +28,5 @@ const Legal = ({ closeHandler }) =>
   >
     <ExternalContent url="/content/legal.html" />
   </Confirm>
-
-Legal.contextTypes = {
-  store: PropTypes.object
-}
 
 export default Legal
