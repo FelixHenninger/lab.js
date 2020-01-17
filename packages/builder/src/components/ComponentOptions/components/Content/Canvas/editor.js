@@ -239,5 +239,4 @@ CanvasEditor.contextTypes = {
     PropTypes.string,
     PropTypes.number,
   ]),
-  store: PropTypes.object,
 }
