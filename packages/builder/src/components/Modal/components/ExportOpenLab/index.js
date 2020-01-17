@@ -1,10 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Confirm from '../Confirm'
 
 import OpenLabWidget from './widget'
 
-const ExportOpenLab = ({ closeHandler }, { store }) => {
+const ExportOpenLab = ({ closeHandler }) => {
   // Add variable to keep track of the Open Lab widget
   let widget = React.createRef()
 
@@ -22,10 +21,6 @@ const ExportOpenLab = ({ closeHandler }, { store }) => {
       ref={ widget }
     />
   </Confirm>
-}
-
-ExportOpenLab.contextTypes = {
-  store: PropTypes.object
 }
 
 export default ExportOpenLab
