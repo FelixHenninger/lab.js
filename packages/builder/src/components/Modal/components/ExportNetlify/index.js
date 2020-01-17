@@ -1,10 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Confirm from '../Confirm'
 
 import NetlifyWidget from './widget'
 
-const ExportNetlify = ({ closeHandler }, { store }) => {
+const ExportNetlify = ({ closeHandler }) => {
   // Add variable to keep track of the Open Lab widget
   let widget = React.createRef()
 
@@ -22,10 +21,6 @@ const ExportNetlify = ({ closeHandler }, { store }) => {
     <hr />
     <NetlifyWidget ref={ widget } />
   </Confirm>
-}
-
-ExportNetlify.contextTypes = {
-  store: PropTypes.object
 }
 
 export default ExportNetlify
