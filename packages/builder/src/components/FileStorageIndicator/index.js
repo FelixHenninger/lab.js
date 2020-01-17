@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 
 import { Progress } from 'reactstrap'
 
@@ -23,9 +22,5 @@ const mapStateToProps = (state) => ({
   space: Object.entries(state.files.files)
     .reduce((acc, [, { content }]) => acc + sizeFromDataURI(content), 0)
 })
-
-StorageLevel.contextTypes = {
-  store: PropTypes.object,
-}
 
 export default connect(mapStateToProps)(StorageLevel)
