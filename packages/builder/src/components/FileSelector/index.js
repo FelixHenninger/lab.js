@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { ReactReduxContext } from 'react-redux'
 import { Nav, ModalBody } from 'reactstrap'
 
 import { addFiles, getLocalFile } from '../../logic/util/files'
@@ -12,6 +12,8 @@ import UploadTab from './Components/UploadTab'
 import PoolTab from './Components/PoolTab'
 
 export default class FileSelector extends Component {
+  static contextType = ReactReduxContext
+
   constructor(props) {
     super(props)
 
@@ -159,10 +161,6 @@ export default class FileSelector extends Component {
       </div>
     </Modal>
   }
-}
-
-FileSelector.contextTypes = {
-  store: PropTypes.object
 }
 
 FileSelector.defaultProps = {
