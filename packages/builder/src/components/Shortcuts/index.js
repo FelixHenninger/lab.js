@@ -1,6 +1,6 @@
 // Not using JSX, we don't need to import React proper
 import { Component } from 'react'
-import PropTypes from 'prop-types'
+import { ReactReduxContext } from 'react-redux'
 
 import { stateToDownload } from '../../logic/io/save'
 
@@ -11,6 +11,8 @@ const commandKey = navigator.platform.startsWith('Mac')
   : 'ctrlKey'
 
 class Shortcuts extends Component {
+  static contextType = ReactReduxContext
+
   constructor(props) {
     super(props)
     this.handleKeyDown = this.handleKeyDown.bind(this)
@@ -46,10 +48,6 @@ class Shortcuts extends Component {
   render() {
     return null
   }
-}
-
-Shortcuts.contextTypes = {
-  store: PropTypes.object
 }
 
 export default Shortcuts
