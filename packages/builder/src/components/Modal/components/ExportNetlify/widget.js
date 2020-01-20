@@ -1,5 +1,5 @@
 import React, { Component, createRef, forwardRef } from 'react'
-import PropTypes from 'prop-types'
+import { ReactReduxContext } from 'react-redux'
 import { findDOMNode } from 'react-dom'
 
 import { LocalForm, Control, Errors } from 'react-redux-form'
@@ -65,6 +65,8 @@ const NetlifyForm = forwardRef(({ onSubmit }, ref) =>
 )
 
 class NetlifyWidget extends Component {
+  static contextType = ReactReduxContext
+
   constructor() {
     super()
     this.state = {
@@ -180,10 +182,6 @@ class NetlifyWidget extends Component {
         />
     }
   }
-}
-
-NetlifyWidget.contextTypes = {
-  store: PropTypes.object
 }
 
 export default NetlifyWidget
