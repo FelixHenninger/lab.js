@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { ReactReduxContext } from 'react-redux'
 
 import Icon from '../../../Icon'
 
 import { stateToJSON } from '../../../../logic/io/save'
 
 class OpenLabWidget extends Component {
+  static contextType = ReactReduxContext
+
   constructor() {
     super()
     this.state = {
@@ -97,10 +99,6 @@ class OpenLabWidget extends Component {
         return null
     }
   }
-}
-
-OpenLabWidget.contextTypes = {
-  store: PropTypes.object
 }
 
 export default OpenLabWidget
