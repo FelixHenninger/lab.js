@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react'
-import PropTypes from 'prop-types'
+import { ReactReduxContext } from 'react-redux'
 
 import { fabric } from 'fabric'
 
@@ -88,6 +88,8 @@ fabric.Aoi.fromObject = function(object, callback, forceAsync) {
 const handlePadding = 6
 
 export default class FabricCanvas extends Component {
+  static contextType = ReactReduxContext
+
   constructor(...args) {
     super(...args)
     this.state = {
@@ -352,7 +354,7 @@ export default class FabricCanvas extends Component {
             options._src = options.src
             options.src = getLocalFile(
               this.context.store,
-              this.context.id,
+              this.props.id,
               placeholderMatch[1]
             ).file.content
           }
@@ -451,12 +453,4 @@ export default class FabricCanvas extends Component {
   render () {
     return <canvas ref={ this.canvasRef } />
   }
-}
-
-FabricCanvas.contextTypes = {
-  id: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
-  store: PropTypes.object,
 }

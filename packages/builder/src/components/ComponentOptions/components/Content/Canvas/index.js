@@ -11,6 +11,7 @@ const Editor = ({ id, data, updateComponent }) =>
   <Card title="Content">
     <Suspense fallback={ <Spinner /> }>
       <CanvasEditor
+        id={ id }
         data={ data.content }
         onChange={
           newData => updateComponent(id, { content: newData })

@@ -43,7 +43,7 @@ export const resolveImage = (src, store, id) => {
   }
 }
 
-export const toCanvas = (object, { store, id }, ignore=[]) => {
+export const toCanvas = (object, componentId, store, ignore=[]) => {
   if (!object) {
     return object
   } else {
@@ -85,7 +85,7 @@ export const toCanvas = (object, { store, id }, ignore=[]) => {
       output.width = output.naturalWidth
       output.height = output.naturalHeight
 
-      output.src = resolveImage(object.src, store, id)
+      output.src = resolveImage(object.src, store, componentId)
     }
 
     // Ignore specified keys (notably, text during updates from the form)
