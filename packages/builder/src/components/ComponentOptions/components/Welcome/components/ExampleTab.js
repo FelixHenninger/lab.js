@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { ReactReduxContext } from 'react-redux'
 
 import { CardBody, CardText, CardTitle, CardSubtitle,
   ListGroup, ListGroupItem } from 'reactstrap'
@@ -36,6 +36,8 @@ const Task = ({ name, contributors, description, url, clickHandler }) =>
   </ListGroupItem>
 
 export class TaskList extends Component {
+  static contextType = ReactReduxContext
+
   constructor(props) {
     super(props)
 
@@ -108,10 +110,6 @@ export class TaskList extends Component {
       )
     }
   }
-}
-
-TaskList.contextTypes = {
-  store: PropTypes.object
 }
 
 TaskList.defaultProps = {
