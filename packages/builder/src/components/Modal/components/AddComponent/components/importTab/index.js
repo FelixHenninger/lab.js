@@ -1,5 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useStore } from 'react-redux'
+
 import Uploader from '../../../../../Uploader'
 import { fromJSON } from '../../../../../../logic/io/load'
 
@@ -54,32 +55,32 @@ export const importComponent = (parent, index, state, store) => {
   })
 }
 
-const ImportTab = ({ parent, index }, { store }) =>
-  <Uploader
-    accept="application/json"
-    multiple={ false }
-    maxSize={ 55 * 1024 ** 2 } // 55MB
-    onUpload={
-      ([[fileContent]]) => {
-        try {
-          // Parse file from JSON
-          const data = fromJSON(fileContent)
-          importComponent(parent, index, data, store)
-        } catch(e) {
-          // If things don't work out, let the user know
-          alert('Couldn\'t load file, found error', e)
+const ImportTab = ({ parent, index }) => {
+  const store = useStore()
+
+  return (
+    <Uploader
+      accept="application/json"
+      multiple={ false }
+      maxSize={ 55 * 1024 ** 2 } // 55MB
+      onUpload={
+        ([[fileContent]]) => {
+          try {
+            // Parse file from JSON
+            const data = fromJSON(fileContent)
+            importComponent(parent, index, data, store)
+          } catch(e) {
+            // If things don't work out, let the user know
+            alert('Couldn\'t load file, found error', e)
+          }
         }
       }
-    }
-  >
-    <button className="btn btn-outline-secondary btn-lg btn-block">
-      <strong>Import component</strong> from file
-    </button>
-  </Uploader>
-
-
-ImportTab.contextTypes = {
-  store: PropTypes.object,
+    >
+      <button className="btn btn-outline-secondary btn-lg btn-block">
+        <strong>Import component</strong> from file
+      </button>
+    </Uploader>
+  )
 }
 
 export default ImportTab
