@@ -1,13 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useStore } from 'react-redux'
+
 import { repeat } from 'lodash'
 import { Button, ButtonGroup, Input } from 'reactstrap'
 import { children, flatTree } from '../../../../../../logic/tree'
 
 import './style.css'
 
-const CopyTab = ({ parent, index }, { store }) => {
+const CopyTab = ({ parent, index }) => {
   let sourceSelect = React.createRef()
+  const store = useStore()
 
   return <div className="copy-component-tab">
     <Input
@@ -84,10 +86,6 @@ const CopyTab = ({ parent, index }, { store }) => {
       </Button>
     </ButtonGroup>
   </div>
-}
-
-CopyTab.contextTypes = {
-  store: PropTypes.object,
 }
 
 export default CopyTab
