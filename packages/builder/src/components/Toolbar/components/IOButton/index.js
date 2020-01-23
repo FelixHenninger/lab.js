@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import { useStore } from 'react-redux'
 
 import { ButtonDropdown, Button, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
@@ -14,8 +14,11 @@ import downloadStaticPavlovia from '../../../../logic/io/export/modifiers/pavlov
 import { downloadSidecar as downloadPsychDS
   } from '../../../../logic/metadata/psych-ds'
 
-const IOButton = (_, context) => {
+// TODO: Refactor dispatch calls to action creators
+
+const IOButton = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const store = useStore()
 
   return <ButtonDropdown
     isOpen={ dropdownOpen }
@@ -23,7 +26,7 @@ const IOButton = (_, context) => {
   >
     <Button id="caret" outline color="secondary"
       onClick={ e => stateToDownload(
-        context.store.getState(), { removeInternals: e.shiftKey }
+        store.getState(), { removeInternals: e.shiftKey }
       ) }
     >
       <Icon icon="save" weight="l" fallbackWeight="r" />
@@ -37,7 +40,7 @@ const IOButton = (_, context) => {
       <DropdownItem
         onClick={() => {
           if (window.confirm('Are you sure you want to reset the study?')) {
-            context.store.dispatch({ type: 'RESET_STATE' })
+            store.dispatch({ type: 'RESET_STATE' })
           }
         }}
       >
@@ -53,7 +56,7 @@ const IOButton = (_, context) => {
               // Parse file from JSON
               const state = fromJSON(content)
               // Hydrate store from resulting object
-              context.store.dispatch({
+              store.dispatch({
                 type: 'HYDRATE', state,
               })
             } catch(e) {
@@ -71,7 +74,7 @@ const IOButton = (_, context) => {
       </Uploader>
       <DropdownItem
         onClick={ e => stateToDownload(
-          context.store.getState(), { removeInternals: e.shiftKey }
+          store.getState(), { removeInternals: e.shiftKey }
         ) }
       >
         Save
@@ -79,7 +82,7 @@ const IOButton = (_, context) => {
       <DropdownItem divider/>
       <DropdownItem header>Export for local use</DropdownItem>
       <DropdownItem
-        onClick={ () => downloadStaticLocal(context.store.getState()) }
+        onClick={ () => downloadStaticLocal(store.getState()) }
       >
         Offline data collection
       </DropdownItem>
@@ -87,7 +90,7 @@ const IOButton = (_, context) => {
       <DropdownItem header>Deploy study online</DropdownItem>
       <DropdownItem
         onClick={
-          () => context.store.dispatch({
+          () => store.dispatch({
             type: 'SHOW_MODAL',
             modalType: 'EXPORT_PHP',
             modalProps: {},
@@ -98,7 +101,7 @@ const IOButton = (_, context) => {
       </DropdownItem>
       <DropdownItem
         onClick={
-          () => context.store.dispatch({
+          () => store.dispatch({
             type: 'SHOW_MODAL',
             modalType: 'EXPORT_NETLIFY',
             modalProps: {},
@@ -109,7 +112,7 @@ const IOButton = (_, context) => {
       </DropdownItem>
       <DropdownItem
         onClick={
-          () => context.store.dispatch({
+          () => store.dispatch({
             type: 'SHOW_MODAL',
             modalType: 'EXPORT_OPENLAB',
             modalProps: {},
@@ -122,7 +125,7 @@ const IOButton = (_, context) => {
       <DropdownItem header>Export as integration</DropdownItem>
       <DropdownItem
         onClick={
-          () => context.store.dispatch({
+          () => store.dispatch({
             type: 'SHOW_MODAL',
             modalType: 'EXPORT_PM',
             modalProps: {},
@@ -132,18 +135,18 @@ const IOButton = (_, context) => {
         Generic survey tools… <span className="text-muted">(Qualtrics, etc.)</span>
       </DropdownItem>
       <DropdownItem
-        onClick={ () => downloadStaticJatos(context.store.getState()) }
+        onClick={ () => downloadStaticJatos(store.getState()) }
       >
         JATOS <span className="text-muted">(Just Another Tool for Online Studies)</span>
       </DropdownItem>
       <DropdownItem
-        onClick={ () => downloadStaticPavlovia(context.store.getState()) }
+        onClick={ () => downloadStaticPavlovia(store.getState()) }
       >
         Pavlovia
       </DropdownItem>
       <DropdownItem
         onClick={
-          () => context.store.dispatch({
+          () => store.dispatch({
             type: 'SHOW_MODAL',
             modalType: 'EXPORT_EXPFACTORY',
             modalProps: {},
@@ -156,7 +159,7 @@ const IOButton = (_, context) => {
       <DropdownItem header>Generate metadata</DropdownItem>
       <DropdownItem
         onClick={
-          () => downloadPsychDS(context.store.getState())
+          () => downloadPsychDS(store.getState())
         }
       >
         Psych-DS sidecar template{' '}
@@ -164,10 +167,6 @@ const IOButton = (_, context) => {
       </DropdownItem>
     </DropdownMenu>
   </ButtonDropdown>
-}
-
-IOButton.contextTypes = {
-  store: PropTypes.object
 }
 
 export default IOButton
