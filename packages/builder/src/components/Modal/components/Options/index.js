@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import { useStore } from 'react-redux'
 
 import { ModalBody, ModalFooter, Nav, Button } from 'reactstrap'
 
@@ -12,7 +12,9 @@ import Icon from '../../../Icon'
 import { makeDataURI, readDataURI } from '../../../../logic/util/dataURI'
 import './style.css'
 
-const TabContent = ({ tab }, { store }) => {
+const TabContent = ({ tab }) => {
+  // TODO: Refactor to use connect()
+  const store = useStore()
   const files = store.getState().files.files
   switch(tab) {
     case 'meta':
@@ -60,10 +62,6 @@ const TabContent = ({ tab }, { store }) => {
     default:
       return <div>Requested tab not found</div>
   }
-}
-
-TabContent.contextTypes = {
-  store: PropTypes.object,
 }
 
 const OptionsModal = ({ closeHandler }) => {
