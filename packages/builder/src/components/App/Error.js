@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import { useStore } from 'react-redux'
 
 import { Container, Row, Col, Alert, Button, ButtonGroup } from 'reactstrap'
 import { sample } from 'lodash'
@@ -25,8 +25,13 @@ const gifs = [
   'https://media.giphy.com/media/8QIgBwVvZVrG0/giphy.mp4', // Ford?
 ]
 
-const Error = ({ reset, error, errorInfo }, { store }) => {
+const Error = ({ reset, error, errorInfo }) => {
   const [backup, setBackup] = useState(false)
+
+  // TODO: This is not (yet) canonical redux: The component is still
+  // accessing the store directly, for instance to dispatch actions.
+  // This should be refactored to use action creators in the mid-term.
+  const store = useStore()
 
   return (
     <Container>
@@ -134,10 +139,6 @@ const Error = ({ reset, error, errorInfo }, { store }) => {
 Error.defaultProps = {
   error: undefined,
   errorInfo: {},
-}
-
-Error.contextTypes = {
-  store: PropTypes.object
 }
 
 export default Error
