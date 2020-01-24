@@ -1,6 +1,12 @@
 // Karma configuration
 
 const customLaunchers = {
+  sl_chrome_last: {
+    base: 'SauceLabs',
+    browserName: 'chrome',
+    version: 'latest-1',
+    platform: 'Windows 10',
+  },
   sl_chrome_latest: {
     base: 'SauceLabs',
     browserName: 'chrome',
@@ -11,6 +17,12 @@ const customLaunchers = {
     base: 'SauceLabs',
     browserName: 'chrome',
     version: 'beta',
+    platform: 'Windows 10',
+  },
+  sl_firefox_last: {
+    base: 'SauceLabs',
+    browserName: 'firefox',
+    version: 'latest-1',
     platform: 'Windows 10',
   },
   sl_firefox_latest: {
@@ -25,43 +37,57 @@ const customLaunchers = {
     version: 'beta',
     platform: 'Windows 10',
   },
+  sl_edge_last: {
+    base: 'SauceLabs',
+    browserName: 'MicrosoftEdge',
+    version: 'latest-1',
+    platform: 'Windows 10',
+  },
   sl_edge_latest: {
     base: 'SauceLabs',
-    browserName: 'microsoftedge',
+    browserName: 'MicrosoftEdge',
     version: 'latest',
     platform: 'Windows 10',
   },
   // Edge beta is not available (yet?)
+  sl_safari_last: {
+    base: 'SauceLabs',
+    browserName: 'safari',
+    platform: 'macOS 10.14',
+    version: 'latest',
+  },
   sl_safari_latest: {
     base: 'SauceLabs',
     browserName: 'safari',
-    platform: 'OS X 10.13',
+    platform: 'macOS 10.15',
     version: 'latest',
   },
   // Safari beta is not available (yet?)
   // Mobile browsers -----------------------------------------------------------
-  sl_android_6: {
-    base: 'SauceLabs',
-    browserName: 'Chrome',
-    platform: 'Android',
-    version: '6.0',
-    deviceName: 'Android Emulator',
-    deviceOrientation: 'portrait'
-  },
-  sl_android_7: {
-    base: 'SauceLabs',
-    browserName: 'Chrome',
-    platform: 'Android',
-    version: '7.1',
-    deviceName: 'Android GoogleAPI Emulator',
-    deviceOrientation: 'portrait'
-  },
   /*
   sl_android_8: {
     base: 'SauceLabs',
     browserName: 'Chrome',
     platform: 'Android',
     version: '8.1',
+    deviceName: 'Android GoogleAPI Emulator',
+    deviceOrientation: 'portrait'
+  },
+  sl_android_9: {
+    base: 'SauceLabs',
+    appiumVersion: '1.9.1',
+    browserName: 'Chrome',
+    platform: 'Android',
+    platformVersion: '9.0',
+    deviceName: 'Android GoogleAPI Emulator',
+    deviceOrientation: 'portrait'
+  },
+  sl_android_10: {
+    base: 'SauceLabs',
+    appiumVersion: '1.9.1',
+    browserName: 'Chrome',
+    platformName: 'Android',
+    platformVersion: '10.0',
     deviceName: 'Android GoogleAPI Emulator',
     deviceOrientation: 'portrait'
   },
@@ -79,6 +105,14 @@ const customLaunchers = {
     browserName: 'Safari',
     platform: 'iOS',
     version: '12.2',
+    deviceName: 'iPhone XS Simulator',
+    deviceOrientation: 'portrait'
+  },
+  sl_ios_13: {
+    base: 'SauceLabs',
+    browserName: 'Safari',
+    platform: 'iOS',
+    version: '13.0',
     deviceName: 'iPhone XS Simulator',
     deviceOrientation: 'portrait'
   },
