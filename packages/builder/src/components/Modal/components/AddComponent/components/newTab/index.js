@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useStore } from 'react-redux'
 
 import { Card, CardGroup, CardHeader, CardBody,
   ListGroup, ListGroupItem } from 'reactstrap'
@@ -32,41 +32,44 @@ const addComponent = (store, type, parent, index) => {
   })
 }
 
-const ComponentShortcut = ({ type, parent, index }, { store }) =>
-  <Card
-    className="add-component-card"
-    onClick={ () => addComponent(store, type, parent, index) }
-  >
-    <CardHeader
-      className="text-center"
-    >
-      <Icon
-        icon={ metadata[type].icon }
-        weight={ metadata[type].iconWeight }
-        fallbackWeight={ metadata[type].iconFallbackWeight }
-      />
-    </CardHeader>
-    <CardBody
-      className="text-center"
-    >
-      <h5 className="card-title">
-        { metadata[type].name }
-      </h5>
-      <h6
-        className="card-subtitle mb-2 text-muted"
-        style={{ fontWeight: '400' }}
-      >
-        { metadata[type].category }
-      </h6>
-    </CardBody>
-  </Card>
+const ComponentShortcut = ({ type, parent, index }) => {
+  const store = useStore()
 
-ComponentShortcut.contextTypes = {
-  store: PropTypes.object,
+  return (
+    <Card
+      className="add-component-card"
+      onClick={ () => addComponent(store, type, parent, index) }
+    >
+      <CardHeader
+        className="text-center"
+      >
+        <Icon
+          icon={ metadata[type].icon }
+          weight={ metadata[type].iconWeight }
+          fallbackWeight={ metadata[type].iconFallbackWeight }
+        />
+      </CardHeader>
+      <CardBody
+        className="text-center"
+      >
+        <h5 className="card-title">
+          { metadata[type].name }
+        </h5>
+        <h6
+          className="card-subtitle mb-2 text-muted"
+          style={{ fontWeight: '400' }}
+        >
+          { metadata[type].category }
+        </h6>
+      </CardBody>
+    </Card>
+  )
 }
 
-const ComponentList = ({ parent, index }, { store }) =>
-  Object.entries(getMetadataByCategory()).map(([category, types]) =>
+const ComponentList = ({ parent, index }) => {
+  const store = useStore()
+
+  return Object.entries(getMetadataByCategory()).map(([category, types]) =>
     <CollapsingCard
       key={ category }
       title={ category } open={ false }
@@ -104,9 +107,6 @@ const ComponentList = ({ parent, index }, { store }) =>
       </ListGroup>
     </CollapsingCard>
   )
-
-ComponentList.contextTypes = {
-  store: PropTypes.object,
 }
 
 export default ({ parent, index }, context) =>
