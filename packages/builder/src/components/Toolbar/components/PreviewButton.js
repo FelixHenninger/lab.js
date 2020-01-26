@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { ReactReduxContext } from 'react-redux'
+
 import { Button } from 'reactstrap'
 import Raven from 'raven-js'
 
@@ -40,12 +41,12 @@ export default class PreviewButton extends Component {
     window.removeEventListener('preview:show', this.openPreview)
   }
 
-  async openPreview() {
+  async openPreview(store) {
     this.previewWindow.openOrFocus()
 
     try {
       await populateCache(
-        this.context.store.getState(),
+        store.getState(),
         state => addDownloadPlugin(addDebugPlugin(state)),
         // TODO: Ceci n'est pas une pipe
       )
@@ -76,29 +77,28 @@ export default class PreviewButton extends Component {
     const { windowState } = this.state
     return (
       <SystemContext.Consumer>
-        {
-          ({ previewActive }) =>
-            <Button
-              color="primary"
-              onClick={ () => this.openPreview() }
-              onMouseEnter={ () => {
-                // Prepare potential preview
-                const event = new Event('preview:preemt')
-                window.dispatchEvent(event)
-              }}
-              disabled={ !previewActive }
-            >
-              <Icon
-                icon={ windowState === 'closed' ? 'play' : 'sync-alt' }
-                weight="s"
-              />
-            </Button>
+        {({ previewActive }) =>
+          <ReactReduxContext.Consumer>
+            {({ store }) =>
+              <Button
+                color="primary"
+                onClick={ () => this.openPreview(store) }
+                onMouseEnter={ () => {
+                  // Prepare potential preview
+                  const event = new Event('preview:preemt')
+                  window.dispatchEvent(event)
+                }}
+                disabled={ !previewActive }
+              >
+                <Icon
+                  icon={ windowState === 'closed' ? 'play' : 'sync-alt' }
+                  weight="s"
+                />
+              </Button>
+            }
+          </ReactReduxContext.Consumer>
         }
       </SystemContext.Consumer>
     )
   }
-}
-
-PreviewButton.contextTypes = {
-  store: PropTypes.object
 }
