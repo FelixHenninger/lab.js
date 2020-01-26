@@ -1,6 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import { useStore } from 'react-redux'
 
 import { Table, Button } from 'reactstrap'
 import { FileTableHeader, FileTableBody, FileTableColGroup } from '../../../FileTable'
@@ -10,61 +9,59 @@ import { addFiles } from '../../../../logic/util/files'
 
 import FileStorage from '../../../FileStorageIndicator'
 
-const Files = ({ files }, { store }) =>
+const Files = () => {
+  const store = useStore()
+
   // We borrow styles from the grid component,
   // please make global adjustments there.
   // (TODO: check whether the border can be generalized)
-  <Table className="grid border-top-0" style={{ borderBottom: '2px solid #eceeef' }}>
-    <FileTableColGroup />
-    <FileTableHeader />
-    <FileTableBody />
-    <tfoot>
-      <tr>
-        <td />
-        <td colSpan="2">
-          <Uploader
-            decodeAs="dataURL"
-            onUpload={
-              files => {
-                try {
-                  addFiles(store, files.map(([content, file]) => ({
-                    poolPath: `static/${ file.name }`,
-                    data: {
-                      content: content,
-                      source: 'embedded-global',
-                    }
-                  })))
-                } catch(e) {
-                  console.log('Error while adding file', e)
-                  alert('Encountered error while adding file:', e)
+  return (
+    <Table
+      className="grid border-top-0"
+      style={{ borderBottom: '2px solid #eceeef' }}
+    >
+      <FileTableColGroup />
+      <FileTableHeader />
+      <FileTableBody />
+      <tfoot>
+        <tr>
+          <td />
+          <td colSpan="2">
+            <Uploader
+              decodeAs="dataURL"
+              onUpload={
+                files => {
+                  try {
+                    // TODO: Refactor this into an action
+                    addFiles(store, files.map(([content, file]) => ({
+                      poolPath: `static/${ file.name }`,
+                      data: {
+                        content: content,
+                        source: 'embedded-global',
+                      }
+                    })))
+                  } catch(e) {
+                    console.log('Error while adding file', e)
+                    alert('Encountered error while adding file:', e)
+                  }
                 }
               }
-            }
-          >
-            <Button
-              size="sm" block
-              outline color="muted"
-              className="hover-target"
             >
-              <Icon icon="plus" />
-            </Button>
-          </Uploader>
-        </td>
-        <td />
-      </tr>
-    </tfoot>
-  </Table>
-
-// Redux integration
-const mapStateToProps = (state) => ({
-  files: state.files.files
-})
-
-Files.contextTypes = {
-  store: PropTypes.object,
+              <Button
+                size="sm" block
+                outline color="muted"
+                className="hover-target"
+              >
+                <Icon icon="plus" />
+              </Button>
+            </Uploader>
+          </td>
+          <td />
+        </tr>
+      </tfoot>
+    </Table>
+  )
 }
-
-const ConnectedFiles = connect(mapStateToProps)(Files)
 
 export default () =>
   <>
@@ -79,5 +76,5 @@ export default () =>
       Study-wide static files
     </h5>
     <p className="text-muted">The following files are available study-wide from the <code>static</code> directory.</p>
-    <ConnectedFiles />
+    <Files />
   </>
