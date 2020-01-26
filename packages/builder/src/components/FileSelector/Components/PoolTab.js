@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import { useStore } from 'react-redux'
 
 import { CustomInput, ListGroup, ListGroupItem } from 'reactstrap'
 import { repeat } from 'lodash'
@@ -10,8 +10,9 @@ import { mimeFromDataURI } from '../../../logic/util/dataURI'
 import { mimeToIcon } from '../../../logic/util/fileType';
 import Icon from '../../Icon';
 
-const PoolTab = ({ accept, handleImport, initialComponent }, { store }) => {
+const PoolTab = ({ accept, handleImport, initialComponent }) => {
   const [component, setComponent] = useState(initialComponent)
+  const store = useStore()
   const { components, files: { files } } = store.getState()
 
   // TODO: Rejoice when optional chaining makes it into CRA
@@ -84,10 +85,6 @@ const PoolTab = ({ accept, handleImport, initialComponent }, { store }) => {
       }
     </ListGroup>
   </>
-}
-
-PoolTab.contextTypes = {
-  store: PropTypes.object
 }
 
 export default PoolTab
