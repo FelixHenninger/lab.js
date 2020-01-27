@@ -1,4 +1,6 @@
 import localForage from 'localforage'
+import { debounce } from 'lodash'
+
 import { fromObject } from '../io/load'
 
 const lf = localForage.createInstance({
@@ -7,12 +9,12 @@ const lf = localForage.createInstance({
 
 export const persistState = async store => {
   // Persist application state to localForage on changes
-  store.subscribe(() => {
+  store.subscribe(debounce(() => {
     lf.setItem(
       'state:latest',
       store.getState()
     )
-  })
+  }), 500)
 
   // Check for persistence of in-browser storage
   if (navigator.storage && navigator.storage.persist) {
