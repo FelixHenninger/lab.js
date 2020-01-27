@@ -109,7 +109,7 @@ const ComponentList = ({ parent, index }) => {
   )
 }
 
-export default ({ parent, index }, context) =>
+export default ({ parent, index }) =>
   <>
     <CardGroup className="mb-3">
       {
