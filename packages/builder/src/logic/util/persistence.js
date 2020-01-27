@@ -18,13 +18,11 @@ export const persistState = async store => {
 
   // Check for persistence of in-browser storage
   if (navigator.storage && navigator.storage.persist) {
-    navigator.storage.persisted().then(persistent => {
-      if (persistent) {
-        console.log('Persistent storage enabled')
-      } else {
-        console.log('Persistent storage not permitted')
-      }
-    })
+    if (await navigator.storage.persisted()) {
+      console.log('Persistent storage enabled')
+    } else {
+      console.log('Persistent storage not permitted')
+    }
   } else {
     console.log('No support for persistent storage')
   }
