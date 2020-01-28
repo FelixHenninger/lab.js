@@ -90,7 +90,7 @@ const splashOptions = {
         <SplashButton
           icon="book-open"
           onClick={ () => window.open(
-            'https://labjs.readthedocs.io/en/latest/learn/builder/',
+            'https://lab.js.org/docs/en/latest/learn/builder/',
             '_blank'
           ) }
         >
@@ -116,7 +116,7 @@ const splashOptions = {
       <Container className="py-4">
         <p><strong>Wow, it's cool that you're interested!</strong> Here are some things we hope you'll find helpful:</p>
         <ul>
-          <li>We've collected <a href="https://labjs.readthedocs.io/en/latest/examples/" target="_blank" rel="noopener noreferrer">tips, tricks and recipes</a> for common use cases.</li>
+          <li>We've collected <a href="https://lab.js.org/docs/en/latest/recipes/" target="_blank" rel="noopener noreferrer">tips, tricks and recipes</a> for common use cases.</li>
           <li>
             Maybe the paradigm you're looking for is already among the{' '}
             <a
@@ -128,7 +128,7 @@ const splashOptions = {
             >examples</a>
             ?
           </li>
-          <li>The <a href="https://labjs.readthedocs.io/en/latest/reference/" target="_blank" rel="noopener noreferrer">reference documentation</a> covers the nitty-gritty library internals.</li>
+          <li>The <a href="https://lab.js.org/docs/en/latest/reference/" target="_blank" rel="noopener noreferrer">reference documentation</a> covers the nitty-gritty library internals.</li>
         </ul>
       </Container>
   },
@@ -138,7 +138,7 @@ const splashOptions = {
     content: () =>
       <Container className="py-4">
         <p><strong>We'd love to support you!</strong> Please don't hesitate to reach out if there's anything we can do to help, we'd be glad to.</p>
-        <p>The easiest way to find help is our <a href="https://nmbrcrnchrs.slack.com/" target="_blank" rel="noopener noreferrer"><strong>slack channel</strong></a>, where there's usually someone around to chat and provide information. You can <a href="https://slackin-nmbrcrnchrs.herokuapp.com/" target="_blank" rel="noopener noreferrer">join by providing your email address</a> — you'll receive access in seconds.</p>
+        <p>The easiest way to find help is our <a href="https://lab.js.org/resources/support/" target="_blank" rel="noopener noreferrer"><strong>support channel</strong></a>, where there's usually someone around to chat and provide information. You can <a href="https://lab.js.org/resources/support/" target="_blank" rel="noopener noreferrer">join by providing your email address</a> — you'll receive access in seconds.</p>
         <div className="text-center">
           <Icon icon="heart-circle" />
         </div>
