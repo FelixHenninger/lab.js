@@ -209,11 +209,11 @@ class TimelineStage extends Component {
 
     // This is a hack: If called in sequence,
     // the newly added item is not yet available in the timeline
-    setTimeout(
+    // TODO: Try to do this synchronously!
+    setImmediate(
       () => this.setState({
         activeItem: this.props.data.timeline.length - 1
-      }),
-      0
+      })
     )
   }
 
