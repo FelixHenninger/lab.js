@@ -109,6 +109,7 @@ export const metadata = {
           <button type="submit">Submit</button>
         </form>
       `,
+      scrollTop: true,
       files: { rows: [] },
       parameters: {
         rows: [ [ { name: '', value: '', type: 'string' }, ], ],
@@ -187,6 +188,7 @@ export const metadata = {
       items: { rows: [ [ {
         type: 'text',
       } ] ] },
+      scrollTop: true,
       files: { rows: [] },
       parameters: {
         rows: [ [ { name: '', value: '', type: 'string' }, ], ],
