@@ -34,6 +34,19 @@ const defaultTabs = [
   'More',
 ]
 
+const globalDefaults = {
+  files: { rows: [] },
+  responses: {
+    rows: [ ['', '', '', ''] ],
+  },
+  parameters: {
+    rows: [ [ { name: '', value: '', type: 'string' }, ], ],
+  },
+  messageHandlers: {
+    rows: [ [ { title: '', message: '', code: '' }, ], ],
+  },
+}
+
 export const metadata = {
   'lab.flow.Loop': {
     name: 'Loop',
@@ -47,10 +60,6 @@ export const metadata = {
     defaults: {
       type: 'lab.flow.Loop',
       children: [],
-      files: { rows: [] },
-      parameters: {
-        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
-      },
       templateParameters: {
         columns: [{ name: '', type: 'string' }, { name: '', type: 'string' }],
         rows: [ ['', ''] ],
@@ -58,12 +67,7 @@ export const metadata = {
       sample: {
         mode: 'draw-shuffle',
       },
-      responses: {
-        rows: [ ['', '', '', ''] ],
-      },
-      messageHandlers: {
-        rows: [ [ { title: '', message: '', code: '' }, ], ],
-      },
+      ...globalDefaults,
     }
   },
   'lab.flow.Sequence': {
@@ -78,16 +82,7 @@ export const metadata = {
     defaults: {
       type: 'lab.flow.Sequence',
       children: [],
-      files: { rows: [] },
-      parameters: {
-        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
-      },
-      responses: {
-        rows: [ ['', '', '', ''] ],
-      },
-      messageHandlers: {
-        rows: [ [ { title: '', message: '', code: '' }, ], ],
-      },
+      ...globalDefaults,
     }
   },
   'lab.html.Form': {
@@ -110,16 +105,7 @@ export const metadata = {
         </form>
       `,
       scrollTop: true,
-      files: { rows: [] },
-      parameters: {
-        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
-      },
-      responses: {
-        rows: [ ['', '', '', ''] ],
-      },
-      messageHandlers: {
-        rows: [ [ { title: '', message: '', code: '' }, ], ],
-      },
+      ...globalDefaults,
     },
   },
   'lab.html.Frame': {
@@ -135,16 +121,7 @@ export const metadata = {
       type: 'lab.html.Frame',
       context: '<main data-labjs-section="frame">\n  <!-- Content gets inserted here -->\n</main>',
       contextSelector: '[data-labjs-section="frame"]',
-      files: { rows: [] },
-      parameters: {
-        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
-      },
-      responses: {
-        rows: [ ['', '', '', ''] ],
-      },
-      messageHandlers: {
-        rows: [ [ { title: '', message: '', code: '' }, ], ],
-      },
+      ...globalDefaults,
     },
   },
   'lab.html.Screen': {
@@ -160,16 +137,7 @@ export const metadata = {
     defaultTab: 'Content',
     defaults: {
       type: 'lab.html.Screen',
-      files: { rows: [] },
-      parameters: {
-        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
-      },
-      responses: {
-        rows: [ ['', '', '', ''] ],
-      },
-      messageHandlers: {
-        rows: [ [ { title: '', message: '', code: '' }, ], ],
-      },
+      ...globalDefaults,
     },
   },
   'lab.html.Page': {
@@ -189,18 +157,9 @@ export const metadata = {
         type: 'text',
       } ] ] },
       scrollTop: true,
-      files: { rows: [] },
-      parameters: {
-        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
-      },
-      responses: {
-        rows: [ ['', '', '', ''] ],
-      },
-      messageHandlers: {
-        rows: [ [ { title: '', message: '', code: '' }, ], ],
-      },
       submitButtonText: 'Continue →',
       submitButtonPosition: 'right',
+      ...globalDefaults,
     },
   },
   'lab.canvas.Frame': {
@@ -216,16 +175,7 @@ export const metadata = {
       type: 'lab.canvas.Frame',
       context: '<!-- Nested components use this canvas -->\n<canvas />',
       contextSelector: 'canvas',
-      files: { rows: [] },
-      parameters: {
-        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
-      },
-      responses: {
-        rows: [ ['', '', '', ''] ],
-      },
-      messageHandlers: {
-        rows: [ [ { title: '', message: '', code: '' }, ], ],
-      },
+      ...globalDefaults,
     },
   },
   'lab.canvas.Screen': {
@@ -242,17 +192,8 @@ export const metadata = {
     defaults: {
       type: 'lab.canvas.Screen',
       content: [],
-      files: { rows: [] },
-      parameters: {
-        rows: [ [ { name: '', value: '', type: 'string' }, ], ],
-      },
-      responses: {
-        rows: [ ['', '', '', ''] ],
-      },
-      messageHandlers: {
-        rows: [ [ { title: '', message: '', code: '' }, ], ],
-      },
       viewport: [800, 600],
+      ...globalDefaults,
     },
   },
 }
