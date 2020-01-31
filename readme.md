@@ -124,6 +124,7 @@ development of this tool:
 
 [FernUniversität in Hagen](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/) ·
 [GESS, University of Mannheim](http://gess.uni-mannheim.de/) ·
+[Mozilla Science Lab](https://science.mozilla.org) ·
 [Rational Altruists Mannheim](http://www.ram-ev.de/) ·
 [Stifterverband](https://www.stifterverband.org/english/) ·
 [University of Koblenz-Landau](https://www.cognition.uni-landau.de/) ·
