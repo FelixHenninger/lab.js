@@ -413,10 +413,6 @@ export class Component extends EventHandler {
       },
     )
 
-    // Prepare timeline
-    this.internals.timeline.events = this.options.timeline
-    this.internals.timeline.prepare()
-
     // Push existing events and el to DomConnection
     this.internals.domConnection.events = this.options.events
     this.internals.domConnection.el = this.options.el
@@ -456,6 +452,10 @@ export class Component extends EventHandler {
 
     // Preload media
     await this.preload()
+
+    // Prepare timeline
+    this.internals.timeline.events = this.options.timeline
+    await this.internals.timeline.prepare()
 
     // Prepare DOM connections
     this.internals.domConnection.prepare()
