@@ -137,15 +137,11 @@ describe('Core', () => {
         b.options.media.images.push(url)
 
         return b.prepare().then(() => {
-          assert.instanceOf(
-            b.internals.controller.cache.images[url],
-            Image
-          )
+          const image = b.internals.controller.cache.images.readSync(url)
+          assert.instanceOf(image, Image)
 
           // Check that loading completed
-          assert.ok(
-            b.internals.controller.cache.images[url].complete
-          )
+          assert.ok(image.complete)
         })
       })
 
@@ -154,14 +150,10 @@ describe('Core', () => {
         b.options.media.audio.push(url)
 
         return b.prepare().then(() => {
-          const audio = b.internals.controller.cache.audio[url]
+          const audio = b.internals.controller.cache.audio.readSync(url)
 
-          assert.instanceOf(
-            audio, AudioBuffer
-          )
-          assert.ok(
-            audio.length > 0
-          )
+          assert.instanceOf(audio, AudioBuffer)
+          assert.ok(audio.length > 0)
         })
       })
 

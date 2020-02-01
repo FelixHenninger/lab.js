@@ -103,6 +103,7 @@ in the documentation.
 [Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/) ·
 [Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
 [Alex Irvine](https://github.com/u01ai11) ·
+[Dave Kleinschmidt](https://www.davekleinschmidt.com/) ·
 [Karthikeya Pammi](https://github.com/pvskarthikeya) ·
 [Sophie Scharf](http://cognition.uni-mannheim.de/mitarbeiter/m_sc_sophie_scharf/) ·
 [Nikoletta Symeonidou](https://www.sowi.uni-mannheim.de/en/erdfelder/team/academic-staff-members/symeonidou-nikoletta/) ·

@@ -154,7 +154,7 @@ const renderElement = (ctx, content, cache={}) => {
       break
     case 'image':
       // Load image element from cache
-      const img = cache.images[content.src]
+      const img = cache.images.readSync(content.src)
 
       // Recalculate width and height
       // to preserve aspect ratio, if requested

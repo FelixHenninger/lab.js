@@ -11,7 +11,7 @@ import { ensureHighResTime, timingParameters,
   StackTimeout, FrameTimeout,
   requestIdleCallback } from './util/timing'
 import { awaitReadyState } from './util/readyState'
-import { preloadImage, preloadAudio } from './util/preload'
+import { ImageCache, AudioCache } from './util/cache'
 import { browserName } from './util/browser'
 import { aggregateParentOption } from './util/tree'
 
@@ -37,14 +37,14 @@ class Controller {
     // Data storage
     this.datastore = new Store()
 
-    // Media cache
-    this.cache = {
-      images: {},
-      audio: {},
-    }
-
     // Audio context
     this.audioContext = new (window.AudioContext || window.webkitAudioContext)()
+
+    // Media cache
+    this.cache = {
+      images: new ImageCache(),
+      audio: new AudioCache(this.audioContext),
+    }
 
     // Setup DOM connection for global events
     this.domConnection = new DomConnection({
@@ -466,21 +466,10 @@ export class Component extends EventHandler {
 
   async preload() {
     // Preload media
-    await Promise.all(
-      this.options.media.images.map(
-        img => preloadImage(img,
-          this.internals.controller.cache.images
-        )
-      )
-    )
-    await Promise.all(
-      this.options.media.audio.map(
-        snd => preloadAudio(snd,
-          this.internals.controller.cache.audio,
-          this.internals.controller.audioContext,
-        )
-      )
-    )
+    await Promise.all([
+      this.internals.controller.cache.images.getAll(this.options.media.images),
+      this.internals.controller.cache.audio.getAll(this.options.media.audio),
+    ])
   }
 
   async run(frameTimestamp, frameSynced) {

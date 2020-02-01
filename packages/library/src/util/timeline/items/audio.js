@@ -219,25 +219,7 @@ export class BufferSourceItem extends AudioNodeItem {
     // Populate buffer from cache, if possible
     const { cache, audioContext } = this.timeline.controller
     const { src, loop } = this.payload
-
-    let buffer
-    if (cache.audio[src]) {
-      buffer = cache.audio[src]
-    } else {
-      // Otherwise, load audio file from URL
-      try {
-        buffer = await load(src, audioContext, { mode: 'cors' })
-        cache.audio[src] = cache.audio[src] || buffer
-      } catch (e) {
-        console.warn(
-          'Audio timeline item missing content, will remain silent.',
-          `Source: ${ src }, Error: ${ e.message }`,
-        )
-      }
-    }
-    // TODO: This seems to be the wrong place for a fallback.
-    // Adjust the caching mechanism so that the preload stage knows
-    // about the audio file, so that the cache is always present.
+    const buffer = await cache.audio.get(src)
 
     this.source = createNode('bufferSource', audioContext, { buffer, loop })
     super.prepare()
