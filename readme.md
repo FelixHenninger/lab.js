@@ -5,18 +5,18 @@
 
 <p align="center">
   <small>
-    <a href="https://labjs.readthedocs.io/en/latest/learn/builder">Get started</a> ·
-    <a href="https://labjs.felixhenninger.com/">Open the builder</a> ·
-    <a href="https://labjs.readthedocs.io/en/latest/">Learn more</a> ·
-    <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html">Contribute</a>
+    <a href="https://lab.js.org/docs/en/latest/learn/builder">Get started</a> ·
+    <a href="https://lab.js.org/builder">Open the builder</a> ·
+    <a href="https://lab.js.org/docs/en/latest">Learn more</a> ·
+    <a href="https://lab.js.org/docs/en/latest/meta/contribute">Contribute</a>
   </small>
 </p>
 
 **`lab.js` makes it easy to build, run and share studies that help understand the mind.** It allows everyone to construct and construct experiments and surveys within the browser; the graphical builder makes it easy to get started without writing code.
 
-[![Slack Status](https://img.shields.io/badge/slack-online-brightgreen.svg)](https://slackin-nmbrcrnchrs.herokuapp.com/)
+[![Slack Status](https://img.shields.io/badge/support-online-brightgreen.svg)](https://lab.js.org/resources/support/)
 [![Build Status](https://travis-ci.org/FelixHenninger/lab.js.svg?branch=master)](https://travis-ci.org/FelixHenninger/lab.js)
-[![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=latest)](http://labjs.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=latest)](https://lab.js.org/docs/en/latest/)
 [![Version on NPM](https://img.shields.io/npm/v/lab.js.svg)](https://www.npmjs.com/package/lab.js)
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.597045.svg)](https://doi.org/10.5281/zenodo.597045)
 [![Code is Science](https://img.shields.io/badge/Code%20is%20Science-%E2%9C%93-brightgreen.svg)](https://codeisscience.github.io/manifesto/)
@@ -30,23 +30,23 @@
 
 ### Get started 🚀
 
-The [**graphical builder interface**](https://labjs.felixhenninger.com) is the
+The [**graphical builder interface**](https://lab.js.org/builder) is the
 easiest way to create studies, and the best place to start. The tutorial
 will walk you through [building your first study, step by
 step](https://labjs.readthedocs.io/en/latest/learn/builder/).
 
 If you prefer working directly with code, you can build studies using the
-[**JavaScript library**](https://labjs.readthedocs.io/en/latest/reference/).
+[**JavaScript library**](https://lab.js.org/docs/en/latest/reference/).
 Everything you need is bundled in the *starter kit*, which is [provided with
 every release](https://github.com/FelixHenninger/lab.js/releases/latest).
-There is also a tutorial to [help you get started](https://labjs.readthedocs.io/en/latest/learn/code/).
+There is also a tutorial to [help you get started](https://lab.js.org/docs/en/latest/learn/code/).
 
 If you get stuck or things don't make sense, please don't hesitate to reach out!
 
 ### Find help ☎️
 
-The easiest and quickest way to find help is to [join our **Slack
-channel**](https://slackin-nmbrcrnchrs.herokuapp.com/), where there's someone
+The easiest and quickest way to find help is to [join our **Support
+channel**](https://lab.js.org/resources/support/), where there's someone
 around to discuss things and help out most of the time. You're welcome to just
 join and say hello, we'd love to have you around!
 
@@ -59,7 +59,7 @@ updates and release notifications.
 ### Help improve `lab.js`! ✨☀️
 
 **We would love to have you as part of this project!** There are lots of
-different [**ways to contribute**](https://labjs.readthedocs.io/en/latest/meta/contribute/ways.html),
+different [**ways to contribute**](https://lab.js.org/docs/en/latest/meta/contribute/ways.html),
 and we recognize and very warmly welcome all kinds of involvement:
 
 * **Feedback, ideas and suggestions** are always appreciated. If we can make `lab.js` more useful, we'd love to!
@@ -70,7 +70,7 @@ and we recognize and very warmly welcome all kinds of involvement:
 **Please also let us know if you'd like to join in but are unsure how**, we'd be
 thrilled to help you find something that suits your interests and resources.
 The [**contributor's guide**](contributing.md) provides further information
-about our process; we have some pointers regarding how to [build the project](https://labjs.readthedocs.io/en/latest/meta/contribute/build.html)
+about our process; we have some pointers regarding how to [build the project](https://lab.js.org/docs/en/latest/meta/contribute/build.html)
 in the documentation.
 
 ----
