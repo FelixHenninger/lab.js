@@ -24,7 +24,7 @@ Welcome to the **lab.js** documentation!
     <tr>
       <td><i class="fa fa-birthday-cake fa-fw"></i></td>
       <td>
-        <a href="examples/index.html">Recipes and examples</a>
+        <a href="recipes/index.html">Recipes and examples</a>
         <p>Because someone might have figured out that tricky thing before.</p>
       </td>
       <td><i class="fa fa-server fa-fw"></i></td>
