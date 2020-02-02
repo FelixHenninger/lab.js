@@ -146,7 +146,7 @@ that we can discuss things in more detail.
 We [kindly request](https://www.youtube.com/watch?v=kVwl-Va7cNM) that you cite
 ``lab.js`` if you use it in your research. Here's how:
 
-> Henninger, F., Shevchenko, Y., Mertens, U. K., Kieslich, P. J., & Hilbig, B. E. (2019). lab.js: A free, open, online study builder. doi: [10.5281/zenodo.597045](https://doi.org/10.5281/zenodo.597045)
+> Henninger, F., Shevchenko, Y., Mertens, U. K., Kieslich, P. J., & Hilbig, B. E. (2020). lab.js: A free, open, online study builder. doi: [10.5281/zenodo.597045](https://doi.org/10.5281/zenodo.597045)
 
 (There are also [version-specific dois](https://doi.org/10.5281/zenodo.597045) if you prefer those)
 
