@@ -1,4 +1,4 @@
-import { fromPairs, zip, pickBy, groupBy, isEmpty } from 'lodash'
+import { fromPairs, zip, pick, pickBy, groupBy, isEmpty } from 'lodash'
 import serialize from 'serialize-javascript'
 
 import { makeType } from '../../util/makeType'
@@ -110,6 +110,23 @@ const processItems = items =>
       }
     })
 
+const processContent = (nodeType, content) => {
+  switch (nodeType) {
+    case 'lab.canvas.Screen':
+      return content.map(c => pick(c, [
+        'type', 'left', 'top', 'angle', 'width', 'height',
+        'stroke', 'strokeWidth', 'fill',
+        // Text
+        'text', 'fontStyle', 'fontWeight', 'fontSize', 'fontFamily',
+        'lineHeight', 'textAlign', 'textBaseline',
+        // Image
+        'src', 'autoscale',
+      ]))
+    default:
+      return content
+  }
+}
+
 // Process any single node in isolation
 const processNode = node => {
   // Options to exclude from JSON output
@@ -126,6 +143,7 @@ const processNode = node => {
     !(key.startsWith('_') || filteredOptions.includes(key))
 
   return Object.assign({}, pickBy(node, filterOptions), {
+    content: processContent(node.type, node.content),
     files: node.files
       ? processFiles(node.files)
       : {},
