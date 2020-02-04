@@ -171,7 +171,7 @@ const processNode = node => {
 
 // Process a node and its children
 const makeComponentTree = (data, root) => {
-	const currentNode = processNode(data[root])
+  const currentNode = processNode(data[root])
 
   if (currentNode) {
     const output = Object.assign({}, currentNode)
