@@ -83,6 +83,10 @@ fabric.Aoi.fromObject = function(object, callback, forceAsync) {
   return fabric.Object._fromObject('Aoi', object, callback, forceAsync);
 }
 
+// Customize text behavior -----------------------------------------------------
+// Always paste and apply style
+fabric.disableStyleCopyPaste = true
+
 // Canvas component ------------------------------------------------------------
 
 const handlePadding = 6
