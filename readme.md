@@ -96,6 +96,7 @@ in the documentation.
 
 #### Ideas and feedback 💡
 
+Dilek Akkus ·
 [Angelo Belardi](https://psychologie.unibas.ch/de/personen/589/) ·
 [Ursa Bernardic](https://www.unige.ch/gsem/en/research/institutes/iom/team/phd-students/ursa-bernardic/) ·
 [Emily Elliott](https://lsu.edu/hss/psychology/faculty/cognitive/elliott.php) ·

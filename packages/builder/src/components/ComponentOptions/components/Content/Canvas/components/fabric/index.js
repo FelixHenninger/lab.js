@@ -442,7 +442,6 @@ export default class FabricCanvas extends Component {
       o => o.clone(
         c => {
           c.id = this.props.idSource()
-          this.props.addHandler({ target: c })
           this.canvas.add(c)
           this.canvas.setActiveObject(c)
         }

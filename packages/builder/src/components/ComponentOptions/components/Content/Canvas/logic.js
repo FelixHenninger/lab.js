@@ -96,7 +96,7 @@ export const toCanvas = (object, componentId, store, ignore=[]) => {
 }
 
 export const fromCanvas = (object, oldObject) => {
-  if (!object) {
+  if (!object || !oldObject) {
     return object
   }
 

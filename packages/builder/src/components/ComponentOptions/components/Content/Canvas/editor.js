@@ -140,15 +140,25 @@ export default class CanvasEditor extends Component {
   updateFromForm(formData) {
     const newData = { ...formData }
 
-    this.updateContent({
-      ...newData,
-      // Preserve type information
-      // (which is sometimes lost through the form)
-      type: this.state.selection
-        ? this.state.data[this.state.selection].type
-        : undefined,
-      id: this.state.selection,
-    }, true) // also update canvas
+    // Prevent updates if the data for the currently selected object
+    // is not yet available in the editor state. This catches a weird
+    // edge case during object cloning where an object is added and
+    // the selection changes, but the data is not yet available through
+    // the editor state, even though it catches up shortly after.
+    // This glitch likely reflects an issue in the underlying updating
+    // and syncronisation logic, and will require a more careful
+    // analysis in the mid-term
+    if (this.state.data[this.state.selection]) {
+      this.updateContent({
+        ...newData,
+        // Preserve type information
+        // (which is sometimes lost through the form)
+        type: this.state.selection
+          ? this.state.data[this.state.selection].type
+          : undefined,
+        id: this.state.selection,
+      }, true) // also update canvas
+    }
   }
 
   updateForm() {
