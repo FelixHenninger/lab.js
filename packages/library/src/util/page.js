@@ -1,7 +1,7 @@
 import { stripIndent } from 'common-tags'
 import { range } from 'lodash'
 
-const makeAttibutes = (attrs={}) =>
+const makeAttributes = (attrs={}) =>
   Object.entries(attrs)
     .map(([attr, val]) => `${ attr }="${ val }"`)
     .join(' ')
@@ -171,7 +171,7 @@ export const processItem = i => {
           <input name="${ i.name }"
             ${ i.required ? 'required' : '' }
             class="w-100"
-            ${ makeAttibutes(i.attributes) }
+            ${ makeAttributes(i.attributes) }
           >
         `
       )
@@ -243,7 +243,7 @@ export const processItem = i => {
           <input name="${ i.name }" type="range"
             ${ i.required ? 'required' : '' }
             class="w-100"
-            ${ makeAttibutes(i.attributes) }
+            ${ makeAttributes(i.attributes) }
           >
         `
       )
