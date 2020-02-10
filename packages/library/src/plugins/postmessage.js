@@ -1,13 +1,14 @@
 export default class PostMessage {
-  constructor({ origin, target }) {
+  constructor({ origin, target, messageType }) {
     this.origin = origin || '*'
     this.target = target || window.parent
+    this.messageType = messageType || 'labjs.data'
   }
 
   handle(context, event) {
     if (event === 'epilogue') {
       this.target.postMessage({
-        type: 'labjs.data',
+        type: this.messageType,
         metadata: {
           payload: 'full',
           url: window.location.href,
