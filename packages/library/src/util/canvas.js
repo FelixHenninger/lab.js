@@ -261,6 +261,6 @@ export const makePath = (ctx, content) => {
 export const makePathFunction = (content) => (ts, canvas, ctx) =>
   fromPairs(
     content
-      .filter(c => ['aoi'].includes(c.type)) // Currently supported content
-      .map(c => [c.label, makePath(ctx, c)]) // Key / path pairs
+      .filter(c => c.label && ['aoi'].includes(c.type)) // Supported objects
+      .map(c => [c.label, makePath(ctx, c)]) // Make key / path pairs
   )

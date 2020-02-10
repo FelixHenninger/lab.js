@@ -121,6 +121,8 @@ const processContent = (nodeType, content) => {
         'lineHeight', 'textAlign', 'textBaseline',
         // Image
         'src', 'autoscale',
+        // AOI
+        'label',
       ]))
     default:
       return content
