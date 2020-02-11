@@ -124,7 +124,7 @@ export const makePage = (items, options) =>
       "
     >
       <div class="w-${ options.width || 'm' } text-left">
-        <form id="page-form" style="display: block;">
+        <form id="page-form" style="display: block;" autocomplete="off">
           ${ items.map(processItem).join('\n') }
         </form>
       </div>
