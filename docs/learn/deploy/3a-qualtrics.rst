@@ -84,6 +84,10 @@ To achieve the connection, you'll need to add JavaScript logic to the `Descripti
 
 .. video:: 3a-qualtrics/3-connect_behavior.webm
 
+.. caution::
+
+  If you deploy a study to Qualtrics, please make absolutely sure that you've thoroughly checked the collected data, especially if you've made changes to the data storage code.
+
 ----
 
 Working with the collected data
@@ -93,7 +97,7 @@ After setting up the survey and study as described, and going through the survey
 
 The somewhat garbled appearance is because, like other questionnaire-focussed tools, Qualtrics enforces a wide data format, requiring a conversion step to decompress the data from ``lab.js`` before further analyses can be done. This step is also required with other, similar tools, and therefore described in the :ref:`general documentation <tutorial/deploy/third-party/postprocessing>`.
 
-.. caution::
+.. note::
 
   If you can see the experiment embedded in the survey, but aren't redirected to the next survey page after completing the experiment, or if you don't see the collected data, please make sure that your experiment doesn't get stuck on the last screen. For example, you might set a timeout on the last screen, or allow participants to respond to your goodbye message.
 
