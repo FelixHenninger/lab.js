@@ -55,7 +55,7 @@ Welcome to the **lab.js** documentation!
     <tr>
       <td><i class="fa fa-globe fa-fw"></i></td>
       <td>
-        <a href="https://felixhenninger.github.io/lab.js/">Project website</a>
+        <a href="https://lab.js.org">Project website</a>
         <p>This is where we show off all our features in <strong>glossy pictures</strong>. Show this to your friends, and boss!</p>
       </td>
       <td>
@@ -63,8 +63,8 @@ Welcome to the **lab.js** documentation!
           style="font-size: 0.9em; position: relative; top: -0.4rem"></i>
       </td>
       <td>
-        <a href="https://slackin-nmbrcrnchrs.herokuapp.com/">Support channel</a>
-        <p>Here's where you'll <strong>find help</strong>.<br>Do drop in and say hello, maybe<br>even help somebody, too?</p>
+        <a href="https://lab.js.org/resources/support">Support</a>
+        <p>Here's where you'll <strong>find help</strong>.<br>Do join our community chat and say hello, maybe even help someone else, too?</p>
       </td>
     </tr>
     <tr>
