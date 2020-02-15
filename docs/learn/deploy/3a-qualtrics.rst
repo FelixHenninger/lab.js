@@ -44,10 +44,6 @@ Because the data is saved in the embedded field you set up above, the study is b
 
   <!-- Adjust the page style slightly -->
   <style>
-    /* Hide button for skipping the page */
-    .NextButton {
-      visibility: hidden;
-    }
     /* Remove border from last question */
     .QuestionOuter:last-of-type .QuestionText {
       border: none;
@@ -67,18 +63,20 @@ To achieve the connection, you'll need to add JavaScript logic to the `Descripti
 
 .. code-block:: JS
 
+  const page = this
+  page.hideNextButton()
+
   // Listen for the study sending data
-  window.addEventListener('message', function(event) {
+  window.addEventListener('message', function _labjs_data_handler(event) {
     // Make sure that the event is from lab.js, then ...
     if (event.data.type === 'labjs.data') {
-      // ... extract the data lab.js is sending.
-
-      // We're going to work with JSON data
+      // ... extract the JSON data lab.js is sending.
       const data = event.data.json
 
       // ... save data and submit page
-      Qualtrics.SurveyEngine.setEmbeddedData('labjs-data', data)
-      document.querySelector('.NextButton').click()
+      page.setEmbeddedData('labjs-data', data)
+      window.removeEventListener('message', _labjs_data_handler)
+      page.clickNextButton()
     }
   })
 
