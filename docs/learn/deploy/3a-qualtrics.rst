@@ -5,6 +5,8 @@ Working with Qualtrics
 
 `Qualtrics`_ is a popular proprietary questionnaire and survey tool that is easy to pick up. Studies built with ``lab.js`` can be embedded in Qualtrics with a few simple steps; setting up the connection should take you about 10 minutes.
 
+Before you go through the steps below, please make sure that you've :ref:`prepared your study for use in third-party tools <tutorial/deploy/third-party/prepare-experiment>`.
+
 .. _Qualtrics: https://www.qualtrics.com
 
 .. contents:: Steps

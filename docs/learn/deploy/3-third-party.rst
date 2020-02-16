@@ -13,12 +13,16 @@ Studies built in ``lab.js`` integrate well with external tools, and will happil
 
 .. seealso::
 
-  This page covers integration with third-party tools in general. We cover the most popular tools individually:
+  This page covers integration with third-party tools in the abstract. We cover the most popular tools individually:
 
   * :ref:`Open Lab <tutorial/deploy/third-party/jatos>`
   * :ref:`JATOS <tutorial/deploy/third-party/openlab>`
   * :ref:`Qualtrics <tutorial/deploy/third-party/qualtrics>`
   * :ref:`The Experiment Factory <tutorial/deploy/third-party/expfactory>`
+
+.. |br| raw:: html
+
+    <br>
 
 ----
 
@@ -36,17 +40,30 @@ This means that you'll need a couple of things for this to work:
 
 ----
 
+.. _tutorial/deploy/third-party/prepare-experiment:
+
 Prepare the experiment
 ----------------------
 
-The first step is to **prepare the experiment you've built for use within external software**. Once you have a working study, all you need to do is export it using the *generic survey software* integration. This will give you a zip file; we'd ask you to unpack and upload it to a hosting provider of your choice. From there, you should be able to run the study using your browser; please make a note of the ``URL`` at which you accessed the study.
+The first step is to **prepare the experiment you've built for use within external software**. Once you have a working study, please export it using the *generic survey software* integration. This will give you a zip archive with all the necessary files to run the study, pre-configured to send the data to a third-party service.
+
+After exporting the study, the next step is to **make it accessible to the survey software**. In most scenarios this means uploading the study files to a hosting provider or webspace. Some tools, notably JATOS and Open Lab, will host the study files for you, but others, you'll need to host the study yourself, outside of the survey. |br|
+If your institution provides a server, or you have a personal webspace, you can unpack the study files there; if you don't, we like to use `Netlify Drop`_, which makes uploading and hosting a study a drag-and-drop operation (you'll need to setup a free account to permanently store your files with Netlify).
+
+Whereever you upload your study, please make a note of the ``URL`` at which it is accessible, you'll need it for the next step.
+
+.. _Netlify Drop: https://app.netlify.com/drop
+
+.. note::
+
+  **We're happy to help you with this!** We recognize that hosting a study can be a tricky step; please `join our support community <https://lab.js.org/resources/support/>`_ if there's anything we can support you with.
 
 ----
 
 Prepare the survey
 ------------------
 
-Inside the survey, **you'll need to add a new text input field that will serve to capture and store the experiment's data**. Because we'll fill it with lots of strange-looking experimental data, it should ideally be hidden from participants (and not limited in length). You probably know best how to create this; **we've provided pointers for a few tools we've worked with below**.
+Inside the survey, **you'll need to add a new text input field that will serve to capture and store the experiment's data**. Because we'll fill it with lots of strange-looking experimental data, it should ideally be hidden from participants (and not limited in length). You probably know best how to create this; **we've provided pointers for a few tools we've worked with above**.
 
 ----
 
@@ -79,7 +96,7 @@ To process and save the data, the surrounding page needs to capture the results 
 
   <script>
     // Listen for the study sending data
-    window.addEventListener('message', (event) => {
+    window.addEventListener('message', function _labjs_data_handler(event) {
       // Make sure that the event is from lab.js, then ...
       if (event.data.type === 'labjs.data') {
         // ... extract the data lab.js is sending.
@@ -94,6 +111,9 @@ To process and save the data, the surrounding page needs to capture the results 
         // (the specific code here will depend on the tool
         // you're using to process and store the data)
         // ...
+
+        // ... finally, stop listening for further data
+        window.removeEventListener('message', _labjs_data_handler)
       }
     })
   </script>
