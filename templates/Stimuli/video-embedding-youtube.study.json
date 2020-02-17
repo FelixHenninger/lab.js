@@ -1,0 +1,146 @@
+{
+  "components": {
+    "2": {
+      "id": "2",
+      "type": "lab.html.Screen",
+      "_tab": "Parameters",
+      "_template": true,
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "videoId",
+              "value": "dJRsWJqDjFE",
+              "type": "string"
+            }
+          ],
+          [
+            {
+              "name": "start",
+              "value": "73",
+              "type": "number"
+            }
+          ],
+          [
+            {
+              "name": "end",
+              "value": "291",
+              "type": "number"
+            }
+          ],
+          [
+            {
+              "name": "message",
+              "value": "The experiment will continue when the video is over.",
+              "type": "string"
+            }
+          ],
+          [
+            {
+              "name": "fade",
+              "value": "true",
+              "type": "boolean"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "run",
+              "code": "// Select iframe\nconst iframe = document.querySelector('iframe')\n\n// Setup styles ----------------------------------------------------------------\nconst oldStyle = {\n  backgroundColor: document.body.style.backgroundColor,\n  transition: document.body.style.transition\n}\n\nlet footer\nif (this.parameters.fade) {\n  document.body.style.transition = 'background-color 2s'\n  document.body.style.backgroundColor = 'black'\n\n  footer = document.querySelector('footer')\n  footer.style.transition = 'background-color 2s, border-top-color 1s'\n  window.setTimeout(() => {\n    footer.style.borderTopColor = 'rgb(248, 248, 248, 0.2)'\n    footer.style.color = 'rgba(255, 255, 255, 0.3)'\n    footer.style.backgroundColor = 'black'\n  }, 100)\n}\n\n// Setup YouTube iFrame interaction --------------------------------------------\n\nconst sendCommand = (data) => {\n  iframe.contentWindow.postMessage(JSON.stringify(data), '*')\n}\n\niframe.addEventListener('load', () => {\n  // Setup JS messaging API\n  sendCommand({ event:'listening', channel: 'widget' })\n\n  // Play video\n  sendCommand({ event:'command', func:'playVideo' })\n}, { once: true })\n\n// Listen to any incoming status updates\nconst screen = this\nwindow.addEventListener('message', function _yt_event_listener(e) {\n  if (e.origin === 'https://www.youtube-nocookie.com') {\n    const data = JSON.parse(e.data)\n    console.log('got data', data)\n\n    // Video is over\n    if (\n      data.event === 'infoDelivery' &&\n      data.info.playerState === 0 &&\n      (screen.parameters.end\n        ? data.info.currentTime >= screen.parameters.end\n        : data.info.currentTime === data.info.duration)\n    ) {\n      // Remove event listener\n      window.removeEventListener('message', _yt_event_listener)\n\n      // Reset styles\n      if (screen.parameters.fade) {\n        document.body.style.backgroundColor = oldStyle.backgroundColor\n        footer.style.backgroundColor = ''\n        window.setTimeout(\n          () => document.body.style.transition = oldStyle.transition,\n          2200\n        )\n      }\n      \n      // End screen\n      screen.end()\n    }\n  }\n})"
+            }
+          ]
+        ]
+      },
+      "title": "Embedded YouTube video",
+      "content": "<main style=\"display: flex; flex-direction: column\">\n  <!-- Please see https://developers.google.com/youtube/player_parameters#Parameters for supported options -->\n  <iframe\n    style=\"flex: 1\"\n    src=\"https://www.youtube-nocookie.com/embed/${ this.parameters.videoId }?start=${ this.parameters.start || 0 }&end=${ this.parameters.end || -1 }&autoplay=1&enablejsapi=1&showinfo=0&controls=0&disablekb=1&rel=0&modestbranding=1&iv_load_policy=3\"\n    frameborder=\"0\" \n    allow=\"autoplay; encrypted-media\"\n    allowfullscreen\n  ></iframe>\n</main>\n<footer>\n  ${ this.parameters.message }\n</footer>\n\n",
+      "notes": "This template embeds a YouTube video. Please note that it is, in general, vastly preferable to embed a video file directly in the study, as this will provide a higher degree of control over the presentation and lets us better keep track of what participants do. Please also make sure to check the embedding extensively: We try to keep the integration up-to-date, but YouTube may change the way they present videos without notice.\n\nTo enable autoplay, participants must have interacted with the study on previous components.\n\nSettings:\n* VideoId: YouTube video id, as in the last part of https://www.youtube.com/watch?v=xxx\n* Start and end: points at which to start and end the video, in seconds\n* Message: Text to show in the window footer while the video is playing\n* Fade: Fade the background to black while the video is playing (true/false)"
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "2"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "Youtube video embedding",
+        "description": "",
+        "repository": "https://github.com/felixhenninger/lab.js",
+        "contributors": "Felix Henninger <mailbox@felixhenninger.com> (https://felixhenninger.com)"
+      }
+    }
+  },
+  "version": [
+    19,
+    1,
+    1
+  ],
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20viewport%20setup%20--%3E%0A%20%20%3Cmeta%20name%3D%22viewport%22%20content%3D%22width%3Ddevice-width%2C%20initial-scale%3D1%22%3E%0A%20%20%3C!--%20lab.js%20library%20and%20experiment%20code%20--%3E%0A%20%20%24%7B%20header%20%7D%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "source": "library"
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F",
+        "source": "library"
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.fallback.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      }
+    }
+  }
+}
