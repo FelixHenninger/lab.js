@@ -101,7 +101,7 @@ main {
 }
 .container.fullscreen.frameless {
   margin: 0;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
 }
 
@@ -111,7 +111,7 @@ main {
     margin: 0;
     border: none;
     border-radius: 0;
-    width: 100vw;
+    width: 100%;
     min-height: 100vh;
   }
 }
