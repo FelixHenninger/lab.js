@@ -76,7 +76,7 @@ To achieve the connection, you'll need to add JavaScript logic to the `Descripti
       const data = event.data.json
 
       // ... save data and submit page
-      page.setEmbeddedData('labjs-data', data)
+      Qualtrics.SurveyEngine.setEmbeddedData('labjs-data', data)
       window.removeEventListener('message', _labjs_data_handler)
       page.clickNextButton()
     }
