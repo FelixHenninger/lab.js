@@ -150,3 +150,32 @@ footer {
     margin-top: 1em;
   }
 }
+
+// Divider
+// TODO: Move to SVG fragments as soon as Firefox supports them;
+// An SVG that supports different views is already in the repository.
+// (see https://bugzilla.mozilla.org/show_bug.cgi?id=1535822)
+hr.divider, hr.divider-up, hr.divider-down {
+  background-color: #ffc32d;
+  border: none;
+  height: 22px;
+  -webkit-mask-image: url(/media/theme/divider-horizontal.svg);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 22px;
+  mask-image: url(/media/theme/divider-horizontal.svg);
+  mask-size: 100% 22px;
+}
+
+hr.divider-up {
+  -webkit-mask-image: url(/media/theme/divider-up.svg);
+  -webkit-mask-size: 100% 22px;
+  mask-image: url(/media/theme/divider-up.svg);
+  mask-size: 100% 22px;
+}
+
+hr.divider-down {
+  -webkit-mask-image: url(/media/theme/divider-down.svg);
+  -webkit-mask-size: 100% 22px;
+  mask-image: url(/media/theme/divider-down.svg);
+  mask-size: 100% 22px;
+}
