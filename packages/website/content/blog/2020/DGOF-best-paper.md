@@ -1,9 +1,9 @@
 +++
-title = "lab.js recieves DGOF best paper award"
+title = "lab.js receives DGOF best paper award"
 date = 2020-02-21
 
 [extra]
-title_html = '<code class="text-body">lab.js</code> recieves DGOF best paper award'
+title_html = '<code class="text-body">lab.js</code> receives DGOF best paper award'
 summary_only = true
 +++
 
