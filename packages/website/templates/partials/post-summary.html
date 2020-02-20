@@ -1,0 +1,19 @@
+<article class="post-summary">
+  <h3 class="font-weight-light my-3">
+    {% if page.extra.title_html %}
+      {{ page.extra.title_html | safe }}
+    {% else %}
+      {{ page.title | safe }}
+    {% endif %}
+  </h3>
+  {% if page.extra.summary_only %}
+    {{ page.summary | safe }}
+    {{ page.content | safe }}
+  {% else %}
+    {{ page.summary | safe }}
+    <a href="{{ page.permalink }}#continue-reading" class="pull-right">
+      <i class="fas fa-arrow-right fa-sm"></i>
+      More inside …
+    </a>
+  {% endif %}
+</article>

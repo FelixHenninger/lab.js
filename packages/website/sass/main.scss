@@ -68,7 +68,7 @@ $font-family-monospace: "Fira Mono", monospace;
 .jumbotron {
   background-color: white;
 
-  h2 {
+  h1, h2, h3 {
     position: relative;
     left: -0.15rem; // Visual alignment
   }

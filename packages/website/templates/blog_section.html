@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="jumbotron py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="display-4 mt-5">
+            {{ section.title }}
+          </h1>
+          <p class="lead">
+            {{ section.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="divider-up">
+  {% set posts = get_section(path="blog/_index.md") -%}
+  {% set colors = ["blue", "indigo", "purple", "pink", "red", "orange", "yellow", "green", "teal", "cyan"] -%}
+  {% set colorsLength = colors | length -%}
+  {% for page in posts.pages | slice(end=10) %}
+    <div class="container">
+      <div class="row my-5">
+        <div class="col-12">
+          {% include "partials/post-summary.html" %}
+        </div>
+      </div>
+    </div>
+    {% set colorIndex = loop.index0 % colorsLength %}
+    {% set color = colors[colorIndex] %}
+    <hr
+      class="divider-{% if loop.index0 is odd %}up{% else %}down{% endif %}"
+      style="background: var(--{{ color }})"
+    >
+  {% else %}
+    No posts so far.
+  {% endfor %}
+{% endblock %}
