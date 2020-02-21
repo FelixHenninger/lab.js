@@ -27,13 +27,6 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="/main.css">
-    <link rel="stylesheet" href="https://code.cdn.mozilla.net/fonts/fira.css">
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css"
-      integrity="sha256-39jKbsb/ty7s7+4WzbtELS4vq9udJ+MDjGTD5mtxHZ0="
-      crossorigin="anonymous"
-    />
 
     <!-- Fonts -->
     <link rel="preload" href="https://code.cdn.mozilla.net/fonts/woff/FiraSans-Regular.woff" as="font">
@@ -65,5 +58,13 @@
       {% endif %}
     {% endblock %}
     {% include "partials/footer.html" %}
+    <!-- Non-critical resources (fonts) -->
+    <link rel="stylesheet" href="https://code.cdn.mozilla.net/fonts/fira.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css"
+      integrity="sha256-39jKbsb/ty7s7+4WzbtELS4vq9udJ+MDjGTD5mtxHZ0="
+      crossorigin="anonymous"
+    />
   </body>
 </html>
