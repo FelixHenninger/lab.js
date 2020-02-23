@@ -1,5 +1,6 @@
 import { stripIndent } from 'common-tags'
 import { range } from 'lodash'
+import { Random } from './random'
 
 const makeAttributes = (attrs={}) =>
   Object.entries(attrs)
@@ -115,8 +116,13 @@ const makeLikertRow = ({ label, coding }, { name, width, required=true }) =>
     </tr>
   `
 
-export const makePage = (items, options) =>
-  stripIndent`
+export const makePage = (items, options) => {
+  // Setup shuffling
+  const rng = options.rng || new Random()
+  const shuffleMeMaybe = (array=[], doIt=false) =>
+    (doIt ? rng.shuffle(array) : array)
+
+  return stripIndent`
     <main
       class="
         content-horizontal-center
@@ -125,14 +131,19 @@ export const makePage = (items, options) =>
     >
       <div class="w-${ options.width || 'm' } text-left">
         <form id="page-form" style="display: block;" autocomplete="off">
-          ${ items.map(processItem).join('\n') }
+          ${
+            items
+              .map(i => processItem(i, { shuffleMeMaybe, ...options }))
+              .join('\n')
+          }
         </form>
       </div>
     </main>
     ${ makeFooter(options) }
   `
+}
 
-export const processItem = i => {
+export const processItem = (i, { shuffleMeMaybe }) => {
   switch (i.type) {
     case 'text':
       return (
@@ -206,7 +217,11 @@ export const processItem = i => {
               <col style="width: 92.5%">
             </colgroup>
             <tbody>
-              ${ (i.options || []).map(o => makeOptionRow(o, i, 'radio')).join('\n') }
+              ${
+                shuffleMeMaybe(i.options || [], i.shuffle)
+                  .map(o => makeOptionRow(o, i, 'radio'))
+                  .join('\n')
+              }
             </tbody>
           </table>
         `
@@ -226,7 +241,11 @@ export const processItem = i => {
               <col style="width: 92.5%">
             </colgroup>
             <tbody>
-              ${ (i.options || []).map(o => makeOptionRow(o, i, 'checkbox')).join('\n') }
+              ${
+                shuffleMeMaybe(i.options || [], i.shuffle)
+                  .map(o => makeOptionRow(o, i, 'checkbox'))
+                  .join('\n')
+              }
             </tbody>
           </table>
         `
@@ -268,7 +287,7 @@ export const processItem = i => {
             ${ makeLikertHead(i) }
             <tbody>
               ${
-                (i.items || [])
+                shuffleMeMaybe(i.items || [], i.shuffle)
                   .map(item => makeLikertRow(item, i))
                   .join('\n')
               }

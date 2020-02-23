@@ -290,6 +290,7 @@ export class Page extends Form {
       submitButtonText: this.options.submitButtonText,
       submitButtonPosition: this.options.submitButtonPosition,
       width: this.options.width,
+      rng: this.random,
     })
   }
 }
