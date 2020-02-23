@@ -7,10 +7,34 @@ import { FormGroup, Input, CustomInput,
 import { ItemContext } from '../../../index'
 
 export const BaseOptions = ({ children, rowIndex,
-  validation, borderTop=true }) =>
+  validation, shuffle=false, borderTop=true }) =>
   <>
     { children && borderTop && <hr /> }
     { children }
+    {
+      shuffle && <>
+        <hr />
+        Display
+        <FormGroup className="my-2">
+          <FormText color="muted" className="mb-2">
+            Randomize item order
+          </FormText>
+          <Control.checkbox
+            model=".shuffle"
+            component={ CustomInput }
+            controlProps={{
+              type: 'checkbox',
+              label: 'Shuffle items',
+              id: `item-shuffle-${ rowIndex }`,
+              style: {
+                fontFamily: 'Fira Mono',
+              }
+            }}
+            debounce={ 300 }
+          />
+        </FormGroup>
+      </>
+    }
     <hr />
     <FormGroup className="my-2">
       <Label for={ `page-item-${ rowIndex }-help` } className="mb-0">

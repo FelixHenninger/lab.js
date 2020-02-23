@@ -29,6 +29,7 @@ export default ({ data, rowIndex }) =>
     />
     <CollapsingOptions
       rowIndex={ rowIndex }
+      shuffle={ true }
     >
       <Row>
         <Col>
