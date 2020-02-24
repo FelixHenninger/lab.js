@@ -387,6 +387,33 @@ const updates = {
       return c
     })
   }),
+  '19.1.1': data => ({
+    // Replace explicit use of Times New Roman with generic serif font
+    ...data,
+    version: [19, 1, 2],
+    components: mapValues(data.components, c => {
+      if (c.type === 'lab.canvas.Screen') {
+        return {
+          ...c,
+          content: c.content.map(content => {
+            if (
+              content.type === 'i-text' &&
+              content.fontFamily === 'Times New Roman'
+            ) {
+              return {
+                ...content,
+                fontFamily: 'serif',
+              }
+            } else {
+              return content
+            }
+          })
+        }
+      } else {
+        return { ...c }
+      }
+    })
+  }),
 }
 
 export default (data) => {
