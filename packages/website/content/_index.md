@@ -16,8 +16,8 @@ description = "lab.js makes it easy to build powerful studies for the neuro- and
         <p class="lead">
           <strong>
             <code>lab.js</code> is a free, open, online study builder
-          </strong><br>
-          for the behavioral and cognitive sciences.<br>
+          </strong><br class="d-none d-sm-inline d-lg-none d-xl-inline">
+          for the behavioral and cognitive sciences.<br class="d-none d-sm-inline d-lg-none d-xl-inline">
           <span class="text-muted">
             (it works great in the lab, too)
           </span>
