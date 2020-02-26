@@ -3,7 +3,7 @@ const shell = require('shelljs')
 // Copy files ------------------------------------------------------------------
 shell.mkdir('-p', 'dist/labjs-starterkit/lib')
 shell.cp('-R', 'src/starterkit/index.html', 'dist/labjs-starterkit')
-shell.cp('-R', 'src/starterkit/experiment.js', 'dist/labjs-starterkit')
+shell.cp('-R', 'src/starterkit/study.js', 'dist/labjs-starterkit')
 shell.cp('-R', 'src/starterkit/lib/lab.fallback.js', 'dist/labjs-starterkit/lib')
 shell.cp('-R', 'dist/lab.dev.js', 'dist/labjs-starterkit/lib')
 shell.cp('-R', 'dist/lab.js', 'dist/labjs-starterkit/lib')
