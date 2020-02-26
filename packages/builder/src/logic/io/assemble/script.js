@@ -1,4 +1,6 @@
-import { fromPairs, zip, pick, pickBy, groupBy, isEmpty } from 'lodash'
+import { fromPairs, zip,
+  pick, pickBy, groupBy,
+  identity, isEmpty } from 'lodash'
 import serialize from 'serialize-javascript'
 
 import { makeType } from '../../util/makeType'
@@ -144,7 +146,7 @@ const processNode = node => {
     value !== '' &&
     !(key.startsWith('_') || filteredOptions.includes(key))
 
-  return Object.assign({}, pickBy(node, filterOptions), {
+  const output = Object.assign({}, pickBy(node, filterOptions), {
     content: processContent(node.type, node.content),
     files: node.files
       ? processFiles(node.files)
@@ -169,6 +171,10 @@ const processNode = node => {
       ? processShuffleGroups(node.templateParameters.columns || [])
       : node.shuffleGroups,
   })
+
+  // Remove undefined and null values
+  // (serialize-js used to do this for us)
+  return pickBy(output, identity)
 }
 
 // Process a node and its children
