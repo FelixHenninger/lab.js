@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const shell = require('shelljs')
 
 // Minify code
@@ -133,13 +133,12 @@ module.exports = (env, argv) => {
   if (mode !== 'development') {
     config.optimization = config.optimization || {}
     config.optimization.minimizer = [
-      new UglifyJsPlugin({
+      new TerserPlugin({
         sourceMap: true,
-        uglifyOptions: {
+        terserOptions: {
           compress: {
             inline: false,
           },
-          reserve: reservedTerms,
           mangle: {
             reserved: reservedTerms,
           },
