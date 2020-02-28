@@ -4,12 +4,12 @@ description = "lab.js makes it easy to build powerful studies for the neuro- and
 +++
 
 {% jumbotron() %}
-  <div class="container">
+  <div class="container mt-xl-4">
     <div class="row">
       <div class="col-lg-7 order-lg-12">
         <img src="science.svg" alt="Beaker with fluid and bubbles" class="w-100">
       </div>
-      <div class="col-lg-5 order-lg-1 mt-5 text-center text-lg-left">
+      <div class="col-lg-5 order-lg-1 mt-xl-5 text-center text-lg-left">
         <h2 class="display-4 mb-4">
           Online research<br>made easy
         </h2>
