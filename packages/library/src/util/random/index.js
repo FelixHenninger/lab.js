@@ -1,5 +1,5 @@
 import { clamp, range, isFunction, pick, flatten, omit, merge  } from 'lodash'
-import { alea } from 'seedrandom'
+import alea from 'seedrandom/lib/alea'
 
 import { maxRepSeries, minRepDistance } from './constraints'
 
