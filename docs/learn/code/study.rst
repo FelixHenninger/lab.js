@@ -101,10 +101,72 @@ This creates a new :js:class:`html.Screen` with our content. When it runs, the s
 There are a few details to note here: First, the screen is constructed using options which are supplied in brackets -- and not only regular ones, but also curly braces. This is because the options are defined by a dictionary (you might also use the term object) which has pairs of keys and values, separated by a colon. Right now, only one option is provided: The content in form of our ``HTML`` string, enclosed in quotation marks to indicate that the browser should treat it as literal text rather than as a command. If we were to add further options, we would need to insert commas between them, a fact that is hinted at by the comma behind content option.
 Second, it's worth noting briefly that the the quotation marks around and within the ``HTML`` code are different. This is because the simple quotation marks denote the beginning and the end of the string, whereas the double quotation marks are part of its content. Using single quotation marks within the ``HTML`` code would end the string prematurely and cause an error -- that's something to look out for.
 
-If you've changed the code to correspond to the above example and reloaded the
-page in your browser, you should see the word blue on the screen, written in red.
-It's not (yet) as pretty as it could be, but it'll do for the moment: We'll get
-around to :ref:`styling our study <tutorial/style>` later!
+If you've changed the code to correspond to the above example and reloaded the page in your browser, you should see the word blue on the screen, written in red. It's not (yet) as pretty as it could be, but it'll do for the moment: We'll get around to :ref:`styling our study <tutorial/style>` later!
+
+----
+
+Combining screens to build a trial
+----------------------------------
+
+In the previous section, we've filled our Stroop screen with the minimal content it needs. In this one, **we'd like to build a single trial with you**, adding more screens, and then teaching the software to move between them.
+
+Right now, your study code will most likely look somewhat like this, in that it consists of a single sequence, containing a single screen::
+
+  const study = new lab.flow.Sequence({
+    content: [
+      new lab.html.Screen({
+        content: '<div style="color: red"> blue </div>',
+      }),
+    ],
+  })
+
+Let's now expand on that by adding a couple more screens: A fixation cross prior to the stroop screen, and an inter-stimulus-interval thereafter. You can build these by duplicating the Stroop screen code twice, and placing it in front of and below the existing trial screen, defining a sequence of several screens, somewhat like this::
+
+
+  const study = new lab.flow.Sequence({
+    content: [
+      new lab.html.Screen({ /* Fixation cross options */ }),
+      new lab.html.Screen({ /* Stroop stimulus options */ }),
+      new lab.html.Screen({ /* Inter-stimulus interval options */ }),
+    ],
+  })
+
+Each of these screens differs with regard to its content -- for example, the fixation cross might contain just a single plus sign for the moment, and the inter-stimulus interval might remain entirely empty.
+
+----
+
+Moving between screens
+^^^^^^^^^^^^^^^^^^^^^^
+If you start the study at this point, you'll see that the study hangs at the fixation cross, and won't continue beyond it. Let's change that!
+
+Setting timeouts
+~~~~~~~~~~~~~~~~
+
+What we'd like to happen is for the study to move on from the fixation cross after a fixed amount of time, and do likewise in the inter-trial interval. To implement this, we'll need to add a second option to the respective components, the :js:attr:`timeout <options.timeout>`. This sets a time in milliseconds after which a component ends automatically, and cedes control to the subsequent screen (if there is one). With a timeout in place, you should see the study moving to the stimulus at least.
+
+Defining responses
+~~~~~~~~~~~~~~~~~~
+
+On the stimulus screen, we'd like to wait for our participant's decision before moving on. For this to work, ``lab.js`` needs to know about the permissible responses on the screen, which are defined in the :js:attr:`responses <options.responses>` option.
+
+The :js:attr:`responses <options.responses>` map the actions the participant can take onto the meanings they convey. For example, in the Stroop task, participants might press the ``r``, ``g`` and ``b`` keys, corresponding to the the responses ``red``, ``green`` and ``blue``. This mapping is added to the screen settings::
+
+  new lab.html.Screen({
+    content: '<div style="color: red"> blue </div>',
+    responses: {
+      'keypress(r)': 'red',
+      'keypress(g)': 'green',
+      'keypress(b)': 'blue',
+    }
+  })
+
+With this, all parts of your study know when to move on automatically or wait for partipant input, allowing the study to run through a single trial. We'll build on that in the next step!
+
+----
+
+So to recap briefly, **we hope to have shown you how to setup different components and their options, and how to run through different components in sequence**. In the next part, we'll put everything you now know to use and define an experiment that varies information across trials.
+
+----
 
 .. [#f1] This is not the only way to design the display. If you're used to
   writing code that draws shapes and text at exact screen coordinates, don't worry: That is also possible using :ref:`canvas-based displays <reference/canvas>`.
