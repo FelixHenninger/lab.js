@@ -1,5 +1,5 @@
 export default class FullscreenPlugin {
-  constructor({ message, hint, close }) {
+  constructor({ message, hint, close }={}) {
     this.options = {
       message: message || 'This experiment requires full screen display',
       hint: hint || 'Please click to continue in full screen mode',

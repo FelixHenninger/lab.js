@@ -5,7 +5,7 @@ const unloadHandler = (e) => {
 }
 
 export default class Download {
-  constructor({ filePrefix, fileType }) {
+  constructor({ filePrefix, fileType }={}) {
     this.el = null
     this.filePrefix = filePrefix || 'study'
     this.fileType = fileType || 'csv'

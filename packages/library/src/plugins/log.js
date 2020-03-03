@@ -1,6 +1,6 @@
 
 export default class Logger {
-  constructor(options) {
+  constructor(options={}) {
     this.title = options.title
   }
 

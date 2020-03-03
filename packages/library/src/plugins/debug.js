@@ -173,7 +173,7 @@ const renderStore = (datastore) => {
 }
 
 export default class Debug {
-  constructor({ filePrefix='study' }) {
+  constructor({ filePrefix='study' }={}) {
     this.filePrefix = filePrefix
   }
 
