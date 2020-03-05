@@ -266,6 +266,7 @@ export class Component extends EventHandler {
             parameters: this.aggregateParameters,
             state: this.options.datastore.state,
             files: this._aggregateFiles,
+            random: this.random,
           }, parsableOptions(this)[key], this)
 
           if (candidate !== value) {
@@ -384,6 +385,7 @@ export class Component extends EventHandler {
       parameters: this.aggregateParameters,
       state: this.options.datastore.state,
       files: this._aggregateFiles,
+      random: this.random,
     })
 
     const parsedOptions = parseRequested(
