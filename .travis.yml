@@ -22,4 +22,6 @@ script:
   - (cd packages/builder && yarn run build)
   - (cd packages/builder && yarn test)
 after_success:
-  - (cd packages/builder && yarn run deploy)
+  - if [ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST == "false" ]; then
+      (cd packages/builder && yarn run deploy);
+    fi
