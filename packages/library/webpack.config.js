@@ -10,7 +10,7 @@ const shell = require('shelljs')
 const reservedTerms = [
   // Components
   'Component', 'Dummy',
-  'Screen', 'Form', 'Frame',
+  'Screen', 'Page', 'Form', 'Frame',
   'Sequence', 'Loop', 'Parallel',
   // Plugins
   'Debug', 'Download', 'Logger', 'Metadata', 'Transmit',
