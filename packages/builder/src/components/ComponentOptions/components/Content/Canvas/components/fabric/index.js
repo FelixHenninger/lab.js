@@ -395,9 +395,9 @@ export default class FabricCanvas extends Component {
 
   updateActive() {
     const selection = this.canvas.getActiveObjects()
-    selection.forEach(o => {
-      if (o.type === 'i-text') {
-        this.props.updateHandler({ target: o })
+    selection.forEach((target) => {
+      if (target.type === 'i-text') {
+        this.props.updateHandler({ target })
       }
     })
   }
