@@ -56,6 +56,7 @@ const emptyFormData = {
 
 export default class CanvasEditor extends Component {
   static contextType = ReactReduxContext
+  _isMounted = false
 
   constructor(...args) {
     super(...args)
@@ -71,16 +72,44 @@ export default class CanvasEditor extends Component {
   }
 
   setState(data) {
-    super.setState(data, () => {
-      this.updateForm()
-      this.updateState()
-    })
+    if (this._isMounted) {
+      // Update component state, then store
+      super.setState(data, () => {
+        this.updateForm()
+        this.updateState()
+      })
+    } else {
+      // Flush canvas data directly to store
+      this.updateState('override')
+    }
   }
 
-  updateState() {
-    this.props.onChange(
-      this.canvas.current.canvas._objects.map(o => this.state.data[o.id])
-    )
+  updateState(mode='local') {
+    if (mode === 'override') {
+      // Update from raw canvas state
+      // TODO: Investigate implications of this, specifically
+      // avoid unnecessary invalidation/object mutations
+      this.props.onChange(
+        this.canvas.current.canvas._objects.map(o => fromCanvas(
+          o.toObject(['id', 'label']),
+          this.state.data[o.id],
+        ))
+      )
+    } else {
+      // Update from component state
+      this.props.onChange(
+        this.canvas.current.canvas._objects.map(o => this.state.data[o.id])
+      )
+    }
+  }
+
+  componentDidMount() {
+    this._isMounted = true
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
+    this.canvas.current.canvas.discardActiveObject()
   }
 
   // Selection -----------------------------------------------------------------
