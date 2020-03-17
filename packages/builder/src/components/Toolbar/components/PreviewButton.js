@@ -85,7 +85,7 @@ export default class PreviewButton extends Component {
                 onClick={ () => this.openPreview(store) }
                 onMouseEnter={ () => {
                   // Prepare potential preview
-                  const event = new Event('preview:preemt')
+                  const event = new Event('preview:preempt')
                   window.dispatchEvent(event)
                 }}
                 disabled={ !previewActive }
