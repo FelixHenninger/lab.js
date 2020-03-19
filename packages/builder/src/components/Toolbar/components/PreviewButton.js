@@ -30,15 +30,30 @@ export default class PreviewButton extends Component {
       windowState => this.setState({ windowState })
     )
 
+    // Create reference to the actual button element
+    this.button = React.createRef()
+
     this.openPreview = this.openPreview.bind(this)
+    this.simulateClick = this.simulateClick.bind(this)
   }
 
+  // NOTE: This is a fairly indirect way of opening the preview,
+  // which is used to react to keyboard shortcuts. The click
+  // simulation is necessary to be able to use the store link,
+  // which is being passed through the react context. In the future,
+  // the entire PreviewButton component could subscribe to the store,
+  // making it available throughout this code, and enabling direct
+  // access to the openPreview method.
   componentDidMount() {
-    window.addEventListener('preview:show', this.openPreview)
+    window.addEventListener('preview:show', this.simulateClick)
   }
 
   componentWillUnmount() {
-    window.removeEventListener('preview:show', this.openPreview)
+    window.removeEventListener('preview:show', this.simulateClick)
+  }
+
+  simulateClick() {
+    this.button.current.onClick()
   }
 
   async openPreview(store) {
@@ -82,6 +97,7 @@ export default class PreviewButton extends Component {
             {({ store }) =>
               <Button
                 color="primary"
+                ref={ this.button }
                 onClick={ () => this.openPreview(store) }
                 onMouseEnter={ () => {
                   // Prepare potential preview
