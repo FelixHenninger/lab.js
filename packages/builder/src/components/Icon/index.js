@@ -1,6 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 
+/* eslint-disable no-unused-expressions */
 // Font Awesome
 import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }/css/solid.css`)
 import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }/css/regular.css`)
@@ -8,6 +9,7 @@ import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }/css/brands.css`)
 // Uncomment if FA-pro is available
 //import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }/css/light.css`)
 import(`@fortawesome/fontawesome-${ process.env.REACT_APP_FA }/css/fontawesome.css`)
+/* eslint-enable no-unused-expressions */
 
 export const iconSet = `${ process.env.REACT_APP_FA }`
 
