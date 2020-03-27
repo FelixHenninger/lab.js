@@ -18,7 +18,7 @@ const NodeBody = (
   { id, parent, index, children,
     active, collapsed, skipped, tardy,
     isDragging, hasChildren },
-  { onNodeClick, onNodeDelete }
+  { onNodeClick, onNodeDelete, onNodeDuplicate }
 ) =>
   <NavLink
     href='#' active={ active }
@@ -43,6 +43,7 @@ const NodeBody = (
         index={ index }
         hasChildren={ hasChildren }
         onDelete={ onNodeDelete }
+        onDuplicate={ onNodeDuplicate }
       />
     </div>
   </NavLink>
@@ -50,6 +51,7 @@ const NodeBody = (
 NodeBody.contextTypes = {
   onNodeClick: PropTypes.func,
   onNodeDelete: PropTypes.func,
+  onNodeDuplicate: PropTypes.func,
 }
 
 const NodeGap = ({ id, index, onNodeAdd, pinned }) =>

@@ -12,7 +12,10 @@ import { stateToDownload } from '../../../../../logic/io/save'
 import './index.css'
 import { connect } from 'react-redux'
 
-const NodeDropdown = ({ id, parent, index, onDelete, hasChildren, collapseComponent }) => {
+const NodeDropdown = ({
+  id, parent, index, hasChildren,
+  onDelete, onDuplicate, collapseComponent,
+}) => {
   const store = useStore()
 
   return (
@@ -30,6 +33,11 @@ const NodeDropdown = ({ id, parent, index, onDelete, hasChildren, collapseCompon
           ) }
         >
           Export
+        </DropdownItem>
+        <DropdownItem
+          onClick={ () => onDuplicate(id, parent, index) }
+        >
+          Duplicate
         </DropdownItem>
         <DropdownItem
           onClick={ () => onDelete(id, parent, index) }

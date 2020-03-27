@@ -6,7 +6,7 @@ import Tree from '../Tree'
 import Node from '../Tree/components/Node'
 
 const Sidebar = ({
-  collapseComponent, deleteComponent,
+  collapseComponent, deleteComponent, duplicateComponent,
   showComponentDetail, showAddModal
 }) =>
   <>
@@ -34,6 +34,7 @@ const Sidebar = ({
           }
         }
       }
+      onNodeDuplicate={ duplicateComponent }
       onNodeAdd={ showAddModal }
     />
   </>
@@ -45,6 +46,11 @@ const mapDispatchToProps = {
   deleteComponent: (id, parent, index) => ({
     type: 'DELETE_COMPONENT',
     id, parent, index,
+  }),
+  duplicateComponent: (id, parent, index) => ({
+    type: 'COPY_COMPONENT',
+    id, parent,
+    index: index+1,
   }),
   showComponentDetail: (id) => ({
     type: 'SHOW_COMPONENT_DETAIL', id,
