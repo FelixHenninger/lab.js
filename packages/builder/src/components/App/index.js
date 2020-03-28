@@ -22,7 +22,7 @@ class App extends Component {
     Sentry.withScope((scope) => {
       scope.setExtras(info)
       scope.setTag('scope', 'crash')
-      const eventId = scope.captureException(error)
+      const eventId = Sentry.captureException(error)
       this.setState({ error, errorInfo: info, eventId })
     })
   }

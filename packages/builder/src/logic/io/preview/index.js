@@ -77,7 +77,7 @@ export const populateCache = async (state, stateModifier,
   } catch (e) {
     Sentry.withScope((scope) => {
       scope.setTag('scope', 'preview-cache')
-      scope.captureException(e)
+      Sentry.captureException(e)
     })
     console.log(`Error during preview cache update: ${ e }`)
     throw e

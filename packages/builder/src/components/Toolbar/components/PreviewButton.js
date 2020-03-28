@@ -81,7 +81,7 @@ export default class PreviewButton extends Component {
         console.log(`Received error while generating preview: ${ error }`)
         Sentry.withScope((scope) => {
           scope.setTag('scope', 'preview')
-          scope.captureException(error)
+          Sentry.captureException(error)
         })
         alert(
           'Sorry, an error occured while we were trying ' +

@@ -38,7 +38,7 @@ export const downloadZip = async (data, filename='study_export.zip') => {
   } catch (error) {
     Sentry.withScope((scope) => {
       scope.setTag('scope', 'export')
-      scope.captureException(error)
+      Sentry.captureException(error)
     })
     alert(`Couldn't export bundle: ${ error }`)
   }

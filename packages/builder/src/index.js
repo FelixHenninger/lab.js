@@ -57,7 +57,7 @@ import { SystemContextProvider } from './components/System'
     if (e.message !== 'Service workers not available') {
       Sentry.withScope((scope) => {
         scope.setTag('scope', 'worker')
-        scope.captureException(e)
+        Sentry.captureException(e)
       })
     }
   } finally {
