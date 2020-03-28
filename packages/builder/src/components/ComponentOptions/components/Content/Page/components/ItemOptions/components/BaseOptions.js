@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Control } from 'react-redux-form'
 import { FormGroup, Input, CustomInput,
   Label, FormText,
@@ -100,19 +100,19 @@ export const BaseOptions = ({ children, rowIndex,
     { validation }
   </>
 
-export const CollapsingOptions = ({ rowIndex, ...props }) =>
-  <Row form>
-    <Col>
-      <ItemContext.Consumer>
-        {
-          ({ openItem }) =>
-            <Collapse isOpen={ openItem === rowIndex }>
-              <BaseOptions
-                rowIndex={ rowIndex }
-                { ...props }
-              />
-            </Collapse>
-        }
-      </ItemContext.Consumer>
-    </Col>
-  </Row>
+export const CollapsingOptions = ({ rowIndex, ...props }) => {
+  const { openItem } = useContext(ItemContext)
+
+  return (
+    <Row form>
+      <Col>
+        <Collapse isOpen={ openItem === rowIndex }>
+          <BaseOptions
+            rowIndex={ rowIndex }
+            { ...props }
+          />
+        </Collapse>
+      </Col>
+    </Row>
+  )
+}
