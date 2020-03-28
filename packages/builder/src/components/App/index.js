@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/browser'
 
 import Error from './Error'
 import Layout from '../Layout'
@@ -19,8 +19,12 @@ class App extends Component {
   }
 
   componentDidCatch(error, info) {
-    Raven.captureException(error, { extra: info })
-    this.setState({ error, errorInfo: info })
+    Sentry.withScope((scope) => {
+      scope.setExtras(info)
+      scope.setTag('scope', 'crash')
+      const eventId = scope.captureException(error)
+      this.setState({ error, errorInfo: info, eventId })
+    })
   }
 
   resetError() {
@@ -32,6 +36,7 @@ class App extends Component {
       return <Error
         error={ this.state.error }
         errorInfo={ this.state.errorInfo }
+        eventId={ this.state.eventId }
         reset={ () => this.resetError() }
       />
     } else {

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.11.2",
+    "@sentry/browser": "^5.15.4",
     "attr-accept": "^2.0.0",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
@@ -30,7 +31,6 @@
     "papaparse": "^5.1.0",
     "parse-author": "^2.0.0",
     "prop-types": "^15.7.2",
-    "raven-js": "^3.27.2",
     "react": "^16.12.0",
     "react-app-rewired": "^2.1.5",
     "react-dnd": "^5.0.0",

@@ -13,17 +13,17 @@ import HTML5DragDropBackend from 'react-dnd-html5-backend'
 import App from './components/App'
 import './index.css'
 
-// Raven / Sentry error reporting for production releases
+// Sentry error reporting for production releases
 // (if a DSN is specified as an environment parameter, that is)
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/browser'
 
 if (
   process.env.NODE_ENV === 'production' &&
-  process.env.REACT_APP_RAVEN_DSN
+  process.env.REACT_APP_SENTRY_DSN
 ) {
-  Raven
-    .config(process.env.REACT_APP_RAVEN_DSN)
-    .install()
+  Sentry.init({
+    dsn: process.env.REACT_APP_SENTRY_DSN,
+  })
 }
 
 /* eslint-disable import/first */
@@ -55,7 +55,10 @@ import { SystemContextProvider } from './components/System'
     // A lack of service worker support is now well-captured
     // in the remaining app, and need not be logged
     if (e.message !== 'Service workers not available') {
-      Raven.captureException(e)
+      Sentry.withScope((scope) => {
+        scope.setTag('scope', 'worker')
+        scope.captureException(e)
+      })
     }
   } finally {
     // Wrap main app component

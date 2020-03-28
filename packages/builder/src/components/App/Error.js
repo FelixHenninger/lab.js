@@ -25,7 +25,7 @@ const gifs = [
   'https://media.giphy.com/media/8QIgBwVvZVrG0/giphy.mp4', // Ford?
 ]
 
-const Error = ({ reset, error, errorInfo }) => {
+const Error = ({ reset, error, errorInfo, eventId }) => {
   const [backup, setBackup] = useState(false)
 
   // TODO: This is not (yet) canonical redux: The component is still
@@ -127,6 +127,8 @@ const Error = ({ reset, error, errorInfo }) => {
                 <dd style={{ whiteSpace: "pre-wrap" }}>
                   { errorInfo.componentStack || <em>(unavailable)</em> }
                 </dd>
+                <dt>EventId</dt>
+                <dd>{ eventId || <em>(unavailable)</em> }</dd>
               </dl>
             </Card>
           </Alert>

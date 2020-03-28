@@ -1,4 +1,4 @@
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/browser'
 
 import assemble from '../assemble'
 import { blobFromDataURI } from '../../util/dataURI'
@@ -75,7 +75,10 @@ export const populateCache = async (state, stateModifier,
 
     console.log('Preview cache updated successfully')
   } catch (e) {
-    Raven.captureException(e)
+    Sentry.withScope((scope) => {
+      scope.setTag('scope', 'preview-cache')
+      scope.captureException(e)
+    })
     console.log(`Error during preview cache update: ${ e }`)
     throw e
   }

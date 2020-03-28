@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { ReactReduxContext } from 'react-redux'
 
 import { Button } from 'reactstrap'
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/browser'
 
 import Icon from '../../Icon'
 import { SystemContext } from '../../System'
@@ -79,7 +79,10 @@ export default class PreviewButton extends Component {
         )
       } else {
         console.log(`Received error while generating preview: ${ error }`)
-        Raven.captureException(error)
+        Sentry.withScope((scope) => {
+          scope.setTag('scope', 'preview')
+          scope.captureException(error)
+        })
         alert(
           'Sorry, an error occured while we were trying ' +
           `to put together the study preview: ${ error }`
