@@ -183,7 +183,7 @@ export default class extends Component {
     const { id, data } = this.props
 
     return (
-      <Card title="Content" badge="beta" wrapContent={false}>
+      <Card title="Content" wrapContent={false}>
         <Form
           id={ id }
           data={ data }
