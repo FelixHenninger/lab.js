@@ -53,7 +53,7 @@ const AddWidget = () => {
             <Item data={{ type: 'text' }}>
               Text <span className="text-muted">/ Instructions</span>
             </Item>
-            <Item>
+            <Item data={{ type: 'image' }}>
               Image
             </Item>
             <Item data={{ type: 'divider' }}>

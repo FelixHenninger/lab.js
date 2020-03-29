@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Text from './components/Text'
+import Image from './components/Image'
 import Divider from './components/Divider'
 import Raw from './components/Raw'
 import Input from './components/Input'
@@ -13,6 +14,8 @@ const selectItem = (type) => {
   switch(type) {
     case 'text':
       return Text
+    case 'image':
+      return Image
     case 'divider':
       return Divider
     case 'html':

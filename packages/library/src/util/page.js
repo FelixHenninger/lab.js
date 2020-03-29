@@ -154,6 +154,17 @@ export const processItem = (i, { shuffleMeMaybe }) => {
           </div>
         `
       )
+    case 'image':
+      return (
+        stripIndent`
+          <div class="page-item page-item-image">
+            <img
+              src="${ i.src }"
+              style="${ i.width && 'max-width: ' + i.width } ${ i.height && 'max-height: ' + i.height }"
+            >
+          </div>
+        `
+      )
     case 'html':
       return (
         stripIndent`

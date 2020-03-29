@@ -8,6 +8,7 @@ import { ItemContext } from '../index'
 
 const icons = {
   'text': 'info',
+  'image': 'image',
   'divider': 'horizontal-rule', // could be page-break
   'html': 'code',
   'input': 'comment-alt-minus',
