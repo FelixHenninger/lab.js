@@ -65,7 +65,7 @@ export const parse = (raw, context, metadata, that={}) => {
           v, context,
           // Try the key-specific metadata settings,
           // or, alternatively, use the catch-all
-          metadata.content[k] || metadata.content['*'],
+          metadata.content?.[k] || metadata.content?.['*'],
           that,
         )],
       ),
