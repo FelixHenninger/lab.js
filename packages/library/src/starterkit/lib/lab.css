@@ -432,21 +432,34 @@ table.table-striped tr:nth-child(odd) td {
 }
 
 /* Progress bar */
-.progress {
-  width: 100%;
+#labjs-progress-bar-container {
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 2px 1px -1px rgb(210, 210, 210);
+}
+
+#labjs-progress-bar-outer {
+  flex: 1;
+  border-radius: 4px;
+  background-color: #e4e7e8;
+  display: inline-block;
   height: 8px;
-  overflow: hidden;
-  margin: 0.2rem 0 0.4rem;
-  border-radius: 2px;
-  border: 1px solid var(--color-border);
 }
-.progress .progress-bar {
-  width: 0%;
-  min-height: 8px;
-  background-color: var(--color-gray-background);
-  border-right: 1px solid var(--color-border-internal);
-  box-sizing: content-box;
+
+#labjs-progress-bar-message {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 14px;
 }
+
+#labjs-progress-bar-inner {
+  display: block;
+  background: #ffc32d;
+  border-radius: 4px;
+  height: 100%;
+}
+
 
 /* Popovers */
 .popover {
@@ -493,4 +506,6 @@ table.table-striped tr:nth-child(odd) td {
   padding-top: 24px;
   top: -8px;
 }
+
+/
 
