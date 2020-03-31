@@ -59,6 +59,10 @@ export class Sequence extends Component {
   }
 
   async onRun(frameTimeStamp, frameSynced) {
+    if (this.options.showProgressBar) {
+      this.attachProgressBar(this.options.progressBarMessage);
+    }
+
     // Make the first step
     return this.step(frameTimeStamp, frameSynced)
   }
@@ -87,8 +91,34 @@ export class Sequence extends Component {
       [this.internals.currentPosition, this.internals.currentComponent] =
         next.value
       this.internals.currentComponent.on('after:end', this.internals.stepper)
+
+      if (this.options.showProgressBar) {
+        this.updateProgressBar(this.progress);
+      }
+      
       return this.internals.currentComponent.run(frameTimeStamp, frameSynced)
     }
+  }
+
+  attachProgressBar(message = 'Completion Progress') {
+    this.options.el.insertAdjacentHTML(
+      'beforebegin',
+      `<div id="labjs-progress-bar-container">
+          <span id="labjs-progress-bar-message">${message}</span>
+          <div id="labjs-progress-bar-outer">
+            <div id="labjs-progress-bar-inner" style={width: 1%}/>
+          </div>
+       </div>`
+    );
+  }
+
+  updateProgressBar(progress) {
+    const progressBarInner = document.querySelector('#labjs-progress-bar-inner') as HTMLElement;
+    if (!progressBarInner) return;
+
+    // Making sure there's at least a little bit of progress visible is nice
+    const progressWidth = progress === 0 ? '2%' : progress * 100 + '%';
+    progressBarInner.style.width = progressWidth;
   }
 
   get progress() {
