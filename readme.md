@@ -101,6 +101,7 @@ Dilek Akkus ·
 [Ursa Bernardic](https://www.unige.ch/gsem/en/research/institutes/iom/team/phd-students/ursa-bernardic/) ·
 [Emily Elliott](https://lsu.edu/hss/psychology/faculty/cognitive/elliott.php) ·
 [Jeffrey Fisher](https://github.com/jeffslofish) ·
+[Kerstin Fröber](http://orcid.org/0000-0001-6060-2837) ·
 [Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/) ·
 [Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
 [Alex Irvine](https://github.com/u01ai11) ·

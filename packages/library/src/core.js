@@ -796,7 +796,7 @@ Component.metadata = {
   module: ['core'],
   nestedComponents: [],
   parsableOptions: {
-    responses:       { content: { '*': 'string' } },
+    responses:       { keys: {}, content: { '*': 'string' } },
     correctResponse: {},
     timeline:        {
       type: 'array',

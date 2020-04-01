@@ -61,13 +61,18 @@ export const parse = (raw, context, metadata, that={}) => {
     // and construct a new object from results
     return fromPairs(
       Object.entries(raw).map(
-        ([k, v]) => [k, parse(
-          v, context,
-          // Try the key-specific metadata settings,
-          // or, alternatively, use the catch-all
-          metadata.content?.[k] || metadata.content?.['*'],
-          that,
-        )],
+        ([k, v]) => [
+          // Parse keys only if the appropriate flag is set
+          metadata.keys ? parse(k, context, {}, that) : k,
+          // Parse values
+          parse(
+            v, context,
+            // Try the key-specific metadata settings,
+            // or, alternatively, use the catch-all
+            metadata.content?.[k] || metadata.content?.['*'],
+            that,
+          )
+        ],
       ),
     )
   } else {
