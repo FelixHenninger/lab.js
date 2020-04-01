@@ -549,8 +549,7 @@ export class Component extends EventHandler {
     // Save ideal response and response veracity
     if (this.options.correctResponse !== null) {
       this.data.correctResponse = this.options.correctResponse
-      this.data.correct =
-        this.data.response === this.options.correctResponse
+      this.data.correct = response === this.options.correctResponse
     }
 
     // End component
