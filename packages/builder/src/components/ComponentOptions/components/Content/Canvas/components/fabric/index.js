@@ -346,7 +346,7 @@ export default class FabricCanvas extends Component {
           const content = options.content
           delete options.content
           return new fabric.IText(content, {
-            fontFamily: 'serif',
+            fontFamily: 'sans-serif',
             fontSize: 32,
             textAlign: 'center',
             ...defaults,
