@@ -43,7 +43,7 @@ const _ImprintHint = ({ showModal }) =>
     title="Imprint"
   >
     <p>
-      <strong>Thank you for using <a href="https://felixhenninger.github.io/lab.js" className="font-weight-bold" target="_blank" rel="noopener noreferrer"><code>lab.js</code></a>!<br />It's a pleasure to have you around.</strong><br />
+      <strong>Thank you for using <a href="https://felixhenninger.github.io/lab.js" className="font-weight-bold" target="_blank" rel="noopener noreferrer"><code>lab.js</code></a> — <br />It's a pleasure to have you around!</strong><br />
       Here's some information to help keep our lawyers happy, too.
     </p>
     <h6>Authors</h6>
