@@ -407,10 +407,10 @@ export class Component extends EventHandler {
           // Prevent default browser response
           e.preventDefault()
           // Trigger internal response handling
-          this.respond(
-            this.options.responses[eventString],
-            ensureHighResTime(e.timeStamp),
-          )
+          this.respond(this.options.responses[eventString], {
+            timestamp: ensureHighResTime(e.timeStamp),
+            action: eventString,
+          })
         }
       },
     )
@@ -539,9 +539,12 @@ export class Component extends EventHandler {
     }
   }
 
-  respond(response=null, timestamp=undefined) {
-    // Save response
+  respond(response=null, { timestamp, action }={}) {
+    // Save response and the action that generated it
     this.data.response = response
+    if (action) {
+      this.data.response_action = action
+    }
 
     // Save ideal response and response veracity
     if (this.options.correctResponse !== null) {

@@ -746,7 +746,7 @@ describe('Core', () => {
 
       it('accepts timestamp for response', () => {
         return b.run().then(() => {
-          b.respond('bar', 123)
+          b.respond('bar', { timestamp: 123 })
 
           assert.equal(b.internals.timestamps.end, 123)
         })
