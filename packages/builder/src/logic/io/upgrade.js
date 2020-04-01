@@ -414,6 +414,10 @@ const updates = {
       }
     })
   }),
+  '19.1.2': data => ({
+    ...data,
+    version: [20, 0, 0],
+  }),
 }
 
 export default (data) => {
