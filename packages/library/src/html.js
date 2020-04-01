@@ -286,12 +286,18 @@ Frame.metadata = {
 
 export class Page extends Form {
   onPrepare() {
+    // Generate content
     this.options.content = makePage(this.options.items, {
       submitButtonText: this.options.submitButtonText,
       submitButtonPosition: this.options.submitButtonPosition,
       width: this.options.width,
       rng: this.random,
     })
+
+    // Preload images
+    this.options.items
+      .filter(i => i.type === 'image' && i.src)
+      .forEach(i => this.options.media.images.push(i.src))
   }
 }
 
