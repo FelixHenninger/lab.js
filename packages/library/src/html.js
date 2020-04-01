@@ -274,6 +274,11 @@ export class Frame extends Component {
       return Promise.resolve()
     }
   }
+
+  get progress() {
+    // Return progress from nested component
+    return this.options.content.progress
+  }
 }
 
 Frame.metadata = {
