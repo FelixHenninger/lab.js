@@ -211,8 +211,7 @@ export const defaultTab = (tab, type) => {
 // TODO: This is awkwardly named
 export const defaults = [
   'lab.canvas.Screen',
-  process.env.PUBLIC_URL === 'https://labjs.felixhenninger.com'
-    ? 'lab.html.Screen' : 'lab.html.Page',
+  'lab.html.Page',
   'lab.flow.Sequence',
   'lab.flow.Loop',
 ]
