@@ -100,8 +100,11 @@ export default ({ data, formDispatch }) =>
             <p>
               The best example for this is if you're looking for clicks on a specific part of the screen rather than anywhere.
             </p>
-            <p>
-              The target areas are defined by <code>CSS</code> selectors, e.g. <code>button#option_a</code> corresponds to a <code>&lt;button id="option_a" /&gt;</code> element on screen.
+            <p className="text-muted">
+              On <strong>canvas-based screens</strong>, <code>AOIs</code> can be used as target areas. To do so, please enter the <code>@</code> sign followed by the <code>AOI</code> label, for example <code>@label</code>.
+            </p>
+            <p className="text-muted">
+              On <strong><code>HTML</code>-based screens</strong>, the target areas are defined by <code>CSS</code> selectors, e.g. <code>button#option_a</code> corresponds to a <code>&lt;button id="option_a" /&gt;</code> element on screen.
             </p>
           </Hint>
         </span>,
