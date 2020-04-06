@@ -113,6 +113,7 @@ Dilek Akkus ·
 [Nikoletta Symeonidou](https://www.sowi.uni-mannheim.de/en/erdfelder/team/academic-staff-members/symeonidou-nikoletta/) ·
 [Hendrik Singmann](http://singmann.org) ·
 [Kevin Tiede](https://www.spds.uni-konstanz.de/kevin-tiede) ·
+[Andreas Voss](https://www.psychologie.uni-heidelberg.de/ae/meth/) ·
 [Andrew White](https://github.com/shiroandy) ·
 [Malte Zimdahl](http://psycho3.uni-mannheim.de/Personen/Malte%20Zimdahl,%20M.Sc./)
 
