@@ -32,7 +32,9 @@ export default class Preview {
   reload(url) {
     // Reset window location instead of merely reloading,
     // to make sure that the URL preview is correct.
-    this.window.location.href = url || this.url
+    if (this.window) {
+      this.window.location.href = url || this.url
+    }
   }
 
   focus() {
