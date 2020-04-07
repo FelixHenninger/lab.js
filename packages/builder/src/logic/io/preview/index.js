@@ -39,7 +39,9 @@ const putFile = async (cache, [path, { content, type }], previewPath) =>
 
 // Create link to default static files in preview location
 const linkStatic = async (cache, [path, data], previewPath) => {
-  const response = await cache.match(`/api/_defaultStatic/${ path }`)
+  // (load from cache if possible, otherwise fetch anew)
+  const response = await cache.match(`/api/_defaultStatic/${ path }`) ??
+    await fetch(`/api/_defaultStatic/${ path }`)
 
   await cache.put(
     new Request(`/api/${ previewPath }/${ path }`),
