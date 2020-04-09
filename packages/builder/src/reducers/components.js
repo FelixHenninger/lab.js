@@ -206,12 +206,24 @@ export default (state=defaultState, action) => {
       }
 
     case 'UPDATE_COMPONENT':
-      return {
-        ...state,
-        [action.id]: {
-          ...state[action.id],
-          ...action.data,
-        },
+      if (state[action.id]) {
+        return {
+          ...state,
+          [action.id]: {
+            ...state[action.id],
+            ...action.data,
+          },
+        }
+      } else {
+        console.log(`Skipping update to missing component ${ action.id }`)
+        // TODO: This fallback is designed to catch a very specific bug
+        // that occured when flushing pending updates to a deleted component.
+        // In principle, the same issue is present with all other reducers,
+        // although it is extremely unlikely to occur.
+        // In the long run, it may be worthwhile moving this check into
+        // component logic, or, alternatively, making it universal to
+        // all actions (e.g. by checking at the top of this reducer).
+        return state
       }
 
     case 'ADD_FILES':
