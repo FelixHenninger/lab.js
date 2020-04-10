@@ -23,6 +23,7 @@ if (
 ) {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_DSN,
+    release: `@lab.js/builder@${ process.env.REACT_APP_SENTRY_RELEASE }`,
   })
 }
 
