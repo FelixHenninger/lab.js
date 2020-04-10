@@ -29,7 +29,7 @@ export const filePlaceholderRegex =
 
 export const resolveImage = (src, store, id) => {
   // Look up and insert image data
-  const filePlaceholderMatch = src.match(filePlaceholderRegex)
+  const filePlaceholderMatch = src?.match(filePlaceholderRegex)
   if (filePlaceholderMatch) {
     const imagePath = filePlaceholderMatch[1]
 
