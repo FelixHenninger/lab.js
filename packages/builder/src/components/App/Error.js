@@ -23,6 +23,10 @@ const gifs = [
   'https://media.giphy.com/media/FYenMRUx3LGy4/giphy.mp4', // McG disapproval
   'https://media.giphy.com/media/p3RblYx4T7vmU/giphy.mp4', // Dumbledore shrugs
   'https://media.giphy.com/media/8QIgBwVvZVrG0/giphy.mp4', // Ford?
+  'https://media.giphy.com/media/pPhyAv5t9V8djyRFJH/giphy.mp4', // Obama
+  'https://media.giphy.com/media/APqEbxBsVlkWSuFpth/giphy.mp4', // Seems fishy
+  'https://media.giphy.com/media/Rhkq4ehWqVX56/giphy.mp4', // Sheldon Cooper I
+  'https://media.giphy.com/media/fOVGTYyYtV6Ra/giphy.mp4', // Sheldon Cooper II
 ]
 
 const Error = ({ reset, error, errorInfo, eventId }) => {
