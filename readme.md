@@ -108,7 +108,7 @@ Dilek Akkus ·
 [Dave Kleinschmidt](https://www.davekleinschmidt.com/) ·
 [Dano Morrison](https://github.com/jdpigeon) ·
 [Karthikeya Pammi](https://github.com/pvskarthikeya) ·
-[Nick Robinson](http://www.research.lancs.ac.uk/portal/en/people/nick-robinson(575f3ae6-73b9-4db1-9ce2-73db53ad5a9a).html) ·
+Nick Robinson ·
 [Sophie Scharf](http://cognition.uni-mannheim.de/mitarbeiter/m_sc_sophie_scharf/) ·
 [Nikoletta Symeonidou](https://www.sowi.uni-mannheim.de/en/erdfelder/team/academic-staff-members/symeonidou-nikoletta/) ·
 [Hendrik Singmann](http://singmann.org) ·
