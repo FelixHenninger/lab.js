@@ -522,7 +522,7 @@ export class Component extends EventHandler {
       )
 
       // Log next frame time
-      window.requestAnimationFrame(showFrame => {
+      this.internals.showFrameRequest = window.requestAnimationFrame(showFrame => {
         this.internals.timestamps.show = showFrame
         this.triggerMethod('show', showFrame)
       })
@@ -573,6 +573,11 @@ export class Component extends EventHandler {
     if (this.internals.frameRequest) {
       window.cancelAnimationFrame(
         this.internals.frameRequest,
+      )
+    }
+    if (this.internals.showFrameRequest) {
+      window.cancelAnimationFrame(
+        this.internals.showFrameRequest,
       )
     }
 
