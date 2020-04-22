@@ -367,6 +367,7 @@ Screen.metadata = {
           height: { type: 'number' },
           angle: { type: 'number' },
           src: {},
+          fontSize: { type: 'number' },
         },
       },
     },
