@@ -7,7 +7,7 @@
 // numbers are passed in (as multiple arguments).
 
 export const sum = a =>
-  a.reduce((x, y) => x + y)
+  a.reduce((x, y) => x + y, 0)
 
 export const mean = a =>
   sum(a) / a.length
