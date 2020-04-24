@@ -596,7 +596,7 @@ export class Component extends EventHandler {
         this.internals.timestamps.render
     } else {
       this.data.duration = this.internals.timestamps.end -
-        this.internals.timestamps.show
+        (this.internals.timestamps.show || this.internals.timestamps.render)
     }
 
     // Complete a component's run and cleanup
@@ -636,7 +636,7 @@ export class Component extends EventHandler {
           // If the component was ended by a timeout,
           // update the duration based on the actual presentation time
           duration: d.ended_on === 'timeout'
-            ? s - d.time_show
+            ? s - (d.time_show || d.time_render)
             : d.duration
         }),
       )
