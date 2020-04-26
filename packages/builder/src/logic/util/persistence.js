@@ -7,13 +7,25 @@ const lf = localForage.createInstance({
   name: "lab.js"
 })
 
+const quotaExceededErrors = [
+  'keys and/or value are too large', // WebKit
+  'value is too large', // Firefox
+  'QuotaExceededError', // Various, possibly a cache error
+]
+
 export const persistState = async store => {
   // Persist application state to localForage on changes
   store.subscribe(debounce(() => {
     lf.setItem(
       'state:latest',
       store.getState()
-    )
+    ).catch(e => {
+      if (quotaExceededErrors.some(message => e.message.includes(message))) {
+        // TODO alert user
+      } else {
+        throw e
+      }
+    })
   }), 500)
 
   // Check for persistence of in-browser storage
