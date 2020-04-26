@@ -109,7 +109,7 @@ export default class CanvasEditor extends Component {
 
   componentWillUnmount() {
     this._isMounted = false
-    this.canvas.current.canvas.discardActiveObject()
+    this.canvas.current.updateActive()
   }
 
   // Selection -----------------------------------------------------------------
