@@ -1,4 +1,4 @@
-import { isPlainObject } from 'lodash'
+import { isPlainObject, throttle } from 'lodash'
 
 const payload = `<style type="text/css">
   .labjs-debug-opener {
@@ -241,12 +241,11 @@ export default class Debug {
       // are committed, because the set event is not
       // triggered when data are committed, even if
       // data are changed.
-      this.context.options.datastore
-        .on('set', () => this.render())
-      this.context.options.datastore
-        .on('commit', () => this.render())
-      this.context.options.datastore
-        .on('update', () => this.render())
+      const throttledRender = throttle(() => this.render(), 100)
+
+      this.context.options.datastore.on('set', throttledRender)
+      this.context.options.datastore.on('commit', throttledRender)
+      this.context.options.datastore.on('update', throttledRender)
     }
   }
 
