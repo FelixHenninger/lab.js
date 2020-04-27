@@ -37,10 +37,11 @@ step](https://labjs.readthedocs.io/en/latest/learn/builder/).
 
 If you prefer working directly with code, you can build studies using the
 [**JavaScript library**](https://lab.js.org/docs/en/latest/reference/), which is available on npm.
+
 `npm install lab.js`
-If you want guidance starting a new `lab.js` project, you should check out the *starter kit*, which is [provided with
-every release](https://github.com/FelixHenninger/lab.js/releases/latest).
-There is also a tutorial to [help you get started](https://lab.js.org/docs/en/latest/learn/code/).
+
+If you'd like guidance on how to start a new project using `lab.js`, check out the *starter kit*, which is [provided with
+every release](https://github.com/FelixHenninger/lab.js/releases/latest). There is also a tutorial to [help you get started](https://lab.js.org/docs/en/latest/learn/code/).
 
 If you get stuck or things don't make sense, please don't hesitate to reach out!
 
