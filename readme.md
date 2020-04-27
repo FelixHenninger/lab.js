@@ -12,7 +12,7 @@
   </small>
 </p>
 
-**`lab.js` makes it easy to build, run and share studies that help understand the mind.** It allows everyone to construct and construct experiments and surveys within the browser; the graphical builder makes it easy to get started without writing code.
+**`lab.js` makes it easy to build, run and share studies that help understand the mind.** It allows everyone to create experiments and surveys that run in the browser; the graphical builder app makes possible to get started without writing code.
 
 [![Slack Status](https://img.shields.io/badge/support-online-brightgreen.svg)](https://lab.js.org/resources/support/)
 [![Build Status](https://travis-ci.org/FelixHenninger/lab.js.svg?branch=master)](https://travis-ci.org/FelixHenninger/lab.js)
@@ -36,8 +36,9 @@ will walk you through [building your first study, step by
 step](https://labjs.readthedocs.io/en/latest/learn/builder/).
 
 If you prefer working directly with code, you can build studies using the
-[**JavaScript library**](https://lab.js.org/docs/en/latest/reference/).
-Everything you need is bundled in the *starter kit*, which is [provided with
+[**JavaScript library**](https://lab.js.org/docs/en/latest/reference/), which is available on npm.
+`npm install lab.js`
+If you want guidance starting a new `lab.js` project, you should check out the *starter kit*, which is [provided with
 every release](https://github.com/FelixHenninger/lab.js/releases/latest).
 There is also a tutorial to [help you get started](https://lab.js.org/docs/en/latest/learn/code/).
 
@@ -52,7 +53,7 @@ join and say hello, we'd love to have you around!
 
 ### Keep up-to-date 📮
 
-If you'd like to keep in the loop regarding the development, please [subscribe
+If you'd like to keep in the loop regarding development, please [subscribe
 to our **newsletter**](http://eepurl.com/co0K9r) to receive very occasional
 updates and release notifications.
 
