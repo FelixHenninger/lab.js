@@ -30,17 +30,23 @@
 
 ### Get started 🚀
 
+#### Builder
+
 The [**graphical builder interface**](https://lab.js.org/builder) is the
 easiest way to create studies, and the best place to start. The tutorial
 will walk you through [building your first study, step by
 step](https://labjs.readthedocs.io/en/latest/learn/builder/).
 
+#### npm
+
 If you prefer working directly with code, you can build studies using the
-[**JavaScript library**](https://lab.js.org/docs/en/latest/reference/), which is available on npm.
+[**JavaScript library**](https://lab.js.org/docs/en/latest/reference/), which is available from [npm](https://www.npmjs.com/package/lab.js)
 
 `npm install lab.js`
 
-If you'd like guidance on how to start a new project using `lab.js`, check out the *starter kit*, which is [provided with
+#### Starter Kit
+
+If you'd like guidance on starting a new code project using `lab.js`, check out the *starter kit*, which is [provided with
 every release](https://github.com/FelixHenninger/lab.js/releases/latest). There is also a tutorial to [help you get started](https://lab.js.org/docs/en/latest/learn/code/).
 
 If you get stuck or things don't make sense, please don't hesitate to reach out!
