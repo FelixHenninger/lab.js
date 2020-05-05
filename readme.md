@@ -113,6 +113,7 @@ Nick Robinson ·
 [Sophie Scharf](http://cognition.uni-mannheim.de/mitarbeiter/m_sc_sophie_scharf/) ·
 [Nikoletta Symeonidou](https://www.sowi.uni-mannheim.de/en/erdfelder/team/academic-staff-members/symeonidou-nikoletta/) ·
 [Hendrik Singmann](http://singmann.org) ·
+Dawid Strzelczyk ·
 [Kevin Tiede](https://www.spds.uni-konstanz.de/kevin-tiede) ·
 [Andreas Voss](https://www.psychologie.uni-heidelberg.de/ae/meth/) ·
 [Andrew White](https://github.com/shiroandy) ·

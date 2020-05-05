@@ -350,7 +350,11 @@ export class Store extends EventHandler {
     })
 
     // Prepend column names
-    rows.unshift(keys.join(separator))
+    rows.unshift(
+      keys
+        .map(escapeCsvCell)
+        .join(separator)
+    )
 
     // Join rows
     return rows.join('\r\n')
