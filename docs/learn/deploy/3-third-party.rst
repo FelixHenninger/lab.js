@@ -15,8 +15,8 @@ Studies built in ``lab.js`` integrate well with external tools, and will happil
 
   This page covers integration with third-party tools in the abstract. We cover the most popular tools individually:
 
-  * :ref:`Open Lab <tutorial/deploy/third-party/jatos>`
-  * :ref:`JATOS <tutorial/deploy/third-party/openlab>`
+  * :ref:`Open Lab <tutorial/deploy/third-party/openlab>`
+  * :ref:`JATOS <tutorial/deploy/third-party/jatos>`
   * :ref:`Qualtrics <tutorial/deploy/third-party/qualtrics>`
   * :ref:`The Experiment Factory <tutorial/deploy/third-party/expfactory>`
 
