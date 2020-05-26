@@ -1,4 +1,4 @@
-import { fromPairs, mapValues, template } from 'lodash'
+import { fromPairs, mapValues, template, uniqBy } from 'lodash'
 
 import { loadPlugin } from './library'
 
@@ -33,9 +33,12 @@ export const embedPlugins = state => {
     .map(([_, c]) => c.plugins || [])
     .reduce((prev, a) => prev.concat(a), [])
 
+  // Remove duplicate plugins
+  const uniquePlugins = uniqBy(plugins, p => p.type)
+
   // Load plugins, ignoring unknown ones
   // (plugins are represented in the following by [type, data] tuples)
-  const loadedPlugins = plugins
+  const loadedPlugins = uniquePlugins
     .map(data => [data.type, loadPlugin(data.type)])
     .filter(([, data]) => data !== undefined)
 
