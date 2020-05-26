@@ -67,12 +67,16 @@ export class ImageCache extends AsyncCache {
 
   async get(key) {
     const image = await super.get(key)
+
     if (window.createImageBitmap) {
-      this.bitmapCache.set(
-        image,
-        await createImageBitmap(image)
-      )
+      try {
+        const bitmap = await createImageBitmap(image)
+        this.bitmapCache.set(image, bitmap)
+      } catch (e) {
+        console.log(`Couldn't cache bitmap for ${ key }, error ${ e }`)
+      }
     }
+
     return image
   }
 
