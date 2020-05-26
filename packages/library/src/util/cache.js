@@ -48,23 +48,39 @@ class AsyncCache {
 
 // Cache implementations for specific media types ------------------------------
 
-const preloadImage = (url) =>
-  new Promise((resolve, reject) => {
-    const image = new Image()
+const preloadImage = async (url) => {
+  // Create an empty image element
+  const image = new Image()
+  image.src = url
 
-    // Resolve or reject the promise, depending
-    // on whether the image loads successfully or not
-    image.addEventListener('load',  () => resolve(image))
-    image.addEventListener('error', (e) => reject(e))
+  // Make sure to decode its contents
+  await image.decode()
 
-    // Set the image path, which puts it in the
-    // queue for loading.
-    image.src = url
-  })
+  return image
+}
 
 export class ImageCache extends AsyncCache {
   constructor() {
     super(preloadImage)
+    this.bitmapCache = new WeakMap()
+  }
+
+  async get(key) {
+    const image = await super.get(key)
+    if (window.createImageBitmap) {
+      this.bitmapCache.set(
+        image,
+        await createImageBitmap(image)
+      )
+    }
+    return image
+  }
+
+  readSync(key) {
+    const image = super.readSync(key)
+    const bitmap = this.bitmapCache.get(image)
+
+    return [image, bitmap]
   }
 }
 

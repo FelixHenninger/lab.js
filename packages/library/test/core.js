@@ -137,7 +137,8 @@ describe('Core', () => {
         b.options.media.images.push(url)
 
         return b.prepare().then(() => {
-          const image = b.internals.controller.cache.images.readSync(url)
+          const [image, bitmap] =
+            b.internals.controller.cache.images.readSync(url)
           assert.instanceOf(image, Image)
 
           // Check that loading completed

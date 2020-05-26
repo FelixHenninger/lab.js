@@ -154,7 +154,7 @@ const renderElement = (ctx, content, cache={}) => {
       break
     case 'image':
       // Load image element from cache
-      const img = cache.images.readSync(content.src)
+      const [img, bitmap] = cache.images.readSync(content.src)
 
       // Recalculate width and height
       // to preserve aspect ratio, if requested
@@ -165,7 +165,7 @@ const renderElement = (ctx, content, cache={}) => {
         ? img.naturalHeight * (content.width / img.naturalWidth)
         : content.height
 
-      ctx.drawImage(img,
+      ctx.drawImage(bitmap || img,
         -width / 2, -height / 2,
         width, height,
       )
