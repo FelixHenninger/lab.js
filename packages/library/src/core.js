@@ -803,6 +803,12 @@ Component.metadata = {
   module: ['core'],
   nestedComponents: [],
   parsableOptions: {
+    parameters:      {
+      type: 'object',
+      content: {
+        '*': {},
+      },
+    },
     responses:       { keys: {}, content: { '*': 'string' } },
     correctResponse: {},
     timeline:        {
