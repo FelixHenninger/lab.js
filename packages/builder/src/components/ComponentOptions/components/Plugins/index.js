@@ -9,7 +9,7 @@ import { Fieldset, Control } from 'react-redux-form'
 
 import Card from '../../../Card'
 import Icon from '../../../Icon'
-import ComponentForm from '../Form'
+import ComponentForm from '../RRFForm'
 import Modal from '../../../Modal'
 import Confirm from '../../../Modal/components/Confirm'
 

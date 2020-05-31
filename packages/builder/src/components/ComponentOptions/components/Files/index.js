@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Form from '../Form'
+import Form from '../RRFForm'
 import { Control } from 'react-redux-form'
 
 import Card from '../../../Card'

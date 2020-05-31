@@ -3,7 +3,7 @@ import React from 'react'
 import { Col, FormGroup, Label, CustomInput } from 'reactstrap'
 import { Control } from 'react-redux-form'
 
-import Form from '../../Form'
+import Form from '../../RRFForm'
 import Card from '../../../../Card'
 
 export default ({ id, data }) =>

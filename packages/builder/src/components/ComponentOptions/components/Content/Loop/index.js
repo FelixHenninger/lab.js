@@ -6,7 +6,7 @@ import { Col, CardBody,
 import { uniqBy, groupBy } from 'lodash'
 
 import Hint from '../../../../Hint'
-import Form from '../../Form'
+import Form from '../../RRFForm'
 import Card from '../../../../Card'
 import Grid from '../../../../Grid'
 import { GridCell, HeaderCell } from './cells'

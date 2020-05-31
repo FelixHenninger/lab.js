@@ -3,7 +3,7 @@ import { Fieldset, Control } from 'react-redux-form'
 import { CardFooter, FormGroup, InputGroup, Label, Input, CustomInput, Button,
   Row, Col, Collapse } from 'reactstrap'
 
-import Form from '../../Form'
+import Form from '../../RRFForm'
 import Card from '../../../../Card'
 import Grid from '../../../../Grid'
 import Icon from '../../../../Icon'

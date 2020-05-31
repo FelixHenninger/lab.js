@@ -5,7 +5,7 @@ import { Col, Row, InputGroup, Input, CardBody, FormGroup } from 'reactstrap'
 import { Control } from 'react-redux-form'
 
 import Card from '../../Card'
-import Form from './Form'
+import Form from './RRFForm'
 import Grid from '../../Grid'
 
 import { CellTypeSelector } from './Content/Loop/cells'

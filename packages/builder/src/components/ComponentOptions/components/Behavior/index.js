@@ -4,7 +4,7 @@ import Timeline from './components/Timeline'
 import Responses from './components/Responses'
 import Meta from './components/Meta'
 
-import Form from '../Form'
+import Form from '../RRFForm'
 
 export default class extends Component {
   constructor(props) {

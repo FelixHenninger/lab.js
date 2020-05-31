@@ -2,7 +2,7 @@ import React from 'react'
 import { Control } from 'react-redux-form'
 import { CardBody } from 'reactstrap'
 
-import Form from '../Form'
+import Form from '../RRFForm'
 import Card from '../../../Card'
 import Editor from '../../../Editor'
 
