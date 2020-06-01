@@ -4,7 +4,7 @@ import { Control } from 'react-redux-form'
 
 import Form from '../RRFForm'
 import Card from '../../../Card'
-import Grid from '../../../Grid'
+import Grid from '../../../RRFGrid'
 import Editor from '../../../Editor'
 
 import { adaptiveFunction } from '../../../../logic/util/async'

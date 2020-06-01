@@ -2,7 +2,7 @@ import React from 'react'
 import { Control } from 'react-redux-form'
 import { CardBody, FormGroup, Col, Label, Input } from 'reactstrap'
 
-import Grid from '../../../../Grid'
+import Grid from '../../../../RRFGrid'
 import Card from '../../../../Card'
 import Hint from '../../../../Hint'
 

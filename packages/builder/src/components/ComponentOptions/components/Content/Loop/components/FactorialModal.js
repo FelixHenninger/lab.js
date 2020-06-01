@@ -3,7 +3,7 @@ import { ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 import { Control, LocalForm } from 'react-redux-form'
 
 import Modal from '../../../../../Modal'
-import Grid from '../../../../../Grid'
+import Grid from '../../../../../RRFGrid'
 import { GridCell as InputCell } from '../cells'
 
 // Copied from the library combinatorics implementation

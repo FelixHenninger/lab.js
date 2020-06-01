@@ -5,7 +5,7 @@ import { CardFooter, FormGroup, InputGroup, Label, Input, CustomInput, Button,
 
 import Form from '../../RRFForm'
 import Card from '../../../../Card'
-import Grid from '../../../../Grid'
+import Grid from '../../../../RRFGrid'
 import Icon from '../../../../Icon'
 
 import ItemOptions from './components/ItemOptions'

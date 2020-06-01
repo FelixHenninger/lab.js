@@ -4,8 +4,8 @@ import Form from '../RRFForm'
 import { Control } from 'react-redux-form'
 
 import Card from '../../../Card'
-import Grid from '../../../Grid'
-import ButtonCell from '../../../Grid/components/buttonCell'
+import Grid from '../../../RRFGrid'
+import ButtonCell from '../../../RRFGrid/components/buttonCell'
 import Footer from './footer'
 
 import { dataURItoIcon } from '../../../../logic/util/fileType'

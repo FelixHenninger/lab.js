@@ -6,7 +6,7 @@ import { Control } from 'react-redux-form'
 
 import Card from '../../Card'
 import Form from './RRFForm'
-import Grid from '../../Grid'
+import Grid from '../../RRFGrid'
 
 import { CellTypeSelector } from './Content/Loop/cells'
 
