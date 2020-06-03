@@ -29,12 +29,6 @@ div.card table.grid.no-header thead {
   display: none;
 }
 
-/* Interior columns */
-table.grid td, table.grid th, table.grid tfoot td {
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-}
-
 /* Buttons */
 /* TODO: There are some weird things going on with
    transition states -- buttons may assume a gray

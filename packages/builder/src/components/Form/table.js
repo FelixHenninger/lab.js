@@ -4,6 +4,7 @@ import { FieldArray, useFormikContext } from 'formik'
 import { Button } from 'reactstrap'
 
 import Icon from '../Icon'
+import './table.css'
 
 const FormArray = ({
   name, item: Item,
