@@ -4,7 +4,10 @@ import { connect } from 'react-redux'
 import { Nav, NavItem, NavLink,
   FormGroup, InputGroup, InputGroupAddon,
   UncontrolledTooltip } from 'reactstrap'
-import { LocalForm, Control } from 'react-redux-form'
+
+import { Formik, Field } from 'formik'
+import { AutoSave, Input } from '../Form'
+
 import classnames from 'classnames'
 
 import Icon from '../Icon'
@@ -21,24 +24,24 @@ const tabIcons = {
 
 const HeaderForm = ({ title, typeCategory, typeName, template,
   icon, iconWeight, iconFallbackWeight, onChange }) =>
-  <LocalForm
-    initialState={{ title }}
-    onChange={ data => onChange(data) }
-    style={{ width: '40%' }}
+  <Formik
+    initialValues={{ title }}
+    enableReinitialize={ true }
   >
     <FormGroup
       className="mr-sm-2"
+      style={{ width: '40%' }}
     >
       <InputGroup>
-        <Control
-          model="local.title"
-          placeholder="Title"
-          className="form-control form-control-lg font-weight-bold"
+        <Field
+          name="title"
+          component={ Input }
+          bsSize="lg"
+          className="font-weight-bold"
           style={{
             padding: '0.5rem 0.75rem',
             height: '42px',
           }}
-          debounce={ 250 }
         />
         <InputGroupAddon addonType="append">
           <span className="input-group-text">
@@ -62,8 +65,9 @@ const HeaderForm = ({ title, typeCategory, typeName, template,
           </UncontrolledTooltip>
         </InputGroupAddon>
       </InputGroup>
+      <AutoSave onSave={ data => onChange(data) } />
     </FormGroup>
-  </LocalForm>
+  </Formik>
 
 const HeaderNav = ({ tabs, tab, onChange }) =>
   <Nav pills> {
