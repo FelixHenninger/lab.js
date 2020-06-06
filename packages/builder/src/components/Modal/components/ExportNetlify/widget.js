@@ -1,67 +1,68 @@
 import React, { Component, createRef, forwardRef } from 'react'
 import { ReactReduxContext } from 'react-redux'
-import { findDOMNode } from 'react-dom'
 
-import { LocalForm, Control, Errors } from 'react-redux-form'
-import { FormGroup, Label, Input, FormText,
+import { Formik, Field } from 'formik'
+import { Input } from '../../../Form'
+
+import { FormGroup, Label, FormText,
   Nav, NavItem,  NavLink } from 'reactstrap'
-
 import Icon from '../../../Icon'
 
 import exportStaticNetlify from '../../../../logic/io/export/modifiers/netlify'
 
-// Validators
-const required = v => v && v.length
-const length = len => v => !v || v.length === len
+// Validation
+const validateApiKey = value => {
+  if (!value) {
+    return 'We\'ll need a API key to upload the study'
+  } else if (value.length !== 64) {
+    return 'The keys are typically 64 characters long'
+  }
+}
 
 const NetlifyForm = forwardRef(({ onSubmit }, ref) =>
-  <LocalForm
+  <Formik
     ref={ ref }
+    initialValues={{ site: '', apiKey: '' }}
     onSubmit={ onSubmit }
   >
-    <FormGroup>
-      <Label for="site">
-        Study domain/site{' '}
-        <small className="text-muted">(optional)</small>
-      </Label>
-      <Control
-        model=".site" id="site"
-        component={ Input }
-        placeholder="random-domain-name.netlify.com"
-        style={{
-          fontFamily: 'Fira Code',
-        }}
-      />
-      <FormText color="muted">
-        If you've previously created <a href="https://app.netlify.com/account/sites" target="_blank" rel="noopener noreferrer">a site for your study</a>, you can enter the domain here. Leave empty to create a new site with a preliminary domain name.
-      </FormText>
-    </FormGroup>
-    <FormGroup>
-      <Label for="apiKey">API access code</Label>
-      <Control
-        model=".apiKey" id="apiKey"
-        component={ Input }
-        style={{
-          fontFamily: 'Fira Code',
-        }}
-        validators={{ required, length: length(64) }}
-        validateOn='change'
-      />
-      <Errors
-        model="local.apiKey"
-        component={ props =>
-          <FormText color="danger">{ props.children }</FormText> }
-        messages={{
-          required: 'We\'ll need a API key to upload the study',
-          length: 'The keys are typically 64 characters long',
-        }}
-        show={ (field) => (field.touched || field.submitted) }
-      />
-      <FormText color="muted">
-        You'll need to <a href="https://app.netlify.com/account/applications"  target="_blank" rel="noopener noreferrer">create an API token</a> or enter an existing one. We don't save or share this information, so make sure to jot it down!
-      </FormText>
-    </FormGroup>
-  </LocalForm>
+    {({ errors, touched }) => (
+      <>
+        <FormGroup>
+          <Label for="site">
+            Study domain/site{' '}
+            <small className="text-muted">(optional)</small>
+          </Label>
+          <Field
+            name="site" id="site"
+            placeholder="random-domain-name.netlify.com"
+            component={ Input }
+            style={{
+              fontFamily: 'Fira Code',
+            }}
+          />
+          <FormText color="muted">
+            If you've previously created <a href="https://app.netlify.com/account/sites" target="_blank" rel="noopener noreferrer">a site for your study</a>, you can enter the domain here. Leave empty to create a new site with a preliminary domain name.
+          </FormText>
+        </FormGroup>
+        <FormGroup>
+          <Label for="apiKey">API access code</Label>
+          <Field
+            name="apiKey" id="apiKey"
+            component={ Input }
+            style={{
+              fontFamily: 'Fira Code',
+            }}
+            validate={ validateApiKey }
+          />
+          { errors.apiKey && touched.apiKey &&
+            <FormText color="danger">{ errors.apiKey }</FormText> }
+          <FormText color="muted">
+            You'll need to <a href="https://app.netlify.com/account/applications"  target="_blank" rel="noopener noreferrer">create an API token</a> or enter an existing one. We don't save or share this information, so make sure to jot it down!
+          </FormText>
+        </FormGroup>
+      </>
+    )}
+  </Formik>
 )
 
 class NetlifyWidget extends Component {
@@ -76,7 +77,7 @@ class NetlifyWidget extends Component {
   }
 
   triggerSubmit() {
-    findDOMNode(this.formRef.current).submit()
+    this.formRef.current.submitForm()
   }
 
   async send(data) {
