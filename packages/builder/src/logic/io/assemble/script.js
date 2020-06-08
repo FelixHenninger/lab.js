@@ -41,8 +41,7 @@ const processMessageHandlers = (messageHandlers) =>
 
 const processParameters = parameters =>
   fromPairs(
-    parameters.rows
-      .map(r => r[0])
+    parameters
       .filter(r => r.name.trim() !== '' && r.value.trim() !== '')
       .map(r => [r.name.trim(), makeType(r.value, r.type)])
   )

@@ -1,112 +1,131 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 
-import { Col, Row, InputGroup, Input, CardBody, FormGroup } from 'reactstrap'
-import { Control } from 'react-redux-form'
+import { Row, Col, InputGroup, InputGroupButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, CardBody, FormGroup } from 'reactstrap'
+import { useField, Field } from 'formik'
+import classnames from 'classnames'
 
 import Card from '../../Card'
-import Form from './RRFForm'
-import Grid from '../../RRFGrid'
+import Icon from '../../Icon'
+import Form from './Form'
+import { Input } from '../../Form'
+import { Table, DefaultRow } from '../../Form/table'
 
-import { CellTypeSelector } from './Content/Loop/cells'
+const CellTypeSelector = ({ name, disabled }) => {
+  const [, meta, helpers] = useField(name)
+  const { value } = meta
+  const { setValue } = helpers
 
-const DummyHeaderCell = () => null
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
-const BodyCell = (
-  { cellData, rowIndex, colIndex, readOnly },
-  { gridDispatch }
-) =>
-  <Row form>
-    <Col xs="6">
-      <Control.text
-        model={ `.rows[${ rowIndex }][${ colIndex }]['name']` }
-        placeholder="parameter"
-        style={{
-          fontFamily: 'Fira Mono',
-        }}
-        debounce={ 300 }
-        component={ Input }
-        controlProps={{
-          disabled: readOnly,
-        }}
-      />
-    </Col>
-    <Col xs="6">
-      <InputGroup>
-        <Control.text
-          model={ `.rows[${ rowIndex }][${ colIndex }]['value']` }
-          className="form-control"
-          placeholder="value"
-          style={{
-            fontFamily: 'Fira Mono',
-          }}
-          debounce={ 300 }
-        />
-        <CellTypeSelector
-          type={ cellData.type }
-          setType={
-            value => gridDispatch('change', {
-              model: `local.parameters.rows[${ rowIndex }][${ colIndex }]['type']`,
-              value
-            })
-          }
-          disabled={ readOnly }
-        />
-      </InputGroup>
-    </Col>
-  </Row>
-
-BodyCell.contextTypes = {
-  gridDispatch: PropTypes.func,
-}
-
-export default class extends Component {
-  constructor(props) {
-    super(props)
-    this.formDispatch = () => console.log('invalid dispatch')
-  }
-
-  render() {
-    const { id, data } = this.props
-    return <Card title="Template" wrapContent={false}>
-      <Form
-        id={ id }
-        data={ data }
-        keys={ ['notes', 'parameters'] }
-        getDispatch={ dispatch => this.formDispatch = dispatch }
+  return (
+    <InputGroupButtonDropdown
+      addonType="append"
+      disabled={ disabled }
+      isOpen={ dropdownOpen }
+      toggle={ () => setDropdownOpen(!dropdownOpen) }
+    >
+      <DropdownToggle
+        caret={ !disabled }
+        disabled={ disabled }
+        outline color="secondary"
+        // Ensure that the right-hand side
+        // always has rounded corners
+        // (this didn't work if the button was disabled)
+        className="rounded-right"
       >
-        <CardBody className="border-bottom">
-          <FormGroup>
-            <Control.textarea
-              model=".notes"
-              className="form-control form-control-sm"
-              placeholder="Notes"
-              rows="5"
-              style={{
-                padding: '0.5rem 0.75rem',
-              }}
-              debounce={ 300 }
-            />
-          </FormGroup>
-        </CardBody>
-        <Grid
-          model=".parameters"
-          HeaderContent={ DummyHeaderCell }
-          showHeader={ false }
-          defaultRow={ [ { name: '', value: '', type: 'string' } ] }
-          BodyContent={ BodyCell }
-          columns={ ['Parameters'] }
-          // TODO: Revise once nullish coalescing
-          // is available: grid should handle undefined data
-          data={ data.parameters ? data.parameters.rows : [] }
-          formDispatch={ action => this.formDispatch(action) }
-          // Parameter names are read-only in template mode
-          readOnly={ data._template }
-          cellProps={{
-            readOnly: data._template
-          }}
+        <Icon
+          icon={{
+            string: 'font',
+            number: 'tachometer',
+            boolean: 'adjust'
+          }[value]}
+          fixedWidth
         />
-      </Form>
-    </Card>
-  }
+      </DropdownToggle>
+      <DropdownMenu right>
+        <DropdownItem header>Data type</DropdownItem>
+        <DropdownItem
+          className={ classnames({
+            'dropdown-item-active': value === 'string'
+          }) }
+          onClick={ () => setValue('string') }
+        >
+          Text <span className="text-muted">(categorical)</span>
+        </DropdownItem>
+        <DropdownItem
+          className={ classnames({
+            'dropdown-item-active': value === 'number'
+          }) }
+          onClick={ () => setValue('number') }
+        >
+          Numerical <span className="text-muted">(continuous)</span>
+        </DropdownItem>
+        <DropdownItem
+          className={ classnames({
+            'dropdown-item-active': value === 'boolean'
+          }) }
+          onClick={ () => setValue('boolean') }
+        >
+          Boolean <span className="text-muted">(binary)</span>
+        </DropdownItem>
+      </DropdownMenu>
+    </InputGroupButtonDropdown>
+  )
 }
+
+const TemplateRow = ({ index, name, arrayHelpers, readOnly }) =>
+  <DefaultRow index={ index } arrayHelpers={ arrayHelpers }>
+    <Row form>
+      <Col xs="6">
+        <Field
+          name={ `${ name }.name` }
+          component={ Input }
+          placeholder="parameter"
+          disabled={ readOnly }
+          className="text-monospace"
+        />
+      </Col>
+      <Col xs="6">
+        <InputGroup>
+          <Field
+            name={ `${ name }.value` }
+            component={ Input }
+            placeholder="value"
+            className="text-monospace"
+          />
+          <CellTypeSelector
+            name={ `${ name }.type` }
+          />
+        </InputGroup>
+      </Col>
+    </Row>
+  </DefaultRow>
+
+export default ({ id, data }) =>
+  <Card title="Template" wrapContent={false}>
+    <Form
+      id={ id } data={ data }
+      keys={ ['notes', 'parameters'] }
+    >
+      <CardBody className="border-bottom">
+        <FormGroup>
+          <Field
+            name="notes"
+            component="textarea"
+            rows="5"
+            placeholder="Notes"
+            className="form-control form-control-sm"
+            style={{
+              padding: '0.5rem 0.75rem',
+            }}
+          />
+        </FormGroup>
+      </CardBody>
+      <Table
+        name="parameters"
+        defaultItem={{ name: '', value: '', type: 'string' }}
+        row={ TemplateRow }
+        className="no-header"
+      />
+    </Form>
+  </Card>

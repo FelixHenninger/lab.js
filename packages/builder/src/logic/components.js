@@ -7,9 +7,7 @@ export const defaultState = {
     title: 'root',
     type: 'lab.flow.Sequence',
     children: [],
-    parameters: {
-      rows: [ [ { name: '', value: '', type: 'string' }, ], ],
-    },
+    parameters: [],
     plugins: [
       {
         type: 'lab.plugins.Metadata',
@@ -39,9 +37,9 @@ const globalDefaults = {
   responses: {
     rows: [ ['', '', '', ''] ],
   },
-  parameters: {
-    rows: [ [ { name: '', value: '', type: 'string' }, ], ],
-  },
+  parameters: [
+    { name: '', value: '', type: 'string' },
+  ],
   messageHandlers: {
     rows: [ [ { title: '', message: '', code: '' }, ], ],
   },
