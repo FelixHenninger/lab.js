@@ -13,7 +13,8 @@ import './index.css'
 import { connect } from 'react-redux'
 
 const NodeDropdown = ({
-  id, parent, index, hasChildren,
+  id, parent, index,
+  collapsed, hasChildren,
   onDelete, onDuplicate, collapseComponent,
 }) => {
   const store = useStore()
@@ -52,7 +53,7 @@ const NodeDropdown = ({
                 <DropdownItem
                   onClick={ () => collapseComponent(id) }
                 >
-                  Collapse
+                  { collapsed ? 'Expand' : 'Collapse' }
                 </DropdownItem>
               </div>
             : null

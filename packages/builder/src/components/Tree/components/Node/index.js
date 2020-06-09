@@ -41,6 +41,7 @@ const NodeBody = (
         id={ id }
         parent={ parent }
         index={ index }
+        collapsed={ collapsed }
         hasChildren={ hasChildren }
         onDelete={ onNodeDelete }
         onDuplicate={ onNodeDuplicate }
