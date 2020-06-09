@@ -2,16 +2,11 @@ import localForage from 'localforage'
 import { debounce } from 'lodash'
 
 import { fromObject } from '../io/load'
+import { quotaExceededErrors } from './monitoring'
 
 const lf = localForage.createInstance({
   name: "lab.js"
 })
-
-const quotaExceededErrors = [
-  'keys and/or value are too large', // WebKit
-  'value is too large', // Firefox
-  'QuotaExceededError', // Various, possibly a cache error
-]
 
 export const persistState = async store => {
   // Persist application state to localForage on changes

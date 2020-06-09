@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/browser'
 
 import assemble from '../assemble'
 import { blobFromDataURI } from '../../util/dataURI'
+import { quotaExceededErrors } from '../../util/monitoring'
 
 const cacheName = 'labjs-preview'
 
@@ -77,11 +78,15 @@ export const populateCache = async (state, stateModifier,
 
     console.log('Preview cache updated successfully')
   } catch (e) {
-    Sentry.withScope((scope) => {
-      scope.setTag('scope', 'preview-cache')
-      Sentry.captureException(e)
-    })
     console.log(`Error during preview cache update: ${ e }`)
-    throw e
+    if (quotaExceededErrors.some(message => e.message.includes(message))) {
+      // TODO alert user
+    } else {
+      Sentry.withScope((scope) => {
+        scope.setTag('scope', 'preview-cache')
+        Sentry.captureException(e)
+      })
+      throw e
+    }
   }
 }
