@@ -40,9 +40,9 @@ const globalDefaults = {
   parameters: [
     { name: '', value: '', type: 'string' },
   ],
-  messageHandlers: {
-    rows: [ [ { title: '', message: '', code: '' }, ], ],
-  },
+  messageHandlers: [
+    { title: '', message: '', code: '' },
+  ],
 }
 
 export const metadata = {

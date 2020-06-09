@@ -439,13 +439,10 @@ const updates = {
     ...data,
     version: [20, 2, 0],
     components: mapValues(data.components, (c, id) => {
-      if (c.parameters) {
-        return {
-          ...c,
-          parameters: c.parameters?.rows?.map(r => r[0]) ?? []
-        }
-      } else {
-        return c
+      return {
+        ...c,
+        parameters: c.parameters?.rows?.map(r => r[0]) ?? [],
+        messageHandlers: c.messageHandlers?.rows?.map(r => r[0]) ?? [],
       }
     })
   }),

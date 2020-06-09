@@ -1,37 +1,49 @@
-import React, { Component } from 'react'
+import React, { useMemo } from 'react'
 import { Card as RawCard, CardFooter, Row, Col } from 'reactstrap'
-import { Control } from 'react-redux-form'
+import { Field, useField } from 'formik'
 
-import Form from '../RRFForm'
+import Form from '../Form'
+import { Input } from '../../../Form'
+import { Table, DefaultRow } from '../../../Form/table'
 import Card from '../../../Card'
-import Grid from '../../../RRFGrid'
 import Editor from '../../../Editor'
 
 import { adaptiveFunction } from '../../../../logic/util/async'
 
 import './style.css'
 
-const wrappedEditor = props =>
-  <RawCard
-    outline
-    color={ props.errors.syntax === false ? 'secondary' : 'warning'}
-    className="editor-field"
-  >
-    <Editor
-      height={600}
-      language="javascript"
-      value={ props.value }
-      onChange={ props.onChange }
-    />
-    {
-      props.errors.syntax === false
-        ? null
-        : <CardFooter>
-            <strong>{ props.errors.syntax && props.errors.syntax.name }:</strong>&nbsp;
-            { props.errors.syntax && props.errors.syntax.message }
-          </CardFooter>
-    }
-  </RawCard>
+const WrappedEditor = ({ name }) => {
+  const [{ value }, , { setValue }] = useField(name)
+
+  // TODO: Throttle error checking
+  const errors = useMemo(
+    () => parsingErrors(value),
+    [value]
+  )
+
+  return (
+    <RawCard
+      outline
+      color={ errors ? 'warning' : 'secondary' }
+      className="editor-field"
+    >
+      <Editor
+        height={600}
+        language="javascript"
+        value={ value }
+        onChange={ value => setValue(value) }
+      />
+      {
+        errors
+          ? <CardFooter>
+              <strong>{ errors && errors.name }:</strong>&nbsp;
+              { errors && errors.message }
+            </CardFooter>
+          : null
+      }
+    </RawCard>
+  )
+}
 
 const parsingErrors = (code) => {
   // TODO: Ideally, the error checking performed here
@@ -41,7 +53,7 @@ const parsingErrors = (code) => {
   //   a custom build.
   try {
     adaptiveFunction(code)
-    return false
+    return null
   } catch (e) {
     return {
       name: e.name,
@@ -50,30 +62,21 @@ const parsingErrors = (code) => {
   }
 }
 
-const HeaderCell = () => null
-
-const GridCell = ({ cellData, rowIndex, colIndex }) =>
-  <>
+const GridRow = ({ name, arrayHelpers }) =>
+  <DefaultRow name={ name } arrayHelpers={ arrayHelpers }>
     <Row form>
       <Col xs="6">
-        <Control.text
-          model={ `.rows[${ rowIndex }][${ colIndex }]['title']` }
-          className="form-control"
-          placeholder="title"
-          style={{
-            fontFamily: 'Fira Mono',
-          }}
-          debounce={ 300 }
+        <Field
+          name={ `${ name }.name` }
+          component={ Input }
+          placeholder="parameter"
+          className="text-monospace"
         />
       </Col>
       <Col xs="6">
-        <Control.select
-          model={ `.rows[${ rowIndex }][${ colIndex }].message` }
-          className="form-control custom-select"
-          style={{
-            fontFamily: 'Fira Mono',
-            color: cellData.message === '' ? 'var(--gray)' : 'inherit',
-          }}
+        <Field
+          name={ `${ name }.message` } as="select"
+          className="text-monospace form-control custom-select"
         >
           <option value="">event</option>
           <option value="before:prepare">before:prepare</option>
@@ -82,51 +85,25 @@ const GridCell = ({ cellData, rowIndex, colIndex }) =>
           <option value="end">end</option>
           <option value="after:end">after:end</option>
           <option value="commit">commit</option>
-        </Control.select>
+        </Field>
       </Col>
     </Row>
-    <Control.textarea
-      model={ `.rows[${ rowIndex }][${ colIndex }].code` }
-      component={ wrappedEditor }
-      errors={{
-        // TODO: Enable proper validation and show errors
-        syntax: (value) => parsingErrors(value),
-      }}
-      mapProps={{
-        errors: props => props.fieldValue.errors,
-      }}
-      debounce={ 300 }
+    <WrappedEditor
+      name={ `${ name }.code` }
     />
-  </>
+  </DefaultRow>
 
-export default class extends Component {
-  constructor(props) {
-    super(props)
-    this.formDispatch = () => console.log('invalid dispatch')
-  }
-
-  render() {
-    const { id, data } = this.props
-
-    return <Card title="Scripts" wrapContent={false}>
-      <Form
-        id={ id }
-        data={ data }
-        keys={ ['messageHandlers'] }
-        getDispatch={ dispatch => this.formDispatch = dispatch }
-      >
-        <Grid
-          model=".messageHandlers"
-          HeaderContent={ HeaderCell }
-          BodyContent={ GridCell }
-          showHeader={ false }
-          columnWidths={ [ 90 ] }
-          columns={ ['label'] }
-          defaultRow={ [ { title: '', message: '', code: '' }, ] }
-          data={ data.messageHandlers?.rows || [] }
-          formDispatch={ action => this.formDispatch(action) }
-        />
-      </Form>
-    </Card>
-  }
-}
+export default ({ id, data }) =>
+  <Card title="Scripts" wrapContent={ false }>
+    <Form
+      id={ id } data={ data }
+      keys={ ['messageHandlers'] }
+    >
+      <Table
+        name="messageHandlers"
+        defaultItem={{ title: '', message: '', code: '' }}
+        row={ GridRow }
+        className="no-header"
+      />
+    </Form>
+  </Card>

@@ -28,8 +28,7 @@ const processFiles = files =>
 
 const processMessageHandlers = (messageHandlers) =>
   fromPairs(
-    messageHandlers.rows
-      .map(r => r[0])
+    messageHandlers
       .filter(h => h.message.trim() !== '' && h.code.trim() !== '')
       // TODO: Evaluate the safety implications
       // of the following de-facto-eval.
