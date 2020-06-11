@@ -443,6 +443,7 @@ const updates = {
         ...c,
         parameters: c.parameters?.rows?.map(r => r[0]) ?? [],
         messageHandlers: c.messageHandlers?.rows?.map(r => r[0]) ?? [],
+        files: c.files?.rows?.map(r => r[0]) ?? [],
       }
     })
   }),

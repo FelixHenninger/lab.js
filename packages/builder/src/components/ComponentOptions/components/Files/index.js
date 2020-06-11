@@ -1,40 +1,17 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import Form from '../RRFForm'
-import { Control } from 'react-redux-form'
+import { Field } from 'formik'
 
 import Card from '../../../Card'
-import Grid from '../../../RRFGrid'
-import ButtonCell from '../../../RRFGrid/components/buttonCell'
+import { Input } from '../../../Form'
+import { Table, DefaultRow, ButtonCell } from '../../../Form/table'
+import Form from '../Form'
 import Footer from './footer'
 
 import { dataURItoIcon } from '../../../../logic/util/fileType'
 
-const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
-  <Control.text
-    model={ `.rows[${ rowIndex }][${ colIndex }]['localPath']` }
-    className="form-control"
-    placeholder="path"
-    style={{
-      fontFamily: 'Fira Mono',
-    }}
-    debounce={ 300 }
-  />
-
-const HeaderCell = () =>
-  <>
-    Path
-  </>
-
-const LeftColumn = ({ icon }) => {
-  return <ButtonCell
-    icon={ icon }
-    onClick={ () => null }
-  />
-}
-
-const mapStateToProps = (state, ownProps) => {
-  const file = state.files.files[ownProps.rowData[0].poolPath]
+const mapStateToProps = (state, { poolPath }) => {
+  const file = state.files.files[poolPath]
 
   // If the file can't be found, something is wrong
   const icon = file
@@ -44,33 +21,32 @@ const mapStateToProps = (state, ownProps) => {
   return { icon }
 }
 
-const ConnectedLeftColumn = connect(mapStateToProps)(LeftColumn)
+const FileIconCell = connect(mapStateToProps)(ButtonCell)
 
-export default class FileGrid extends Component {
-  render() {
-    const { id, data } = this.props
+const FileRow = ({ index, name, data, arrayHelpers }) =>
+  <DefaultRow
+    index={ index } arrayHelpers={ arrayHelpers }
+    leftColumn={ () => <FileIconCell poolPath={ data.poolPath } />}
+  >
+    <Field
+      name={ `${ name }.localPath` }
+      placeholder="filename"
+      component={ Input }
+      className="text-monospace"
+    />
+  </DefaultRow>
 
-    return <Card title="Files" wrapContent={ false }>
-      <Form
-        id={ id }
-        data={ data }
-        keys={ ['files'] }
-        getDispatch={ d => this.dispatch = d }
-      >
-        <Grid
-          className="border-top-0"
-          model=".files"
-          BodyContent={ GridCell }
-          HeaderContent={ HeaderCell }
-          LeftColumn={ ConnectedLeftColumn }
-          Footer={ Footer }
-          columnWidths={ [ 90 ] }
-          columns={ ['path'] }
-          defaultRow={ [ { localPath: '', poolPath: '' }, ] }
-          data={ data.files?.rows || [] }
-          formDispatch={ action => this.dispatch(action) }
-        />
-      </Form>
-    </Card>
-  }
-}
+export default ({ id, data }) =>
+  <Card title="Files" wrapContent={ false }>
+    <Form
+      id={ id } data={ data }
+      keys={ ['files'] }
+    >
+      <Table
+        name="files"
+        row={ FileRow }
+        footer={ Footer }
+        className="no-header"
+      />
+    </Form>
+  </Card>

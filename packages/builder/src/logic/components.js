@@ -33,7 +33,7 @@ const defaultTabs = [
 ]
 
 const globalDefaults = {
-  files: { rows: [] },
+  files: [],
   responses: {
     rows: [ ['', '', '', ''] ],
   },

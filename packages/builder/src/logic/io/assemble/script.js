@@ -21,9 +21,7 @@ const processGrid = (grid, colnames=null, types=undefined) =>
 
 const processFiles = files =>
   fromPairs(
-    files.rows
-      .map(r => r[0])
-      .map(r => [r.localPath.trim(), r.poolPath.trim()])
+    files.map(f => [f.localPath.trim(), f.poolPath.trim()])
   )
 
 const processMessageHandlers = (messageHandlers) =>

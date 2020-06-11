@@ -333,14 +333,12 @@ it('adds files to a component', () => {
   )).toEqual({
     ...initialState,
     'A': {
-      files: {
-        rows: [
-          [{
-            localPath: 'foo.png',
-            poolPath: 'bar.png',
-          }]
-        ]
-      }
+      files: [
+        {
+          localPath: 'foo.png',
+          poolPath: 'bar.png',
+        }
+      ]
     },
   })
 })

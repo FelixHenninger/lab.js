@@ -6,13 +6,13 @@ import { Button } from 'reactstrap'
 import FileSelector from '../../../FileSelector'
 import Icon from '../../../Icon'
 
-const Footer = ({ columns }, { id, gridDispatch }) => {
+const Footer = ({ addItem }, { id }) => {
   let fileSelector = React.createRef()
 
   return <tfoot>
     <tr>
       <td />
-      <td colSpan={ columns.length }>
+      <td>
         <FileSelector
           ref={ fileSelector }
           component={ id }
@@ -24,7 +24,6 @@ const Footer = ({ columns }, { id, gridDispatch }) => {
           onClick={ async () => {
             try {
               await fileSelector.current.select()
-              gridDispatch('reload')
             } catch (error) {
               console.log('Error while adding file', error)
             }
@@ -40,7 +39,6 @@ const Footer = ({ columns }, { id, gridDispatch }) => {
 }
 
 Footer.contextTypes = {
-  gridDispatch: PropTypes.func,
   id: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,

@@ -15,17 +15,14 @@ const PoolTab = ({ accept, handleImport, initialComponent }) => {
   const store = useStore()
   const { components, files: { files } } = store.getState()
 
-  // TODO: Rejoice when optional chaining makes it into CRA
-  const localFiles = components[component].files
-    ? components[component].files.rows
-      .map(r => ({
-        // Undo grid data format and look up mime type
-        type: files[r[0].poolPath]
-          ? mimeFromDataURI(files[r[0].poolPath].content)
-          : '',
-        ...r[0],
-      }))
-    : []
+  const localFiles = components[component]
+    .files?.map(f => ({
+      // Undo grid data format and look up mime type
+      type: files[f.poolPath]
+        ? mimeFromDataURI(files[f.poolPath].content)
+        : '',
+      ...f,
+    })) ?? []
 
   return <>
     <CustomInput
