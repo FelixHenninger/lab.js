@@ -1,178 +1,28 @@
-import React, { useState, Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React, { useState } from 'react'
 
-import { FormGroup, Input, Label, Col,
-  Button, ListGroup, ListGroupItem,
-  Card as BaseCard, CardBody } from 'reactstrap'
-import { Fieldset, Control } from 'react-redux-form'
+import { Field } from 'formik'
+import { FormGroup, Label, Col, Button } from 'reactstrap'
 
 import Card from '../../../Card'
+import Form from '../Form'
 import Icon from '../../../Icon'
-import ComponentForm from '../RRFForm'
-import Modal from '../../../Modal'
-import Confirm from '../../../Modal/components/Confirm'
 
-import { plugins, loadPlugin } from '../../../../logic/plugins/library'
+import { Input } from '../../../Form'
+import { Table, DefaultRow } from '../../../Form/table'
+import PluginAddModal from './modal'
+import { loadPlugin } from '../../../../logic/plugins/library'
 
-const PluginHeader = ({ index, metaData, formDispatch }) =>
+const PluginHeader = ({ metadata }) =>
   <>
-    <h3 className="h5">
-      { metaData.title }
+    <h3 className="h5 mt-2">
+      { metadata.title }
       {
-        metaData.description
-          && <small className="text-muted"> · { metaData.description }</small>
+        metadata.description
+          && <small className="text-muted"> · { metadata.description }</small>
       }
     </h3>
-    <hr />
+    <hr className="my-3" />
   </>
-
-const PluginControl = ({ option, value, type, options, defaultValue, placeholder }) => {
-  switch (type) {
-    case 'select':
-      return <Control.select
-        defaultValue={ value || defaultValue }
-        model={ `.${ option }` }
-        className="form-control custom-select"
-        style={{
-          fontFamily: 'Fira Mono',
-        }}
-        debounce={ 300 }
-      >
-        { options.map(o => <option value={ o.coding }>{ o.label }</option>) }
-      </Control.select>
-    default:
-      return <Control.text
-        defaultValue={ value || defaultValue }
-        model={ `.${ option }` }
-        component={ Input }
-        placeholder={ placeholder }
-        style={{
-          fontFamily: 'Fira Mono',
-        }}
-        debounce={ 300 }
-      />
-  }
-}
-
-const PluginOption = (props) =>
-  <FormGroup row>
-    <Label for={ props.option } sm={ 3 }>{ props.label }</Label>
-    <Col sm={ 9 }>
-      <PluginControl { ...props } />
-      {
-        props.help &&
-          <small className="form-text text-muted">{ props.help }</small>
-      }
-    </Col>
-  </FormGroup>
-
-const PluginOptions = ({ index, data, metaData }) =>
-  <Fieldset model={ `.plugins[${ index }]` }>
-    {
-      Object.entries(metaData.options).map(
-        ([option, { label, type, options=[], default: defaultValue, placeholder, help }]) =>
-          <PluginOption
-            key={ `plugin-${ index }-${ option }` }
-            option={ option }
-            value={ data[option] }
-            options={ options }
-            label={ label }
-            type={ type }
-            defaultValue={ defaultValue }
-            placeholder={ placeholder }
-            help={ help }
-          />
-      )
-    }
-  </Fieldset>
-
-const PluginAddModal = ({ isOpen, onRequestClose: requestClose, onAdd }) =>
-  <Modal
-    isOpen={ isOpen }
-    onRequestClose={ requestClose }
-  >
-    <Confirm
-      title="Plugins"
-      closeHandler={ requestClose }
-    >
-      <p><strong>Plugins change the behavior of a component</strong>, and can add further functionality. Please select one to include it.</p>
-      <BaseCard className="card-flush">
-        <ListGroup className="list-group-flush">
-          {
-            Object.entries(plugins).map(([type, pluginData], index) =>
-              <ListGroupItem
-                key={ `plugin-available-${ index }` }
-                action style={{ cursor: 'pointer' }}
-                onClick={ () => {
-                  onAdd(type)
-                  requestClose()
-                } }
-              >
-                <strong>{ pluginData.title }</strong>
-              </ListGroupItem>
-            )
-          }
-        </ListGroup>
-      </BaseCard>
-      <div className="mt-3">
-        <small className="text-muted">
-          Missing something? Ideas for improving things? Please <a href="https://labjs.readthedocs.io/en/latest/meta/contribute/index.html" target="_blank" rel="noopener noreferrer">suggest or contribute</a>!
-        </small>
-      </div>
-    </Confirm>
-  </Modal>
-
-const _PluginAddButton = ({ muted, addPlugin }, { id }) => {
-  const [modalOpen, setModalOpen] = useState(false)
-
-  return (
-    <CardBody>
-      <PluginAddModal
-        isOpen={ modalOpen }
-        onRequestClose={ () => setModalOpen(false) }
-        onAdd={ (type) => addPlugin(id, type) }
-      />
-      <Button
-        size="sm" block
-        outline color={ muted ? 'muted' : 'secondary' }
-        className="hover-target"
-        onClick={ () => setModalOpen(true) }
-        onMouseUp={ e => e.target.blur() }
-      >
-        <Icon icon="plus" />
-      </Button>
-    </CardBody>
-  )
-}
-
-_PluginAddButton.contextTypes = {
-  id: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
-}
-
-const mapDispatchToProps = {
-  addPlugin: (id, type) => ({
-    type: 'ADD_PLUGIN',
-    id, pluginType: type
-  })
-}
-
-const PluginAddButton = connect(null, mapDispatchToProps)(_PluginAddButton)
-
-const Plugin = ({ index, data, metaData, formDispatch }) =>
-  <CardBody className="border-bottom">
-    {/* Hidden field to preserve the plugin type option */}
-    <Control.text
-      model={ `.plugins[${ index }].type` }
-      defaultValue={ data.type }
-      hidden={ true }
-    />
-    <PluginHeader index={ index } data={ data } metaData={ metaData } formDispatch={ formDispatch }/>
-    <PluginOptions index={ index } data={ data } metaData={ metaData } />
-  </CardBody>
 
 const PluginHint = ({ visible }) =>
   visible
@@ -193,51 +43,118 @@ const PluginHint = ({ visible }) =>
       </div>
     : null
 
-export default class extends Component {
-  constructor(props) {
-    super(props)
-    this.formDispatch = () => console.log('invalid dispatch')
-  }
-
-  render() {
-    const { id, data } = this.props
-    return (
-      <Card title="Plugins" badge="Beta" wrapContent={ false }>
-        <PluginHint visible={ (data.plugins || []).length === 0 } />
-        <ComponentForm
-          id={ id }
-          data={ data }
-          keys={ ['plugins'] }
-          // The react-redux-form logic converts the plugins array into
-          // an object. This reverts that change before saving the data.
-          postProcess={ data => ({
-            ...data,
-            plugins: Array.isArray(data.plugins)
-              ? data.plugins
-              : Object.values(data.plugins)
-          }) }
-          getDispatch={ dispatch => this.formDispatch = dispatch }
+ const PluginControl = ({ name, type, options=[], placeholder }) => {
+    switch (type) {
+      case 'select':
+        return <Field
+          name={ name } as="select"
+          className="form-control custom-select text-monospace"
         >
           {
-            (data.plugins || []).map(pluginData => ({
-                pluginData,
-                metaData: loadPlugin(pluginData.type),
-              }))
-              .filter(({ metaData }) => metaData !== undefined)
-              .map(({ pluginData, metaData }, index) =>
-                <Plugin
-                  key={ `plugin-${ index }` }
-                  index={ index }
-                  data={ pluginData }
-                  metaData={ metaData }
-                  formDispatch={ action => this.formDispatch(action) }
-                  // TODO: Reduce prop drilling
-                />
-              )
+            options.map(o =>
+              <option key={ `${ name }-${ o.coding }` } value={ o.coding }>
+                { o.label }
+              </option>
+            )
           }
-        </ComponentForm>
-        <PluginAddButton muted={ (data.plugins || []).length > 0 } />
-      </Card>
-    )
+        </Field>
+      default:
+        return <Field
+          name={ name }
+          component={ Input }
+          placeholder={ placeholder }
+          className="text-monospace"
+        />
+    }
   }
+
+const PluginOption = (props) =>
+  <FormGroup row>
+    <Label for={ props.option } sm={ 3 }>{ props.label }</Label>
+    <Col sm={ 9 }>
+      <PluginControl { ...props } />
+      {
+        props.help &&
+          <small className="form-text text-muted">{ props.help }</small>
+      }
+    </Col>
+  </FormGroup>
+
+const PluginBody = ({ name, index, metadata }) =>
+  <>
+    {
+      Object.entries(metadata.options).map(
+        ([optionName, { default: defaultValue, ...optionProps }]) =>
+          <PluginOption
+            key={ `plugin-${ index }-${ optionName }` }
+            name={ `${ name }.${ optionName }` }
+            defaultValue={ defaultValue }
+            { ...optionProps }
+          />
+      )
+    }
+  </>
+
+const PluginRow = ({ index, name, data, arrayHelpers }) => {
+  const metadata = loadPlugin(data.type)
+
+  return (
+    <DefaultRow index={ index } arrayHelpers={ arrayHelpers }>
+      <PluginHeader metadata={ metadata } />
+      <PluginBody
+        name={ name } index={ index }
+        data={ data } metadata={ metadata }
+      />
+    </DefaultRow>
+  )
 }
+
+const PluginFooter = ({ addItem }) => {
+  const [modalOpen, setModalOpen] = useState(false)
+
+  return (
+    <tfoot>
+      <tr>
+        <td />
+        <td>
+          <PluginAddModal
+            isOpen={ modalOpen }
+            onRequestClose={ () => setModalOpen(false) }
+            onAdd={ (type) => addItem({ type }) }
+          />
+          <Button
+            size="sm" block
+            outline color="muted"
+            className="hover-target"
+            onClick={ () => setModalOpen(true) }
+            onMouseUp={ e => e.target.blur() }
+          >
+            <Icon icon="plus" />
+          </Button>
+        </td>
+        <td />
+      </tr>
+    </tfoot>
+  )
+}
+
+export default ({ id, data }) =>
+  <Card title="Plugins" badge="Beta" wrapContent={ false }>
+    <Form
+      id={ id } data={ data }
+      keys={ ['plugins'] }
+    >
+      <PluginHint
+        visible={
+          !data.plugins ||
+          (Array.isArray(data.plugins) && data.plugins.length === 0)
+        }
+      />
+      <Table
+        name="plugins"
+        row={ PluginRow }
+        footer={ PluginFooter }
+        className="no-header"
+      />
+    </Form>
+  </Card>
