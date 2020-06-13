@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { Field } from 'formik'
 import { FormGroup, Label, Col, Button } from 'reactstrap'
+import { fromPairs } from 'lodash'
 
 import Card from '../../../Card'
 import Form from '../Form'
@@ -109,6 +110,18 @@ const PluginRow = ({ index, name, data, arrayHelpers }) => {
   )
 }
 
+const getDefaultSettings = (pluginType) => {
+  const metadata = loadPlugin(pluginType)
+
+  return {
+    type: pluginType,
+    ...fromPairs(
+      Object.entries(metadata.options)
+        .map(([k, v]) => [k, v.default || ''])
+    ),
+  }
+}
+
 const PluginFooter = ({ addItem }) => {
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -120,7 +133,7 @@ const PluginFooter = ({ addItem }) => {
           <PluginAddModal
             isOpen={ modalOpen }
             onRequestClose={ () => setModalOpen(false) }
-            onAdd={ (type) => addItem({ type }) }
+            onAdd={ type => addItem(getDefaultSettings(type)) }
           />
           <Button
             size="sm" block
