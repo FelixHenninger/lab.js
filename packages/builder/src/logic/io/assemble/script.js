@@ -225,16 +225,20 @@ const makeComponentTree = (data, root) => {
   }
 }
 
-const makeStudyScript = studyTreeJSON =>
+export const makeStudyTree = (state) => {
+  // Process study tree
+  const componentTree = makeComponentTree(state.components, 'root')
+  return serialize(componentTree, { space: 2 })
+}
+
+const makeStudyScript = studyTree =>
 `// Define study
-const study = lab.util.fromObject(${ studyTreeJSON })
+const study = lab.util.fromObject(${ studyTree })
 
 // Let's go!
 study.run()`
 
 export const makeScript = (state) => {
-  // Process study tree
-  const componentTree = makeComponentTree(state.components, 'root')
-  const studyTreeJSON = serialize(componentTree, { space: 2 })
-  return makeStudyScript(studyTreeJSON)
+  const studyTree = makeStudyTree(state)
+  return makeStudyScript(studyTree)
 }
