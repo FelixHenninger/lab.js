@@ -58,12 +58,9 @@ const createResponsePair = r =>
 
 // Process individual fields
 const processResponses = (responses) => {
-  // Process responses as a grid, resulting in an array
-  // of objects that contain the individual parts
-  const grid = processGrid(responses, ['label', 'event', 'target', 'filter'])
   // Process each of these objects into an array
   // of [responseParams, label] pairs
-  const pairs = grid.map(createResponsePair)
+  const pairs = responses.map(createResponsePair)
   // Finally, create an object of
   // { responseParams: label } mappings
   return fromPairs(pairs)

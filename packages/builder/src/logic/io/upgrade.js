@@ -444,6 +444,10 @@ const updates = {
         parameters: c.parameters?.rows?.map(r => r[0]) ?? [],
         messageHandlers: c.messageHandlers?.rows?.map(r => r[0]) ?? [],
         files: c.files?.rows?.map(r => r[0]) ?? [],
+        responses: c.responses?.rows?.map(r => ({
+          label: r[0], event: r[1],
+          target: r[2], filter: r[3],
+        }))
       }
     })
   }),

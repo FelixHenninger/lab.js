@@ -34,9 +34,9 @@ const defaultTabs = [
 
 const globalDefaults = {
   files: [],
-  responses: {
-    rows: [ ['', '', '', ''] ],
-  },
+  responses: [
+    { label: '', event: '', target: '', filter: '' }
+  ],
   parameters: [
     { name: '', value: '', type: 'string' },
   ],
