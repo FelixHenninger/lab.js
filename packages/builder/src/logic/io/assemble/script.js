@@ -231,12 +231,13 @@ export const makeStudyTree = (state) => {
   return serialize(componentTree, { space: 2 })
 }
 
-const makeStudyScript = studyTree =>
-`// Define study
+export const makeStudyScript = (studyTree) => {
+// Define study
 const study = lab.util.fromObject(${ studyTree })
 
 // Let's go!
-study.run()`
+study.run()
+}
 
 export const makeScript = (state) => {
   const studyTree = makeStudyTree(state)
