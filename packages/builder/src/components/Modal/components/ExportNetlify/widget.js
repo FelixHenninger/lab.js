@@ -36,9 +36,7 @@ const NetlifyForm = forwardRef(({ onSubmit }, ref) =>
             name="site" id="site"
             placeholder="random-domain-name.netlify.com"
             component={ Input }
-            style={{
-              fontFamily: 'Fira Code',
-            }}
+            className="text-monospace"
           />
           <FormText color="muted">
             If you've previously created <a href="https://app.netlify.com/account/sites" target="_blank" rel="noopener noreferrer">a site for your study</a>, you can enter the domain here. Leave empty to create a new site with a preliminary domain name.
@@ -49,9 +47,7 @@ const NetlifyForm = forwardRef(({ onSubmit }, ref) =>
           <Field
             name="apiKey" id="apiKey"
             component={ Input }
-            style={{
-              fontFamily: 'Fira Code',
-            }}
+            className="text-monospace"
             validate={ validateApiKey }
           />
           { errors.apiKey && touched.apiKey &&
