@@ -25,8 +25,7 @@ const AoiOptions = () =>
           component={ Input }
           placeholder="Label"
           debounce={ 200 }
-          className="form-control"
-          style={{ fontFamily: 'Fira Mono' }}
+          className="form-control text-monospace"
         />
       </InputGroup>
     </DropdownItem>

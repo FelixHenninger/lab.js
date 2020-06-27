@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { ButtonDropdown, DropdownToggle,
   DropdownMenu, DropdownItem } from 'reactstrap'
+import { useField } from 'formik'
 
 import Icon from '../../../../../../../Icon'
 
@@ -29,20 +30,20 @@ const grays = [
   '#aaaaaa', '#000000',
 ]
 
-export default ({ value, onChange, disabled,
+export default ({ name, disabled,
   icon, iconWeight, iconFallbackWeight }) => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  let hiddenColor = React.createRef();
-  let manualColor = React.createRef();
+  let hiddenColor = React.createRef()
 
-  const choose = (color, close=true) => {
-    onChange(color)
-    if (close)
-      setDropdownOpen(false)
+  const [field, , helpers] = useField({ name })
+
+  const choose = (color, setFieldValue) => {
+    setDropdownOpen(false)
+    helpers.setValue(color)
   }
 
-  return (
+  return <>
     <ButtonDropdown
       direction="up"
       isOpen={ dropdownOpen }
@@ -51,15 +52,6 @@ export default ({ value, onChange, disabled,
         minWidth: '3.5rem',
       }}
     >
-      {/* Hidden color input used to capture freely chosen colors */}
-      <input type="color"
-        /* For some weird reason, display: none won't work here */
-        style={{ visibility: 'hidden', position: 'absolute' }}
-        tabIndex={ -1 }
-        ref={ hiddenColor }
-        value={ value || '' }
-        onChange={ () => choose(hiddenColor.current.value, false) }
-      />
       {/* Remainder of the Dropdown */}
       <DropdownToggle
         caret outline color="secondary"
@@ -75,7 +67,11 @@ export default ({ value, onChange, disabled,
       </DropdownToggle>
       <DropdownMenu right className="color-dropdown">
         {/* Predefined colors */}
-        <DropdownItem tag="div" style={{ height: '136px' }} toggle={ false }>
+        <DropdownItem
+          tag="div"
+          style={{ height: '136px' }}
+          toggle={ false }
+        >
           {
             colors.map(c =>
               <Swatch
@@ -87,7 +83,11 @@ export default ({ value, onChange, disabled,
         </DropdownItem>
         <DropdownItem divider />
         {/* Grey values */}
-        <DropdownItem tag="div" style={{ height: '90px' }} toggle={ false }>
+        <DropdownItem
+          tag="div"
+          style={{ height: '90px' }}
+          toggle={ false }
+        >
           {
             grays.map(c =>
               <Swatch
@@ -117,15 +117,19 @@ export default ({ value, onChange, disabled,
         {/* Manual (text-based) color input */}
         <DropdownItem tag="div" toggle={ false }>
           <input
-            className="form-control w-100"
-            style={{ fontFamily: 'Fira Mono' }}
-            placeholder="CSS color"
-            ref={ manualColor }
-            value={ value || '' }
-            onChange={ () => choose(manualColor.current.value, false) }
+            type="text" placeholder="CSS color"
+            className="form-control w-100 text-monospace"
+            {...field}
           />
         </DropdownItem>
       </DropdownMenu>
     </ButtonDropdown>
-  )
+    <input
+      type="color"
+      style={{ visibility: 'hidden', position: 'absolute' }}
+      tabIndex={ -1 }
+      ref={ hiddenColor }
+      {...field}
+    />
+  </>
 }

@@ -2,9 +2,8 @@ import React, { createRef } from 'react'
 import PropTypes from 'prop-types'
 
 import { DropdownMenu, DropdownItem,
-  InputGroup, InputGroupAddon, InputGroupText,
-  Input, Button } from 'reactstrap'
-import { Control } from 'react-redux-form'
+  InputGroup, InputGroupAddon, InputGroupText, Button } from 'reactstrap'
+import { Field } from 'formik'
 
 import FileSelector from '../../../../../../../FileSelector'
 import Icon from '../../../../../../../Icon'
@@ -26,11 +25,9 @@ const ImageOptions = ({ selection, changeHandler }, { id }) => {
       />
       <DropdownItem tag="div" toggle={ false } className="mute">
         <InputGroup>
-          <Control
-            model=".src"
-            component={ Input }
+          <Field
+            name="src"
             placeholder="Source"
-            debounce={ 200 }
             className="form-control"
             style={{ fontFamily: 'Fira Mono' }}
           />
