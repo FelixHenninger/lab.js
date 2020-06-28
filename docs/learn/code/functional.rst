@@ -158,7 +158,7 @@ fixation cross. It is used often, rarely varies, and therefore a prime candidate
 for abstraction using a function::
 
   const fixationCross = function() {
-    return new lab.HTMLScreen(
+    return new lab.html.Screen(
       '+',
       {
         'timeout': 500
@@ -175,7 +175,7 @@ hand.
 
 For example, one might construct a simple experiment as follows::
 
-  const experiment = lab.Sequence([
+  const experiment = lab.flow.Sequence([
     // First trial
     fixationCross(),
     // Stimulus 1
