@@ -56,7 +56,7 @@ export const populateCache = async (state, stateModifier,
   assemblyOptions={}, previewPath='labjs_preview') => {
   const cache = await caches.open(cacheName)
 
-    // Empty cache, except for copy of library static files
+  // Empty cache, except for copy of library static files
   await cache.keys().then(keylist => Promise.all(
     keylist.map(
       // TODO: Think about filtering using
