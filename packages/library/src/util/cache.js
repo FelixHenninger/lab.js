@@ -41,7 +41,7 @@ class AsyncCache {
     if (this.cache.has(key)) {
       return this.cache.get(key)
     } else {
-      throw Error(`Key ${ key } not present in cache`)
+      throw Error(`Key "${ key }" not present in cache`)
     }
   }
 }
