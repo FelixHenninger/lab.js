@@ -11,6 +11,7 @@ const cacheName = 'labjs-preview'
 // Add default static files to cache directly
 const bundledFiles = [
   'lib/lab.css',
+  'lib/lab.dev.js',
   'lib/lab.js',
   'lib/lab.js.map',
   'lib/lab.legacy.js',
@@ -52,7 +53,7 @@ const linkStatic = async (cache, [path, data], previewPath) => {
 
 // Setup study preview
 export const populateCache = async (state, stateModifier,
-  previewPath='labjs_preview') => {
+  assemblyOptions={}, previewPath='labjs_preview') => {
   const cache = await caches.open(cacheName)
 
     // Empty cache, except for copy of library static files
@@ -65,7 +66,7 @@ export const populateCache = async (state, stateModifier,
   ))
 
   try {
-    const study = assemble(state, stateModifier)
+    const study = assemble(state, stateModifier, assemblyOptions)
 
     // Place generated study files into the cache
     await Promise.all([
@@ -73,7 +74,12 @@ export const populateCache = async (state, stateModifier,
         .map(file => putFile(cache, file, previewPath)),
       // Update links to static library files
       ...Object.entries(study.bundledFiles)
-        .map(path => linkStatic(cache, path, previewPath))
+        .map(path => linkStatic(cache, path, previewPath)),
+      // Copy development library version directly (TODO technical debt)
+      linkStatic(cache,
+        ['lib/lab.dev.js', { type: 'application/javascript', }],
+        previewPath
+      ),
     ])
 
     console.log('Preview cache updated successfully')

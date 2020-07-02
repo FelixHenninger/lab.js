@@ -63,7 +63,7 @@ export default class PreviewButton extends Component {
       await populateCache(
         store.getState(),
         state => addDownloadPlugin(addDebugPlugin(state)),
-        // TODO: Ceci n'est pas une pipe
+        { headerOptions: { dev: true }}, // load development build for preview
       )
 
       // Reload page to provided URL
