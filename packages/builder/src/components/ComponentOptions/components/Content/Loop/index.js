@@ -14,7 +14,7 @@ import { Footer } from './footer'
 import ShuffleGroups from './components/ShuffleGroups'
 
 // TODO: Move to a general-purpose utility module
-import { numberOrPlaceholder } from '../../Behavior/components/Timeline/util'
+import { integerOrPlaceholder } from '../../Behavior/components/Timeline/util'
 
 const switchLabels = ({
   templateParameters={ rows: [] },
@@ -75,7 +75,7 @@ const SampleWidget = ({ data }) =>
               ? 'As many as rows above'
               : 'Use all'
           }
-          pattern={ numberOrPlaceholder }
+          pattern={ integerOrPlaceholder }
           style={{
             fontFamily: 'Fira Mono',
           }}
