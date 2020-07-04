@@ -1,10 +1,9 @@
 import React from 'react'
-import { Control } from 'react-redux-form'
 import { CardBody } from 'reactstrap'
 
-import Form from '../RRFForm'
+import Form from '../Form'
 import Card from '../../../Card'
-import Editor from '../../../Editor'
+import EditorField from '../../../Editor/field'
 
 export default ({ id, data }) =>
   // Chrome requires explicit height settings
@@ -26,13 +25,9 @@ export default ({ id, data }) =>
         keys={ ['content'] }
         className="flex-grow-1 d-flex flex-column"
       >
-        <Control.textarea
-          model=".content"
-          component={ Editor }
-          controlProps={{
-            language: 'html',
-          }}
-          debounce={ 300 }
+        <EditorField
+          name="content"
+          language="html"
         />
       </Form>
     </CardBody>
