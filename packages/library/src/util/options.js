@@ -18,11 +18,9 @@ export const parsableOptions = component =>
   // Collect parsable options from the static property metadata
   // of all components on the prototype chain
   Object.assign({},
-    ...prototypeChain(component).map(p => (
-      p.constructor.metadata
-        ? p.constructor.metadata.parsableOptions
-        : undefined
-    )),
+    ...prototypeChain(component).map(p =>
+      p.constructor.metadata?.parsableOptions
+    ),
   )
 
 export const parse = (raw, context, metadata, that={}) => {
