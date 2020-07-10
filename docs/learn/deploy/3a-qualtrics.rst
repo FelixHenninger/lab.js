@@ -42,6 +42,7 @@ Because the data is saved in the embedded field you set up above, the study is b
   <iframe
     src="https://labjs-qualtrics.netlify.com"
     style="width: 100%; min-height: 600px; border: none;"
+    allowfullscreen
   ></iframe>
 
   <!-- Adjust the page style slightly -->
