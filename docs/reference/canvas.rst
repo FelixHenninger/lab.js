@@ -416,49 +416,5 @@ consider enlisting a helper library to simplify drawing, such as `three.js
 
 ----
 
-.. _reference/canvas/sequence:
-
-Sequence
---------
-
-If a :js:class:`canvas.Screen` reflects a single canvas-based display, a
-:js:class:`canvas.Sequence` represents a series of such screens strung together.
-It is constructed exactly like a regular :js:class:`flow.Sequence`, and behaves
-identically, with the single exception that it inserts a canvas into the
-document when it starts, and directs all nested screens to draw onto this
-canvas.
-
-The rationale for using a dedicated :js:class:`canvas.Sequence` over a regular
-one is that the canvas need only be inserted into the document once, when the
-sequence runs, rather than before each nested screen individually. This results
-in a significant increase in transition speed, and allows for seamless and
-instant switches between adjacent screens. The ``canvas`` is not cleared
-automatically between nested elements, so progressive animations are also
-possible.
-
-.. js:class:: canvas.Sequence([options])
-
-  .. seealso:: A :js:class:`canvas.Sequence` will accept and apply any of the
-    options used by a :js:class:`flow.Sequence` (e.g. :js:attr:`shuffle`), as
-    well as :js:attr:`ctxType` as accepted by :js:class:`canvas.Screen`.
-
-  .. js:attribute:: content
-
-    Array of canvas-based components to be run in sequence.
-
-  .. important::
-    A :js:class:`canvas.Sequence` requires that all nested elements are
-    ``canvas``-based. This is because the ``canvas`` is shared between all
-    elements in the sequence, and is assumed to be visible and available
-    throughout. The code will therefore throw an error if this condition is not
-    met.
-
-    If you switch between ``canvas`` and ``HTML``-based elements, please use a
-    regular :js:class:`flow.Sequence`. This will allow nested elements to insert
-    a canvas if they require one, at the cost of changing the document content
-    rather than being able to reduce the same ``canvas`` continuously.
-
-----
-
 .. [#f1] If you ever do this, please let us know, we will award you the coveted
   *lab.js brave soul award*.
