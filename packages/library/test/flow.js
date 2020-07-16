@@ -320,7 +320,7 @@ describe('Flow control', () => {
       const a = new lab.core.Dummy()
       const b = new lab.core.Dummy()
       s.options.content = [a, b]
-      s.options.counterParameter = 'foo'
+      s.options.indexParameter = 'foo'
 
       return s.prepare().then(() => {
         assert.equal(a.parameters.foo, 0)
@@ -335,7 +335,7 @@ describe('Flow control', () => {
       // Setup shuffle and prepare Sequence
       s.options.shuffle = true
       // Setup counter
-      s.options.counterParameter = 'foo'
+      s.options.indexParameter = 'foo'
 
       return s.prepare().then(() => {
         s.options.content.forEach((c, i) => {

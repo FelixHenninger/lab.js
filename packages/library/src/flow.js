@@ -37,7 +37,7 @@ export class Sequence extends Component {
       // Shuffle items, if so desired
       shuffle: false,
       // Optionally add a counter
-      counterParameter: undefined,
+      indexParameter: undefined,
       ...options,
     })
 
@@ -52,9 +52,9 @@ export class Sequence extends Component {
       this.options.content = this.random.shuffle(this.options.content)
     }
 
-    if (this.options.counterParameter) {
+    if (this.options.indexParameter) {
       this.options.content.forEach(
-        (c, i) => c.options.parameters[this.options.counterParameter] = i
+        (c, i) => c.options.parameters[this.options.indexParameter] = i
       )
     }
 
