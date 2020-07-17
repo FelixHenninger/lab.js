@@ -422,6 +422,15 @@ const updates = {
     ...data,
     version: [20, 0, 1],
   }),
+  '20.0.1': data => ({
+    ...data,
+    version: [20, 1, 0],
+  }),
+  // Dummy version, never published as stable release
+  '20.0.2': data => ({
+    ...data,
+    version: [20, 1, 0],
+  }),
 }
 
 export default (data) => {
