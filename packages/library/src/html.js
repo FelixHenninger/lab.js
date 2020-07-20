@@ -327,6 +327,13 @@ Page.metadata = {
               content: { '*': 'string' }
             },
           },
+          items: {
+            type: 'array',
+            content: {
+              type: 'object',
+              content: { '*': 'string' }
+            },
+          },
         },
       },
     },

@@ -110,6 +110,7 @@ Dilek Akkus ·
 [Dano Morrison](https://github.com/jdpigeon) ·
 [Karthikeya Pammi](https://github.com/pvskarthikeya) ·
 Shivangi Patel ·
+[Kwame Porter Robinson](https://robinsonkwame.github.io/) ·
 Nick Robinson ·
 [Sophie Scharf](http://cognition.uni-mannheim.de/mitarbeiter/m_sc_sophie_scharf/) ·
 [Nikoletta Symeonidou](https://www.sowi.uni-mannheim.de/en/erdfelder/team/academic-staff-members/symeonidou-nikoletta/) ·
