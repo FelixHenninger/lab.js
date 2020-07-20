@@ -431,6 +431,10 @@ const updates = {
     ...data,
     version: [20, 1, 0],
   }),
+  '20.1.0': data => ({
+    ...data,
+    version: [20, 1, 1],
+  }),
 }
 
 export default (data) => {
