@@ -122,7 +122,7 @@ const processContent = (nodeType, content) => {
         'text', 'fontStyle', 'fontWeight', 'fontSize', 'fontFamily',
         'lineHeight', 'textAlign', 'textBaseline',
         // Image
-        'src', 'autoscale',
+        'src', 'autoScale',
         // AOI
         'label',
       ]))

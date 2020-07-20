@@ -99,6 +99,7 @@ in the documentation.
 Dilek Akkus ·
 [Angelo Belardi](https://psychologie.unibas.ch/de/personen/589/) ·
 [Ursa Bernardic](https://www.unige.ch/gsem/en/research/institutes/iom/team/phd-students/ursa-bernardic/) ·
+[Erin Buchanan](http://www.aggieerin.com/) ·
 [Emily Elliott](https://lsu.edu/hss/psychology/faculty/cognitive/elliott.php) ·
 [Jeffrey Fisher](https://github.com/jeffslofish) ·
 [Kerstin Fröber](http://orcid.org/0000-0001-6060-2837) ·
