@@ -184,126 +184,138 @@ export const processItem = (i, { shuffleMeMaybe }) => {
     case 'input':
       return (
         stripIndent`
-          <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
-            ${ i.label || '' }
-          </p>
-          <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
-            ${ i.help || '' }
-          </p>
-          <input name="${ i.name }"
-            ${ i.required ? 'required' : '' }
-            class="w-100"
-            ${ makeAttributes(i.attributes) }
-          >
+          <div class="page-item page-item-input" id="page-item-${ i.name }">
+            <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
+              ${ i.label || '' }
+            </p>
+            <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
+              ${ i.help || '' }
+            </p>
+            <input name="${ i.name }"
+              ${ i.required ? 'required' : '' }
+              class="w-100"
+              ${ makeAttributes(i.attributes) }
+            >
+          </div>
         `
       )
     case 'textarea':
       return (
         stripIndent`
-          <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
-            ${ i.label || '' }
-          </p>
-          <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
-            ${ i.help || '' }
-          </p>
-          <textarea name="${ i.name }"
-            ${ i.required ? 'required' : '' }
-            class="w-100"
-            rows="3"
-          ></textarea>
+          <div class="page-item page-item-textarea" id="page-item-${ i.name }">
+            <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
+              ${ i.label || '' }
+            </p>
+            <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
+              ${ i.help || '' }
+            </p>
+            <textarea name="${ i.name }"
+              ${ i.required ? 'required' : '' }
+              class="w-100"
+              rows="3"
+            ></textarea>
+          </div>
         `
       )
     case 'radio':
       return (
         stripIndent`
-          <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
-            ${ i.label || '' }
-          </p>
-          <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
-            ${ i.help || '' }
-          </p>
-          <table class="table-plain page-item-table">
-            <colgroup>
-              <col style="width: 7.5%">
-              <col style="width: 92.5%">
-            </colgroup>
-            <tbody>
-              ${
-                shuffleMeMaybe(i.options || [], i.shuffle)
-                  .map(o => makeOptionRow(o, i, 'radio'))
-                  .join('\n')
-              }
-            </tbody>
-          </table>
+          <div class="page-item page-item-radio" id="page-item-${ i.name }">
+            <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
+              ${ i.label || '' }
+            </p>
+            <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
+              ${ i.help || '' }
+            </p>
+            <table class="table-plain page-item-table">
+              <colgroup>
+                <col style="width: 7.5%">
+                <col style="width: 92.5%">
+              </colgroup>
+              <tbody>
+                ${
+                  shuffleMeMaybe(i.options || [], i.shuffle)
+                    .map(o => makeOptionRow(o, i, 'radio'))
+                    .join('\n')
+                }
+              </tbody>
+            </table>
+          </div>
         `
       )
     case 'checkbox':
       return (
         stripIndent`
-          <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
-            ${ i.label || '' }
-          </p>
-          <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
-            ${ i.help || '' }
-          </p>
-          <table class="table-plain page-item-table">
-            <colgroup>
-              <col style="width: 7.5%">
-              <col style="width: 92.5%">
-            </colgroup>
-            <tbody>
-              ${
-                shuffleMeMaybe(i.options || [], i.shuffle)
-                  .map(o => makeOptionRow(o, i, 'checkbox'))
-                  .join('\n')
-              }
-            </tbody>
-          </table>
+          <div class="page-item page-item-checkbox" id="page-item-${ i.name }">
+            <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
+              ${ i.label || '' }
+            </p>
+            <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
+              ${ i.help || '' }
+            </p>
+            <table class="table-plain page-item-table">
+              <colgroup>
+                <col style="width: 7.5%">
+                <col style="width: 92.5%">
+              </colgroup>
+              <tbody>
+                ${
+                  shuffleMeMaybe(i.options || [], i.shuffle)
+                    .map(o => makeOptionRow(o, i, 'checkbox'))
+                    .join('\n')
+                }
+              </tbody>
+            </table>
+          </div>
         `
       )
     case 'slider':
       return (
         stripIndent`
-          <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
-            ${ i.label || '' }
-          </p>
-          <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
-            ${ i.help || '' }
-          </p>
-          <input name="${ i.name }" type="range"
-            ${ i.required ? 'required' : '' }
-            class="w-100"
-            ${ makeAttributes(i.attributes) }
-          >
+          <div class="page-item page-item-range" id="page-item-${ i.name }">
+            <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
+              ${ i.label || '' }
+            </p>
+            <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
+              ${ i.help || '' }
+            </p>
+            <input name="${ i.name }" type="range"
+              ${ i.required ? 'required' : '' }
+              class="w-100"
+              ${ makeAttributes(i.attributes) }
+            >
+          </div>
         `
       )
     case 'likert':
       return (
         stripIndent`
-          <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
-            ${ i.label || '' }
-          </p>
-          <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
-            ${ i.help || '' }
-          </p>
-          <table class="page-item-table">
-            <colgroup>
-              <col style="width: 40%">
-              ${
-                range(i.width).map(() =>
-                  `<col style="width: ${ 60 / i.width }%">`
-                ).join('\n')
-              }
-            </colgroup>
-            ${ makeLikertHead(i) }
-            <tbody>
-              ${
-                shuffleMeMaybe(i.items || [], i.shuffle)
-                  .map(item => makeLikertRow(item, i))
-                  .join('\n')
-              }
-            </tbody>
-          </table>
+          <div class="page-item page-item-likert" id="page-item-${ i.name }">
+            <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
+              ${ i.label || '' }
+            </p>
+            <p class="small text-muted hide-if-empty" style="margin: 0.25rem 0">
+              ${ i.help || '' }
+            </p>
+            <table class="page-item-table">
+              <colgroup>
+                <col style="width: 40%">
+                ${
+                  range(i.width).map(() =>
+                    `<col style="width: ${ 60 / i.width }%">`
+                  ).join('\n')
+                }
+              </colgroup>
+              ${ makeLikertHead(i) }
+              <tbody>
+                ${
+                  shuffleMeMaybe(i.items || [], i.shuffle)
+                    .map(item => makeLikertRow(item, i))
+                    .join('\n')
+                }
+              </tbody>
+            </table>
+          </div>
         `
       )
     default:
