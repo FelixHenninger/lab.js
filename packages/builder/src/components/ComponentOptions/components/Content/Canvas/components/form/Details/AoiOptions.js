@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { DropdownMenu, DropdownItem, Input,
+import { DropdownMenu, DropdownItem,
   InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
-import { Control } from 'react-redux-form'
+import { Field } from 'formik'
 
 import Icon from '../../../../../../../Icon'
+import { Input } from '../../../../../../../Form'
 
 const AoiOptions = () =>
   <DropdownMenu right
@@ -20,12 +21,11 @@ const AoiOptions = () =>
             <Icon fixedWidth icon="tag" />
           </InputGroupText>
         </InputGroupAddon>
-        <Control
-          model=".label"
+        <Field
+          name="label"
           component={ Input }
           placeholder="Label"
-          debounce={ 200 }
-          className="form-control text-monospace"
+          className="text-monospace"
         />
       </InputGroup>
     </DropdownItem>
