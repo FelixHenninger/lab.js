@@ -6,12 +6,12 @@ import { CardBody } from 'reactstrap'
 import { Field } from 'formik'
 import { Button, ButtonGroup,
   UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem,
-  InputGroup, InputGroupAddon, InputGroupText, FormGroup,
+  InputGroup, InputGroupText, FormGroup,
   UncontrolledTooltip, Row, Col, Alert } from 'reactstrap'
 import { capitalize } from 'lodash'
 
 import Icon from '../../../../../Icon'
-import FileSelector from '../../../../../FileSelector'
+import FileSelectorField from '../../../../../FileSelector/field'
 import { Input } from '../../../../../Form'
 
 import { numberOrPlaceholder } from './util'
@@ -290,83 +290,47 @@ const GlobalSettings = ({ activeItem }) =>
     </Row>
   </>
 
-const SoundForm = ({ activeItem, handleChange }, { id }) => {
-  const fileSelector = createRef()
-
-  return (
-    <>
-      <FileSelector
-        accept="audio/*,video/ogg"
-        component={ id }
-        ref={ fileSelector }
-      />
-      <GlobalSettings activeItem={ activeItem } />
-      <Row form>
-        <Col>
-          <FormGroup>
-            <InputGroup>
-              <InputGroupAddon addonType="prepend">
-                <InputGroupText>
-                  <Icon fixedWidth icon="file-audio" />
-                </InputGroupText>
-              </InputGroupAddon>
-              <Field
-                name={ `timeline[${ activeItem }].payload.src` }
-                component={ Input }
-                placeholder="source"
-                className="text-monospace"
-              />
-              <InputGroupAddon addonType="append">
-                <Button
-                  outline color="secondary"
-                  style={{ minWidth: '3rem' }}
-                  onClick={ async () => {
-                    try {
-                      const files = await fileSelector.current.select()
-                      handleChange(
-                        'payload.src',
-                        `\${ this.files["${ files[0].localPath }"] }`
-                      )
-                    } catch (error) {
-                      console.log('Error while inserting audio', error)
-                    }
-                  } }
-                >
-                  <Icon fixedWidth icon="folder" />
-                </Button>
-              </InputGroupAddon>
-            </InputGroup>
-          </FormGroup>
-        </Col>
-        <Col>
-          <FormGroup>
-            <InputGroup>
-              <SettingGroupIcon
-                icon="repeat"
-                fallbackIcon="redo"
-                tooltip="Loop audio"
-                unit="boolean"
-              />
-              <Field
-                name={ `timeline[${ activeItem }].payload.loop` }
-                as="select"
-                className="form-control custom-select text-monospace"
-              >
-                <option value="false">Play sound once</option>
-                <option value="true">Repeat continuously</option>
-              </Field>
-            </InputGroup>
-          </FormGroup>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <small className="text-muted">Please note that, for security reasons, audio files must be either embedded in the study, hosted on the same server on which the study is running, or on a server with <a href="https://enable-cors.org/server.html" target="_blank" rel="noopener noreferrer">cross-origin resource sharing</a> enabled. Please also note that Chrome and Safari do not support loading sounds offline; please consider hosting the study on a server instead.</small>
-        </Col>
-      </Row>
-    </>
-  )
-}
+const SoundForm = ({ activeItem }, { id }) =>
+  <>
+    <GlobalSettings activeItem={ activeItem } />
+    <Row form>
+      <Col>
+        <FormGroup>
+          <FileSelectorField
+            name={ `timeline[${ activeItem }].payload.src` }
+            accept="audio/*,video/ogg"
+            icon="file-audio"
+            component={ id }
+          />
+        </FormGroup>
+      </Col>
+      <Col>
+        <FormGroup>
+          <InputGroup>
+            <SettingGroupIcon
+              icon="repeat"
+              fallbackIcon="redo"
+              tooltip="Loop audio"
+              unit="boolean"
+            />
+            <Field
+              name={ `timeline[${ activeItem }].payload.loop` }
+              as="select"
+              className="form-control custom-select text-monospace"
+            >
+              <option value="false">Play sound once</option>
+              <option value="true">Repeat continuously</option>
+            </Field>
+          </InputGroup>
+        </FormGroup>
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <small className="text-muted">Please note that, for security reasons, audio files must be either embedded in the study, hosted on the same server on which the study is running, or on a server with <a href="https://enable-cors.org/server.html" target="_blank" rel="noopener noreferrer">cross-origin resource sharing</a> enabled. Please also note that Chrome and Safari do not support loading sounds offline; please consider hosting the study on a server instead.</small>
+      </Col>
+    </Row>
+  </>
 
 SoundForm.contextTypes = {
   id: PropTypes.oneOfType([
