@@ -1,6 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+// Why did you (re)render?
+import './wdyr.js'
+
 // React-redux integration
 import { Provider as ReduxProvider } from 'react-redux'
 import configureStore from './store'
