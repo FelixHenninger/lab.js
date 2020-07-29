@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { FieldArray, useFormikContext } from 'formik'
+import { FieldArray, useFormikContext, getIn } from 'formik'
 import { Button } from 'reactstrap'
 
 import Icon from '../Icon'
@@ -15,6 +15,7 @@ const FormArray = ({
   defaultItem={},
 }) => {
   const { values }  = useFormikContext()
+  const rows = getIn(values, name)
 
   return (
     <FieldArray name={ name }>
@@ -23,7 +24,7 @@ const FormArray = ({
           { Header && <Header /> }
           <BodyWrapper>
             {
-              (values[name] || []).map(
+              (rows || []).map(
                 (data, index) =>
                   <Item
                     key={ `${ name }[${ index }]` }
@@ -74,19 +75,30 @@ const DefaultColgroup = ({ name, columns=1 }) =>
   </colgroup>
 
 export const DefaultRow = ({
-  index, arrayHelpers, children,
+  index, name, children, arrayHelpers,
   leftColumn: LeftColumn,
+  rightColumn: RightColumn,
   wrapper: Wrapper='td'
 }) =>
   <tr>
-    { LeftColumn ? <LeftColumn /> : <ButtonCell icon="bars" /> }
+    { LeftColumn
+      ? <LeftColumn
+          name={ name } index={ index }
+          arrayHelpers={ arrayHelpers }
+        />
+      : <ButtonCell icon="bars" /> }
     <Wrapper>
       { children }
     </Wrapper>
-    <ButtonCell
-      icon="trash"
-      onClick={ () => arrayHelpers.remove(index) }
-    />
+    { RightColumn
+      ? <RightColumn
+          name={ name } index={ index }
+          arrayHelpers={ arrayHelpers }
+        />
+      : <ButtonCell
+          icon="trash"
+          onClick={ () => arrayHelpers.remove(index) }
+        /> }
   </tr>
 
 const DefaultFooter = ({ addItem, columns }) =>
