@@ -30,6 +30,7 @@ const FormArray = ({
                     key={ `${ name }[${ index }]` }
                     name={ `${ name }[${ index }]` }
                     index={ index }
+                    isLastItem={ index === rows.length - 1 }
                     data={ data }
                     arrayHelpers={ arrayHelpers }
                   />
@@ -75,7 +76,7 @@ const DefaultColgroup = ({ name, columns=1 }) =>
   </colgroup>
 
 export const DefaultRow = ({
-  index, name, children, arrayHelpers,
+  index, name, children, arrayHelpers, isLastItem,
   leftColumn: LeftColumn,
   rightColumn: RightColumn,
   wrapper: Wrapper='td'
@@ -85,6 +86,7 @@ export const DefaultRow = ({
       ? <LeftColumn
           name={ name } index={ index }
           arrayHelpers={ arrayHelpers }
+          isLastItem={ isLastItem }
         />
       : <ButtonCell icon="bars" /> }
     <Wrapper>
@@ -94,6 +96,7 @@ export const DefaultRow = ({
       ? <RightColumn
           name={ name } index={ index }
           arrayHelpers={ arrayHelpers }
+          isLastItem={ isLastItem }
         />
       : <ButtonCell
           icon="trash"
