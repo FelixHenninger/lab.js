@@ -451,6 +451,21 @@ const updates = {
       }
     })
   }),
+  '20.2.0': data => ({
+    // Upgrade page components
+    ...data,
+    version: [20, 2, 1],
+    components: mapValues(data.components, (c, id) => {
+      if (c.type === 'lab.html.Page') {
+        return {
+          ...c,
+          items: c.items?.rows?.map(r => r[0]) ?? [],
+        }
+      } else {
+        return c
+      }
+    })
+  }),
 }
 
 export default (data) => {

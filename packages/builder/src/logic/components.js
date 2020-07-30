@@ -151,9 +151,9 @@ export const metadata = {
     defaultTab: 'Content',
     defaults: {
       type: 'lab.html.Page',
-      items: { rows: [ [ {
-        type: 'text',
-      } ] ] },
+      items: [
+        { type: 'text' },
+      ],
       scrollTop: true,
       submitButtonText: 'Continue →',
       submitButtonPosition: 'right',

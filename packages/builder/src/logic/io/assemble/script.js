@@ -89,8 +89,7 @@ const processShuffleGroups = columns =>
   )
 
 const processItems = items =>
-  items.rows
-    .map(r => r[0])
+  items
     .filter(i => i.label !== '')
     .map(i => {
       // Provide a default name based on the label
