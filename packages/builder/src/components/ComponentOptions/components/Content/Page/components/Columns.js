@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 
 import { Button, Collapse } from 'reactstrap'
 import Icon from '../../../../../Icon'
 
 import { ItemContext } from '../index'
+import { useFormikContext, getIn } from 'formik'
 
 const icons = {
   'text': 'info',
@@ -19,11 +19,10 @@ const icons = {
   'likert': 'grip-horizontal',
 }
 
-export const LeftColumn = (
-  { rowData: [{ type }], rowIndex, isFirstRow, isLastRow },
-  { gridDispatch }
-) => {
+export const LeftColumn = ({ name, index, arrayHelpers, isLastItem }) => {
   const { openItem, setOpenItem } = useContext(ItemContext)
+  const { values } = useFormikContext()
+  const type = getIn(values, `${ name }.type`)
 
   return (
     <td>
@@ -38,7 +37,7 @@ export const LeftColumn = (
       >
         <Icon icon={ icons[type] || 'question' } />
       </div>
-      <Collapse isOpen={ openItem === rowIndex && type !== 'divider' }>
+      <Collapse isOpen={ openItem === index && type !== 'divider' }>
         <Button
           block
           outline color="muted"
@@ -53,13 +52,10 @@ export const LeftColumn = (
           onClick={ () => {
             const o = openItem
             setOpenItem(undefined)
-            gridDispatch(
-              'moveRow',
-              { from: rowIndex, to: rowIndex - 1 }
-            )
+            arrayHelpers.swap(index, index - 1)
             setOpenItem(o - 1)
           } }
-          disabled={ isFirstRow }
+          disabled={ index === 0 }
         >
           <Icon icon="arrow-up" />
         </Button>
@@ -70,13 +66,10 @@ export const LeftColumn = (
           onClick={ () => {
             const o = openItem
             setOpenItem(undefined)
-            gridDispatch(
-              'moveRow',
-              { from: rowIndex, to: rowIndex + 1 }
-            )
+            arrayHelpers.swap(index, index + 1)
             setOpenItem(o + 1)
           } }
-          disabled={ isLastRow }
+          disabled={ isLastItem }
         >
           <Icon icon="arrow-down" />
         </Button>
@@ -85,15 +78,11 @@ export const LeftColumn = (
   )
 }
 
-LeftColumn.contextTypes = {
-  gridDispatch: PropTypes.func,
-}
-
-export const RightColumn = (
-  { rowIndex, rowData: [{ type }], onClickOptions },
-  { gridDispatch }
-) => {
+export const RightColumn = ({ name, index, arrayHelpers }) => {
   const { openItem, setOpenItem } = useContext(ItemContext)
+  const { values } = useFormikContext()
+  const type = getIn(values, `${ name }.type`)
+
   return (
     <td>
       {
@@ -102,10 +91,10 @@ export const RightColumn = (
               block outline color="muted"
               onClick={ () => {
                 // TODO: Think about moving logic into the ItemContext
-                if (openItem === rowIndex) {
+                if (openItem === index) {
                   setOpenItem(undefined)
                 } else {
-                  setOpenItem(rowIndex)
+                  setOpenItem(index)
                 }
               } }
             >
@@ -113,19 +102,15 @@ export const RightColumn = (
             </Button>
           : null
       }
-      <Collapse isOpen={ type === 'divider' || openItem === rowIndex }>
+      <Collapse isOpen={ type === 'divider' || openItem === index }>
         <Button block
           outline color="muted"
           className={ type !== 'divider' ? 'mt-2' : '' }
-          onClick={ () => gridDispatch('deleteRow', rowIndex) }
+          onClick={ () => arrayHelpers.remove(index) }
         >
           <Icon icon="trash" />
         </Button>
       </Collapse>
     </td>
   )
-}
-
-RightColumn.contextTypes = {
-  gridDispatch: PropTypes.func,
 }

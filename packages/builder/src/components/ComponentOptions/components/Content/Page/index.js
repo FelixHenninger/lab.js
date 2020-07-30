@@ -15,8 +15,14 @@ import GridFooter from './components/Footer'
 
 // Grid contents ---------------------------------------------------------------
 
-const ItemRow = ({ index, name, data, arrayHelpers }) =>
-  <DefaultRow name={ name } arrayHelpers={ arrayHelpers }>
+const ItemRow = ({ index, name, data, arrayHelpers, isLastItem }) =>
+  <DefaultRow
+    name={ name } index={ index }
+    isLastItem={ isLastItem }
+    arrayHelpers={ arrayHelpers }
+    leftColumn={ LeftColumn }
+    rightColumn={ RightColumn }
+  >
     <ItemOptions
       name={ name }
       type={ data.type }
