@@ -1,30 +1,29 @@
 import React from 'react'
 
-import { Control } from 'react-redux-form'
-import { Row, Col, Input } from 'reactstrap'
+import { Field } from 'formik'
+import { Row, Col } from 'reactstrap'
 
-export default () =>
+import { Input } from '../../../../../../../Form'
+
+export default ({ name }) =>
   <>
     <Row form>
       <Col>
-        <Control
-          model=".title"
+        <Field
+          name={ `${ name }.title` }
           placeholder="Title"
           component={ Input }
           className="font-weight-bold"
-          debounce={ 300 }
         />
       </Col>
     </Row>
     <Row form>
       <Col>
-        <Control.textarea
-          model=".content"
+        <Field
+          name={ `${ name }.content` }
+          as="textarea"
           placeholder="Text"
-          component={ Input }
-          controlProps={{ type: 'textarea' }}
-          className="mt-2"
-          debounce={ 300 }
+          className="form-control mt-2"
         />
       </Col>
     </Row>
