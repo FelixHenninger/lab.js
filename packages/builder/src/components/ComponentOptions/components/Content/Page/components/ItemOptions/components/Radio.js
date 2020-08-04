@@ -1,31 +1,31 @@
 import React from 'react'
 
-import { Control } from 'react-redux-form'
-import { Row, Col, Input } from 'reactstrap'
+import { Field } from 'formik'
+import { Row, Col } from 'reactstrap'
 
 import { CodingGroup } from './Coding'
 import { CollapsingOptions } from './BaseOptions'
 
-export default ({ data, rowIndex }) =>
+import { Input } from '../../../../../../../Form'
+
+export default ({ name, index }) =>
   <>
     <Row form>
       <Col>
-        <Control
-          model=".label"
+        <Field
+          name={ `${ name }.label` }
           placeholder="Question"
           component={ Input }
-          debounce={ 300 }
         />
       </Col>
     </Row>
     <CodingGroup
-      data={ data.options }
-      model=".options"
-      itemModel={ `.rows[${ rowIndex }][0]` }
+      name={ `${ name }.options` }
       icon="circle"
     />
     <CollapsingOptions
-      rowIndex={ rowIndex }
+      name={ name }
+      index={ index }
       shuffle={ true }
     />
   </>
