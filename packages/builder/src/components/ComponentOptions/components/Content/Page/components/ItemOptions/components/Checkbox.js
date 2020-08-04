@@ -1,33 +1,33 @@
 import React from 'react'
 
-import { Control } from 'react-redux-form'
-import { Row, Col, Input } from 'reactstrap'
+import { Field } from 'formik'
+import { Row, Col } from 'reactstrap'
 
 import { CodingGroup } from './Coding'
 import { CollapsingOptions } from './BaseOptions'
 
+import { Input } from '../../../../../../../Form'
+
 // TODO: Collapse this code with the radio button UI
 
-export default ({ data, rowIndex }) =>
+export default ({ name, index }) =>
   <>
     <Row form>
       <Col>
-        <Control
-          model=".label"
+        <Field
+          name={ `${ name }.label` }
           placeholder="Question"
           component={ Input }
-          debounce={ 300 }
         />
       </Col>
     </Row>
     <CodingGroup
-      data={ data.options }
-      model=".options"
-      itemModel={ `.rows[${ rowIndex }][0]` }
+      name={ `${ name }.options` }
       icon="square"
     />
     <CollapsingOptions
-      rowIndex={ rowIndex }
+      name={ name }
+      index={ index }
       shuffle={ true }
     />
   </>
