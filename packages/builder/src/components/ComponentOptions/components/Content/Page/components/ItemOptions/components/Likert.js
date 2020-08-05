@@ -1,74 +1,77 @@
 import React from 'react'
 
 import { range } from 'lodash'
-import { Control, Field } from 'react-redux-form'
+import { Field, FastField, useFormikContext, getIn } from 'formik'
 import { Row, Col, FormGroup, Label, FormText,
-  Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
+  InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
+
+import { Input } from '../../../../../../../Form'
 
 import { CodingGroup } from './Coding'
 import { CollapsingOptions } from './BaseOptions'
 
-export default ({ data, rowIndex }) =>
-  <>
+export default ({ name, index }) => {
+  const { values } = useFormikContext()
+  const width = getIn(values, `${ name }.width`)
+
+  return <>
     <Row form>
       <Col>
-        <Control
-          model=".label"
+        <Field
+          name={ `${ name }.label` }
           placeholder="Question"
           component={ Input }
-          debounce={ 300 }
         />
       </Col>
     </Row>
     <CodingGroup
-      data={ data.items }
-      model=".items"
-      itemModel={ `.rows[${ rowIndex }][0]` }
+      name={ `${ name }.items` }
       icon="ellipsis-h-alt"
       iconFallbackWeight="s"
     />
     <CollapsingOptions
-      rowIndex={ rowIndex }
+      name={ name }
+      index={ index }
       shuffle={ true }
     >
       <Row>
         <Col>
           <FormGroup className="my-2">
-            <Label for={ `page-item-${ rowIndex }-width` } className="mb-0">
+            <Label for={ `page-item-${ index }-width` } className="mb-0">
               Scale width
             </Label>
             <FormText color="muted">
               How many points to offer
             </FormText>
-            <Field model=".width" className="mt-1">
-              <FormGroup>
-                {
-                  [5, 7, 9, 11].map(w =>
-                    <div
-                      key={ `page-item-${ rowIndex }-width-${ w }` }
-                      className="custom-radio custom-control"
+            <FormGroup>
+              {
+                [5, 7, 9, 11].map(w =>
+                  <div
+                    key={ `page-item-${ index }-width-${ w }` }
+                    className="custom-radio custom-control"
+                  >
+                    <Field
+                      name={ `${ name }.width` }
+                      type="radio"
+                      value={ `${ w }` }
+                      id={ `page-item-${ index }-width-${ w }` }
+                      className="custom-control-input"
+                    />
+                    <label
+                      htmlFor={ `page-item-${ index }-width-${ w }` }
+                      className="custom-control-label"
                     >
-                      <input
-                        type="radio" value={ `${ w }` }
-                        id={ `page-item-${ rowIndex }-width-${ w }` }
-                        className="custom-control-input"
-                      />
-                      <label
-                        htmlFor={ `page-item-${ rowIndex }-width-${ w }` }
-                        className="custom-control-label"
-                      >
-                        { w }
-                      </label>
-                    </div>
-                  )
-                }
-              </FormGroup>
-            </Field>
+                      { w }
+                    </label>
+                  </div>
+                )
+              }
+            </FormGroup>
           </FormGroup>
         </Col>
         <Col>
           <FormGroup className="my-2">
-            <Label for={ `page-item-${ rowIndex }-anchors` } className="mb-0">
+            <Label for={ `page-item-${ index }-anchors` } className="mb-0">
               Anchors
             </Label>
             <FormText color="muted">
@@ -76,10 +79,10 @@ export default ({ data, rowIndex }) =>
             </FormText>
             <div className="mt-2">
               {
-                range(data.width).map(i =>
+                range(width).map(i =>
                   <Row form
                     className="my-1"
-                    key={ `page-item-${ rowIndex }-anchors-${ i }` }
+                    key={ `page-item-${ index }-anchors-${ i }` }
                   >
                     <Col>
                       <InputGroup>
@@ -90,10 +93,9 @@ export default ({ data, rowIndex }) =>
                             </small>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Control
-                          model={ `.anchors[${ i }]` }
+                        <FastField
+                          name={ `${ name }.anchors[${ i }]` }
                           component={ Input }
-                          debounce={ 300 }
                         />
                       </InputGroup>
                     </Col>
@@ -106,3 +108,4 @@ export default ({ data, rowIndex }) =>
       </Row>
     </CollapsingOptions>
   </>
+}
