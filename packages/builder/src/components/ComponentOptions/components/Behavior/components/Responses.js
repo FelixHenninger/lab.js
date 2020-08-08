@@ -144,7 +144,7 @@ export default () =>
       columns={ 4 }
       row={ ResponseRow }
       header={ ResponseHeader }
-      className="border-top-0"
+      className="grid border-top-0 border-bottom"
     />
     <CardBody>
       <FormGroup row>
