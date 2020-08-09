@@ -6,6 +6,7 @@ import { uniqBy } from 'lodash'
 import Card from '../../../../Card'
 import Form from '../../Form'
 
+import Grid from './Grid'
 import SampleWidget from './SampleWidget'
 import ShuffleGroups from './ShuffleGroups'
 
@@ -15,6 +16,7 @@ export default ({ id, data }) =>
     keys={ [ 'sample', 'shuffle', 'templateParameters' ] }
   >
     <Card title="Loop" wrapContent={ false }>
+      <Grid />
       <CardBody>
         <SampleWidget />
       </CardBody>
