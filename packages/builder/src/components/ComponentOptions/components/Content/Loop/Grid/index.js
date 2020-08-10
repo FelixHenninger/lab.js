@@ -24,12 +24,14 @@ const Row = ({ index: rowIndex, name, data, arrayHelpers }) =>
 export default () => {
   const { values } = useFormikContext()
   const { templateParameters } = values
+  const columns = templateParameters.columns.length
 
   return <Table
     name="templateParameters.rows"
     row={ Row }
-    columns={ templateParameters.columns.length }
+    columns={ columns }
     header={ Header }
+    defaultItem={ Array(columns).fill('') }
     className="border-top-0"
   />
 }
