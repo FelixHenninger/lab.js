@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 
 import { FastField, useFormikContext } from 'formik'
 
+import Header from './header'
 import { Table, DefaultRow } from '../../../../../Form/table'
 
 const Row = ({ index: rowIndex, name, data, arrayHelpers }) =>
@@ -28,6 +29,7 @@ export default () => {
     name="templateParameters.rows"
     row={ Row }
     columns={ templateParameters.columns.length }
+    header={ Header }
     className="border-top-0"
   />
 }
