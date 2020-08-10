@@ -21,7 +21,7 @@ const FormArray = ({
     <FieldArray name={ name }>
       {
         arrayHelpers => <Wrapper { ...wrapperProps }>
-          { Header && <Header /> }
+          { Header && <Header name={ name } /> }
           <BodyWrapper>
             {
               (rows || []).map(
@@ -132,10 +132,10 @@ export const Table = ({
   <FormArray
     wrapper="table"
     wrapperProps={{ className: `table grid ${ className }` }}
-    header={ () =>
+    header={ ({ name }) =>
       <>
         <DefaultColgroup name={ props.name } columns={ columns }/>
-        { Header && <Header /> }
+        { Header && <Header name={ name } columns={ columns } /> }
       </>
     }
     bodyWrapper="tbody"
