@@ -1,9 +1,12 @@
 import React, { Fragment } from 'react'
 
 import { FastField, useFormikContext } from 'formik'
+import classnames from 'classnames'
 
 import Header from './header'
 import { Table, DefaultRow } from '../../../../../Form/table'
+
+import './style.css'
 
 const Row = ({ index: rowIndex, name, data, arrayHelpers }) =>
   <DefaultRow
@@ -32,6 +35,11 @@ export default () => {
     columns={ columns }
     header={ Header }
     defaultItem={ Array(columns).fill('') }
-    className="border-top-0"
+    className={ classnames({
+      'table': true,
+      'grid': true,
+      'grid-slim': columns > 5,
+      'border-top-0 border-bottom': true,
+    }) }
   />
 }

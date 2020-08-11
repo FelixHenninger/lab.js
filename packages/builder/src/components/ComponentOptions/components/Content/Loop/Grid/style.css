@@ -1,0 +1,23 @@
+/* Reduce padding in a grid dropdown-toggle button */
+table.grid th .input-group button.dropdown-toggle {
+  padding: 0.5rem 0.8rem;
+}
+
+/* Reduce size of input group dropdown toggle,
+   and hide icon, if columns are very narrow. */
+table.grid.grid-slim th .input-group button.dropdown-toggle {
+  padding: 0.5rem;
+}
+
+table.grid.grid-slim th .input-group button.dropdown-toggle i {
+  display: none;
+}
+
+table.grid.grid-slim th .input-group button.dropdown-toggle::after {
+  margin-left: 0;
+}
+
+/* Highlight active dropdown item */
+.dropdown-menu .dropdown-item.dropdown-item-active {
+  background-color: var(--light);
+}
