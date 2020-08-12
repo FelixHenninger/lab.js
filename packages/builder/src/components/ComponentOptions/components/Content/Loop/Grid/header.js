@@ -4,10 +4,12 @@ import { InputGroupButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem,
   InputGroup } from 'reactstrap'
 import classnames from 'classnames'
 
+import { useArrayContext } from '../../../../../Form/array'
+import { ButtonCell } from '../../../../../Form/table'
 import Icon from '../../../../../Icon'
 import { FastField, useField } from 'formik'
 
-const CellTypeDropdown = ({ name, disabled=false }) => {
+const CellTypeDropdown = ({ name, index, actions, disabled=false }) => {
   const [field, , helpers] = useField(name)
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
@@ -61,12 +63,29 @@ const CellTypeDropdown = ({ name, disabled=false }) => {
         >
           Boolean <span className="text-muted">(binary)</span>
         </DropdownItem>
+        {
+          actions
+            ? <div>
+                <DropdownItem divider />
+                <DropdownItem header>
+                  Actions
+                </DropdownItem>
+                {
+                  Object.entries(actions).map(([k, v], i) =>
+                    <DropdownItem onClick={ () => v(index) } key={ i }>
+                      { k }
+                    </DropdownItem>
+                  )
+                }
+              </div>
+            : <div></div>
+        }
       </DropdownMenu>
     </InputGroupButtonDropdown>
   )
 }
 
-export const HeaderCell = ({ index }) =>
+export const HeaderCell = ({ index, actions }) =>
   <InputGroup>
     <FastField
       name={ `templateParameters.columns[${ index }].name` }
@@ -74,18 +93,39 @@ export const HeaderCell = ({ index }) =>
       className="form-control text-monospace font-weight-bolder"
       style={{ height: '42px' }}
     />
-    <CellTypeDropdown name={ `templateParameters.columns[${ index }].type` } />
+    <CellTypeDropdown
+      name={ `templateParameters.columns[${ index }].type` }
+      index={ index }
+      actions={ actions }
+    />
   </InputGroup>
 
-export default ({ name, columns }) =>
-  <thead>
-    <tr>
-      <th></th>
-      { Array(columns).fill(null).map((_, i) =>
-        <th key={ `${ name }-header-${ i }` }>
-          <HeaderCell index={ i } />
-        </th>
-      ) }
-      <th></th>
-    </tr>
-  </thead>
+export default ({ name, columns }) => {
+  const { addColumn, fillColumn, clearColumn, deleteColumn } = useArrayContext()
+
+  return (
+    <thead>
+      <tr>
+        <th></th>
+        { Array(columns).fill(null).map((_, i) =>
+          <th key={ `${ name }-header-${ i }` }>
+            <HeaderCell
+              index={ i }
+              actions={{
+                'Fill': fillColumn,
+                'Clear': clearColumn,
+                'Delete': deleteColumn,
+              }}
+            />
+          </th>
+        ) }
+        <ButtonCell
+          type="th" icon="plus"
+          style={{ height: '42px' }}
+          onClick={ () => addColumn('', { name: '', type: 'string' }) }
+          disabled={ columns >= 12 }
+        />
+      </tr>
+    </thead>
+  )
+}
