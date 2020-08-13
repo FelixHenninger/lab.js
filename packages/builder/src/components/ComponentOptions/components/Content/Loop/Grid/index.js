@@ -4,6 +4,7 @@ import { FastField, useFormikContext } from 'formik'
 import classnames from 'classnames'
 
 import Header from './header'
+import Footer from './footer'
 import { Table, DefaultRow } from '../../../../../Form/table'
 
 import './style.css'
@@ -34,6 +35,7 @@ export default () => {
     row={ Row }
     columns={ columns }
     header={ Header }
+    footer={ Footer }
     defaultItem={ Array(columns).fill('') }
     className={ classnames({
       'table': true,
