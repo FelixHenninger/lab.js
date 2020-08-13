@@ -27,16 +27,17 @@ const exportGrid = (data, columns) => {
   )
 }
 
-export default ({ columns, data }) => {
+export default ({ addItem, columns }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   //const factorialModal = createRef()
-  const { addRow, overwriteAll } = useArrayContext()
+  const { dispatch, overwriteAll } = useArrayContext()
+  const data = []
 
   return (
     <tfoot>
       <tr>
         <td />
-        <td colSpan={ columns.length }>
+        <td colSpan={ columns }>
             { /*
           <FactorialModal ref={ factorialModal } />
             */ }
@@ -50,10 +51,8 @@ export default ({ columns, data }) => {
               block size="sm"
               outline color="muted"
               className="hover-target"
-              onClick={ () => addRow() }
-              onMouseUp={
-                e => e.target.blur()
-              }
+              onClick={ () => addItem(Array(columns).fill('')) }
+              onMouseUp={ e => e.target.blur() }
               style={{
                 paddingLeft: '32px', // 6px standard + 24px toggle width
               }}
@@ -85,10 +84,10 @@ export default ({ columns, data }) => {
                 onClick={ () => {
                   const n = window.prompt('How many times?')
                   if (n) {
-                    overwriteAll(
-                      data.flatMap(r => range(n).map(() => r)),
+                    dispatch((rows, columns) => [
+                      rows.flatMap(r => range(n).map(() => r)),
                       columns,
-                    )
+                    ])
                   }
                 } }
               >
@@ -98,10 +97,10 @@ export default ({ columns, data }) => {
                 onClick={ () => {
                   const n = window.prompt('How many times?')
                   if (n) {
-                    overwriteAll(
-                      range(n).flatMap(() => data),
+                    dispatch((rows, columns) => [
+                      range(n).flatMap(() => rows),
                       columns,
-                    )
+                    ])
                   }
                 } }
               >
