@@ -31,7 +31,6 @@ export default ({ addItem, columns }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   //const factorialModal = createRef()
   const { dispatch, overwriteAll } = useArrayContext()
-  const data = []
 
   return (
     <tfoot>
@@ -155,7 +154,11 @@ export default ({ addItem, columns }) => {
                 </div>
               </Uploader>
               <DropdownItem
-                onClick={ () => exportGrid(data, columns) }
+                onClick={ () => dispatch((rows, columns) => {
+                  exportGrid(rows, columns)
+                  // TODO: Can we do without rewriting the data?
+                  return [rows, columns]
+                }) }
               >
                 Export
               </DropdownItem>
