@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, createRef } from 'react'
 
 import { ButtonDropdown, Button,
   DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap'
 import { range } from 'lodash'
 
 import Icon from '../../../../../Icon'
-//import FactorialModal from './components/FactorialModal'
+import FactorialModal from '../DesignWizard/FactorialModal'
 import { useArrayContext } from '../../../../../Form/array'
 
 import Uploader from '../../../../../Uploader'
@@ -29,7 +29,7 @@ const exportGrid = (data, columns) => {
 
 export default ({ addItem, columns }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  //const factorialModal = createRef()
+  const factorialModal = createRef()
   const { dispatch, overwriteAll } = useArrayContext()
 
   return (
@@ -37,9 +37,7 @@ export default ({ addItem, columns }) => {
       <tr>
         <td />
         <td colSpan={ columns }>
-            { /*
           <FactorialModal ref={ factorialModal } />
-            */ }
           <ButtonDropdown
             size="sm"
             className="w-100"
@@ -67,7 +65,6 @@ export default ({ addItem, columns }) => {
               }}
             />
             <DropdownMenu right>
-            { /*
               <DropdownItem header>Generate</DropdownItem>
               <DropdownItem
                 onClick={ () => factorialModal.current.show().then(result => {
@@ -76,7 +73,6 @@ export default ({ addItem, columns }) => {
               >
                 Factorial design
               </DropdownItem>
-              */ }
               <DropdownItem divider />
               <DropdownItem header>Repeat</DropdownItem>
               <DropdownItem
