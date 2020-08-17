@@ -167,6 +167,9 @@ export class Random {
       candidate = this.shuffle(a)
       if (constraintChecker(candidate)) break
     }
+    if (i >= maxIterations) {
+      console.warn('constrainedShuffle could not find a matching candidate after ${maxIterations} iterations')
+    }
     return candidate
   }
 
