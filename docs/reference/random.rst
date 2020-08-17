@@ -42,12 +42,13 @@ In practice of course, you'll probably be randomly generating more useful inform
 
     :returns: A shuffled copy of the input ``array``.
 
-  .. js:function:: constrainedShuffle(array, constraints, [helpers={}, maxIterations=10**4])
+  .. js:function:: constrainedShuffle(array, constraints, [helpers={}, maxIterations=10**4, failOnMaxIterations=false])
 
     :param array array: Array to be shuffled
     :param constraints: Constraint specification as an object, or a check function (see below)
     :param object helpers: Optional specification of ``equality`` check or ``hash`` function used while checking constraints.
     :param int maxIterations: Maximum number of shuffle iterations to go through before giving up.
+    :param Boolean failOnMaxIterations: If max iterations are reached, throws an exception if true, else warns in the console.
 
     :returns: A shuffled copy of the input ``array``, subject to specified constraints.
 

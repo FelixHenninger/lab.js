@@ -139,7 +139,7 @@ export class Random {
     return array
   }
 
-  constrainedShuffle(a, constraints={}, helpers={}, maxIterations=10**4) {
+  constrainedShuffle(a, constraints={}, helpers={}, maxIterations=10**4, failOnMaxIterations=false) {
     // Generate constraint function, if necessary
     let constraintChecker
     if (isFunction(constraints)) {
@@ -168,7 +168,12 @@ export class Random {
       if (constraintChecker(candidate)) break
     }
     if (i >= maxIterations) {
-      console.warn(`constrainedShuffle could not find a matching candidate after ${ maxIterations } iterations`)
+      let warning = `constrainedShuffle could not find a matching candidate after ${ maxIterations } iterations`
+      if (failOnMaxIterations) {
+        throw new Error(warning)
+      } else {
+        console.warn(warning)
+      }
     }
     return candidate
   }
