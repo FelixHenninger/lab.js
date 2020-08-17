@@ -162,10 +162,13 @@ export class Random {
 
     // Shuffle until a candidate matches the constraints,
     // or the maximum number of iterations is reached
-    let candidate
-    for (let i = 0; i < maxIterations; i++) {
+    let candidate, i
+    for (i = 0; i < maxIterations; i++) {
       candidate = this.shuffle(a)
       if (constraintChecker(candidate)) break
+    }
+    if (i >= maxIterations) {
+      console.warn(`constrainedShuffle could not find a matching candidate after ${ maxIterations } iterations`)
     }
     return candidate
   }
