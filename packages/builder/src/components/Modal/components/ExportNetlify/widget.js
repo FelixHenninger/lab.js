@@ -1,7 +1,8 @@
 import React, { Component, createRef, forwardRef } from 'react'
 import { ReactReduxContext } from 'react-redux'
+import { findDOMNode } from 'react-dom'
 
-import { Formik, Field } from 'formik'
+import { Formik, Field, Form } from 'formik'
 import { Input } from '../../../Form'
 
 import { FormGroup, Label, FormText,
@@ -21,12 +22,11 @@ const validateApiKey = value => {
 
 const NetlifyForm = forwardRef(({ onSubmit }, ref) =>
   <Formik
-    ref={ ref }
     initialValues={{ site: '', apiKey: '' }}
     onSubmit={ onSubmit }
   >
     {({ errors, touched }) => (
-      <>
+      <Form ref={ ref }>
         <FormGroup>
           <Label for="site">
             Study domain/site{' '}
@@ -56,7 +56,7 @@ const NetlifyForm = forwardRef(({ onSubmit }, ref) =>
             You'll need to <a href="https://app.netlify.com/account/applications"  target="_blank" rel="noopener noreferrer">create an API token</a> or enter an existing one. We don't save or share this information, so make sure to jot it down!
           </FormText>
         </FormGroup>
-      </>
+      </Form>
     )}
   </Formik>
 )
@@ -73,7 +73,7 @@ class NetlifyWidget extends Component {
   }
 
   triggerSubmit() {
-    this.formRef.current.submitForm()
+    findDOMNode(this.formRef.current).requestSubmit()
   }
 
   async send(data) {
