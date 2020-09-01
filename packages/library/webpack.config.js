@@ -123,6 +123,12 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
+          loader: 'babel-loader',
+          test: /\.js$/,
+          include: path.join(__dirname, 'src'),
+          query: babelOptions,
+        },
+        {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: [
@@ -143,12 +149,6 @@ module.exports = (env, argv) => {
               },
             },
           ],
-        },
-        {
-          loader: 'babel-loader',
-          test: /\.js$/,
-          include: path.join(__dirname, 'src'),
-          query: babelOptions,
         },
       ],
     },

@@ -1,10 +1,24 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   extends: [
-    'airbnb',
-    'plugin:@typescript-eslint/eslint-recommended',
+    'airbnb-typescript',
     'plugin:@typescript-eslint/recommended',
+    'prettier',
+    'prettier/react',
   ],
+  plugins: ['@typescript-eslint'],
+  parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: 'module',
+    project: './tsconfig.json',
+    tsconfigRootDir: __dirname,
+    createDefaultProgram: true,
+  },
+  env: {
+    browser: true,
+    es6: true,
+    node: true,
+  },
   rules: {
     'key-spacing': [
       2,
@@ -30,18 +44,9 @@ module.exports = {
     'space-infix-ops': 1,
     'template-curly-spacing': [2, 'always'],
     'linebreak-style': 0,
+    // We dislike semicolons
+    '@typescript-eslint/semi': 0,
+    // We use underscores for internal methods
+    'no-underscore-dangle': 0,
   },
-  env: {
-    browser: true,
-    es6: true,
-    node: true,
-  },
-  overrides: [
-    {
-      files: ['**/*.{js,jsx}', '**/*.test.{ts,tsx}'],
-      rules: {
-        '@typescript-eslint/no-var-requires': 0,
-      },
-    },
-  ],
 }
