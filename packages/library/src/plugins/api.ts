@@ -1,24 +1,29 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import { without } from 'lodash'
 
 export default class PluginAPI {
-  constructor(context) {
+  context: any;
+  plugins: any;
+  constructor(context: any) {
     this.plugins = []
     this.context = context
   }
 
-  add(plugin) {
+  add(plugin: any) {
     this.plugins.push(plugin)
     plugin.handle(this.context, 'plugin:init')
   }
 
-  remove(plugin) {
+  remove(plugin: any) {
     plugin.handle(this.context, 'plugin:removal')
     this.plugins = without(this.plugins, plugin)
   }
 
-  trigger(event, ...args) {
+  // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'args' implicitly has an 'any[]' ty... Remove this comment to see the full error message
+  trigger(event: any, ...args) {
+    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
     return Promise.all(this.plugins.map(
-      p => p.handle(this.context, event, ...args),
-    ))
+      (p: any) => p.handle(this.context, event, ...args),
+    ));
   }
 }

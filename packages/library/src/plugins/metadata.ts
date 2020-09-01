@@ -1,3 +1,4 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import { fromPairs } from 'lodash'
 import { version, build } from '../index'
 
@@ -25,19 +26,21 @@ const getMetadata = () => {
   }
 }
 
-const extractURLSearchParams = search =>
-  fromPairs(
-    Array.from(
-      new URLSearchParams(search).entries()
-    )
+const extractURLSearchParams = (search: any) => fromPairs(
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
+  Array.from(
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'URLSear... Remove this comment to see the full error message
+    new URLSearchParams(search).entries()
   )
+)
 
 export default class Metadata {
+  options: any;
   constructor(options={}) {
     this.options = options
   }
 
-  handle(context, event) {
+  handle(context: any, event: any) {
     if (event === 'prepare') {
       // Extract URL parameters from location string
       const urlParams = extractURLSearchParams(

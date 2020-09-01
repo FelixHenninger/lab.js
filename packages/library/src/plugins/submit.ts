@@ -1,5 +1,5 @@
 export default class Submit {
-  handle(context, event) {
+  handle(context: any, event: any) {
     if (event === 'after:end' && context.options.datastore) {
       const form = document.querySelector('form[name="labjs-data"]')
 
@@ -14,6 +14,7 @@ export default class Submit {
         transfer.items.add(
           new File([context.options.datastore.exportCsv()], 'data.csv')
         )
+        // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
         form.elements['dataFile'].files = transfer.files
       } catch (error) {
         console.log(
@@ -21,9 +22,11 @@ export default class Submit {
           'falling back to direkt insertion. ' +
           'Error was', error
         )
+        // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
         form.elements['dataRaw'].value = context.options.datastore.exportCsv()
       }
 
+      // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
       form.submit()
     }
   }

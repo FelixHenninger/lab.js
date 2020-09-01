@@ -1,5 +1,6 @@
 // Karma configuration
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'customLaun... Remove this comment to see the full error message
 const customLaunchers = {
   sl_ie_11: {
     base: 'SauceLabs',
@@ -9,7 +10,7 @@ const customLaunchers = {
   },
 }
 
-module.exports = (config) => {
+module.exports = (config: any) => {
   config.set({
     // Root / base path
     basePath: '../../',
@@ -57,8 +58,8 @@ module.exports = (config) => {
           'transform-object-rest-spread',
         ],
       },
-      filename: file => file.originalPath.replace(/\.js$/, '.es5.js'),
-      sourceFileName: file => file.originalPath,
+      filename: (file: any) => file.originalPath.replace(/\.js$/, '.es5.js'),
+      sourceFileName: (file: any) => file.originalPath,
     },
 
     // Test results reporter to use

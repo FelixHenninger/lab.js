@@ -1,6 +1,6 @@
 // Karma configuration
 
-module.exports = (config) => {
+module.exports = (config: any) => {
   config.set({
     // Root / base path
     basePath: '../../../../',

@@ -4,6 +4,7 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 const TerserPlugin = require('terser-webpack-plugin')
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'shell'.
 const shell = require('shelljs')
 
 // Minify code
@@ -18,11 +19,12 @@ const reservedTerms = [
   'Random', 'fromObject',
 ]
 
-module.exports = (env, argv) => {
+module.exports = (env: any, argv: any) => {
   const mode = argv.mode
   const target = process.env.NODE_ENV || mode
 
   // Set output file name
+  // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
   const outputFilename = {
     'coverage': 'lab.coverage.js',
     'development': 'lab.dev.js',
@@ -87,8 +89,10 @@ module.exports = (env, argv) => {
     }
   }
 
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'includes' does not exist on type 'string... Remove this comment to see the full error message
   const babelOptions = Object.keys(babelPresets).includes(target)
-    ? babelPresets[target]
+    ? // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      babelPresets[target]
     : babelPresets.default
 
   const config = {
@@ -131,7 +135,9 @@ module.exports = (env, argv) => {
   // Optimize/minimize output
   // by including the corresponding plugins
   if (mode !== 'development') {
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'optimization' does not exist on type '{ ... Remove this comment to see the full error message
     config.optimization = config.optimization || {}
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'optimization' does not exist on type '{ ... Remove this comment to see the full error message
     config.optimization.minimizer = [
       new TerserPlugin({
         sourceMap: true,

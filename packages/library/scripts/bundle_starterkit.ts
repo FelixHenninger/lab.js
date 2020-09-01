@@ -1,3 +1,4 @@
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'shell'.
 const shell = require('shelljs')
 
 // Copy files ------------------------------------------------------------------
@@ -17,11 +18,13 @@ shell.cp('-R', 'src/starterkit/lib/loading.svg', 'dist/labjs-starterkit/lib')
 // (TODO: Think about doing this directly from the source files)
 const JSZip = require('jszip')
 const fs = require('fs')
+// @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'zip'.
 zip = new JSZip()
 
 shell.ls('-R', 'dist/labjs-starterkit/**/*')
-  .filter(filename => filename.startsWith('dist/labjs-starterkit'))
-  .forEach(filename => {
+  .filter((filename: any) => filename.startsWith('dist/labjs-starterkit'))
+  .forEach((filename: any) => {
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'zip'.
     zip.file(
       filename.replace(/^dist\/labjs-starterkit\//, ''),
       fs.readFileSync(filename)
@@ -29,6 +32,7 @@ shell.ls('-R', 'dist/labjs-starterkit/**/*')
   })
 
 // Compress and output bundle file
+// @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'zip'.
 zip
   .generateNodeStream({
     compression: 'DEFLATE', compressionOptions: { level: 9 },

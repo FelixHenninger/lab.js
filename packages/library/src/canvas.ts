@@ -1,4 +1,5 @@
 // Canvas-based displays for lab.js
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import { isObject } from 'lodash'
 
 import { Component } from './core'
@@ -17,7 +18,7 @@ import { makeRenderFunction, makePathFunction,
 // (code is clean, but not necessarily as elegant
 // as possible)
 
-const addCanvasDefaults = function addCanvasDefaults(options) {
+const addCanvasDefaults = function addCanvasDefaults(options: any) {
   // Setup canvas handling:
   // By default, the component does not
   // come bundled with a canvas. Instead,
@@ -48,31 +49,39 @@ const addCanvasDefaults = function addCanvasDefaults(options) {
 const prepareCanvas = function prepareCanvas() {
   // Initialize a canvas,
   // if this has not already been done
+  // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
   if (this.options.canvas === null) {
+    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
     this.options.canvas = document.createElement('canvas')
     // Remember to add the canvas to the DOM later
+    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
     this.options.insertCanvasOnRun = true
   }
 
   // Setup resolution scaling
+  // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
   if (this.options.devicePixelScaling === null) {
+    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
     this.options.devicePixelScaling = true
   }
 }
 
 const insertCanvas = function insertCanvas(
   clearElement=true,
-  wrapper
+  wrapper: any
 ) {
   // Add the canvas to the DOM if need be
+  // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
   if (this.options.insertCanvasOnRun) {
     // Calculate scaling factor necessary for full resolution rendering
+    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
     const pixelRatio = this.options.devicePixelScaling
       ? window.devicePixelRatio
       : 1
 
     // Styles are calculated relative to the canvas'
     // parent element
+    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
     wrapper = wrapper || this.options.el
 
     // Remove all other content within the HTML tag
@@ -98,18 +107,24 @@ const insertCanvas = function insertCanvas(
 
     // Adjust the (internal) canvas dimensions
     // to match the physical screen pixels
+    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
     this.options.canvas.width = width * pixelRatio
+    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
     this.options.canvas.height = height * pixelRatio
 
     // Display as block so that dimensions apply exactly
+    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
     this.options.canvas.style.display = 'block'
 
     // Set the canvas element dimensions to match the available space
+    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
     this.options.canvas.style.width = `${ width }px`
+    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
     this.options.canvas.style.height = `${ height }px`
 
     // Append the canvas to the DOM
     if (clearElement) {
+      // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
       wrapper.appendChild(this.options.canvas)
     }
   }
@@ -118,29 +133,31 @@ const insertCanvas = function insertCanvas(
 // Canvas-based components -----------------------------------------------------
 
 export class Screen extends Component {
-static metadata = {
-    module: ['canvas'],
-    nestedComponents: [],
-    parsableOptions: {
-        content: {
-            type: 'array',
-            content: {
-                type: 'object',
-                content: {
-                    text: {},
-                    fill: {},
-                    stroke: {},
-                    left: { type: 'number' },
-                    top: { type: 'number' },
-                    width: { type: 'number' },
-                    height: { type: 'number' },
-                    angle: { type: 'number' },
-                    src: {},
-                },
-            },
-        },
-    },
-};
+  static metadata = {
+      module: ['canvas'],
+      nestedComponents: [],
+      parsableOptions: {
+          content: {
+              type: 'array',
+              content: {
+                  type: 'object',
+                  content: {
+                      text: {},
+                      fill: {},
+                      stroke: {},
+                      left: { type: 'number' },
+                      top: { type: 'number' },
+                      width: { type: 'number' },
+                      height: { type: 'number' },
+                      angle: { type: 'number' },
+                      src: {},
+                  },
+              },
+          },
+      },
+  };
+
+  options: any;
 
   constructor(options={}) {
     super({
@@ -161,8 +178,8 @@ static metadata = {
   onPrepare() {
     // Add images to cached media
     (this.options.content || [])
-      .filter(c => isObject(c) && c.type === 'image' && c.src)
-      .forEach(c => this.options.media.images.push(c.src))
+      .filter((c: any) => isObject(c) && c.type === 'image' && c.src)
+      .forEach((c: any) => this.options.media.images.push(c.src))
 
     prepareCanvas.apply(this)
 
@@ -175,6 +192,7 @@ static metadata = {
     // screen canvas, and also add a check to determine
     // whether the event coordinates fall into the AOI region.
     this.internals.domConnection.processEvent =
+      // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'eventName' implicitly has an 'any... Remove this comment to see the full error message
       ([eventName, filters, selector]) => {
         // TODO: Split multiple selectors
         if (selector && selector.startsWith('@')) {
@@ -188,13 +206,13 @@ static metadata = {
             eventName, filters,
             selector: 'canvas',
             moreChecks: [
-              e => this.options.ctx.isPointInPath(
+              (e: any) => this.options.ctx.isPointInPath(
                 this.internals.paths[selector.slice(1)],
                 e.offsetX * pixelRatio,
                 e.offsetY * pixelRatio
               )
             ]
-          }
+          };
         } else {
           // Return unmodified event, following default behavior
           return { eventName, filters, selector }
@@ -214,7 +232,7 @@ static metadata = {
         makeRenderFunction(
           // Exclude AOIs, and perform at least a rudimentary check
           (this.options.content || [])
-            .filter(c => isObject(c) && c.type !== 'aoi'),
+            .filter((c: any) => isObject(c) && c.type !== 'aoi'),
           this.internals.controller.cache,
         )
     }
@@ -222,6 +240,7 @@ static metadata = {
 
   onRun() {
     // Add canvas to the dom, if necessary
+    // @ts-expect-error ts-migrate(2684) FIXME: The 'this' context of type '(clearElement: boolean... Remove this comment to see the full error message
     insertCanvas.apply(this)
 
     // Extract the requested context for the canvas
@@ -247,7 +266,7 @@ static metadata = {
     this.options.ctx.setTransform(...this.internals.transformationMatrix)
   }
 
-  onRender(timestamp) {
+  onRender(timestamp: any) {
     // Clear canvas if requested
     // TODO: This should check if the canvas is fresh,
     // and not run if it isn't necessary
@@ -328,7 +347,7 @@ static metadata = {
     this.options.ctx.restore()
   }
 
-  transform(coordinates) {
+  transform(coordinates: any) {
     if (!this.internals.transformationMatrix) {
       throw new Error('No transformation matrix set')
     }
@@ -336,7 +355,7 @@ static metadata = {
     return transform(this.internals.transformationMatrix, coordinates)
   }
 
-  transformInverse(coordinates, fromOffset=false) {
+  transformInverse(coordinates: any, fromOffset=false) {
     // Translate from the browser coordinate system back into canvas
     // coordinates. Use either the page origin (with fromOffset=false),
     // or the canvas origin (with fromOffset=true).
@@ -367,17 +386,23 @@ static metadata = {
     return transform(inverseTransformationMatrix, coordinates)
   }
 
-  transformCanvasEvent({ offsetX, offsetY }) {
+  transformCanvasEvent({
+    offsetX,
+    offsetY
+  }: any) {
     // Translate local event coordinates to canvas coordinate system
     return this.transformInverse([ offsetX, offsetY ], true)
   }
 }
 
+// @ts-expect-error ts-migrate(2417) FIXME: Property 'parsableOptions' is missing in type '{ m... Remove this comment to see the full error message
 export class Frame extends BaseFrame {
-static metadata = {
-    module: ['canvas'],
-    nestedComponents: ['content'],
-};
+  static metadata = {
+      module: ['canvas'],
+      nestedComponents: ['content'],
+  };
+
+  options: any;
 
   constructor(options={}) {
     super(addCanvasDefaults({
@@ -391,11 +416,12 @@ static metadata = {
     }
   }
 
+  // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
   async onPrepare() {
     // Check that all nested components
     // are either flow components or
     // that they use the canvas
-    const isFlowOrCanvasBased = (acc, c) =>
+    const isFlowOrCanvasBased = (acc: any, c: any) =>
       acc && (
         c === this ||
         c instanceof Screen ||
@@ -461,11 +487,13 @@ static metadata = {
   // of duplicated code from html.Frame that might be
   // worth refactoring. For example, this might call
   // super.onRun and pass insertCanvas as a fallback.
-  async onRun(frameTimestamp, frameSynced) {
+  // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
+  async onRun(frameTimestamp: any, frameSynced: any) {
     // Clear element content, and insert context
     this.options.el.innerHTML = ''
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
     Array.from(this.internals.parsedContext.body.children)
-      .forEach(c => this.options.el.appendChild(c))
+      .forEach((c: any) => this.options.el.appendChild(c))
 
     // Insert canvas
     // (this is the only change compared to html.Frame)

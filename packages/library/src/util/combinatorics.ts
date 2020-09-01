@@ -1,4 +1,5 @@
 // Cartesian product of sets
+// @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'sets' implicitly has an 'any[]' ty... Remove this comment to see the full error message
 export const product = function* (...sets) {
   // Compute number of combinations to be had
   // from any set and all others to its right
@@ -8,6 +9,7 @@ export const product = function* (...sets) {
     .reverse() // ... compute the backwards cumulative product
     .reduce(
       (acc, current, i) => acc.concat([
+        // @ts-expect-error ts-migrate(2769) FIXME: Type 'number' is not assignable to type 'never'.
         (acc[i - 1] || 1) * current,
       ]), [],
     )

@@ -1,3 +1,4 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import { isFunction } from 'lodash'
 import PluginAPI from '../plugins/api'
 
@@ -6,6 +7,9 @@ import PluginAPI from '../plugins/api'
 // provides a basic framework for this, in that is
 // allows for custom events on an object.
 export class EventHandler {
+  internals: any;
+  plugins: any;
+  type: any;
   constructor(options={}) {
     // Internal storage for whatever,
     // not supposed to be accessed by end-users
@@ -23,14 +27,14 @@ export class EventHandler {
 
     // Add plugin support
     this.plugins = new PluginAPI(this)
-    this.internals.rawOptions.plugins.map(p => this.plugins.add(p))
+    this.internals.rawOptions.plugins.map((p: any) => this.plugins.add(p))
   }
 
   // Basic event handling
   // This is modelled after the component emitter,
   // see https://github.com/component/emitter.git
   // Any mistakes, of course, are entirely my own.
-  on(event, fn) {
+  on(event: any, fn: any) {
     // Setup displayName for easier debugging
     fn.displayName = fn.displayName ||
       `${ event } handler on ${ this.internals.rawOptions.title }`
@@ -41,7 +45,7 @@ export class EventHandler {
     return this
   }
 
-  off(event, fn=null) {
+  off(event: any, fn=null) {
     if (fn === null) {
       // If there is no specific handler specified,
       // remove all handlers for an event
@@ -50,17 +54,20 @@ export class EventHandler {
       // If a specific handler is given, search for
       // it and remove just this one handler
       this.internals.callbacks[`$${ event }`] =
-        this.internals.callbacks[`$${ event }`].filter(cb => cb !== fn)
+        this.internals.callbacks[`$${ event }`].filter((cb: any) => cb !== fn)
     }
     return this
   }
 
-  once(event, fn) {
+  once(event: any, fn: any) {
     // Create a handler for the event that will
     // remove itself, then trigger the supplied
     // function.
+    // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'args' implicitly has an 'any[]' ty... Remove this comment to see the full error message
     function onceHandler(...args) {
+      // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
       this.off(event, onceHandler)
+      // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
       return fn.apply(this, args)
     }
 
@@ -72,28 +79,31 @@ export class EventHandler {
     return this
   }
 
-  waitFor(event) {
+  waitFor(event: any) {
     // Return a promise that resolves when
     // the event in question is triggered
+    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
     return new Promise(
-      resolve => this.on(event, resolve),
-    )
+      (resolve: any) => this.on(event, resolve),
+    );
   }
 
   // Trigger handling
   // This is heavily inspired by the excellent backbone.marionette, see
   // http://marionettejs.com/annotated-src/backbone.marionette.html#section-96
   // (though I do not catch as many special cases, probably to my peril)
-  async trigger(event, ...args) {
+  // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'args' implicitly has an 'any[]' ty... Remove this comment to see the full error message
+  async trigger(event: any, ...args) {
     // Trigger all callbacks for a specific event,
     // within the context of the current object
     const callbacks = this.internals.callbacks[`$${ event }`]
     if (callbacks) {
       try {
         // Go through all callbacks
+        // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
         await Promise.all(
           callbacks.map(
-            c => c.apply(this, args),
+            (c: any) => c.apply(this, args),
           ),
         )
       } catch(e) {
@@ -115,7 +125,8 @@ export class EventHandler {
     return this
   }
 
-  async triggerMethod(event, ...args) {
+  // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'args' implicitly has an 'any[]' ty... Remove this comment to see the full error message
+  async triggerMethod(event: any, ...args) {
     if (this.internals.rawOptions.debug) {
       // Tell the world what we're up to
       console.info(
@@ -140,13 +151,14 @@ export class EventHandler {
     // for example:
     // run -> onRun
     // before:prepare -> onBeforePrepare
-    function getEventName(match, prefix, eventName) {
+    function getEventName(match: any, prefix: any, eventName: any) {
       return eventName.toUpperCase()
     }
     const methodName = `on${ event.replace(splitter, getEventName) }`
 
     // If there is a method called methodName,
     // run it and save the results
+    // @ts-expect-error ts-migrate(7053) FIXME: No index signature with a parameter of type 'strin... Remove this comment to see the full error message
     const method = this[methodName]
     let result
     if (isFunction(method)) {

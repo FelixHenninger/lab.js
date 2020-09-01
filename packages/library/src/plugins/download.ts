@@ -1,17 +1,23 @@
-const unloadHandler = (e) => {
+const unloadHandler = (e: any) => {
   const warning = 'Are you sure you want to close this window?'
   e.returnValue = warning
   return warning
 }
 
 export default class Download {
-  constructor({ filePrefix, fileType }={}) {
+  el: any;
+  filePrefix: any;
+  fileType: any;
+  constructor({
+    filePrefix,
+    fileType
+  }: any={}) {
     this.el = null
     this.filePrefix = filePrefix || 'study'
     this.fileType = fileType || 'csv'
   }
 
-  handle(context, event) {
+  handle(context: any, event: any) {
     if (event === 'end' && context.options.datastore) {
       // Make sure the window isn't accidentally closed
       window.addEventListener('beforeunload', unloadHandler)

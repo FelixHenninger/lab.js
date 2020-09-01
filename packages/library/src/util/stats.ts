@@ -6,20 +6,17 @@
 // against obvious errors, for example if only
 // numbers are passed in (as multiple arguments).
 
-export const sum = a =>
-  a.reduce((x, y) => x + y)
+export const sum = (a: any) => a.reduce((x: any, y: any) => x + y)
 
-export const mean = a =>
-  sum(a) / a.length
+export const mean = (a: any) => sum(a) / a.length
 
-export const variance = (a) => {
+export const variance = (a: any) => {
   // The variance is the mean
   // of the sum of squares
   const m = mean(a)
   return mean(
-    a.map(x => (x - m)**2)
-  )
+    a.map((x: any) => (x - m)**2)
+  );
 }
 
-export const std = a =>
-  Math.sqrt(variance(a))
+export const std = (a: any) => Math.sqrt(variance(a))

@@ -5,12 +5,13 @@ import { requestIdleCallback } from '../../timing'
 
 // Wrap context.decodeAudioData in a callback,
 // because Safari doesn't (as of now) support the promise-based variant
-const decodeAudioData = (context, buffer) =>
-  new Promise((resolve, reject) => {
+const decodeAudioData = (context: any, buffer: any) =>
+  // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
+  new Promise((resolve: any, reject: any) => {
     context.decodeAudioData(buffer, resolve, reject)
   })
 
-export const load = async (url, context, fetchOptions) => {
+export const load = async (url: any, context: any, fetchOptions: any) => {
   const response = await fetch(url, fetchOptions)
 
   if (response.ok) {
@@ -29,11 +30,11 @@ export const load = async (url, context, fetchOptions) => {
   }
 }
 
-const createNode = (type, context, options={}, audioParams={}) => {
+const createNode = (type: any, context: any, options={}, audioParams={}) => {
   // This provides a light wrapper around the context
   // audio node creation methods, as a stopgap until
   // all browsers support node constructor functions.
-  let node
+  let node: any
 
   // Generate node from context
   switch (type) {
@@ -48,17 +49,21 @@ const createNode = (type, context, options={}, audioParams={}) => {
   }
 
   // Apply settings
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'ObjectC... Remove this comment to see the full error message
   Object.entries(options).forEach(
+    // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'setting' implicitly has an 'any' ... Remove this comment to see the full error message
     ([setting, value]) => { if (value) node[setting] = value }
   )
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'ObjectC... Remove this comment to see the full error message
   Object.entries(audioParams).forEach(
+    // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'setting' implicitly has an 'any' ... Remove this comment to see the full error message
     ([setting, value]) => { if (value) node[setting].value = value }
   )
 
   return node
 }
 
-const connectNodeChain = (source, chain, destination) =>
+const connectNodeChain = (source: any, chain: any, destination: any) =>
   [source, ...chain, destination].reduce((prev, next) => {
     // This code is necessary to fix a bug in older implementations
     // of the web audio API, where node.connect(destination) does
@@ -71,17 +76,25 @@ const connectNodeChain = (source, chain, destination) =>
 // Timeline items --------------------------------------------------------------
 
 class AudioNodeItem {
+  audioSyncOrigin: any;
+  nodeOrder: any;
+  options: any;
+  payload: any;
+  processingChain: any;
+  source: any;
+  timeline: any;
   defaultPayload = {
     panningModel: 'equalpower',
   }
 
-  constructor(timeline, options={}, payload={}) {
+  constructor(timeline: any, options={}, payload={}) {
     this.timeline = timeline
     this.options = options
     this.payload = {
       ...this.defaultPayload,
       ...payload,
       // Only override gain if it is truly undefined (zero values are ok)
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'gain' does not exist on type '{}'.
       gain: payload.gain ?? 1,
     }
     this.processingChain = []
@@ -95,7 +108,7 @@ class AudioNodeItem {
     this.audioSyncOrigin = audioSync(this.timeline.controller.audioContext)
   }
 
-  schedule(t) {
+  schedule(t: any) {
     return toContextTime(t, this.audioSyncOrigin)
   }
 
@@ -133,7 +146,7 @@ class AudioNodeItem {
     )
   }
 
-  start(offset) {
+  start(offset: any) {
     const { start } = this.options
     const { rampUp } = this.payload
 
@@ -164,7 +177,7 @@ class AudioNodeItem {
     this.source.start(startTime)
   }
 
-  afterStart(offset) {
+  afterStart(offset: any) {
     const { stop } = this.options
     const { rampDown } = this.payload
 
@@ -187,7 +200,7 @@ class AudioNodeItem {
     }
   }
 
-  end(t, force) {
+  end(t: any, force: any) {
     const endNow = force || !this.options.stop
     const endTime = endNow ? t : this.timeline.offset + this.options.stop
 
@@ -208,13 +221,16 @@ class AudioNodeItem {
     this.source.disconnect()
     this.source = undefined
 
-    this.processingChain.forEach(n => n.disconnect())
+    this.processingChain.forEach((n: any) => n.disconnect())
     this.processingChain = []
     this.nodeOrder = {}
   }
 }
 
 export class BufferSourceItem extends AudioNodeItem {
+  payload: any;
+  source: any;
+  timeline: any;
   async prepare() {
     // Populate buffer from cache, if possible
     const { cache, audioContext } = this.timeline.controller
@@ -227,6 +243,9 @@ export class BufferSourceItem extends AudioNodeItem {
 }
 
 export class OscillatorItem extends AudioNodeItem {
+  payload: any;
+  source: any;
+  timeline: any;
   prepare() {
     const { type, frequency, detune } = this.payload
 

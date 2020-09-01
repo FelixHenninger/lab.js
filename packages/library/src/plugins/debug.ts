@@ -1,3 +1,4 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import { isPlainObject } from 'lodash'
 
 const payload = `<style type="text/css">
@@ -107,12 +108,12 @@ const payload = `<style type="text/css">
   </div>
 </div>`
 
-const makeMessage = msg => `
+const makeMessage = (msg: any) => `
   <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center;">
     ${ msg }
   </div>`
 
-const truncate = (s) => {
+const truncate = (s: any) => {
   // Restrict string length
   const output = s.length > 80
     ? `<div class="labjs-debug-trunc">${ s.substr(0, 100) }</div>`
@@ -120,10 +121,10 @@ const truncate = (s) => {
 
   // Insert invisible space after commas,
   // allowing for line breaks
-  return output.replace(/,/g, ',&#8203;')
+  return output.replace(/,/g, ',&#8203;');
 }
 
-const parseCell = (contents) => {
+const parseCell = (contents: any) => {
   switch (typeof contents) {
     case 'number':
       if (contents > 150) {
@@ -144,22 +145,21 @@ const parseCell = (contents) => {
   }
 }
 
-const formatCell = c =>
-  `<td>${ parseCell(c) }</td>`
+const formatCell = (c: any) => `<td>${ parseCell(c) }</td>`
 
-const renderStore = (datastore) => {
+const renderStore = (datastore: any) => {
   // Export keys including state
   const keys = datastore.keys(true)
 
   // Render header row
-  const header = keys.map(k => `<th>${ k }</th>`)
+  const header = keys.map((k: any) => `<th>${ k }</th>`)
 
   // Render state and store
-  const state = keys.map(k => formatCell(datastore.state[k]))
+  const state = keys.map((k: any) => formatCell(datastore.state[k]))
   const store = datastore.data
     .slice().reverse() // copy before reversing in place
     .map(
-      row => `<tr> ${ keys.map(k => formatCell(row[k])).join('') } </tr>`,
+      (row: any) => `<tr> ${ keys.map((k: any) => formatCell(row[k])).join('') } </tr>`,
     )
 
   // Export table
@@ -173,11 +173,15 @@ const renderStore = (datastore) => {
 }
 
 export default class Debug {
+  container: any;
+  context: any;
+  filePrefix: any;
+  isVisible: any;
   constructor({ filePrefix='study' }={}) {
     this.filePrefix = filePrefix
   }
 
-  handle(context, event) {
+  handle(context: any, event: any) {
     switch (event) {
       case 'plugin:init':
         return this.onInit(context)
@@ -188,7 +192,7 @@ export default class Debug {
     }
   }
 
-  onInit(context) {
+  onInit(context: any) {
     // Prepare internal state
     this.isVisible = false
     this.context = context
@@ -199,9 +203,10 @@ export default class Debug {
     this.container.innerHTML = payload
 
     // Toggle visibility of debug window on clicks
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
     Array.from(this.container.querySelectorAll('.labjs-debug-toggle'))
       .forEach(
-        e => e.addEventListener('click', () => this.toggle()),
+        (e: any) => e.addEventListener('click', () => this.toggle()),
       )
 
     this.container
@@ -215,7 +220,7 @@ export default class Debug {
       .querySelector('.labjs-debug-data-download')
       .addEventListener(
         'click',
-        (e) => {
+        (e: any) => {
           e.preventDefault()
           if (this.context.options.datastore) {
             this.context.options.datastore.download(

@@ -1,4 +1,6 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import { clamp, range, isFunction, pick, flatten, omit, merge  } from 'lodash'
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/seedrandom` if it exists o... Remove this comment to see the full error message
 import alea from 'seedrandom/lib/alea'
 
 import { maxRepSeries, minRepDistance } from './constraints'
@@ -12,6 +14,7 @@ export const uuid4 = (random=Math.random) =>
   // tations, but this one is the clearest)
   '00000000-0000-4000-8000-000000000000'.replace(
     /[08]/g,
+    // @ts-expect-error ts-migrate(2362) FIXME: The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
     // eslint-disable-next-line no-bitwise
     v => (v ^ (random() * 16 >> v / 4)).toString(16),
   )
@@ -23,16 +26,21 @@ export const uuid4 = (random=Math.random) =>
 export const autoSeed = (width=256) => {
   // Create and fill an array of random integers
   const output = new Uint8Array(width);
+  // @ts-expect-error ts-migrate(2551) FIXME: Property 'msCrypto' does not exist on type 'Window... Remove this comment to see the full error message
   (window.crypto || window.msCrypto).getRandomValues(output)
 
   // Output as string of (UTF-16) characters
+  // @ts-expect-error ts-migrate(2345) FIXME: Type 'Uint8Array' is missing the following propert... Remove this comment to see the full error message
   return String.fromCharCode.apply(null, output)
 }
 
 export class Random {
+  random: any;
   constructor(options={}) {
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'algorithm' does not exist on type '{}'.
     if (options.algorithm === 'alea') {
       // Generate a PRNG using the alea algorithm
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'seed' does not exist on type '{}'.
       this.random = alea(options.seed || autoSeed())
     } else {
       // Fallback to the built-in random generator
@@ -43,24 +51,26 @@ export class Random {
   // Random integer within a specified range
   // (for a single value, the return value will be between 0 and max - 1,
   // for two input values, between min and max - 1)
-  range(a, b=undefined) {
+  range(a: any, b=undefined) {
     // eslint-disable-next-line no-multi-spaces
     const min   = b === undefined ? 0 : a
+    // @ts-expect-error ts-migrate(2532) FIXME: Object is possibly 'undefined'.
     const range = b === undefined ? a : b - a
 
     return min + Math.floor(this.random() * range)
   }
 
   // Draw a random element from an array
-  choice(array) {
+  choice(array: any) {
     return array[this.range(array.length)]
   }
 
   // Sample multiple random elements from an array,
   // with or without replacement
-  sample(array, n=1, replace=false) {
+  sample(array: any, n=1, replace=false) {
     if (replace) {
       // Draw independent samples
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'fill' does not exist on type 'any[]'.
       return Array(n).fill(0).map(() => this.choice(array))
     } else {
       // Draw without replacement
@@ -69,7 +79,7 @@ export class Random {
     }
   }
 
-  sampleMode(array, samples, mode='draw-shuffle') {
+  sampleMode(array: any, samples: any, mode='draw-shuffle') {
     if (!(Array.isArray(array) && array.length > 0)) {
       throw new Error("Can't sample: Empty input, or not an array")
     }
@@ -83,17 +93,17 @@ export class Random {
         return [
           // Repeat the array
           ...range(repetitions).reduce(
-            a => a.concat(array), []
+            (a: any) => a.concat(array), []
           ),
           // Append remainder
           ...array.slice(0, remainder),
-        ]
+        ];
       case 'draw':
       case 'draw-shuffle':
         const output = [
           // Repeat the array
           ...range(repetitions).reduce(
-            a => a.concat(this.shuffle(array)), []
+            (a: any) => a.concat(this.shuffle(array)), []
           ),
           // Append remainder
           ...this.sample(array, remainder, false),
@@ -112,7 +122,7 @@ export class Random {
   }
 
   // Shuffle an array randomly
-  shuffle(a) {
+  shuffle(a: any) {
     // Copy the input array first
     const array = a.slice()
 
@@ -139,22 +149,27 @@ export class Random {
     return array
   }
 
-  constrainedShuffle(a, constraints={}, helpers={}, maxIterations=10**4) {
+  constrainedShuffle(a: any, constraints={}, helpers={}, maxIterations=10**4) {
     // Generate constraint function, if necessary
     let constraintChecker
     if (isFunction(constraints)) {
       constraintChecker = constraints
     } else {
-      const checks = []
+      const checks: any = []
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'maxRepSeries' does not exist on type '{}... Remove this comment to see the full error message
       if (constraints.maxRepSeries) {
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'maxRepSeries' does not exist on type '{}... Remove this comment to see the full error message
         checks.push(maxRepSeries(constraints.maxRepSeries, helpers.equality))
       }
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'minRepDistance' does not exist on type '... Remove this comment to see the full error message
       if (constraints.minRepDistance) {
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'minRepDistance' does not exist on type '... Remove this comment to see the full error message
         checks.push(minRepDistance(constraints.minRepDistance, helpers.hash))
       }
 
       // Combine constraints into checker function
-      constraintChecker = (arr) => checks.reduce(
+      constraintChecker = (arr: any) => checks.reduce(
+        // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'accumulator' implicitly has an 'any' ty... Remove this comment to see the full error message
         (accumulator, check) => accumulator && check(arr),
         true // start with true
       )
@@ -165,6 +180,7 @@ export class Random {
     let candidate
     for (let i = 0; i < maxIterations; i++) {
       candidate = this.shuffle(a)
+      // @ts-expect-error ts-migrate(2349) FIXME: Type '{}' has no call signatures.
       if (constraintChecker(candidate)) break
     }
     return candidate
@@ -172,15 +188,15 @@ export class Random {
 
   // Given an array of objects, shuffle groups
   // of keys independently.
-  shuffleTable(data, groups=[], shuffleUngrouped=true) {
+  shuffleTable(data: any, groups=[], shuffleUngrouped=true) {
     // Split data into independent groups
     const groupedData = groups.map(
-      columns => data.map(entry => pick(entry, columns))
+      columns => data.map((entry: any) => pick(entry, columns))
     )
 
     // Collect remaining entries
     const groupedColumns = flatten(groups)
-    const remainingData = data.map(entry => omit(entry, groupedColumns))
+    const remainingData = data.map((entry: any) => omit(entry, groupedColumns))
 
     // Shuffle and merge data
     // (moving things into a temporary key,

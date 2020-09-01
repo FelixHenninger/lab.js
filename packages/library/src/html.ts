@@ -14,7 +14,7 @@ static metadata = {
     },
 };
 
-  constructor(options) {
+  constructor(options: any) {
     super({
       content: null,
       contentUrl: null,
@@ -23,6 +23,7 @@ static metadata = {
   }
 
   onBeforePrepare() {
+    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
     return Promise.resolve().then(() => {
       // Fetch content from URL, if one is given
       if (this.options.contentUrl) {
@@ -46,6 +47,7 @@ static metadata = {
 }
 
 // An html.Form can show, validate and serialize a form
+// @ts-expect-error ts-migrate(2417) FIXME: Property 'parsableOptions' is missing in type '{ m... Remove this comment to see the full error message
 export class Form extends Screen {
 static metadata = {
     module: ['html'],
@@ -68,7 +70,7 @@ static metadata = {
     // but it will help push users toward standard-conformant
     // behavior so that the polyfill can be removed safely
     // at some point in the future.
-    this.options.events['click button[type="submit"]'] = (e) => {
+    this.options.events['click button[type="submit"]'] = (e: any) => {
       // If the button references another form...
       if (e.target.getAttribute('form')) {
         // ... find it and ...
@@ -98,7 +100,7 @@ static metadata = {
     }
 
     // Capture form submissions
-    this.options.events['submit form'] = e => this.submit(e)
+    this.options.events['submit form'] = (e: any) => this.submit(e)
   }
 
   onRun() {
@@ -113,7 +115,9 @@ static metadata = {
 
   submit(e=null) {
     // Suppress default form behavior
+    // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
     if (e && e.preventDefault) {
+      // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
       e.preventDefault()
     }
 
@@ -122,12 +126,14 @@ static metadata = {
     if (this.validate()) {
       // Add serialized form data to
       // the element's dataset
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
       Object.assign(
         this.data,
         this.serialize(),
       )
 
       // Bye!
+      // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"form submission"' is not assign... Remove this comment to see the full error message
       this.end('form submission')
     } else {
       // Mark form(s) as validated, but leave
@@ -135,8 +141,9 @@ static metadata = {
       // (an array conversion is needed here for IE
       // and older browsers, who do not implement
       // forEach on NodeLists)
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
       Array.from(this.options.el.querySelectorAll('form'))
-        .forEach(f => f.setAttribute('data-labjs-validated', ''))
+        .forEach((f: any) => f.setAttribute('data-labjs-validated', ''))
     }
 
     // Prevent default form behavior
@@ -151,43 +158,52 @@ static metadata = {
     const output = {}
 
     // Iterate over forms ...
-    Array.from(forms).forEach((form) => {
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
+    Array.from(forms).forEach((form: any) => {
       // ... and elements within them
-      Array.from(form.elements).forEach((element) => {
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
+      Array.from(form.elements).forEach((element: any) => {
         // Handle the element differently depending
         // on the tag type
         switch (element.nodeName.toLowerCase()) {
           case 'input':
             switch (element.type) {
               case 'checkbox':
+                // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 output[element.name] = element.checked
                 break
               case 'radio':
                 if (element.checked) {
+                  // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                   output[element.name] = element.value
                 }
                 break
               // All other input types (e.g. text, hidden,
               // number, url, ... button, submit, reset)
               default:
+                // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 output[element.name] = element.value
                 break
             }
             break
           case 'textarea':
+            // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             output[element.name] = element.value
             break
           case 'select':
             switch (element.type) {
               case 'select-one':
+                // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 output[element.name] = element.value
                 break
               case 'select-multiple':
                 // Again, working around limitations of NodeLists
+                // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 output[element.name] =
+                  // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
                   Array.from(element.options)
-                    .filter(option => option.selected)
-                    .map(option => option.value)
+                    .filter((option: any) => option.selected)
+                    .map((option: any) => option.value)
                 break
               // no default
             }
@@ -208,7 +224,8 @@ static metadata = {
     const forms = this.options.el.querySelectorAll('form')
 
     return this.options.validator(this.serialize()) &&
-      Array.from(forms).every(form => form.checkValidity())
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
+      Array.from(forms).every((form: any) => form.checkValidity());
   }
 }
 
@@ -253,11 +270,12 @@ static metadata = {
     await prepareNested([this.options.content], this)
   }
 
-  async onRun(frameTimestamp, frameSynced) {
+  async onRun(frameTimestamp: any, frameSynced: any) {
     // Clear element content, and insert context
     this.options.el.innerHTML = ''
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
     Array.from(this.internals.parsedContext.body.children)
-      .forEach(c => this.options.el.appendChild(c))
+      .forEach((c: any) => this.options.el.appendChild(c))
 
     // Run nested content (synced to animation frame)
     await this.options.content.run(frameTimestamp, frameSynced)
@@ -279,6 +297,7 @@ static metadata = {
     } else {
       // If the content has already ended,
       // there is nothing left to do
+      // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
       return Promise.resolve()
     }
   }

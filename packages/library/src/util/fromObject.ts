@@ -1,16 +1,17 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import { isObject, cloneDeep } from 'lodash'
 
 // Retrieve an entry from a nested object
 // hierarchy, given a path
-const retrieveNested = (path, object) =>
+const retrieveNested = (path: any, object: any) =>
   path.reduce(
-    (subobject, subpath) => subobject[subpath],
+    (subobject: any, subpath: any) => subobject[subpath],
     object,
   )
 
 // Copy the options object before passing it into the
 // (recursive) function that does the actual work
-const fromObject = (options, libraryRoot) =>
+const fromObject = (options: any, libraryRoot: any) =>
   _fromObject(cloneDeep(options), libraryRoot)
 
 // Construct a component given only an
@@ -18,9 +19,10 @@ const fromObject = (options, libraryRoot) =>
 // (as would be passed to a regular object)
 // and a type field that specifies the
 // component type (e.g. 'lab.html.Screen')
-const _fromObject = (options, libraryRoot) => {
+const _fromObject = (options: any, libraryRoot: any) => {
   // If not explicitly specified, we assume that
   // the library is available as a global variable.
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'lab' does not exist on type 'Window & ty... Remove this comment to see the full error message
   const library = libraryRoot || window.lab
 
   if (library === undefined) {
@@ -33,12 +35,12 @@ const _fromObject = (options, libraryRoot) => {
   const constructor = retrieveNested(componentPath, library)
 
   // Parse any nested components
-  constructor.metadata.nestedComponents.forEach((o) => {
+  constructor.metadata.nestedComponents.forEach((o: any) => {
     // ... if the associated option exists ...
     if (options[o]) {
       if (Array.isArray(options[o])) {
         // ... and it is an array ...
-        options[o] = options[o].map(nested => fromObject(nested, library))
+        options[o] = options[o].map((nested: any) => fromObject(nested, library))
       } else if (isObject(options[o])) {
         // ... or an object ...
         options[o] = fromObject(options[o], library)
@@ -56,7 +58,7 @@ const _fromObject = (options, libraryRoot) => {
   // by a more general mechanism, but for now
   // there is no need for e.g. nested hierarchies)
   if (options.plugins) {
-    options.plugins = options.plugins.map((pluginOptions) => {
+    options.plugins = options.plugins.map((pluginOptions: any) => {
       try {
         // Load the plugin from either the path or the type
         // option (TODO: Consider deprecating one of these)

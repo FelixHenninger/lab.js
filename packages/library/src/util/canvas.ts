@@ -1,9 +1,10 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import { fromPairs } from 'lodash'
 import { toRadians } from './geometry'
 
 // Utilities -------------------------------------------------------------------
 
-const calcTransformationParameters = (canvasSize, viewportSize, opt={}) => {
+const calcTransformationParameters = (canvasSize: any, viewportSize: any, opt={}) => {
   const options = {
     translateOrigin: true,
     viewportScale: 'auto',
@@ -45,6 +46,7 @@ const calcTransformationParameters = (canvasSize, viewportSize, opt={}) => {
   // The total canvas scaling factor is determined
   // by the translation of viewport pixels to canvas
   // pixels, and then onto hardware pixels
+  // @ts-expect-error ts-migrate(2362) FIXME: The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
   const scale = viewportScale * pixelRatio
 
   return {
@@ -54,7 +56,7 @@ const calcTransformationParameters = (canvasSize, viewportSize, opt={}) => {
   }
 }
 
-export const makeTransform = (canvasSize, viewportSize, opt) => {
+export const makeTransform = (canvasSize: any, viewportSize: any, opt: any) => {
   const { translateX, translateY, scale } =
     calcTransformationParameters(canvasSize, viewportSize, opt)
 
@@ -67,7 +69,7 @@ export const makeTransform = (canvasSize, viewportSize, opt) => {
   ]
 }
 
-export const makeInverseTransform = (canvasSize, viewportSize, opt) => {
+export const makeInverseTransform = (canvasSize: any, viewportSize: any, opt: any) => {
   const { translateX, translateY, scale, viewportScale } =
     calcTransformationParameters(canvasSize, viewportSize, opt)
 
@@ -81,14 +83,19 @@ export const makeInverseTransform = (canvasSize, viewportSize, opt) => {
   // Translate from viewport coordinates
   // to the canvas coordinate system
   return [
+    // @ts-expect-error ts-migrate(2363) FIXME: The right-hand side of an arithmetic operation mus... Remove this comment to see the full error message
     1 / viewportScale, 0,
+    // @ts-expect-error ts-migrate(2363) FIXME: The right-hand side of an arithmetic operation mus... Remove this comment to see the full error message
     0, 1 / viewportScale,
+    // @ts-expect-error ts-migrate(2363) FIXME: The right-hand side of an arithmetic operation mus... Remove this comment to see the full error message
     (-translateX / scale) - (offsetLeft / viewportScale),
+    // @ts-expect-error ts-migrate(2363) FIXME: The right-hand side of an arithmetic operation mus... Remove this comment to see the full error message
     (-translateY / scale) - (offsetTop  / viewportScale),
   ]
 }
 
-export const transform = (matrix, [x, y]) =>
+// @ts-expect-error ts-migrate(7031) FIXME: Binding element 'x' implicitly has an 'any' type.
+export const transform = (matrix: any, [x, y]) =>
   // Hard-coded matrix multiplication for a 2x3
   // transformation matrix and a 2d coordinate vector
   [
@@ -98,7 +105,7 @@ export const transform = (matrix, [x, y]) =>
 
 // Generic render function -----------------------------------------------------
 
-const renderElement = (ctx, content, cache={}) => {
+const renderElement = (ctx: any, content: any, cache={}) => {
   ctx.save()
 
   // Clear existing paths
@@ -154,6 +161,7 @@ const renderElement = (ctx, content, cache={}) => {
       break
     case 'image':
       // Load image element from cache
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'images' does not exist on type '{}'.
       const img = cache.images.readSync(content.src)
 
       // Recalculate width and height
@@ -185,7 +193,7 @@ const renderElement = (ctx, content, cache={}) => {
       // along with the analogous stroke function below.
       content.text
         .split('\n')
-        .forEach((lineContent, i, lines) => {
+        .forEach((lineContent: any, i: any, lines: any) => {
           ctx.fillText(
             lineContent, 0,
             (i - ((lines.length - 1) * 0.5)) *
@@ -204,7 +212,7 @@ const renderElement = (ctx, content, cache={}) => {
     } else {
       content.text
         .split('\n')
-        .forEach((lineContent, i, lines) => {
+        .forEach((lineContent: any, i: any, lines: any) => {
           ctx.strokeText(
             lineContent, 0,
             (i - ((lines.length - 1) * 0.5)) *
@@ -218,8 +226,8 @@ const renderElement = (ctx, content, cache={}) => {
   ctx.restore()
 }
 
-export const makeRenderFunction = (content, cache) => (ts, canvas, ctx) =>
-  (content || []).forEach(c => renderElement(ctx, c, cache))
+export const makeRenderFunction = (content: any, cache: any) => (ts: any, canvas: any, ctx: any) =>
+  (content || []).forEach((c: any) => renderElement(ctx, c, cache))
 
 // Path handling ---------------------------------------------------------------
 
@@ -231,7 +239,7 @@ const MatrixReadOnly = window.DOMMatrixReadOnly !== undefined
       .createElementNS("http://www.w3.org/2000/svg", "svg")
       .createSVGMatrix()
 
-export const makePath = (ctx, content) => {
+export const makePath = (ctx: any, content: any) => {
   const rawPath = new Path2D()
 
   // Type-specific path extensions
@@ -258,9 +266,10 @@ export const makePath = (ctx, content) => {
   return translatedPath
 }
 
-export const makePathFunction = (content) => (ts, canvas, ctx) =>
+export const makePathFunction = (content: any) => (ts: any, canvas: any, ctx: any) =>
   fromPairs(
     content
-      .filter(c => c.label && ['aoi'].includes(c.type)) // Supported objects
-      .map(c => [c.label, makePath(ctx, c)]) // Make key / path pairs
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'includes' does not exist on type 'string... Remove this comment to see the full error message
+      .filter((c: any) => c.label && ['aoi'].includes(c.type)) // Supported objects
+      .map((c: any) => [c.label, makePath(ctx, c)]) // Make key / path pairs
   )

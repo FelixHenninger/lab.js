@@ -1,4 +1,4 @@
-export const maxRepSeries = (arr, equalityFunc=(x, y) => x === y) => {
+export const maxRepSeries = (arr: any, equalityFunc=(x: any, y: any) => x === y) => {
   // Given an array, compute the longest consecutive
   // sequence of identical elements
   if (arr.length === 0) return 0
@@ -33,7 +33,7 @@ export const maxRepSeries = (arr, equalityFunc=(x, y) => x === y) => {
   ]
 */
 
-export const minRepDistance = (arr, hashFunc=x => x) => {
+export const minRepDistance = (arr: any, hashFunc=(x: any) => x) => {
   // Given an array, compute the minimum distance
   // between two identical elements
   if (arr.length === 0) return undefined
@@ -45,13 +45,16 @@ export const minRepDistance = (arr, hashFunc=x => x) => {
     const candidate = arr[i]
     const hash = hashFunc(candidate)
 
+    // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     if (lastPositions[hash] !== undefined) {
+      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       const distance = i - lastPositions[hash]
       if (minDistance > distance) {
         minDistance = distance
       }
     }
 
+    // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     lastPositions[hash] = i
   }
 

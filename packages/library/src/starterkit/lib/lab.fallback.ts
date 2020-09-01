@@ -10,6 +10,7 @@
     var scriptTag = document
       .querySelector('script[data-labjs-script="library"]')
 
+    // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
     var scriptPath = scriptTag.src
       .split('/').slice(0, -1).join('/') + '/lab.legacy.js'
 
@@ -18,6 +19,7 @@
 
     // Load legacy library version in old browsers
     // by inserting script tag after current library version
+    // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
     scriptTag.parentNode.insertBefore(script, scriptTag.nextSibling)
   }
 

@@ -1,16 +1,19 @@
 class AsyncCache {
+  cachedFunc: any;
   // Generic cache class that wraps an async function,
   // and knows to return promises for pending results.
   // (the end result is very similar to memoization)
+  // @ts-expect-error ts-migrate(2583) FIXME: Cannot find name 'Map'. Do you need to change your... Remove this comment to see the full error message
   cache = new Map()
+  // @ts-expect-error ts-migrate(2583) FIXME: Cannot find name 'Map'. Do you need to change your... Remove this comment to see the full error message
   pending = new Map()
 
-  constructor(cachedFunc) {
+  constructor(cachedFunc: any) {
     // Async function that populates the cache given a single atomic key
     this.cachedFunc = cachedFunc
   }
 
-  async get(key) {
+  async get(key: any) {
     if (this.cache.has(key)) {
       // Read entry directly from cache if possible ...
       return this.cache.get(key)
@@ -31,11 +34,12 @@ class AsyncCache {
     }
   }
 
-  async getAll(keys) {
-    return Promise.all(keys.map(k => this.get(k)))
+  async getAll(keys: any) {
+    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
+    return Promise.all(keys.map((k: any) => this.get(k)));
   }
 
-  readSync(key) {
+  readSync(key: any) {
     // Synchronous read access to the cache as a fallback;
     // external logic needs to ensure that entries are available
     if (this.cache.has(key)) {
@@ -48,19 +52,19 @@ class AsyncCache {
 
 // Cache implementations for specific media types ------------------------------
 
-const preloadImage = (url) =>
-  new Promise((resolve, reject) => {
-    const image = new Image()
+// @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
+const preloadImage = (url: any) => new Promise((resolve: any, reject: any) => {
+  const image = new Image()
 
-    // Resolve or reject the promise, depending
-    // on whether the image loads successfully or not
-    image.addEventListener('load',  () => resolve(image))
-    image.addEventListener('error', (e) => reject(e))
+  // Resolve or reject the promise, depending
+  // on whether the image loads successfully or not
+  image.addEventListener('load',  () => resolve(image))
+  image.addEventListener('error', (e) => reject(e))
 
-    // Set the image path, which puts it in the
-    // queue for loading.
-    image.src = url
-  })
+  // Set the image path, which puts it in the
+  // queue for loading.
+  image.src = url
+})
 
 export class ImageCache extends AsyncCache {
   constructor() {
@@ -71,7 +75,8 @@ export class ImageCache extends AsyncCache {
 import { load as loadAudioBuffer } from './timeline/items/audio'
 
 export class AudioCache extends AsyncCache {
-  constructor(audioContext) {
-    super((url) => loadAudioBuffer(url, audioContext))
+  constructor(audioContext: any) {
+    // @ts-expect-error ts-migrate(2554) FIXME: Expected 3 arguments, but got 2.
+    super((url: any) => loadAudioBuffer(url, audioContext))
   }
 }

@@ -8,31 +8,37 @@ export const timingParameters = {
 // For these, we measure event time ourselves post-facto (see below).
 const invalidEventTime = browserName === 'Firefox' && browserVersion < 54
 
-export const ensureHighResTime = t => (
-  // This is built to replace a missing or old-style timestamp created
-  // via Date.now(). (to be perfect, this would need to check against a
-  // new instance of Date.now(), minus a safety theshold; as it stands,
-  // the window would need to be open for a longer duration than between
-  // the page load and 1970-1-1 for this approximation not to work. The
-  // shortcut is for performance reasons)
-  t && !invalidEventTime && t < performance.timing.navigationStart
-    ? t
-    : performance.now()
-)
+export const ensureHighResTime = (t: any) => // This is built to replace a missing or old-style timestamp created
+// via Date.now(). (to be perfect, this would need to check against a
+// new instance of Date.now(), minus a safety theshold; as it stands,
+// the window would need to be open for a longer duration than between
+// the page load and 1970-1-1 for this approximation not to work. The
+// shortcut is for performance reasons)
+t && !invalidEventTime && t < performance.timing.navigationStart
+  ? t
+  : performance.now()
 
 // This is a very basic shim to use rIC on browsers
 // that have it, and use the simplest possible
 // alternative on all others. The setTimeOut shim is
 // not ideal for a variety of reasons, including
 // performance, any alternatives would be very heavy.
+// @ts-expect-error ts-migrate(2339) FIXME: Property 'requestIdleCallback' does not exist on t... Remove this comment to see the full error message
 export const requestIdleCallback = window.requestIdleCallback
-  ? window.requestIdleCallback
-  : fn => window.setTimeout(fn)
+  ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'requestIdleCallback' does not exist on t... Remove this comment to see the full error message
+    window.requestIdleCallback
+  : (fn: any) => window.setTimeout(fn)
 
 // Timer wrappers --------------------------------------------------------------
 
 export class StackTimeout {
-  constructor(f, delay, ...params) {
+  _running: any;
+  _timeoutHandle: any;
+  delay: any;
+  f: any;
+  params: any;
+  // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'params' implicitly has an 'any[]' ... Remove this comment to see the full error message
+  constructor(f: any, delay: any, ...params) {
     this.f = f
     this.delay = delay
     this.params = params
@@ -66,7 +72,17 @@ const thresholds = {
 }
 
 export class FrameTimeout {
-  constructor(f, delay, ...params) {
+  _animationFrameHandle: any;
+  _lastAnimationFrame: any;
+  _running: any;
+  _timeoutHandle: any;
+  delay: any;
+  f: any;
+  mode: any;
+  params: any;
+  targetTime: any;
+  // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'params' implicitly has an 'any[]' ... Remove this comment to see the full error message
+  constructor(f: any, delay: any, ...params) {
     this.delay = delay
     this.f = f
     this.params = params
@@ -102,6 +118,7 @@ export class FrameTimeout {
     // (at the current frame rate)
     const remainingFrames = (this.targetTime - frameTime) / frameInterval
 
+    // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     if (remainingFrames <= thresholds[this.mode]) {
       // Fire callback
       this.f(frameTime, ...this.params)

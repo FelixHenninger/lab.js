@@ -1,4 +1,4 @@
-export const audioSync = (context, useContextTiming=false) => {
+export const audioSync = (context: any, useContextTiming=false) => {
   if (useContextTiming && 'getOutputTimestamp' in context) {
     return {
       ...context.getOutputTimestamp(),
@@ -18,11 +18,19 @@ export const audioSync = (context, useContextTiming=false) => {
 // as per specification. (https://webaudio.github.io/web-audio-api/)
 
 export const toContextTime = (
-  t,
-  { contextTime, performanceTime, baseLatency },
+  t: any,
+  {
+    contextTime,
+    performanceTime,
+    baseLatency
+  }: any,
 ) => (t - performanceTime) / 1000 + contextTime - baseLatency
 
 export const toPerformanceTime = (
-  t,
-  { contextTime, performanceTime, baseLatency },
+  t: any,
+  {
+    contextTime,
+    performanceTime,
+    baseLatency
+  }: any,
 ) => (t - contextTime + baseLatency) * 1000 + performanceTime

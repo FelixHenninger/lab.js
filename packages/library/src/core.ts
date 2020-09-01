@@ -1,4 +1,6 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import { cloneDeepWith } from 'lodash'
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/es2015-proxy` if it exists... Remove this comment to see the full error message
 import Proxy from 'es2015-proxy'
 
 import { Store } from './data'
@@ -33,11 +35,16 @@ export const handMeDowns = [
 
 // Controller: Coordinates overall study state ------------
 class Controller {
+  audioContext: any;
+  cache: any;
+  datastore: any;
+  domConnection: any;
   constructor() {
     // Data storage
     this.datastore = new Store()
 
     // Audio context
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'webkitAudioContext' does not exist on ty... Remove this comment to see the full error message
     this.audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
     // Media cache
@@ -75,12 +82,15 @@ class Controller {
 
 // Component: Generic building block for experiment -------
 export class Component extends EventHandler {
+  options: any;
+  random: any;
   status = status.initialized // Component status
   data = {} // Collected data
 
   // Storage for internal properties
   // (these are not supposed to be directly available
   // to users, and may change between versions)
+  // @ts-expect-error ts-migrate(7022) FIXME: 'internals' implicitly has type 'any' because it d... Remove this comment to see the full error message
   internals = {
     timestamps: {},
     ...this.internals,
@@ -88,19 +98,24 @@ export class Component extends EventHandler {
 
   // Proxy parameters
   // (for browsers that support proxies natively)
+  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
   parameters = (BUILD_FLAVOR !== 'legacy'
-    ? new window.Proxy({}, {
+    ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
+      new window.Proxy({}, {
         // Read from the aggregate parameters
-        get: (obj, prop) =>
+        get: (obj: any, prop: any) =>
           this.aggregateParameters[prop],
         // Redirect writes to the parameters option
-        set: (obj, prop, value) =>
+        set: (obj: any, prop: any, value: any) =>
           (this.options.parameters[prop] = value) || true,
-        has: (obj, prop) =>
+        has: (obj: any, prop: any) =>
+          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
           Reflect.has(this.aggregateParameters, prop),
-        ownKeys: (obj, prop) =>
+        ownKeys: (obj: any, prop: any) =>
+          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
           Reflect.ownKeys(this.aggregateParameters),
-        getOwnPropertyDescriptor: (obj, prop) =>
+        getOwnPropertyDescriptor: (obj: any, prop: any) =>
+          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
           Reflect.getOwnPropertyDescriptor(
             this.aggregateParameters, prop
           ),
@@ -109,13 +124,15 @@ export class Component extends EventHandler {
   )
 
   // Proxy state
+  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
   state = (BUILD_FLAVOR !== 'legacy'
-    ? new window.Proxy({}, {
+    ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
+      new window.Proxy({}, {
         // Read from the internal datastore
         // TODO: This would likely benefit from optional chaining,
         // plus some way of removing the repetition
         // in all of these traps.
-        get: (obj, prop) => {
+        get: (obj: any, prop: any) => {
           if (this.options.datastore) {
             return this.options.datastore.state[prop]
           } else {
@@ -123,7 +140,7 @@ export class Component extends EventHandler {
           }
         },
         // Redirect writes to store's set method
-        set: (obj, prop, value) => {
+        set: (obj: any, prop: any, value: any) => {
           if (this.options.datastore) {
             this.options.datastore.set(prop, value)
             return true
@@ -131,22 +148,25 @@ export class Component extends EventHandler {
             throw new Error('No datastore to save state to')
           }
         },
-        has: (obj, prop) => {
+        has: (obj: any, prop: any) => {
           if (this.options.datastore) {
+            // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
             return Reflect.has(this.options.datastore.state, prop)
           } else {
             throw new Error('No datastore to read state from')
           }
         },
-        ownKeys: (obj) => {
+        ownKeys: (obj: any) => {
           if (this.options.datastore) {
+            // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
             return Reflect.ownKeys(this.options.datastore.state)
           } else {
             throw new Error('No datastore to read state from')
           }
         },
-        getOwnPropertyDescriptor: (obj, prop) => {
+        getOwnPropertyDescriptor: (obj: any, prop: any) => {
           if (this.options.datastore) {
+            // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
             return Reflect.getOwnPropertyDescriptor(
               this.options.datastore.state, prop
             )
@@ -159,19 +179,24 @@ export class Component extends EventHandler {
   )
 
   // Proxy files
+  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
   files = (BUILD_FLAVOR !== 'legacy'
-    ? new window.Proxy({}, {
+    ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
+      new window.Proxy({}, {
         // Read from the aggregate parameters
-        get: (obj, prop) =>
+        get: (obj: any, prop: any) =>
           this._aggregateFiles[prop],
         // Redirect writes to the parameters option
-        set: (obj, prop, value) =>
+        set: (obj: any, prop: any, value: any) =>
           (this.options.files[prop] = value) || true,
-        has: (obj, prop) =>
+        has: (obj: any, prop: any) =>
+          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
           Reflect.has(this._aggregateFiles, prop),
-        ownKeys: (obj, prop) =>
+        ownKeys: (obj: any, prop: any) =>
+          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
           Reflect.ownKeys(this._aggregateFiles),
-        getOwnPropertyDescriptor: (obj, prop) =>
+        getOwnPropertyDescriptor: (obj: any, prop: any) =>
+          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
           Reflect.getOwnPropertyDescriptor(
             this._aggregateFiles, prop
           ),
@@ -236,17 +261,20 @@ export class Component extends EventHandler {
       media: {
         images: [],
         audio: [],
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'media' does not exist on type '{}'.
         ...options.media,
       },
       // Setup file handling
       // (which will replace media at some time)
       files: {
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'files' does not exist on type '{}'.
         ...options.files,
       },
 
       // Setup timing method
       timing: {
         method: 'frames',
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'timing' does not exist on type '{}'.
         ...options.timing,
       },
     })
@@ -254,8 +282,8 @@ export class Component extends EventHandler {
     // Setup option proxying
     this.internals.parsedOptions = Object.create(this.internals.rawOptions)
     this.options = new Proxy(this.internals.rawOptions, {
-      get: (target, key) => this.internals.parsedOptions[key],
-      set: (target, key, value) => {
+      get: (target: any, key: any) => this.internals.parsedOptions[key],
+      set: (target: any, key: any, value: any) => {
         // Always set the raw value
         this.internals.rawOptions[key] = value
 
@@ -299,6 +327,7 @@ export class Component extends EventHandler {
   }
 
   // Actions ----------------------------------------------
+  // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
   async prepare(directCall=true) {
     // Prepare a component prior to its display,
     // for example by pre-loading or pre-rendering
@@ -315,17 +344,21 @@ export class Component extends EventHandler {
     }
 
     // Collect options 'handed down' from higher-level components
+    // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
     if (this.parent) {
       this.parents.reduce(
         // Accumulate handed down options from parents
+        // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'acc' implicitly has an 'any' type.
         (acc, cur) => {
-          cur.options.handMeDowns.forEach(o => acc.add(o))
+          cur.options.handMeDowns.forEach((o: any) => acc.add(o))
           return acc
         },
+        // @ts-expect-error ts-migrate(2585) FIXME: 'Set' only refers to a type, but is being used as ... Remove this comment to see the full error message
         new Set(),
       ).forEach(
         // 'inherit' the option from the parent component
-        (o) => { this.options[o] = this.options[o] || this.parent.options[o] },
+        // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
+        (o: any) => { this.options[o] = this.options[o] || this.parent.options[o] },
         // TODO: This mechanism, though elegant, is not flawless:
         // If options are set to valid values by default,
         // then cannot be inherited because the option is
@@ -334,8 +367,10 @@ export class Component extends EventHandler {
     }
 
     // Initialize controller
+    // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
     if (this.parent && this.parent.internals.controller) {
       // Inherit controller from parent internals
+      // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
       this.internals.controller = this.parent.internals.controller
     } else {
       this.internals.controller = new Controller()
@@ -395,6 +430,7 @@ export class Component extends EventHandler {
       templateContext,
     )
 
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
     this.internals.parsedOptions = Object.assign(
       Object.create(this.internals.rawOptions),
       parsedOptions,
@@ -403,7 +439,7 @@ export class Component extends EventHandler {
     // Setup automatic event handling for responses
     Object.keys(this.options.responses).forEach(
       (eventString) => {
-        this.options.events[eventString] = (e) => {
+        this.options.events[eventString] = (e: any) => {
           // Prevent default browser response
           e.preventDefault()
           // Trigger internal response handling
@@ -428,10 +464,11 @@ export class Component extends EventHandler {
       // Add a timeout to end the component automatically
       // after the specified duration.
       this.internals.timeout = new Timeout(
-        timestamp => this.end('timeout', timestamp, true),
+        // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"timeout"' is not assignable to ... Remove this comment to see the full error message
+        (timestamp: any) => this.end('timeout', timestamp, true),
         this.options.timeout,
       )
-      this.on('show', (showTimestamp) => {
+      this.on('show', (showTimestamp: any) => {
         this.internals.timeout.run(showTimestamp)
         if (this.options.debug) {
           this.internals.timestamps.timeoutTarget =
@@ -466,15 +503,17 @@ export class Component extends EventHandler {
     await this.triggerMethod('after:prepare')
   }
 
+  // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
   async preload() {
     // Preload media
+    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
     await Promise.all([
       this.internals.controller.cache.images.getAll(this.options.media.images),
       this.internals.controller.cache.audio.getAll(this.options.media.audio),
     ])
   }
 
-  async run(frameTimestamp, frameSynced) {
+  async run(frameTimestamp: any, frameSynced: any) {
     // Prepare component if this has not been done
     if (this.status < status.prepared) {
       if (this.options.debug) {
@@ -494,6 +533,7 @@ export class Component extends EventHandler {
 
     // Skip actual content if so instructed
     if (this.options.skip) {
+      // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"skipped"' is not assignable to ... Remove this comment to see the full error message
       return this.end('skipped', frameTimestamp, frameSynced)
     }
 
@@ -508,10 +548,12 @@ export class Component extends EventHandler {
     return this.render(frameTimestamp, frameSynced)
   }
 
-  async render(frameTimestamp, frameSynced) {
+  // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
+  async render(frameTimestamp: any, frameSynced: any) {
     // TODO: Think about moving the function
     // declaration out of the render path
-    const handler = async (renderFrame) => {
+    // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
+    const handler = async (renderFrame: any) => {
       // Log time
       this.internals.timestamps.render = renderFrame
 
@@ -541,22 +583,28 @@ export class Component extends EventHandler {
 
   respond(response=null, timestamp=undefined) {
     // Save response
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'response' does not exist on type '{}'.
     this.data.response = response
 
     // Save ideal response and response veracity
     if (this.options.correctResponse !== null) {
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'correctResponse' does not exist on type ... Remove this comment to see the full error message
       this.data.correctResponse = this.options.correctResponse
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'correct' does not exist on type '{}'.
       this.data.correct =
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'response' does not exist on type '{}'.
         this.data.response === this.options.correctResponse
     }
 
     // End component
+    // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"response"' is not assignable to... Remove this comment to see the full error message
     return this.end('response', timestamp)
   }
 
   async end(reason=null, timestamp=performance.now(), frameSynced=false) {
     // Note the time of and reason for ending
     this.internals.timestamps.end = timestamp
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'ended_on' does not exist on type '{}'.
     this.data.ended_on = reason
 
     // Update status
@@ -575,19 +623,24 @@ export class Component extends EventHandler {
     }
 
     // Compute duration
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'ended_on' does not exist on type '{}'.
     if (this.data.ended_on === 'timeout') {
       // For timeouts, we can really only know the component's
       // duration after the next component is rendered. We're making
       // a preliminary guess here, and updating it later.
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'duration' does not exist on type '{}'.
       this.data.duration = this.internals.timestamps.end -
         this.internals.timestamps.render
     } else if (
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'ended_on' does not exist on type '{}'.
       this.data.ended_on === 'response' && browserName === 'Safari'
     ) {
       // Safari rAF timestamps are one frame ahead of event timing
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'duration' does not exist on type '{}'.
       this.data.duration = this.internals.timestamps.end -
         this.internals.timestamps.render
     } else {
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'duration' does not exist on type '{}'.
       this.data.duration = this.internals.timestamps.end -
         this.internals.timestamps.show
     }
@@ -616,16 +669,18 @@ export class Component extends EventHandler {
     await this.triggerMethod('after:end', timestamp, frameSynced)
 
     // Log next frame time
-    const switchFrameHandler = (s) => {
+    const switchFrameHandler = (s: any) => {
       this.internals.timestamps.switch = s
 
       // Update duration given switch time
       this.options.datastore.update(
         this.internals.logIndex,
-        d => ({
+        (d: any) => ({
           ...d,
+
           // Log switch frame
           time_switch: s,
+
           // If the component was ended by a timeout,
           // update the duration based on the actual presentation time
           duration: d.ended_on === 'timeout'
@@ -700,6 +755,7 @@ export class Component extends EventHandler {
 
   // Progress ---------------------------------------------
   get progress() {
+    // @ts-expect-error ts-migrate(2362) FIXME: The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
     return (this.status === status.done) * 1
   }
 
@@ -724,10 +780,11 @@ export class Component extends EventHandler {
     // except for those that may contain components
     // themselves -- in that case, we recursively
     // create cloned copies of the original component.
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'metadata' does not exist on type 'Functi... Remove this comment to see the full error message
     const nestedComponents = this.constructor.metadata.nestedComponents || []
 
     const cloneOptions = {
-      ...cloneDeepWith(this.internals.rawOptions, (v, k, root) => {
+      ...cloneDeepWith(this.internals.rawOptions, (v: any, k: any, root: any) => {
         // For immediately nested options that contain components,
         // call their clone method instead of copying naively
         if (root === this.internals.rawOptions &&
@@ -751,6 +808,7 @@ export class Component extends EventHandler {
     }
 
     // Construct a new component of the same type
+    // @ts-expect-error ts-migrate(2351) FIXME: Type 'Function' has no construct signatures.
     return new this.constructor(cloneOptions)
   }
 
@@ -759,7 +817,7 @@ export class Component extends EventHandler {
     // Experimental id splitting support
     return this.options.id
       .split('_')
-      .map(x => parseInt(x) || x)
+      .map((x: any) => parseInt(x) || x);
   }
 
   get metadata() {
@@ -771,11 +829,13 @@ export class Component extends EventHandler {
   }
 
   get parents() {
-    let output = []
+    let output: any = []
     let currentComponent = this
 
     // Traverse hierarchy upwards
+    // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
     while (currentComponent.parent) {
+      // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
       currentComponent = currentComponent.parent
       output = output.concat(currentComponent)
     }
@@ -786,12 +846,15 @@ export class Component extends EventHandler {
 
   get type() {
     return [
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'metadata' does not exist on type 'Functi... Remove this comment to see the full error message
       ...this.constructor.metadata.module,
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'name' does not exist on type 'Function'.
       this.constructor.name,
     ].join('.')
   }
 }
 
+// @ts-expect-error ts-migrate(2339) FIXME: Property 'metadata' does not exist on type 'typeof... Remove this comment to see the full error message
 Component.metadata = {
   module: ['core'],
   nestedComponents: [],

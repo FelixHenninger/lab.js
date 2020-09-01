@@ -1,7 +1,9 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/file-saver` if it exists o... Remove this comment to see the full error message
 import { saveAs } from 'file-saver'
 
 import { isObject, cloneDeep, flatten,
   difference, intersection, uniq,
+  // @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
   pick, omitBy } from 'lodash'
 import { EventHandler } from './util/eventAPI'
 import { fetch as fetchRetry, debounceAsync } from './util/network'
@@ -22,7 +24,7 @@ const defaultMetadata = [
 
 // Helper functions ---------------------------------------
 
-const escapeCsvCell = (c) => {
+const escapeCsvCell = (c: any) => {
   // Stringify non-primitive data
   if (isObject(c)) {
     c = JSON.stringify(c)
@@ -44,7 +46,7 @@ const escapeCsvCell = (c) => {
   return c
 }
 
-const twoDigit = x => x.toString().padStart(2, '0')
+const twoDigit = (x: any) => x.toString().padStart(2, '0')
 
 const dateString = (d=new Date()) =>
   `${ d.getFullYear() }-` +
@@ -52,23 +54,28 @@ const dateString = (d=new Date()) =>
   `${ twoDigit(d.getDate().toString()) }--` +
   `${ d.toTimeString().split(' ')[0] }`
 
-const cleanData = data =>
-  // Filter keys that start with an underscore
-  data.map(
-    line => omitBy(line, (v, k) => k.startsWith('_'))
-  )
+const cleanData = (data: any) => // Filter keys that start with an underscore
+data.map(
+  (line: any) => omitBy(line, (v: any, k: any) => k.startsWith('_'))
+)
 
 // Data storage class -------------------------------------
 
 // eslint-disable-next-line import/prefer-default-export
 export class Store extends EventHandler {
+  data: any;
+  staging: any;
+  state: any;
+  storage: any;
   constructor(options={}) {
     // Construct the underlying EventHandler
     super(options)
 
     // Setup persistent storage, if requested
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'persistence' does not exist on type '{}'... Remove this comment to see the full error message
     if (options.persistence === 'session') {
       this.storage = sessionStorage
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'persistence' does not exist on type '{}'... Remove this comment to see the full error message
     } else if (options.persistence === 'local') {
       this.storage = localStorage
     } else {
@@ -76,6 +83,7 @@ export class Store extends EventHandler {
     }
 
     // Clear persistent storage
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'clearPersistence' does not exist on type... Remove this comment to see the full error message
     if (options.clearPersistence) {
       this.clear()
     }
@@ -95,6 +103,7 @@ export class Store extends EventHandler {
         // Fail gracefully if JSON parsing fails
         try {
           this.data = JSON.parse(data)
+          // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
           this.state = Object.assign({}, ...this.data)
 
           // Remove metadata from current state
@@ -129,15 +138,18 @@ export class Store extends EventHandler {
   }
 
   // Get and set individual values ------------------------
-  set(key, value, fromCommit=false) {
+  set(key: any, value: any, fromCommit=false) {
     let attrs = {}
     if (typeof key === 'object') {
       attrs = key
     } else {
+      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       attrs[key] = value
     }
 
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
     this.state = Object.assign(this.state, attrs)
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
     this.staging = Object.assign(this.staging, attrs)
 
     if (!fromCommit) {
@@ -145,7 +157,7 @@ export class Store extends EventHandler {
     }
   }
 
-  get(key) {
+  get(key: any) {
     return this.state[key]
   }
 
@@ -153,20 +165,26 @@ export class Store extends EventHandler {
   // to the datastore state, while saving changes to staging.
   // Over time, as proxies are more widespread in browsers,
   // this will replace the datastore's state property. (TODO)
+  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
   stateProxy = (BUILD_FLAVOR !== 'legacy'
-    ? new window.Proxy({}, {
-        get: (_, prop) => this.get(prop),
-        set: (_, prop, value) => this.set(prop, value) || true,
-        has: (_, prop) => Reflect.has(this.state, prop),
+    ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
+      new window.Proxy({}, {
+        get: (_: any, prop: any) => this.get(prop),
+        // @ts-expect-error ts-migrate(1345) FIXME: An expression of type 'void' cannot be tested for ... Remove this comment to see the full error message
+        set: (_: any, prop: any, value: any) => this.set(prop, value) || true,
+        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
+        has: (_: any, prop: any) => Reflect.has(this.state, prop),
+        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
         ownKeys: () => Reflect.ownKeys(this.state),
-        getOwnPropertyDescriptor: (_, prop) =>
+        getOwnPropertyDescriptor: (_: any, prop: any) =>
+          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
           Reflect.getOwnPropertyDescriptor(this.state, prop),
       })
     : undefined
   )
 
   // Commit data to storage -------------------------------
-  commit(key={}, value) {
+  commit(key={}, value: any) {
     this.set(key, value, true)
 
     // Remember the index of the new entry
@@ -199,7 +217,7 @@ export class Store extends EventHandler {
   }
 
   // Update saved data ------------------------------------
-  update(index, handler=d => d) {
+  update(index: any, handler=(d: any) => d) {
     this.data[index] = handler(this.data[index] || {})
     this.triggerMethod('update')
   }
@@ -226,7 +244,7 @@ export class Store extends EventHandler {
   keys(includeState=false, metadata=defaultMetadata) {
     // Extract all keys from the data collected
     let keys = this.data.map(
-      e => Object.keys(e),
+      (e: any) => Object.keys(e),
     )
 
     // Include keys from state
@@ -251,7 +269,7 @@ export class Store extends EventHandler {
 
   // Extract a single column for the data,
   // also filtering by sender, if desired
-  extract(column, senderRegExp=RegExp('.*')) {
+  extract(column: any, senderRegExp=RegExp('.*')) {
     // If the filter is defined a a string,
     // convert it into the corresponding
     // regular expression.
@@ -263,16 +281,16 @@ export class Store extends EventHandler {
     // and then extract the column in question
     return this.data
       .filter(
-        e => filter.test(e.sender),
+        (e: any) => filter.test(e.sender),
       ).map(
-        e => e[column],
-      )
+        (e: any) => e[column],
+      );
   }
 
   // Select the columns that should be present in the data
   // Input is an array of strings, a string, or a filter function
-  select(selector, senderRegExp=RegExp('.*')) {
-    let columns
+  select(selector: any, senderRegExp=RegExp('.*')) {
+    let columns: any
     if (typeof selector === 'function') {
       columns = this.keys().filter(selector)
     } else if (typeof selector === 'string') {
@@ -295,10 +313,10 @@ export class Store extends EventHandler {
 
     return this.data
       .filter(
-        e => filter.test(e.sender),
+        (e: any) => filter.test(e.sender),
       ).map(
-        e => pick(e, columns),
-      )
+        (e: any) => pick(e, columns),
+      );
   }
 
   get cleanData() {
@@ -321,7 +339,7 @@ export class Store extends EventHandler {
     // Optionally export raw data
     const data = clean ? this.cleanData : this.data
 
-    return data.map(e => JSON.stringify(e)).join('\n')
+    return data.map((e: any) => JSON.stringify(e)).join('\n');
   }
 
   exportCsv(separator=',', clean=true) {
@@ -332,11 +350,11 @@ export class Store extends EventHandler {
     // If exporting the cleaned data, remove keys
     // that start with an underscore
     const keys = this.keys()
-      .filter(k => !clean || !k.startsWith('_'))
+      .filter((k: any) => !clean || !k.startsWith('_'))
 
     // Extract the data from each entry
-    const rows = data.map((e) => {
-      const cells = keys.map((k) => {
+    const rows = data.map((e: any) => {
+      const cells = keys.map((k: any) => {
         if (Object.hasOwnProperty.call(e, k)) {
           return e[k]
         } else {
@@ -378,6 +396,7 @@ export class Store extends EventHandler {
     // Check whether any of the standard participant id columns
     // is present in the data -- if so, return its value
     for (const c of defaultIdColumns) {
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'includes' does not exist on type 'string... Remove this comment to see the full error message
       if (Object.keys(this.state).includes(c)) {
         return this.state[c]
       }
@@ -415,7 +434,7 @@ export class Store extends EventHandler {
   }
 
   // Send data via POST request ---------------------------
-  transmit(url, metadata={}, {
+  transmit(url: any, metadata={}, {
     incremental=false, encoding='json',
     headers: customHeaders={}, retry={},
   }={}) {
@@ -457,6 +476,7 @@ export class Store extends EventHandler {
     }
 
     return fetchRetry(url, {
+      // @ts-expect-error ts-migrate(2345) FIXME: Object literal may only specify known properties, ... Remove this comment to see the full error message
       method: 'post',
       headers: {
         ...defaultHeaders,
@@ -468,7 +488,7 @@ export class Store extends EventHandler {
         times: incremental ? 2 : 3,
         ...retry,
       },
-    }).then(r => {
+    }).then((r: any) => {
       // If an incremental transmission was successful,
       // remember the point to which data was transmitted.
       if (incremental) {
@@ -477,7 +497,7 @@ export class Store extends EventHandler {
 
       // Pass on response
       return r
-    })
+    });
   }
 
   // Incremental transmission -----------------------------
@@ -487,7 +507,8 @@ export class Store extends EventHandler {
   )
   _lastIncrementalTransmission = 0
 
-  queueIncrementalTransmission(url, metadata, options) {
+  queueIncrementalTransmission(url: any, metadata: any, options: any) {
+    // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 3.
     return this._debouncedTransmit(url, metadata, {
       incremental: true,
       ...options,
