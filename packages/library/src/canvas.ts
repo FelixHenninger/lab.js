@@ -3,12 +3,16 @@
 import { isObject } from 'lodash'
 
 import { Component } from './core'
-import { Sequence as BaseSequence, Loop, Parallel,
-  prepareNested } from './flow'
+import { Sequence as BaseSequence, Loop, Parallel, prepareNested } from './flow'
 import { Frame as BaseFrame } from './html'
 import { reduce } from './util/tree'
-import { makeRenderFunction, makePathFunction,
-  makeTransform, makeInverseTransform, transform } from './util/canvas'
+import {
+  makeRenderFunction,
+  makePathFunction,
+  makeTransform,
+  makeInverseTransform,
+  transform,
+} from './util/canvas'
 
 // Global canvas functions used in all of the following components
 // (multiple inheritance would come in handy here, but alas...)
@@ -66,10 +70,7 @@ const prepareCanvas = function prepareCanvas() {
   }
 }
 
-const insertCanvas = function insertCanvas(
-  clearElement=true,
-  wrapper: any
-) {
+const insertCanvas = function insertCanvas(clearElement = true, wrapper: any) {
   // Add the canvas to the DOM if need be
   // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
   if (this.options.insertCanvasOnRun) {
@@ -100,10 +101,14 @@ const insertCanvas = function insertCanvas(
     // layout reflow. Think about providing an option to
     // disable this (the user would then have to fix the
     // canvas width and height manually via CSS)
-    const width = wrapper.clientWidth -
-      parseInt(wrapperStyle.paddingLeft) - parseInt(wrapperStyle.paddingRight)
-    const height = wrapper.clientHeight -
-      parseInt(wrapperStyle.paddingTop) - parseInt(wrapperStyle.paddingBottom)
+    const width =
+      wrapper.clientWidth -
+      parseInt(wrapperStyle.paddingLeft) -
+      parseInt(wrapperStyle.paddingRight)
+    const height =
+      wrapper.clientHeight -
+      parseInt(wrapperStyle.paddingTop) -
+      parseInt(wrapperStyle.paddingBottom)
 
     // Adjust the (internal) canvas dimensions
     // to match the physical screen pixels
@@ -118,9 +123,9 @@ const insertCanvas = function insertCanvas(
 
     // Set the canvas element dimensions to match the available space
     // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
-    this.options.canvas.style.width = `${ width }px`
+    this.options.canvas.style.width = `${width}px`
     // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
-    this.options.canvas.style.height = `${ height }px`
+    this.options.canvas.style.height = `${height}px`
 
     // Append the canvas to the DOM
     if (clearElement) {
@@ -134,32 +139,32 @@ const insertCanvas = function insertCanvas(
 
 export class Screen extends Component {
   static metadata = {
-      module: ['canvas'],
-      nestedComponents: [],
-      parsableOptions: {
+    module: ['canvas'],
+    nestedComponents: [],
+    parsableOptions: {
+      content: {
+        type: 'array',
+        content: {
+          type: 'object',
           content: {
-              type: 'array',
-              content: {
-                  type: 'object',
-                  content: {
-                      text: {},
-                      fill: {},
-                      stroke: {},
-                      left: { type: 'number' },
-                      top: { type: 'number' },
-                      width: { type: 'number' },
-                      height: { type: 'number' },
-                      angle: { type: 'number' },
-                      src: {},
-                  },
-              },
+            text: {},
+            fill: {},
+            stroke: {},
+            left: { type: 'number' },
+            top: { type: 'number' },
+            width: { type: 'number' },
+            height: { type: 'number' },
+            angle: { type: 'number' },
+            src: {},
           },
+        },
       },
-  };
+    },
+  }
 
-  options: any;
+  options: any
 
-  constructor(options={}) {
+  constructor(options = {}) {
     super({
       content: null,
       renderFunction: null,
@@ -177,7 +182,7 @@ export class Screen extends Component {
 
   onPrepare() {
     // Add images to cached media
-    (this.options.content || [])
+    ;(this.options.content || [])
       .filter((c: any) => isObject(c) && c.type === 'image' && c.src)
       .forEach((c: any) => this.options.media.images.push(c.src))
 
@@ -203,16 +208,18 @@ export class Screen extends Component {
 
           // Return modified event
           return {
-            eventName, filters,
+            eventName,
+            filters,
             selector: 'canvas',
             moreChecks: [
-              (e: any) => this.options.ctx.isPointInPath(
-                this.internals.paths[selector.slice(1)],
-                e.offsetX * pixelRatio,
-                e.offsetY * pixelRatio
-              )
-            ]
-          };
+              (e: any) =>
+                this.options.ctx.isPointInPath(
+                  this.internals.paths[selector.slice(1)],
+                  e.offsetX * pixelRatio,
+                  e.offsetY * pixelRatio,
+                ),
+            ],
+          }
         } else {
           // Return unmodified event, following default behavior
           return { eventName, filters, selector }
@@ -228,13 +235,13 @@ export class Screen extends Component {
     //   should be created that includes the generic render
     //   function
     if (this.options.renderFunction === null) {
-      this.options.renderFunction =
-        makeRenderFunction(
-          // Exclude AOIs, and perform at least a rudimentary check
-          (this.options.content || [])
-            .filter((c: any) => isObject(c) && c.type !== 'aoi'),
-          this.internals.controller.cache,
-        )
+      this.options.renderFunction = makeRenderFunction(
+        // Exclude AOIs, and perform at least a rudimentary check
+        (this.options.content || []).filter(
+          (c: any) => isObject(c) && c.type !== 'aoi',
+        ),
+        this.internals.controller.cache,
+      )
     }
   }
 
@@ -244,9 +251,7 @@ export class Screen extends Component {
     insertCanvas.apply(this)
 
     // Extract the requested context for the canvas
-    this.options.ctx = this.options.canvas.getContext(
-      this.options.ctxType,
-    )
+    this.options.ctx = this.options.canvas.getContext(this.options.ctxType)
 
     // Coordinate system translation and scaling -------------------------------
 
@@ -301,26 +306,26 @@ export class Screen extends Component {
   onShow() {
     this.internals.paths = makePathFunction(this.options.content || [])(
       // TODO: Update paths
-      0, this.options.canvas, this.options.ctx
+      0,
+      this.options.canvas,
+      this.options.ctx,
     )
   }
 
   queueAnimationFrame() {
-    this.internals.frameRequest = window.requestAnimationFrame(
-      timestamp => {
-        if (this.options.clearCanvas) {
-          this.clear()
-        }
-
-        this.options.renderFunction.call(
-          this, // context
-          timestamp - this.internals.timestamps.render, // arguments ...
-          this.options.canvas,
-          this.options.ctx,
-          this,
-        )
+    this.internals.frameRequest = window.requestAnimationFrame((timestamp) => {
+      if (this.options.clearCanvas) {
+        this.clear()
       }
-    )
+
+      this.options.renderFunction.call(
+        this, // context
+        timestamp - this.internals.timestamps.render, // arguments ...
+        this.options.canvas,
+        this.options.ctx,
+        this,
+      )
+    })
   }
 
   onEnd() {
@@ -342,7 +347,10 @@ export class Screen extends Component {
     this.options.ctx.save()
     this.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
     this.options.ctx.clearRect(
-      0, 0, this.options.canvas.width, this.options.canvas.height,
+      0,
+      0,
+      this.options.canvas.width,
+      this.options.canvas.height,
     )
     this.options.ctx.restore()
   }
@@ -355,7 +363,7 @@ export class Screen extends Component {
     return transform(this.internals.transformationMatrix, coordinates)
   }
 
-  transformInverse(coordinates: any, fromOffset=false) {
+  transformInverse(coordinates: any, fromOffset = false) {
     // Translate from the browser coordinate system back into canvas
     // coordinates. Use either the page origin (with fromOffset=false),
     // or the canvas origin (with fromOffset=true).
@@ -386,29 +394,28 @@ export class Screen extends Component {
     return transform(inverseTransformationMatrix, coordinates)
   }
 
-  transformCanvasEvent({
-    offsetX,
-    offsetY
-  }: any) {
+  transformCanvasEvent({ offsetX, offsetY }: any) {
     // Translate local event coordinates to canvas coordinate system
-    return this.transformInverse([ offsetX, offsetY ], true)
+    return this.transformInverse([offsetX, offsetY], true)
   }
 }
 
 // @ts-expect-error ts-migrate(2417) FIXME: Property 'parsableOptions' is missing in type '{ m... Remove this comment to see the full error message
 export class Frame extends BaseFrame {
   static metadata = {
-      module: ['canvas'],
-      nestedComponents: ['content'],
-  };
+    module: ['canvas'],
+    nestedComponents: ['content'],
+  }
 
-  options: any;
+  options: any
 
-  constructor(options={}) {
-    super(addCanvasDefaults({
-      context: '<canvas></canvas>',
-      ...options,
-    }))
+  constructor(options = {}) {
+    super(
+      addCanvasDefaults({
+        context: '<canvas></canvas>',
+        ...options,
+      }),
+    )
 
     // Push canvas to nested components
     if (!this.options.handMeDowns.includes('canvas')) {
@@ -422,13 +429,12 @@ export class Frame extends BaseFrame {
     // are either flow components or
     // that they use the canvas
     const isFlowOrCanvasBased = (acc: any, c: any) =>
-      acc && (
-        c === this ||
+      acc &&
+      (c === this ||
         c instanceof Screen ||
         c instanceof BaseSequence ||
         c instanceof Loop ||
-        c instanceof Parallel
-      )
+        c instanceof Parallel)
 
     const canvasBasedSubtree = reduce(this, isFlowOrCanvasBased, true)
     if (!canvasBasedSubtree) {
@@ -446,12 +452,12 @@ export class Frame extends BaseFrame {
     // Parse context HTML
     const parser = new DOMParser()
     this.internals.parsedContext = parser.parseFromString(
-      this.options.context, 'text/html',
+      this.options.context,
+      'text/html',
     )
 
     // Extract canvas
-    this.options.canvas = this.internals
-      .parsedContext.querySelector('canvas')
+    this.options.canvas = this.internals.parsedContext.querySelector('canvas')
 
     if (!this.options.canvas) {
       throw new Error('No canvas found in context')
@@ -471,10 +477,7 @@ export class Frame extends BaseFrame {
 
     // Couple the run cycle of the frame to its content
     this.internals.contentEndHandler = () => this.end()
-    this.options.content.on(
-      'after:end',
-      this.internals.contentEndHandler,
-    )
+    this.options.content.on('after:end', this.internals.contentEndHandler)
 
     prepareCanvas.apply(this)
     this.options.insertCanvasOnRun = true
@@ -492,8 +495,9 @@ export class Frame extends BaseFrame {
     // Clear element content, and insert context
     this.options.el.innerHTML = ''
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
-    Array.from(this.internals.parsedContext.body.children)
-      .forEach((c: any) => this.options.el.appendChild(c))
+    Array.from(this.internals.parsedContext.body.children).forEach((c: any) =>
+      this.options.el.appendChild(c),
+    )
 
     // Insert canvas
     // (this is the only change compared to html.Frame)

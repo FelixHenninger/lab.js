@@ -9,9 +9,13 @@ import { Timeline } from './util/timeline'
 import { DomConnection } from './util/domEvents'
 import { Random } from './util/random'
 import { parse, parsableOptions, parseRequested } from './util/options'
-import { ensureHighResTime, timingParameters,
-  StackTimeout, FrameTimeout,
-  requestIdleCallback } from './util/timing'
+import {
+  ensureHighResTime,
+  timingParameters,
+  StackTimeout,
+  FrameTimeout,
+  requestIdleCallback,
+} from './util/timing'
 import { awaitReadyState } from './util/readyState'
 import { ImageCache, AudioCache } from './util/cache'
 import { browserName } from './util/browser'
@@ -19,26 +23,22 @@ import { aggregateParentOption } from './util/tree'
 
 // Define status codes
 export const status = Object.freeze({
-  initialized:  0,
-  prepared:     1,
-  running:      2,
-  done:         3,
+  initialized: 0,
+  prepared: 1,
+  running: 2,
+  done: 3,
 })
-
 
 // Default options ----------------------------------------
 // Attributes to pass on to nested items (as names)
-export const handMeDowns = [
-  'debug',
-  'el',
-]
+export const handMeDowns = ['debug', 'el']
 
 // Controller: Coordinates overall study state ------------
 class Controller {
-  audioContext: any;
-  cache: any;
-  datastore: any;
-  domConnection: any;
+  audioContext: any
+  cache: any
+  datastore: any
+  domConnection: any
   constructor() {
     // Data storage
     this.datastore = new Store()
@@ -60,9 +60,9 @@ class Controller {
     })
     this.domConnection.events = {
       // Capture user interactions to indicate activity
-      'keydown': this.indicateInteraction,
-      'mousedown': this.indicateInteraction,
-      'touchstart': this.indicateInteraction,
+      keydown: this.indicateInteraction,
+      mousedown: this.indicateInteraction,
+      touchstart: this.indicateInteraction,
     }
     this.domConnection.prepare()
     this.domConnection.attach()
@@ -82,8 +82,8 @@ class Controller {
 
 // Component: Generic building block for experiment -------
 export class Component extends EventHandler {
-  options: any;
-  random: any;
+  options: any
+  random: any
   status = status.initialized // Component status
   data = {} // Collected data
 
@@ -98,113 +98,117 @@ export class Component extends EventHandler {
 
   // Proxy parameters
   // (for browsers that support proxies natively)
-  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
-  parameters = (BUILD_FLAVOR !== 'legacy'
-    ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
-      new window.Proxy({}, {
-        // Read from the aggregate parameters
-        get: (obj: any, prop: any) =>
-          this.aggregateParameters[prop],
-        // Redirect writes to the parameters option
-        set: (obj: any, prop: any, value: any) =>
-          (this.options.parameters[prop] = value) || true,
-        has: (obj: any, prop: any) =>
-          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-          Reflect.has(this.aggregateParameters, prop),
-        ownKeys: (obj: any, prop: any) =>
-          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-          Reflect.ownKeys(this.aggregateParameters),
-        getOwnPropertyDescriptor: (obj: any, prop: any) =>
-          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-          Reflect.getOwnPropertyDescriptor(
-            this.aggregateParameters, prop
-          ),
-      })
-    : undefined
-  )
+  parameters =
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
+    BUILD_FLAVOR !== 'legacy'
+      ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
+        new window.Proxy(
+          {},
+          {
+            // Read from the aggregate parameters
+            get: (obj: any, prop: any) => this.aggregateParameters[prop],
+            // Redirect writes to the parameters option
+            set: (obj: any, prop: any, value: any) =>
+              (this.options.parameters[prop] = value) || true,
+            has: (obj: any, prop: any) =>
+              // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
+              Reflect.has(this.aggregateParameters, prop),
+            ownKeys: (obj: any, prop: any) =>
+              // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
+              Reflect.ownKeys(this.aggregateParameters),
+            getOwnPropertyDescriptor: (obj: any, prop: any) =>
+              // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
+              Reflect.getOwnPropertyDescriptor(this.aggregateParameters, prop),
+          },
+        )
+      : undefined
 
   // Proxy state
-  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
-  state = (BUILD_FLAVOR !== 'legacy'
-    ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
-      new window.Proxy({}, {
-        // Read from the internal datastore
-        // TODO: This would likely benefit from optional chaining,
-        // plus some way of removing the repetition
-        // in all of these traps.
-        get: (obj: any, prop: any) => {
-          if (this.options.datastore) {
-            return this.options.datastore.state[prop]
-          } else {
-            throw new Error('No datastore to read state from')
-          }
-        },
-        // Redirect writes to store's set method
-        set: (obj: any, prop: any, value: any) => {
-          if (this.options.datastore) {
-            this.options.datastore.set(prop, value)
-            return true
-          } else {
-            throw new Error('No datastore to save state to')
-          }
-        },
-        has: (obj: any, prop: any) => {
-          if (this.options.datastore) {
-            // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-            return Reflect.has(this.options.datastore.state, prop)
-          } else {
-            throw new Error('No datastore to read state from')
-          }
-        },
-        ownKeys: (obj: any) => {
-          if (this.options.datastore) {
-            // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-            return Reflect.ownKeys(this.options.datastore.state)
-          } else {
-            throw new Error('No datastore to read state from')
-          }
-        },
-        getOwnPropertyDescriptor: (obj: any, prop: any) => {
-          if (this.options.datastore) {
-            // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-            return Reflect.getOwnPropertyDescriptor(
-              this.options.datastore.state, prop
-            )
-          } else {
-            throw new Error('No datastore to read state from')
-          }
-        },
-      })
-    : undefined
-  )
+  state =
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
+    BUILD_FLAVOR !== 'legacy'
+      ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
+        new window.Proxy(
+          {},
+          {
+            // Read from the internal datastore
+            // TODO: This would likely benefit from optional chaining,
+            // plus some way of removing the repetition
+            // in all of these traps.
+            get: (obj: any, prop: any) => {
+              if (this.options.datastore) {
+                return this.options.datastore.state[prop]
+              } else {
+                throw new Error('No datastore to read state from')
+              }
+            },
+            // Redirect writes to store's set method
+            set: (obj: any, prop: any, value: any) => {
+              if (this.options.datastore) {
+                this.options.datastore.set(prop, value)
+                return true
+              } else {
+                throw new Error('No datastore to save state to')
+              }
+            },
+            has: (obj: any, prop: any) => {
+              if (this.options.datastore) {
+                // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
+                return Reflect.has(this.options.datastore.state, prop)
+              } else {
+                throw new Error('No datastore to read state from')
+              }
+            },
+            ownKeys: (obj: any) => {
+              if (this.options.datastore) {
+                // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
+                return Reflect.ownKeys(this.options.datastore.state)
+              } else {
+                throw new Error('No datastore to read state from')
+              }
+            },
+            getOwnPropertyDescriptor: (obj: any, prop: any) => {
+              if (this.options.datastore) {
+                // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
+                return Reflect.getOwnPropertyDescriptor(
+                  this.options.datastore.state,
+                  prop,
+                )
+              } else {
+                throw new Error('No datastore to read state from')
+              }
+            },
+          },
+        )
+      : undefined
 
   // Proxy files
-  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
-  files = (BUILD_FLAVOR !== 'legacy'
-    ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
-      new window.Proxy({}, {
-        // Read from the aggregate parameters
-        get: (obj: any, prop: any) =>
-          this._aggregateFiles[prop],
-        // Redirect writes to the parameters option
-        set: (obj: any, prop: any, value: any) =>
-          (this.options.files[prop] = value) || true,
-        has: (obj: any, prop: any) =>
-          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-          Reflect.has(this._aggregateFiles, prop),
-        ownKeys: (obj: any, prop: any) =>
-          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-          Reflect.ownKeys(this._aggregateFiles),
-        getOwnPropertyDescriptor: (obj: any, prop: any) =>
-          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-          Reflect.getOwnPropertyDescriptor(
-            this._aggregateFiles, prop
-          ),
-      })
-    : undefined
-  )
+  files =
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
+    BUILD_FLAVOR !== 'legacy'
+      ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
+        new window.Proxy(
+          {},
+          {
+            // Read from the aggregate parameters
+            get: (obj: any, prop: any) => this._aggregateFiles[prop],
+            // Redirect writes to the parameters option
+            set: (obj: any, prop: any, value: any) =>
+              (this.options.files[prop] = value) || true,
+            has: (obj: any, prop: any) =>
+              // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
+              Reflect.has(this._aggregateFiles, prop),
+            ownKeys: (obj: any, prop: any) =>
+              // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
+              Reflect.ownKeys(this._aggregateFiles),
+            getOwnPropertyDescriptor: (obj: any, prop: any) =>
+              // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
+              Reflect.getOwnPropertyDescriptor(this._aggregateFiles, prop),
+          },
+        )
+      : undefined
 
-  constructor(options={}) {
+  constructor(options = {}) {
     // Construct the EventHandler first
     super({
       // DOM event handlers
@@ -251,9 +255,7 @@ export class Component extends EventHandler {
 
       // Setup hand-me-downs
       // (array is copied on purpose)
-      handMeDowns: [
-        ...handMeDowns,
-      ],
+      handMeDowns: [...handMeDowns],
 
       ...options,
 
@@ -290,12 +292,17 @@ export class Component extends EventHandler {
         // Once the component has been prepared,
         // parse all options as they are set
         if (this.status >= status.prepared) {
-          const candidate = parse(value, {
-            parameters: this.aggregateParameters,
-            state: this.options.datastore.state,
-            files: this._aggregateFiles,
-            random: this.random,
-          }, parsableOptions(this)[key], this)
+          const candidate = parse(
+            value,
+            {
+              parameters: this.aggregateParameters,
+              state: this.options.datastore.state,
+              files: this._aggregateFiles,
+              random: this.random,
+            },
+            parsableOptions(this)[key],
+            this,
+          )
 
           if (candidate !== value) {
             this.internals.parsedOptions[key] = candidate
@@ -308,8 +315,8 @@ export class Component extends EventHandler {
     })
 
     // Attach component event handlers
-    Object.keys(this.options.messageHandlers).forEach(
-      event => this.on(event, this.options.messageHandlers[event]),
+    Object.keys(this.options.messageHandlers).forEach((event) =>
+      this.on(event, this.options.messageHandlers[event]),
     )
 
     // Add a DomConnection that connects
@@ -328,7 +335,7 @@ export class Component extends EventHandler {
 
   // Actions ----------------------------------------------
   // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
-  async prepare(directCall=true) {
+  async prepare(directCall = true) {
     // Prepare a component prior to its display,
     // for example by pre-loading or pre-rendering
     // content
@@ -346,24 +353,28 @@ export class Component extends EventHandler {
     // Collect options 'handed down' from higher-level components
     // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
     if (this.parent) {
-      this.parents.reduce(
-        // Accumulate handed down options from parents
-        // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'acc' implicitly has an 'any' type.
-        (acc, cur) => {
-          cur.options.handMeDowns.forEach((o: any) => acc.add(o))
-          return acc
-        },
-        // @ts-expect-error ts-migrate(2585) FIXME: 'Set' only refers to a type, but is being used as ... Remove this comment to see the full error message
-        new Set(),
-      ).forEach(
-        // 'inherit' the option from the parent component
-        // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
-        (o: any) => { this.options[o] = this.options[o] || this.parent.options[o] },
-        // TODO: This mechanism, though elegant, is not flawless:
-        // If options are set to valid values by default,
-        // then cannot be inherited because the option is
-        // provided anyhow, and won't be overridden.
-      )
+      this.parents
+        .reduce(
+          // Accumulate handed down options from parents
+          // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'acc' implicitly has an 'any' type.
+          (acc, cur) => {
+            cur.options.handMeDowns.forEach((o: any) => acc.add(o))
+            return acc
+          },
+          // @ts-expect-error ts-migrate(2585) FIXME: 'Set' only refers to a type, but is being used as ... Remove this comment to see the full error message
+          new Set(),
+        )
+        .forEach(
+          // 'inherit' the option from the parent component
+          (o: any) => {
+            // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
+            this.options[o] = this.options[o] || this.parent.options[o]
+          },
+          // TODO: This mechanism, though elegant, is not flawless:
+          // If options are set to valid values by default,
+          // then cannot be inherited because the option is
+          // provided anyhow, and won't be overridden.
+        )
     }
 
     // Initialize controller
@@ -382,19 +393,17 @@ export class Component extends EventHandler {
     this.options.datastore = this.internals.controller.datastore
 
     // Create timeline
-    this.internals.timeline = new Timeline(
-      this.internals.controller,
-    )
+    this.internals.timeline = new Timeline(this.internals.controller)
 
     // Setup console output grouping when the component is run
     if (this.options.debug) {
-      this.on('before:run',
-        () => console.group(
-          `${ this.options.title } %c(${ this.type })`,
+      this.on('before:run', () =>
+        console.group(
+          `${this.options.title} %c(${this.type})`,
           'font-weight: normal',
-        ))
-      this.on('after:end',
-        () => console.groupEnd())
+        ),
+      )
+      this.on('after:end', () => console.groupEnd())
     }
 
     // Direct output to the HTML element with the attribute
@@ -437,19 +446,17 @@ export class Component extends EventHandler {
     )
 
     // Setup automatic event handling for responses
-    Object.keys(this.options.responses).forEach(
-      (eventString) => {
-        this.options.events[eventString] = (e: any) => {
-          // Prevent default browser response
-          e.preventDefault()
-          // Trigger internal response handling
-          this.respond(
-            this.options.responses[eventString],
-            ensureHighResTime(e.timeStamp),
-          )
-        }
-      },
-    )
+    Object.keys(this.options.responses).forEach((eventString) => {
+      this.options.events[eventString] = (e: any) => {
+        // Prevent default browser response
+        e.preventDefault()
+        // Trigger internal response handling
+        this.respond(
+          this.options.responses[eventString],
+          ensureHighResTime(e.timeStamp),
+        )
+      }
+    })
 
     // Push existing events and el to DomConnection
     this.internals.domConnection.events = this.options.events
@@ -457,9 +464,8 @@ export class Component extends EventHandler {
 
     // Prepare timeout
     if (this.options.timeout !== null) {
-      const Timeout = this.options.timing.method === 'frames'
-        ? FrameTimeout
-        : StackTimeout
+      const Timeout =
+        this.options.timing.method === 'frames' ? FrameTimeout : StackTimeout
 
       // Add a timeout to end the component automatically
       // after the specified duration.
@@ -471,8 +477,7 @@ export class Component extends EventHandler {
       this.on('show', (showTimestamp: any) => {
         this.internals.timeout.run(showTimestamp)
         if (this.options.debug) {
-          this.internals.timestamps.timeoutTarget =
-            this.internals.timeout.targetTime
+          this.internals.timestamps.timeoutTarget = this.internals.timeout.targetTime
         }
       })
     }
@@ -560,11 +565,11 @@ export class Component extends EventHandler {
       // Trigger render logic and timeline
       await this.triggerMethod('render', renderFrame)
       this.internals.timeline.start(
-        renderFrame + timingParameters.frameInterval
+        renderFrame + timingParameters.frameInterval,
       )
 
       // Log next frame time
-      window.requestAnimationFrame(showFrame => {
+      window.requestAnimationFrame((showFrame) => {
         this.internals.timestamps.show = showFrame
         this.triggerMethod('show', showFrame)
       })
@@ -576,12 +581,11 @@ export class Component extends EventHandler {
       handler(frameTimestamp)
     } else {
       // ... or after waiting for a new frame
-      this.internals.frameRequest =
-        window.requestAnimationFrame(handler)
+      this.internals.frameRequest = window.requestAnimationFrame(handler)
     }
   }
 
-  respond(response=null, timestamp=undefined) {
+  respond(response = null, timestamp = undefined) {
     // Save response
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'response' does not exist on type '{}'.
     this.data.response = response
@@ -601,7 +605,7 @@ export class Component extends EventHandler {
     return this.end('response', timestamp)
   }
 
-  async end(reason=null, timestamp=performance.now(), frameSynced=false) {
+  async end(reason = null, timestamp = performance.now(), frameSynced = false) {
     // Note the time of and reason for ending
     this.internals.timestamps.end = timestamp
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'ended_on' does not exist on type '{}'.
@@ -617,9 +621,7 @@ export class Component extends EventHandler {
 
     // Cancel outstanding frame requests
     if (this.internals.frameRequest) {
-      window.cancelAnimationFrame(
-        this.internals.frameRequest,
-      )
+      window.cancelAnimationFrame(this.internals.frameRequest)
     }
 
     // Compute duration
@@ -629,20 +631,21 @@ export class Component extends EventHandler {
       // duration after the next component is rendered. We're making
       // a preliminary guess here, and updating it later.
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'duration' does not exist on type '{}'.
-      this.data.duration = this.internals.timestamps.end -
-        this.internals.timestamps.render
+      this.data.duration =
+        this.internals.timestamps.end - this.internals.timestamps.render
     } else if (
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'ended_on' does not exist on type '{}'.
-      this.data.ended_on === 'response' && browserName === 'Safari'
+      this.data.ended_on === 'response' &&
+      browserName === 'Safari'
     ) {
       // Safari rAF timestamps are one frame ahead of event timing
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'duration' does not exist on type '{}'.
-      this.data.duration = this.internals.timestamps.end -
-        this.internals.timestamps.render
+      this.data.duration =
+        this.internals.timestamps.end - this.internals.timestamps.render
     } else {
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'duration' does not exist on type '{}'.
-      this.data.duration = this.internals.timestamps.end -
-        this.internals.timestamps.show
+      this.data.duration =
+        this.internals.timestamps.end - this.internals.timestamps.show
     }
 
     // Complete a component's run and cleanup
@@ -673,31 +676,22 @@ export class Component extends EventHandler {
       this.internals.timestamps.switch = s
 
       // Update duration given switch time
-      this.options.datastore.update(
-        this.internals.logIndex,
-        (d: any) => ({
-          ...d,
+      this.options.datastore.update(this.internals.logIndex, (d: any) => ({
+        ...d,
 
-          // Log switch frame
-          time_switch: s,
+        // Log switch frame
+        time_switch: s,
 
-          // If the component was ended by a timeout,
-          // update the duration based on the actual presentation time
-          duration: d.ended_on === 'timeout'
-            ? s - d.time_show
-            : d.duration
-        }),
-      )
+        // If the component was ended by a timeout,
+        // update the duration based on the actual presentation time
+        duration: d.ended_on === 'timeout' ? s - d.time_show : d.duration,
+      }))
 
       // Signal upcoming idle period to data store
-      requestIdleCallback(
-        () => this.options.datastore.triggerMethod('idle')
-      )
+      requestIdleCallback(() => this.options.datastore.triggerMethod('idle'))
 
       // Queue housekeeping as a final step
-      requestIdleCallback(
-        () => this.epilogue()
-      )
+      requestIdleCallback(() => this.epilogue())
     }
 
     if (frameSynced) {
@@ -708,8 +702,8 @@ export class Component extends EventHandler {
       // If the current handler occurs outside
       // of a frame, the next frame is two
       // animation frame callbacks away
-      window.requestAnimationFrame(
-        () => window.requestAnimationFrame(switchFrameHandler)
+      window.requestAnimationFrame(() =>
+        window.requestAnimationFrame(switchFrameHandler),
       )
     }
 
@@ -725,7 +719,7 @@ export class Component extends EventHandler {
   // Data collection --------------------------------------
   // (the commit method is called automatically if the
   // datacommit option is true, which it is by default)
-  commit(data={}) {
+  commit(data = {}) {
     // Commit the data collected by this component ...
     this.internals.logIndex = this.options.datastore.commit({
       // ... plus some additional metadata
@@ -743,11 +737,11 @@ export class Component extends EventHandler {
 
     switch (this.status) {
       case status.running:
-        return performance.now() -
-          (timestamps.show || timestamps.render)
+        return performance.now() - (timestamps.show || timestamps.render)
       case status.done:
-        return this.internals.timestamps.end -
-          (timestamps.show || timestamps.run)
+        return (
+          this.internals.timestamps.end - (timestamps.show || timestamps.run)
+        )
       default:
         return undefined
     }
@@ -775,7 +769,7 @@ export class Component extends EventHandler {
   // Duplication ------------------------------------------
   // Return a component of the same type,
   // with identical options
-  clone(options={}) {
+  clone(options = {}) {
     // We copy all options from the current component,
     // except for those that may contain components
     // themselves -- in that case, we recursively
@@ -784,25 +778,27 @@ export class Component extends EventHandler {
     const nestedComponents = this.constructor.metadata.nestedComponents || []
 
     const cloneOptions = {
-      ...cloneDeepWith(this.internals.rawOptions, (v: any, k: any, root: any) => {
-        // For immediately nested options that contain components,
-        // call their clone method instead of copying naively
-        if (root === this.internals.rawOptions &&
-          nestedComponents.includes(k)) {
-
-          // Choose procedure depending on data type
-          if (Array.isArray(v)) {
-            // Apply clone method to arrays of components
-            return v.map(
-              c => (c instanceof Component ? c.clone() : c),
-            )
-          } else if (v instanceof Component) {
-            // Only clone components, any other data type
-            // will be left to the library clone function
-            return v.clone()
+      ...cloneDeepWith(
+        this.internals.rawOptions,
+        (v: any, k: any, root: any) => {
+          // For immediately nested options that contain components,
+          // call their clone method instead of copying naively
+          if (
+            root === this.internals.rawOptions &&
+            nestedComponents.includes(k)
+          ) {
+            // Choose procedure depending on data type
+            if (Array.isArray(v)) {
+              // Apply clone method to arrays of components
+              return v.map((c) => (c instanceof Component ? c.clone() : c))
+            } else if (v instanceof Component) {
+              // Only clone components, any other data type
+              // will be left to the library clone function
+              return v.clone()
+            }
           }
-        }
-      }),
+        },
+      ),
       // Overwrite existing options, if so instructed
       ...options,
     }
@@ -815,9 +811,7 @@ export class Component extends EventHandler {
   // Metadata ---------------------------------------------
   get id() {
     // Experimental id splitting support
-    return this.options.id
-      .split('_')
-      .map((x: any) => parseInt(x) || x);
+    return this.options.id.split('_').map((x: any) => parseInt(x) || x)
   }
 
   get metadata() {
@@ -859,29 +853,29 @@ Component.metadata = {
   module: ['core'],
   nestedComponents: [],
   parsableOptions: {
-    responses:       { content: { '*': 'string' } },
+    responses: { content: { '*': 'string' } },
     correctResponse: {},
-    timeline:        {
+    timeline: {
       type: 'array',
       content: {
-        'type': 'object',
-        'content': {
-          'start':         { type: 'number' },
-          'stop':          { type: 'number' },
-          '*':             'string',
-          'payload':       {
+        type: 'object',
+        content: {
+          start: { type: 'number' },
+          stop: { type: 'number' },
+          '*': 'string',
+          payload: {
             type: 'object',
-            content:       {
-              'gain':      { type: 'number' },
-              'loop':      { type: 'boolean' },
-              '*':         'string',
+            content: {
+              gain: { type: 'number' },
+              loop: { type: 'boolean' },
+              '*': 'string',
             },
           },
         },
       },
     },
-    timeout:         { type: 'number' },
-    skip:            { type: 'boolean' },
+    timeout: { type: 'number' },
+    skip: { type: 'boolean' },
   },
 }
 
@@ -889,7 +883,7 @@ Component.metadata = {
 // A Dummy component does nothing but end
 // immediately as soon as it is called
 export class Dummy extends Component {
-  constructor(options={}) {
+  constructor(options = {}) {
     super({
       skip: true,
       ...options,
