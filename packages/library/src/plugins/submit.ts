@@ -15,7 +15,7 @@ export default class Submit {
           new File([context.options.datastore.exportCsv()], 'data.csv')
         )
         // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-        form.elements['dataFile'].files = transfer.files
+        form.elements.dataFile.files = transfer.files
       } catch (error) {
         console.log(
           'Couldn\'t append data file to form ' +
@@ -23,7 +23,7 @@ export default class Submit {
           'Error was', error
         )
         // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
-        form.elements['dataRaw'].value = context.options.datastore.exportCsv()
+        form.elements.dataRaw.value = context.options.datastore.exportCsv()
       }
 
       // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.

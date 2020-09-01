@@ -1,12 +1,15 @@
 export default class PostMessage {
   messageType: any;
+
   origin: any;
+
   target: any;
+
   constructor({
     origin,
     target,
     messageType
-  }: any={}) {
+  }: any = {}) {
     this.origin = origin || '*'
     this.target = target || window.parent
     this.messageType = messageType || 'labjs.data'

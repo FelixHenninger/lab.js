@@ -4,7 +4,7 @@ import { toRadians } from './geometry'
 
 // Utilities -------------------------------------------------------------------
 
-const calcTransformationParameters = (canvasSize: any, viewportSize: any, opt={}) => {
+const calcTransformationParameters = (canvasSize: any, viewportSize: any, opt = {}) => {
   const options = {
     translateOrigin: true,
     viewportScale: 'auto',
@@ -37,9 +37,9 @@ const calcTransformationParameters = (canvasSize: any, viewportSize: any, opt={}
   /* eslint-disable indent */
   const viewportScale = options.viewportScale === 'auto'
     ? Math.min(
-        canvasSize[0] / (pixelRatio * viewportSize[0]),
-        canvasSize[1] / (pixelRatio * viewportSize[1]),
-      )
+      canvasSize[0] / (pixelRatio * viewportSize[0]),
+      canvasSize[1] / (pixelRatio * viewportSize[1]),
+    )
     : options.viewportScale
   /* eslint-enable indent */
 
@@ -54,7 +54,7 @@ const calcTransformationParameters = (canvasSize: any, viewportSize: any, opt={}
     scale, viewportScale,
     pixelRatio,
   }
-}
+};
 
 export const makeTransform = (canvasSize: any, viewportSize: any, opt: any) => {
   const { translateX, translateY, scale } =
@@ -67,7 +67,7 @@ export const makeTransform = (canvasSize: any, viewportSize: any, opt: any) => {
     0, scale,
     translateX, translateY,
   ]
-}
+};
 
 export const makeInverseTransform = (canvasSize: any, viewportSize: any, opt: any) => {
   const { translateX, translateY, scale, viewportScale } =
@@ -92,7 +92,7 @@ export const makeInverseTransform = (canvasSize: any, viewportSize: any, opt: an
     // @ts-expect-error ts-migrate(2363) FIXME: The right-hand side of an arithmetic operation mus... Remove this comment to see the full error message
     (-translateY / scale) - (offsetTop  / viewportScale),
   ]
-}
+};
 
 // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'x' implicitly has an 'any' type.
 export const transform = (matrix: any, [x, y]) =>
@@ -105,7 +105,7 @@ export const transform = (matrix: any, [x, y]) =>
 
 // Generic render function -----------------------------------------------------
 
-const renderElement = (ctx: any, content: any, cache={}) => {
+const renderElement = (ctx: any, content: any, cache = {}) => {
   ctx.save()
 
   // Clear existing paths
@@ -120,13 +120,13 @@ const renderElement = (ctx: any, content: any, cache={}) => {
     case 'line':
       ctx.moveTo(-content.width / 2, 0)
       ctx.lineTo(+content.width / 2, 0)
-      break
+      break;
     case 'rect':
       ctx.rect(
         -content.width / 2, -content.height / 2,
         content.width, content.height,
       )
-      break
+      break;
     case 'triangle':
       /* eslint-disable space-in-parens, no-multi-spaces */
       ctx.moveTo(-content.width / 2,  content.height / 2)
@@ -134,20 +134,20 @@ const renderElement = (ctx: any, content: any, cache={}) => {
       ctx.lineTo( content.width / 2,  content.height / 2)
       /* eslint-enable space-in-parens, no-multi-spaces */
       ctx.closePath()
-      break
+      break;
     case 'circle':
       ctx.arc(
         0, 0,
         content.width / 2,
         0, toRadians(360),
       )
-      break
+      break;
     case 'ellipse':
       ctx.ellipse(
         0, 0, content.width / 2, content.height / 2,
         0, 0, toRadians(360),
       )
-      break
+      break;
     case 'text':
     case 'i-text':
       ctx.font = `${ content.fontStyle || 'normal' } ` +
@@ -158,7 +158,7 @@ const renderElement = (ctx: any, content: any, cache={}) => {
       // TODO: Make this configurable
       ctx.textBaseline = 'middle'
 
-      break
+      break;
     case 'image':
       // Load image element from cache
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'images' does not exist on type '{}'.
@@ -178,7 +178,7 @@ const renderElement = (ctx: any, content: any, cache={}) => {
         width, height,
       )
 
-      break
+      break;
     default:
       throw new Error('Unknown content type')
   }
@@ -200,7 +200,7 @@ const renderElement = (ctx: any, content: any, cache={}) => {
               (content.fontSize || 32) *
               (content.lineHeight || 1.16),
           )
-        })
+        });
     }
   }
 
@@ -219,12 +219,12 @@ const renderElement = (ctx: any, content: any, cache={}) => {
               (content.fontSize || 32) *
               (content.lineHeight || 1.16),
           )
-        })
+        });
     }
   }
 
   ctx.restore()
-}
+};
 
 export const makeRenderFunction = (content: any, cache: any) => (ts: any, canvas: any, ctx: any) =>
   (content || []).forEach((c: any) => renderElement(ctx, c, cache))
@@ -236,8 +236,8 @@ export const makeRenderFunction = (content: any, cache: any) => (ts: any, canvas
 const MatrixReadOnly = window.DOMMatrixReadOnly !== undefined
   ? new window.DOMMatrixReadOnly()
   : document
-      .createElementNS("http://www.w3.org/2000/svg", "svg")
-      .createSVGMatrix()
+    .createElementNS('http://www.w3.org/2000/svg', 'svg')
+    .createSVGMatrix()
 
 export const makePath = (ctx: any, content: any) => {
   const rawPath = new Path2D()
@@ -249,7 +249,7 @@ export const makePath = (ctx: any, content: any) => {
         -content.width / 2, -content.height / 2,
         content.width, content.height,
       )
-      break
+      break;
     default:
       console.error('Content type not yet implemented')
       // TODO: cover remaining object types
@@ -264,7 +264,7 @@ export const makePath = (ctx: any, content: any) => {
       .rotate(content.angle) // (in degrees, for a change)
   )
   return translatedPath
-}
+};
 
 export const makePathFunction = (content: any) => (ts: any, canvas: any, ctx: any) =>
   fromPairs(

@@ -3,7 +3,7 @@
 // very much simplified and minus the isomorphic-fetch dependency)
 
 export const fetch = (url: any,
-  { retry:{ times=3, delay=10, factor=5 }={}, ...options }={}
+  { retry: { times = 3, delay = 10, factor = 5 } = {}, ...options } = {}
 ) =>
   // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
   new Promise((resolve: any, reject: any) => {
@@ -20,10 +20,10 @@ export const fetch = (url: any,
     const retry = (attempt: any) => {
       const d = delay * factor ** attempt
       setTimeout(() => wrappedFetch(++attempt), d)
-    }
+    };
 
     wrappedFetch(0)
-  })
+  });
 
 // TODO: Making a generic variant of this function
 // is left as an exercise to the reader (PRs very much appreciated)
@@ -34,10 +34,10 @@ export const fetch = (url: any,
 // the cancel and flush helpers that lodash's debounce offers.
 // Mistakes, of course, are entirely the present author's fault)
 
-export const debounceAsync = (fn: any, wait: any, { throttle=true }={}) => {
+export const debounceAsync = (fn: any, wait: any, { throttle = true } = {}) => {
   let timer: any
   let resolvers: any = []
-  let lastArgs: any, lastThis: any
+  let lastArgs: any; let lastThis: any
   let running = false
   let skipped = false
 
@@ -69,7 +69,7 @@ export const debounceAsync = (fn: any, wait: any, { throttle=true }={}) => {
             flush()
           }
           running = skipped = false
-        })
+        });
     }
   }
 
@@ -86,7 +86,7 @@ export const debounceAsync = (fn: any, wait: any, { throttle=true }={}) => {
     skipped = false
     lastArgs = lastThis = undefined
     resolvers = []
-  }
+  };
 
   const debouncedFunc = function() {
     // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
@@ -104,10 +104,10 @@ export const debounceAsync = (fn: any, wait: any, { throttle=true }={}) => {
       // Save resolvers for future use
       resolvers.push([resolve, reject])
     });
-  }
+  };
   // Add further methods
   debouncedFunc.flush = flush
   debouncedFunc.cancel = cancel
 
   return debouncedFunc
-}
+};

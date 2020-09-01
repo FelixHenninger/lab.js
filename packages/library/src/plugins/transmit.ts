@@ -2,12 +2,18 @@ import { uuid4 } from '../util/random'
 
 export default class Transmit {
   callbacks: any;
+
   encoding: any;
+
   headers: any;
+
   metadata: any;
+
   updates: any;
+
   url: any;
-  constructor(options={}) {
+
+  constructor(options = {}) {
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'url' does not exist on type '{}'.
     this.url = options.url
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'metadata' does not exist on type '{}'.
@@ -45,7 +51,7 @@ export default class Transmit {
               // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
               { headers: this.headers, encoding: this.encoding },
             )
-          })
+          });
         }
         // Trigger setup callback
         if (this.callbacks.setup) {

@@ -4,7 +4,7 @@ const unloadHandler = (e: any) => {
     'Are you sure?'
   e.returnValue = warning
   return warning
-}
+};
 
 export default class NavigationGuard {
   handle(_: any, event: any) {

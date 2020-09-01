@@ -1,17 +1,17 @@
-export const audioSync = (context: any, useContextTiming=false) => {
+export const audioSync = (context: any, useContextTiming = false) => {
   if (useContextTiming && 'getOutputTimestamp' in context) {
     return {
       ...context.getOutputTimestamp(),
       baseLatency: context.baseLatency || 0,
-    }
-  } else {
-    return {
-      contextTime: context.currentTime,
-      performanceTime: performance.now(),
-      baseLatency: context.baseLatency || 0,
-    }
-  }
-}
+    };
+  } 
+  return {
+    contextTime: context.currentTime,
+    performanceTime: performance.now(),
+    baseLatency: context.baseLatency || 0,
+  };
+  
+};
 
 
 // Use audio system data to calculate latency compensation,

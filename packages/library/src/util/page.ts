@@ -4,7 +4,7 @@ import { stripIndent } from 'common-tags'
 import { range } from 'lodash'
 import { Random } from './random'
 
-const makeAttributes = (attrs={}) =>
+const makeAttributes = (attrs = {}) =>
   // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'ObjectC... Remove this comment to see the full error message
   Object.entries(attrs)
     // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'attr' implicitly has an 'any' typ... Remove this comment to see the full error message
@@ -12,7 +12,7 @@ const makeAttributes = (attrs={}) =>
     .join(' ')
 
 const makeFooter = ({
-  submitButtonPosition='right',
+  submitButtonPosition = 'right',
   submitButtonText
 }: any) => {
   if (submitButtonPosition !== 'hidden') {
@@ -29,18 +29,18 @@ const makeFooter = ({
           </button>
         </footer>
       `
-    )
-  } else {
-    return ''
-  }
-}
+    );
+  } 
+  return '';
+  
+};
 
 const makeOptionRow = ({
   label,
   coding
 }: any, {
   name,
-  required=true
+  required = true
 }: any, widget: any) => {
   if (widget === 'radio') {
     return (
@@ -62,8 +62,8 @@ const makeOptionRow = ({
           </td>
         </tr>
       `
-    )
-  } else if (widget === 'checkbox') {
+    );
+  } if (widget === 'checkbox') {
     return (
       stripIndent`
         <tr>
@@ -82,22 +82,22 @@ const makeOptionRow = ({
           </td>
         </tr>
       `
-    )
+    );
   }
-}
+};
 
 const makeLikertHead = ({
   width,
   anchors
 }: any) => {
   if (anchors.every((a: any) => !a)) {
-    return ''
-  } else {
-    return stripIndent`
+    return '';
+  } 
+  return stripIndent`
       <thead class="sticky-top" style="background-color: white">
         <th class="sticky-top" style="background-color: white"></th>
         ${
-          range(width).map((j: any) => stripIndent`
+  range(width).map((j: any) => stripIndent`
             <th
               class="sticky-top text-center small"
               style="background-color: white"
@@ -105,11 +105,11 @@ const makeLikertHead = ({
               ${ anchors[j] || '' }
              </th>
           `).join('\n')
-        }
+}
       </thead>
     `;
-  }
-}
+  
+};
 
 const makeLikertRow = ({
   label,
@@ -117,7 +117,7 @@ const makeLikertRow = ({
 }: any, {
   name,
   width,
-  required=true
+  required = true
 }: any) =>
   stripIndent`
     <tr>
@@ -125,7 +125,7 @@ const makeLikertRow = ({
         ${ label }
       </td>
       ${
-        range(1, Number(width) + 1).map((i: any) => stripIndent`
+  range(1, Number(width) + 1).map((i: any) => stripIndent`
           <td class="text-center">
             <label style="height: 100%; padding: 10px 0">
               <input type="radio"
@@ -135,14 +135,14 @@ const makeLikertRow = ({
             </label>
           </td>
         `).join('\n')
-      }
+}
     </tr>
   `
 
 export const makePage = (items: any, options: any) => {
   // Setup shuffling
   const rng = options.rng || new Random()
-  const shuffleMeMaybe = (array=[], doIt=false) =>
+  const shuffleMeMaybe = (array = [], doIt = false) =>
     (doIt ? rng.shuffle(array) : array)
 
   return stripIndent`
@@ -155,16 +155,16 @@ export const makePage = (items: any, options: any) => {
       <div class="w-${ options.width || 'm' } text-left">
         <form id="page-form" style="display: block;" autocomplete="off">
           ${
-            items
-              .map((i: any) => processItem(i, { shuffleMeMaybe, ...options }))
-              .join('\n')
-          }
+  items
+    .map((i: any) => processItem(i, { shuffleMeMaybe, ...options }))
+    .join('\n')
+}
         </form>
       </div>
     </main>
     ${ makeFooter(options) }
   `;
-}
+};
 
 export const processItem = (i: any, {
   shuffleMeMaybe
@@ -242,13 +242,13 @@ export const processItem = (i: any, {
           </colgroup>
           <tbody>
             ${
-              shuffleMeMaybe(i.options || [], i.shuffle)
-                .map((o: any) => makeOptionRow(o, i, 'radio'))
-                .join('\n')
-            }
+  shuffleMeMaybe(i.options || [], i.shuffle)
+    .map((o: any) => makeOptionRow(o, i, 'radio'))
+    .join('\n')
+}
           </tbody>
         </table>
-      `;
+      `
     case 'checkbox':
       return stripIndent`
         <p class="font-weight-bold" style="margin: 1rem 0 0.25rem">
@@ -264,13 +264,13 @@ export const processItem = (i: any, {
           </colgroup>
           <tbody>
             ${
-              shuffleMeMaybe(i.options || [], i.shuffle)
-                .map((o: any) => makeOptionRow(o, i, 'checkbox'))
-                .join('\n')
-            }
+  shuffleMeMaybe(i.options || [], i.shuffle)
+    .map((o: any) => makeOptionRow(o, i, 'checkbox'))
+    .join('\n')
+}
           </tbody>
         </table>
-      `;
+      `
     case 'slider':
       return (
         stripIndent`
@@ -299,21 +299,21 @@ export const processItem = (i: any, {
           <colgroup>
             <col style="width: 40%">
             ${
-              range(i.width).map(() =>
-                `<col style="width: ${ 60 / i.width }%">`
-              ).join('\n')
-            }
+  range(i.width).map(() =>
+    `<col style="width: ${ 60 / i.width }%">`
+  ).join('\n')
+}
           </colgroup>
           ${ makeLikertHead(i) }
           <tbody>
             ${
-              shuffleMeMaybe(i.items || [], i.shuffle)
-                .map((item: any) => makeLikertRow(item, i))
-                .join('\n')
-            }
+  shuffleMeMaybe(i.items || [], i.shuffle)
+    .map((item: any) => makeLikertRow(item, i))
+    .join('\n')
+}
           </tbody>
         </table>
-      `;
+      `
     default:
       console.error('Unknown page item type', i.type)
   }

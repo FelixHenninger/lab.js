@@ -13,20 +13,20 @@ const prototypeChain = (object: any) => {
   }
 
   return chain
-}
+};
 
 export const parsableOptions = (component: any) => // Collect parsable options from the static property metadata
 // of all components on the prototype chain
 // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
-Object.assign({},
-  ...prototypeChain(component).map(p => (
-    p.constructor.metadata
-      ? p.constructor.metadata.parsableOptions
-      : undefined
-  )),
-)
+  Object.assign({},
+    ...prototypeChain(component).map(p => (
+      p.constructor.metadata
+        ? p.constructor.metadata.parsableOptions
+        : undefined
+    )),
+  )
 
-export const parse = (raw: any, context: any, metadata: any, that={}) => {
+export const parse = (raw: any, context: any, metadata: any, that = {}) => {
   // Don't parse anything without metadata
   if (!metadata) {
     return raw

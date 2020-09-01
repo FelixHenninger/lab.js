@@ -24,22 +24,22 @@ export const prepareNested = function(nested: any, parent: any) {
   return Promise.all(
     nested.map((c: any) => c.prepare(false)), // indicate automated call
   );
-}
+};
 
 // Sequence -----------------------------------------------
 
 // A sequence combines an array of other
 // components and runs them sequentially
 export class Sequence extends Component {
-static metadata = {
+  static metadata = {
     module: ['flow'],
     nestedComponents: ['content'],
     parsableOptions: {
-        shuffle: { type: 'boolean' },
+      shuffle: { type: 'boolean' },
     },
-};
+  };
 
-  constructor(options={}) {
+  constructor(options = {}) {
     super({
       // Define an array of nested components
       // to iterate over
@@ -87,20 +87,20 @@ static metadata = {
 
   async step(frameTimeStamp: any, frameSynced: any) {
     if (this.status === status.done) {
-      throw new Error('Sequence ended, can\'t take any more steps')
+      throw new Error('Sequence ended, can\'t take any more steps');
     }
 
     // Move through the content
-    const next = this.internals.iterator.next()
+    const next = this.internals.iterator.next();
     if (next.done) {
       // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"completion"' is not assignable ... Remove this comment to see the full error message
-      return this.end('completion', frameTimeStamp, frameSynced)
-    } else {
-      [this.internals.currentPosition, this.internals.currentComponent] =
-        next.value
-      this.internals.currentComponent.on('after:end', this.internals.stepper)
-      return this.internals.currentComponent.run(frameTimeStamp, frameSynced)
-    }
+      return this.end('completion', frameTimeStamp, frameSynced);
+    } 
+    [this.internals.currentPosition, this.internals.currentComponent] =
+        next.value;
+    this.internals.currentComponent.on('after:end', this.internals.stepper);
+    return this.internals.currentComponent.run(frameTimeStamp, frameSynced);
+    
   }
 
   get progress() {
@@ -123,32 +123,32 @@ static metadata = {
 // mapping the data onto the factory function.
 // @ts-expect-error ts-migrate(2417) FIXME: Property 'shuffle' is missing in type '{ templateP... Remove this comment to see the full error message
 export class Loop extends Sequence {
-static metadata = {
+  static metadata = {
     module: ['flow'],
     nestedComponents: ['template'],
     parsableOptions: {
-        templateParameters: {
-            type: 'array',
-            content: {
-                // Parse the values of objects in
-                // the templateParameters array
-                content: {
-                    '*': {},
-                },
-            },
+      templateParameters: {
+        type: 'array',
+        content: {
+          // Parse the values of objects in
+          // the templateParameters array
+          content: {
+            '*': {},
+          },
         },
-        sample: {
-            type: 'object',
-            content: {
-                n: { type: 'number' },
-                replace: { type: 'boolean' },
-                mode: {},
-            },
+      },
+      sample: {
+        type: 'object',
+        content: {
+          n: { type: 'number' },
+          replace: { type: 'boolean' },
+          mode: {},
         },
+      },
     },
-};
+  };
 
-  constructor(options={}) {
+  constructor(options = {}) {
     super({
       template: null,
       templateParameters: [],
@@ -175,10 +175,10 @@ static metadata = {
 
       const shuffledParameters = shuffleTable
         ? this.random.shuffleTable(
-            this.options.templateParameters,
-            this.options.shuffleGroups,
-            this.options.shuffleUngrouped,
-          )
+          this.options.templateParameters,
+          this.options.shuffleGroups,
+          this.options.shuffleUngrouped,
+        )
         : this.options.templateParameters
 
       // Sample parameters
@@ -206,7 +206,7 @@ static metadata = {
           ...p,
         }
         return c
-      })
+      });
     } else if (isFunction(this.options.template)) {
       this.options.content = templateParameters.map(
         (p: any, i: any) => this.options.template(p, i, this),
@@ -224,15 +224,15 @@ static metadata = {
 // A parallel component executes multiple
 // other components simultaneously
 export class Parallel extends Component {
-static metadata = {
+  static metadata = {
     module: ['flow'],
     nestedComponents: ['content'],
     parsableOptions: {
-        mode: {},
+      mode: {},
     },
-};
+  };
 
-  constructor(options={}) {
+  constructor(options = {}) {
     super({
       // The content, in this case,
       // consists of an array of components

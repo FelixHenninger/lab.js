@@ -44,30 +44,34 @@ const escapeCsvCell = (c: any) => {
   }
 
   return c
-}
+};
 
 const twoDigit = (x: any) => x.toString().padStart(2, '0')
 
-const dateString = (d=new Date()) =>
+const dateString = (d = new Date()) =>
   `${ d.getFullYear() }-` +
   `${ twoDigit((d.getMonth() + 1).toString()) }-` +
   `${ twoDigit(d.getDate().toString()) }--` +
   `${ d.toTimeString().split(' ')[0] }`
 
 const cleanData = (data: any) => // Filter keys that start with an underscore
-data.map(
-  (line: any) => omitBy(line, (v: any, k: any) => k.startsWith('_'))
-)
+  data.map(
+    (line: any) => omitBy(line, (v: any, k: any) => k.startsWith('_'))
+  )
 
 // Data storage class -------------------------------------
 
 // eslint-disable-next-line import/prefer-default-export
 export class Store extends EventHandler {
   data: any;
+
   staging: any;
+
   state: any;
+
   storage: any;
-  constructor(options={}) {
+
+  constructor(options = {}) {
     // Construct the underlying EventHandler
     super(options)
 
@@ -138,7 +142,7 @@ export class Store extends EventHandler {
   }
 
   // Get and set individual values ------------------------
-  set(key: any, value: any, fromCommit=false) {
+  set(key: any, value: any, fromCommit = false) {
     let attrs = {}
     if (typeof key === 'object') {
       attrs = key
@@ -168,23 +172,23 @@ export class Store extends EventHandler {
   // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
   stateProxy = (BUILD_FLAVOR !== 'legacy'
     ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
-      new window.Proxy({}, {
-        get: (_: any, prop: any) => this.get(prop),
-        // @ts-expect-error ts-migrate(1345) FIXME: An expression of type 'void' cannot be tested for ... Remove this comment to see the full error message
-        set: (_: any, prop: any, value: any) => this.set(prop, value) || true,
-        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-        has: (_: any, prop: any) => Reflect.has(this.state, prop),
-        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-        ownKeys: () => Reflect.ownKeys(this.state),
-        getOwnPropertyDescriptor: (_: any, prop: any) =>
-          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-          Reflect.getOwnPropertyDescriptor(this.state, prop),
-      })
+    new window.Proxy({}, {
+      get: (_: any, prop: any) => this.get(prop),
+      // @ts-expect-error ts-migrate(1345) FIXME: An expression of type 'void' cannot be tested for ... Remove this comment to see the full error message
+      set: (_: any, prop: any, value: any) => this.set(prop, value) || true,
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
+      has: (_: any, prop: any) => Reflect.has(this.state, prop),
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
+      ownKeys: () => Reflect.ownKeys(this.state),
+      getOwnPropertyDescriptor: (_: any, prop: any) =>
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
+        Reflect.getOwnPropertyDescriptor(this.state, prop),
+    })
     : undefined
-  )
+  );
 
   // Commit data to storage -------------------------------
-  commit(key={}, value: any) {
+  commit(key = {}, value: any) {
     this.set(key, value, true)
 
     // Remember the index of the new entry
@@ -217,13 +221,13 @@ export class Store extends EventHandler {
   }
 
   // Update saved data ------------------------------------
-  update(index: any, handler=(d: any) => d) {
+  update(index: any, handler = (d: any) => d) {
     this.data[index] = handler(this.data[index] || {})
     this.triggerMethod('update')
   }
 
   // Erase collected data ---------------------------------
-  clear(persistence=true, state=false) {
+  clear(persistence = true, state = false) {
     this.triggerMethod('clear')
 
     // Clear persistent state
@@ -241,7 +245,7 @@ export class Store extends EventHandler {
   }
 
   // Extracting data --------------------------------------
-  keys(includeState=false, metadata=defaultMetadata) {
+  keys(includeState = false, metadata = defaultMetadata) {
     // Extract all keys from the data collected
     let keys = this.data.map(
       (e: any) => Object.keys(e),
@@ -269,7 +273,7 @@ export class Store extends EventHandler {
 
   // Extract a single column for the data,
   // also filtering by sender, if desired
-  extract(column: any, senderRegExp=RegExp('.*')) {
+  extract(column: any, senderRegExp = RegExp('.*')) {
     // If the filter is defined a a string,
     // convert it into the corresponding
     // regular expression.
@@ -289,7 +293,7 @@ export class Store extends EventHandler {
 
   // Select the columns that should be present in the data
   // Input is an array of strings, a string, or a filter function
-  select(selector: any, senderRegExp=RegExp('.*')) {
+  select(selector: any, senderRegExp = RegExp('.*')) {
     let columns: any
     if (typeof selector === 'function') {
       columns = this.keys().filter(selector)
@@ -324,7 +328,7 @@ export class Store extends EventHandler {
   }
 
   // Export data in various formats -----------------------
-  exportJson(clean=true) {
+  exportJson(clean = true) {
     // Optionally export raw data
     const data = clean ? this.cleanData : this.data
 
@@ -332,7 +336,7 @@ export class Store extends EventHandler {
     return JSON.stringify(data)
   }
 
-  exportJsonL(clean=true) {
+  exportJsonL(clean = true) {
     // Export data in the json-lines format
     // (see http://jsonlines.org/)
 
@@ -342,7 +346,7 @@ export class Store extends EventHandler {
     return data.map((e: any) => JSON.stringify(e)).join('\n');
   }
 
-  exportCsv(separator=',', clean=true) {
+  exportCsv(separator = ',', clean = true) {
     // Export data as csv string
     // Optionally export raw data
     const data = clean ? this.cleanData : this.data
@@ -356,16 +360,16 @@ export class Store extends EventHandler {
     const rows = data.map((e: any) => {
       const cells = keys.map((k: any) => {
         if (Object.hasOwnProperty.call(e, k)) {
-          return e[k]
-        } else {
-          return null
-        }
+          return e[k];
+        } 
+        return null;
+        
       })
 
       return cells
         .map(escapeCsvCell) // Escape special characters in cells
         .join(separator) // Separate cells
-    })
+    });
 
     // Prepend column names
     rows.unshift(keys.join(separator))
@@ -374,7 +378,7 @@ export class Store extends EventHandler {
     return rows.join('\r\n')
   }
 
-  exportBlob(filetype='csv') {
+  exportBlob(filetype = 'csv') {
     // Assemble the text representation
     // of the current data
     let text = ''
@@ -407,17 +411,17 @@ export class Store extends EventHandler {
   }
 
   // Suggest a filename -----------------------------------
-  makeFilename(prefix='study', filetype='csv') {
+  makeFilename(prefix = 'study', filetype = 'csv') {
     // Extract an id from the data, if available
     const { id } = this
 
-    return prefix + '--' +
-      (id ? `${ id }--` : '') + dateString() +
-      (filetype ? `.${ filetype }` : '')
+    return `${ prefix  }--${ 
+      id ? `${ id }--` : ''  }${ dateString() 
+    }${ filetype ? `.${ filetype }` : '' }`;
   }
 
   // Download data in a given format ----------------------
-  download(filetype='csv', filename='data.csv') {
+  download(filetype = 'csv', filename = 'data.csv') {
     // TODO: Generate a filename on-the-fly
     return saveAs(
       this.exportBlob(filetype),
@@ -434,10 +438,10 @@ export class Store extends EventHandler {
   }
 
   // Send data via POST request ---------------------------
-  transmit(url: any, metadata={}, {
-    incremental=false, encoding='json',
-    headers: customHeaders={}, retry={},
-  }={}) {
+  transmit(url: any, metadata = {}, {
+    incremental = false, encoding = 'json',
+    headers: customHeaders = {}, retry = {},
+  } = {}) {
     this.triggerMethod('transmit')
 
     // Determine start and end of transmission
@@ -452,7 +456,7 @@ export class Store extends EventHandler {
     const data = cleanData(this.data.slice(slice))
 
     // Encode data
-    let body, defaultHeaders = {}
+    let body; let defaultHeaders = {}
     if (encoding === 'form') {
       // Encode data as form fields
       body = new FormData()
@@ -504,8 +508,9 @@ export class Store extends EventHandler {
   _debouncedTransmit = debounceAsync(
     this.transmit,
     2500,
-  )
-  _lastIncrementalTransmission = 0
+  );
+
+  _lastIncrementalTransmission = 0;
 
   queueIncrementalTransmission(url: any, metadata: any, options: any) {
     // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 3.

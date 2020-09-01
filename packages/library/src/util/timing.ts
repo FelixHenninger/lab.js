@@ -14,9 +14,9 @@ export const ensureHighResTime = (t: any) => // This is built to replace a missi
 // the window would need to be open for a longer duration than between
 // the page load and 1970-1-1 for this approximation not to work. The
 // shortcut is for performance reasons)
-t && !invalidEventTime && t < performance.timing.navigationStart
-  ? t
-  : performance.now()
+  t && !invalidEventTime && t < performance.timing.navigationStart
+    ? t
+    : performance.now()
 
 // This is a very basic shim to use rIC on browsers
 // that have it, and use the simplest possible
@@ -26,17 +26,22 @@ t && !invalidEventTime && t < performance.timing.navigationStart
 // @ts-expect-error ts-migrate(2339) FIXME: Property 'requestIdleCallback' does not exist on t... Remove this comment to see the full error message
 export const requestIdleCallback = window.requestIdleCallback
   ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'requestIdleCallback' does not exist on t... Remove this comment to see the full error message
-    window.requestIdleCallback
+  window.requestIdleCallback
   : (fn: any) => window.setTimeout(fn)
 
 // Timer wrappers --------------------------------------------------------------
 
 export class StackTimeout {
   _running: any;
+
   _timeoutHandle: any;
+
   delay: any;
+
   f: any;
+
   params: any;
+
   // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'params' implicitly has an 'any[]' ... Remove this comment to see the full error message
   constructor(f: any, delay: any, ...params) {
     this.f = f
@@ -73,14 +78,23 @@ const thresholds = {
 
 export class FrameTimeout {
   _animationFrameHandle: any;
+
   _lastAnimationFrame: any;
+
   _running: any;
+
   _timeoutHandle: any;
+
   delay: any;
+
   f: any;
+
   mode: any;
+
   params: any;
+
   targetTime: any;
+
   // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'params' implicitly has an 'any[]' ... Remove this comment to see the full error message
   constructor(f: any, delay: any, ...params) {
     this.delay = delay
@@ -103,7 +117,7 @@ export class FrameTimeout {
     this.tick = this.tick.bind(this)
   }
 
-  tick(frameTime=performance.now(), frameSynced=false) {
+  tick(frameTime = performance.now(), frameSynced = false) {
     // Estimate the current frame interval, falling back
     // onto the minimum observed interval if necessary
     const frameInterval =
@@ -142,7 +156,7 @@ export class FrameTimeout {
     }
   }
 
-  run(now=performance.now()) {
+  run(now = performance.now()) {
     if (!this._running) {
       // Set target time in milliseconds
       this.targetTime = this.targetTime || now + this.delay

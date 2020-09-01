@@ -26,7 +26,7 @@ const splitEventString = function(eventString: any) {
   }
 
   return [eventName, filters, selector]
-}
+};
 
 const keyValues = {
   Space: ' ',
@@ -35,7 +35,7 @@ const keyValues = {
 // Generate a sequence of checks to apply to an event
 // before triggering a handler function
 const makeChecks = function(eventName: any,
-  { filters=[], filterRepeat=true, startTime=-Infinity }) {
+  { filters = [], filterRepeat = true, startTime = -Infinity }) {
 
   const checks = []
 
@@ -73,7 +73,7 @@ const makeChecks = function(eventName: any,
           // @ts-expect-error ts-migrate(2339) FIXME: Property 'includes' does not exist on type 'never[... Remove this comment to see the full error message
           !(keys.length > 0 && !keys.includes(e.key))
         )
-      })
+      });
     }
   // @ts-expect-error ts-migrate(2339) FIXME: Property 'includes' does not exist on type 'string... Remove this comment to see the full error message
   } else if (['click', 'mousedown', 'mouseup'].includes(eventName)) {
@@ -86,12 +86,12 @@ const makeChecks = function(eventName: any,
       checks.push(function(e: any) {
         // @ts-expect-error ts-migrate(2339) FIXME: Property 'includes' does not exist on type 'number... Remove this comment to see the full error message
         return buttons.includes(e.button)
-      })
+      });
     }
   }
 
   return checks
-}
+};
 
 // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'eventName' implicitly has an 'any... Remove this comment to see the full error message
 const defaultProcessEvent = ([eventName, filters, selector]) =>
@@ -100,11 +100,17 @@ const defaultProcessEvent = ([eventName, filters, selector]) =>
 // eslint-disable-next-line import/prefer-default-export
 export class DomConnection {
   context: any;
+
   el: any;
+
   events: any;
+
   parsedEvents: any;
+
   processEvent: any;
+
   startTime: any;
+
   constructor(options: any) {
     // Limit search for elements to a
     // specified scope if possible,
@@ -142,7 +148,7 @@ export class DomConnection {
       return checks.reduce((acc: any, check: any) => acc && check(e), true)
         ? handler(e)
         : null;
-    };
+    }
   }
 
   prepare() {
@@ -152,7 +158,7 @@ export class DomConnection {
       .map(([eventString, handler]) => {
         // Split event string into constituent components,
         // and pass result onto event processing
-        const { eventName, filters, selector, moreChecks=[] } =
+        const { eventName, filters, selector, moreChecks = [] } =
           this.processEvent(splitEventString(eventString))
 
         // Apply the wrapHandler method to the handler,
@@ -163,7 +169,7 @@ export class DomConnection {
         ])
 
         return [eventString, eventName, selector, wrappedHandler]
-      })
+      });
   }
 
   // DOM interaction -----------------------------------------------------------

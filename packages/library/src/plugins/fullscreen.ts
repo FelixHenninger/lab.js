@@ -1,10 +1,11 @@
 export default class FullscreenPlugin {
   options: any;
+
   constructor({
     message,
     hint,
     close
-  }: any={}) {
+  }: any = {}) {
     this.options = {
       message: message || 'This experiment requires full screen display',
       hint: hint || 'Please click to continue in full screen mode',
@@ -47,7 +48,7 @@ export default class FullscreenPlugin {
           document.body.removeChild(overlay)
           resolve()
         }, { once: true })
-      })
+      });
     } else if (event === 'end' && this.options.close) {
       // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'lab'.
       lab.util.fullscreen.exit()

@@ -2,16 +2,19 @@ const unloadHandler = (e: any) => {
   const warning = 'Are you sure you want to close this window?'
   e.returnValue = warning
   return warning
-}
+};
 
 export default class Download {
   el: any;
+
   filePrefix: any;
+
   fileType: any;
+
   constructor({
     filePrefix,
     fileType
-  }: any={}) {
+  }: any = {}) {
     this.el = null
     this.filePrefix = filePrefix || 'study'
     this.fileType = fileType || 'csv'

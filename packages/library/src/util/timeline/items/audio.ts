@@ -9,7 +9,7 @@ const decodeAudioData = (context: any, buffer: any) =>
   // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
   new Promise((resolve: any, reject: any) => {
     context.decodeAudioData(buffer, resolve, reject)
-  })
+  });
 
 export const load = async (url: any, context: any, fetchOptions: any) => {
   const response = await fetch(url, fetchOptions)
@@ -30,7 +30,7 @@ export const load = async (url: any, context: any, fetchOptions: any) => {
   }
 }
 
-const createNode = (type: any, context: any, options={}, audioParams={}) => {
+const createNode = (type: any, context: any, options = {}, audioParams = {}) => {
   // This provides a light wrapper around the context
   // audio node creation methods, as a stopgap until
   // all browsers support node constructor functions.
@@ -40,12 +40,12 @@ const createNode = (type: any, context: any, options={}, audioParams={}) => {
   switch (type) {
     case 'oscillator':
       node = context.createOscillator()
-      break
+      break;
     case 'bufferSource':
       node = context.createBufferSource()
-      break
+      break;
     default:
-      throw new Error(`Can't create node of unknown type`)
+      throw new Error('Can\'t create node of unknown type')
   }
 
   // Apply settings
@@ -61,7 +61,7 @@ const createNode = (type: any, context: any, options={}, audioParams={}) => {
   )
 
   return node
-}
+};
 
 const connectNodeChain = (source: any, chain: any, destination: any) =>
   [source, ...chain, destination].reduce((prev, next) => {
@@ -71,23 +71,30 @@ const connectNodeChain = (source: any, chain: any, destination: any) =>
     // Safari 12.0, and can be removed at a later point
     prev.connect(next)
     return next
-  })
+  });
 
 // Timeline items --------------------------------------------------------------
 
 class AudioNodeItem {
   audioSyncOrigin: any;
+
   nodeOrder: any;
+
   options: any;
+
   payload: any;
+
   processingChain: any;
+
   source: any;
+
   timeline: any;
+
   defaultPayload = {
     panningModel: 'equalpower',
-  }
+  };
 
-  constructor(timeline: any, options={}, payload={}) {
+  constructor(timeline: any, options = {}, payload = {}) {
     this.timeline = timeline
     this.options = options
     this.payload = {
@@ -115,7 +122,7 @@ class AudioNodeItem {
   // Event handlers ------------------------------------------------------------
 
   prepare() {
-    const audioContext = this.timeline.controller.audioContext
+    const {audioContext} = this.timeline.controller;
 
     // Add gain node
     if (
@@ -124,7 +131,7 @@ class AudioNodeItem {
       (this.payload.rampDown && this.payload.rampDown !== 0)
     ) {
       const gainNode = audioContext.createGain()
-      gainNode.gain.value = this.payload.rampUp ? 10**-10 : this.payload.gain
+      gainNode.gain.value = this.payload.rampUp ? 10 ** -10 : this.payload.gain
       this.nodeOrder.gain = this.processingChain.push(gainNode) - 1
     }
 
@@ -150,7 +157,7 @@ class AudioNodeItem {
     const { start } = this.options
     const { rampUp } = this.payload
 
-    const audioContext = this.timeline.controller.audioContext
+    const {audioContext} = this.timeline.controller;
     if (audioContext.state !== 'running') {
       console.warn(
         `Sending audio to a context in ${ audioContext.state } state.`,
@@ -164,13 +171,13 @@ class AudioNodeItem {
     const startTime = Math.max(0, this.schedule(offset + start))
 
     if (rampUp) {
-      const gain = this.processingChain[this.nodeOrder.gain].gain
+      const {gain} = this.processingChain[this.nodeOrder.gain];
 
       // Calculate transition point
       const rampUpEnd = this.schedule(offset + start + parseFloat(rampUp))
 
       // Cue transition
-      gain.setValueAtTime(10**-10, startTime)
+      gain.setValueAtTime(10 ** -10, startTime)
       gain.exponentialRampToValueAtTime(this.payload.gain, rampUpEnd)
     }
 
@@ -182,7 +189,7 @@ class AudioNodeItem {
     const { rampDown } = this.payload
 
     if (stop && rampDown) {
-      const gain = this.processingChain[this.nodeOrder.gain].gain
+      const {gain} = this.processingChain[this.nodeOrder.gain];
 
       const rampDownStart = this.schedule(offset + stop - parseFloat(rampDown))
       const stopTime = this.schedule(offset + stop)
@@ -229,8 +236,11 @@ class AudioNodeItem {
 
 export class BufferSourceItem extends AudioNodeItem {
   payload: any;
+
   source: any;
+
   timeline: any;
+
   async prepare() {
     // Populate buffer from cache, if possible
     const { cache, audioContext } = this.timeline.controller
@@ -244,8 +254,11 @@ export class BufferSourceItem extends AudioNodeItem {
 
 export class OscillatorItem extends AudioNodeItem {
   payload: any;
+
   source: any;
+
   timeline: any;
+
   prepare() {
     const { type, frequency, detune } = this.payload
 

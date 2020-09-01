@@ -1,7 +1,8 @@
 
 export default class Logger {
   title: any;
-  constructor(options={}) {
+
+  constructor(options = {}) {
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'title' does not exist on type '{}'.
     this.title = options.title
   }

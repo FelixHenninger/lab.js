@@ -6,7 +6,7 @@ import alea from 'seedrandom/lib/alea'
 import { maxRepSeries, minRepDistance } from './constraints'
 
 // Random uuid4 generation
-export const uuid4 = (random=Math.random) =>
+export const uuid4 = (random = Math.random) =>
   // This is adapted from Jed Schmidt's code,
   // which is available under the DWTFYWTPL
   // at https://gist.github.com/jed/982883
@@ -23,7 +23,7 @@ export const uuid4 = (random=Math.random) =>
 // This is adapted from the seedrandom implementation,
 // but (drastically) simplified at the cost of node.js
 // and legacy browser compatibility
-export const autoSeed = (width=256) => {
+export const autoSeed = (width = 256) => {
   // Create and fill an array of random integers
   const output = new Uint8Array(width);
   // @ts-expect-error ts-migrate(2551) FIXME: Property 'msCrypto' does not exist on type 'Window... Remove this comment to see the full error message
@@ -32,11 +32,12 @@ export const autoSeed = (width=256) => {
   // Output as string of (UTF-16) characters
   // @ts-expect-error ts-migrate(2345) FIXME: Type 'Uint8Array' is missing the following propert... Remove this comment to see the full error message
   return String.fromCharCode.apply(null, output)
-}
+};
 
 export class Random {
   random: any;
-  constructor(options={}) {
+
+  constructor(options = {}) {
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'algorithm' does not exist on type '{}'.
     if (options.algorithm === 'alea') {
       // Generate a PRNG using the alea algorithm
@@ -51,7 +52,7 @@ export class Random {
   // Random integer within a specified range
   // (for a single value, the return value will be between 0 and max - 1,
   // for two input values, between min and max - 1)
-  range(a: any, b=undefined) {
+  range(a: any, b = undefined) {
     // eslint-disable-next-line no-multi-spaces
     const min   = b === undefined ? 0 : a
     // @ts-expect-error ts-migrate(2532) FIXME: Object is possibly 'undefined'.
@@ -67,28 +68,28 @@ export class Random {
 
   // Sample multiple random elements from an array,
   // with or without replacement
-  sample(array: any, n=1, replace=false) {
+  sample(array: any, n = 1, replace = false) {
     if (replace) {
       // Draw independent samples
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'fill' does not exist on type 'any[]'.
-      return Array(n).fill(0).map(() => this.choice(array))
-    } else {
-      // Draw without replacement
-      // (shuffle and slice up to array length)
-      return this.shuffle(array).slice(0, clamp(n, array.length))
-    }
+      return Array(n).fill(0).map(() => this.choice(array));
+    } 
+    // Draw without replacement
+    // (shuffle and slice up to array length)
+    return this.shuffle(array).slice(0, clamp(n, array.length));
+    
   }
 
-  sampleMode(array: any, samples: any, mode='draw-shuffle') {
+  sampleMode(array: any, samples: any, mode = 'draw-shuffle') {
     if (!(Array.isArray(array) && array.length > 0)) {
-      throw new Error("Can't sample: Empty input, or not an array")
+      throw new Error("Can't sample: Empty input, or not an array");
     }
 
-    const n = samples || array.length
-    const repetitions = Math.floor(n / array.length)
-    const remainder = n % array.length
+    const n = samples || array.length;
+    const repetitions = Math.floor(n / array.length);
+    const remainder = n % array.length;
 
-    switch(mode) {
+    switch (mode) {
       case 'sequential':
         return [
           // Repeat the array
@@ -97,7 +98,7 @@ export class Random {
           ),
           // Append remainder
           ...array.slice(0, remainder),
-        ];
+        ]
       case 'draw':
       case 'draw-shuffle':
         const output = [
@@ -107,17 +108,17 @@ export class Random {
           ),
           // Append remainder
           ...this.sample(array, remainder, false),
-        ]
+        ];
         // Shuffle again if oversampling and so instructed
         if (mode === 'draw-shuffle' && n > array.length) {
-          return this.shuffle(output)
-        } else {
-          return output
-        }
+          return this.shuffle(output);
+        } 
+        return output;
+        
       case 'draw-replace':
-        return this.sample(array, n, true)
+        return this.sample(array, n, true);
       default:
-        throw new Error('Unknown sample mode, please specify')
+        throw new Error('Unknown sample mode, please specify');
     }
   }
 
@@ -149,7 +150,7 @@ export class Random {
     return array
   }
 
-  constrainedShuffle(a: any, constraints={}, helpers={}, maxIterations=10**4) {
+  constrainedShuffle(a: any, constraints = {}, helpers = {}, maxIterations = 10 ** 4) {
     // Generate constraint function, if necessary
     let constraintChecker
     if (isFunction(constraints)) {
@@ -188,7 +189,7 @@ export class Random {
 
   // Given an array of objects, shuffle groups
   // of keys independently.
-  shuffleTable(data: any, groups=[], shuffleUngrouped=true) {
+  shuffleTable(data: any, groups = [], shuffleUngrouped = true) {
     // Split data into independent groups
     const groupedData = groups.map(
       columns => data.map((entry: any) => pick(entry, columns))

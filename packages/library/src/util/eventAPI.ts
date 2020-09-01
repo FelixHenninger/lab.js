@@ -8,9 +8,12 @@ import PluginAPI from '../plugins/api'
 // allows for custom events on an object.
 export class EventHandler {
   internals: any;
+
   plugins: any;
+
   type: any;
-  constructor(options={}) {
+
+  constructor(options = {}) {
     // Internal storage for whatever,
     // not supposed to be accessed by end-users
     this.internals = {
@@ -45,7 +48,7 @@ export class EventHandler {
     return this
   }
 
-  off(event: any, fn=null) {
+  off(event: any, fn = null) {
     if (fn === null) {
       // If there is no specific handler specified,
       // remove all handlers for an event
@@ -106,7 +109,7 @@ export class EventHandler {
             (c: any) => c.apply(this, args),
           ),
         )
-      } catch(e) {
+      } catch (e) {
         // Log and rethrow error
         console.error(
           `%cError in ${ this.internals.rawOptions.title }%c ` +

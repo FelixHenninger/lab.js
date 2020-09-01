@@ -24,7 +24,7 @@ const getMetadata = () => {
     window_innerHeight: window.innerHeight,
     devicePixelRatio: window.devicePixelRatio,
   }
-}
+};
 
 const extractURLSearchParams = (search: any) => fromPairs(
   // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
@@ -36,7 +36,8 @@ const extractURLSearchParams = (search: any) => fromPairs(
 
 export default class Metadata {
   options: any;
-  constructor(options={}) {
+
+  constructor(options = {}) {
     this.options = options
   }
 

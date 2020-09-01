@@ -1,4 +1,4 @@
-export const maxRepSeries = (arr: any, equalityFunc=(x: any, y: any) => x === y) => {
+export const maxRepSeries = (arr: any, equalityFunc = (x: any, y: any) => x === y) => {
   // Given an array, compute the longest consecutive
   // sequence of identical elements
   if (arr.length === 0) return 0
@@ -11,7 +11,7 @@ export const maxRepSeries = (arr: any, equalityFunc=(x: any, y: any) => x === y)
       longestSequenceLength = currentSequenceLength
     }
 
-    if (equalityFunc(arr[i], arr[i+1])) {
+    if (equalityFunc(arr[i], arr[i + 1])) {
       currentSequenceLength++
     } else {
       currentSequenceLength = 1
@@ -19,7 +19,7 @@ export const maxRepSeries = (arr: any, equalityFunc=(x: any, y: any) => x === y)
   }
 
   return longestSequenceLength
-}
+};
 
 /*
   TODO: Automate checking of private helper functions
@@ -33,7 +33,7 @@ export const maxRepSeries = (arr: any, equalityFunc=(x: any, y: any) => x === y)
   ]
 */
 
-export const minRepDistance = (arr: any, hashFunc=(x: any) => x) => {
+export const minRepDistance = (arr: any, hashFunc = (x: any) => x) => {
   // Given an array, compute the minimum distance
   // between two identical elements
   if (arr.length === 0) return undefined
@@ -59,7 +59,7 @@ export const minRepDistance = (arr: any, hashFunc=(x: any) => x) => {
   }
 
   return minDistance
-}
+};
 
 /*
   const testCases = [

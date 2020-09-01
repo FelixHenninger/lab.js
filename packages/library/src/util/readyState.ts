@@ -1,4 +1,4 @@
-export const awaitReadyState = (target='complete') =>
+export const awaitReadyState = (target = 'complete') =>
   // Wait for the document to be completely loaded
   // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
   new Promise((resolve: any) => {

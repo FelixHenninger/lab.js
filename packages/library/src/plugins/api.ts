@@ -3,7 +3,9 @@ import { without } from 'lodash'
 
 export default class PluginAPI {
   context: any;
+
   plugins: any;
+
   constructor(context: any) {
     this.plugins = []
     this.context = context

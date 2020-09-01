@@ -6,13 +6,13 @@ import { makePage } from './util/page'
 
 // html.Screens display HTML when run
 export class Screen extends Component {
-static metadata = {
+  static metadata = {
     module: ['html'],
     nestedComponents: [],
     parsableOptions: {
-        content: {},
+      content: {},
     },
-};
+  };
 
   constructor(options: any) {
     super({
@@ -33,10 +33,10 @@ static metadata = {
           text => (this.options.content = text),
         ).catch(
           e => console.log('Error while loading content: ', e),
-        )
-      } else {
-        return null
-      }
+        );
+      } 
+      return null;
+      
     })
   }
 
@@ -49,12 +49,12 @@ static metadata = {
 // An html.Form can show, validate and serialize a form
 // @ts-expect-error ts-migrate(2417) FIXME: Property 'parsableOptions' is missing in type '{ m... Remove this comment to see the full error message
 export class Form extends Screen {
-static metadata = {
+  static metadata = {
     module: ['html'],
     nestedComponents: [],
-};
+  };
 
-  constructor(options={}) {
+  constructor(options = {}) {
     super({
       validator: () => true,
       scrollTop: true,
@@ -97,7 +97,7 @@ static metadata = {
 
       // Otherwise stick to default behavior
       return true
-    }
+    };
 
     // Capture form submissions
     this.options.events['submit form'] = (e: any) => this.submit(e)
@@ -113,7 +113,7 @@ static metadata = {
     }
   }
 
-  submit(e=null) {
+  submit(e = null) {
     // Suppress default form behavior
     // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
     if (e && e.preventDefault) {
@@ -171,7 +171,7 @@ static metadata = {
               case 'checkbox':
                 // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 output[element.name] = element.checked
-                break
+                break;
               case 'radio':
                 if (element.checked) {
                   // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
@@ -183,19 +183,19 @@ static metadata = {
               default:
                 // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 output[element.name] = element.value
-                break
+                break;
             }
             break
           case 'textarea':
             // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             output[element.name] = element.value
-            break
+            break;
           case 'select':
             switch (element.type) {
               case 'select-one':
                 // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 output[element.name] = element.value
-                break
+                break;
               case 'select-multiple':
                 // Again, working around limitations of NodeLists
                 // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
@@ -204,14 +204,14 @@ static metadata = {
                   Array.from(element.options)
                     .filter((option: any) => option.selected)
                     .map((option: any) => option.value)
-                break
+                break;
               // no default
             }
             break
           default:
         } // outer switch
       }) // iterate across elements
-    }) // iterate across forms
+    }); // iterate across forms
 
     return output
   }
@@ -230,15 +230,15 @@ static metadata = {
 }
 
 export class Frame extends Component {
-static metadata = {
+  static metadata = {
     module: ['html'],
     nestedComponents: ['content'],
     parsableOptions: {
-        context: {},
+      context: {},
     },
-};
+  };
 
-  constructor(options={}) {
+  constructor(options = {}) {
     super({
       content: null,
       context: '',
@@ -290,46 +290,46 @@ static metadata = {
       this.options.content.off(
         'after:end',
         this.internals.contentEndHandler,
-      )
+      );
 
       // Again, the content is in focus
-      return this.options.content.end('abort by frame')
-    } else {
-      // If the content has already ended,
-      // there is nothing left to do
-      // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
-      return Promise.resolve()
-    }
+      return this.options.content.end('abort by frame');
+    } 
+    // If the content has already ended,
+    // there is nothing left to do
+    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
+    return Promise.resolve();
+    
   }
 }
 
 export class Page extends Form {
-static metadata = {
+  static metadata = {
     module: ['html'],
     nestedComponents: [],
     parsableOptions: {
-        items: {
-            type: 'array',
-            content: {
-                type: 'object',
-                content: {
-                    '*': 'string',
-                    attributes: {
-                        type: 'object',
-                        content: { '*': 'string' },
-                    },
-                    options: {
-                        type: 'array',
-                        content: {
-                            type: 'object',
-                            content: { '*': 'string' }
-                        },
-                    },
-                },
+      items: {
+        type: 'array',
+        content: {
+          type: 'object',
+          content: {
+            '*': 'string',
+            attributes: {
+              type: 'object',
+              content: { '*': 'string' },
             },
+            options: {
+              type: 'array',
+              content: {
+                type: 'object',
+                content: { '*': 'string' }
+              },
+            },
+          },
         },
+      },
     },
-};
+  };
 
   onPrepare() {
     this.options.content = makePage(this.options.items, {

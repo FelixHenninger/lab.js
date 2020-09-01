@@ -27,7 +27,7 @@ const _fromObject = (options: any, libraryRoot: any) => {
 
   if (library === undefined) {
     throw new Error(
-      `Couldn't find library in global scope, and no root object available`
+      'Couldn\'t find library in global scope, and no root object available'
     )
   }
 
@@ -81,6 +81,6 @@ const _fromObject = (options: any, libraryRoot: any) => {
 
   // Create a new component from the preprocessed options
   return new constructor(options)
-}
+};
 
 export default fromObject

@@ -122,28 +122,28 @@ const truncate = (s: any) => {
   // Insert invisible space after commas,
   // allowing for line breaks
   return output.replace(/,/g, ',&#8203;');
-}
+};
 
 const parseCell = (contents: any) => {
   switch (typeof contents) {
     case 'number':
       if (contents > 150) {
-        return contents.toFixed(0)
-      } else {
-        return contents.toFixed(2)
-      }
+        return contents.toFixed(0);
+      } 
+      return contents.toFixed(2);
+      
     case 'string':
-      return truncate(contents)
+      return truncate(contents);
     case 'undefined':
-      return ''
+      return '';
     case 'object':
       if (isPlainObject(contents)) {
-        return truncate(JSON.stringify(contents))
+        return truncate(JSON.stringify(contents));
       }
     default:
-      return contents
+      return contents;
   }
-}
+};
 
 const formatCell = (c: any) => `<td>${ parseCell(c) }</td>`
 
@@ -170,14 +170,18 @@ const renderStore = (datastore: any) => {
       ${ store.join('\n') }
     </table>
   `
-}
+};
 
 export default class Debug {
   container: any;
+
   context: any;
+
   filePrefix: any;
+
   isVisible: any;
-  constructor({ filePrefix='study' }={}) {
+
+  constructor({ filePrefix = 'study' } = {}) {
     this.filePrefix = filePrefix
   }
 
