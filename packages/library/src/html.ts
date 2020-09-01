@@ -6,6 +6,14 @@ import { makePage } from './util/page'
 
 // html.Screens display HTML when run
 export class Screen extends Component {
+static metadata = {
+    module: ['html'],
+    nestedComponents: [],
+    parsableOptions: {
+        content: {},
+    },
+};
+
   constructor(options) {
     super({
       content: null,
@@ -37,16 +45,13 @@ export class Screen extends Component {
   }
 }
 
-Screen.metadata = {
-  module: ['html'],
-  nestedComponents: [],
-  parsableOptions: {
-    content: {},
-  },
-}
-
 // An html.Form can show, validate and serialize a form
 export class Form extends Screen {
+static metadata = {
+    module: ['html'],
+    nestedComponents: [],
+};
+
   constructor(options={}) {
     super({
       validator: () => true,
@@ -207,12 +212,15 @@ export class Form extends Screen {
   }
 }
 
-Form.metadata = {
-  module: ['html'],
-  nestedComponents: [],
-}
-
 export class Frame extends Component {
+static metadata = {
+    module: ['html'],
+    nestedComponents: ['content'],
+    parsableOptions: {
+        context: {},
+    },
+};
+
   constructor(options={}) {
     super({
       content: null,
@@ -276,15 +284,34 @@ export class Frame extends Component {
   }
 }
 
-Frame.metadata = {
-  module: ['html'],
-  nestedComponents: ['content'],
-  parsableOptions: {
-    context: {},
-  },
-}
-
 export class Page extends Form {
+static metadata = {
+    module: ['html'],
+    nestedComponents: [],
+    parsableOptions: {
+        items: {
+            type: 'array',
+            content: {
+                type: 'object',
+                content: {
+                    '*': 'string',
+                    attributes: {
+                        type: 'object',
+                        content: { '*': 'string' },
+                    },
+                    options: {
+                        type: 'array',
+                        content: {
+                            type: 'object',
+                            content: { '*': 'string' }
+                        },
+                    },
+                },
+            },
+        },
+    },
+};
+
   onPrepare() {
     this.options.content = makePage(this.options.items, {
       submitButtonText: this.options.submitButtonText,
@@ -293,31 +320,4 @@ export class Page extends Form {
       rng: this.random,
     })
   }
-}
-
-Page.metadata = {
-  module: ['html'],
-  nestedComponents: [],
-  parsableOptions: {
-    items: {
-      type: 'array',
-      content: {
-        type: 'object',
-        content: {
-          '*': 'string',
-          attributes: {
-            type: 'object',
-            content: { '*': 'string' },
-          },
-          options: {
-            type: 'array',
-            content: {
-              type: 'object',
-              content: { '*': 'string' }
-            },
-          },
-        },
-      },
-    },
-  },
 }

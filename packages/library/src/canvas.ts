@@ -118,6 +118,30 @@ const insertCanvas = function insertCanvas(
 // Canvas-based components -----------------------------------------------------
 
 export class Screen extends Component {
+static metadata = {
+    module: ['canvas'],
+    nestedComponents: [],
+    parsableOptions: {
+        content: {
+            type: 'array',
+            content: {
+                type: 'object',
+                content: {
+                    text: {},
+                    fill: {},
+                    stroke: {},
+                    left: { type: 'number' },
+                    top: { type: 'number' },
+                    width: { type: 'number' },
+                    height: { type: 'number' },
+                    angle: { type: 'number' },
+                    src: {},
+                },
+            },
+        },
+    },
+};
+
   constructor(options={}) {
     super({
       content: null,
@@ -349,31 +373,12 @@ export class Screen extends Component {
   }
 }
 
-Screen.metadata = {
-  module: ['canvas'],
-  nestedComponents: [],
-  parsableOptions: {
-    content: {
-      type: 'array',
-      content: {
-        type: 'object',
-        content: {
-          text: {},
-          fill: {},
-          stroke: {},
-          left: { type: 'number' },
-          top: { type: 'number' },
-          width: { type: 'number' },
-          height: { type: 'number' },
-          angle: { type: 'number' },
-          src: {},
-        },
-      },
-    },
-  },
-}
-
 export class Frame extends BaseFrame {
+static metadata = {
+    module: ['canvas'],
+    nestedComponents: ['content'],
+};
+
   constructor(options={}) {
     super(addCanvasDefaults({
       context: '<canvas></canvas>',
@@ -477,9 +482,4 @@ export class Frame extends BaseFrame {
     delete this.options.canvas
     delete this.internals.parsedContext
   }
-}
-
-Frame.metadata = {
-  module: ['canvas'],
-  nestedComponents: ['content'],
 }
