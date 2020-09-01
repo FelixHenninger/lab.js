@@ -24,6 +24,7 @@
     "seedrandom": "^3.0.5",
     "shim-keyboard-event-key": "^1.0.2",
     "terser-webpack-plugin": "^2.3.5",
+    "ts-migrate": "^0.1.2",
     "ua-parser-js": "^0.7.19",
     "whatwg-fetch": "^2.0.4"
   },
