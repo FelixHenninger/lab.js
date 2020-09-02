@@ -28,7 +28,7 @@ export const ensureHighResTime = (
 // @ts-expect-error ts-migrate(2339) FIXME: Property 'requestIdleCallback' does not exist on t... Remove this comment to see the full error message
 export const requestIdleCallback = window.requestIdleCallback
   ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'requestIdleCallback' does not exist on t... Remove this comment to see the full error message
-  window.requestIdleCallback
+    window.requestIdleCallback
   : (fn: any) => window.setTimeout(fn)
 
 // Timer wrappers --------------------------------------------------------------
@@ -44,7 +44,6 @@ export class StackTimeout {
 
   params: any
 
-  // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'params' implicitly has an 'any[]' ... Remove this comment to see the full error message
   constructor(f: any, delay: any, ...params) {
     this.f = f
     this.delay = delay
@@ -98,7 +97,6 @@ export class FrameTimeout {
 
   targetTime: any
 
-  // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'params' implicitly has an 'any[]' ... Remove this comment to see the full error message
   constructor(f: any, delay: any, ...params) {
     this.delay = delay
     this.f = f
@@ -135,7 +133,6 @@ export class FrameTimeout {
     // (at the current frame rate)
     const remainingFrames = (this.targetTime - frameTime) / frameInterval
 
-    // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     if (remainingFrames <= thresholds[this.mode]) {
       // Fire callback
       this.f(frameTime, ...this.params)

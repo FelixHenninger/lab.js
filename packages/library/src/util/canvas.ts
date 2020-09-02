@@ -1,4 +1,3 @@
-
 import { fromPairs } from 'lodash'
 import { toRadians } from './geometry'
 
@@ -37,9 +36,9 @@ const calcTransformationParameters = (
   const viewportScale =
     options.viewportScale === 'auto'
       ? Math.min(
-        canvasSize[0] / (pixelRatio * viewportSize[0]),
-        canvasSize[1] / (pixelRatio * viewportSize[1]),
-      )
+          canvasSize[0] / (pixelRatio * viewportSize[0]),
+          canvasSize[1] / (pixelRatio * viewportSize[1]),
+        )
       : options.viewportScale
   /* eslint-enable indent */
 
@@ -94,8 +93,8 @@ export const makeInverseTransform = (
     // @ts-expect-error ts-migrate(2363) FIXME: The right-hand side of an arithmetic operation mus... Remove this comment to see the full error message
     1 / viewportScale,
     0,
-    // @ts-expect-error ts-migrate(2363) FIXME: The right-hand side of an arithmetic operation mus... Remove this comment to see the full error message
     0,
+    // @ts-expect-error ts-migrate(2363) FIXME: The right-hand side of an arithmetic operation mus... Remove this comment to see the full error message
     1 / viewportScale,
     // @ts-expect-error ts-migrate(2363) FIXME: The right-hand side of an arithmetic operation mus... Remove this comment to see the full error message
     -translateX / scale - offsetLeft / viewportScale,
@@ -104,7 +103,6 @@ export const makeInverseTransform = (
   ]
 }
 
-// @ts-expect-error ts-migrate(7031) FIXME: Binding element 'x' implicitly has an 'any' type.
 export const transform = (matrix: any, [x, y]) =>
   // Hard-coded matrix multiplication for a 2x3
   // transformation matrix and a 2d coordinate vector
@@ -164,10 +162,10 @@ const renderElement = (ctx: any, content: any, cache = {}) => {
     case 'text':
     case 'i-text':
       ctx.font =
-        `${ content.fontStyle || 'normal' } ` +
-        `${ content.fontWeight || 'normal' } ` +
-        `${ content.fontSize || 32 }px ` +
-        `${ content.fontFamily || 'sans-serif' }`
+        `${content.fontStyle || 'normal'} ` +
+        `${content.fontWeight || 'normal'} ` +
+        `${content.fontSize || 32}px ` +
+        `${content.fontFamily || 'sans-serif'}`
       ctx.textAlign = content.textAlign || 'center'
       // TODO: Make this configurable
       ctx.textBaseline = 'middle'
@@ -255,8 +253,8 @@ const MatrixReadOnly =
   window.DOMMatrixReadOnly !== undefined
     ? new window.DOMMatrixReadOnly()
     : document
-      .createElementNS('http://www.w3.org/2000/svg', 'svg')
-      .createSVGMatrix()
+        .createElementNS('http://www.w3.org/2000/svg', 'svg')
+        .createSVGMatrix()
 
 export const makePath = (ctx: any, content: any) => {
   const rawPath = new Path2D()
@@ -292,7 +290,6 @@ export const makePathFunction = (content: any) => (
 ) =>
   fromPairs(
     content
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'includes' does not exist on type 'string... Remove this comment to see the full error message
       .filter((c: any) => c.label && ['aoi'].includes(c.type)) // Supported objects
       .map((c: any) => [c.label, makePath(ctx, c)]), // Make key / path pairs
   )

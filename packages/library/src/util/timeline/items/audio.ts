@@ -10,7 +10,7 @@ const decodeAudioData = (context: any, buffer: any) =>
     context.decodeAudioData(buffer, resolve, reject)
   })
 
-export const load = async(url: any, context: any, fetchOptions: any) => {
+export const load = async (url: any, context: any, fetchOptions: any) => {
   const response = await fetch(url, fetchOptions)
 
   if (response.ok) {
@@ -18,14 +18,14 @@ export const load = async(url: any, context: any, fetchOptions: any) => {
     try {
       const decodedData = await decodeAudioData(context, buffer)
       if (!decodedData) {
-        throw new Error(`No data available after decoding ${ url }`)
+        throw new Error(`No data available after decoding ${url}`)
       }
       return decodedData
     } catch (e) {
-      throw new Error(`Error decoding audio data from ${ url }`)
+      throw new Error(`Error decoding audio data from ${url}`)
     }
   } else {
-    throw new Error(`Couldn't load audio from ${ response.url }`)
+    throw new Error(`Couldn't load audio from ${response.url}`)
   }
 }
 
@@ -53,20 +53,14 @@ const createNode = (
   }
 
   // Apply settings
-  // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'ObjectC... Remove this comment to see the full error message
-  Object.entries(options).forEach(
-    // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'setting' implicitly has an 'any' ... Remove this comment to see the full error message
-    ([setting, value]) => {
-      if (value) node[setting] = value
-    },
-  )
-  // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'ObjectC... Remove this comment to see the full error message
-  Object.entries(audioParams).forEach(
-    // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'setting' implicitly has an 'any' ... Remove this comment to see the full error message
-    ([setting, value]) => {
-      if (value) node[setting].value = value
-    },
-  )
+
+  Object.entries(options).forEach(([setting, value]) => {
+    if (value) node[setting] = value
+  })
+
+  Object.entries(audioParams).forEach(([setting, value]) => {
+    if (value) node[setting].value = value
+  })
 
   return node
 }
@@ -169,7 +163,7 @@ class AudioNodeItem {
     const { audioContext } = this.timeline.controller
     if (audioContext.state !== 'running') {
       console.warn(
-        `Sending audio to a context in ${ audioContext.state } state.`,
+        `Sending audio to a context in ${audioContext.state} state.`,
         'This may result in missing sounds —',
         'Please make sure that users interact with the page',
         'before using audio.',

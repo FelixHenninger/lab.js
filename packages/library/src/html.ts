@@ -121,7 +121,7 @@ export class Form extends Screen {
     if (this.validate()) {
       // Add serialized form data to
       // the element's dataset
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
+      
       Object.assign(this.data, this.serialize())
 
       // Bye!

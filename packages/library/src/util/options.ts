@@ -22,7 +22,7 @@ export const parsableOptions = (
   component: any, // Collect parsable options from the static property metadata
 ) =>
   // of all components on the prototype chain
-  // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
+  
   Object.assign(
     {},
     ...prototypeChain(component).map((p) =>
@@ -65,7 +65,7 @@ export const parse = (raw: any, context: any, metadata: any, that = {}) => {
     // Parse individual key/value pairs
     // and construct a new object from results
     return fromPairs(
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'ObjectC... Remove this comment to see the full error message
+      
       Object.entries(raw).map(
         // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'k' implicitly has an 'any' type.
         ([k, v]) => [
@@ -100,7 +100,7 @@ export const parseRequested = (
   // will only included those options for which parsing
   // has resulted in different output
   fromPairs(
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'ObjectC... Remove this comment to see the full error message
+    
     Object.entries(metadata)
       // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'k' implicitly has an 'any' type.
       .map(([k, v]) => {

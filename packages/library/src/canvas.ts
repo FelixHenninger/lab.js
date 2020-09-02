@@ -53,36 +53,36 @@ const addCanvasDefaults = function addCanvasDefaults(options: any) {
 const prepareCanvas = function prepareCanvas() {
   // Initialize a canvas,
   // if this has not already been done
-  // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+  
   if (this.options.canvas === null) {
-    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+    
     this.options.canvas = document.createElement('canvas')
     // Remember to add the canvas to the DOM later
-    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+    
     this.options.insertCanvasOnRun = true
   }
 
   // Setup resolution scaling
-  // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+  
   if (this.options.devicePixelScaling === null) {
-    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+    
     this.options.devicePixelScaling = true
   }
 }
 
 const insertCanvas = function insertCanvas(clearElement = true, wrapper: any) {
   // Add the canvas to the DOM if need be
-  // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+  
   if (this.options.insertCanvasOnRun) {
     // Calculate scaling factor necessary for full resolution rendering
-    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+    
     const pixelRatio = this.options.devicePixelScaling
       ? window.devicePixelRatio
       : 1
 
     // Styles are calculated relative to the canvas'
     // parent element
-    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+    
     wrapper = wrapper || this.options.el
 
     // Remove all other content within the HTML tag
@@ -112,24 +112,24 @@ const insertCanvas = function insertCanvas(clearElement = true, wrapper: any) {
 
     // Adjust the (internal) canvas dimensions
     // to match the physical screen pixels
-    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+    
     this.options.canvas.width = width * pixelRatio
-    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+    
     this.options.canvas.height = height * pixelRatio
 
     // Display as block so that dimensions apply exactly
-    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+    
     this.options.canvas.style.display = 'block'
 
     // Set the canvas element dimensions to match the available space
-    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+    
     this.options.canvas.style.width = `${ width }px`
-    // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+    
     this.options.canvas.style.height = `${ height }px`
 
     // Append the canvas to the DOM
     if (clearElement) {
-      // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+      
       wrapper.appendChild(this.options.canvas)
     }
   }

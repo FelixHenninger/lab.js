@@ -5,7 +5,7 @@ import { range } from 'lodash'
 import { Random } from './random'
 
 const makeAttributes = (attrs = {}) =>
-  // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'ObjectC... Remove this comment to see the full error message
+  
   Object.entries(attrs)
     // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'attr' implicitly has an 'any' typ... Remove this comment to see the full error message
     .map(([attr, val]) => `${ attr }="${ val }"`)

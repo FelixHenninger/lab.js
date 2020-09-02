@@ -18,15 +18,15 @@ export const launch = (el: any) => {
 export const exit = () => {
   if (document.exitFullscreen) {
     return document.exitFullscreen()
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'mozCancelFullScreen' does not exist on t... Remove this comment to see the full error message
+    // @ts-expect-error ts-migrate(2339) 
   }
   if (document.mozCancelFullScreen) {
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'mozCancelFullScreen' does not exist on t... Remove this comment to see the full error message
+    // @ts-expect-error ts-migrate(2339) 
     return document.mozCancelFullScreen()
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'webkitExitFullscreen' does not exist on ... Remove this comment to see the full error message
+    // @ts-expect-error ts-migrate(2339) 
   }
   if (document.webkitExitFullscreen) {
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'webkitExitFullscreen' does not exist on ... Remove this comment to see the full error message
+    // @ts-expect-error ts-migrate(2339) 
     return document.webkitExitFullscreen()
   }
 }

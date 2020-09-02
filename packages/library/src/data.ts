@@ -1,4 +1,3 @@
-// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/file-saver` if it exists o... Remove this comment to see the full error message
 import { saveAs } from 'file-saver'
 
 import {
@@ -8,7 +7,6 @@ import {
   difference,
   intersection,
   uniq,
-  
   pick,
   omitBy,
 } from 'lodash'
@@ -119,7 +117,7 @@ export class Store extends EventHandler {
         // Fail gracefully if JSON parsing fails
         try {
           this.data = JSON.parse(data)
-          // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
+
           this.state = Object.assign({}, ...this.data)
 
           // Remove metadata from current state
@@ -159,13 +157,11 @@ export class Store extends EventHandler {
     if (typeof key === 'object') {
       attrs = key
     } else {
-      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       attrs[key] = value
     }
 
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
     this.state = Object.assign(this.state, attrs)
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
+
     this.staging = Object.assign(this.staging, attrs)
 
     if (!fromCommit) {
@@ -181,23 +177,19 @@ export class Store extends EventHandler {
   // to the datastore state, while saving changes to staging.
   // Over time, as proxies are more widespread in browsers,
   // this will replace the datastore's state property. (TODO)
-  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
   stateProxy =
+    // @ts-expect-error cannot find name BUILD_FLAVOR
     BUILD_FLAVOR !== 'legacy'
-      ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
-        new window.Proxy(
+      ? new window.Proxy(
           {},
           {
             get: (_: any, prop: any) => this.get(prop),
-            // @ts-expect-error ts-migrate(1345) FIXME: An expression of type 'void' cannot be tested for ... Remove this comment to see the full error message
             set: (_: any, prop: any, value: any) =>
+              // @ts-expect-error ts-migrate(1345) FIXME: An expression of type 'void' cannot be tested for ... Remove this comment to see the full error message
               this.set(prop, value) || true,
-            // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
             has: (_: any, prop: any) => Reflect.has(this.state, prop),
-            // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
             ownKeys: () => Reflect.ownKeys(this.state),
             getOwnPropertyDescriptor: (_: any, prop: any) =>
-              // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
               Reflect.getOwnPropertyDescriptor(this.state, prop),
           },
         )
@@ -274,7 +266,7 @@ export class Store extends EventHandler {
     // Sort alphabetically and remove duplicates
     // (sorting apparently needs to be done twice)
     keys.sort()
-    keys = uniq(keys, true).sort()
+    keys = uniq(keys).sort()
 
     // Bring certain columns to the front
     const availableMetadata = intersection(metadata, keys)

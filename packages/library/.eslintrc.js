@@ -55,6 +55,8 @@ module.exports = {
     'no-plusplus': 0,
     // Reducing classes is nice but not critical
     'max-classes-per-file': 0,
+    // Named exports used often
+    'import/prefer-default-export': 0,
   },
   overrides: [
     {

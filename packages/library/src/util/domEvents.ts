@@ -155,7 +155,7 @@ export class DomConnection {
   }
 
   prepare() {
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'ObjectC... Remove this comment to see the full error message
+    
     this.parsedEvents = Object.entries(this.events)
       // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'eventString' implicitly has an 'a... Remove this comment to see the full error message
       .map(([eventString, handler]) => {

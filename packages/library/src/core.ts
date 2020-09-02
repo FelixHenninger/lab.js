@@ -439,7 +439,7 @@ export class Component extends EventHandler {
       templateContext,
     )
 
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
+    
     this.internals.parsedOptions = Object.assign(
       Object.create(this.internals.rawOptions),
       parsedOptions,

@@ -98,7 +98,7 @@ export const debounceAsync = (fn: any, wait: any, { throttle = true } = {}) => {
       // Save arguments and context
       // @ts-expect-error ts-migrate(2496) FIXME: The 'arguments' object cannot be referenced in an ... Remove this comment to see the full error message
       lastArgs = arguments
-      // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+      
       lastThis = this
 
       // Stop the current and setup a new timer

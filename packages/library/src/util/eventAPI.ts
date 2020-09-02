@@ -66,11 +66,9 @@ export class EventHandler {
     // Create a handler for the event that will
     // remove itself, then trigger the supplied
     // function.
-    // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'args' implicitly has an 'any[]' ty... Remove this comment to see the full error message
     function onceHandler(...args) {
-      // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
       this.off(event, onceHandler)
-      // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
+
       return fn.apply(this, args)
     }
 
@@ -93,7 +91,6 @@ export class EventHandler {
   // This is heavily inspired by the excellent backbone.marionette, see
   // http://marionettejs.com/annotated-src/backbone.marionette.html#section-96
   // (though I do not catch as many special cases, probably to my peril)
-  // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'args' implicitly has an 'any[]' ty... Remove this comment to see the full error message
   async trigger(event: any, ...args) {
     // Trigger all callbacks for a specific event,
     // within the context of the current object
@@ -122,7 +119,6 @@ export class EventHandler {
     return this
   }
 
-  // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'args' implicitly has an 'any[]' ty... Remove this comment to see the full error message
   async triggerMethod(event: any, ...args) {
     if (this.internals.rawOptions.debug) {
       // Tell the world what we're up to
@@ -155,7 +151,6 @@ export class EventHandler {
 
     // If there is a method called methodName,
     // run it and save the results
-    // @ts-expect-error ts-migrate(7053) FIXME: No index signature with a parameter of type 'strin... Remove this comment to see the full error message
     const method = this[methodName]
     let result
     if (isFunction(method)) {

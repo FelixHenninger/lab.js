@@ -1,9 +1,9 @@
 // Flow control components for lab.js
-import { mean, isFunction } from 'lodash'
+import { mean, isFunction, shuffle } from 'lodash'
 import { Component, status } from './core'
 
 // Helper function to handle nested components
-export const prepareNested = function(nested: any, parent: any) {
+export const prepareNested = function (nested: any, parent: any) {
   // Setup parent links on nested components
   nested.forEach((c: any) => (c.parent = parent))
 
@@ -26,6 +26,10 @@ export const prepareNested = function(nested: any, parent: any) {
 
 // Sequence -----------------------------------------------
 
+export interface SequenceOptions {
+  shuffle?: boolean
+}
+
 // A sequence combines an array of other
 // components and runs them sequentially
 export class Sequence extends Component {
@@ -37,7 +41,7 @@ export class Sequence extends Component {
     },
   }
 
-  constructor(options = {}) {
+  constructor(options: SequenceOptions = {}) {
     super({
       // Define an array of nested components
       // to iterate over
@@ -94,7 +98,7 @@ export class Sequence extends Component {
     if (next.done) {
       return this.end('completion', frameTimeStamp, frameSynced)
     }
-    [
+    ;[
       this.internals.currentPosition,
       this.internals.currentComponent,
     ] = next.value
@@ -174,10 +178,10 @@ export class Loop extends Sequence {
 
       const shuffledParameters = shuffleTable
         ? this.random.shuffleTable(
-          this.options.templateParameters,
-          this.options.shuffleGroups,
-          this.options.shuffleUngrouped,
-        )
+            this.options.templateParameters,
+            this.options.shuffleGroups,
+            this.options.shuffleUngrouped,
+          )
         : this.options.templateParameters
 
       // Sample parameters

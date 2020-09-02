@@ -1,6 +1,4 @@
-
 import { clamp, range, isFunction, pick, flatten, omit, merge } from 'lodash'
-// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/seedrandom` if it exists o... Remove this comment to see the full error message
 import alea from 'seedrandom/lib/alea'
 
 import { maxRepSeries, minRepDistance } from './constraints'
@@ -30,7 +28,6 @@ export const autoSeed = (width = 256) => {
   ;(window.crypto || window.msCrypto).getRandomValues(output)
 
   // Output as string of (UTF-16) characters
-  // @ts-expect-error ts-migrate(2345) FIXME: Type 'Uint8Array' is missing the following propert... Remove this comment to see the full error message
   return String.fromCharCode.apply(null, output)
 }
 
@@ -55,7 +52,6 @@ export class Random {
   range(a: any, b = undefined) {
     // eslint-disable-next-line no-multi-spaces
     const min = b === undefined ? 0 : a
-    // @ts-expect-error ts-migrate(2532) FIXME: Object is possibly 'undefined'.
     const range = b === undefined ? a : b - a
 
     return min + Math.floor(this.random() * range)
@@ -71,7 +67,6 @@ export class Random {
   sample(array: any, n = 1, replace = false) {
     if (replace) {
       // Draw independent samples
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'fill' does not exist on type 'any[]'.
       return Array(n)
         .fill(0)
         .map(() => this.choice(array))
@@ -178,7 +173,6 @@ export class Random {
       // Combine constraints into checker function
       constraintChecker = (arr: any) =>
         checks.reduce(
-          // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'accumulator' implicitly has an 'any' ty... Remove this comment to see the full error message
           (accumulator, check) => accumulator && check(arr),
           true, // start with true
         )
@@ -189,7 +183,6 @@ export class Random {
     let candidate
     for (let i = 0; i < maxIterations; i++) {
       candidate = this.shuffle(a)
-      // @ts-expect-error ts-migrate(2349) FIXME: Type '{}' has no call signatures.
       if (constraintChecker(candidate)) break
     }
     return candidate
@@ -213,6 +206,7 @@ export class Random {
     return merge(
       ...groupedData.map((g) => ({ data: this.shuffle(g) })),
       // Shuffle ungrouped columns if requested
+      // @ts-expect-error Expected at least 1 arguments, but got 1 or more
       { data: shuffleUngrouped ? this.shuffle(remainingData) : remainingData },
     ).data
   }
