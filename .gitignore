@@ -23,8 +23,8 @@ lerna-debug.log
 # Webpack
 packages/library/bundleStats.json
 
-# Typescript
-**/tsconfing.buildinfo
+# Typescript Build Info
+packages/library/build
 
 # R projects
 .RProj.user
