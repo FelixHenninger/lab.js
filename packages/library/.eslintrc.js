@@ -52,6 +52,8 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 1,
     // ++ is fine
     'no-plusplus': 0,
+    // Reducing classes is nice but not critical
+    'max-classes-per-file': 0,
   },
   overrides: [
     {
