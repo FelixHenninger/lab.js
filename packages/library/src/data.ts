@@ -8,7 +8,7 @@ import {
   difference,
   intersection,
   uniq,
-  // @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
+  
   pick,
   omitBy,
 } from 'lodash'
@@ -403,12 +403,11 @@ export class Store extends EventHandler {
   get id() {
     // Check whether any of the standard participant id columns
     // is present in the data -- if so, return its value
-    for (const c of defaultIdColumns) {
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'includes' does not exist on type 'string... Remove this comment to see the full error message
+    defaultIdColumns.forEach((c) => {
       if (Object.keys(this.state).includes(c)) {
         return this.state[c]
       }
-    }
+    })
 
     // If no value was found, return undefined
     return undefined

@@ -1,4 +1,4 @@
-// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
+
 import { clamp, range, isFunction, pick, flatten, omit, merge } from 'lodash'
 // @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/seedrandom` if it exists o... Remove this comment to see the full error message
 import alea from 'seedrandom/lib/alea'

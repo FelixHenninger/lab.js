@@ -43,7 +43,7 @@ export default class Transmit {
         if (this.updates.incremental) {
           // Set commit handler on data store
           // (inside the handler, this refers to the store)
-          context.options.datastore.on('idle', function () {
+          context.options.datastore.on('idle', function() {
             // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
             this.queueIncrementalTransmission(
               url,

@@ -5,6 +5,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
     'prettier/react',
+    'prettier/@typescript-eslint',
   ],
   plugins: ['@typescript-eslint'],
   parserOptions: {
@@ -42,7 +43,7 @@ module.exports = {
     semi: [2, 'never'],
     'space-before-function-paren': [2, 'never'],
     'space-infix-ops': 1,
-    'template-curly-spacing': [2, 'always'],
+    'template-curly-spacing': [0, 'always'],
     'linebreak-style': 0,
     // We dislike semicolons
     '@typescript-eslint/semi': 0,

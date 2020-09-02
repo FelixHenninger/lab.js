@@ -1,4 +1,4 @@
-// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
+
 import { isObject, cloneDeep } from 'lodash'
 
 // Retrieve an entry from a nested object
@@ -72,8 +72,8 @@ const _fromObject = (options: any, libraryRoot: any) => {
         return new PluginConstructor(pluginOptions)
       } catch (e) {
         throw new Error(
-          `Couldn't instantiate plugin ${pluginOptions.type}. ` +
-            `Error: ${e.message}`,
+          `Couldn't instantiate plugin ${ pluginOptions.type }. ` +
+            `Error: ${ e.message }`,
         )
       }
     })

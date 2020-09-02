@@ -1,4 +1,4 @@
-// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
+
 import { isPlainObject } from 'lodash'
 
 const payload = `<style type="text/css">
@@ -110,14 +110,14 @@ const payload = `<style type="text/css">
 
 const makeMessage = (msg: any) => `
   <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center;">
-    ${msg}
+    ${ msg }
   </div>`
 
 const truncate = (s: any) => {
   // Restrict string length
   const output =
     s.length > 80
-      ? `<div class="labjs-debug-trunc">${s.substr(0, 100)}</div>`
+      ? `<div class="labjs-debug-trunc">${ s.substr(0, 100) }</div>`
       : s
 
   // Insert invisible space after commas,
@@ -146,14 +146,14 @@ const parseCell = (contents: any) => {
   }
 }
 
-const formatCell = (c: any) => `<td>${parseCell(c)}</td>`
+const formatCell = (c: any) => `<td>${ parseCell(c) }</td>`
 
 const renderStore = (datastore: any) => {
   // Export keys including state
   const keys = datastore.keys(true)
 
   // Render header row
-  const header = keys.map((k: any) => `<th>${k}</th>`)
+  const header = keys.map((k: any) => `<th>${ k }</th>`)
 
   // Render state and store
   const state = keys.map((k: any) => formatCell(datastore.state[k]))
@@ -162,15 +162,15 @@ const renderStore = (datastore: any) => {
     .reverse() // copy before reversing in place
     .map(
       (row: any) =>
-        `<tr> ${keys.map((k: any) => formatCell(row[k])).join('')} </tr>`,
+        `<tr> ${ keys.map((k: any) => formatCell(row[k])).join('') } </tr>`,
     )
 
   // Export table
   return `
     <table>
-      <tr>${header.join('\n')}</tr>
-      <tr class="labjs-debug-state">${state.join('\n')}</tr>
-      ${store.join('\n')}
+      <tr>${ header.join('\n') }</tr>
+      <tr class="labjs-debug-state">${ state.join('\n') }</tr>
+      ${ store.join('\n') }
     </table>
   `
 }

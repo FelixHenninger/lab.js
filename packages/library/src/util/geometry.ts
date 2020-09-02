@@ -1,4 +1,4 @@
-// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
+
 import { range } from 'lodash'
 
 // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'x1' implicitly has an 'any' type.

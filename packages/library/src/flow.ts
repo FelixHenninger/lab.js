@@ -3,7 +3,7 @@ import { mean, isFunction } from 'lodash'
 import { Component, status } from './core'
 
 // Helper function to handle nested components
-export const prepareNested = function (nested: any, parent: any) {
+export const prepareNested = function(nested: any, parent: any) {
   // Setup parent links on nested components
   nested.forEach((c: any) => (c.parent = parent))
 
@@ -94,7 +94,7 @@ export class Sequence extends Component {
     if (next.done) {
       return this.end('completion', frameTimeStamp, frameSynced)
     }
-    ;[
+    [
       this.internals.currentPosition,
       this.internals.currentComponent,
     ] = next.value
@@ -174,10 +174,10 @@ export class Loop extends Sequence {
 
       const shuffledParameters = shuffleTable
         ? this.random.shuffleTable(
-            this.options.templateParameters,
-            this.options.shuffleGroups,
-            this.options.shuffleUngrouped,
-          )
+          this.options.templateParameters,
+          this.options.shuffleGroups,
+          this.options.shuffleUngrouped,
+        )
         : this.options.templateParameters
 
       // Sample parameters

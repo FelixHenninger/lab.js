@@ -1,5 +1,5 @@
 // Canvas-based displays for lab.js
-// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
+
 import { isObject } from 'lodash'
 
 import { Component } from './core'
@@ -123,9 +123,9 @@ const insertCanvas = function insertCanvas(clearElement = true, wrapper: any) {
 
     // Set the canvas element dimensions to match the available space
     // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
-    this.options.canvas.style.width = `${width}px`
+    this.options.canvas.style.width = `${ width }px`
     // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
-    this.options.canvas.style.height = `${height}px`
+    this.options.canvas.style.height = `${ height }px`
 
     // Append the canvas to the DOM
     if (clearElement) {
@@ -182,7 +182,7 @@ export class Screen extends Component {
 
   onPrepare() {
     // Add images to cached media
-    ;(this.options.content || [])
+    (this.options.content || [])
       .filter((c: any) => isObject(c) && c.type === 'image' && c.src)
       .forEach((c: any) => this.options.media.images.push(c.src))
 

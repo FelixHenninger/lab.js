@@ -35,7 +35,7 @@ export class Timeline {
         case 'oscillator':
           return new OscillatorItem(this, options, e.payload)
         default:
-          console.warn(`Unknown event type ${e.type}, skipping`)
+          console.warn(`Unknown event type ${ e.type }, skipping`)
       }
     })
 

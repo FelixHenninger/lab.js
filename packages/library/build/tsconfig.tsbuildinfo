@@ -1,29 +1,59 @@
 {
   "program": {
     "fileInfos": {
-      "../../../node_modules/typescript/lib/lib.d.ts": {
-        "version": "2dc8c927c9c162a773c6bb3cdc4f3286c23f10eedc67414028f9cb5951610f60",
-        "signature": "2dc8c927c9c162a773c6bb3cdc4f3286c23f10eedc67414028f9cb5951610f60",
-        "affectsGlobalScope": false
-      },
       "../../../node_modules/typescript/lib/lib.es5.d.ts": {
         "version": "c9a1f03d6ba0fe3c871eb0dd81622e78fbb61ade70878b34d48a341a690c59e9",
         "signature": "c9a1f03d6ba0fe3c871eb0dd81622e78fbb61ade70878b34d48a341a690c59e9",
         "affectsGlobalScope": true
       },
-      "../../../node_modules/typescript/lib/lib.dom.d.ts": {
-        "version": "38130cdd16bd2318b9362f9d60dd9670f7e38708bb6131cf11fc78a41b2c34a0",
-        "signature": "38130cdd16bd2318b9362f9d60dd9670f7e38708bb6131cf11fc78a41b2c34a0",
+      "../../../node_modules/typescript/lib/lib.es2015.d.ts": {
+        "version": "dc47c4fa66b9b9890cf076304de2a9c5201e94b740cffdf09f87296d877d71f6",
+        "signature": "dc47c4fa66b9b9890cf076304de2a9c5201e94b740cffdf09f87296d877d71f6",
+        "affectsGlobalScope": false
+      },
+      "../../../node_modules/typescript/lib/lib.es2015.core.d.ts": {
+        "version": "46ee15e9fefa913333b61eaf6b18885900b139867d89832a515059b62cf16a17",
+        "signature": "46ee15e9fefa913333b61eaf6b18885900b139867d89832a515059b62cf16a17",
         "affectsGlobalScope": true
       },
-      "../../../node_modules/typescript/lib/lib.webworker.importscripts.d.ts": {
-        "version": "7fac8cb5fc820bc2a59ae11ef1c5b38d3832c6d0dfaec5acdb5569137d09a481",
-        "signature": "7fac8cb5fc820bc2a59ae11ef1c5b38d3832c6d0dfaec5acdb5569137d09a481",
+      "../../../node_modules/typescript/lib/lib.es2015.collection.d.ts": {
+        "version": "43fb1d932e4966a39a41b464a12a81899d9ae5f2c829063f5571b6b87e6d2f9c",
+        "signature": "43fb1d932e4966a39a41b464a12a81899d9ae5f2c829063f5571b6b87e6d2f9c",
         "affectsGlobalScope": true
       },
-      "../../../node_modules/typescript/lib/lib.scripthost.d.ts": {
-        "version": "097a57355ded99c68e6df1b738990448e0bf170e606707df5a7c0481ff2427cd",
-        "signature": "097a57355ded99c68e6df1b738990448e0bf170e606707df5a7c0481ff2427cd",
+      "../../../node_modules/typescript/lib/lib.es2015.generator.d.ts": {
+        "version": "cdccba9a388c2ee3fd6ad4018c640a471a6c060e96f1232062223063b0a5ac6a",
+        "signature": "cdccba9a388c2ee3fd6ad4018c640a471a6c060e96f1232062223063b0a5ac6a",
+        "affectsGlobalScope": true
+      },
+      "../../../node_modules/typescript/lib/lib.es2015.iterable.d.ts": {
+        "version": "42f5e41e5893da663dbf0394268f54f1da4b43dc0ddd2ea4bf471fe5361d6faf",
+        "signature": "42f5e41e5893da663dbf0394268f54f1da4b43dc0ddd2ea4bf471fe5361d6faf",
+        "affectsGlobalScope": true
+      },
+      "../../../node_modules/typescript/lib/lib.es2015.promise.d.ts": {
+        "version": "0b7a905675e6cb4211c128f0a3aa47d414b275180a299a9aad5d3ec298abbfc4",
+        "signature": "0b7a905675e6cb4211c128f0a3aa47d414b275180a299a9aad5d3ec298abbfc4",
+        "affectsGlobalScope": true
+      },
+      "../../../node_modules/typescript/lib/lib.es2015.proxy.d.ts": {
+        "version": "dfff68b3c34338f6b307a25d4566de15eed7973b0dc5d69f9fde2bcac1c25315",
+        "signature": "dfff68b3c34338f6b307a25d4566de15eed7973b0dc5d69f9fde2bcac1c25315",
+        "affectsGlobalScope": true
+      },
+      "../../../node_modules/typescript/lib/lib.es2015.reflect.d.ts": {
+        "version": "cb609802a8698aa28b9c56331d4b53f590ca3c1c3a255350304ae3d06017779d",
+        "signature": "cb609802a8698aa28b9c56331d4b53f590ca3c1c3a255350304ae3d06017779d",
+        "affectsGlobalScope": true
+      },
+      "../../../node_modules/typescript/lib/lib.es2015.symbol.d.ts": {
+        "version": "3013574108c36fd3aaca79764002b3717da09725a36a6fc02eac386593110f93",
+        "signature": "3013574108c36fd3aaca79764002b3717da09725a36a6fc02eac386593110f93",
+        "affectsGlobalScope": true
+      },
+      "../../../node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts": {
+        "version": "4670208dd7da9d6c774ab1b75c1527a810388c7989c4905de6aaea8561cb9dce",
+        "signature": "4670208dd7da9d6c774ab1b75c1527a810388c7989c4905de6aaea8561cb9dce",
         "affectsGlobalScope": true
       },
       "../../../node_modules/@types/lodash/common/common.d.ts": {
@@ -98,22 +128,22 @@
       },
       "../src/plugins/api.ts": {
         "version": "12b8487b906c6611d4262bda6327624091ea59385fe6420beeb648b1f86ca261",
-        "signature": "3a175deff2a09ee8cb360041025264d58c24e76702b1eb1d1521abb2b7983546",
+        "signature": "655109bf7d200cd33a39102318a9ba03f3795cf2bdee4b30e3c2eb71f7a685f5",
         "affectsGlobalScope": false
       },
       "../src/util/eventapi.ts": {
         "version": "6831028055344d9acde78479b8960a95dd6d41a10c18d98dc413a363a1f024cf",
-        "signature": "521b3da16a85b978b19a8faac11974a9ccbcc7a7d9de7284f8e3bacca6104283",
+        "signature": "839757eccbacbed62af6efdf0530f6dac9d7a9e510e617ff58a2097622e888a3",
         "affectsGlobalScope": false
       },
       "../src/util/network.ts": {
         "version": "da6cad784fb2754c7036d465147312f0c898a2f43ca325d83d5273d314ac3104",
-        "signature": "2b0bc86b54c12a6206fd3403a2f872e03109d882a981cbf87b8191f7c588b17d",
+        "signature": "80f76522a387550730bcc67931c5666cecc90f743300ea5dff8e672238cf237c",
         "affectsGlobalScope": false
       },
       "../src/data.ts": {
         "version": "9ea8014b4af047aedb1f2ce4e956e3aa322a6a9f3fc4672aacc41e349183652d",
-        "signature": "9eeb4fe016e8feef05162a26b29a0738771713e2156edfadfaaabd048a019e95",
+        "signature": "54e84b56ca04968e0e85ce97ab278c0d28d6bba745649b5175871d3b64ae7251",
         "affectsGlobalScope": false
       },
       "../src/util/timeline/util/audiotime.ts": {
@@ -128,17 +158,17 @@
       },
       "../src/util/timing.ts": {
         "version": "cb55c92439e6f582cd51738909476e070b5be2d311ebb0d3a2cafb041174a4ca",
-        "signature": "5b73133cca1737cf2e2612bd3866fe038918dcc05aecfdd9b17a2955e555f905",
+        "signature": "743ecafdfd15d7baa23c92ccc185b63fcea70bc5332105df1094e05de92be27e",
         "affectsGlobalScope": false
       },
       "../src/util/timeline/items/audio.ts": {
         "version": "7174d5ac638b3666e9238216ffb7d8d76bf32869023fb98abf432f90b91e6273",
-        "signature": "91a4e204c07e0d3f043853530ca584f9f15c3e8aa3e2fd558c10991fd975b1bc",
+        "signature": "4a61a4e3ddd6a7512bf29ea0e6a811b977c49dca8812da5c5b4baccfe789e6e8",
         "affectsGlobalScope": false
       },
       "../src/util/timeline/index.ts": {
-        "version": "cadcf0415a19a825c7a3acc0a1b65b95955bc2283ed6794aaf0b11c4cffdafe4",
-        "signature": "4197cf47b72504cc7351616327fa5edacb6bcd1f7c894c0cb161d9d22d6b9936",
+        "version": "95d3e607f8653da83999aec9d3b73f40b52d0ffd9a9bf931bcdc74dbb60610dd",
+        "signature": "1f0cb93bcdab889c6b3aa30e59049d81454c46a9553b1ae768efab152ef1ff84",
         "affectsGlobalScope": false
       },
       "../src/util/domevents.ts": {
@@ -148,7 +178,7 @@
       },
       "../src/util/random/checks.ts": {
         "version": "9d3bf8c7526a957d1aeb2e95c617339b579840c849e448bc9e6ba85d8b798cb1",
-        "signature": "dc0b3d82e367a8d471b16e89179ae05aa4d4adf3c2b55d761a2d40622a6c8c89",
+        "signature": "3cbfd7e1051cd5bfbf044930a10dc4140ad9b94ae282509e9b6c661a352adc70",
         "affectsGlobalScope": false
       },
       "../src/util/random/constraints.ts": {
@@ -158,7 +188,7 @@
       },
       "../src/util/random/index.ts": {
         "version": "55c2a3c0cf9a41a7796624c57cb11b708f4f8caf29d6654253adb785d71653c5",
-        "signature": "59bdad7ed31aa505abd8e055d0389a07de4ca18e37315e38380f2b8fde833c3b",
+        "signature": "74d8d8140083d51494e68b6ee901f58ca5990f12abea5b883dc4cdd3e5af27be",
         "affectsGlobalScope": false
       },
       "../src/util/options.ts": {
@@ -168,12 +198,12 @@
       },
       "../src/util/readystate.ts": {
         "version": "aa25b4220c8334c0dd9829a6b1040ae39a7c7a36f0d30894ff5e4b70b1a17258",
-        "signature": "f334436db460059b3ffa6b6205d731be6d9d9e585e1c7992cf7a83a27d4089d8",
+        "signature": "8823b59e193042711a727dfab7690f15d324600881f35c4d7ff29346cda7d76b",
         "affectsGlobalScope": false
       },
       "../src/util/cache.ts": {
         "version": "8580d91dc8ea150551b5ed92a8857e1b3f44e096064a1de713461276bff50229",
-        "signature": "78fc9ccc214355f89f294c6072aa7689ecb5ea2b3fd29c31cc51f92d1e712e04",
+        "signature": "1a2187bbea5fdf2e20c0bcd947c1e602e8b11b0865bacdc3c5174569f346c0a0",
         "affectsGlobalScope": false
       },
       "../src/util/tree.ts": {
@@ -182,28 +212,28 @@
         "affectsGlobalScope": false
       },
       "../src/core.ts": {
-        "version": "94c14a30195433466364f3260b981c1599f0e1979790ebdc05eedb138c8d1e05",
-        "signature": "a1f0e4f6a94eccbd61d335d49584077e9aa605af12798c66e9923369f7191890",
+        "version": "5744b84c44f73654340469037ee9a069d9fe783cbc3777e8aceae34b5a160fc7",
+        "signature": "ca431b769bdc1decb6a2a3406bd1be416a3cf69bfb0817b17ec5c24038433471",
         "affectsGlobalScope": false
       },
       "../src/flow.ts": {
         "version": "ae0ac9f543a78a5c7ca00aadd6154d58cde74d5338b5dceaa329bda995d125db",
-        "signature": "fdc9fac732c64187e73ab8455e7b9575fbd631bce536fc153ead4db3a269dbfa",
+        "signature": "63d6efcd9b21f0833cae90e88a95a7881da2fc555e6d39345d4ae3cb7c6f8e18",
         "affectsGlobalScope": false
       },
       "../../../node_modules/@types/common-tags/index.d.ts": {
-        "version": "a8b0600a4e4dacc3bc86958525fbd711a3293d922c0d19ab4ef7b4965b38bb25",
-        "signature": "a8b0600a4e4dacc3bc86958525fbd711a3293d922c0d19ab4ef7b4965b38bb25",
+        "version": "3b93231babdb3ee9470a7e6103e48bf6585c4185f96941c08a77e097f8f469ae",
+        "signature": "3b93231babdb3ee9470a7e6103e48bf6585c4185f96941c08a77e097f8f469ae",
         "affectsGlobalScope": false
       },
       "../src/util/page.ts": {
         "version": "3918a5f1acaa1a49cec61b7f3e2bc9750bf73fab10a8dab2d82962972e0bb63d",
-        "signature": "498b6e97a67ee3395f93bf1d67b21ee1eade375488717e4a1600c03d38e0d545",
+        "signature": "856ef96fe05088add9bd866eca060c73bfc1117bf56ea8ed7242c88494459bce",
         "affectsGlobalScope": false
       },
       "../src/html.ts": {
         "version": "137df984ae4b317cd909a5bb7d9f2e92e80c4e5e2958c917f0fe5344aad3be56",
-        "signature": "2a83d1723eb6e6982b451fc80e5a523728098d009dd2cb35b078e498c278ef54",
+        "signature": "2246aa66988f1c6a2e134c5ab28ebad33c2e95649a1d3ff5688fb0d5aaed62dd",
         "affectsGlobalScope": false
       },
       "../src/util/geometry.ts": {
@@ -213,12 +243,12 @@
       },
       "../src/util/canvas.ts": {
         "version": "21e35890742a7cf19caf79493b1eb49a243b38f8087de35c8303fe53845a590a",
-        "signature": "8d66cae4753295f6b8749712da81865af8fd663440c1b7a222aa3684ced69fb5",
+        "signature": "30ab15b171bb0f7dfa2b43205ebc78a3eb5dc2fb6a1e8326ed94ae8dc8890167",
         "affectsGlobalScope": false
       },
       "../src/canvas.ts": {
         "version": "4b7a832938f669f02f2d9003dcbd07eaafad4b2f7c16840c7eee02345321c49e",
-        "signature": "8740d6652bafd8ec962ec314eddac55741dc283977c4627102a008b35285ed3e",
+        "signature": "eeb9bb0788c6703db8ebb907d66f0b0f2ded63cf58317b5ea230a8e2e1838dc6",
         "affectsGlobalScope": false
       },
       "../src/util/fromobject.ts": {
@@ -228,7 +258,7 @@
       },
       "../src/util/combinatorics.ts": {
         "version": "57511de9b5ff00da2cfc716f78e738e25fccb8a85fca026e2e13adfb0f7f2bc0",
-        "signature": "515859503c4f78506f9e3be810574b29a94758b3b6f25620bb92bc8b8609eac8",
+        "signature": "2f443967e45af71980f39772d532bccec523be332835d5caff1f1055b998983d",
         "affectsGlobalScope": false
       },
       "../src/util/events.ts": {
@@ -248,7 +278,7 @@
       },
       "../src/plugins/debug.ts": {
         "version": "6c3608100099eb587de9b99619b5eeadd7d000fc17a5a62f1003ca831899f33e",
-        "signature": "6e9c54d779de4b8b737543af3215eeb27ac9155a60ae175411ae919353e8e8bd",
+        "signature": "6dcd7d7cb6f6aaf0b46717bb932525ffdfc087affe518a964b16226fd78b0d27",
         "affectsGlobalScope": false
       },
       "../src/plugins/download.ts": {
@@ -293,7 +323,7 @@
       },
       "../src/index.ts": {
         "version": "0a8f996576bfbe35dee90c9f1bfa64257abc04ea9abc7492fc8aa76879f7d5e5",
-        "signature": "8be20a46dc3affc69f9cb2765da5a4ec76302d1fa37a52192334a8ac521cd235",
+        "signature": "bcb0e911546f86ebd9e3d1c1e6c7d81dc487ea8f2c4f5945ebabac3812c0cdcb",
         "affectsGlobalScope": false
       },
       "../../../node_modules/@types/anymatch/index.d.ts": {
@@ -461,13 +491,16 @@
       "incremental": true,
       "target": 1,
       "module": 3,
+      "lib": [
+        "lib.es2015.d.ts"
+      ],
       "declaration": true,
       "declarationMap": false,
       "sourceMap": false,
       "outDir": "./",
       "rootDir": "..",
       "composite": true,
-      "strict": true,
+      "strict": false,
       "moduleResolution": 2,
       "esModuleInterop": true,
       "skipLibCheck": true,
@@ -1158,17 +1191,207 @@
       "../../../node_modules/@types/yargs/index.d.ts",
       "../../../node_modules/csstype/index.d.ts",
       "../../../node_modules/source-map/source-map.d.ts",
-      "../../../node_modules/typescript/lib/lib.d.ts",
-      "../../../node_modules/typescript/lib/lib.dom.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.collection.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.core.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.generator.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.promise.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.proxy.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.reflect.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.symbol.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
       "../../../node_modules/typescript/lib/lib.es5.d.ts",
-      "../../../node_modules/typescript/lib/lib.scripthost.d.ts",
-      "../../../node_modules/typescript/lib/lib.webworker.importscripts.d.ts",
       [
         "../src/canvas.ts",
         [
           {
             "file": "../src/canvas.ts",
+            "start": 3605,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 4287,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 8642,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 12198,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 16626,
+            "length": 9,
+            "messageText": "Cannot find name 'DOMParser'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/canvas.ts",
             "start": 37,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 1903,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 2360,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 2592,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 2796,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 3125,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 3392,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 3724,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 4978,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 5183,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 5450,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 5725,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 5932,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 6207,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 8232,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 10108,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 15555,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 18021,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/canvas.ts",
+            "start": 18316,
             "length": 147,
             "code": 2578,
             "category": 1,
@@ -1181,23 +1404,111 @@
         [
           {
             "file": "../src/core.ts",
-            "start": 28114,
-            "length": 5,
-            "messageText": "'clone' implicitly has return type 'any' because it does not have a return type annotation and is referenced directly or indirectly in one of its return expressions.",
+            "start": 1731,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
             "category": 1,
-            "code": 7023
+            "code": 2584
           },
           {
             "file": "../src/core.ts",
-            "start": 28597,
-            "length": 12,
-            "messageText": "'cloneOptions' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.",
+            "start": 15122,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
             "category": 1,
-            "code": 7022
+            "code": 2584
           },
           {
             "file": "../src/core.ts",
-            "start": 30736,
+            "start": 19228,
+            "length": 11,
+            "messageText": "Cannot find name 'performance'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 19633,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 20646,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 21036,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 22181,
+            "length": 11,
+            "messageText": "Cannot find name 'performance'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 22717,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 25764,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 25967,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 26011,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 26673,
+            "length": 11,
+            "messageText": "Cannot find name 'performance'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 26987,
+            "length": 11,
+            "messageText": "Cannot find name 'performance'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 30716,
             "length": 4,
             "messageText": "'type' is defined as a property in class 'EventHandler', but is overridden here in 'Component' as an accessor.",
             "category": 1,
@@ -1205,8 +1516,176 @@
           },
           {
             "file": "../src/core.ts",
-            "start": 0,
+            "start": 2794,
             "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 3786,
+            "length": 71,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 3980,
+            "length": 71,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 4189,
+            "length": 71,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 5653,
+            "length": 71,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 5996,
+            "length": 71,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 6365,
+            "length": 71,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 7438,
+            "length": 71,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 7628,
+            "length": 71,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 7833,
+            "length": 71,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 11537,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 12491,
+            "length": 89,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 12726,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 15880,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 17096,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 18211,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 18407,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 19330,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 19833,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 20132,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 21942,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/core.ts",
+            "start": 30945,
+            "length": 94,
             "code": 2578,
             "category": 1,
             "messageText": "Unused '@ts-expect-error' directive."
@@ -1218,11 +1697,59 @@
         [
           {
             "file": "../src/data.ts",
+            "start": 2511,
+            "length": 14,
+            "messageText": "Cannot find name 'sessionStorage'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/data.ts",
+            "start": 2752,
+            "length": 12,
+            "messageText": "Cannot find name 'localStorage'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/data.ts",
             "start": 9180,
             "length": 4,
             "messageText": "Expected 1 arguments, but got 2.",
             "category": 1,
             "code": 2554
+          },
+          {
+            "file": "../src/data.ts",
+            "start": 12699,
+            "length": 4,
+            "messageText": "Cannot find name 'Blob'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/data.ts",
+            "start": 14937,
+            "length": 8,
+            "messageText": "Cannot find name 'FormData'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/data.ts",
+            "start": 15045,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/data.ts",
+            "start": 15289,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
           },
           {
             "file": "../src/data.ts",
@@ -1239,6 +1766,62 @@
             "code": 2578,
             "category": 1,
             "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/data.ts",
+            "start": 3545,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/data.ts",
+            "start": 4767,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/data.ts",
+            "start": 4955,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/data.ts",
+            "start": 5159,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/data.ts",
+            "start": 6334,
+            "length": 71,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/data.ts",
+            "start": 6479,
+            "length": 71,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/data.ts",
+            "start": 6665,
+            "length": 71,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
           }
         ]
       ],
@@ -1252,10 +1835,222 @@
             "code": 2578,
             "category": 1,
             "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/flow.ts",
+            "start": 844,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/flow.ts",
+            "start": 1834,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/flow.ts",
+            "start": 3248,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/flow.ts",
+            "start": 8141,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/flow.ts",
+            "start": 8471,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
           }
         ]
       ],
-      "../src/html.ts",
+      [
+        "../src/html.ts",
+        [
+          {
+            "file": "../src/html.ts",
+            "start": 823,
+            "length": 5,
+            "messageText": "Cannot find name 'fetch'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 2886,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 9321,
+            "length": 9,
+            "messageText": "Cannot find name 'DOMParser'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 528,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 3587,
+            "length": 70,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 3699,
+            "length": 70,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 3979,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 4229,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 4658,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 5235,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 5477,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 5929,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 6245,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 6650,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 6951,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 7283,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 7632,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 7839,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 8690,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 10108,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/html.ts",
+            "start": 11067,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
       "../src/index.ts",
       [
         "../src/plugins/api.ts",
@@ -1263,6 +2058,22 @@
           {
             "file": "../src/plugins/api.ts",
             "start": 0,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/plugins/api.ts",
+            "start": 587,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/plugins/api.ts",
+            "start": 774,
             "length": 147,
             "code": 2578,
             "category": 1,
@@ -1275,7 +2086,47 @@
         [
           {
             "file": "../src/plugins/debug.ts",
+            "start": 4814,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/plugins/debug.ts",
+            "start": 5955,
+            "length": 5,
+            "messageText": "Cannot find name 'alert'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/debug.ts",
+            "start": 6072,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/plugins/debug.ts",
+            "start": 6752,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/plugins/debug.ts",
             "start": 0,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/plugins/debug.ts",
+            "start": 4982,
             "length": 147,
             "code": 2578,
             "category": 1,
@@ -1283,12 +2134,196 @@
           }
         ]
       ],
-      "../src/plugins/download.ts",
-      "../src/plugins/fullscreen.ts",
+      [
+        "../src/plugins/download.ts",
+        [
+          {
+            "file": "../src/plugins/download.ts",
+            "start": 574,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/download.ts",
+            "start": 682,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/plugins/download.ts",
+            "start": 1184,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          }
+        ]
+      ],
+      [
+        "../src/plugins/fullscreen.ts",
+        [
+          {
+            "file": "../src/plugins/fullscreen.ts",
+            "start": 418,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/plugins/fullscreen.ts",
+            "start": 541,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/plugins/fullscreen.ts",
+            "start": 1120,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/plugins/fullscreen.ts",
+            "start": 1802,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/plugins/fullscreen.ts",
+            "start": 1236,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/plugins/fullscreen.ts",
+            "start": 1438,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
       "../src/plugins/log.ts",
       [
         "../src/plugins/metadata.ts",
         [
+          {
+            "file": "../src/plugins/metadata.ts",
+            "start": 274,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/metadata.ts",
+            "start": 455,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/metadata.ts",
+            "start": 493,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/metadata.ts",
+            "start": 536,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/metadata.ts",
+            "start": 578,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/metadata.ts",
+            "start": 733,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/metadata.ts",
+            "start": 774,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/metadata.ts",
+            "start": 815,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/plugins/metadata.ts",
+            "start": 862,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/plugins/metadata.ts",
+            "start": 914,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/metadata.ts",
+            "start": 958,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/metadata.ts",
+            "start": 1001,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/metadata.ts",
+            "start": 1857,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
           {
             "file": "../src/plugins/metadata.ts",
             "start": 0,
@@ -1296,20 +2331,146 @@
             "code": 2578,
             "category": 1,
             "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/plugins/metadata.ts",
+            "start": 1100,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
           }
         ]
       ],
-      "../src/plugins/navigationguard.ts",
-      "../src/plugins/postmessage.ts",
-      "../src/plugins/submit.ts",
-      "../src/plugins/transmit.ts",
-      "../src/util/browser.ts",
-      "../src/util/cache.ts",
       [
-        "../src/util/canvas.ts",
+        "../src/plugins/navigationguard.ts",
         [
           {
-            "file": "../src/util/canvas.ts",
+            "file": "../src/plugins/navigationguard.ts",
+            "start": 290,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/navigationguard.ts",
+            "start": 387,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          }
+        ]
+      ],
+      [
+        "../src/plugins/postmessage.ts",
+        [
+          {
+            "file": "../src/plugins/postmessage.ts",
+            "start": 231,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/postmessage.ts",
+            "start": 506,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          }
+        ]
+      ],
+      [
+        "../src/plugins/submit.ts",
+        [
+          {
+            "file": "../src/plugins/submit.ts",
+            "start": 151,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/plugins/submit.ts",
+            "start": 550,
+            "length": 14,
+            "messageText": "'ClipboardEvent' only refers to a type, but is being used as a value here.",
+            "category": 1,
+            "code": 2693
+          },
+          {
+            "file": "../src/plugins/submit.ts",
+            "start": 601,
+            "length": 12,
+            "messageText": "'DataTransfer' only refers to a type, but is being used as a value here.",
+            "category": 1,
+            "code": 2693
+          },
+          {
+            "file": "../src/plugins/submit.ts",
+            "start": 660,
+            "length": 4,
+            "messageText": "Cannot find name 'File'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/plugins/submit.ts",
+            "start": 738,
+            "length": 70,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/plugins/submit.ts",
+            "start": 1062,
+            "length": 70,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/plugins/submit.ts",
+            "start": 1228,
+            "length": 70,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
+      [
+        "../src/plugins/transmit.ts",
+        [
+          {
+            "file": "../src/plugins/transmit.ts",
+            "start": 1733,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/plugins/transmit.ts",
+            "start": 2020,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
+      [
+        "../src/util/browser.ts",
+        [
+          {
+            "file": "../src/util/browser.ts",
             "start": 0,
             "length": 147,
             "code": 2578,
@@ -1318,8 +2479,234 @@
           }
         ]
       ],
-      "../src/util/combinatorics.ts",
-      "../src/util/domevents.ts",
+      [
+        "../src/util/cache.ts",
+        [
+          {
+            "file": "../src/util/cache.ts",
+            "start": 2295,
+            "length": 5,
+            "messageText": "Cannot find name 'Image'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/cache.ts",
+            "start": 278,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/cache.ts",
+            "start": 452,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/cache.ts",
+            "start": 1452,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/cache.ts",
+            "start": 2045,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
+      [
+        "../src/util/canvas.ts",
+        [
+          {
+            "file": "../src/util/canvas.ts",
+            "start": 934,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/canvas.ts",
+            "start": 8022,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/canvas.ts",
+            "start": 8070,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/canvas.ts",
+            "start": 8102,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/util/canvas.ts",
+            "start": 8274,
+            "length": 6,
+            "messageText": "Cannot find name 'Path2D'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/canvas.ts",
+            "start": 8720,
+            "length": 6,
+            "messageText": "Cannot find name 'Path2D'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/canvas.ts",
+            "start": 0,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/canvas.ts",
+            "start": 3638,
+            "length": 93,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
+      [
+        "../src/util/combinatorics.ts",
+        [
+          {
+            "file": "../src/util/combinatorics.ts",
+            "start": 30,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/combinatorics.ts",
+            "start": 596,
+            "length": 92,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
+      [
+        "../src/util/domevents.ts",
+        [
+          {
+            "file": "../src/util/domevents.ts",
+            "start": 4792,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/util/domevents.ts",
+            "start": 7924,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/util/domevents.ts",
+            "start": 8694,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/util/domevents.ts",
+            "start": 656,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/domevents.ts",
+            "start": 932,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/domevents.ts",
+            "start": 4155,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/domevents.ts",
+            "start": 6062,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/domevents.ts",
+            "start": 7051,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/domevents.ts",
+            "start": 7518,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/domevents.ts",
+            "start": 8036,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/domevents.ts",
+            "start": 8346,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
       [
         "../src/util/eventapi.ts",
         [
@@ -1330,13 +2717,97 @@
             "code": 2578,
             "category": 1,
             "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/eventapi.ts",
+            "start": 2191,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/eventapi.ts",
+            "start": 2383,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/eventapi.ts",
+            "start": 2574,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/eventapi.ts",
+            "start": 3064,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/eventapi.ts",
+            "start": 3555,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/eventapi.ts",
+            "start": 3988,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/eventapi.ts",
+            "start": 4772,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/eventapi.ts",
+            "start": 6103,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
           }
         ]
       ],
-      "../src/util/events.ts",
+      [
+        "../src/util/events.ts",
+        [
+          {
+            "file": "../src/util/events.ts",
+            "start": 142,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
       [
         "../src/util/fromobject.ts",
         [
+          {
+            "file": "../src/util/fromobject.ts",
+            "start": 2846,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
           {
             "file": "../src/util/fromobject.ts",
             "start": 0,
@@ -1347,7 +2818,27 @@
           }
         ]
       ],
-      "../src/util/fullscreen.ts",
+      [
+        "../src/util/fullscreen.ts",
+        [
+          {
+            "file": "../src/util/fullscreen.ts",
+            "start": 428,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/util/fullscreen.ts",
+            "start": 467,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          }
+        ]
+      ],
       [
         "../src/util/geometry.ts",
         [
@@ -1358,28 +2849,90 @@
             "code": 2578,
             "category": 1,
             "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/geometry.ts",
+            "start": 183,
+            "length": 94,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
           }
         ]
       ],
-      "../src/util/network.ts",
+      [
+        "../src/util/network.ts",
+        [
+          {
+            "file": "../src/util/network.ts",
+            "start": 551,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/network.ts",
+            "start": 2465,
+            "length": 7,
+            "code": 2339,
+            "category": 1,
+            "messageText": "Property 'finally' does not exist on type 'Promise<void>'."
+          },
+          {
+            "file": "../src/util/network.ts",
+            "start": 311,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/network.ts",
+            "start": 1985,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/network.ts",
+            "start": 2944,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/network.ts",
+            "start": 3376,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
       [
         "../src/util/options.ts",
         [
-          {
-            "file": "../src/util/options.ts",
-            "start": 1032,
-            "length": 55,
-            "messageText": "Function implicitly has return type 'any' because it does not have a return type annotation and is referenced directly or indirectly in one of its return expressions.",
-            "category": 1,
-            "code": 7024
-          },
           {
             "file": "../src/util/options.ts",
             "start": 1263,
             "length": 6,
             "code": 2322,
             "category": 1,
-            "messageText": "Type 'string' is not assignable to type 'RegExp | undefined'."
+            "messageText": "Type 'string' is not assignable to type 'RegExp'.",
+            "relatedInformation": [
+              {
+                "file": "../../../node_modules/@types/lodash/common/common.d.ts",
+                "start": 6396,
+                "length": 6,
+                "messageText": "The expected type comes from property 'escape' which is declared here on type 'TemplateOptions'",
+                "category": 3,
+                "code": 6500
+              }
+            ]
           },
           {
             "file": "../src/util/options.ts",
@@ -1387,12 +2940,46 @@
             "length": 8,
             "code": 2322,
             "category": 1,
-            "messageText": "Type 'string' is not assignable to type 'RegExp | undefined'."
+            "messageText": "Type 'string' is not assignable to type 'RegExp'.",
+            "relatedInformation": [
+              {
+                "file": "../../../node_modules/@types/lodash/common/common.d.ts",
+                "start": 6487,
+                "length": 8,
+                "messageText": "The expected type comes from property 'evaluate' which is declared here on type 'TemplateOptions'",
+                "category": 3,
+                "code": 6500
+              }
+            ]
           },
           {
             "file": "../src/util/options.ts",
             "start": 46,
             "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/options.ts",
+            "start": 679,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/options.ts",
+            "start": 2195,
+            "length": 93,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/options.ts",
+            "start": 3224,
+            "length": 93,
             "code": 2578,
             "category": 1,
             "messageText": "Unused '@ts-expect-error' directive."
@@ -1417,11 +3004,59 @@
             "code": 2578,
             "category": 1,
             "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/page.ts",
+            "start": 630,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
           }
         ]
       ],
-      "../src/util/random/checks.ts",
-      "../src/util/random/constraints.ts",
+      [
+        "../src/util/random/checks.ts",
+        [
+          {
+            "file": "../src/util/random/checks.ts",
+            "start": 1249,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/random/checks.ts",
+            "start": 1450,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/random/checks.ts",
+            "start": 1738,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
+      [
+        "../src/util/random/constraints.ts",
+        [
+          {
+            "file": "../src/util/random/constraints.ts",
+            "start": 167,
+            "length": 75,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
       [
         "../src/util/random/index.ts",
         [
@@ -1443,6 +3078,46 @@
           },
           {
             "file": "../src/util/random/index.ts",
+            "start": 229,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/random/index.ts",
+            "start": 1678,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/random/index.ts",
+            "start": 2712,
+            "length": 75,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/random/index.ts",
+            "start": 3210,
+            "length": 91,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/random/index.ts",
+            "start": 7021,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/random/index.ts",
             "start": 7502,
             "length": 77,
             "code": 2578,
@@ -1451,14 +3126,28 @@
           }
         ]
       ],
-      "../src/util/readystate.ts",
-      "../src/util/stats.ts",
       [
-        "../src/util/timeline/index.ts",
+        "../src/util/readystate.ts",
         [
           {
-            "file": "../src/util/timeline/index.ts",
-            "start": 0,
+            "file": "../src/util/readystate.ts",
+            "start": 303,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/util/readystate.ts",
+            "start": 581,
+            "length": 8,
+            "messageText": "Cannot find name 'document'. Do you need to change your target library? Try changing the `lib` compiler option to include 'dom'.",
+            "category": 1,
+            "code": 2584
+          },
+          {
+            "file": "../src/util/readystate.ts",
+            "start": 111,
             "length": 147,
             "code": 2578,
             "category": 1,
@@ -1466,15 +3155,225 @@
           }
         ]
       ],
-      "../src/util/timeline/items/audio.ts",
-      "../src/util/timeline/util/audiotime.ts",
-      "../src/util/timing.ts",
+      "../src/util/stats.ts",
+      [
+        "../src/util/timeline/index.ts",
+        [
+          {
+            "file": "../src/util/timeline/index.ts",
+            "start": 1025,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/timeline/index.ts",
+            "start": 1542,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
+      [
+        "../src/util/timeline/items/audio.ts",
+        [
+          {
+            "file": "../src/util/timeline/items/audio.ts",
+            "start": 740,
+            "length": 5,
+            "messageText": "Cannot find name 'fetch'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/timeline/items/audio.ts",
+            "start": 7279,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/timeline/items/audio.ts",
+            "start": 7372,
+            "length": 11,
+            "messageText": "Cannot find name 'performance'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/timeline/items/audio.ts",
+            "start": 379,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/timeline/items/audio.ts",
+            "start": 2003,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/timeline/items/audio.ts",
+            "start": 2416,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
+      [
+        "../src/util/timeline/util/audiotime.ts",
+        [
+          {
+            "file": "../src/util/timeline/util/audiotime.ts",
+            "start": 320,
+            "length": 11,
+            "messageText": "Cannot find name 'performance'.",
+            "category": 1,
+            "code": 2304
+          }
+        ]
+      ],
+      [
+        "../src/util/timing.ts",
+        [
+          {
+            "file": "../src/util/timing.ts",
+            "start": 821,
+            "length": 11,
+            "messageText": "Cannot find name 'performance'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/timing.ts",
+            "start": 872,
+            "length": 11,
+            "messageText": "Cannot find name 'performance'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/timing.ts",
+            "start": 1565,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/timing.ts",
+            "start": 2214,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/timing.ts",
+            "start": 2429,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/timing.ts",
+            "start": 3416,
+            "length": 11,
+            "messageText": "Cannot find name 'performance'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/timing.ts",
+            "start": 4414,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/timing.ts",
+            "start": 4821,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/timing.ts",
+            "start": 4946,
+            "length": 11,
+            "messageText": "Cannot find name 'performance'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/timing.ts",
+            "start": 5249,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/timing.ts",
+            "start": 5295,
+            "length": 6,
+            "messageText": "Cannot find name 'window'.",
+            "category": 1,
+            "code": 2304
+          },
+          {
+            "file": "../src/util/timing.ts",
+            "start": 1794,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/timing.ts",
+            "start": 2778,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/timing.ts",
+            "start": 4019,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          }
+        ]
+      ],
       [
         "../src/util/tree.ts",
         [
           {
             "file": "../src/util/tree.ts",
             "start": 0,
+            "length": 147,
+            "code": 2578,
+            "category": 1,
+            "messageText": "Unused '@ts-expect-error' directive."
+          },
+          {
+            "file": "../src/util/tree.ts",
+            "start": 1276,
             "length": 147,
             "code": 2578,
             "category": 1,

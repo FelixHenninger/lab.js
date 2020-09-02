@@ -1,4 +1,3 @@
-// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import { isFunction } from 'lodash'
 import PluginAPI from '../plugins/api'
 

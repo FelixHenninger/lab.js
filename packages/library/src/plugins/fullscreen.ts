@@ -19,10 +19,10 @@ export default class FullscreenPlugin {
         >
           <p>
             <span class="font-weight-bold">
-              ${this.options.message}
+              ${ this.options.message }
             </span><br>
             <span class="text-muted">
-              ${this.options.hint}
+              ${ this.options.hint }
             </span>
           </p>
         </div>
@@ -40,7 +40,7 @@ export default class FullscreenPlugin {
         // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
         overlay.addEventListener(
           'click',
-          async (e) => {
+          async(e) => {
             // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'lab'.
             await lab.util.fullscreen.launch(document.documentElement)
             document.body.removeChild(overlay)

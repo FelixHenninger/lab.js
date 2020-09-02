@@ -7,6 +7,6 @@ export default class Logger {
   }
 
   handle(context: any, event: any) {
-    console.log(`Component ${this.title} received ${event}`)
+    console.log(`Component ${ this.title } received ${ event }`)
   }
 }

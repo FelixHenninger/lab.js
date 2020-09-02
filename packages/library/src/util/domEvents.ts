@@ -3,7 +3,7 @@ import 'shim-keyboard-event-key'
 import { ensureHighResTime } from './timing'
 
 // Split an eventString into event name, options and selector
-const splitEventString = function (eventString: any) {
+const splitEventString = function(eventString: any) {
   // Split the eventString ('click(0) div > button')
   // into selector ('div > button'), event type ('click')
   // and additional filters (button '0')
@@ -16,10 +16,10 @@ const splitEventString = function (eventString: any) {
 
   if (directHandlerRegEx.test(eventString)) {
     // @ts-expect-error ts-migrate(2461) FIXME: Type 'RegExpExecArray | null' is not an array type... Remove this comment to see the full error message
-    ;[, eventName, selector] = directHandlerRegEx.exec(eventString)
+    [, eventName, selector] = directHandlerRegEx.exec(eventString)
   } else if (wrappedHandlerRegEx.test(eventString)) {
     // @ts-expect-error ts-migrate(2461) FIXME: Type 'RegExpExecArray | null' is not an array type... Remove this comment to see the full error message
-    ;[, eventName, filters, selector] = wrappedHandlerRegEx.exec(eventString)
+    [, eventName, filters, selector] = wrappedHandlerRegEx.exec(eventString)
     filters = filters.split(',').map((o: any) => o.trim())
   } else {
     console.log("Can't interpret event string ", eventString)
@@ -34,7 +34,7 @@ const keyValues = {
 
 // Generate a sequence of checks to apply to an event
 // before triggering a handler function
-const makeChecks = function (
+const makeChecks = function(
   eventName: any,
   { filters = [], filterRepeat = true, startTime = -Infinity },
 ) {
@@ -66,7 +66,7 @@ const makeChecks = function (
 
     // Wrap the handler only if we pre-select events
     if (keys.length > 0 || filterRepeat) {
-      checks.push(function (e: any) {
+      checks.push(function(e: any) {
         // Fire the handler only if
         // - we filter repeats, and the key is not one
         // - target keys are defined, and the key pressed matches one
@@ -83,7 +83,7 @@ const makeChecks = function (
 
     if (buttons.length > 0) {
       // Wrap the handler accordingly
-      checks.push(function (e: any) {
+      checks.push(function(e: any) {
         // @ts-expect-error ts-migrate(2339) FIXME: Property 'includes' does not exist on type 'number... Remove this comment to see the full error message
         return buttons.includes(e.button)
       })
@@ -147,7 +147,7 @@ export class DomConnection {
     }
 
     // Only trigger handler if all checks pass
-    return function (e: any) {
+    return function(e: any) {
       return checks.reduce((acc: any, check: any) => acc && check(e), true)
         ? handler(e)
         : null

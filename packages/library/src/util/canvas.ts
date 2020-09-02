@@ -1,4 +1,4 @@
-// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
+
 import { fromPairs } from 'lodash'
 import { toRadians } from './geometry'
 
@@ -37,9 +37,9 @@ const calcTransformationParameters = (
   const viewportScale =
     options.viewportScale === 'auto'
       ? Math.min(
-          canvasSize[0] / (pixelRatio * viewportSize[0]),
-          canvasSize[1] / (pixelRatio * viewportSize[1]),
-        )
+        canvasSize[0] / (pixelRatio * viewportSize[0]),
+        canvasSize[1] / (pixelRatio * viewportSize[1]),
+      )
       : options.viewportScale
   /* eslint-enable indent */
 
@@ -164,10 +164,10 @@ const renderElement = (ctx: any, content: any, cache = {}) => {
     case 'text':
     case 'i-text':
       ctx.font =
-        `${content.fontStyle || 'normal'} ` +
-        `${content.fontWeight || 'normal'} ` +
-        `${content.fontSize || 32}px ` +
-        `${content.fontFamily || 'sans-serif'}`
+        `${ content.fontStyle || 'normal' } ` +
+        `${ content.fontWeight || 'normal' } ` +
+        `${ content.fontSize || 32 }px ` +
+        `${ content.fontFamily || 'sans-serif' }`
       ctx.textAlign = content.textAlign || 'center'
       // TODO: Make this configurable
       ctx.textBaseline = 'middle'
@@ -255,8 +255,8 @@ const MatrixReadOnly =
   window.DOMMatrixReadOnly !== undefined
     ? new window.DOMMatrixReadOnly()
     : document
-        .createElementNS('http://www.w3.org/2000/svg', 'svg')
-        .createSVGMatrix()
+      .createElementNS('http://www.w3.org/2000/svg', 'svg')
+      .createSVGMatrix()
 
 export const makePath = (ctx: any, content: any) => {
   const rawPath = new Path2D()

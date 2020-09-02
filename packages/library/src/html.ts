@@ -70,7 +70,7 @@ export class Form extends Screen {
       if (e.target.getAttribute('form')) {
         // ... find it and ...
         const targetForm = this.options.el.querySelector(
-          `form#${e.target.getAttribute('form')}`,
+          `form#${ e.target.getAttribute('form') }`,
         )
 
         // ... submit that form instead

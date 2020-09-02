@@ -44,7 +44,7 @@ export const debounceAsync = (fn: any, wait: any, { throttle = true } = {}) => {
   let running = false
   let skipped = false
 
-  const invoke = function () {
+  const invoke = function() {
     if (running && throttle) {
       skipped = true
     } else {
@@ -78,14 +78,14 @@ export const debounceAsync = (fn: any, wait: any, { throttle = true } = {}) => {
     }
   }
 
-  const flush = function () {
+  const flush = function() {
     clearTimeout(timer)
     if (resolvers.length > 0) {
       invoke()
     }
   }
 
-  const cancel = function () {
+  const cancel = function() {
     clearTimeout(timer)
     timer = null
     skipped = false
@@ -93,7 +93,7 @@ export const debounceAsync = (fn: any, wait: any, { throttle = true } = {}) => {
     resolvers = []
   }
 
-  const debouncedFunc = function () {
+  const debouncedFunc = function() {
     return new Promise((resolve: any, reject: any) => {
       // Save arguments and context
       // @ts-expect-error ts-migrate(2496) FIXME: The 'arguments' object cannot be referenced in an ... Remove this comment to see the full error message

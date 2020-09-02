@@ -2,7 +2,7 @@ import {
   isString,
   isArray,
   isPlainObject,
-  // @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
+  
   template,
   fromPairs,
 } from 'lodash'
@@ -55,7 +55,7 @@ export const parse = (raw: any, context: any, metadata: any, that = {}) => {
         return Boolean(output.trim() !== 'false')
       default:
         throw new Error(
-          `Output type ${metadata.type} unknown, can't convert option`,
+          `Output type ${ metadata.type } unknown, can't convert option`,
         )
     }
   } else if (isArray(raw)) {
