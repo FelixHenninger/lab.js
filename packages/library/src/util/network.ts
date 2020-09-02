@@ -2,28 +2,30 @@
 // (this is loosely based on https://github.com/jonbern/fetch-retry,
 // very much simplified and minus the isomorphic-fetch dependency)
 
-export const fetch = (url: any,
-  { retry: { times = 3, delay = 10, factor = 5 } = {}, ...options } = {}
+export const fetch = (
+  url: any,
+  { retry: { times = 3, delay = 10, factor = 5 } = {}, ...options } = {},
 ) =>
-  // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
   new Promise((resolve: any, reject: any) => {
-    const wrappedFetch = (attempt: any) => window.fetch(url, options)
-      .then(response => resolve(response))
-      .catch(error => {
-        if (attempt <= times) {
-          retry(attempt)
-        } else {
-          reject(error)
-        }
-      })
+    const wrappedFetch = (attempt: any) =>
+      window
+        .fetch(url, options)
+        .then((response) => resolve(response))
+        .catch((error) => {
+          if (attempt <= times) {
+            retry(attempt)
+          } else {
+            reject(error)
+          }
+        })
 
     const retry = (attempt: any) => {
       const d = delay * factor ** attempt
       setTimeout(() => wrappedFetch(++attempt), d)
-    };
+    }
 
     wrappedFetch(0)
-  });
+  })
 
 // TODO: Making a generic variant of this function
 // is left as an exercise to the reader (PRs very much appreciated)
@@ -37,11 +39,12 @@ export const fetch = (url: any,
 export const debounceAsync = (fn: any, wait: any, { throttle = true } = {}) => {
   let timer: any
   let resolvers: any = []
-  let lastArgs: any; let lastThis: any
+  let lastArgs: any
+  let lastThis: any
   let running = false
   let skipped = false
 
-  const invoke = function() {
+  const invoke = function () {
     if (running && throttle) {
       skipped = true
     } else {
@@ -54,42 +57,43 @@ export const debounceAsync = (fn: any, wait: any, { throttle = true } = {}) => {
 
       // Execute function, capture and pass on result (or error)
       running = true
-      // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
+
       Promise.resolve(fn.apply(lastThis, lastArgs))
         .then((result: any) => {
           for (const [resolve, _] of pendingResolvers) {
             resolve(result)
           }
-        }).catch((error: any) => {
+        })
+        .catch((error: any) => {
           for (const [_, reject] of pendingResolvers) {
             reject(error)
           }
-        }).finally(() => {
+        })
+        .finally(() => {
           if (skipped && timer === null) {
             flush()
           }
           running = skipped = false
-        });
+        })
     }
   }
 
-  const flush = function() {
+  const flush = function () {
     clearTimeout(timer)
     if (resolvers.length > 0) {
       invoke()
     }
   }
 
-  const cancel = function() {
+  const cancel = function () {
     clearTimeout(timer)
     timer = null
     skipped = false
     lastArgs = lastThis = undefined
     resolvers = []
-  };
+  }
 
-  const debouncedFunc = function() {
-    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
+  const debouncedFunc = function () {
     return new Promise((resolve: any, reject: any) => {
       // Save arguments and context
       // @ts-expect-error ts-migrate(2496) FIXME: The 'arguments' object cannot be referenced in an ... Remove this comment to see the full error message
@@ -103,11 +107,11 @@ export const debounceAsync = (fn: any, wait: any, { throttle = true } = {}) => {
 
       // Save resolvers for future use
       resolvers.push([resolve, reject])
-    });
-  };
+    })
+  }
   // Add further methods
   debouncedFunc.flush = flush
   debouncedFunc.cancel = cancel
 
   return debouncedFunc
-};
+}

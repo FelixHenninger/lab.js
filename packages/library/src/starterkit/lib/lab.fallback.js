@@ -1,5 +1,5 @@
 // Detect whether fallback version is needed
-(function() {
+;(function () {
   try {
     const fancyFunction = eval('async function* fancy() {}')
   } catch (e) {
@@ -10,7 +10,10 @@
       'script[data-labjs-script="library"]',
     )
 
-    const scriptPath = `${ scriptTag.src.split('/').slice(0, -1).join('/') }/lab.legacy.js`
+    const scriptPath = `${scriptTag.src
+      .split('/')
+      .slice(0, -1)
+      .join('/')}/lab.legacy.js`
 
     const script = document.createElement('script')
     script.src = scriptPath
@@ -19,4 +22,4 @@
     // by inserting script tag after current library version
     scriptTag.parentNode.insertBefore(script, scriptTag.nextSibling)
   }
-}())
+})()

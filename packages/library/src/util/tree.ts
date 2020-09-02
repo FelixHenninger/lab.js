@@ -6,7 +6,7 @@ export const traverse = (root: any, callback: any) => {
   callback(root)
 
   // Retrieve metadata from component
-  const {metadata} = Object.getPrototypeOf(root).constructor;
+  const { metadata } = Object.getPrototypeOf(root).constructor
 
   if (metadata.nestedComponents) {
     // Retrieve nested components form associated options
@@ -31,15 +31,16 @@ export const reduce = (root: any, callback: any, initialValue: any) => {
   // the initial value throughout
   traverse(
     root,
-    (current: any) => accumulator = callback(accumulator, current),
+    (current: any) => (accumulator = callback(accumulator, current)),
   )
 
   return accumulator
-};
+}
 
 export const aggregateParentOption = (leaf: any, option: any) =>
   // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
-  Object.assign({},
+  Object.assign(
+    {},
     ...leaf.parents.map((o: any) => o.options[option] || {}),
     leaf.options[option],
   )

@@ -2,19 +2,16 @@ const unloadHandler = (e: any) => {
   const warning = 'Are you sure you want to close this window?'
   e.returnValue = warning
   return warning
-};
+}
 
 export default class Download {
-  el: any;
+  el: any
 
-  filePrefix: any;
+  filePrefix: any
 
-  fileType: any;
+  fileType: any
 
-  constructor({
-    filePrefix,
-    fileType
-  }: any = {}) {
+  constructor({ filePrefix, fileType }: any = {}) {
     this.el = null
     this.filePrefix = filePrefix || 'study'
     this.fileType = fileType || 'csv'
@@ -33,19 +30,16 @@ export default class Download {
           <strong>Download data</strong>
         </div>
       `
-      this.el.addEventListener(
-        'click',
-        () => {
-          context.options.datastore.download(
+      this.el.addEventListener('click', () => {
+        context.options.datastore.download(
+          this.fileType,
+          context.options.datastore.makeFilename(
+            this.filePrefix,
             this.fileType,
-            context.options.datastore.makeFilename(
-              this.filePrefix,
-              this.fileType,
-            ),
-          )
-          window.removeEventListener('beforeunload', unloadHandler)
-        },
-      )
+          ),
+        )
+        window.removeEventListener('beforeunload', unloadHandler)
+      })
       context.options.el.prepend(this.el)
     }
   }

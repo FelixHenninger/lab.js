@@ -1,5 +1,5 @@
 // @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
-import { clamp, range, isFunction, pick, flatten, omit, merge  } from 'lodash'
+import { clamp, range, isFunction, pick, flatten, omit, merge } from 'lodash'
 // @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/seedrandom` if it exists o... Remove this comment to see the full error message
 import alea from 'seedrandom/lib/alea'
 
@@ -16,7 +16,7 @@ export const uuid4 = (random = Math.random) =>
     /[08]/g,
     // @ts-expect-error ts-migrate(2362) FIXME: The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
     // eslint-disable-next-line no-bitwise
-    v => (v ^ (random() * 16 >> v / 4)).toString(16),
+    (v) => (v ^ ((random() * 16) >> (v / 4))).toString(16),
   )
 
 // Seed generation
@@ -25,17 +25,17 @@ export const uuid4 = (random = Math.random) =>
 // and legacy browser compatibility
 export const autoSeed = (width = 256) => {
   // Create and fill an array of random integers
-  const output = new Uint8Array(width);
+  const output = new Uint8Array(width)
   // @ts-expect-error ts-migrate(2551) FIXME: Property 'msCrypto' does not exist on type 'Window... Remove this comment to see the full error message
-  (window.crypto || window.msCrypto).getRandomValues(output)
+  ;(window.crypto || window.msCrypto).getRandomValues(output)
 
   // Output as string of (UTF-16) characters
   // @ts-expect-error ts-migrate(2345) FIXME: Type 'Uint8Array' is missing the following propert... Remove this comment to see the full error message
   return String.fromCharCode.apply(null, output)
-};
+}
 
 export class Random {
-  random: any;
+  random: any
 
   constructor(options = {}) {
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'algorithm' does not exist on type '{}'.
@@ -54,7 +54,7 @@ export class Random {
   // for two input values, between min and max - 1)
   range(a: any, b = undefined) {
     // eslint-disable-next-line no-multi-spaces
-    const min   = b === undefined ? 0 : a
+    const min = b === undefined ? 0 : a
     // @ts-expect-error ts-migrate(2532) FIXME: Object is possibly 'undefined'.
     const range = b === undefined ? a : b - a
 
@@ -72,30 +72,29 @@ export class Random {
     if (replace) {
       // Draw independent samples
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'fill' does not exist on type 'any[]'.
-      return Array(n).fill(0).map(() => this.choice(array));
-    } 
+      return Array(n)
+        .fill(0)
+        .map(() => this.choice(array))
+    }
     // Draw without replacement
     // (shuffle and slice up to array length)
-    return this.shuffle(array).slice(0, clamp(n, array.length));
-    
+    return this.shuffle(array).slice(0, clamp(n, array.length))
   }
 
   sampleMode(array: any, samples: any, mode = 'draw-shuffle') {
     if (!(Array.isArray(array) && array.length > 0)) {
-      throw new Error("Can't sample: Empty input, or not an array");
+      throw new Error("Can't sample: Empty input, or not an array")
     }
 
-    const n = samples || array.length;
-    const repetitions = Math.floor(n / array.length);
-    const remainder = n % array.length;
+    const n = samples || array.length
+    const repetitions = Math.floor(n / array.length)
+    const remainder = n % array.length
 
     switch (mode) {
       case 'sequential':
         return [
           // Repeat the array
-          ...range(repetitions).reduce(
-            (a: any) => a.concat(array), []
-          ),
+          ...range(repetitions).reduce((a: any) => a.concat(array), []),
           // Append remainder
           ...array.slice(0, remainder),
         ]
@@ -104,21 +103,22 @@ export class Random {
         const output = [
           // Repeat the array
           ...range(repetitions).reduce(
-            (a: any) => a.concat(this.shuffle(array)), []
+            (a: any) => a.concat(this.shuffle(array)),
+            [],
           ),
           // Append remainder
           ...this.sample(array, remainder, false),
-        ];
+        ]
         // Shuffle again if oversampling and so instructed
         if (mode === 'draw-shuffle' && n > array.length) {
-          return this.shuffle(output);
-        } 
-        return output;
-        
+          return this.shuffle(output)
+        }
+        return output
+
       case 'draw-replace':
-        return this.sample(array, n, true);
+        return this.sample(array, n, true)
       default:
-        throw new Error('Unknown sample mode, please specify');
+        throw new Error('Unknown sample mode, please specify')
     }
   }
 
@@ -139,18 +139,25 @@ export class Random {
       // Pick a random as-yet-unshuffleded array element
       // (note that the semicolon here is mandatory)
       // eslint-disable-next-line no-plusplus
-      const randomIndex = this.range(unshuffledElements--);
+      const randomIndex = this.range(unshuffledElements--)
 
       // Swap the last unshuffled value with
       // the randomly chosen array element
-      [array[unshuffledElements], array[randomIndex]] =
-        [array[randomIndex], array[unshuffledElements]]
+      ;[array[unshuffledElements], array[randomIndex]] = [
+        array[randomIndex],
+        array[unshuffledElements],
+      ]
     }
 
     return array
   }
 
-  constrainedShuffle(a: any, constraints = {}, helpers = {}, maxIterations = 10 ** 4) {
+  constrainedShuffle(
+    a: any,
+    constraints = {},
+    helpers = {},
+    maxIterations = 10 ** 4,
+  ) {
     // Generate constraint function, if necessary
     let constraintChecker
     if (isFunction(constraints)) {
@@ -169,11 +176,12 @@ export class Random {
       }
 
       // Combine constraints into checker function
-      constraintChecker = (arr: any) => checks.reduce(
-        // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'accumulator' implicitly has an 'any' ty... Remove this comment to see the full error message
-        (accumulator, check) => accumulator && check(arr),
-        true // start with true
-      )
+      constraintChecker = (arr: any) =>
+        checks.reduce(
+          // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'accumulator' implicitly has an 'any' ty... Remove this comment to see the full error message
+          (accumulator, check) => accumulator && check(arr),
+          true, // start with true
+        )
     }
 
     // Shuffle until a candidate matches the constraints,
@@ -191,8 +199,8 @@ export class Random {
   // of keys independently.
   shuffleTable(data: any, groups = [], shuffleUngrouped = true) {
     // Split data into independent groups
-    const groupedData = groups.map(
-      columns => data.map((entry: any) => pick(entry, columns))
+    const groupedData = groups.map((columns) =>
+      data.map((entry: any) => pick(entry, columns)),
     )
 
     // Collect remaining entries
@@ -203,9 +211,7 @@ export class Random {
     // (moving things into a temporary key,
     // to meet lodash input requirements)
     return merge(
-      ...groupedData.map(
-        g => ({ data: this.shuffle(g) })
-      ),
+      ...groupedData.map((g) => ({ data: this.shuffle(g) })),
       // Shuffle ungrouped columns if requested
       { data: shuffleUngrouped ? this.shuffle(remainingData) : remainingData },
     ).data

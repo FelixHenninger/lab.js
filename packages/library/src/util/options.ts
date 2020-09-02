@@ -1,29 +1,35 @@
-import { isString, isArray, isPlainObject,
+import {
+  isString,
+  isArray,
+  isPlainObject,
   // @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
-  template, fromPairs } from 'lodash'
+  template,
+  fromPairs,
+} from 'lodash'
 
 const prototypeChain = (object: any) => {
   // Compute the prototype chain a given object
   const chain = [Object.getPrototypeOf(object)]
 
   while (Object.getPrototypeOf(chain[0])) {
-    chain.unshift(
-      Object.getPrototypeOf(chain[0]),
-    )
+    chain.unshift(Object.getPrototypeOf(chain[0]))
   }
 
   return chain
-};
+}
 
-export const parsableOptions = (component: any) => // Collect parsable options from the static property metadata
-// of all components on the prototype chain
-// @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
-  Object.assign({},
-    ...prototypeChain(component).map(p => (
+export const parsableOptions = (
+  component: any, // Collect parsable options from the static property metadata
+) =>
+  // of all components on the prototype chain
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
+  Object.assign(
+    {},
+    ...prototypeChain(component).map((p) =>
       p.constructor.metadata
         ? p.constructor.metadata.parsableOptions
-        : undefined
-    )),
+        : undefined,
+    ),
   )
 
 export const parse = (raw: any, context: any, metadata: any, that = {}) => {
@@ -49,14 +55,12 @@ export const parse = (raw: any, context: any, metadata: any, that = {}) => {
         return Boolean(output.trim() !== 'false')
       default:
         throw new Error(
-          `Output type ${ metadata.type } unknown, can't convert option`,
+          `Output type ${metadata.type} unknown, can't convert option`,
         )
     }
   } else if (isArray(raw)) {
     // Recursively parse array
-    return raw.map(
-      (o: any) => parse(o, context, metadata.content, that),
-    );
+    return raw.map((o: any) => parse(o, context, metadata.content, that))
   } else if (isPlainObject(raw)) {
     // Parse individual key/value pairs
     // and construct a new object from results
@@ -64,13 +68,17 @@ export const parse = (raw: any, context: any, metadata: any, that = {}) => {
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'ObjectC... Remove this comment to see the full error message
       Object.entries(raw).map(
         // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'k' implicitly has an 'any' type.
-        ([k, v]) => [k, parse(
-          v, context,
-          // Try the key-specific metadata settings,
-          // or, alternatively, use the catch-all
-          metadata.content[k] || metadata.content['*'],
-          that,
-        )],
+        ([k, v]) => [
+          k,
+          parse(
+            v,
+            context,
+            // Try the key-specific metadata settings,
+            // or, alternatively, use the catch-all
+            metadata.content[k] || metadata.content['*'],
+            that,
+          ),
+        ],
       ),
     )
   } else {
@@ -80,7 +88,12 @@ export const parse = (raw: any, context: any, metadata: any, that = {}) => {
   }
 }
 
-export const parseRequested = (rawOptions: any, context: any, metadata: any, that: any) =>
+export const parseRequested = (
+  rawOptions: any,
+  context: any,
+  metadata: any,
+  that: any,
+) =>
   // Given a set of unparsed options and metadata,
   // parse only the subset of options that are defined,
   // and for which metadata is available. The output
@@ -100,6 +113,6 @@ export const parseRequested = (rawOptions: any, context: any, metadata: any, tha
         }
 
         return undefined
-      }).filter((e: any) => e !== undefined,
-      ),
+      })
+      .filter((e: any) => e !== undefined),
   )

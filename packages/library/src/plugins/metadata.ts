@@ -24,18 +24,19 @@ const getMetadata = () => {
     window_innerHeight: window.innerHeight,
     devicePixelRatio: window.devicePixelRatio,
   }
-};
+}
 
-const extractURLSearchParams = (search: any) => fromPairs(
-  // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
-  Array.from(
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'URLSear... Remove this comment to see the full error message
-    new URLSearchParams(search).entries()
+const extractURLSearchParams = (search: any) =>
+  fromPairs(
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
+    Array.from(
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'URLSear... Remove this comment to see the full error message
+      new URLSearchParams(search).entries(),
+    ),
   )
-)
 
 export default class Metadata {
-  options: any;
+  options: any
 
   constructor(options = {}) {
     this.options = options
@@ -46,7 +47,7 @@ export default class Metadata {
       // Extract URL parameters from location string
       const urlParams = extractURLSearchParams(
         // Allow injection of search string for testing
-        this.options.location_search || window.location.search
+        this.options.location_search || window.location.search,
       )
 
       // If a datastore is available, save the metadata there ...

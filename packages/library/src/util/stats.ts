@@ -14,9 +14,7 @@ export const variance = (a: any) => {
   // The variance is the mean
   // of the sum of squares
   const m = mean(a)
-  return mean(
-    a.map((x: any) => (x - m) ** 2)
-  );
-};
+  return mean(a.map((x: any) => (x - m) ** 2))
+}
 
 export const std = (a: any) => Math.sqrt(variance(a))

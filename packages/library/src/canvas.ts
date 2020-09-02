@@ -48,7 +48,7 @@ const addCanvasDefaults = function addCanvasDefaults(options: any) {
     devicePixelScaling: null, // replaced by true if unspecified
     ...options,
   }
-};
+}
 
 const prepareCanvas = function prepareCanvas() {
   // Initialize a canvas,
@@ -123,9 +123,9 @@ const insertCanvas = function insertCanvas(clearElement = true, wrapper: any) {
 
     // Set the canvas element dimensions to match the available space
     // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
-    this.options.canvas.style.width = `${ width }px`
+    this.options.canvas.style.width = `${width}px`
     // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
-    this.options.canvas.style.height = `${ height }px`
+    this.options.canvas.style.height = `${height}px`
 
     // Append the canvas to the DOM
     if (clearElement) {
@@ -160,9 +160,9 @@ export class Screen extends Component {
         },
       },
     },
-  };
+  }
 
-  options: any;
+  options: any
 
   constructor(options = {}) {
     super({
@@ -182,7 +182,7 @@ export class Screen extends Component {
 
   onPrepare() {
     // Add images to cached media
-    (this.options.content || [])
+    ;(this.options.content || [])
       .filter((c: any) => isObject(c) && c.type === 'image' && c.src)
       .forEach((c: any) => this.options.media.images.push(c.src))
 
@@ -204,7 +204,7 @@ export class Screen extends Component {
           // Calculate applied pixel ratio
           const pixelRatio = this.options.devicePixelScaling
             ? window.devicePixelRatio
-            : 1;
+            : 1
 
           // Return modified event
           return {
@@ -219,12 +219,11 @@ export class Screen extends Component {
                   e.offsetY * pixelRatio,
                 ),
             ],
-          };
-        } 
+          }
+        }
         // Return unmodified event, following default behavior
-        return { eventName, filters, selector };
-        
-      };
+        return { eventName, filters, selector }
+      }
 
     // Generate generic render function,
     // unless a render function has been defined manually
@@ -325,7 +324,7 @@ export class Screen extends Component {
         this.options.ctx,
         this,
       )
-    });
+    })
   }
 
   onEnd() {
@@ -405,9 +404,9 @@ export class Frame extends BaseFrame {
   static metadata = {
     module: ['canvas'],
     nestedComponents: ['content'],
-  };
+  }
 
-  options: any;
+  options: any
 
   constructor(options = {}) {
     super(

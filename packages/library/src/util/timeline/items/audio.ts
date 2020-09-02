@@ -6,10 +6,9 @@ import { requestIdleCallback } from '../../timing'
 // Wrap context.decodeAudioData in a callback,
 // because Safari doesn't (as of now) support the promise-based variant
 const decodeAudioData = (context: any, buffer: any) =>
-  // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
   new Promise((resolve: any, reject: any) => {
     context.decodeAudioData(buffer, resolve, reject)
-  });
+  })
 
 export const load = async (url: any, context: any, fetchOptions: any) => {
   const response = await fetch(url, fetchOptions)
@@ -19,18 +18,23 @@ export const load = async (url: any, context: any, fetchOptions: any) => {
     try {
       const decodedData = await decodeAudioData(context, buffer)
       if (!decodedData) {
-        throw new Error(`No data available after decoding ${ url }`)
+        throw new Error(`No data available after decoding ${url}`)
       }
       return decodedData
     } catch (e) {
-      throw new Error(`Error decoding audio data from ${ url }`)
+      throw new Error(`Error decoding audio data from ${url}`)
     }
   } else {
-    throw new Error(`Couldn't load audio from ${ response.url }`)
+    throw new Error(`Couldn't load audio from ${response.url}`)
   }
 }
 
-const createNode = (type: any, context: any, options = {}, audioParams = {}) => {
+const createNode = (
+  type: any,
+  context: any,
+  options = {},
+  audioParams = {},
+) => {
   // This provides a light wrapper around the context
   // audio node creation methods, as a stopgap until
   // all browsers support node constructor functions.
@@ -40,28 +44,32 @@ const createNode = (type: any, context: any, options = {}, audioParams = {}) => 
   switch (type) {
     case 'oscillator':
       node = context.createOscillator()
-      break;
+      break
     case 'bufferSource':
       node = context.createBufferSource()
-      break;
+      break
     default:
-      throw new Error('Can\'t create node of unknown type')
+      throw new Error("Can't create node of unknown type")
   }
 
   // Apply settings
   // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'ObjectC... Remove this comment to see the full error message
   Object.entries(options).forEach(
     // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'setting' implicitly has an 'any' ... Remove this comment to see the full error message
-    ([setting, value]) => { if (value) node[setting] = value }
+    ([setting, value]) => {
+      if (value) node[setting] = value
+    },
   )
   // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'ObjectC... Remove this comment to see the full error message
   Object.entries(audioParams).forEach(
     // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'setting' implicitly has an 'any' ... Remove this comment to see the full error message
-    ([setting, value]) => { if (value) node[setting].value = value }
+    ([setting, value]) => {
+      if (value) node[setting].value = value
+    },
   )
 
   return node
-};
+}
 
 const connectNodeChain = (source: any, chain: any, destination: any) =>
   [source, ...chain, destination].reduce((prev, next) => {
@@ -71,28 +79,28 @@ const connectNodeChain = (source: any, chain: any, destination: any) =>
     // Safari 12.0, and can be removed at a later point
     prev.connect(next)
     return next
-  });
+  })
 
 // Timeline items --------------------------------------------------------------
 
 class AudioNodeItem {
-  audioSyncOrigin: any;
+  audioSyncOrigin: any
 
-  nodeOrder: any;
+  nodeOrder: any
 
-  options: any;
+  options: any
 
-  payload: any;
+  payload: any
 
-  processingChain: any;
+  processingChain: any
 
-  source: any;
+  source: any
 
-  timeline: any;
+  timeline: any
 
   defaultPayload = {
     panningModel: 'equalpower',
-  };
+  }
 
   constructor(timeline: any, options = {}, payload = {}) {
     this.timeline = timeline
@@ -122,7 +130,7 @@ class AudioNodeItem {
   // Event handlers ------------------------------------------------------------
 
   prepare() {
-    const {audioContext} = this.timeline.controller;
+    const { audioContext } = this.timeline.controller
 
     // Add gain node
     if (
@@ -140,7 +148,8 @@ class AudioNodeItem {
       const pannerNode = audioContext.createPanner()
       pannerNode.panningModel = this.payload.panningModel
       pannerNode.setPosition(
-        this.payload.pan, 0,
+        this.payload.pan,
+        0,
         1 - Math.abs(this.payload.pan),
       )
       this.processingChain.push(pannerNode)
@@ -157,10 +166,10 @@ class AudioNodeItem {
     const { start } = this.options
     const { rampUp } = this.payload
 
-    const {audioContext} = this.timeline.controller;
+    const { audioContext } = this.timeline.controller
     if (audioContext.state !== 'running') {
       console.warn(
-        `Sending audio to a context in ${ audioContext.state } state.`,
+        `Sending audio to a context in ${audioContext.state} state.`,
         'This may result in missing sounds —',
         'Please make sure that users interact with the page',
         'before using audio.',
@@ -171,7 +180,7 @@ class AudioNodeItem {
     const startTime = Math.max(0, this.schedule(offset + start))
 
     if (rampUp) {
-      const {gain} = this.processingChain[this.nodeOrder.gain];
+      const { gain } = this.processingChain[this.nodeOrder.gain]
 
       // Calculate transition point
       const rampUpEnd = this.schedule(offset + start + parseFloat(rampUp))
@@ -189,7 +198,7 @@ class AudioNodeItem {
     const { rampDown } = this.payload
 
     if (stop && rampDown) {
-      const {gain} = this.processingChain[this.nodeOrder.gain];
+      const { gain } = this.processingChain[this.nodeOrder.gain]
 
       const rampDownStart = this.schedule(offset + stop - parseFloat(rampDown))
       const stopTime = this.schedule(offset + stop)
@@ -235,11 +244,11 @@ class AudioNodeItem {
 }
 
 export class BufferSourceItem extends AudioNodeItem {
-  payload: any;
+  payload: any
 
-  source: any;
+  source: any
 
-  timeline: any;
+  timeline: any
 
   async prepare() {
     // Populate buffer from cache, if possible
@@ -253,11 +262,11 @@ export class BufferSourceItem extends AudioNodeItem {
 }
 
 export class OscillatorItem extends AudioNodeItem {
-  payload: any;
+  payload: any
 
-  source: any;
+  source: any
 
-  timeline: any;
+  timeline: any
 
   prepare() {
     const { type, frequency, detune } = this.payload

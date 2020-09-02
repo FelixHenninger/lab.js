@@ -12,7 +12,7 @@ export class Screen extends Component {
     parsableOptions: {
       content: {},
     },
-  };
+  }
 
   constructor(options: any) {
     super({
@@ -23,20 +23,15 @@ export class Screen extends Component {
   }
 
   onBeforePrepare() {
-    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
     return Promise.resolve().then(() => {
       // Fetch content from URL, if one is given
       if (this.options.contentUrl) {
-        return fetch(this.options.contentUrl).then(
-          response => response.text(),
-        ).then(
-          text => (this.options.content = text),
-        ).catch(
-          e => console.log('Error while loading content: ', e),
-        );
-      } 
-      return null;
-      
+        return fetch(this.options.contentUrl)
+          .then((response) => response.text())
+          .then((text) => (this.options.content = text))
+          .catch((e) => console.log('Error while loading content: ', e))
+      }
+      return null
     })
   }
 
@@ -52,7 +47,7 @@ export class Form extends Screen {
   static metadata = {
     module: ['html'],
     nestedComponents: [],
-  };
+  }
 
   constructor(options = {}) {
     super({
@@ -75,7 +70,7 @@ export class Form extends Screen {
       if (e.target.getAttribute('form')) {
         // ... find it and ...
         const targetForm = this.options.el.querySelector(
-          `form#${ e.target.getAttribute('form') }`,
+          `form#${e.target.getAttribute('form')}`,
         )
 
         // ... submit that form instead
@@ -97,7 +92,7 @@ export class Form extends Screen {
 
       // Otherwise stick to default behavior
       return true
-    };
+    }
 
     // Capture form submissions
     this.options.events['submit form'] = (e: any) => this.submit(e)
@@ -127,10 +122,7 @@ export class Form extends Screen {
       // Add serialized form data to
       // the element's dataset
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'assign' does not exist on type 'ObjectCo... Remove this comment to see the full error message
-      Object.assign(
-        this.data,
-        this.serialize(),
-      )
+      Object.assign(this.data, this.serialize())
 
       // Bye!
       // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"form submission"' is not assign... Remove this comment to see the full error message
@@ -142,8 +134,9 @@ export class Form extends Screen {
       // and older browsers, who do not implement
       // forEach on NodeLists)
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
-      Array.from(this.options.el.querySelectorAll('form'))
-        .forEach((f: any) => f.setAttribute('data-labjs-validated', ''))
+      Array.from(this.options.el.querySelectorAll('form')).forEach((f: any) =>
+        f.setAttribute('data-labjs-validated', ''),
+      )
     }
 
     // Prevent default form behavior
@@ -171,7 +164,7 @@ export class Form extends Screen {
               case 'checkbox':
                 // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 output[element.name] = element.checked
-                break;
+                break
               case 'radio':
                 if (element.checked) {
                   // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
@@ -183,19 +176,19 @@ export class Form extends Screen {
               default:
                 // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 output[element.name] = element.value
-                break;
+                break
             }
             break
           case 'textarea':
             // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             output[element.name] = element.value
-            break;
+            break
           case 'select':
             switch (element.type) {
               case 'select-one':
                 // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 output[element.name] = element.value
-                break;
+                break
               case 'select-multiple':
                 // Again, working around limitations of NodeLists
                 // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
@@ -204,14 +197,14 @@ export class Form extends Screen {
                   Array.from(element.options)
                     .filter((option: any) => option.selected)
                     .map((option: any) => option.value)
-                break;
+                break
               // no default
             }
             break
           default:
         } // outer switch
       }) // iterate across elements
-    }); // iterate across forms
+    }) // iterate across forms
 
     return output
   }
@@ -223,9 +216,11 @@ export class Form extends Screen {
     // validation succeeds.
     const forms = this.options.el.querySelectorAll('form')
 
-    return this.options.validator(this.serialize()) &&
+    return (
+      this.options.validator(this.serialize()) &&
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
-      Array.from(forms).every((form: any) => form.checkValidity());
+      Array.from(forms).every((form: any) => form.checkValidity())
+    )
   }
 }
 
@@ -236,7 +231,7 @@ export class Frame extends Component {
     parsableOptions: {
       context: {},
     },
-  };
+  }
 
   constructor(options = {}) {
     super({
@@ -251,20 +246,19 @@ export class Frame extends Component {
     // Parse context HTML
     const parser = new DOMParser()
     this.internals.parsedContext = parser.parseFromString(
-      this.options.context, 'text/html',
+      this.options.context,
+      'text/html',
     )
 
     // Setup nested component to operate within
     // the element addressed by the selector
-    this.options.content.options.el = this.internals
-      .parsedContext.querySelector(this.options.contextSelector)
+    this.options.content.options.el = this.internals.parsedContext.querySelector(
+      this.options.contextSelector,
+    )
 
     // Couple the run cycle of the frame to its content
     this.internals.contentEndHandler = () => this.end()
-    this.options.content.on(
-      'after:end',
-      this.internals.contentEndHandler,
-    )
+    this.options.content.on('after:end', this.internals.contentEndHandler)
 
     // Prepare content
     await prepareNested([this.options.content], this)
@@ -274,8 +268,9 @@ export class Frame extends Component {
     // Clear element content, and insert context
     this.options.el.innerHTML = ''
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
-    Array.from(this.internals.parsedContext.body.children)
-      .forEach((c: any) => this.options.el.appendChild(c))
+    Array.from(this.internals.parsedContext.body.children).forEach((c: any) =>
+      this.options.el.appendChild(c),
+    )
 
     // Run nested content (synced to animation frame)
     await this.options.content.run(frameTimestamp, frameSynced)
@@ -287,19 +282,15 @@ export class Frame extends Component {
     if (this.options.content.status < status.done) {
       // Avoid an infinite loop of
       // frame and content ending one another
-      this.options.content.off(
-        'after:end',
-        this.internals.contentEndHandler,
-      );
+      this.options.content.off('after:end', this.internals.contentEndHandler)
 
       // Again, the content is in focus
-      return this.options.content.end('abort by frame');
-    } 
+      return this.options.content.end('abort by frame')
+    }
     // If the content has already ended,
     // there is nothing left to do
-    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
-    return Promise.resolve();
-    
+
+    return Promise.resolve()
   }
 }
 
@@ -322,14 +313,14 @@ export class Page extends Form {
               type: 'array',
               content: {
                 type: 'object',
-                content: { '*': 'string' }
+                content: { '*': 'string' },
               },
             },
           },
         },
       },
     },
-  };
+  }
 
   onPrepare() {
     this.options.content = makePage(this.options.items, {

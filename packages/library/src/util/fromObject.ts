@@ -4,10 +4,7 @@ import { isObject, cloneDeep } from 'lodash'
 // Retrieve an entry from a nested object
 // hierarchy, given a path
 const retrieveNested = (path: any, object: any) =>
-  path.reduce(
-    (subobject: any, subpath: any) => subobject[subpath],
-    object,
-  )
+  path.reduce((subobject: any, subpath: any) => subobject[subpath], object)
 
 // Copy the options object before passing it into the
 // (recursive) function that does the actual work
@@ -27,7 +24,7 @@ const _fromObject = (options: any, libraryRoot: any) => {
 
   if (library === undefined) {
     throw new Error(
-      'Couldn\'t find library in global scope, and no root object available'
+      "Couldn't find library in global scope, and no root object available",
     )
   }
 
@@ -40,7 +37,9 @@ const _fromObject = (options: any, libraryRoot: any) => {
     if (options[o]) {
       if (Array.isArray(options[o])) {
         // ... and it is an array ...
-        options[o] = options[o].map((nested: any) => fromObject(nested, library))
+        options[o] = options[o].map((nested: any) =>
+          fromObject(nested, library),
+        )
       } else if (isObject(options[o])) {
         // ... or an object ...
         options[o] = fromObject(options[o], library)
@@ -62,18 +61,19 @@ const _fromObject = (options: any, libraryRoot: any) => {
       try {
         // Load the plugin from either the path or the type
         // option (TODO: Consider deprecating one of these)
-        const [scope, ...pluginPath] =
-          (pluginOptions.path || pluginOptions.type).split('.')
+        const [scope, ...pluginPath] = (
+          pluginOptions.path || pluginOptions.type
+        ).split('.')
         const PluginConstructor = retrieveNested(
           pluginPath,
           // Load plugins from the global scope if requested
-          scope === 'global' ? (global || window) : library,
+          scope === 'global' ? global || window : library,
         )
         return new PluginConstructor(pluginOptions)
       } catch (e) {
         throw new Error(
-          `Couldn't instantiate plugin ${ pluginOptions.type }. ` +
-          `Error: ${ e.message }`
+          `Couldn't instantiate plugin ${pluginOptions.type}. ` +
+            `Error: ${e.message}`,
         )
       }
     })
@@ -81,6 +81,6 @@ const _fromObject = (options: any, libraryRoot: any) => {
 
   // Create a new component from the preprocessed options
   return new constructor(options)
-};
+}
 
 export default fromObject

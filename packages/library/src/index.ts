@@ -94,7 +94,8 @@ export const util = {
     logTimestamp,
   },
   fullscreen: {
-    launch, exit,
+    launch,
+    exit,
   },
   geometry: {
     distance,
@@ -103,12 +104,16 @@ export const util = {
     toRadians,
   },
   stats: {
-    sum, mean, variance, std,
+    sum,
+    mean,
+    variance,
+    std,
   },
   timing: {
     FrameTimeout,
   },
   tree: {
-    traverse, reduce,
+    traverse,
+    reduce,
   },
 }

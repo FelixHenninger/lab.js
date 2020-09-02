@@ -1,12 +1,11 @@
 // Flow control components for lab.js
-// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import { mean, isFunction } from 'lodash'
 import { Component, status } from './core'
 
 // Helper function to handle nested components
-export const prepareNested = function(nested: any, parent: any) {
+export const prepareNested = function (nested: any, parent: any) {
   // Setup parent links on nested components
-  nested.forEach((c: any) => c.parent = parent)
+  nested.forEach((c: any) => (c.parent = parent))
 
   // Set ids on nested components
   nested.forEach((c: any, i: any) => {
@@ -20,11 +19,10 @@ export const prepareNested = function(nested: any, parent: any) {
   })
 
   // Trigger prepare on all nested components
-  // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
   return Promise.all(
     nested.map((c: any) => c.prepare(false)), // indicate automated call
-  );
-};
+  )
+}
 
 // Sequence -----------------------------------------------
 
@@ -37,7 +35,7 @@ export class Sequence extends Component {
     parsableOptions: {
       shuffle: { type: 'boolean' },
     },
-  };
+  }
 
   constructor(options = {}) {
     super({
@@ -54,7 +52,6 @@ export class Sequence extends Component {
     this.internals.currentPosition = null
   }
 
-  // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
   async onPrepare() {
     // Shuffle content, if requested
     if (this.options.shuffle) {
@@ -78,8 +75,10 @@ export class Sequence extends Component {
     // End prematurely, if necessary
     // (check whether there is an active component,
     // and if so, whether it has finished)
-    if (this.internals.currentComponent &&
-      this.internals.currentComponent.status !== status.done) {
+    if (
+      this.internals.currentComponent &&
+      this.internals.currentComponent.status !== status.done
+    ) {
       this.internals.currentComponent.off('after:end', this.internals.stepper)
       this.internals.currentComponent.end('abort by sequence')
     }
@@ -87,29 +86,29 @@ export class Sequence extends Component {
 
   async step(frameTimeStamp: any, frameSynced: any) {
     if (this.status === status.done) {
-      throw new Error('Sequence ended, can\'t take any more steps');
+      throw new Error("Sequence ended, can't take any more steps")
     }
 
     // Move through the content
-    const next = this.internals.iterator.next();
+    const next = this.internals.iterator.next()
     if (next.done) {
-      // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"completion"' is not assignable ... Remove this comment to see the full error message
-      return this.end('completion', frameTimeStamp, frameSynced);
-    } 
-    [this.internals.currentPosition, this.internals.currentComponent] =
-        next.value;
-    this.internals.currentComponent.on('after:end', this.internals.stepper);
-    return this.internals.currentComponent.run(frameTimeStamp, frameSynced);
-    
+      return this.end('completion', frameTimeStamp, frameSynced)
+    }
+    ;[
+      this.internals.currentPosition,
+      this.internals.currentComponent,
+    ] = next.value
+    this.internals.currentComponent.on('after:end', this.internals.stepper)
+    return this.internals.currentComponent.run(frameTimeStamp, frameSynced)
   }
 
   get progress() {
     // If the sequence has ended,
     // report it as completed
     // (even if content was skipped)
-    return this.status === status.done ? 1 : mean(
-      this.options.content.map((c: any) => c.progress),
-    );
+    return this.status === status.done
+      ? 1
+      : mean(this.options.content.map((c: any) => c.progress))
   }
 }
 
@@ -146,7 +145,7 @@ export class Loop extends Sequence {
         },
       },
     },
-  };
+  }
 
   constructor(options = {}) {
     super({
@@ -175,10 +174,10 @@ export class Loop extends Sequence {
 
       const shuffledParameters = shuffleTable
         ? this.random.shuffleTable(
-          this.options.templateParameters,
-          this.options.shuffleGroups,
-          this.options.shuffleUngrouped,
-        )
+            this.options.templateParameters,
+            this.options.shuffleGroups,
+            this.options.shuffleUngrouped,
+          )
         : this.options.templateParameters
 
       // Sample parameters
@@ -190,7 +189,9 @@ export class Loop extends Sequence {
           : this.options.sample.mode, // Future syntax
       )
     } else {
-      console.warn('Empty or invalid parameter set for loop, no content generated')
+      console.warn(
+        'Empty or invalid parameter set for loop, no content generated',
+      )
     }
 
     // Generate the content by cloning the template,
@@ -206,10 +207,10 @@ export class Loop extends Sequence {
           ...p,
         }
         return c
-      });
+      })
     } else if (isFunction(this.options.template)) {
-      this.options.content = templateParameters.map(
-        (p: any, i: any) => this.options.template(p, i, this),
+      this.options.content = templateParameters.map((p: any, i: any) =>
+        this.options.template(p, i, this),
       )
     } else {
       console.warn('Missing or invalid template in loop, no content generated')
@@ -230,7 +231,7 @@ export class Parallel extends Component {
     parsableOptions: {
       mode: {},
     },
-  };
+  }
 
   constructor(options = {}) {
     super({
@@ -253,16 +254,15 @@ export class Parallel extends Component {
   onRun(frameTimeStamp: any) {
     // End this component when all nested components,
     // or a single component, have ended
-    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
     Promise[this.options.mode](
       this.options.content.map((c: any) => c.waitFor('end')),
     ).then(() => this.end())
 
     // Run all nested components simultaneously
-    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
+
     return Promise.all(
       this.options.content.map((c: any) => c.run(frameTimeStamp)),
-    );
+    )
   }
 
   onEnd() {
@@ -278,8 +278,8 @@ export class Parallel extends Component {
     // If the parallel has ended,
     // report it as completed
     // (even if content was skipped)
-    return this.status === status.done ? 1 : mean(
-      this.options.content.map((c: any) => c.progress),
-    );
+    return this.status === status.done
+      ? 1
+      : mean(this.options.content.map((c: any) => c.progress))
   }
 }

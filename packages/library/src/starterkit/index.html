@@ -1,48 +1,54 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Experiment</title>
-  <!-- viewport setup -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- lab.js and libraries -->
-  <script src="lib/lab.js" data-labjs-script="library"></script>
-  <script src="lib/lab.fallback.js" data-labjs-script="fallback"></script>
-  <link rel="stylesheet" href="lib/lab.css">
-  <!-- actual experiment code -->
-  <script defer src="study.js"></script>
-</head>
-<body>
-  <!-- If you'd rather have a container with a fixed width
+  <head>
+    <meta charset="utf-8" />
+    <title>Experiment</title>
+    <!-- viewport setup -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- lab.js and libraries -->
+    <script src="lib/lab.js" data-labjs-script="library"></script>
+    <script src="lib/lab.fallback.js" data-labjs-script="fallback"></script>
+    <link rel="stylesheet" href="lib/lab.css" />
+    <!-- actual experiment code -->
+    <script defer src="study.js"></script>
+  </head>
+  <body>
+    <!-- If you'd rather have a container with a fixed width
        and variable height, try removing the fullscreen class below -->
-  <div class="container fullscreen">
-    <header class="content-vertical-center content-horizontal-center">
-      <div>
-        <!-- You could put a title here,
+    <div class="container fullscreen">
+      <header class="content-vertical-center content-horizontal-center">
+        <div>
+          <!-- You could put a title here,
              or remove the header element entirely -->
-      </div>
-    </header>
-    <main
-      class="content-vertical-center content-horizontal-center"
-      data-labjs-section="main"
-    >
-      <!-- the nested div is helpful because the centering would
+        </div>
+      </header>
+      <main
+        class="content-vertical-center content-horizontal-center"
+        data-labjs-section="main"
+      >
+        <!-- the nested div is helpful because the centering would
            otherwise break the natural flow of content -->
-      <div>
-        <img src="lib/loading.svg" alt="loading icon" style="padding: 1rem"><br>
-        <p>
-          <strong>Preparing experiment</strong><br>
-          <span class="text-muted">please wait a moment</span>
-        </p>
-      </div>
-    </main>
-    <footer class="content-vertical-center content-horizontal-center">
-      <div>
-        <!-- Again, please feel free to replace the footer content,
+        <div>
+          <img
+            src="lib/loading.svg"
+            alt="loading icon"
+            style="padding: 1rem"
+          /><br />
+          <p>
+            <strong>Preparing experiment</strong><br />
+            <span class="text-muted">please wait a moment</span>
+          </p>
+        </div>
+      </main>
+      <footer class="content-vertical-center content-horizontal-center">
+        <div>
+          <!-- Again, please feel free to replace the footer content,
              or to remove the footer if you don't need it -->
-        <small class="text-muted">Awesome lab, prestigious institution™</small>
-      </div>
-    </footer>
-  </div>
-</body>
+          <small class="text-muted"
+            >Awesome lab, prestigious institution™</small
+          >
+        </div>
+      </footer>
+    </div>
+  </body>
 </html>

@@ -7,11 +7,11 @@ import PluginAPI from '../plugins/api'
 // provides a basic framework for this, in that is
 // allows for custom events on an object.
 export class EventHandler {
-  internals: any;
+  internals: any
 
-  plugins: any;
+  plugins: any
 
-  type: any;
+  type: any
 
   constructor(options = {}) {
     // Internal storage for whatever,
@@ -39,12 +39,12 @@ export class EventHandler {
   // Any mistakes, of course, are entirely my own.
   on(event: any, fn: any) {
     // Setup displayName for easier debugging
-    fn.displayName = fn.displayName ||
-      `${ event } handler on ${ this.internals.rawOptions.title }`
+    fn.displayName =
+      fn.displayName || `${event} handler on ${this.internals.rawOptions.title}`
 
-    this.internals.callbacks[`$${ event }`] =
-      this.internals.callbacks[`$${ event }`] || []
-    this.internals.callbacks[`$${ event }`].push(fn)
+    this.internals.callbacks[`$${event}`] =
+      this.internals.callbacks[`$${event}`] || []
+    this.internals.callbacks[`$${event}`].push(fn)
     return this
   }
 
@@ -52,12 +52,13 @@ export class EventHandler {
     if (fn === null) {
       // If there is no specific handler specified,
       // remove all handlers for an event
-      delete this.internals.callbacks[`$${ event }`]
+      delete this.internals.callbacks[`$${event}`]
     } else {
       // If a specific handler is given, search for
       // it and remove just this one handler
-      this.internals.callbacks[`$${ event }`] =
-        this.internals.callbacks[`$${ event }`].filter((cb: any) => cb !== fn)
+      this.internals.callbacks[`$${event}`] = this.internals.callbacks[
+        `$${event}`
+      ].filter((cb: any) => cb !== fn)
     }
     return this
   }
@@ -85,10 +86,8 @@ export class EventHandler {
   waitFor(event: any) {
     // Return a promise that resolves when
     // the event in question is triggered
-    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
-    return new Promise(
-      (resolve: any) => this.on(event, resolve),
-    );
+
+    return new Promise((resolve: any) => this.on(event, resolve))
   }
 
   // Trigger handling
@@ -99,21 +98,17 @@ export class EventHandler {
   async trigger(event: any, ...args) {
     // Trigger all callbacks for a specific event,
     // within the context of the current object
-    const callbacks = this.internals.callbacks[`$${ event }`]
+    const callbacks = this.internals.callbacks[`$${event}`]
     if (callbacks) {
       try {
         // Go through all callbacks
-        // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
-        await Promise.all(
-          callbacks.map(
-            (c: any) => c.apply(this, args),
-          ),
-        )
+
+        await Promise.all(callbacks.map((c: any) => c.apply(this, args)))
       } catch (e) {
         // Log and rethrow error
         console.error(
-          `%cError in ${ this.internals.rawOptions.title }%c ` +
-          `during event ${ event }%c: ${ e }`,
+          `%cError in ${this.internals.rawOptions.title}%c ` +
+            `during event ${event}%c: ${e}`,
           'font-weight: bold', // Component title
           'font-weight: normal', // Event type
           'font-weight: normal; opacity: 0.5', // Remaining text
@@ -133,16 +128,16 @@ export class EventHandler {
     if (this.internals.rawOptions.debug) {
       // Tell the world what we're up to
       console.info(
-        `%c${ this.internals.rawOptions.title }%c (${ this.type }) → ` +
-        `Event %c${ event }%c · arguments [${ args }]`,
+        `%c${this.internals.rawOptions.title}%c (${this.type}) → ` +
+          `Event %c${event}%c · arguments [${args}]`,
         'font-weight: bold', // Title
         'font-weight: normal', // Component type
         'font-weight: bold', // Event name
         'font-weight: normal; opacity: 0.5', // Remaining text
       )
       console.time(
-        `${ event } on ${ this.internals.rawOptions.title }` +
-        `(${ this.internals.rawOptions.id })`
+        `${event} on ${this.internals.rawOptions.title}` +
+          `(${this.internals.rawOptions.id})`,
       )
     }
 
@@ -157,7 +152,7 @@ export class EventHandler {
     function getEventName(match: any, prefix: any, eventName: any) {
       return eventName.toUpperCase()
     }
-    const methodName = `on${ event.replace(splitter, getEventName) }`
+    const methodName = `on${event.replace(splitter, getEventName)}`
 
     // If there is a method called methodName,
     // run it and save the results
@@ -175,8 +170,8 @@ export class EventHandler {
     if (this.internals.rawOptions.debug) {
       // Tell the world what we're up to
       console.timeEnd(
-        `${ event } on ${ this.internals.rawOptions.title }` +
-        `(${ this.internals.rawOptions.id })`
+        `${event} on ${this.internals.rawOptions.title}` +
+          `(${this.internals.rawOptions.id})`,
       )
     }
 

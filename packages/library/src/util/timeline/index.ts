@@ -1,4 +1,3 @@
-// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import { sortBy, omit } from 'lodash'
 
 import { BufferSourceItem, OscillatorItem } from './items/audio'
@@ -7,13 +6,13 @@ import { requestIdleCallback } from '../timing'
 // Global timeline logic -------------------------------------------------------
 
 export class Timeline {
-  controller: any;
+  controller: any
 
-  events: any;
+  events: any
 
-  items: any;
+  items: any
 
-  offset: any;
+  offset: any
 
   constructor(controller: any, events = []) {
     this.controller = controller
@@ -22,10 +21,10 @@ export class Timeline {
   }
 
   async prepare() {
-    const orderedEvents = sortBy(
-      this.events,
-      [(e: any) => e.start, (e: any) => e.priority],
-    )
+    const orderedEvents = sortBy(this.events, [
+      (e: any) => e.start,
+      (e: any) => e.priority,
+    ])
 
     this.items = orderedEvents.map((e: any) => {
       const options = omit(e, 'payload')
@@ -36,12 +35,11 @@ export class Timeline {
         case 'oscillator':
           return new OscillatorItem(this, options, e.payload)
         default:
-          console.warn(`Unknown event type ${ e.type }, skipping`)
+          console.warn(`Unknown event type ${e.type}, skipping`)
       }
     })
 
-    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
-    return await Promise.all(this.items.map((i: any) => i.prepare()));
+    return await Promise.all(this.items.map((i: any) => i.prepare()))
   }
 
   start(offset: any) {
@@ -55,8 +53,7 @@ export class Timeline {
   }
 
   async end(t: any, force = false) {
-    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
-    return Promise.all(this.items.map((i: any) => i.end(t, force)));
+    return Promise.all(this.items.map((i: any) => i.end(t, force)))
   }
 
   async teardown() {

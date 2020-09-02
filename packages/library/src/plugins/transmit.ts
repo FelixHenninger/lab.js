@@ -1,17 +1,17 @@
 import { uuid4 } from '../util/random'
 
 export default class Transmit {
-  callbacks: any;
+  callbacks: any
 
-  encoding: any;
+  encoding: any
 
-  headers: any;
+  headers: any
 
-  metadata: any;
+  metadata: any
 
-  updates: any;
+  updates: any
 
-  url: any;
+  url: any
 
   constructor(options = {}) {
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'url' does not exist on type '{}'.
@@ -43,7 +43,7 @@ export default class Transmit {
         if (this.updates.incremental) {
           // Set commit handler on data store
           // (inside the handler, this refers to the store)
-          context.options.datastore.on('idle', function() {
+          context.options.datastore.on('idle', function () {
             // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
             this.queueIncrementalTransmission(
               url,
@@ -51,7 +51,7 @@ export default class Transmit {
               // @ts-expect-error ts-migrate(2683) FIXME: 'this' implicitly has type 'any' because it does n... Remove this comment to see the full error message
               { headers: this.headers, encoding: this.encoding },
             )
-          });
+          })
         }
         // Trigger setup callback
         if (this.callbacks.setup) {
@@ -66,14 +66,14 @@ export default class Transmit {
               url,
               { ...metadata, payload: 'full' },
               { headers: this.headers, encoding: this.encoding },
-            ).then((response: any) => {
+            )
+            .then((response: any) => {
               if (this.updates.incremental) {
                 context.options.datastore.flushIncrementalTransmissionQueue()
               }
               return response
-            }).then(
-              this.callbacks.full
-            )
+            })
+            .then(this.callbacks.full)
         }
         break
       default:

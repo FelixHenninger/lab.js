@@ -2,9 +2,9 @@
 import { without } from 'lodash'
 
 export default class PluginAPI {
-  context: any;
+  context: any
 
-  plugins: any;
+  plugins: any
 
   constructor(context: any) {
     this.plugins = []
@@ -23,9 +23,8 @@ export default class PluginAPI {
 
   // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'args' implicitly has an 'any[]' ty... Remove this comment to see the full error message
   trigger(event: any, ...args) {
-    // @ts-expect-error ts-migrate(2585) FIXME: 'Promise' only refers to a type, but is being used... Remove this comment to see the full error message
-    return Promise.all(this.plugins.map(
-      (p: any) => p.handle(this.context, event, ...args),
-    ));
+    return Promise.all(
+      this.plugins.map((p: any) => p.handle(this.context, event, ...args)),
+    )
   }
 }

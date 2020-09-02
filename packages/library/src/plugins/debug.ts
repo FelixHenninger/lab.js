@@ -110,76 +110,79 @@ const payload = `<style type="text/css">
 
 const makeMessage = (msg: any) => `
   <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center;">
-    ${ msg }
+    ${msg}
   </div>`
 
 const truncate = (s: any) => {
   // Restrict string length
-  const output = s.length > 80
-    ? `<div class="labjs-debug-trunc">${ s.substr(0, 100) }</div>`
-    : s
+  const output =
+    s.length > 80
+      ? `<div class="labjs-debug-trunc">${s.substr(0, 100)}</div>`
+      : s
 
   // Insert invisible space after commas,
   // allowing for line breaks
-  return output.replace(/,/g, ',&#8203;');
-};
+  return output.replace(/,/g, ',&#8203;')
+}
 
 const parseCell = (contents: any) => {
   switch (typeof contents) {
     case 'number':
       if (contents > 150) {
-        return contents.toFixed(0);
-      } 
-      return contents.toFixed(2);
-      
+        return contents.toFixed(0)
+      }
+      return contents.toFixed(2)
+
     case 'string':
-      return truncate(contents);
+      return truncate(contents)
     case 'undefined':
-      return '';
+      return ''
     case 'object':
       if (isPlainObject(contents)) {
-        return truncate(JSON.stringify(contents));
+        return truncate(JSON.stringify(contents))
       }
     default:
-      return contents;
+      return contents
   }
-};
+}
 
-const formatCell = (c: any) => `<td>${ parseCell(c) }</td>`
+const formatCell = (c: any) => `<td>${parseCell(c)}</td>`
 
 const renderStore = (datastore: any) => {
   // Export keys including state
   const keys = datastore.keys(true)
 
   // Render header row
-  const header = keys.map((k: any) => `<th>${ k }</th>`)
+  const header = keys.map((k: any) => `<th>${k}</th>`)
 
   // Render state and store
   const state = keys.map((k: any) => formatCell(datastore.state[k]))
   const store = datastore.data
-    .slice().reverse() // copy before reversing in place
+    .slice()
+    .reverse() // copy before reversing in place
     .map(
-      (row: any) => `<tr> ${ keys.map((k: any) => formatCell(row[k])).join('') } </tr>`,
+      (row: any) =>
+        `<tr> ${keys.map((k: any) => formatCell(row[k])).join('')} </tr>`,
     )
 
   // Export table
   return `
     <table>
-      <tr>${ header.join('\n') }</tr>
-      <tr class="labjs-debug-state">${ state.join('\n') }</tr>
-      ${ store.join('\n') }
+      <tr>${header.join('\n')}</tr>
+      <tr class="labjs-debug-state">${state.join('\n')}</tr>
+      ${store.join('\n')}
     </table>
   `
-};
+}
 
 export default class Debug {
-  container: any;
+  container: any
 
-  context: any;
+  context: any
 
-  filePrefix: any;
+  filePrefix: any
 
-  isVisible: any;
+  isVisible: any
 
   constructor({ filePrefix = 'study' } = {}) {
     this.filePrefix = filePrefix
@@ -208,36 +211,29 @@ export default class Debug {
 
     // Toggle visibility of debug window on clicks
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
-    Array.from(this.container.querySelectorAll('.labjs-debug-toggle'))
-      .forEach(
-        (e: any) => e.addEventListener('click', () => this.toggle()),
-      )
+    Array.from(
+      this.container.querySelectorAll('.labjs-debug-toggle'),
+    ).forEach((e: any) => e.addEventListener('click', () => this.toggle()))
 
     this.container
       .querySelector('.labjs-debug-overlay-menu')
-      .addEventListener(
-        'dblclick',
-        () => this.container.classList.toggle('labjs-debug-large'),
+      .addEventListener('dblclick', () =>
+        this.container.classList.toggle('labjs-debug-large'),
       )
 
     this.container
       .querySelector('.labjs-debug-data-download')
-      .addEventListener(
-        'click',
-        (e: any) => {
-          e.preventDefault()
-          if (this.context.options.datastore) {
-            this.context.options.datastore.download(
-              'csv',
-              context.options.datastore.makeFilename(
-                this.filePrefix, 'csv',
-              ),
-            )
-          } else {
-            alert('No datastore to download from')
-          }
-        },
-      )
+      .addEventListener('click', (e: any) => {
+        e.preventDefault()
+        if (this.context.options.datastore) {
+          this.context.options.datastore.download(
+            'csv',
+            context.options.datastore.makeFilename(this.filePrefix, 'csv'),
+          )
+        } else {
+          alert('No datastore to download from')
+        }
+      })
 
     // Add payload code to document
     document.body.appendChild(this.container)
@@ -250,12 +246,9 @@ export default class Debug {
       // are committed, because the set event is not
       // triggered when data are committed, even if
       // data are changed.
-      this.context.options.datastore
-        .on('set', () => this.render())
-      this.context.options.datastore
-        .on('commit', () => this.render())
-      this.context.options.datastore
-        .on('update', () => this.render())
+      this.context.options.datastore.on('set', () => this.render())
+      this.context.options.datastore.on('commit', () => this.render())
+      this.context.options.datastore.on('update', () => this.render())
     }
   }
 
@@ -274,9 +267,9 @@ export default class Debug {
         contents = renderStore(this.context.options.datastore)
       }
 
-      this.container
-        .querySelector('.labjs-debug-overlay-contents')
-        .innerHTML = contents
+      this.container.querySelector(
+        '.labjs-debug-overlay-contents',
+      ).innerHTML = contents
     }
   }
 }
