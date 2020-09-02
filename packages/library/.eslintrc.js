@@ -48,5 +48,17 @@ module.exports = {
     '@typescript-eslint/semi': 0,
     // We use underscores for internal methods
     'no-underscore-dangle': 0,
+    // ts-migrate left us with lots of ts comments
+    '@typescript-eslint/ban-ts-comment': 1,
+    // ++ is fine
+    'no-plusplus': 0,
   },
+  overrides: [
+    {
+      files: ['**/*.{js,jsx}', '**/*.test.{ts,tsx}'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 0,
+      },
+    },
+  ],
 }

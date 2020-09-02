@@ -1,9 +1,10 @@
 const path = require('path')
+const os = require('os')
 const webpack = require('webpack')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const TerserPlugin = require('terser-webpack-plugin')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const shell = require('shelljs')
 
 // Minify code
@@ -29,7 +30,7 @@ const reservedTerms = [
 ]
 
 module.exports = (env, argv) => {
-  const mode = argv.mode
+  const { mode } = argv
   const target = process.env.NODE_ENV || mode
 
   // Set output file name
@@ -45,71 +46,6 @@ module.exports = (env, argv) => {
     '(c) 2015- Felix Henninger',
   ].join('\n')
 
-  // Define babel options
-  const babelPresets = {
-    legacy: {
-      presets: [
-        [
-          '@babel/env',
-          {
-            // Module generation is handled by webpack
-            modules: false,
-            useBuiltIns: 'usage',
-            corejs: 3,
-          },
-        ],
-      ],
-      plugins: [
-        '@babel/plugin-proposal-object-rest-spread',
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-nullish-coalescing-operator',
-        'lodash',
-        [
-          'module:fast-async',
-          {
-            runtimePattern: './src/index.js',
-          },
-        ],
-      ],
-    },
-    default: {
-      presets: [
-        [
-          '@babel/env',
-          {
-            targets: {
-              browsers: [
-                '> 2%',
-                'last 2 versions', // 'not dead',
-                'Firefox ESR',
-                'not IE 11',
-                'not ExplorerMobile 11',
-                'not OperaMini all',
-                'not OperaMobile < 37',
-                'not Android < 60',
-              ],
-            },
-            exclude: ['transform-async-to-generator', 'transform-regenerator'],
-            // Module generation is handled by webpack
-            modules: false,
-            useBuiltIns: 'usage',
-            corejs: 3,
-          },
-        ],
-      ],
-      plugins: [
-        '@babel/plugin-proposal-object-rest-spread',
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-nullish-coalescing-operator',
-        'lodash',
-      ],
-    },
-  }
-
-  const babelOptions = Object.keys(babelPresets).includes(target)
-    ? babelPresets[target]
-    : babelPresets.default
-
   const config = {
     entry: {
       js:
@@ -123,18 +59,14 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
-          loader: 'babel-loader',
-          test: /\.js$/,
-          include: path.join(__dirname, 'src'),
-          query: babelOptions,
-        },
-        {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: [
+            { loader: 'cache-loader' },
             {
               loader: 'thread-loader',
               options: {
+                workers: os.cpus().length - 1,
                 poolTimeout:
                   process.env.NODE_ENV === 'development' ? Infinity : 500,
               },
@@ -143,9 +75,6 @@ module.exports = (env, argv) => {
               loader: 'ts-loader',
               options: {
                 happyPackMode: true,
-                compilerOptions: {
-                  noEmit: false,
-                },
               },
             },
           ],
@@ -154,6 +83,14 @@ module.exports = (env, argv) => {
     },
     devtool: mode === 'development' ? 'inline-source-map' : 'source-map',
     plugins: [
+      new ForkTsCheckerWebpackPlugin({
+        typescript: {
+          diagnosticOptions: {
+            semantic: true,
+            syntactic: true,
+          },
+        },
+      }),
       new LodashModuleReplacementPlugin(),
       new webpack.BannerPlugin({
         banner,
