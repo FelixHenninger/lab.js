@@ -10700,7 +10700,7 @@ konva@^4.0.18:
   integrity sha512-Tlq0v7QHr8q73xr1cKjHdQl41oHC06IOldPO+ukjt99G74NgoU0TVouvPIFpW2whA9t3xNk/+/VJcc3XPcboOw==
 
 "lab.js@file:packages/library":
-  version "20.1.0"
+  version "20.1.1"
   dependencies:
     "@babel/runtime" "^7.8.0"
     common-tags "^1.8.0"
@@ -16564,8 +16564,9 @@ tr46@^1.0.1:
     punycode "^2.1.0"
 
 tree-kill@~1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/tree-kill/-/tree-kill-1.2.0.tgz#5846786237b4239014f05db156b643212d4c6f36"
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/tree-kill/-/tree-kill-1.2.2.tgz#4ca09a9092c88b73a7cdc5e8a01b507b0790a0cc"
+  integrity sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==
 
 trim-newlines@^1.0.0:
   version "1.0.0"
