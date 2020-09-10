@@ -197,7 +197,7 @@ export class Screen extends Component {
     // screen canvas, and also add a check to determine
     // whether the event coordinates fall into the AOI region.
     this.internals.domConnection.processEvent =
-      // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'eventName' implicitly has an 'any... Remove this comment to see the full error message
+      
       ([eventName, filters, selector]) => {
         // TODO: Split multiple selectors
         if (selector && selector.startsWith('@')) {
@@ -246,7 +246,7 @@ export class Screen extends Component {
 
   onRun() {
     // Add canvas to the dom, if necessary
-    // @ts-expect-error ts-migrate(2684) FIXME: The 'this' context of type '(clearElement: boolean... Remove this comment to see the full error message
+    
     insertCanvas.apply(this)
 
     // Extract the requested context for the canvas
@@ -422,7 +422,7 @@ export class Frame extends BaseFrame {
     }
   }
 
-  // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
+  
   async onPrepare() {
     // Check that all nested components
     // are either flow components or
@@ -489,11 +489,11 @@ export class Frame extends BaseFrame {
   // of duplicated code from html.Frame that might be
   // worth refactoring. For example, this might call
   // super.onRun and pass insertCanvas as a fallback.
-  // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
+  
   async onRun(frameTimestamp: any, frameSynced: any) {
     // Clear element content, and insert context
     this.options.el.innerHTML = ''
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
+    
     Array.from(this.internals.parsedContext.body.children).forEach((c: any) =>
       this.options.el.appendChild(c),
     )

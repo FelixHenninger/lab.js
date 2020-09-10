@@ -3,7 +3,7 @@ import 'shim-keyboard-event-key'
 import { ensureHighResTime } from './timing'
 
 // Split an eventString into event name, options and selector
-const splitEventString = function(eventString: any) {
+const splitEventString = function (eventString: any) {
   // Split the eventString ('click(0) div > button')
   // into selector ('div > button'), event type ('click')
   // and additional filters (button '0')
@@ -15,11 +15,9 @@ const splitEventString = function(eventString: any) {
   let selector = null
 
   if (directHandlerRegEx.test(eventString)) {
-    // @ts-expect-error ts-migrate(2461) FIXME: Type 'RegExpExecArray | null' is not an array type... Remove this comment to see the full error message
-    [, eventName, selector] = directHandlerRegEx.exec(eventString)
+    ;[, eventName, selector] = directHandlerRegEx.exec(eventString)
   } else if (wrappedHandlerRegEx.test(eventString)) {
-    // @ts-expect-error ts-migrate(2461) FIXME: Type 'RegExpExecArray | null' is not an array type... Remove this comment to see the full error message
-    [, eventName, filters, selector] = wrappedHandlerRegEx.exec(eventString)
+    ;[, eventName, filters, selector] = wrappedHandlerRegEx.exec(eventString)
     filters = filters.split(',').map((o: any) => o.trim())
   } else {
     console.log("Can't interpret event string ", eventString)
@@ -34,7 +32,7 @@ const keyValues = {
 
 // Generate a sequence of checks to apply to an event
 // before triggering a handler function
-const makeChecks = function(
+const makeChecks = function (
   eventName: any,
   { filters = [], filterRepeat = true, startTime = -Infinity },
 ) {
@@ -44,7 +42,6 @@ const makeChecks = function(
   checks.push((e: any) => ensureHighResTime(e.timeStamp) >= startTime)
 
   // Add additional checks depending on the event type
-  // @ts-expect-error ts-migrate(2339) FIXME: Property 'includes' does not exist on type 'string... Remove this comment to see the full error message
   if (['keypress', 'keydown', 'keyup'].includes(eventName)) {
     // Filters define keys that trigger the handler. Keys, in turn,
     // are defined in terms of the key event values supplied by the
@@ -66,25 +63,22 @@ const makeChecks = function(
 
     // Wrap the handler only if we pre-select events
     if (keys.length > 0 || filterRepeat) {
-      checks.push(function(e: any) {
+      checks.push(function (e: any) {
         // Fire the handler only if
         // - we filter repeats, and the key is not one
         // - target keys are defined, and the key pressed matches one
         return (
           !(filterRepeat && e.repeat) &&
-          // @ts-expect-error ts-migrate(2339) FIXME: Property 'includes' does not exist on type 'never[... Remove this comment to see the full error message
           !(keys.length > 0 && !keys.includes(e.key))
         )
       })
     }
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'includes' does not exist on type 'string... Remove this comment to see the full error message
   } else if (['click', 'mousedown', 'mouseup'].includes(eventName)) {
     const buttons = (filters || []).map((button) => parseInt(button))
 
     if (buttons.length > 0) {
       // Wrap the handler accordingly
-      checks.push(function(e: any) {
-        // @ts-expect-error ts-migrate(2339) FIXME: Property 'includes' does not exist on type 'number... Remove this comment to see the full error message
+      checks.push(function (e: any) {
         return buttons.includes(e.button)
       })
     }
@@ -93,7 +87,6 @@ const makeChecks = function(
   return checks
 }
 
-// @ts-expect-error ts-migrate(7031) FIXME: Binding element 'eventName' implicitly has an 'any... Remove this comment to see the full error message
 const defaultProcessEvent = ([eventName, filters, selector]) => ({
   eventName,
   filters,
@@ -147,7 +140,7 @@ export class DomConnection {
     }
 
     // Only trigger handler if all checks pass
-    return function(e: any) {
+    return function (e: any) {
       return checks.reduce((acc: any, check: any) => acc && check(e), true)
         ? handler(e)
         : null
@@ -155,10 +148,8 @@ export class DomConnection {
   }
 
   prepare() {
-    
-    this.parsedEvents = Object.entries(this.events)
-      // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'eventString' implicitly has an 'a... Remove this comment to see the full error message
-      .map(([eventString, handler]) => {
+    this.parsedEvents = Object.entries(this.events).map(
+      ([eventString, handler]) => {
         // Split event string into constituent components,
         // and pass result onto event processing
         const {
@@ -176,21 +167,22 @@ export class DomConnection {
         ])
 
         return [eventString, eventName, selector, wrappedHandler]
-      })
+      },
+    )
   }
 
   // DOM interaction -----------------------------------------------------------
   attach() {
     // For each of the specified events and their
     // respective handlers ...
-    // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'eventName' implicitly has an 'any... Remove this comment to see the full error message
+
     this.parsedEvents.forEach(([, eventName, selector, handler]) => {
       // Apply listeners
       if (selector !== '') {
         // If the event is constrainted to a certain element
         // or a set of elements, search for these within the
         // specified element, and add the handler to each
-        // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
+
         Array.from(this.el.querySelectorAll(selector)).forEach((child: any) =>
           child.addEventListener(eventName, handler),
         )
@@ -203,11 +195,10 @@ export class DomConnection {
   }
 
   detach() {
-    // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'eventName' implicitly has an 'any... Remove this comment to see the full error message
     this.parsedEvents.forEach(([, eventName, selector, handler]) => {
       if (selector !== '') {
         // Remove listener from specified elements
-        // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
+
         Array.from(this.el.querySelectorAll(selector)).forEach((child: any) =>
           child.removeEventListener(eventName, handler),
         )

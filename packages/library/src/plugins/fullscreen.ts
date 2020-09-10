@@ -37,7 +37,7 @@ export default class FullscreenPlugin {
       // Halt all activity until confirmation of the fullscreen switch
 
       await new Promise((resolve: any) => {
-        // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
+        
         overlay.addEventListener(
           'click',
           async(e) => {

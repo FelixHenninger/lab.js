@@ -70,7 +70,7 @@ export class Form extends Screen {
       if (e.target.getAttribute('form')) {
         // ... find it and ...
         const targetForm = this.options.el.querySelector(
-          `form#${ e.target.getAttribute('form') }`,
+          `form#${e.target.getAttribute('form')}`,
         )
 
         // ... submit that form instead
@@ -110,9 +110,7 @@ export class Form extends Screen {
 
   submit(e = null) {
     // Suppress default form behavior
-    // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
     if (e && e.preventDefault) {
-      // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
       e.preventDefault()
     }
 
@@ -121,11 +119,10 @@ export class Form extends Screen {
     if (this.validate()) {
       // Add serialized form data to
       // the element's dataset
-      
+
       Object.assign(this.data, this.serialize())
 
       // Bye!
-      // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"form submission"' is not assign... Remove this comment to see the full error message
       this.end('form submission')
     } else {
       // Mark form(s) as validated, but leave
@@ -133,7 +130,7 @@ export class Form extends Screen {
       // (an array conversion is needed here for IE
       // and older browsers, who do not implement
       // forEach on NodeLists)
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
+
       Array.from(this.options.el.querySelectorAll('form')).forEach((f: any) =>
         f.setAttribute('data-labjs-validated', ''),
       )
@@ -151,10 +148,10 @@ export class Form extends Screen {
     const output = {}
 
     // Iterate over forms ...
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
+
     Array.from(forms).forEach((form: any) => {
       // ... and elements within them
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
+
       Array.from(form.elements).forEach((element: any) => {
         // Handle the element differently depending
         // on the tag type
@@ -162,41 +159,33 @@ export class Form extends Screen {
           case 'input':
             switch (element.type) {
               case 'checkbox':
-                // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 output[element.name] = element.checked
                 break
               case 'radio':
                 if (element.checked) {
-                  // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                   output[element.name] = element.value
                 }
                 break
               // All other input types (e.g. text, hidden,
               // number, url, ... button, submit, reset)
               default:
-                // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 output[element.name] = element.value
                 break
             }
             break
           case 'textarea':
-            // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             output[element.name] = element.value
             break
           case 'select':
             switch (element.type) {
               case 'select-one':
-                // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 output[element.name] = element.value
                 break
               case 'select-multiple':
                 // Again, working around limitations of NodeLists
-                // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
-                output[element.name] =
-                  // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
-                  Array.from(element.options)
-                    .filter((option: any) => option.selected)
-                    .map((option: any) => option.value)
+                output[element.name] = Array.from(element.options)
+                  .filter((option: any) => option.selected)
+                  .map((option: any) => option.value)
                 break
               // no default
             }
@@ -218,7 +207,6 @@ export class Form extends Screen {
 
     return (
       this.options.validator(this.serialize()) &&
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
       Array.from(forms).every((form: any) => form.checkValidity())
     )
   }
@@ -267,7 +255,7 @@ export class Frame extends Component {
   async onRun(frameTimestamp: any, frameSynced: any) {
     // Clear element content, and insert context
     this.options.el.innerHTML = ''
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
+
     Array.from(this.internals.parsedContext.body.children).forEach((c: any) =>
       this.options.el.appendChild(c),
     )

@@ -1,11 +1,4 @@
-import {
-  isString,
-  isArray,
-  isPlainObject,
-  
-  template,
-  fromPairs,
-} from 'lodash'
+import { isString, isArray, isPlainObject, template, fromPairs } from 'lodash'
 
 const prototypeChain = (object: any) => {
   // Compute the prototype chain a given object
@@ -22,7 +15,7 @@ export const parsableOptions = (
   component: any, // Collect parsable options from the static property metadata
 ) =>
   // of all components on the prototype chain
-  
+
   Object.assign(
     {},
     ...prototypeChain(component).map((p) =>
@@ -41,8 +34,8 @@ export const parse = (raw: any, context: any, metadata: any, that = {}) => {
   if (isString(raw)) {
     // Parse output
     const output = template(raw, {
-      escape: '',
-      evaluate: '',
+      escape: RegExp(''),
+      evaluate: RegExp(''),
     }).call(that, context)
 
     // Cooerce type if requested
@@ -55,7 +48,7 @@ export const parse = (raw: any, context: any, metadata: any, that = {}) => {
         return Boolean(output.trim() !== 'false')
       default:
         throw new Error(
-          `Output type ${ metadata.type } unknown, can't convert option`,
+          `Output type ${metadata.type} unknown, can't convert option`,
         )
     }
   } else if (isArray(raw)) {
@@ -65,21 +58,17 @@ export const parse = (raw: any, context: any, metadata: any, that = {}) => {
     // Parse individual key/value pairs
     // and construct a new object from results
     return fromPairs(
-      
-      Object.entries(raw).map(
-        // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'k' implicitly has an 'any' type.
-        ([k, v]) => [
-          k,
-          parse(
-            v,
-            context,
-            // Try the key-specific metadata settings,
-            // or, alternatively, use the catch-all
-            metadata.content[k] || metadata.content['*'],
-            that,
-          ),
-        ],
-      ),
+      Object.entries(raw).map(([k, v]) => [
+        k,
+        parse(
+          v,
+          context,
+          // Try the key-specific metadata settings,
+          // or, alternatively, use the catch-all
+          metadata.content[k] || metadata.content['*'],
+          that,
+        ),
+      ]),
     )
   } else {
     // If we don't know how to parse things,
@@ -100,9 +89,7 @@ export const parseRequested = (
   // will only included those options for which parsing
   // has resulted in different output
   fromPairs(
-    
     Object.entries(metadata)
-      // @ts-expect-error ts-migrate(7031) FIXME: Binding element 'k' implicitly has an 'any' type.
       .map(([k, v]) => {
         if (rawOptions[k]) {
           const candidate = parse(rawOptions[k], context, v, that)

@@ -28,7 +28,7 @@ const getMetadata = () => {
 
 const extractURLSearchParams = (search: any) =>
   fromPairs(
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
+    
     Array.from(
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'entries' does not exist on type 'URLSear... Remove this comment to see the full error message
       new URLSearchParams(search).entries(),

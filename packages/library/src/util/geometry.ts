@@ -1,7 +1,5 @@
-
 import { range } from 'lodash'
 
-// @ts-expect-error ts-migrate(7031) FIXME: Binding element 'x1' implicitly has an 'any' type.
 export const distance = ([x1, y1], [x2, y2]) =>
   Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 

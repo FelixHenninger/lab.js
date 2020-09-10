@@ -95,7 +95,6 @@ export class Component extends EventHandler {
   // Storage for internal properties
   // (these are not supposed to be directly available
   // to users, and may change between versions)
-  // @ts-expect-error ts-migrate(7022) FIXME: 'internals' implicitly has type 'any' because it d... Remove this comment to see the full error message
   internals = {
     timestamps: {},
     ...this.internals,
@@ -104,109 +103,95 @@ export class Component extends EventHandler {
   // Proxy parameters
   // (for browsers that support proxies natively)
   parameters =
-  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
-  BUILD_FLAVOR !== 'legacy'
-    ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
-    new window.Proxy(
-      {},
-      {
-        // Read from the aggregate parameters
-        get: (obj: any, prop: any) => this.aggregateParameters[prop],
-        // Redirect writes to the parameters option
-        set: (obj: any, prop: any, value: any) =>
-          (this.options.parameters[prop] = value) || true,
-        has: (obj: any, prop: any) =>
-        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-          Reflect.has(this.aggregateParameters, prop),
-        ownKeys: (obj: any, prop: any) =>
-        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-          Reflect.ownKeys(this.aggregateParameters),
-        getOwnPropertyDescriptor: (obj: any, prop: any) =>
-        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-          Reflect.getOwnPropertyDescriptor(this.aggregateParameters, prop),
-      },
-    )
-    : undefined
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
+    BUILD_FLAVOR !== 'legacy'
+      ? new window.Proxy(
+          {},
+          {
+            // Read from the aggregate parameters
+            get: (obj: any, prop: any) => this.aggregateParameters[prop],
+            // Redirect writes to the parameters option
+            set: (obj: any, prop: any, value: any) =>
+              (this.options.parameters[prop] = value) || true,
+            has: (obj: any, prop: any) =>
+              Reflect.has(this.aggregateParameters, prop),
+            ownKeys: (target) => Reflect.ownKeys(this.aggregateParameters),
+            getOwnPropertyDescriptor: (obj: any, prop: any) =>
+              Reflect.getOwnPropertyDescriptor(this.aggregateParameters, prop),
+          },
+        )
+      : undefined
 
   // Proxy state
   state =
-  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
-  BUILD_FLAVOR !== 'legacy'
-    ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
-    new window.Proxy(
-      {},
-      {
-        // Read from the internal datastore
-        // TODO: This would likely benefit from optional chaining,
-        // plus some way of removing the repetition
-        // in all of these traps.
-        get: (obj: any, prop: any) => {
-          if (this.options.datastore) {
-            return this.options.datastore.state[prop]
-          }
-          throw new Error('No datastore to read state from')
-        },
-        // Redirect writes to store's set method
-        set: (obj: any, prop: any, value: any) => {
-          if (this.options.datastore) {
-            this.options.datastore.set(prop, value)
-            return true
-          }
-          throw new Error('No datastore to save state to')
-        },
-        has: (obj: any, prop: any) => {
-          if (this.options.datastore) {
-            // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-            return Reflect.has(this.options.datastore.state, prop)
-          }
-          throw new Error('No datastore to read state from')
-        },
-        ownKeys: (obj: any) => {
-          if (this.options.datastore) {
-            // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-            return Reflect.ownKeys(this.options.datastore.state)
-          }
-          throw new Error('No datastore to read state from')
-        },
-        getOwnPropertyDescriptor: (obj: any, prop: any) => {
-          if (this.options.datastore) {
-            // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-            return Reflect.getOwnPropertyDescriptor(
-              this.options.datastore.state,
-              prop,
-            )
-          }
-          throw new Error('No datastore to read state from')
-        },
-      },
-    )
-    : undefined
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
+    BUILD_FLAVOR !== 'legacy'
+      ? new window.Proxy(
+          {},
+          {
+            // Read from the internal datastore
+            // TODO: This would likely benefit from optional chaining,
+            // plus some way of removing the repetition
+            // in all of these traps.
+            get: (obj: any, prop: any) => {
+              if (this.options.datastore) {
+                return this.options.datastore.state[prop]
+              }
+              throw new Error('No datastore to read state from')
+            },
+            // Redirect writes to store's set method
+            set: (obj: any, prop: any, value: any) => {
+              if (this.options.datastore) {
+                this.options.datastore.set(prop, value)
+                return true
+              }
+              throw new Error('No datastore to save state to')
+            },
+            has: (obj: any, prop: any) => {
+              if (this.options.datastore) {
+                return Reflect.has(this.options.datastore.state, prop)
+              }
+              throw new Error('No datastore to read state from')
+            },
+            ownKeys: (obj: any) => {
+              if (this.options.datastore) {
+                return Reflect.ownKeys(this.options.datastore.state)
+              }
+              throw new Error('No datastore to read state from')
+            },
+            getOwnPropertyDescriptor: (obj: any, prop: any) => {
+              if (this.options.datastore) {
+                return Reflect.getOwnPropertyDescriptor(
+                  this.options.datastore.state,
+                  prop,
+                )
+              }
+              throw new Error('No datastore to read state from')
+            },
+          },
+        )
+      : undefined
 
   // Proxy files
   files =
-  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
-  BUILD_FLAVOR !== 'legacy'
-    ? // @ts-expect-error ts-migrate(2339) FIXME: Property 'Proxy' does not exist on type 'Window & ... Remove this comment to see the full error message
-    new window.Proxy(
-      {},
-      {
-        // Read from the aggregate parameters
-        get: (obj: any, prop: any) => this._aggregateFiles[prop],
-        // Redirect writes to the parameters option
-        set: (obj: any, prop: any, value: any) =>
-          (this.options.files[prop] = value) || true,
-        has: (obj: any, prop: any) =>
-        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-          Reflect.has(this._aggregateFiles, prop),
-        ownKeys: (obj: any, prop: any) =>
-        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-          Reflect.ownKeys(this._aggregateFiles),
-        getOwnPropertyDescriptor: (obj: any, prop: any) =>
-        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Reflect'.
-          Reflect.getOwnPropertyDescriptor(this._aggregateFiles, prop),
-      },
-    )
-    : undefined
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
+    BUILD_FLAVOR !== 'legacy'
+      ? new window.Proxy(
+          {},
+          {
+            // Read from the aggregate parameters
+            get: (obj: any, prop: any) => this._aggregateFiles[prop],
+            // Redirect writes to the parameters option
+            set: (obj: any, prop: any, value: any) =>
+              (this.options.files[prop] = value) || true,
+            has: (obj: any, prop: any) =>
+              Reflect.has(this._aggregateFiles, prop),
+            ownKeys: (target) => Reflect.ownKeys(this._aggregateFiles),
+            getOwnPropertyDescriptor: (obj: any, prop: any) =>
+              Reflect.getOwnPropertyDescriptor(this._aggregateFiles, prop),
+          },
+        )
+      : undefined
 
   constructor(options = {}) {
     // Construct the EventHandler first
@@ -334,7 +319,7 @@ export class Component extends EventHandler {
   }
 
   // Actions ----------------------------------------------
-  // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
+
   async prepare(directCall = true) {
     // Prepare a component prior to its display,
     // for example by pre-loading or pre-rendering
@@ -356,12 +341,10 @@ export class Component extends EventHandler {
       this.parents
         .reduce(
           // Accumulate handed down options from parents
-          // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'acc' implicitly has an 'any' type.
           (acc, cur) => {
             cur.options.handMeDowns.forEach((o: any) => acc.add(o))
             return acc
           },
-          // @ts-expect-error ts-migrate(2585) FIXME: 'Set' only refers to a type, but is being used as ... Remove this comment to see the full error message
           new Set(),
         )
         .forEach(
@@ -399,7 +382,7 @@ export class Component extends EventHandler {
     if (this.options.debug) {
       this.on('before:run', () =>
         console.group(
-          `${ this.options.title } %c(${ this.type })`,
+          `${this.options.title} %c(${this.type})`,
           'font-weight: normal',
         ),
       )
@@ -439,7 +422,6 @@ export class Component extends EventHandler {
       templateContext,
     )
 
-    
     this.internals.parsedOptions = Object.assign(
       Object.create(this.internals.rawOptions),
       parsedOptions,
@@ -470,7 +452,6 @@ export class Component extends EventHandler {
       // Add a timeout to end the component automatically
       // after the specified duration.
       this.internals.timeout = new Timeout(
-        // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"timeout"' is not assignable to ... Remove this comment to see the full error message
         (timestamp: any) => this.end('timeout', timestamp, true),
         this.options.timeout,
       )
@@ -508,7 +489,6 @@ export class Component extends EventHandler {
     await this.triggerMethod('after:prepare')
   }
 
-  // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
   async preload() {
     // Preload media
 
@@ -538,7 +518,6 @@ export class Component extends EventHandler {
 
     // Skip actual content if so instructed
     if (this.options.skip) {
-      // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"skipped"' is not assignable to ... Remove this comment to see the full error message
       return this.end('skipped', frameTimestamp, frameSynced)
     }
 
@@ -553,12 +532,11 @@ export class Component extends EventHandler {
     return this.render(frameTimestamp, frameSynced)
   }
 
-  // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
   async render(frameTimestamp: any, frameSynced: any) {
     // TODO: Think about moving the function
     // declaration out of the render path
-    // @ts-expect-error ts-migrate(2705) FIXME: An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
-    const handler = async(renderFrame: any) => {
+
+    const handler = async (renderFrame: any) => {
       // Log time
       this.internals.timestamps.render = renderFrame
 
@@ -601,7 +579,6 @@ export class Component extends EventHandler {
     }
 
     // End component
-    // @ts-expect-error ts-migrate(2345) FIXME: Argument of type '"response"' is not assignable to... Remove this comment to see the full error message
     return this.end('response', timestamp)
   }
 
@@ -839,11 +816,11 @@ export class Component extends EventHandler {
     return output.reverse()
   }
 
+  // @ts-expect-error 'type' is defined as a property in class 'EventHandler', but is overridden here in 'Component' as an accessor.
   get type() {
     return [
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'metadata' does not exist on type 'Functi... Remove this comment to see the full error message
       ...this.constructor.metadata.module,
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'name' does not exist on type 'Function'.
       this.constructor.name,
     ].join('.')
   }

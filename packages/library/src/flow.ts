@@ -26,10 +26,6 @@ export const prepareNested = function (nested: any, parent: any) {
 
 // Sequence -----------------------------------------------
 
-export interface SequenceOptions {
-  shuffle?: boolean
-}
-
 // A sequence combines an array of other
 // components and runs them sequentially
 export class Sequence extends Component {
@@ -41,7 +37,7 @@ export class Sequence extends Component {
     },
   }
 
-  constructor(options: SequenceOptions = {}) {
+  constructor(options = {}) {
     super({
       // Define an array of nested components
       // to iterate over

@@ -210,7 +210,7 @@ export default class Debug {
     this.container.innerHTML = payload
 
     // Toggle visibility of debug window on clicks
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'from' does not exist on type 'ArrayConst... Remove this comment to see the full error message
+    
     Array.from(
       this.container.querySelectorAll('.labjs-debug-toggle'),
     ).forEach((e: any) => e.addEventListener('click', () => this.toggle()))

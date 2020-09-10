@@ -6,10 +6,8 @@ class AsyncCache {
   // Generic cache class that wraps an async function,
   // and knows to return promises for pending results.
   // (the end result is very similar to memoization)
-  // @ts-expect-error ts-migrate(2583) FIXME: Cannot find name 'Map'. Do you need to change your... Remove this comment to see the full error message
   cache = new Map()
 
-  // @ts-expect-error ts-migrate(2583) FIXME: Cannot find name 'Map'. Do you need to change your... Remove this comment to see the full error message
   pending = new Map()
 
   constructor(cachedFunc: any) {

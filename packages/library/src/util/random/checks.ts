@@ -48,16 +48,13 @@ export const minRepDistance = (arr: any, hashFunc = (x: any) => x) => {
     const candidate = arr[i]
     const hash = hashFunc(candidate)
 
-    // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     if (lastPositions[hash] !== undefined) {
-      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       const distance = i - lastPositions[hash]
       if (minDistance > distance) {
         minDistance = distance
       }
     }
 
-    // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     lastPositions[hash] = i
   }
 
