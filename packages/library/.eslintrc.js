@@ -57,6 +57,10 @@ module.exports = {
     'max-classes-per-file': 0,
     // Named exports used often
     'import/prefer-default-export': 0,
+    // Arrow functions without returns are fine
+    'consistent-return': 0,
+    // Destructuring should be encouraged but not required
+    'prefer-destructuring': 1,
   },
   overrides: [
     {
