@@ -1,3 +1,4 @@
+const shell = require('shelljs')
 
 // Copy files ------------------------------------------------------------------
 shell.mkdir('-p', 'dist/labjs-starterkit/lib')
@@ -24,9 +25,8 @@ zip = new JSZip()
 
 shell
   .ls('-R', 'dist/labjs-starterkit/**/*')
-  .filter((filename: any) => filename.startsWith('dist/labjs-starterkit'))
-  .forEach((filename: any) => {
-    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'zip'.
+  .filter((filename) => filename.startsWith('dist/labjs-starterkit'))
+  .forEach((filename) => {
     zip.file(
       filename.replace(/^dist\/labjs-starterkit\//, ''),
       fs.readFileSync(filename),
@@ -34,7 +34,6 @@ shell
   })
 
 // Compress and output bundle file
-// @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'zip'.
 zip
   .generateNodeStream({
     compression: 'DEFLATE',
