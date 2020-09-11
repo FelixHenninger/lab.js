@@ -4,8 +4,23 @@ import { prepareNested } from './flow'
 
 import { makePage } from './util/page'
 
+export interface ScreenOptions {
+  items?: any
+  events?: Record<string, any>
+  content?: string
+  contentUrl?: string
+  el?: Element
+  validator?: (arg1: any) => boolean
+  scrollTop?: boolean
+  submitButtonText?: string
+  submitButtonPosition?: string
+  width?: number
+}
+
 // html.Screens display HTML when run
 export class Screen extends Component {
+  options: ScreenOptions
+
   static metadata = {
     module: ['html'],
     nestedComponents: [],
@@ -14,7 +29,7 @@ export class Screen extends Component {
     },
   }
 
-  constructor(options: any) {
+  constructor(options: ScreenOptions) {
     super({
       content: null,
       contentUrl: null,
@@ -102,7 +117,7 @@ export class Form extends Screen {
     super.onRun()
 
     // Emulate form field autofocus
-    const focus = this.options.el.querySelector('[autofocus]')
+    const focus = this.options.el.querySelector<HTMLElement>('[autofocus]')
     if (focus) {
       focus.focus()
     }

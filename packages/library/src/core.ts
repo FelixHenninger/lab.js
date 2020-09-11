@@ -82,9 +82,13 @@ class Controller {
   }
 }
 
+export interface ComponentOptions {
+  [option: string]: any
+}
+
 // Component: Generic building block for experiment -------
 export class Component extends EventHandler {
-  options: any
+  options: ComponentOptions
 
   random: any
 
