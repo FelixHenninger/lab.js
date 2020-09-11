@@ -62,20 +62,11 @@ module.exports = (env, argv) => {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: [
-            { loader: 'cache-loader' },
-            // {
-            //   loader: 'thread-loader',
-            //   options: {
-            //     workers: os.cpus().length - 1,
-            //     poolTimeout:
-            //       process.env.NODE_ENV === 'development' ? Infinity : 500,
-            //   },
-            // },
+            // TODO: Remove when done debugging build process
+            // { loader: 'cache-loader' },
             {
               loader: 'ts-loader',
-              options: {
-                // happyPackMode: true,
-              },
+              options: {},
             },
           ],
         },
@@ -83,14 +74,6 @@ module.exports = (env, argv) => {
     },
     devtool: mode === 'development' ? 'inline-source-map' : 'source-map',
     plugins: [
-      // new ForkTsCheckerWebpackPlugin({
-      //   typescript: {
-      //     diagnosticOptions: {
-      //       semantic: true,
-      //       syntactic: true,
-      //     },
-      //   },
-      // }),
       new LodashModuleReplacementPlugin(),
       new webpack.BannerPlugin({
         banner,
