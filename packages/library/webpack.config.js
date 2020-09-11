@@ -63,18 +63,18 @@ module.exports = (env, argv) => {
           exclude: /node_modules/,
           use: [
             { loader: 'cache-loader' },
-            {
-              loader: 'thread-loader',
-              options: {
-                workers: os.cpus().length - 1,
-                poolTimeout:
-                  process.env.NODE_ENV === 'development' ? Infinity : 500,
-              },
-            },
+            // {
+            //   loader: 'thread-loader',
+            //   options: {
+            //     workers: os.cpus().length - 1,
+            //     poolTimeout:
+            //       process.env.NODE_ENV === 'development' ? Infinity : 500,
+            //   },
+            // },
             {
               loader: 'ts-loader',
               options: {
-                happyPackMode: true,
+                // happyPackMode: true,
               },
             },
           ],
@@ -83,14 +83,14 @@ module.exports = (env, argv) => {
     },
     devtool: mode === 'development' ? 'inline-source-map' : 'source-map',
     plugins: [
-      new ForkTsCheckerWebpackPlugin({
-        typescript: {
-          diagnosticOptions: {
-            semantic: true,
-            syntactic: true,
-          },
-        },
-      }),
+      // new ForkTsCheckerWebpackPlugin({
+      //   typescript: {
+      //     diagnosticOptions: {
+      //       semantic: true,
+      //       syntactic: true,
+      //     },
+      //   },
+      // }),
       new LodashModuleReplacementPlugin(),
       new webpack.BannerPlugin({
         banner,
