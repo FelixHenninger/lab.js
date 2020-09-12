@@ -97,7 +97,7 @@ export const debounceAsync = (fn: any, wait: any, { throttle = true } = {}) => {
   const debouncedFunc = function () {
     return new Promise((resolve: any, reject: any) => {
       // Save arguments and context
-      // @ts-expect-error ts-migrate(2496) FIXME: The 'arguments' object cannot be referenced in an ... Remove this comment to see the full error message
+      // @ts-expect-error
       lastArgs = arguments
 
       lastThis = this

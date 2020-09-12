@@ -34,8 +34,10 @@ export const parse = (raw: any, context: any, metadata: any, that = {}) => {
   if (isString(raw)) {
     // Parse output
     const output = template(raw, {
-      escape: RegExp(''),
-      evaluate: RegExp(''),
+      // @ts-expect-error
+      escape: '',
+      // @ts-expect-error
+      evaluate: '',
     }).call(that, context)
 
     // Cooerce type if requested

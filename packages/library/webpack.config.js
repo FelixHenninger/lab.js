@@ -70,15 +70,49 @@ module.exports = (env, argv) => {
             },
           ],
         },
+        // {
+        //   test: /\.js$/,
+        //   use: {
+        //     loader: 'babel-loader',
+        //     options: {
+        //       presets: [
+        //         [
+        //           '@babel/preset-env',
+        //           {
+        //             targets: {
+        //               browsers: [
+        //                 '> 2%',
+        //                 'last 2 versions', // 'not dead',
+        //                 'Firefox ESR',
+        //                 'not IE 11',
+        //                 'not ExplorerMobile 11',
+        //                 'not OperaMini all',
+        //                 'not OperaMobile < 37',
+        //                 'not Android < 60',
+        //               ],
+        //             },
+        //             exclude: [
+        //               'transform-async-to-generator',
+        //               'transform-regenerator',
+        //             ],
+        //             useBuiltIns: 'usage',
+        //             corejs: '3.6',
+        //           },
+        //         ],
+        //       ],
+        //     },
+        //   },
+        // },
       ],
     },
-    devtool: mode === 'development' ? 'inline-source-map' : 'source-map',
+    devtool: 'inline-source-map',
+    // devtool: mode === 'development' ? 'inline-source-map' : 'source-map',
     plugins: [
       new LodashModuleReplacementPlugin(),
-      new webpack.BannerPlugin({
-        banner,
-        exclude: ['lab.vendor.js'],
-      }),
+      // new webpack.BannerPlugin({
+      //   banner,
+      //   exclude: ['lab.vendor.js'],
+      // }),
       new webpack.DefinePlugin({
         BUILD_FLAVOR: JSON.stringify(target),
         BUILD_COMMIT: JSON.stringify(
@@ -97,29 +131,29 @@ module.exports = (env, argv) => {
 
   // Optimize/minimize output
   // by including the corresponding plugins
-  if (mode !== 'development') {
-    config.optimization = config.optimization || {}
-    config.optimization.minimizer = [
-      new TerserPlugin({
-        sourceMap: true,
-        terserOptions: {
-          compress: {
-            inline: false,
-          },
-          mangle: {
-            reserved: reservedTerms,
-          },
-        },
-      }),
-    ]
+  // if (mode !== 'development') {
+  // config.optimization = config.optimization || {}
+  // config.optimization.minimizer = [
+  //   new TerserPlugin({
+  //     sourceMap: true,
+  //     terserOptions: {
+  //       compress: {
+  //         inline: false,
+  //       },
+  //       mangle: {
+  //         reserved: reservedTerms,
+  //       },
+  //     },
+  //   }),
+  // ]
 
-    if (target === 'analysis') {
-      config.plugins.push(new BundleAnalyzerPlugin())
-    }
-  } else if (target === 'coverage') {
-    // Add code coverage instrumentation
-    config.module.rules[0].query.plugins.push('istanbul')
-  }
+  // if (target === 'analysis') {
+  //   config.plugins.push(new BundleAnalyzerPlugin())
+  // }
+  // } else if (target === 'coverage') {
+  //   // Add code coverage instrumentation
+  //   config.module.rules[0].query.plugins.push('istanbul')
+  // }
 
   return config
 }
