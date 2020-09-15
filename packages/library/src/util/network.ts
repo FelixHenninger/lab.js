@@ -97,7 +97,6 @@ export const debounceAsync = (fn: any, wait: any, { throttle = true } = {}) => {
   const debouncedFunc = function () {
     return new Promise((resolve: any, reject: any) => {
       // Save arguments and context
-      // @ts-expect-error
       lastArgs = arguments
 
       lastThis = this
