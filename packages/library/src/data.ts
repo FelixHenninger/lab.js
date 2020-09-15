@@ -71,7 +71,6 @@ const cleanData = (
 
 // Data storage class -------------------------------------
 
-// eslint-disable-next-line import/prefer-default-export
 export class Store extends EventHandler {
   data: any
 
@@ -152,7 +151,7 @@ export class Store extends EventHandler {
   }
 
   // Get and set individual values ------------------------
-  set(key: any, value: any, fromCommit = false) {
+  set(key: string | Record<string, any>, value?: any, fromCommit = false) {
     let attrs = {}
     if (typeof key === 'object') {
       attrs = key
@@ -395,11 +394,11 @@ export class Store extends EventHandler {
   get id() {
     // Check whether any of the standard participant id columns
     // is present in the data -- if so, return its value
-    defaultIdColumns.forEach((c) => {
+    for (const c of defaultIdColumns) {
       if (Object.keys(this.state).includes(c)) {
         return this.state[c]
       }
-    })
+    }
 
     // If no value was found, return undefined
     return undefined
