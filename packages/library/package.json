@@ -12,7 +12,6 @@
   "main": "dist/lab.js",
   "typings": "dist/index.d.ts",
   "dependencies": {
-    "@babel/runtime": "^7.7.0",
     "@types/common-tags": "^1.8.0",
     "common-tags": "^1.8.0",
     "core-js": "^3.6.5",
@@ -30,15 +29,12 @@
     "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.5",
-    "@babel/preset-env": "^7.11.5",
     "@types/file-saver": "1.3.0",
     "@types/lodash": "4.14.108",
     "@types/seedrandom": "2.4.27",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "babel-plugin-istanbul": "^5.1.0",
-    "cache-loader": "^4.1.0",
     "chai": "^4.1.0",
     "eslint": "^7.8.1",
     "eslint-config-airbnb-typescript": "^9.0.0",
@@ -67,7 +63,6 @@
     "shelljs": "^0.8.2",
     "shx": "^0.2.2",
     "sinon": "^7.0.0",
-    "thread-loader": "^2.1.3",
     "ts-loader": "8.0.3",
     "typescript": "^4.0.2",
     "webpack": "^4.44.1",

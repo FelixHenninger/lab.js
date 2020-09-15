@@ -60,7 +60,7 @@ module.exports = (env, argv) => {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: [
-            { loader: 'cache-loader' },
+            // { loader: 'cache-loader' },
             {
               loader: 'ts-loader',
             },
