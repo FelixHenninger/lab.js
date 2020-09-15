@@ -47,6 +47,8 @@ module.exports = {
     'linebreak-style': 0,
     // We dislike semicolons
     '@typescript-eslint/semi': 0,
+    // Aliasing this is often used in core library logic
+    '@typescript-eslint/no-this-alias': 1,
     // We use underscores for internal methods
     'no-underscore-dangle': 0,
     // ts-migrate left us with lots of ts comments

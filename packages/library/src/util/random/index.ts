@@ -31,11 +31,14 @@ export const autoSeed = (width = 256) => {
   return String.fromCharCode.apply(null, output)
 }
 
+export interface RandomOptions {
+  algorithm?: 'alea' | 'default'
+}
+
 export class Random {
   random: any
 
-  constructor(options = {}) {
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'algorithm' does not exist on type '{}'.
+  constructor(options?: RandomOptions) {
     if (options.algorithm === 'alea') {
       // Generate a PRNG using the alea algorithm
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'seed' does not exist on type '{}'.

@@ -195,7 +195,7 @@ export class Store extends EventHandler {
       : undefined
 
   // Commit data to storage -------------------------------
-  commit(key = {}, value: any) {
+  commit(key = {}, value?: any): number {
     this.set(key, value, true)
 
     // Remember the index of the new entry

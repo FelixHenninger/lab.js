@@ -1,6 +1,7 @@
 // Flow control components for lab.js
 import { mean, isFunction, shuffle } from 'lodash'
 import { Component, status } from './core'
+import { LoopOptions, SequenceOptions, ParallelOptions } from './types'
 
 // Helper function to handle nested components
 export const prepareNested = function (nested: any, parent: any) {
@@ -29,6 +30,8 @@ export const prepareNested = function (nested: any, parent: any) {
 // A sequence combines an array of other
 // components and runs them sequentially
 export class Sequence extends Component {
+  options: SequenceOptions
+
   static metadata = {
     module: ['flow'],
     nestedComponents: ['content'],
@@ -37,7 +40,7 @@ export class Sequence extends Component {
     },
   }
 
-  constructor(options = {}) {
+  constructor(options: SequenceOptions = {}) {
     super({
       // Define an array of nested components
       // to iterate over
@@ -122,6 +125,8 @@ export class Sequence extends Component {
 // mapping the data onto the factory function.
 // @ts-expect-error ts-migrate(2417) FIXME: Property 'shuffle' is missing in type '{ templateP... Remove this comment to see the full error message
 export class Loop extends Sequence {
+  options: LoopOptions
+
   static metadata = {
     module: ['flow'],
     nestedComponents: ['template'],
@@ -147,7 +152,7 @@ export class Loop extends Sequence {
     },
   }
 
-  constructor(options = {}) {
+  constructor(options: LoopOptions = {}) {
     super({
       template: null,
       templateParameters: [],
@@ -198,9 +203,10 @@ export class Loop extends Sequence {
     // replacing the parameters each time, or by
     // mapping the parameters onto a function that
     // returns a component.
-    if (this.options.template instanceof Component) {
+    const { template } = this.options
+    if (template instanceof Component) {
       this.options.content = templateParameters.map((p: any) => {
-        const c = this.options.template.clone()
+        const c = template.clone()
         // Extend parameters
         c.options.parameters = {
           ...c.options.parameters,
@@ -208,9 +214,9 @@ export class Loop extends Sequence {
         }
         return c
       })
-    } else if (isFunction(this.options.template)) {
+    } else if (isFunction(template)) {
       this.options.content = templateParameters.map((p: any, i: any) =>
-        this.options.template(p, i, this),
+        template(p, i, this),
       )
     } else {
       console.warn('Missing or invalid template in loop, no content generated')
@@ -225,6 +231,8 @@ export class Loop extends Sequence {
 // A parallel component executes multiple
 // other components simultaneously
 export class Parallel extends Component {
+  options: ParallelOptions
+
   static metadata = {
     module: ['flow'],
     nestedComponents: ['content'],
@@ -233,7 +241,7 @@ export class Parallel extends Component {
     },
   }
 
-  constructor(options = {}) {
+  constructor(options: ParallelOptions) {
     super({
       // The content, in this case,
       // consists of an array of components
@@ -252,11 +260,24 @@ export class Parallel extends Component {
   // because the original promise is swapped for a
   // version that runs all nested items in parallel
   onRun(frameTimeStamp: any) {
-    // End this component when all nested components,
-    // or a single component, have ended
-    Promise[this.options.mode](
-      this.options.content.map((c: any) => c.waitFor('end')),
-    ).then(() => this.end())
+    const { mode } = this.options
+    if (!mode) {
+      return
+    }
+
+    if (mode === 'all') {
+      // End this component when all nested components have ended
+      Promise.all(
+        this.options.content.map((c: any) => c.waitFor('end')),
+      ).then(() => this.end())
+    }
+
+    if (mode === 'race') {
+      // or a single component, have ended
+      Promise.race(
+        this.options.content.map((c: any) => c.waitFor('end')),
+      ).then(() => this.end())
+    }
 
     // Run all nested components simultaneously
 

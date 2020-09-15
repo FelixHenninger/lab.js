@@ -1,21 +1,9 @@
 // HTML-based displays for lab.js
 import { Component, status } from './core'
 import { prepareNested } from './flow'
+import { FrameOptions, ScreenOptions } from './types'
 
 import { makePage } from './util/page'
-
-export interface ScreenOptions {
-  items?: any
-  events?: Record<string, any>
-  content?: string
-  contentUrl?: string
-  el?: Element
-  validator?: (arg1: any) => boolean
-  scrollTop?: boolean
-  submitButtonText?: string
-  submitButtonPosition?: string
-  width?: number
-}
 
 // html.Screens display HTML when run
 export class Screen extends Component {
@@ -43,7 +31,9 @@ export class Screen extends Component {
       if (this.options.contentUrl) {
         return fetch(this.options.contentUrl)
           .then((response) => response.text())
-          .then((text) => (this.options.content = text))
+          .then((text) => {
+            this.options.content = text
+          })
           .catch((e) => console.log('Error while loading content: ', e))
       }
       return null
@@ -228,6 +218,8 @@ export class Form extends Screen {
 }
 
 export class Frame extends Component {
+  options: FrameOptions
+
   static metadata = {
     module: ['html'],
     nestedComponents: ['content'],
@@ -236,7 +228,7 @@ export class Frame extends Component {
     },
   }
 
-  constructor(options = {}) {
+  constructor(options: FrameOptions = {}) {
     super({
       content: null,
       context: '',

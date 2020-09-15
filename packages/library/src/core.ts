@@ -18,6 +18,7 @@ import { awaitReadyState } from './util/readyState'
 import { ImageCache, AudioCache } from './util/cache'
 import { browserName } from './util/browser'
 import { aggregateParentOption } from './util/tree'
+import { ComponentOptions, ComponentMetadata } from './types'
 
 // Define status codes
 export const status = Object.freeze({
@@ -40,6 +41,8 @@ class Controller {
   datastore: any
 
   domConnection: any
+
+  metadata: ComponentMetadata
 
   constructor() {
     // Data storage
@@ -82,10 +85,6 @@ class Controller {
   }
 }
 
-export interface ComponentOptions {
-  [option: string]: any
-}
-
 // Component: Generic building block for experiment -------
 export class Component extends EventHandler {
   options: ComponentOptions
@@ -115,8 +114,13 @@ export class Component extends EventHandler {
             // Read from the aggregate parameters
             get: (obj: any, prop: any) => this.aggregateParameters[prop],
             // Redirect writes to the parameters option
-            set: (obj: any, prop: any, value: any) =>
-              (this.options.parameters[prop] = value) || true,
+            set: (obj: any, prop: any, value: any) => {
+              if (this.options.parameters) {
+                this.options.parameters[prop] = value
+                return true
+              }
+              throw new Error('No parameters to add to')
+            },
             has: (obj: any, prop: any) =>
               Reflect.has(this.aggregateParameters, prop),
             ownKeys: (target) => Reflect.ownKeys(this.aggregateParameters),
@@ -185,9 +189,14 @@ export class Component extends EventHandler {
           {
             // Read from the aggregate parameters
             get: (obj: any, prop: any) => this._aggregateFiles[prop],
-            // Redirect writes to the parameters option
-            set: (obj: any, prop: any, value: any) =>
-              (this.options.files[prop] = value) || true,
+            // Redirect writes to the files option
+            set: (obj: any, prop: any, value: any) => {
+              if (this.options.files) {
+                this.options.files[prop] = value
+                return true
+              }
+              throw new Error('No parameters to add to')
+            },
             has: (obj: any, prop: any) =>
               Reflect.has(this._aggregateFiles, prop),
             ownKeys: (target) => Reflect.ownKeys(this._aggregateFiles),
@@ -197,7 +206,7 @@ export class Component extends EventHandler {
         )
       : undefined
 
-  constructor(options = {}) {
+  constructor(options: ComponentOptions) {
     // Construct the EventHandler first
     super({
       // DOM event handlers
@@ -252,20 +261,17 @@ export class Component extends EventHandler {
       media: {
         images: [],
         audio: [],
-        // @ts-expect-error ts-migrate(2339) FIXME: Property 'media' does not exist on type '{}'.
         ...options.media,
       },
       // Setup file handling
       // (which will replace media at some time)
       files: {
-        // @ts-expect-error ts-migrate(2339) FIXME: Property 'files' does not exist on type '{}'.
         ...options.files,
       },
 
       // Setup timing method
       timing: {
         method: 'frames',
-        // @ts-expect-error ts-migrate(2339) FIXME: Property 'timing' does not exist on type '{}'.
         ...options.timing,
       },
     })
@@ -324,7 +330,7 @@ export class Component extends EventHandler {
 
   // Actions ----------------------------------------------
 
-  async prepare(directCall = true) {
+  async prepare(directCall = true): Promise<void> {
     // Prepare a component prior to its display,
     // for example by pre-loading or pre-rendering
     // content
@@ -456,7 +462,7 @@ export class Component extends EventHandler {
       // Add a timeout to end the component automatically
       // after the specified duration.
       this.internals.timeout = new Timeout(
-        (timestamp: any) => this.end('timeout', timestamp, true),
+        (timestamp: number) => this.end('timeout', timestamp, true),
         this.options.timeout,
       )
       this.on('show', (showTimestamp: any) => {
@@ -493,7 +499,7 @@ export class Component extends EventHandler {
     await this.triggerMethod('after:prepare')
   }
 
-  async preload() {
+  async preload(): Promise<void> {
     // Preload media
 
     await Promise.all([
@@ -502,7 +508,10 @@ export class Component extends EventHandler {
     ])
   }
 
-  async run(frameTimestamp: any, frameSynced: any) {
+  async run(
+    frameTimestamp: number,
+    frameSynced: boolean,
+  ): Promise<number | void> {
     // Prepare component if this has not been done
     if (this.status < status.prepared) {
       if (this.options.debug) {
@@ -536,7 +545,7 @@ export class Component extends EventHandler {
     return this.render(frameTimestamp, frameSynced)
   }
 
-  async render(frameTimestamp: any, frameSynced: any) {
+  async render(frameTimestamp: number, frameSynced: boolean): Promise<void> {
     // TODO: Think about moving the function
     // declaration out of the render path
 
@@ -567,7 +576,7 @@ export class Component extends EventHandler {
     }
   }
 
-  respond(response = null, timestamp = undefined) {
+  respond(response = null, timestamp = undefined): Promise<number> {
     // Save response
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'response' does not exist on type '{}'.
     this.data.response = response
@@ -586,7 +595,11 @@ export class Component extends EventHandler {
     return this.end('response', timestamp)
   }
 
-  async end(reason = null, timestamp = performance.now(), frameSynced = false) {
+  async end(
+    reason = null,
+    timestamp = performance.now(),
+    frameSynced = false,
+  ): Promise<number> {
     // Note the time of and reason for ending
     this.internals.timestamps.end = timestamp
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'ended_on' does not exist on type '{}'.
@@ -691,7 +704,7 @@ export class Component extends EventHandler {
     return timestamp
   }
 
-  epilogue() {
+  epilogue(): void {
     this.internals.timeline.teardown()
     this.internals.domConnection.teardown()
     this.triggerMethod('epilogue')
@@ -700,7 +713,7 @@ export class Component extends EventHandler {
   // Data collection --------------------------------------
   // (the commit method is called automatically if the
   // datacommit option is true, which it is by default)
-  commit(data = {}) {
+  commit(data = {}): Promise<void> {
     // Commit the data collected by this component ...
     this.internals.logIndex = this.options.datastore.commit({
       // ... plus some additional metadata
@@ -713,7 +726,7 @@ export class Component extends EventHandler {
   }
 
   // Timekeeping ------------------------------------------
-  get timer() {
+  get timer(): number {
     const { timestamps } = this.internals
 
     switch (this.status) {
@@ -729,13 +742,14 @@ export class Component extends EventHandler {
   }
 
   // Progress ---------------------------------------------
-  get progress() {
+  get progress(): number {
     // @ts-expect-error ts-migrate(2362) FIXME: The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
     return (this.status === status.done) * 1
   }
 
   // Parameters -------------------------------------------
-  get aggregateParameters() {
+  // TODO: Update with parameter type
+  get aggregateParameters(): { [key: string]: any } {
     return aggregateParentOption(this, 'parameters')
   }
 
@@ -743,14 +757,14 @@ export class Component extends EventHandler {
   // (in contrast to aggregateParameters, this is not
   // intended for public use, and thus starts with an
   // underscore)
-  get _aggregateFiles() {
+  get _aggregateFiles(): { [key: string]: string } {
     return aggregateParentOption(this, 'files')
   }
 
   // Duplication ------------------------------------------
   // Return a component of the same type,
   // with identical options
-  clone(options = {}) {
+  clone(options = {}): Component {
     // We copy all options from the current component,
     // except for those that may contain components
     // themselves -- in that case, we recursively
@@ -791,9 +805,9 @@ export class Component extends EventHandler {
   }
 
   // Metadata ---------------------------------------------
-  get id() {
+  get id(): (string | number)[] {
     // Experimental id splitting support
-    return this.options.id.split('_').map((x: any) => parseInt(x) || x)
+    return this.options.id.split('_').map((x) => parseInt(x) || x)
   }
 
   get metadata() {
