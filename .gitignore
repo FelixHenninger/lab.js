@@ -24,7 +24,7 @@ lerna-debug.log
 packages/library/bundleStats.json
 
 # Typescript Build Info
-packages/library/build
+packages/library/buildInfo.json
 
 # R projects
 .RProj.user
