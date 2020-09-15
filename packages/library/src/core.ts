@@ -206,7 +206,7 @@ export class Component extends EventHandler {
         )
       : undefined
 
-  constructor(options: ComponentOptions) {
+  constructor(options: ComponentOptions = {}) {
     // Construct the EventHandler first
     super({
       // DOM event handlers

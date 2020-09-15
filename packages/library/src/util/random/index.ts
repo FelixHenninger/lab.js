@@ -38,7 +38,7 @@ export interface RandomOptions {
 export class Random {
   random: any
 
-  constructor(options?: RandomOptions) {
+  constructor(options: RandomOptions = {}) {
     if (options.algorithm === 'alea') {
       // Generate a PRNG using the alea algorithm
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'seed' does not exist on type '{}'.
