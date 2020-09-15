@@ -2,7 +2,6 @@
 import { Component, status } from './core'
 import { prepareNested } from './flow'
 import { FrameOptions, ScreenOptions } from './types'
-
 import { makePage } from './util/page'
 
 // html.Screens display HTML when run
@@ -17,7 +16,7 @@ export class Screen extends Component {
     },
   }
 
-  constructor(options: ScreenOptions) {
+  constructor(options: ScreenOptions = {}) {
     super({
       content: null,
       contentUrl: null,

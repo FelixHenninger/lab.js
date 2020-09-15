@@ -509,8 +509,8 @@ export class Component extends EventHandler {
   }
 
   async run(
-    frameTimestamp: number,
-    frameSynced: boolean,
+    frameTimestamp?: number,
+    frameSynced?: boolean,
   ): Promise<number | void> {
     // Prepare component if this has not been done
     if (this.status < status.prepared) {

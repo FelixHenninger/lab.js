@@ -137,7 +137,6 @@ export interface ScreenOptions extends ComponentOptions {
   content?: string
   contentUrl?: string
   validator?: (arg1: any) => boolean
-  scrollTop?: boolean
   submitButtonText?: string
   submitButtonPosition?: string
   width?: number
