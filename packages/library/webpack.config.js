@@ -78,7 +78,7 @@ module.exports = (env, argv) => {
       new webpack.DefinePlugin({
         BUILD_FLAVOR: JSON.stringify(target),
         BUILD_COMMIT: JSON.stringify(
-          shell.exec('git rev-list -1 HEAD -- .', { silent: true }).trim()
+          shell.exec('git rev-list -1 HEAD -- .', { silent: true }).trim(),
         ),
       }),
     ],

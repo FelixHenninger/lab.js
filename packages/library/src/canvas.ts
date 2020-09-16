@@ -13,7 +13,7 @@ import {
   makeInverseTransform,
   transform,
 } from './util/canvas'
-import { CanvasScreenOptions, ScreenOptions } from './types'
+import { CanvasScreenOptions } from './types'
 
 // Global canvas functions used in all of the following components
 // (multiple inheritance would come in handy here, but alas...)
