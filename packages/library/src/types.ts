@@ -1,3 +1,4 @@
+import { Screen } from './canvas'
 import { Component } from './core'
 import { Store } from './data'
 import { Loop } from './flow'
@@ -153,22 +154,76 @@ export interface FrameOptions extends ComponentOptions {
 }
 
 // ---------------------------------------------------------------
+// Canvas Screen
+
+export interface CanvasScreenOptions extends ComponentOptions {
+  /**
+   * The render function contains any code that draws on the canvas when the screen is shown
+   */
+  renderFunction?: (
+    timestamp: number,
+    canvas: HTMLCanvasElement,
+    ctx: RenderingContext,
+    obj: Screen,
+  ) => void
+  /**
+   * Type of canvas context passed to the render function (via the ctx parameter, as described above).
+   * By default, the context will be of the 2d variety, which will probably be most commonly used in experiments.
+   * However, more types are possible, in particular if the content is three-dimensional or drawn using 3d hardware acceleration.
+   */
+  ctxType?: string
+  /**
+   * Shift the origin of the coordinate system to the center of the visible canvas.
+   */
+  translateOrigin?: boolean
+  /**
+   * Size of canvas content in pixels ([x, y]).
+   */
+  viewport?: [number, number]
+  /**
+   * Scale viewport to fit screen: 'auto' (default), or numeric scale factor.
+   */
+  viewportScale?: 'auto' | number
+  /**
+   * Draw viewport borders. Defaults to false
+   */
+  viewportEdge?: boolean
+  /**
+   * Use native rendering resolution for high-DPI (retina) displays. Defaults to true
+   */
+  devicePixelScaling?: boolean
+  /** -------------------------------
+   * Internal Options
+   */
+  // TODO: discuss 3D rendering contexts. The Canvas Screen element seems to completely assume that ctx is Canvas2D right now
+  ctx?: RenderingContext
+  canvas?: HTMLCanvasElement
+  clearCanvas?: () => void
+  content?: MediaContent[]
+}
+
+// TODO: Discuss how this is used and whether it should be renamed and/or refactored out of options
+interface MediaContent {
+  type: 'image'
+  src: string
+}
+
+// ---------------------------------------------------------------
 // Sequence
 
-// TODO: Correct and document these
 export interface SequenceOptions extends ComponentOptions {
   /**
-   * List of components to run in sequence
+   * List of components to run in sequence.
    * When the sequence is prepared or run, the constituent parts are prepared and run in sequence.
    */
   content?: Component[]
   /**
-   * Run the content components in random order
+   * Run the content components in random order.
    * If this option is set to true, the content of the sequence is shuffled during the prepare phase.
    */
   shuffle?: boolean
   /**
-   * List of options passed to nested components
+   * List of options passed to nested components.
    * The options specified as handMeDowns are transferred to nested components during the prepare phase. This option is largely for convenience, and designed to decrease the amount of repetition when all nested components behave similarly – typically, nested components share the same data storage and output element, so these are passed on by default.
    */
   handMeDowns?: Array<keyof ComponentOptions>

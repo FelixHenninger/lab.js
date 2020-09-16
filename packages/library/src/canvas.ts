@@ -13,6 +13,7 @@ import {
   makeInverseTransform,
   transform,
 } from './util/canvas'
+import { CanvasScreenOptions, ScreenOptions } from './types'
 
 // Global canvas functions used in all of the following components
 // (multiple inheritance would come in handy here, but alas...)
@@ -53,36 +54,34 @@ const addCanvasDefaults = function addCanvasDefaults(options: any) {
 const prepareCanvas = function prepareCanvas() {
   // Initialize a canvas,
   // if this has not already been done
-  
+
   if (this.options.canvas === null) {
-    
     this.options.canvas = document.createElement('canvas')
     // Remember to add the canvas to the DOM later
-    
+
     this.options.insertCanvasOnRun = true
   }
 
   // Setup resolution scaling
-  
+
   if (this.options.devicePixelScaling === null) {
-    
     this.options.devicePixelScaling = true
   }
 }
 
 const insertCanvas = function insertCanvas(clearElement = true, wrapper: any) {
   // Add the canvas to the DOM if need be
-  
+
   if (this.options.insertCanvasOnRun) {
     // Calculate scaling factor necessary for full resolution rendering
-    
+
     const pixelRatio = this.options.devicePixelScaling
       ? window.devicePixelRatio
       : 1
 
     // Styles are calculated relative to the canvas'
     // parent element
-    
+
     wrapper = wrapper || this.options.el
 
     // Remove all other content within the HTML tag
@@ -112,24 +111,23 @@ const insertCanvas = function insertCanvas(clearElement = true, wrapper: any) {
 
     // Adjust the (internal) canvas dimensions
     // to match the physical screen pixels
-    
+
     this.options.canvas.width = width * pixelRatio
-    
+
     this.options.canvas.height = height * pixelRatio
 
     // Display as block so that dimensions apply exactly
-    
+
     this.options.canvas.style.display = 'block'
 
     // Set the canvas element dimensions to match the available space
-    
-    this.options.canvas.style.width = `${ width }px`
-    
-    this.options.canvas.style.height = `${ height }px`
+
+    this.options.canvas.style.width = `${width}px`
+
+    this.options.canvas.style.height = `${height}px`
 
     // Append the canvas to the DOM
     if (clearElement) {
-      
       wrapper.appendChild(this.options.canvas)
     }
   }
@@ -138,6 +136,8 @@ const insertCanvas = function insertCanvas(clearElement = true, wrapper: any) {
 // Canvas-based components -----------------------------------------------------
 
 export class Screen extends Component {
+  options: CanvasScreenOptions
+
   static metadata = {
     module: ['canvas'],
     nestedComponents: [],
@@ -156,15 +156,14 @@ export class Screen extends Component {
             height: { type: 'number' },
             angle: { type: 'number' },
             src: {},
+            fontSize: { type: 'number' },
           },
         },
       },
     },
   }
 
-  options: any
-
-  constructor(options = {}) {
+  constructor(options: CanvasScreenOptions = {}) {
     super({
       content: null,
       renderFunction: null,
@@ -182,7 +181,7 @@ export class Screen extends Component {
 
   onPrepare() {
     // Add images to cached media
-    (this.options.content || [])
+    ;(this.options.content || [])
       .filter((c: any) => isObject(c) && c.type === 'image' && c.src)
       .forEach((c: any) => this.options.media.images.push(c.src))
 
@@ -196,34 +195,40 @@ export class Screen extends Component {
     // we have to rewrite the target to be the current
     // screen canvas, and also add a check to determine
     // whether the event coordinates fall into the AOI region.
-    this.internals.domConnection.processEvent =
-      
-      ([eventName, filters, selector]) => {
-        // TODO: Split multiple selectors
-        if (selector && selector.startsWith('@')) {
-          // Calculate applied pixel ratio
-          const pixelRatio = this.options.devicePixelScaling
-            ? window.devicePixelRatio
-            : 1
+    this.internals.domConnection.processEvent = ([
+      eventName,
+      filters,
+      selector,
+    ]) => {
+      // TODO: Split multiple selectors
+      if (selector && selector.startsWith('@')) {
+        // Calculate applied pixel ratio
+        const pixelRatio = this.options.devicePixelScaling
+          ? window.devicePixelRatio
+          : 1
 
-          // Return modified event
-          return {
-            eventName,
-            filters,
-            selector: 'canvas',
-            moreChecks: [
-              (e: any) =>
-                this.options.ctx.isPointInPath(
-                  this.internals.paths[selector.slice(1)],
-                  e.offsetX * pixelRatio,
-                  e.offsetY * pixelRatio,
-                ),
-            ],
-          }
+        // Return modified event
+        return {
+          eventName,
+          filters,
+          selector: 'canvas',
+          moreChecks: [
+            (e: any) => {
+              if (!is2DContext(this.options.ctx)) {
+                return
+              }
+              return this.options.ctx.isPointInPath(
+                this.internals.paths[selector.slice(1)],
+                e.offsetX * pixelRatio,
+                e.offsetY * pixelRatio,
+              )
+            },
+          ],
         }
-        // Return unmodified event, following default behavior
-        return { eventName, filters, selector }
       }
+      // Return unmodified event, following default behavior
+      return { eventName, filters, selector }
+    }
 
     // Generate generic render function,
     // unless a render function has been defined manually
@@ -246,11 +251,15 @@ export class Screen extends Component {
 
   onRun() {
     // Add canvas to the dom, if necessary
-    
+
     insertCanvas.apply(this)
 
     // Extract the requested context for the canvas
     this.options.ctx = this.options.canvas.getContext(this.options.ctxType)
+
+    if (!is2DContext(this.options.ctx)) {
+      return
+    }
 
     // Coordinate system translation and scaling -------------------------------
 
@@ -276,6 +285,10 @@ export class Screen extends Component {
     // and not run if it isn't necessary
     if (this.options.clearCanvas) {
       this.clear()
+    }
+
+    if (!is2DContext(this.options.ctx)) {
+      return
     }
 
     // Draw viewport for debugging purposes
@@ -330,7 +343,7 @@ export class Screen extends Component {
   onEnd() {
     // Context is extracted in onRun, and may not be present
     // (i.e. if the component is skipped)
-    if (this.options.ctx) {
+    if (this.options.ctx && is2DContext(this.options.ctx)) {
       // Undo any previously applied tranformations
       this.options.ctx.restore()
     }
@@ -343,6 +356,9 @@ export class Screen extends Component {
   }
 
   clear() {
+    if (!is2DContext(this.options.ctx)) {
+      return
+    }
     this.options.ctx.save()
     this.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
     this.options.ctx.clearRect(
@@ -399,31 +415,6 @@ export class Screen extends Component {
   }
 }
 
-Screen.metadata = {
-  module: ['canvas'],
-  nestedComponents: [],
-  parsableOptions: {
-    content: {
-      type: 'array',
-      content: {
-        type: 'object',
-        content: {
-          text: {},
-          fill: {},
-          stroke: {},
-          left: { type: 'number' },
-          top: { type: 'number' },
-          width: { type: 'number' },
-          height: { type: 'number' },
-          angle: { type: 'number' },
-          src: {},
-          fontSize: { type: 'number' },
-        },
-      },
-    },
-  },
-}
-
 // @ts-expect-error ts-migrate(2417) FIXME: Property 'parsableOptions' is missing in type '{ m... Remove this comment to see the full error message
 export class Frame extends BaseFrame {
   static metadata = {
@@ -447,7 +438,6 @@ export class Frame extends BaseFrame {
     }
   }
 
-  
   async onPrepare() {
     // Check that all nested components
     // are either flow components or
@@ -514,11 +504,11 @@ export class Frame extends BaseFrame {
   // of duplicated code from html.Frame that might be
   // worth refactoring. For example, this might call
   // super.onRun and pass insertCanvas as a fallback.
-  
+
   async onRun(frameTimestamp: any, frameSynced: any) {
     // Clear element content, and insert context
     this.options.el.innerHTML = ''
-    
+
     Array.from(this.internals.parsedContext.body.children).forEach((c: any) =>
       this.options.el.appendChild(c),
     )
@@ -538,4 +528,12 @@ export class Frame extends BaseFrame {
     delete this.options.canvas
     delete this.internals.parsedContext
   }
+}
+
+/**
+ * Typeguard to check which type of context the Canvas context is
+ */
+function is2DContext(ctx: RenderingContext): ctx is CanvasRenderingContext2D {
+  // eslint-disable-next-line no-prototype-builtins
+  return ctx.hasOwnProperty('strokeRect')
 }
