@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import { clamp, sortBy } from 'lodash'
 import { Stage } from 'react-konva'
-import { actions } from 'react-redux-form'
 
 import BackgroundLayer from './backgroundLayer'
 import ItemLayer from './itemLayer'
@@ -102,7 +101,7 @@ class TimelineStage extends Component {
 
   suggestPosition(item, defaultLength=100) {
     const sortedItems = sortBy(
-      this.props.data.timeline,
+      this.props.data,
       [i => i.start, i => i.priority]
     )
     const nLayers = this.closestLayer(this.props.height) + 1
@@ -124,12 +123,6 @@ class TimelineStage extends Component {
   setActive(item) {
     if (item !== this.state.activeItem) {
       this.setState({ activeItem: item })
-      this.props.formDispatch(
-        actions.load(
-          `local.timeline[${ item }]`,
-          this.props.data.timeline[this.state.activeItem]
-        )
-      )
     }
   }
 
@@ -163,13 +156,13 @@ class TimelineStage extends Component {
 
   // Store/form interaction ----------------------------------------------------
 
-  handleChange(model, value) {
-    // TODO: This has a hackish feel to it
-    this.props.formDispatch(
-      actions.change(
-        `local.timeline[${ this.state.activeItem }].${ model }`,
-        value
-      )
+  handleChange(name, value) {
+    // TODO: Figure out whether to propagate changes via formik
+    // or via Redux, or if the combination is necessary here
+    // (vs. a relict from RRF times)
+    this.props.formikContext.setFieldValue(
+      `timeline[${ this.state.activeItem }].${ name }`,
+      value,
     )
   }
 
@@ -181,60 +174,40 @@ class TimelineStage extends Component {
         priority: this.closestLayer(y)
       }
     )
-    // TODO: This is a hack!
-    this.props.formDispatch(
-      actions.load(
-        `local.timeline[${ item }].start`, this.toTime(x)
-      )
-    )
-    this.props.formDispatch(
-      actions.load(
-        `local.timeline[${ item }].stop`, this.toTime(x + width)
-      )
-    )
-    this.props.formDispatch(
-      actions.load(
-        `local.timeline[${ item }].priority`,
-        this.closestLayer(y)
-      )
-    )
   }
 
   handleAdd(item) {
-    this.props.formDispatch(
-      actions.push(
-        'local.timeline', this.suggestPosition(item)
-      )
+    this.props.formikContext.setFieldValue(
+      'timeline', [...this.props.data, this.suggestPosition(item)]
     )
-
-    // This is a hack: If called in sequence,
-    // the newly added item is not yet available in the timeline
-    // TODO: Try to do this synchronously!
     setImmediate(
       () => this.setState({
-        activeItem: this.props.data.timeline.length - 1
+        activeItem: this.props.data.length - 1
       })
     )
   }
 
   handleDuplicateCurrent() {
     if (this.state.activeItem !== undefined) {
+      const original = this.props.data[this.state.activeItem]
       this.handleAdd({
-        ...this.props.data.timeline[this.state.activeItem],
+        ...original,
         // Remove location information
-        start: undefined, stop: undefined, priority: undefined
+        start: undefined, stop: undefined, priority: undefined,
+        // Duplicate payload
+        payload: { ...original.payload },
+        // TODO: Preserve duration during duplication
       })
     }
   }
 
   handleDeleteCurrent() {
     if (this.state.activeItem !== undefined) {
-      this.props.formDispatch(
-        actions.remove(
-          'local.timeline', this.state.activeItem
-        )
-      )
       this.setState({ activeItem: undefined })
+      this.props.formikContext.setFieldValue(
+        'timeline',
+        this.props.data.filter((item, i) => i !== this.state.activeItem)
+      )
     }
   }
 
@@ -269,14 +242,14 @@ class TimelineStage extends Component {
             listening={ false }
           />
           <ItemLayer
-            timeline={ data.timeline || [] }
-            updateItem={ this.updateItem }
+            timeline={ data || [] }
             activeItem={ this.state.activeItem }
+            updateItem={ this.updateItem }
             setActive={ this.setActive }
           />
         </Stage>
         <ItemForm
-          timeline={ data.timeline || [] }
+          timeline={ data || [] }
           handleChange={ this.handleChange }
           updateItem={ this.updateItem }
           activeItem={ this.state.activeItem }

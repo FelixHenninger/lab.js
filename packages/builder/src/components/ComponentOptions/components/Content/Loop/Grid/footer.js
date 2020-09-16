@@ -1,14 +1,14 @@
 import React, { useState, createRef } from 'react'
-import PropTypes from 'prop-types'
 
 import { ButtonDropdown, Button,
   DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap'
 import { range } from 'lodash'
 
-import Icon from '../../../../Icon'
-import FactorialModal from './components/FactorialModal'
+import Icon from '../../../../../Icon'
+import FactorialModal from '../DesignWizard/FactorialModal'
+import { useArrayContext } from '../../../../../Form/array'
 
-import Uploader from '../../../../Uploader'
+import Uploader from '../../../../../Uploader'
 import { saveAs } from 'file-saver'
 import { parse, unparse } from 'papaparse'
 
@@ -27,15 +27,16 @@ const exportGrid = (data, columns) => {
   )
 }
 
-export const Footer = ({ columns, data }, { gridDispatch }) => {
+export default ({ addItem, columns }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const factorialModal = createRef()
+  const { dispatch, overwriteAll } = useArrayContext()
 
   return (
     <tfoot>
       <tr>
         <td />
-        <td colSpan={ columns.length }>
+        <td colSpan={ columns }>
           <FactorialModal ref={ factorialModal } />
           <ButtonDropdown
             size="sm"
@@ -47,10 +48,8 @@ export const Footer = ({ columns, data }, { gridDispatch }) => {
               block size="sm"
               outline color="muted"
               className="hover-target"
-              onClick={ () => gridDispatch('addRow') }
-              onMouseUp={
-                e => e.target.blur()
-              }
+              onClick={ () => addItem(Array(columns).fill('')) }
+              onMouseUp={ e => e.target.blur() }
               style={{
                 paddingLeft: '32px', // 6px standard + 24px toggle width
               }}
@@ -69,7 +68,7 @@ export const Footer = ({ columns, data }, { gridDispatch }) => {
               <DropdownItem header>Generate</DropdownItem>
               <DropdownItem
                 onClick={ () => factorialModal.current.show().then(result => {
-                  gridDispatch('overwrite', result)
+                  overwriteAll(result.rows, result.columns)
                 }) }
               >
                 Factorial design
@@ -80,10 +79,10 @@ export const Footer = ({ columns, data }, { gridDispatch }) => {
                 onClick={ () => {
                   const n = window.prompt('How many times?')
                   if (n) {
-                    gridDispatch('overwrite', {
+                    dispatch((rows, columns) => [
+                      rows.flatMap(r => range(n).map(() => r)),
                       columns,
-                      rows: data.flatMap(r => range(n).map(() => r)),
-                    })
+                    ])
                   }
                 } }
               >
@@ -93,10 +92,10 @@ export const Footer = ({ columns, data }, { gridDispatch }) => {
                 onClick={ () => {
                   const n = window.prompt('How many times?')
                   if (n) {
-                    gridDispatch('overwrite', {
+                    dispatch((rows, columns) => [
+                      range(n).flatMap(() => rows),
                       columns,
-                      rows: range(n).flatMap(() => data),
-                    })
+                    ])
                   }
                 } }
               >
@@ -127,11 +126,11 @@ export const Footer = ({ columns, data }, { gridDispatch }) => {
                       (parseResult.data && parseResult.errors.length === 1 &&
                         parseResult.errors[0].code === 'UndetectableDelimiter')
                     ) {
-                      gridDispatch('overwrite', {
-                        columns: Object.keys(parseResult.data[0])
+                      overwriteAll(
+                        parseResult.data.map(r => Object.values(r)),
+                        Object.keys(parseResult.data[0])
                           .map(c => ({ name: c, type: 'string' })),
-                        rows: parseResult.data.map(r => Object.values(r))
-                      })
+                      )
                     } else {
                       console.log(
                         'CSV import found errors: ',
@@ -151,7 +150,11 @@ export const Footer = ({ columns, data }, { gridDispatch }) => {
                 </div>
               </Uploader>
               <DropdownItem
-                onClick={ () => exportGrid(data, columns) }
+                onClick={ () => dispatch((rows, columns) => {
+                  exportGrid(rows, columns)
+                  // TODO: Can we do without rewriting the data?
+                  return [rows, columns]
+                }) }
               >
                 Export
               </DropdownItem>
@@ -162,8 +165,4 @@ export const Footer = ({ columns, data }, { gridDispatch }) => {
       </tr>
     </tfoot>
   )
-}
-
-Footer.contextTypes = {
-  gridDispatch: PropTypes.func,
 }

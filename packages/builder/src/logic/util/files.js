@@ -6,12 +6,12 @@ export const embeddedFiles = components => {
   // (extract files from component file setting,
   // and the file URL from there)
   const componentFiles = Object.entries(components)
-    .map(([_, { files }]) => files?.rows || [])
+    .map(([_, { files }]) => files || [])
     .filter(files => files.length > 0)
 
   return flatMap(
     componentFiles,
-    c => c.map(f => f[0].poolPath)
+    c => c.map(f => f.poolPath)
   )
 }
 
@@ -62,8 +62,7 @@ export const getLocalFile = (store, componentId, localPath) => {
   const state = store.getState()
 
   if (state.components[componentId].files) {
-    const localFile = state.components[componentId].files.rows
-      .map(f => f[0]) // Remove nesting level
+    const localFile = state.components[componentId].files
       .filter(f => f.localPath === localPath) // Choose file
       .pop() // Use the last match (arbitrarily)
 

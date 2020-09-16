@@ -16,11 +16,11 @@ const renderNode = ([type, attrs={}]) => {
   }
 }
 
-const makeHeader = (state, { beforeHeader=[], libraryPath='lib' }={}) => {
+const makeHeader = (state, { beforeHeader=[], libraryPath='lib', dev=false }={}) => {
   const defaultHeader = [
     ['comment', { content: 'lab.js library code' }],
     ['script', {
-      'src': `${ libraryPath }/lab.js`,
+      'src': `${ libraryPath }/${ dev ? 'lab.dev.js' : 'lab.js' }`,
       'data-labjs-script': 'library'
     }],
     ['script', {

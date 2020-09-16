@@ -1,11 +1,12 @@
-import React, { Component, createContext, useState } from 'react'
-import { Fieldset, Control } from 'react-redux-form'
-import { CardFooter, FormGroup, InputGroup, Label, Input, CustomInput, Button,
+import React, { createContext, useState } from 'react'
+import { Field, useFormikContext } from 'formik'
+import { CardFooter, FormGroup, InputGroup, Label, Button,
   Row, Col, Collapse } from 'reactstrap'
 
-import Form from '../../Form'
 import Card from '../../../../Card'
-import Grid from '../../../../Grid'
+import Form from '../../Form'
+import { Table, DefaultRow } from '../../../../Form/table'
+import { Input } from '../../../../Form'
 import Icon from '../../../../Icon'
 
 import ItemOptions from './components/ItemOptions'
@@ -14,20 +15,25 @@ import GridFooter from './components/Footer'
 
 // Grid contents ---------------------------------------------------------------
 
-const HeaderCell = () => null
-
-const GridCell = ({ cellData, rowIndex, ...props }) =>
-  <Fieldset model={ `.rows[${ rowIndex }][0]` } >
+const ItemRow = ({ index, name, data, arrayHelpers, isLastItem }) =>
+  <DefaultRow
+    name={ name } index={ index }
+    isLastItem={ isLastItem }
+    arrayHelpers={ arrayHelpers }
+    leftColumn={ LeftColumn }
+    rightColumn={ RightColumn }
+  >
     <ItemOptions
-      type={ cellData.type }
-      data={ cellData }
-      rowIndex={ rowIndex }
-      { ...props }
+      name={ name }
+      type={ data.type }
+      data={ data }
+      index={ index }
     />
-  </Fieldset>
+  </DefaultRow>
 
-const Footer = ({ data={} }) => {
+const Footer = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const { values } = useFormikContext()
 
   return (
     <CardFooter className="px-0">
@@ -44,24 +50,17 @@ const Footer = ({ data={} }) => {
               <Row form>
                 <Col>
                   <InputGroup>
-                    <Control
-                      model=".submitButtonText"
+                    <Field
+                      name="submitButtonText"
                       component={ Input }
-                      controlProps={{
-                        disabled: data.submitButtonPosition === 'hidden'
-                      }}
                       placeholder="Submit button text"
                       default="Continue →"
-                      type="text"
-                      debounce={ 300 }
+                      disabled={ values.submitButtonPosition === 'hidden' }
                     />
-                    <Control.select
-                      model=".submitButtonPosition"
-                      component={ CustomInput }
-                      controlProps={{
-                        id: 'submitButtonPosition',
-                        type: 'select',
-                      }}
+                    <Field
+                      name="submitButtonPosition" id="submitButtonPosition"
+                      className="form-control custom-select"
+                      as="select"
                     >
                       <option value="right">
                         Show submit button
@@ -69,7 +68,7 @@ const Footer = ({ data={} }) => {
                       <option value="hidden">
                         Hide submit button
                       </option>
-                    </Control.select>
+                    </Field>
                   </InputGroup>
                 </Col>
               </Row>
@@ -82,26 +81,22 @@ const Footer = ({ data={} }) => {
                   </Label>
                   <Col xs={9}>
                     <InputGroup>
-                      <Control.select
-                        id="width"
-                        model=".width"
-                        component={ CustomInput }
-                        controlProps={{
-                          id: 'width',
-                          type: 'select',
-                        }}
+                      <Field
+                        name="width" id="width"
+                        as="select"
+                        defaultValue="m"
+                        className="form-control custom-select"
                       >
-                        { /* TODO: Change order and set default */ }
-                        <option value="m">
-                          Medium
-                        </option>
                         <option value="s">
                           Small
+                        </option>
+                        <option value="m">
+                          Medium
                         </option>
                         <option value="l">
                           Large
                         </option>
-                      </Control.select>
+                      </Field>
                     </InputGroup>
                   </Col>
                 </FormGroup>
@@ -139,83 +134,26 @@ const ItemContextProvider = (props) => {
 
 // Main component --------------------------------------------------------------
 
-export default class extends Component {
-  constructor(props) {
-    super(props)
-    this.formDispatch = () => console.log('invalid dispatch')
-
-    // Keep track of open item
-    this.state = { openItem: undefined }
-    this.setOpenItem = this.setOpenItem.bind(this)
-
-    // Render sub-components
-    this.renderGridCell = this.renderGridCell.bind(this)
-    this.renderRightColumn = this.renderRightColumn.bind(this)
-  }
-
-  setOpenItem(i) {
-    if (this.state.openItem === i) {
-      this.setState({ openItem: undefined })
-    } else {
-      this.setState({ openItem: i })
-    }
-  }
-
-  renderGridCell(props) {
-    return (
-      <GridCell
-        isExpanded={ props.rowIndex === this.state.openItem }
-        { ...props }
-      />
-    )
-  }
-
-  renderRightColumn(props) {
-    return(
-      <RightColumn
-        onClickOptions={ this.setOpenItem }
-        { ...props }
-      />
-    )
-  }
-
-  render() {
-    const { id, data } = this.props
-
-    return (
-      <Card title="Content" badge="beta" wrapContent={false}>
-        <Form
-          id={ id }
-          data={ data }
-          keys={ [
-            'items',
-            'submitButtonText', 'submitButtonPosition',
-            'width'
-          ] }
-          getDispatch={ dispatch => this.formDispatch = dispatch }
-        >
-          <ItemContextProvider>
-            <Grid
-              model=".items"
-              HeaderContent={ HeaderCell }
-              BodyContent={ this.renderGridCell }
-              LeftColumn={ LeftColumn }
-              RightColumn={ this.renderRightColumn }
-              Footer={ GridFooter }
-              columnWidths={ [ 90 ] }
-              columns={ ['items'] }
-              showHeader={ false }
-              defaultRow={
-                [ { type: '' }, ]
-              }
-              data={ data.items?.rows || [] }
-              formDispatch={ action => this.formDispatch(action) }
-              className="mb-0 border-bottom-0"
-            />
-          </ItemContextProvider>
-          <Footer data={ data } />
-        </Form>
-      </Card>
-    )
-  }
-}
+export default ({ id, data }) =>
+  <Card title="Content" wrapContent={false}>
+    <Form
+      id={ id } data={ data }
+      keys={ [
+        'items',
+        'submitButtonText', 'submitButtonPosition',
+        'width'
+      ] }
+      validateOnChange={ false }
+    >
+      <ItemContextProvider>
+        <Table
+          name="items"
+          defaultItem={{ type: '' }}
+          row={ ItemRow }
+          footer={ GridFooter }
+          className="no-header"
+        />
+      </ItemContextProvider>
+      <Footer />
+    </Form>
+  </Card>

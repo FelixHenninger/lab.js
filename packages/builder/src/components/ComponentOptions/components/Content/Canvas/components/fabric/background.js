@@ -3,9 +3,7 @@ import { fabric } from 'fabric'
 export default (gridSize, offsetX, offsetY) => {
   // Correct for high-DPI devices
   const size = gridSize / window.devicePixelRatio
-
   // FIXME: Non-integer values break things
-  console.log('Background grid size', size)
 
   // Create a single tile
   const backgroundTile = new fabric.StaticCanvas()

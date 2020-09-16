@@ -1,4 +1,5 @@
 import React from 'react'
+import { useStore } from 'react-redux'
 import { UncontrolledDropdown, DropdownToggle,
   DropdownMenu, DropdownItem } from 'reactstrap'
 
@@ -11,42 +12,56 @@ import { stateToDownload } from '../../../../../logic/io/save'
 import './index.css'
 import { connect } from 'react-redux'
 
-const NodeDropdown = ({ id, parent, index, onDelete, hasChildren, collapseComponent }, context) =>
-  <UncontrolledDropdown>
-    <DropdownToggle
-      caret size="sm"
-      outline color="secondary"
-    />
-    <DropdownMenu right>
-      <DropdownItem header>Actions</DropdownItem>
-      <DropdownItem
-        onClick={ () => stateToDownload(
-          context.store.getState(),
-          { exportedComponent: id }
-        ) }
-      >
-        Export
-      </DropdownItem>
-      <DropdownItem
-        onClick={ () => onDelete(id, parent, index) }
-      >
-        Delete
-      </DropdownItem>
-      {
-        hasChildren
-          ? <div>
-              <DropdownItem divider/>
-              <DropdownItem header>View</DropdownItem>
-              <DropdownItem
-                onClick={ () => collapseComponent(id) }
-              >
-                Collapse
-              </DropdownItem>
-            </div>
-          : null
-      }
-    </DropdownMenu>
-  </UncontrolledDropdown>
+const NodeDropdown = ({
+  id, parent, index,
+  collapsed, hasChildren,
+  onDelete, onDuplicate, collapseComponent,
+}) => {
+  const store = useStore()
+
+  return (
+    <UncontrolledDropdown>
+      <DropdownToggle
+        caret size="sm"
+        outline color="secondary"
+      />
+      <DropdownMenu right>
+        <DropdownItem header>Actions</DropdownItem>
+        <DropdownItem
+          onClick={ () => stateToDownload(
+            store.getState(),
+            { exportedComponent: id }
+          ) }
+        >
+          Export
+        </DropdownItem>
+        <DropdownItem
+          onClick={ () => onDuplicate(id, parent, index) }
+        >
+          Duplicate
+        </DropdownItem>
+        <DropdownItem
+          onClick={ () => onDelete(id, parent, index) }
+        >
+          Delete
+        </DropdownItem>
+        {
+          hasChildren
+            ? <div>
+                <DropdownItem divider/>
+                <DropdownItem header>View</DropdownItem>
+                <DropdownItem
+                  onClick={ () => collapseComponent(id) }
+                >
+                  { collapsed ? 'Expand' : 'Collapse' }
+                </DropdownItem>
+              </div>
+            : null
+        }
+      </DropdownMenu>
+    </UncontrolledDropdown>
+  )
+}
 
 // TODO: This is a duplicated action creator,
 // refactor to share this with the Sidebar component

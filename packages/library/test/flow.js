@@ -315,6 +315,34 @@ describe('Flow control', () => {
         )
       })
     })
+
+    it('adds counter parameter if specified', () => {
+      const a = new lab.core.Dummy()
+      const b = new lab.core.Dummy()
+      s.options.content = [a, b]
+      s.options.indexParameter = 'foo'
+
+      return s.prepare().then(() => {
+        assert.equal(a.parameters.foo, 0)
+        assert.equal(b.parameters.foo, 1)
+      })
+    })
+
+    it('counts correctly even if content is shuffled', () => {
+      // Generate 20 dummy components as content
+      s.options.content = _.range(20).map(() => new lab.core.Dummy())
+
+      // Setup shuffle and prepare Sequence
+      s.options.shuffle = true
+      // Setup counter
+      s.options.indexParameter = 'foo'
+
+      return s.prepare().then(() => {
+        s.options.content.forEach((c, i) => {
+          assert.equal(c.parameters.foo, i)
+        })
+      })
+    })
   })
 
   describe('Loop', () => {

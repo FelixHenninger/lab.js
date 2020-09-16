@@ -21,15 +21,12 @@ const processGrid = (grid, colnames=null, types=undefined) =>
 
 const processFiles = files =>
   fromPairs(
-    files.rows
-      .map(r => r[0])
-      .map(r => [r.localPath.trim(), r.poolPath.trim()])
+    files.map(f => [f.localPath.trim(), f.poolPath.trim()])
   )
 
 const processMessageHandlers = (messageHandlers) =>
   fromPairs(
-    messageHandlers.rows
-      .map(r => r[0])
+    messageHandlers
       .filter(h => h.message.trim() !== '' && h.code.trim() !== '')
       // TODO: Evaluate the safety implications
       // of the following de-facto-eval.
@@ -41,8 +38,7 @@ const processMessageHandlers = (messageHandlers) =>
 
 const processParameters = parameters =>
   fromPairs(
-    parameters.rows
-      .map(r => r[0])
+    parameters
       .filter(r => r.name.trim() !== '' && r.value.trim() !== '')
       .map(r => [r.name.trim(), makeType(r.value, r.type)])
   )
@@ -62,12 +58,9 @@ const createResponsePair = r =>
 
 // Process individual fields
 const processResponses = (responses) => {
-  // Process responses as a grid, resulting in an array
-  // of objects that contain the individual parts
-  const grid = processGrid(responses, ['label', 'event', 'target', 'filter'])
   // Process each of these objects into an array
   // of [responseParams, label] pairs
-  const pairs = grid.map(createResponsePair)
+  const pairs = responses.map(createResponsePair)
   // Finally, create an object of
   // { responseParams: label } mappings
   return fromPairs(pairs)
@@ -96,8 +89,7 @@ const processShuffleGroups = columns =>
   )
 
 const processItems = items =>
-  items.rows
-    .map(r => r[0])
+  items
     .filter(i => i.label !== '')
     .map(i => {
       // Provide a default name based on the label
@@ -122,7 +114,7 @@ const processContent = (nodeType, content) => {
         'text', 'fontStyle', 'fontWeight', 'fontSize', 'fontFamily',
         'lineHeight', 'textAlign', 'textBaseline',
         // Image
-        'src', 'autoscale',
+        'src', 'autoScale',
         // AOI
         'label',
       ]))
@@ -225,16 +217,20 @@ const makeComponentTree = (data, root) => {
   }
 }
 
-const makeStudyScript = studyTreeJSON =>
+export const makeStudyTree = (state) => {
+  // Process study tree
+  const componentTree = makeComponentTree(state.components, 'root')
+  return serialize(componentTree, { space: 2 })
+}
+
+const makeStudyScript = studyTree =>
 `// Define study
-const study = lab.util.fromObject(${ studyTreeJSON })
+const study = lab.util.fromObject(${ studyTree })
 
 // Let's go!
 study.run()`
 
 export const makeScript = (state) => {
-  // Process study tree
-  const componentTree = makeComponentTree(state.components, 'root')
-  const studyTreeJSON = serialize(componentTree, { space: 2 })
-  return makeStudyScript(studyTreeJSON)
+  const studyTree = makeStudyTree(state)
+  return makeStudyScript(studyTree)
 }

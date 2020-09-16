@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { Control } from 'react-redux-form'
 import { ButtonGroup } from 'reactstrap'
 
 import ColorDropdown from './ColorDropDown'
@@ -13,29 +12,18 @@ export default ({ selection, changeHandler }) =>
       selection={ selection }
       changeHandler={ changeHandler }
     />
-    <Control
-      model=".strokeWidth"
-      component={ StrokeWidthDropdown }
-      controlProps={{
-        disabled: ['image', 'aoi', undefined].includes(selection.type),
-      }}
+    <StrokeWidthDropdown
+      onChange={ value => changeHandler('strokeWidth', value) }
+      disabled={ ['image', 'aoi', undefined].includes(selection.type) }
     />
-    <Control
-      model=".stroke"
-      component={ ColorDropdown }
-      controlProps={{
-        icon: 'circle',
-        iconFallbackWeight: 'r',
-        disabled: ['image', 'aoi', undefined].includes(selection.type),
-      }}
+    <ColorDropdown
+      name="stroke"
+      icon="circle" iconFallbackWeight="r"
+      disabled={ ['image', 'aoi', undefined].includes(selection.type) }
     />
-    <Control
-      model=".fill"
-      component={ ColorDropdown }
-      controlProps={{
-        icon: 'circle',
-        iconWeight: 's',
-        disabled: ['line', 'image', 'aoi', undefined].includes(selection.type),
-      }}
+    <ColorDropdown
+      name="fill"
+      icon="circle" iconFallbackWeight="s"
+      disabled={ ['line', 'image', 'aoi', undefined].includes(selection.type) }
     />
   </ButtonGroup>

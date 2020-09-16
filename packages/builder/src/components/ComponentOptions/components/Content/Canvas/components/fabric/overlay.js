@@ -26,7 +26,6 @@ export default (width, height, viewPort) => {
     `L ${ -viewPort[0]/2 - 0.5 } ${ +viewPort[1]/2 - 0.5 } ` +
     `L ${ -viewPort[0]/2 - 0.5 } ${ -viewPort[1]/2 - 0.5 } z`
   )
-  console.log('width/height', width, height)
 
   vp.setOptions({ fill: 'rgba(255, 255, 255, 0.6)' })
   overlay.add(vp)

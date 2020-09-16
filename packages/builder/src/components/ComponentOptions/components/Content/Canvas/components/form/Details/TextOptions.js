@@ -1,8 +1,8 @@
 import React from 'react'
 import { DropdownMenu, DropdownItem,
   Button, ButtonGroup,
-  Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
-import { Control } from 'react-redux-form'
+  InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
+import { Field } from 'formik'
 
 import Icon from '../../../../../../../Icon'
 
@@ -15,14 +15,15 @@ export default ({ selection, changeHandler }) =>
     {/* <divs> are needed here because DropdownItems are buttons,
         and the buttons here can't be nested within. */}
     <DropdownItem tag="div" toggle={ false } className="mute">
-      <Control.select
-        model=".fontFamily"
+      <Field
+        name="fontFamily"
+        component="select"
         className="form-control custom-select"
       >
         <option value="serif">Serif</option>
         <option value="sans-serif">Sans-serif</option>
         <option value="monospace">Monospace</option>
-      </Control.select>
+      </Field>
     </DropdownItem>
     <DropdownItem tag="div" toggle={ false } className="mute">
       <ButtonGroup className="w-100 typography-font-style">
@@ -70,13 +71,10 @@ export default ({ selection, changeHandler }) =>
             <Icon icon="text-height" />
           </InputGroupText>
         </InputGroupAddon>
-        <Control
-          model=".fontSize"
-          component={ Input }
+        <Field
+          name="fontSize"
           placeholder="Size"
-          debounce={ 200 }
-          className="form-control"
-          style={{ fontFamily: 'Fira Mono' }}
+          className="form-control text-monospace"
         />
       </InputGroup>
     </DropdownItem>

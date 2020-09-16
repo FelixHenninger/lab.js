@@ -346,7 +346,7 @@ export default class FabricCanvas extends Component {
           const content = options.content
           delete options.content
           return new fabric.IText(content, {
-            fontFamily: 'serif',
+            fontFamily: 'sans-serif',
             fontSize: 32,
             textAlign: 'center',
             ...defaults,
@@ -395,9 +395,9 @@ export default class FabricCanvas extends Component {
 
   updateActive() {
     const selection = this.canvas.getActiveObjects()
-    selection.forEach(o => {
-      if (o.type === 'i-text') {
-        this.props.updateHandler({ target: o })
+    selection.forEach((target) => {
+      if (target.type === 'i-text') {
+        this.props.updateHandler({ target })
       }
     })
   }

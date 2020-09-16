@@ -99,17 +99,25 @@ in the documentation.
 Dilek Akkus ·
 [Angelo Belardi](https://psychologie.unibas.ch/de/personen/589/) ·
 [Ursa Bernardic](https://www.unige.ch/gsem/en/research/institutes/iom/team/phd-students/ursa-bernardic/) ·
+[Erin Buchanan](http://www.aggieerin.com/) ·
 [Emily Elliott](https://lsu.edu/hss/psychology/faculty/cognitive/elliott.php) ·
 [Jeffrey Fisher](https://github.com/jeffslofish) ·
+[Kerstin Fröber](http://orcid.org/0000-0001-6060-2837) ·
 [Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/) ·
 [Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
 [Alex Irvine](https://github.com/u01ai11) ·
 [Dave Kleinschmidt](https://www.davekleinschmidt.com/) ·
+[Dano Morrison](https://github.com/jdpigeon) ·
 [Karthikeya Pammi](https://github.com/pvskarthikeya) ·
+Shivangi Patel ·
+[Kwame Porter Robinson](https://robinsonkwame.github.io/) ·
+Nick Robinson ·
 [Sophie Scharf](http://cognition.uni-mannheim.de/mitarbeiter/m_sc_sophie_scharf/) ·
 [Nikoletta Symeonidou](https://www.sowi.uni-mannheim.de/en/erdfelder/team/academic-staff-members/symeonidou-nikoletta/) ·
 [Hendrik Singmann](http://singmann.org) ·
+Dawid Strzelczyk ·
 [Kevin Tiede](https://www.spds.uni-konstanz.de/kevin-tiede) ·
+[Andreas Voss](https://www.psychologie.uni-heidelberg.de/ae/meth/) ·
 [Andrew White](https://github.com/shiroandy) ·
 [Malte Zimdahl](http://psycho3.uni-mannheim.de/Personen/Malte%20Zimdahl,%20M.Sc./)
 

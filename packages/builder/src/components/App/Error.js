@@ -23,9 +23,13 @@ const gifs = [
   'https://media.giphy.com/media/FYenMRUx3LGy4/giphy.mp4', // McG disapproval
   'https://media.giphy.com/media/p3RblYx4T7vmU/giphy.mp4', // Dumbledore shrugs
   'https://media.giphy.com/media/8QIgBwVvZVrG0/giphy.mp4', // Ford?
+  'https://media.giphy.com/media/pPhyAv5t9V8djyRFJH/giphy.mp4', // Obama
+  'https://media.giphy.com/media/APqEbxBsVlkWSuFpth/giphy.mp4', // Seems fishy
+  'https://media.giphy.com/media/Rhkq4ehWqVX56/giphy.mp4', // Sheldon Cooper I
+  'https://media.giphy.com/media/fOVGTYyYtV6Ra/giphy.mp4', // Sheldon Cooper II
 ]
 
-const Error = ({ reset, error, errorInfo }) => {
+const Error = ({ reset, error, errorInfo, eventId }) => {
   const [backup, setBackup] = useState(false)
 
   // TODO: This is not (yet) canonical redux: The component is still
@@ -127,6 +131,8 @@ const Error = ({ reset, error, errorInfo }) => {
                 <dd style={{ whiteSpace: "pre-wrap" }}>
                   { errorInfo.componentStack || <em>(unavailable)</em> }
                 </dd>
+                <dt>EventId</dt>
+                <dd>{ eventId || <em>(unavailable)</em> }</dd>
               </dl>
             </Card>
           </Alert>

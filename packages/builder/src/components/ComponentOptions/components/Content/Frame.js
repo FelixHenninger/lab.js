@@ -1,10 +1,11 @@
 import React from 'react'
-import { Control } from 'react-redux-form'
-import { CardBody, FormGroup, Label, Input, FormText } from 'reactstrap'
+import { Field } from 'formik'
+import { CardBody, FormGroup, Label, FormText } from 'reactstrap'
 
 import Form from '../Form'
+import { Input } from '../../../Form'
 import Card from '../../../Card'
-import Editor from '../../../Editor'
+import EditorField from '../../../Editor/field'
 
 export default ({ id, data }) =>
   <Card title="Content"
@@ -19,13 +20,9 @@ export default ({ id, data }) =>
       className="flex-grow-1 d-flex flex-column"
     >
       <CardBody className="flex-grow-1 d-flex flex-column">
-        <Control.textarea
-          model=".context"
-          component={ Editor }
-          controlProps={{
-            language: 'html',
-          }}
-          debounce={ 300 }
+        <EditorField
+          name="context"
+          language="html"
         />
       </CardBody>
       <CardBody
@@ -38,12 +35,10 @@ export default ({ id, data }) =>
           <Label for="contextSelector">
             Context selector
           </Label>
-          <Control
-            model=".contextSelector" id="contextSelector"
+          <Field
+            name="contextSelector" id="contextSelector"
             component={ Input }
-            style={{
-              fontFamily: 'Fira Code',
-            }}
+            className="text-monospace"
           />
           <FormText color="muted">
             This CSS selector defines where nested components get to insert their content.

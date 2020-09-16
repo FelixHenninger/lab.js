@@ -17,7 +17,7 @@ export const readDataURI = uri => {
   }
 }
 
-export const mimeFromDataURI = uri => re.exec(uri)[1]
+export const mimeFromDataURI = uri => re.exec(uri)?.[1]
 
 export const blobFromDataURI = uri => {
   const { data, mime, base64 } = readDataURI(uri)

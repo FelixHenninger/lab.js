@@ -1,12 +1,14 @@
-import React from 'react'
-import { Control } from 'react-redux-form'
-import { FormGroup, Input, CustomInput,
-  Label, FormText,
+import React, { useContext } from 'react'
+
+import { Field } from 'formik'
+import { FormGroup, Label, FormText,
   Row, Col, Collapse } from 'reactstrap'
+
+import { Input, CustomInput } from '../../../../../../../Form'
 
 import { ItemContext } from '../../../index'
 
-export const BaseOptions = ({ children, rowIndex,
+export const BaseOptions = ({ name, index, children,
   validation, shuffle=false, borderTop=true }) =>
   <>
     { children && borderTop && <hr /> }
@@ -19,62 +21,45 @@ export const BaseOptions = ({ children, rowIndex,
           <FormText color="muted" className="mb-2">
             Randomize item order
           </FormText>
-          <Control.checkbox
-            model=".shuffle"
+          <Field
+            name={ `${ name }.shuffle` } id={ `item-shuffle-${ index }` }
             component={ CustomInput }
-            controlProps={{
-              type: 'checkbox',
-              label: 'Shuffle items',
-              id: `item-shuffle-${ rowIndex }`,
-              style: {
-                fontFamily: 'Fira Mono',
-              }
-            }}
-            debounce={ 300 }
+            type="checkbox"
+            label="Shuffle items"
           />
         </FormGroup>
       </>
     }
     <hr />
     <FormGroup className="my-2">
-      <Label for={ `page-item-${ rowIndex }-help` } className="mb-0">
+      <Label for={ `page-item-${ index }-help` } className="mb-0">
         Help &amp; further instructions
       </Label>
       <FormText color="muted">
         Tell your participants more about the question.
       </FormText>
-      <Control.textarea
-        model=".help"
+      <Field
+        name={ `${ name }.help` } id={ `page-item-${ index }-help` }
         component={ Input }
-        controlProps={{
-          id: `page-item-${ rowIndex }-help`,
-          type: 'textarea', bsSize: 'sm',
-          rows: 3
-        }}
+        type="textarea"
+        bsSize="sm"
+        rows="3"
         className="mt-2 text-muted"
-        debounce={ 300 }
       />
     </FormGroup>
     <hr />
     <FormGroup className="my-2">
-      <Label for={ `page-item-${ rowIndex }-name` } className="mb-0">
+      <Label for={ `page-item-${ index }-name` } className="mb-0">
         Name
       </Label>
       <FormText color="muted" className="mb-2">
         The column in which to save the data
       </FormText>
-      <Control
-        model=".name"
-        placeholder={ '(auto-generate from question)' }
+      <Field
+        name={ `${ name }.name` } id={ `page-item-${ index }-name` }
         component={ Input }
-        className="font-weight-bold"
-        controlProps={{
-          id: `page-item-${ rowIndex }-name`,
-          style: {
-            fontFamily: 'Fira Mono',
-          }
-        }}
-        debounce={ 300 }
+        className="text-monospace"
+        placeholder="(auto-generate from question)"
       />
     </FormGroup>
     <hr />
@@ -83,36 +68,30 @@ export const BaseOptions = ({ children, rowIndex,
       <FormText color="muted" className="mb-2">
         Checks to run before accepting data
       </FormText>
-      <Control.checkbox
-        model=".required"
+      <Field
+        name={ `${ name }.required` } id={ `item-required-${ index }` }
         component={ CustomInput }
-        controlProps={{
-          type: 'checkbox',
-          label: 'Require answer',
-          id: `item-required-${ rowIndex }`,
-          style: {
-            fontFamily: 'Fira Mono',
-          }
-        }}
-        debounce={ 300 }
+        type="checkbox"
+        label="Require answer"
       />
     </FormGroup>
     { validation }
   </>
 
-export const CollapsingOptions = ({ rowIndex, ...props }) =>
-  <Row form>
-    <Col>
-      <ItemContext.Consumer>
-        {
-          ({ openItem }) =>
-            <Collapse isOpen={ openItem === rowIndex }>
-              <BaseOptions
-                rowIndex={ rowIndex }
-                { ...props }
-              />
-            </Collapse>
-        }
-      </ItemContext.Consumer>
-    </Col>
-  </Row>
+export const CollapsingOptions = ({ name, index, ...props }) => {
+  const { openItem } = useContext(ItemContext)
+
+  return (
+    <Row form>
+      <Col>
+        <Collapse isOpen={ openItem === index }>
+          <BaseOptions
+            name={ name }
+            index={ index }
+            { ...props }
+          />
+        </Collapse>
+      </Col>
+    </Row>
+  )
+}

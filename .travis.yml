@@ -18,8 +18,12 @@ install:
 script:
   - (cd packages/library && yarn run build:starterkit)
   - (cd packages/library && yarn test)
-  - (cd packages/library && yarn run test:sauce)
+  - if [ $TRAVIS_PULL_REQUEST == "false" ]; then
+      (cd packages/library && yarn run test:sauce);
+    fi
   - (cd packages/builder && yarn run build)
   - (cd packages/builder && yarn test)
 after_success:
-  - (cd packages/builder && yarn run deploy)
+  - if [[ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST == "false" ]]; then
+      (cd packages/builder && yarn run deploy);
+    fi

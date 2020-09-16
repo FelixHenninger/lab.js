@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { ReactReduxContext } from 'react-redux'
 
-import { LocalForm, actions } from 'react-redux-form'
+import { Formik } from 'formik'
+import { AutoSave } from '../../../../Form'
+
 import { FormGroup } from 'reactstrap'
 import { fromPairs, isObject, omit, uniqueId } from 'lodash'
 
@@ -56,6 +58,7 @@ const emptyFormData = {
 
 export default class CanvasEditor extends Component {
   static contextType = ReactReduxContext
+  _isMounted = false
 
   constructor(...args) {
     super(...args)
@@ -68,19 +71,48 @@ export default class CanvasEditor extends Component {
     this.updateState = this.updateState.bind(this)
 
     this.canvas = React.createRef()
+    this.form = React.createRef()
   }
 
   setState(data) {
-    super.setState(data, () => {
-      this.updateForm()
-      this.updateState()
-    })
+    if (this._isMounted) {
+      // Update component state, then store
+      super.setState(data, () => {
+        this.updateForm()
+        this.updateState()
+      })
+    } else {
+      // Flush canvas data directly to store
+      this.updateState('override')
+    }
   }
 
-  updateState() {
-    this.props.onChange(
-      this.canvas.current.canvas._objects.map(o => this.state.data[o.id])
-    )
+  updateState(mode='local') {
+    if (mode === 'override') {
+      // Update from raw canvas state
+      // TODO: Investigate implications of this, specifically
+      // avoid unnecessary invalidation/object mutations
+      this.props.onChange(
+        this.canvas.current.canvas._objects.map(o => fromCanvas(
+          o.toObject(['id', 'label']),
+          this.state.data[o.id],
+        ))
+      )
+    } else {
+      // Update from component state
+      this.props.onChange(
+        this.canvas.current.canvas._objects.map(o => this.state.data[o.id])
+      )
+    }
+  }
+
+  componentDidMount() {
+    this._isMounted = true
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
+    this.canvas.current.updateActive()
   }
 
   // Selection -----------------------------------------------------------------
@@ -88,9 +120,7 @@ export default class CanvasEditor extends Component {
   set selection(id) {
     this.setState({ selection: id })
     if (id === undefined) {
-      this.formDispatch(
-        actions.change('local', emptyFormData)
-      )
+      this.form.current.setValues(emptyFormData)
     }
   }
 
@@ -138,8 +168,6 @@ export default class CanvasEditor extends Component {
 
   // TODO: Think about merging this with the updateContent
   updateFromForm(formData) {
-    const newData = { ...formData }
-
     // Prevent updates if the data for the currently selected object
     // is not yet available in the editor state. This catches a weird
     // edge case during object cloning where an object is added and
@@ -149,6 +177,8 @@ export default class CanvasEditor extends Component {
     // and syncronisation logic, and will require a more careful
     // analysis in the mid-term
     if (this.state.data[this.state.selection]) {
+      const newData = { ...formData }
+
       this.updateContent({
         ...newData,
         // Preserve type information
@@ -162,13 +192,7 @@ export default class CanvasEditor extends Component {
   }
 
   updateForm() {
-    if (this.formDispatch) {
-      this.formDispatch(
-        actions.load(
-          'local', this.selection
-        )
-      )
-    }
+    this.form.current.setValues(this.selection)
   }
 
   uniqueId() {
@@ -201,12 +225,22 @@ export default class CanvasEditor extends Component {
         idSource={ () => this.uniqueId() }
       />
       <hr />
-      <LocalForm
-        initialState={ selection }
-        onChange={ data => this.updateFromForm(data) }
-        getDispatch={ dispatch => this.formDispatch = dispatch }
+      <Formik
+        innerRef={ this.form }
+        initialValues={ selection }
       >
         <FormGroup className="toolbar d-flex">
+          <AutoSave
+            interval={ 25 }
+            onSave={ newState => {
+              // Avoid an infinite updating cycle
+              // (TODO: There must be a smarter way! Also, this still
+              // re-renders twice for every change, for unknown reasons)
+              if (newState !== selection) {
+                this.updateFromForm(newState)
+              }
+            } }
+          />
           <AddDropDown
             addHandler={ (...args) => this.canvas.current.add(...args) }
             removeHandler={ () => this.canvas.current.modifyActive('remove') }
@@ -235,14 +269,14 @@ export default class CanvasEditor extends Component {
             selection={ selection }
             changeHandler={ (attr, value) => {
               if (isObject(attr)) {
-                this.formDispatch(actions.merge(`local`, attr))
+                this.form.current.setValues(attr)
               } else {
-                this.formDispatch(actions.change(`local.${ attr }`, value))
+                this.form.current.setFieldValue(attr, value)
               }
             } }
           />
         </FormGroup>
-      </LocalForm>
+      </Formik>
     </>
   }
 }

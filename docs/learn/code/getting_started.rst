@@ -73,7 +73,7 @@ Let's take a closer look at the ``study.js`` file included in the starter kit --
     ]
   })
 
-As you may have guessed, this snippet defines the experiment as a **sequence** of things. To be exact, the sequence component is retrieved from the ``flow`` control part of the ``lab`` library. Then, a new sequence is created and saved in the ``experiment`` variable. Some additional options are provided in the brackets, notably some ``content`` (omitted here). You might have noticed that the content is included in square brackets, which indicate that the content is a list of things (or, to use the common technical term, an array).
+As you may have guessed, this snippet defines the experiment as a **sequence** of things. To be exact, the sequence component is retrieved from the ``flow`` control part of the ``lab`` library. Then, a new sequence is created and saved in the ``study`` variable. Some additional options are provided in the brackets, notably some ``content`` (omitted here). You might have noticed that the content is included in square brackets, which indicate that the content is a list of things (or, to use the common technical term, an array).
 
 So what goes into the sequence content? Again, there's an example in the starter
 kit::

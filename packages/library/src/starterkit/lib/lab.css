@@ -418,6 +418,12 @@ textarea {
 #page-form .page-item-table td label {
   display: block;
 }
+#page-form .page-item-image img {
+  text-align: center;
+}
+#page-form .page-item-image img {
+  max-width: 100%;
+}
 
 /* Table */
 table {

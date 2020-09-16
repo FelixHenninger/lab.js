@@ -15,13 +15,10 @@ export const parsableOptions = (
   component: any, // Collect parsable options from the static property metadata
 ) =>
   // of all components on the prototype chain
-
   Object.assign(
     {},
-    ...prototypeChain(component).map((p) =>
-      p.constructor.metadata
-        ? p.constructor.metadata.parsableOptions
-        : undefined,
+    ...prototypeChain(component).map(
+      (p) => p.constructor.metadata?.parsableOptions,
     ),
   )
 
@@ -61,13 +58,15 @@ export const parse = (raw: any, context: any, metadata: any, that = {}) => {
     // and construct a new object from results
     return fromPairs(
       Object.entries(raw).map(([k, v]) => [
-        k,
+        // Parse keys only if the appropriate flag is set
+        metadata.keys ? parse(k, context, {}, that) : k,
+        // Parse values
         parse(
           v,
           context,
           // Try the key-specific metadata settings,
           // or, alternatively, use the catch-all
-          metadata.content[k] || metadata.content['*'],
+          metadata.content?.[k] || metadata.content?.['*'],
           that,
         ),
       ]),

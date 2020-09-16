@@ -80,6 +80,12 @@ const updateIndex = (source, expId) => {
   return source
 }
 
+const updateScript = (source) =>
+  source.replace(
+    'study.run()',
+    'jatos.onLoad(() => study.run())'
+  )
+
 const addJatosIntegration = (state) => {
   // Add logic for saving data
   state.components.root.messageHandlers =
@@ -87,7 +93,7 @@ const addJatosIntegration = (state) => {
 
   // TODO: This is probably not the most elegant way to
   // achieve integration -- possibly a plugin would be nicer?
-  state.components.root.messageHandlers.rows.push([{
+  state.components.root.messageHandlers.push([{
     title: 'JATOS integration',
     message: 'epilogue',
     code: stripIndent`
@@ -104,10 +110,14 @@ export default (state) => {
   const files = assemble(state, addJatosIntegration)
   const expId = makeFilename(state)
 
-  // Add changes to index.html
+  // Add changes to index.html and script
   files.files['index.html'].content = updateDataURI(
     files.files['index.html'].content,
     updateIndex, expId
+  )
+  files.files['script.js'].content = updateDataURI(
+    files.files['script.js'].content,
+    updateScript
   )
 
   // Move all generated files into a folder

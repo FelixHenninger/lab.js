@@ -47,6 +47,8 @@ export class Sequence extends Component {
       content: [],
       // Shuffle items, if so desired
       shuffle: false,
+      // Optionally add a counter
+      indexParameter: undefined,
       ...options,
     })
 
@@ -59,6 +61,12 @@ export class Sequence extends Component {
     // Shuffle content, if requested
     if (this.options.shuffle) {
       this.options.content = this.random.shuffle(this.options.content)
+    }
+
+    if (this.options.indexParameter) {
+      this.options.content.forEach(
+        (c, i) => c.options.parameters[this.options.indexParameter] = i
+      )
     }
 
     // Define an iterator over the content

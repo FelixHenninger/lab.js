@@ -1,9 +1,10 @@
 import React from 'react'
 
-import { Col, FormGroup, Label, CustomInput } from 'reactstrap'
-import { Control } from 'react-redux-form'
+import { Col, FormGroup, Label } from 'reactstrap'
+import { Field } from 'formik'
 
 import Form from '../../Form'
+import { CustomInput } from '../../../../Form'
 import Card from '../../../../Card'
 
 export default ({ id, data }) =>
@@ -25,14 +26,11 @@ export default ({ id, data }) =>
         </Col>
         <Col xs={10}>
           <FormGroup check>
-            <Control.checkbox
-              model=".shuffle"
+            <Field
+              name="shuffle" id="shuffle"
               component={ CustomInput }
-              controlProps={{
-                id: 'shuffle',
-                type: 'checkbox',
-                label: 'Shuffle nested components',
-              }}
+              type="checkbox"
+              label="Shuffle nested components"
             />
           </FormGroup>
         </Col>

@@ -286,6 +286,11 @@ export class Frame extends Component {
 
     return Promise.resolve()
   }
+
+  get progress() {
+    // Return progress from nested component
+    return this.options.content.progress
+  }
 }
 
 export class Page extends Form {
@@ -317,11 +322,51 @@ export class Page extends Form {
   }
 
   onPrepare() {
+    // Generate content
     this.options.content = makePage(this.options.items, {
       submitButtonText: this.options.submitButtonText,
       submitButtonPosition: this.options.submitButtonPosition,
       width: this.options.width,
       rng: this.random,
     })
+
+    // Preload images
+    this.options.items
+      .filter(i => i.type === 'image' && i.src)
+      .forEach(i => this.options.media.images.push(i.src))
   }
+}
+
+Page.metadata = {
+  module: ['html'],
+  nestedComponents: [],
+  parsableOptions: {
+    items: {
+      type: 'array',
+      content: {
+        type: 'object',
+        content: {
+          '*': 'string',
+          attributes: {
+            type: 'object',
+            content: { '*': 'string' },
+          },
+          options: {
+            type: 'array',
+            content: {
+              type: 'object',
+              content: { '*': 'string' }
+            },
+          },
+          items: {
+            type: 'array',
+            content: {
+              type: 'object',
+              content: { '*': 'string' }
+            },
+          },
+        },
+      },
+    },
+  },
 }

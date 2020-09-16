@@ -51,7 +51,7 @@ class Uploader extends Component {
   checkFile(file) {
     if (file.size > this.props.maxSize) {
       alert(
-        'This file is to large to be opened. ' +
+        'This file is too large to be opened. ' +
         'Please contact support for assistance!'
       )
     }

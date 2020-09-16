@@ -1,0 +1,16 @@
+/* Left- and rightmost columns */
+div.card > table.grid tr td:first-child,
+div.card > table.grid tr th:first-child {
+  padding-left: 0.4rem;
+}
+
+div.card > table.grid tr td:last-child,
+div.card > table.grid tr th:last-child {
+  padding-right: 0.4rem;
+}
+
+/* Interior columns */
+table.grid td, table.grid th, table.grid tfoot td {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}

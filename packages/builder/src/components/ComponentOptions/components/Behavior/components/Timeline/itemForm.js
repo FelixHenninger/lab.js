@@ -3,17 +3,22 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { CardBody } from 'reactstrap'
-import { Fieldset, Control } from 'react-redux-form'
+import { Field } from 'formik'
 import { Button, ButtonGroup,
   UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem,
-  InputGroup, InputGroupAddon, InputGroupText, Input, FormGroup,
+  InputGroup, InputGroupText, FormGroup,
   UncontrolledTooltip, Row, Col, Alert } from 'reactstrap'
 import { capitalize } from 'lodash'
 
 import Icon from '../../../../../Icon'
-import FileSelector from '../../../../../FileSelector'
+import FileSelectorField from '../../../../../FileSelector/field'
+import { Input } from '../../../../../Form'
 
 import { numberOrPlaceholder } from './util'
+
+const itemDefaults = {
+  gain: '', pan: '', rampUp: '', rampDown: ''
+}
 
 const Toolbar = (
   { add, duplicateCurrent, deleteCurrent, activeItem },
@@ -34,12 +39,20 @@ const Toolbar = (
         <DropdownMenu>
           <DropdownItem header>Audio</DropdownItem>
           <DropdownItem
-            onClick={ () => add({ type: 'sound' }) }
+            onClick={ () => add({
+              type: 'sound',
+              payload: { src: '', loop: false },
+              ...itemDefaults,
+            }) }
           >
             Sound file
           </DropdownItem>
           <DropdownItem
-            onClick={ () => add({ type: 'oscillator' }) }
+            onClick={ () => add({
+              type: 'oscillator',
+              payload: { type: 'sine', frequency: '', detune: '' },
+              ...itemDefaults,
+            }) }
           >
             Oscillator
           </DropdownItem>
@@ -54,7 +67,7 @@ const Toolbar = (
       </UncontrolledButtonDropdown>
       <Button
         outline color="secondary"
-        disabled={ !activeItem }
+        disabled={ activeItem === undefined }
         onClick={ deleteCurrent }
       >
         <Icon
@@ -131,7 +144,7 @@ const mapStateToProps = state => ({
 })
 const InteractionWarning = connect(mapStateToProps)(_InteractionWarning)
 
-const Header = ({ activeItem, add, duplicateCurrent, deleteCurrent }) =>
+const Header = ({ activeItem, item, add, duplicateCurrent, deleteCurrent }) =>
   <>
     <Row form className="clearfix">
       <Col style={{ position: 'relative' }}>
@@ -142,9 +155,9 @@ const Header = ({ activeItem, add, duplicateCurrent, deleteCurrent }) =>
           activeItem={ activeItem }
         />
         {
-          activeItem
+          activeItem !== undefined
             ? <h3 className="h5 mt-2">
-                { capitalize(activeItem.type) }
+                { capitalize(item.type) }
               </h3>
             : <div className="text-muted text-center">
                 <small>Please add or select a timeline item</small>
@@ -153,7 +166,7 @@ const Header = ({ activeItem, add, duplicateCurrent, deleteCurrent }) =>
       </Col>
     </Row>
     {
-      activeItem
+      activeItem !== undefined
         ? <Row>
             <Col>
               <hr />
@@ -192,16 +205,14 @@ const SettingGroupIcon = ({ icon, fallbackIcon, tooltip, unit }) => {
 }
 
 const SettingGroupControl = ({ model, ...props }) =>
-  <Control
-    model={ model }
+  <Field
+    name={ model }
     component={ Input }
-    debounce={ 200 }
-    className="form-control"
-    style={{ fontFamily: 'Fira Mono' }}
+    className="text-monospace"
     { ...props }
   />
 
-const GlobalSettings = () =>
+const GlobalSettings = ({ activeItem }) =>
   <>
     <Row form>
       <Col>
@@ -214,7 +225,7 @@ const GlobalSettings = () =>
               unit="ms"
             />
             <SettingGroupControl
-              model=".start"
+              model={ `timeline[${ activeItem }].start` }
               pattern={ numberOrPlaceholder }
             />
             <SettingGroupIcon
@@ -224,7 +235,7 @@ const GlobalSettings = () =>
               unit="ms"
             />
             <SettingGroupControl
-              model=".stop"
+              model={ `timeline[${ activeItem }].stop` }
               pattern={ numberOrPlaceholder }
             />
             <SettingGroupIcon
@@ -233,7 +244,8 @@ const GlobalSettings = () =>
               unit="fraction"
             />
             <SettingGroupControl
-              model=".payload.gain" placeholder="gain"
+              model={ `timeline[${ activeItem }].gain` }
+              placeholder="gain"
               pattern={ numberOrPlaceholder }
             />
           </InputGroup>
@@ -248,7 +260,8 @@ const GlobalSettings = () =>
               unit="-1 … +1"
             />
             <SettingGroupControl
-              model=".payload.pan" placeholder="pan"
+              model={ `timeline[${ activeItem }].pan` }
+              placeholder="pan"
               pattern={ numberOrPlaceholder }
             />
             <SettingGroupIcon
@@ -257,7 +270,7 @@ const GlobalSettings = () =>
               unit="ms"
             />
             <SettingGroupControl
-              model=".payload.rampUp"
+              model={ `timeline[${ activeItem }].rampUp` }
               placeholder="0"
               pattern={ numberOrPlaceholder }
             />
@@ -267,7 +280,7 @@ const GlobalSettings = () =>
               unit="ms"
             />
             <SettingGroupControl
-              model=".payload.rampDown"
+              model={ `timeline[${ activeItem }].rampDown` }
               placeholder="0"
               pattern={ numberOrPlaceholder }
             />
@@ -277,85 +290,47 @@ const GlobalSettings = () =>
     </Row>
   </>
 
-const SoundForm = ({ handleChange }, { id }) => {
-  const fileSelector = createRef()
-
-  return (
-    <>
-      <FileSelector
-        accept="audio/*,video/ogg"
-        component={ id }
-        ref={ fileSelector }
-      />
-      <GlobalSettings />
-      <Row form>
-        <Col>
-          <FormGroup>
-            <InputGroup>
-              <InputGroupAddon addonType="prepend">
-                <InputGroupText>
-                  <Icon fixedWidth icon="file-audio" />
-                </InputGroupText>
-              </InputGroupAddon>
-              <Control
-                model=".payload.src"
-                component={ Input }
-                placeholder="source"
-                debounce={ 200 }
-                className="form-control"
-                style={{ fontFamily: 'Fira Mono' }}
-              />
-              <InputGroupAddon addonType="append">
-                <Button
-                  outline color="secondary"
-                  style={{ minWidth: '3rem' }}
-                  onClick={ async () => {
-                    try {
-                      const files = await fileSelector.current.select()
-                      handleChange(
-                        'payload.src',
-                        `\${ this.files["${ files[0].localPath }"] }`
-                      )
-                    } catch (error) {
-                      console.log('Error while inserting audio', error)
-                    }
-                  } }
-                >
-                  <Icon fixedWidth icon="folder" />
-                </Button>
-              </InputGroupAddon>
-            </InputGroup>
-          </FormGroup>
-        </Col>
-        <Col>
-          <FormGroup>
-            <InputGroup>
-              <SettingGroupIcon
-                icon="repeat"
-                fallbackIcon="redo"
-                tooltip="Loop audio"
-                unit="boolean"
-              />
-              <Control.select
-                model=".payload.loop"
-                className="form-control custom-select"
-                style={{ fontFamily: 'Fira Mono' }}
-              >
-                <option value="false">Play sound once</option>
-                <option value="true">Repeat continuously</option>
-              </Control.select>
-            </InputGroup>
-          </FormGroup>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <small className="text-muted">Please note that, for security reasons, audio files must be either embedded in the study, hosted on the same server on which the study is running, or on a server with <a href="https://enable-cors.org/server.html" target="_blank" rel="noopener noreferrer">cross-origin resource sharing</a> enabled. Please also note that Chrome and Safari do not support loading sounds offline; please consider hosting the study on a server instead.</small>
-        </Col>
-      </Row>
-    </>
-  )
-}
+const SoundForm = ({ activeItem }, { id }) =>
+  <>
+    <GlobalSettings activeItem={ activeItem } />
+    <Row form>
+      <Col>
+        <FormGroup>
+          <FileSelectorField
+            name={ `timeline[${ activeItem }].payload.src` }
+            accept="audio/*,video/ogg"
+            icon="file-audio"
+            component={ id }
+          />
+        </FormGroup>
+      </Col>
+      <Col>
+        <FormGroup>
+          <InputGroup>
+            <SettingGroupIcon
+              icon="repeat"
+              fallbackIcon="redo"
+              tooltip="Loop audio"
+              unit="boolean"
+            />
+            <Field
+              name={ `timeline[${ activeItem }].payload.loop` }
+              as="select"
+              className="form-control custom-select text-monospace"
+            >
+              <option value="false">Play sound once</option>
+              <option value="true">Repeat continuously</option>
+            </Field>
+          </InputGroup>
+        </FormGroup>
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <small className="text-muted">Please note that, for security reasons, audio files must be either embedded in the study, hosted on the same server on which the study is running, or on a server with <a href="https://enable-cors.org/server.html" target="_blank" rel="noopener noreferrer">cross-origin resource sharing</a> enabled. Please also note that Chrome and Safari do not support loading sounds offline; please consider hosting the study on a server instead.</small>
+      </Col>
+    </Row>
+  </>
 
 SoundForm.contextTypes = {
   id: PropTypes.oneOfType([
@@ -364,9 +339,9 @@ SoundForm.contextTypes = {
   ]),
 }
 
-const OscillatorForm = () =>
+const OscillatorForm = ({ activeItem }) =>
   <>
-    <GlobalSettings />
+    <GlobalSettings activeItem={ activeItem } />
     <Row form>
       <Col>
         <FormGroup>
@@ -375,16 +350,16 @@ const OscillatorForm = () =>
               icon="integral" fallbackIcon="water"
               tooltip="Waveform"
             />
-            <Control.select
-              model=".payload.type"
-              className="form-control custom-select"
-              style={{ fontFamily: 'Fira Mono' }}
+            <Field
+              name={ `timeline[${ activeItem }].payload.type` }
+              as="select"
+              className="text-monospace form-control custom-select"
             >
               <option value="sine">Sine wave</option>
               <option value="square">Square wave</option>
               <option value="sawtooth">Sawtooth</option>
               <option value="triangle">Triangle</option>
-            </Control.select>
+            </Field>
           </InputGroup>
         </FormGroup>
       </Col>
@@ -397,7 +372,8 @@ const OscillatorForm = () =>
               unit="Hz"
             />
             <SettingGroupControl
-              model=".payload.frequency" placeholder="frequency (Hz)"
+              model={ `timeline[${ activeItem }].payload.frequency` }
+              placeholder="frequency (Hz)"
               pattern={ numberOrPlaceholder }
             />
             <SettingGroupIcon
@@ -406,7 +382,8 @@ const OscillatorForm = () =>
               unit="cents"
             />
             <SettingGroupControl
-              model=".payload.detune" placeholder="detune (cents)"
+              model={ `timeline[${ activeItem }].payload.detune` }
+              placeholder="detune (cents)"
               pattern={ numberOrPlaceholder }
             />
           </InputGroup>
@@ -416,12 +393,20 @@ const OscillatorForm = () =>
   </>
 
 
-const TypeForm = ({ type, item, handleChange }) => {
-  switch (type) {
+const TypeForm = ({ activeItem, item, handleChange }) => {
+  switch (item.type) {
     case 'oscillator':
-      return <OscillatorForm item={ item } handleChange={ handleChange } />
+      return <OscillatorForm
+        activeItem={ activeItem }
+        item={ item }
+        handleChange={ handleChange }
+      />
     case 'sound':
-      return <SoundForm item={ item } handleChange={ handleChange } />
+      return <SoundForm
+        activeItem={ activeItem }
+        item={ item }
+        handleChange={ handleChange }
+      />
     default:
       return null
   }
@@ -432,24 +417,19 @@ const ItemForm = ({ timeline, activeItem, handleChange,
 }) =>
   <CardBody>
     <Header
-      activeItem={
-        activeItem !== undefined
-          ? timeline[activeItem]
-          : undefined
-      }
+      activeItem={ activeItem }
+      item={ activeItem !== undefined ? timeline[activeItem] : undefined }
       add={ add }
       duplicateCurrent={ duplicateCurrent }
       deleteCurrent={ deleteCurrent }
     />
     {
       activeItem !== undefined
-        ? <Fieldset model={ `.timeline[${ activeItem }]` }>
-            <TypeForm
-              type={ timeline[activeItem].type }
-              item={ timeline[activeItem] }
-              handleChange={ handleChange }
-            />
-          </Fieldset>
+        ? <TypeForm
+            activeItem={ activeItem }
+            item={ timeline[activeItem] }
+            handleChange={ handleChange }
+          />
         : null
     }
   </CardBody>

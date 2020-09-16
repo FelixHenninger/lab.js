@@ -399,6 +399,31 @@ export class Screen extends Component {
   }
 }
 
+Screen.metadata = {
+  module: ['canvas'],
+  nestedComponents: [],
+  parsableOptions: {
+    content: {
+      type: 'array',
+      content: {
+        type: 'object',
+        content: {
+          text: {},
+          fill: {},
+          stroke: {},
+          left: { type: 'number' },
+          top: { type: 'number' },
+          width: { type: 'number' },
+          height: { type: 'number' },
+          angle: { type: 'number' },
+          src: {},
+          fontSize: { type: 'number' },
+        },
+      },
+    },
+  },
+}
+
 // @ts-expect-error ts-migrate(2417) FIXME: Property 'parsableOptions' is missing in type '{ m... Remove this comment to see the full error message
 export class Frame extends BaseFrame {
   static metadata = {

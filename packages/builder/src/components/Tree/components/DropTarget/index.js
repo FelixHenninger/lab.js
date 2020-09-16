@@ -1,8 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { createSelectorCreator, defaultMemoize } from 'reselect'
+
 import { DropTarget } from 'react-dnd'
 import classnames from 'classnames'
-import { flow } from 'lodash'
+import { isEqual, flow } from 'lodash'
 
 import { parents } from '../../../../logic/tree'
 
@@ -62,13 +64,28 @@ const collect = (connect, monitor) => ({
   validTarget: monitor.canDrop() && monitor.isOver({ shallow: true }),
 })
 
+// Redux integration -----------------------------------------------------------
+
+const getParents = (state, props) =>
+  parents(props.id, state.components)
+
+const createDeepEqualSelector = createSelectorCreator(
+  defaultMemoize,
+  isEqual
+)
+
+const makeMapStateToProps = () => {
+  const parentSelector = createDeepEqualSelector(
+    [getParents], parents => parents,
+  )
+  const mapStateToProps = (state, props) => ({
+    parentIds: parentSelector(state, props)
+  })
+  return mapStateToProps
+}
+
 // Make the component a DropTarget
 export default flow(
   DropTarget('node', targetSpec, collect),
-  connect((state, props) => ({
-    parentIds: parents(
-      props.id,
-      state.components
-    )
-  })),
+  connect(makeMapStateToProps),
 )(TreeDropTarget)

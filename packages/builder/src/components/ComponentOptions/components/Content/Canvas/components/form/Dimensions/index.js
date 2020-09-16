@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
-import { Control } from 'react-redux-form'
+import { Field } from 'formik'
 
+import { InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
 import Icon from '../../../../../../../Icon'
 
 import './index.css'
@@ -14,40 +14,32 @@ export default ({ selection, type }) =>
         <Icon icon="long-arrow-right" fixedWidth />
       </span>
     </InputGroupAddon>
-    <Control
-      model=".left"
-      defaultValue=""
+    <Field
+      name="left"
       placeholder="x"
       disabled={ type === undefined }
-      debounce={ 200 }
-      className="form-control"
-      style={{ fontFamily: 'Fira Mono' }}
+      className="form-control text-monospace"
     />
     <InputGroupAddon addonType="prepend">
       <InputGroupText>
         <Icon icon="long-arrow-down" fixedWidth />
       </InputGroupText>
     </InputGroupAddon>
-    <Control
-      model=".top"
-      defaultValue=""
+    <Field
+      name="top"
       placeholder="y"
       disabled={ type === undefined }
-      debounce={ 200 }
-      className="form-control"
-      style={{ fontFamily: 'Fira Mono' }}
+      className="form-control text-monospace"
     />
     <InputGroupAddon addonType="prepend">
       <InputGroupText>
         <Icon icon="redo" fixedWidth />
       </InputGroupText>
     </InputGroupAddon>
-    <Control
-      model=".angle"
-      defaultValue=""
+    <Field
+      name="angle"
       placeholder="angle"
       disabled={ ['circle', 'i-text', undefined].includes(type) }
-      debounce={ 200 }
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
     />
@@ -56,32 +48,27 @@ export default ({ selection, type }) =>
         <Icon icon="arrows-h" fixedWidth />
       </InputGroupText>
     </InputGroupAddon>
-    <Control
-      model=".width"
-      defaultValue=""
+    <Field
+      name="width"
       placeholder="width"
       disabled={
         ['i-text', undefined].includes(type)
         || (type === 'image' && selection.autoScale === 'width')
       }
-      debounce={ 200 }
-      className="form-control"
-      style={{ fontFamily: 'Fira Mono' }}
+      className="form-control text-monospace"
     />
     <InputGroupAddon addonType="prepend">
       <InputGroupText>
         <Icon icon="arrows-v" fixedWidth />
       </InputGroupText>
     </InputGroupAddon>
-    <Control
-      model=".height"
-      defaultValue=""
+    <Field
+      name="height"
       placeholder="height"
       disabled={
         ['line', 'circle', 'i-text', undefined].includes(type)
         || (type === 'image' && selection.autoScale === 'height')
       }
-      debounce={ 200 }
       className="form-control"
       style={{ fontFamily: 'Fira Mono' }}
     />

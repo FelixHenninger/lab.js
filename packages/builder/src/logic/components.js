@@ -7,9 +7,7 @@ export const defaultState = {
     title: 'root',
     type: 'lab.flow.Sequence',
     children: [],
-    parameters: {
-      rows: [ [ { name: '', value: '', type: 'string' }, ], ],
-    },
+    parameters: [],
     plugins: [
       {
         type: 'lab.plugins.Metadata',
@@ -35,16 +33,16 @@ const defaultTabs = [
 ]
 
 const globalDefaults = {
-  files: { rows: [] },
-  responses: {
-    rows: [ ['', '', '', ''] ],
-  },
-  parameters: {
-    rows: [ [ { name: '', value: '', type: 'string' }, ], ],
-  },
-  messageHandlers: {
-    rows: [ [ { title: '', message: '', code: '' }, ], ],
-  },
+  files: [],
+  responses: [
+    { label: '', event: '', target: '', filter: '' }
+  ],
+  parameters: [
+    { name: '', value: '', type: 'string' },
+  ],
+  messageHandlers: [
+    { title: '', message: '', code: '' },
+  ],
 }
 
 export const metadata = {
@@ -153,9 +151,9 @@ export const metadata = {
     defaultTab: 'Content',
     defaults: {
       type: 'lab.html.Page',
-      items: { rows: [ [ {
-        type: 'text',
-      } ] ] },
+      items: [
+        { type: 'text' },
+      ],
       scrollTop: true,
       submitButtonText: 'Continue →',
       submitButtonPosition: 'right',
@@ -211,8 +209,7 @@ export const defaultTab = (tab, type) => {
 // TODO: This is awkwardly named
 export const defaults = [
   'lab.canvas.Screen',
-  process.env.PUBLIC_URL === 'https://labjs.felixhenninger.com'
-    ? 'lab.html.Screen' : 'lab.html.Page',
+  'lab.html.Page',
   'lab.flow.Sequence',
   'lab.flow.Loop',
 ]

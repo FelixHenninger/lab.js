@@ -1,19 +1,36 @@
 import React from 'react'
 
+import { useFormikContext } from 'formik'
+import { groupBy } from 'lodash'
 import { Table } from 'reactstrap'
 
 import Group from './Group'
-import Icon from '../../../../../../Icon'
+import Icon from '../../../../../Icon'
 
-export default ({ groups, moveHandler, globalShuffle }) => {
+export default () => {
+  const { values, setFieldValue } = useFormikContext()
+  const globalShuffle = values.shuffle
+
+  const groups = groupBy(
+    values.templateParameters.columns
+      .filter(c => c.name !== '')
+      .map((c, i) => ({ ...c, id: i })),
+    'shuffleGroup'
+  )
+  const entries = Object.entries(groups)
+
+  const moveHandler = (key, target) =>
+    setFieldValue(
+      `templateParameters.columns[${ key }]['shuffleGroup']`,
+      target
+    )
+
   const nextGroup = Math.max(
     ...Object.keys(groups)
       .map(Number)
       .filter(x => !isNaN(x)),
     0
   ) + 1
-
-  const entries = Object.entries(groups)
 
   return (
     <Table className="border-top-0">

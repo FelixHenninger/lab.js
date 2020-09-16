@@ -45,6 +45,8 @@ class AsyncCache {
     // external logic needs to ensure that entries are available
     if (this.cache.has(key)) {
       return this.cache.get(key)
+    } else {
+      throw Error(`Key "${key}" not present in cache`)
     }
     throw Error(`Key ${key} not present in cache`)
   }
@@ -52,23 +54,45 @@ class AsyncCache {
 
 // Cache implementations for specific media types ------------------------------
 
-const preloadImage = (url: any) =>
-  new Promise((resolve: any, reject: any) => {
-    const image = new Image()
+const preloadImage = async (url) => {
+  // Create an empty image element
+  const image = new Image()
+  image.src = url
 
-    // Resolve or reject the promise, depending
-    // on whether the image loads successfully or not
-    image.addEventListener('load', () => resolve(image))
-    image.addEventListener('error', (e) => reject(e))
+  // Make sure to decode its contents
+  await image.decode()
 
-    // Set the image path, which puts it in the
-    // queue for loading.
-    image.src = url
-  })
+  return image
+}
 
 export class ImageCache extends AsyncCache {
+  bitmapCache: WeakMap<Record<string, any>, ImageBitmap>
+
   constructor() {
     super(preloadImage)
+    this.bitmapCache = new WeakMap()
+  }
+
+  async get(key) {
+    const image = await super.get(key)
+
+    if (window.createImageBitmap) {
+      try {
+        const bitmap = await createImageBitmap(image)
+        this.bitmapCache.set(image, bitmap)
+      } catch (e) {
+        console.log(`Couldn't cache bitmap for ${key}, error ${e}`)
+      }
+    }
+
+    return image
+  }
+
+  readSync(key) {
+    const image = super.readSync(key)
+    const bitmap = this.bitmapCache.get(image)
+
+    return [image, bitmap]
   }
 }
 

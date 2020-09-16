@@ -1,6 +1,6 @@
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/browser'
 
 import assemble from '../assemble'
 import { readDataURI } from '../../util/dataURI'
@@ -36,7 +36,10 @@ export const downloadZip = async (data, filename='study_export.zip') => {
     const blob = await createZip(data, filename)
     return saveAs(blob, filename)
   } catch (error) {
-    Raven.captureException(error)
+    Sentry.withScope((scope) => {
+      scope.setTag('scope', 'export')
+      Sentry.captureException(error)
+    })
     alert(`Couldn't export bundle: ${ error }`)
   }
 }

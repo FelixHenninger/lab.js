@@ -6,7 +6,7 @@
 // against obvious errors, for example if only
 // numbers are passed in (as multiple arguments).
 
-export const sum = (a: any) => a.reduce((x: any, y: any) => x + y)
+export const sum = (a: any) => a.reduce((x: any, y: any) => x + y, 0)
 
 export const mean = (a: any) => sum(a) / a.length
 

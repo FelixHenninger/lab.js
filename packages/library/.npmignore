@@ -2,3 +2,5 @@
 /dist/lab.coverage.js
 /examples
 /sauce_connect.log
+/lab.js-*.tgz
+/bundleStats.json

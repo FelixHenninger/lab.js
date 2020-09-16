@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 
-import { Control, actions } from 'react-redux-form'
-import { Row, Col, Input,
+import { FastField, FieldArray, useFormikContext, getIn } from 'formik'
+import { Row, Col,
   InputGroup, InputGroupAddon, InputGroupText, InputGroupButtonDropdown,
   DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap'
 
 import Icon from '../../../../../../../Icon'
+import { Input } from '../../../../../../../Form'
 
-const CodingPair = (
-  { icon, iconFallbackWeight='r', model, index, itemModel, totalPairs },
-  { formDispatch }
-) => {
+const CodingPair = ({
+  name, index, arrayHelpers,
+  icon, iconFallbackWeight='r', totalPairs
+}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
   return (
@@ -25,22 +25,16 @@ const CodingPair = (
           />
         </InputGroupText>
       </InputGroupAddon>
-      <Control
-        model={ `${ model }[${ index }].label` }
+      <FastField
+        name={ `${ name }[${ index }].label` }
         placeholder="label"
         component={ Input }
-        debounce={ 300 }
       />
-      <Control
-        model={ `${ model }[${ index }].coding` }
+      <FastField
+        name={ `${ name }[${ index }].coding` }
         placeholder="coding"
         component={ Input }
-        controlProps={{
-          style: {
-            fontFamily: 'Fira Mono',
-          }
-        }}
-        debounce={ 300 }
+        className="text-monospace"
       />
       <InputGroupButtonDropdown
         addonType="append"
@@ -57,26 +51,12 @@ const CodingPair = (
             Add and delete
           </DropdownItem>
           <DropdownItem
-            onClick={ () => formDispatch(
-              actions.change(
-                `local.items${ itemModel }${ model }`,
-                items => [
-                  ...items.slice(0, index + 1),
-                  {},
-                  ...items.slice(index + 1, items.length)
-                ]
-              )
-            ) }
+            onClick={ () => arrayHelpers.insert(index + 1, {}) }
           >
             Add below
           </DropdownItem>
           <DropdownItem
-            onClick={ () => formDispatch(
-              actions.remove(
-                `local.items${ itemModel }${ model }`,
-                index
-              )
-            ) }
+            onClick={ () => arrayHelpers.remove(index) }
           >
             Delete
           </DropdownItem>
@@ -85,23 +65,13 @@ const CodingPair = (
             Move
           </DropdownItem>
           <DropdownItem
-            onClick={ () => formDispatch(
-              actions.move(
-                `local.items${ itemModel }${ model }`,
-                index, index - 1
-              )
-            ) }
+            onClick={ () => arrayHelpers.swap(index, index - 1) }
             disabled={ index === 0 }
           >
             Up
           </DropdownItem>
           <DropdownItem
-            onClick={ () => formDispatch(
-              actions.move(
-                `local.items${ itemModel }${ model }`,
-                index, index + 1
-              )
-            ) }
+            onClick={ () => arrayHelpers.swap(index, index + 1) }
             disabled={ index >= totalPairs - 1 }
           >
             Down
@@ -112,37 +82,33 @@ const CodingPair = (
   )
 }
 
-CodingPair.contextTypes = {
-  formDispatch: PropTypes.func,
-}
+export const CodingGroup = ({ name, icon, iconFallbackWeight }) => {
+  const { values } = useFormikContext()
+  const data = getIn(values, name) ?? []
 
-export const CodingGroup = ({
-  data=[], model, itemModel,
-  icon, iconFallbackWeight
-}) =>
-  // TODO: Simplify form field coordination. Splitting the path
-  // into model, itemmodel and index seems overly complicated
-  // (the full path still needs to be reconstructed at some point,
-  // because the action creator above needs access to it -- sadly,
-  // the fieldset doesn't help here.)
-  // ----
-  // Also, think about moving the manipulation logic out of the
-  // individual pairs, and up to a higher level such as this one.
-  <div className="pt-1">
-    {
-      [...data, {}].map((x, i) =>
-        <Row form key={ `coding-${ model }-${ i }` }>
-          <Col className="pt-1">
-            <CodingPair
-              icon={ icon }
-              iconFallbackWeight={ iconFallbackWeight }
-              model={ `${ model }` }
-              itemModel={ itemModel }
-              index={ i }
-              totalPairs={ data.length }
-            />
-          </Col>
-        </Row>
-      )
-    }
-  </div>
+  return (
+    // TODO: Think about moving the manipulation logic out of the
+    // individual pairs, and up to a higher level such as this one.
+    <div className="pt-1">
+      <FieldArray
+        name={ name }
+        render={ arrayHelpers =>
+          [...data, {}].map((x, i) => (
+            <Row form key={ `coding-${ name }-${ i }` }>
+              <Col className="pt-1">
+                <CodingPair
+                  name={ `${ name }` }
+                  index={ i }
+                  arrayHelpers={ arrayHelpers }
+                  icon={ icon }
+                  iconFallbackWeight={ iconFallbackWeight }
+                  totalPairs={ data.length }
+                />
+              </Col>
+            </Row>
+          )  )
+        }
+      />
+    </div>
+  )
+}

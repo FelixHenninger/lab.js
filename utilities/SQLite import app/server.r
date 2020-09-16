@@ -110,6 +110,11 @@ processData <- function(database) {
       ) %>%
       ungroup() %>%
       select(-id) -> d.full
+  } else {
+    # If there are no full datasets, start from an entirely empty df
+    # in order to avoid introducing unwanted columns into the following
+    # merge steps.
+    d.full <- tibble()
   }
   
   d %>%

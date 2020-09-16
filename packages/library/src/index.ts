@@ -33,7 +33,7 @@ import PostMessage from './plugins/postmessage'
 import Submit from './plugins/submit'
 import Transmit from './plugins/transmit'
 
-export const version = '19.1.2'
+export const version = '20.1.1'
 export const build = {
   // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
   flavor: BUILD_FLAVOR,

@@ -1,28 +1,16 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { Control } from 'react-redux-form'
-
-import './style.css'
 
 import { InputGroupButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem,
   InputGroup } from 'reactstrap'
 import classnames from 'classnames'
 
-import Icon from '../../../../Icon'
+import { useArrayContext } from '../../../../../Form/array'
+import { ButtonCell } from '../../../../../Form/table'
+import Icon from '../../../../../Icon'
+import { FastField, useField } from 'formik'
 
-export const GridCell = ({ cellData, rowIndex, colIndex, colName }) =>
-  <Control.text
-    model={ `.rows[${ rowIndex }][${ colIndex }]` }
-    className="form-control"
-    style={{
-      fontFamily: 'Fira Mono',
-    }}
-    debounce={ 300 }
-  />
-
-export const CellTypeSelector = ({ type, setType,
-  actions, disabled=false }) => {
-
+const CellTypeDropdown = ({ name, index, actions, disabled=false }) => {
+  const [field, , helpers] = useField(name)
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
   return (
@@ -36,8 +24,7 @@ export const CellTypeSelector = ({ type, setType,
         caret={ !disabled }
         disabled={ disabled }
         outline color="secondary"
-        // Ensure that the right-hand side
-        // always has rounded corners
+        // Ensure that the right-hand side always has rounded corners
         // (this didn't work if the button was disabled)
         className="rounded-right"
       >
@@ -46,7 +33,7 @@ export const CellTypeSelector = ({ type, setType,
             string: 'font',
             number: 'tachometer',
             boolean: 'adjust'
-          }[type]}
+          }[field.value]}
           fixedWidth
         />
       </DropdownToggle>
@@ -54,25 +41,25 @@ export const CellTypeSelector = ({ type, setType,
         <DropdownItem header>Data type</DropdownItem>
         <DropdownItem
           className={ classnames({
-            'dropdown-item-active': type === 'string'
+            'dropdown-item-active': field.value === 'string'
           }) }
-          onClick={ () => setType('string') }
+          onClick={ () => helpers.setValue('string') }
         >
           Text <span className="text-muted">(categorical)</span>
         </DropdownItem>
         <DropdownItem
           className={ classnames({
-            'dropdown-item-active': type === 'number'
+            'dropdown-item-active': field.value === 'number'
           }) }
-          onClick={ () => setType('number') }
+          onClick={ () => helpers.setValue('number') }
         >
           Numerical <span className="text-muted">(continuous)</span>
         </DropdownItem>
         <DropdownItem
           className={ classnames({
-            'dropdown-item-active': type === 'boolean'
+            'dropdown-item-active': field.value === 'boolean'
           }) }
-          onClick={ () => setType('boolean') }
+          onClick={ () => helpers.setValue('boolean') }
         >
           Boolean <span className="text-muted">(binary)</span>
         </DropdownItem>
@@ -85,7 +72,7 @@ export const CellTypeSelector = ({ type, setType,
                 </DropdownItem>
                 {
                   Object.entries(actions).map(([k, v], i) =>
-                    <DropdownItem onClick={ v } key={ i }>
+                    <DropdownItem onClick={ () => v(index) } key={ i }>
                       { k }
                     </DropdownItem>
                   )
@@ -98,43 +85,47 @@ export const CellTypeSelector = ({ type, setType,
   )
 }
 
-export const HeaderCell = ({ columnData, index }, { gridDispatch }) =>
+export const HeaderCell = ({ index, actions }) =>
   <InputGroup>
-    <Control.text
-      model={ `.columns[${ index }]['name']` }
+    <FastField
+      name={ `templateParameters.columns[${ index }].name` }
       placeholder={ `parameter${ index }` }
-      className="form-control"
-      style={{
-        fontFamily: 'Fira Mono',
-        fontWeight: 'bold',
-        height: '42px',
-      }}
-      debounce={ 300 }
+      className="form-control text-monospace font-weight-bolder"
+      style={{ height: '42px' }}
     />
-    <CellTypeSelector
-      type={ columnData.type }
-      setType={
-        value => gridDispatch('change', {
-          model: `local.templateParameters.columns[${ index }]['type']`,
-          value
-        })
-      }
-      actions={{
-        'Fill': () => {
-          gridDispatch('fillColumn', index)
-        },
-        'Clear': () => {
-          gridDispatch('clearColumn', index)
-        },
-        'Delete': () => {
-          if (window.confirm('Are you sure you want to delete this column?')) {
-            gridDispatch('deleteColumn', index)
-          }
-        }
-      }}
+    <CellTypeDropdown
+      name={ `templateParameters.columns[${ index }].type` }
+      index={ index }
+      actions={ actions }
     />
   </InputGroup>
 
-HeaderCell.contextTypes = {
-  gridDispatch: PropTypes.func,
+export default ({ name, columns }) => {
+  const { addColumn, fillColumn, clearColumn, deleteColumn } = useArrayContext()
+
+  return (
+    <thead>
+      <tr>
+        <th></th>
+        { Array(columns).fill(null).map((_, i) =>
+          <th key={ `${ name }-header-${ i }` }>
+            <HeaderCell
+              index={ i }
+              actions={{
+                'Fill': fillColumn,
+                'Clear': clearColumn,
+                'Delete': deleteColumn,
+              }}
+            />
+          </th>
+        ) }
+        <ButtonCell
+          type="th" icon="plus"
+          style={{ height: '42px' }}
+          onClick={ () => addColumn('', { name: '', type: 'string' }) }
+          disabled={ columns >= 12 }
+        />
+      </tr>
+    </thead>
+  )
 }

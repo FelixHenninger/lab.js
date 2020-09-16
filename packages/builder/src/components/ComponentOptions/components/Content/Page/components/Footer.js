@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 
 import {
   ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem,
@@ -8,20 +7,17 @@ import {
 
 import Icon from '../../../../../Icon'
 
-const Item = ({ data=undefined, children }, { gridDispatch }) =>
+const Item = ({ onClick, disabled, children }) =>
   <DropdownItem
-    onClick={ () => gridDispatch('addRows', [[ { required: true, ...data } ]]) }
-    disabled={ data === undefined }
+    onClick={ onClick }
+    disabled={ disabled }
   >
     { children }
   </DropdownItem>
 
-Item.contextTypes = {
-  gridDispatch: PropTypes.func,
-}
-
-const AddWidget = () => {
+const AddWidget = ({ addItem: defaultAddItem }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const addItem = (data) => defaultAddItem({ required: true, ...data })
 
   return (
     <ButtonDropdown
@@ -50,20 +46,20 @@ const AddWidget = () => {
             <DropdownItem header>
               Content
             </DropdownItem>
-            <Item data={{ type: 'text' }}>
+            <Item onClick={ () => addItem({ type: 'text' }) }>
               Text <span className="text-muted">/ Instructions</span>
             </Item>
-            <Item>
+            <Item onClick={ () => addItem({ type: 'image' }) }>
               Image
             </Item>
-            <Item data={{ type: 'divider' }}>
+            <Item onClick={ () => addItem({ type: 'divider' }) }>
               Divider
             </Item>
             <DropdownItem divider />
             <DropdownItem header>
               Advanced
             </DropdownItem>
-            <Item data={{ type: 'html' }}>
+            <Item onClick={ () => addItem({ type: 'html' }) }>
               Raw <code className="text-body">HTML</code>
             </Item>
           </Col>
@@ -71,20 +67,20 @@ const AddWidget = () => {
             <DropdownItem header>
               Free-form input
             </DropdownItem>
-            <Item data={{ type: 'input' }}>
+            <Item onClick={ () => addItem({ type: 'input' }) }>
               Single-line
             </Item>
-            <Item data={{ type: 'textarea' }}>
+            <Item onClick={ () => addItem({ type: 'textarea' }) }>
               Multi-line
             </Item>
             <DropdownItem divider />
             <DropdownItem header>
               Structured input
             </DropdownItem>
-            <Item data={{ type: 'radio', options: [] }}>
+            <Item onClick={ () => addItem({ type: 'radio' }) }>
               Multiple choice
             </Item>
-            <Item data={{ type: 'checkbox', options: [] }}>
+            <Item onClick={ () => addItem({ type: 'checkbox' }) }>
               Check all that apply
             </Item>
           </Col>
@@ -92,13 +88,20 @@ const AddWidget = () => {
             <DropdownItem header>
               Ranges
             </DropdownItem>
-            <Item data={{ type: 'slider' }}>
+            <Item onClick={ () => addItem({ type: 'slider' }) }>
               Slider
             </Item>
-            <Item>
+            <Item disabled={ true }>
               Visual analogue scale
             </Item>
-            <Item data={{ type: 'likert', items: [], width: 5, anchors: [] }}>
+            <Item
+              onClick={ () => addItem({
+                type: 'likert',
+                items: [],
+                width: 5,
+                anchors: [],
+              }) }
+            >
               Likert scale
             </Item>
           </Col>
@@ -108,12 +111,12 @@ const AddWidget = () => {
   )
 }
 
-export default ({ columns }) =>
+export default ({ columns, addItem }) =>
   <tfoot>
     <tr>
       <td />
       <td colSpan={ columns.length }>
-        <AddWidget />
+        <AddWidget addItem={ addItem } />
       </td>
       <td />
     </tr>

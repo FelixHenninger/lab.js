@@ -2,6 +2,7 @@ import localForage from 'localforage'
 import { debounce } from 'lodash'
 
 import { fromObject } from '../io/load'
+import { quotaExceededErrors } from './monitoring'
 
 const lf = localForage.createInstance({
   name: "lab.js"
@@ -13,7 +14,13 @@ export const persistState = async store => {
     lf.setItem(
       'state:latest',
       store.getState()
-    )
+    ).catch(e => {
+      if (quotaExceededErrors.some(message => e.message.includes(message))) {
+        // TODO alert user
+      } else {
+        throw e
+      }
+    })
   }), 500)
 
   // Check for persistence of in-browser storage

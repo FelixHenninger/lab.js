@@ -137,7 +137,8 @@ describe('Core', () => {
         b.options.media.images.push(url)
 
         return b.prepare().then(() => {
-          const image = b.internals.controller.cache.images.readSync(url)
+          const [image, bitmap] =
+            b.internals.controller.cache.images.readSync(url)
           assert.instanceOf(image, Image)
 
           // Check that loading completed
@@ -746,7 +747,7 @@ describe('Core', () => {
 
       it('accepts timestamp for response', () => {
         return b.run().then(() => {
-          b.respond('bar', 123)
+          b.respond('bar', { timestamp: 123 })
 
           assert.equal(b.internals.timestamps.end, 123)
         })

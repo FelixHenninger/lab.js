@@ -1,33 +1,28 @@
 import React from 'react'
 
-import { Control } from 'react-redux-form'
 import { Row, Col } from 'reactstrap'
 
-import Editor from '../../../../../../../Editor'
+import EditorField from '../../../../../../../Editor/field'
 
-export default () =>
+export default ({ name }) =>
   <>
     <Row form>
       <Col>
         <div className="border rounded py-2 pr-2" style={{ height: '220px' }}>
-          <Control.textarea
-            model=".content"
-            component={ Editor }
-            controlProps={{
-              language: 'html',
-              height: '100%',
-              options: {
-                folding: false,
-                fontSize: 16,
-                glyphMargin: false,
-                lineHeight: 24,
-                lineNumbers: 'off',
-                minimap: {
-                  enabled: false,
-                },
+          <EditorField
+            name={ `${ name }.content` }
+            language="html"
+            height="100%"
+            options={{
+              folding: false,
+              fontSize: 16,
+              glyphMargin: false,
+              lineHeight: 24,
+              lineNumbers: 'off',
+              minimap: {
+                enabled: false,
               },
             }}
-            debounce={ 300 }
           />
         </div>
       </Col>

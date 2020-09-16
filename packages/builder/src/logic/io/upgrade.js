@@ -414,6 +414,58 @@ const updates = {
       }
     })
   }),
+  '19.1.2': data => ({
+    ...data,
+    version: [20, 0, 0],
+  }),
+  '20.0.0': data => ({
+    ...data,
+    version: [20, 0, 1],
+  }),
+  '20.0.1': data => ({
+    ...data,
+    version: [20, 1, 0],
+  }),
+  // Dummy version, never published as stable release
+  '20.0.2': data => ({
+    ...data,
+    version: [20, 1, 0],
+  }),
+  '20.1.0': data => ({
+    ...data,
+    version: [20, 1, 1],
+  }),
+  '20.1.1': data => ({
+    ...data,
+    version: [20, 2, 0],
+    components: mapValues(data.components, (c, id) => {
+      return {
+        ...c,
+        parameters: c.parameters?.rows?.map(r => r[0]) ?? [],
+        messageHandlers: c.messageHandlers?.rows?.map(r => r[0]) ?? [],
+        files: c.files?.rows?.map(r => r[0]) ?? [],
+        responses: c.responses?.rows?.map(r => ({
+          label: r[0], event: r[1],
+          target: r[2], filter: r[3],
+        }))
+      }
+    })
+  }),
+  '20.2.0': data => ({
+    // Upgrade page components
+    ...data,
+    version: [20, 2, 1],
+    components: mapValues(data.components, (c, id) => {
+      if (c.type === 'lab.html.Page') {
+        return {
+          ...c,
+          items: c.items?.rows?.map(r => r[0]) ?? [],
+        }
+      } else {
+        return c
+      }
+    })
+  }),
 }
 
 export default (data) => {

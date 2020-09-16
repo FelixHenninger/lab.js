@@ -7,6 +7,7 @@ class Tree extends Component {
       onNodeClick: this.props.onNodeClick,
       onNodeAdd: this.props.onNodeAdd,
       onNodeDelete: this.props.onNodeDelete,
+      onNodeDuplicate: this.props.onNodeDuplicate,
     }
   }
 
@@ -25,6 +26,7 @@ Tree.childContextTypes = {
   onNodeClick: PropTypes.func,
   onNodeAdd: PropTypes.func,
   onNodeDelete: PropTypes.func,
+  onNodeDuplicate: PropTypes.func,
 }
 
 export default Tree

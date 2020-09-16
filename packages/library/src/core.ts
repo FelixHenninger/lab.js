@@ -445,8 +445,11 @@ export class Component extends EventHandler {
         // Trigger internal response handling
         this.respond(
           this.options.responses[eventString],
-          ensureHighResTime(e.timeStamp),
-        )
+          {
+            timestamp: ensureHighResTime(e.timeStamp),
+            action: eventString,
+          })
+        
       }
     })
 
@@ -560,7 +563,7 @@ export class Component extends EventHandler {
       )
 
       // Log next frame time
-      window.requestAnimationFrame((showFrame) => {
+      this.internals.showFrameRequest = window.requestAnimationFrame(showFrame => {
         this.internals.timestamps.show = showFrame
         this.triggerMethod('show', showFrame)
       })
@@ -576,19 +579,19 @@ export class Component extends EventHandler {
     }
   }
 
-  respond(response = null, timestamp = undefined): Promise<number> {
-    // Save response
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'response' does not exist on type '{}'.
+  respond(response=null, { timestamp, action }={}) {
+    // Save response and the action that generated it
     this.data.response = response
+    if (action) {
+      this.data.response_action = action
+    }
 
     // Save ideal response and response veracity
     if (this.options.correctResponse !== null) {
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'correctResponse' does not exist on type ... Remove this comment to see the full error message
       this.data.correctResponse = this.options.correctResponse
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'correct' does not exist on type '{}'.
-      this.data.correct =
-        // @ts-expect-error ts-migrate(2339) FIXME: Property 'response' does not exist on type '{}'.
-        this.data.response === this.options.correctResponse
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'correct' does not exist on type ... Remove this comment to see the full error message
+      this.data.correct = response === this.options.correctResponse
     }
 
     // End component
@@ -617,6 +620,11 @@ export class Component extends EventHandler {
     if (this.internals.frameRequest) {
       window.cancelAnimationFrame(this.internals.frameRequest)
     }
+    if (this.internals.showFrameRequest) {
+      window.cancelAnimationFrame(
+        this.internals.showFrameRequest,
+      )
+    }
 
     // Compute duration
     // @ts-expect-error ts-migrate(2339) FIXME: Property 'ended_on' does not exist on type '{}'.
@@ -638,8 +646,8 @@ export class Component extends EventHandler {
         this.internals.timestamps.end - this.internals.timestamps.render
     } else {
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'duration' does not exist on type '{}'.
-      this.data.duration =
-        this.internals.timestamps.end - this.internals.timestamps.show
+      this.data.duration = this.internals.timestamps.end -
+        (this.internals.timestamps.show || this.internals.timestamps.render)
     }
 
     // Complete a component's run and cleanup
@@ -670,16 +678,19 @@ export class Component extends EventHandler {
       this.internals.timestamps.switch = s
 
       // Update duration given switch time
-      this.options.datastore.update(this.internals.logIndex, (d: any) => ({
-        ...d,
-
-        // Log switch frame
-        time_switch: s,
-
-        // If the component was ended by a timeout,
-        // update the duration based on the actual presentation time
-        duration: d.ended_on === 'timeout' ? s - d.time_show : d.duration,
-      }))
+      this.options.datastore.update(
+        this.internals.logIndex,
+        d => ({
+          ...d,
+          // Log switch frame
+          time_switch: s,
+          // If the component was ended by a timeout,
+          // update the duration based on the actual presentation time
+          duration: d.ended_on === 'timeout'
+            ? s - (d.time_show || d.time_render)
+            : d.duration
+        }),
+      )
 
       // Signal upcoming idle period to data store
       requestIdleCallback(() => this.options.datastore.triggerMethod('idle'))
@@ -849,7 +860,13 @@ Component.metadata = {
   module: ['core'],
   nestedComponents: [],
   parsableOptions: {
-    responses: { content: { '*': 'string' } },
+    parameters:      {
+      type: 'object',
+      content: {
+        '*': {},
+      },
+    },
+    responses:       { keys: {}, content: { '*': 'string' } },
     correctResponse: {},
     timeline: {
       type: 'array',

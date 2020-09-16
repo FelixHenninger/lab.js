@@ -1,14 +1,15 @@
 import React from 'react'
 
-import { Control } from 'react-redux-form'
+import { Field, useFormikContext, getIn } from 'formik'
 import { Row, Col,
-  Input, InputGroup, InputGroupAddon, InputGroupText,
+  InputGroup, InputGroupAddon, InputGroupText,
   FormGroup, Label, FormText } from 'reactstrap'
 
 import { CollapsingOptions } from './BaseOptions'
 import Icon from '../../../../../../../Icon'
+import { Input } from '../../../../../../../Form'
 
-export const ExtraOptions = ({ type }) => {
+export const ExtraOptions = ({ name, type }) => {
   switch (type) {
     case 'number':
       return <>
@@ -19,33 +20,33 @@ export const ExtraOptions = ({ type }) => {
                 <Icon icon="arrow-to-bottom" fallback="arrow-down" />
               </InputGroupText>
             </InputGroupAddon>
-            <Control
-              model=".attributes.min"
+            <Field
+              name={ `${ name }.attributes.min` }
               placeholder="No lower limit"
               component={ Input }
-              style={{ fontFamily: 'Fira Mono' }}
+              className="text-monospace"
             />
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
                 <Icon icon="arrow-to-top" fallback="arrow-up" />
               </InputGroupText>
             </InputGroupAddon>
-            <Control
-              model=".attributes.max"
+            <Field
+              name={ `${ name }.attributes.max` }
               placeholder="No upper limit"
               component={ Input }
-              style={{ fontFamily: 'Fira Mono' }}
+              className="text-monospace"
             />
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
                 <Icon icon="shoe-prints" />
               </InputGroupText>
             </InputGroupAddon>
-            <Control
-              model=".attributes.step"
+            <Field
+              name={ `${ name }.attributes.step` }
               placeholder="Default step (1)"
               component={ Input }
-              style={{ fontFamily: 'Fira Mono' }}
+              className="text-monospace"
             />
           </InputGroup>
         </FormGroup>
@@ -59,22 +60,22 @@ export const ExtraOptions = ({ type }) => {
                 <Icon icon="arrow-to-bottom" fallback="arrow-down" />
               </InputGroupText>
             </InputGroupAddon>
-            <Control
-              model=".attributes.min"
+            <Field
+              name={ `${ name }.attributes.min` }
               placeholder="No earliest date (yyyy-mm-dd)"
               component={ Input }
-              style={{ fontFamily: 'Fira Mono' }}
+              className="text-monospace"
             />
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
                 <Icon icon="arrow-to-top" fallback="arrow-up" />
               </InputGroupText>
             </InputGroupAddon>
-            <Control
-              model=".attributes.max"
+            <Field
+              name={ `${ name }.attributes.max` }
               placeholder="No latest date (yyyy-mm-dd)"
               component={ Input }
-              style={{ fontFamily: 'Fira Mono' }}
+              className="text-monospace"
             />
           </InputGroup>
         </FormGroup>
@@ -84,46 +85,51 @@ export const ExtraOptions = ({ type }) => {
   }
 }
 
-export default ({ rowIndex, type, data }) =>
-  <>
+export default ({ name, index, type }) => {
+  const { values } = useFormikContext()
+  const attributes = getIn(values, `${ name }.attributes`)
+
+  return <>
     <Row form>
       <Col>
-        <Control
-          model=".label"
+        <Field
+          name={ `${ name }.label` }
           placeholder="Question"
           component={ Input }
-          debounce={ 300 }
         />
       </Col>
     </Row>
     <CollapsingOptions
-      rowIndex={ rowIndex }
+      name={ name }
+      index={ index }
     >
       {
         type === 'input' && <>
           <FormGroup className="my-2">
-            <Label for={ `page-item-${ rowIndex }-attrs-type` } className="mb-1">
+            <Label for={ `page-item-${ index }-attrs-type` } className="mb-1">
               Data type
             </Label>
             <FormText color="muted" className="mb-2">
               Check input format, and restrict input
             </FormText>
-            <Control.select
-              model=".attributes.type"
-              className="form-control custom-select"
-              style={{ fontFamily: 'Fira Mono' }}
-              controlProps={{
-                id: `page-item-${ rowIndex }-attrs-type`,
-              }}
+            <Field
+              name={ `${ name }.attributes.type` }
+              index={ `page-item-${ index }-attrs-type` }
+              as="select"
+              className="form-control custom-select text-monospace"
             >
               <option value="text">Text</option>
               <option value="number">Number</option>
               <option value="email">Email</option>
               <option value="date">Date</option>
-            </Control.select>
+            </Field>
           </FormGroup>
-          <ExtraOptions type={ data.attributes && data.attributes.type } />
+          <ExtraOptions
+            name={ name }
+            type={ attributes && attributes.type }
+          />
         </>
       }
     </CollapsingOptions>
   </>
+}

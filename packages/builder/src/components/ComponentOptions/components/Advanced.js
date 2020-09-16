@@ -1,16 +1,18 @@
 import React from 'react'
-import { Control } from 'react-redux-form'
-import { FormGroup, Col, Label, CustomInput } from 'reactstrap'
 
-import Form from './Form'
+import { Field } from 'formik'
+import { FormGroup, Col, Label } from 'reactstrap'
+
 import Card from '../../Card'
 import Hint from '../../Hint'
+
+import Form from './Form'
+import { CustomInput } from '../../Form'
 
 export default ({ id, data }) =>
   <Card title="Advanced options">
     <Form
-      id={ id }
-      data={ data }
+      id={ id } data={ data }
       keys={ ['scrollTop', '_template'] }
     >
       <FormGroup row>
@@ -21,15 +23,13 @@ export default ({ id, data }) =>
         </Col>
         <Col xs={10}>
           <FormGroup check>
-            <Control.checkbox
-              model=".scrollTop"
+            <Field
+              name="scrollTop"
               component={ CustomInput }
-              controlProps={{
-                id: 'scrollTop',
-                type: 'checkbox',
-                inline: true,
-                label: 'Scroll to top before running',
-              }}
+              id="scrollTop"
+              type="checkbox"
+              inline={true}
+              label="Scroll to top before running"
             />
             <Hint
               title="Scroll to Top"
@@ -59,15 +59,13 @@ export default ({ id, data }) =>
         </Col>
         <Col xs={10}>
           <FormGroup check>
-            <Control.checkbox
-              model="._template"
+            <Field
+              name="_template"
               component={ CustomInput }
-              controlProps={{
-                id: '_template',
-                type: 'checkbox',
-                inline: true,
-                label: 'Template',
-              }}
+              id="_template"
+              type="checkbox"
+              inline={true}
+              label="Template"
             />
             <Hint
               title="Template"
