@@ -835,11 +835,7 @@ export class Component extends EventHandler {
 
   // @ts-expect-error 'type' is defined as a property in class 'EventHandler', but is overridden here in 'Component' as an accessor.
   get type() {
-    return [
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'metadata' does not exist on type 'Functi... Remove this comment to see the full error message
-      ...this.constructor.metadata.module,
-      this.constructor.name,
-    ].join('.')
+    return this.constructor.name.replace('_', '.')
   }
 }
 
