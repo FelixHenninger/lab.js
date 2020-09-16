@@ -227,6 +227,10 @@ export interface SequenceOptions extends ComponentOptions {
    * The options specified as handMeDowns are transferred to nested components during the prepare phase. This option is largely for convenience, and designed to decrease the amount of repetition when all nested components behave similarly – typically, nested components share the same data storage and output element, so these are passed on by default.
    */
   handMeDowns?: Array<keyof ComponentOptions>
+  /** -------------------------------
+   * Internal Options
+   */
+  indexParameter?: string
 }
 
 // ---------------------------------------------------------------

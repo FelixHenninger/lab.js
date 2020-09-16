@@ -315,6 +315,13 @@ export class Page extends Form {
                 content: { '*': 'string' },
               },
             },
+            items: {
+              type: 'array',
+              content: {
+                type: 'object',
+                content: { '*': 'string' },
+              },
+            },
           },
         },
       },
@@ -332,41 +339,7 @@ export class Page extends Form {
 
     // Preload images
     this.options.items
-      .filter(i => i.type === 'image' && i.src)
-      .forEach(i => this.options.media.images.push(i.src))
+      .filter((i) => i.type === 'image' && i.src)
+      .forEach((i) => this.options.media.images.push(i.src))
   }
-}
-
-Page.metadata = {
-  module: ['html'],
-  nestedComponents: [],
-  parsableOptions: {
-    items: {
-      type: 'array',
-      content: {
-        type: 'object',
-        content: {
-          '*': 'string',
-          attributes: {
-            type: 'object',
-            content: { '*': 'string' },
-          },
-          options: {
-            type: 'array',
-            content: {
-              type: 'object',
-              content: { '*': 'string' }
-            },
-          },
-          items: {
-            type: 'array',
-            content: {
-              type: 'object',
-              content: { '*': 'string' }
-            },
-          },
-        },
-      },
-    },
-  },
 }

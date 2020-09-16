@@ -534,6 +534,6 @@ export class Frame extends BaseFrame {
  * Typeguard to check which type of context the Canvas context is
  */
 function is2DContext(ctx: RenderingContext): ctx is CanvasRenderingContext2D {
-  // eslint-disable-next-line no-prototype-builtins
-  return ctx.hasOwnProperty('strokeRect')
+  // console.log('is2D returning', ctx.hasOwnProperty('strokeRect'))
+  return typeof ctx['strokeRect'] === 'function'
 }

@@ -6,7 +6,9 @@ import { LoopOptions, SequenceOptions, ParallelOptions } from './types'
 // Helper function to handle nested components
 export const prepareNested = function (nested: any, parent: any) {
   // Setup parent links on nested components
-  nested.forEach((c: any) => (c.parent = parent))
+  nested.forEach((c: any) => {
+    c.parent = parent
+  })
 
   // Set ids on nested components
   nested.forEach((c: any, i: any) => {
@@ -64,9 +66,9 @@ export class Sequence extends Component {
     }
 
     if (this.options.indexParameter) {
-      this.options.content.forEach(
-        (c, i) => c.options.parameters[this.options.indexParameter] = i
-      )
+      this.options.content.forEach((c, i) => {
+        c.options.parameters[this.options.indexParameter] = i
+      })
     }
 
     // Define an iterator over the content
