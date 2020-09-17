@@ -2,7 +2,6 @@ import { Screen } from './canvas'
 import { Component } from './core'
 import { Store } from './data'
 import { Loop } from './flow'
-import { Frame } from './html'
 import PluginAPI from './plugins/api'
 import { RandomOptions } from './util/random'
 import { Timeline } from './util/timeline'
@@ -13,22 +12,32 @@ import { Timeline } from './util/timeline'
 // TODO: There's a note in the docs that seems to describe the ability
 // to define custom options. Is that a real use-case worth supporting?
 export interface ComponentOptions {
-  // Provides additional debug information when enabled
+  /**
+   * Provides additional debug information when enabled.
+   */
   debug?: boolean
-  // Element in DOM into which component is inserted
+  /**
+   * Element in DOM into which component is inserted.
+   */
   el?: HTMLElement
-  // Human-readable component title that will be included in any data stored by the component
+  /**
+   * Human-readable component title that will be included in any data stored by the component.
+   */
   title?: string | null
-  // Machine-readable component identifier
+  /**
+   * Machine-readable component identifier.
+   */
   id?: string | null
   /**
-   * Settings that govern component’s behavior ({})
+   * Settings that govern component’s behavior.
    * This object contains any user-specified custom settings that determine
    * a component’s content and behavior. These may, for example, be used to fill
    * placeholders in the information presented to participants, as a html.Screen() does.
    */
   parameters?: Parameters
-  // Whether to end immediately after running
+  /**
+   * Whether to end immediately after running.
+   */
   skip?: boolean
   /**
    * Setting this attribute to true will mean that the component needs to be prepared manually through a call to prepare(), or (failing this)
@@ -36,38 +45,38 @@ export interface ComponentOptions {
    */
   tardy?: boolean
   /**
-   * Map of response events onto response descriptions ({})
+   * Map of response events onto response descriptions.
    * The responses object maps the actions a participant might take onto the responses saved in the data. If a response is collected,
    * the end() method is called immediately.
    */
   responses?: ResponseMap
   /**
-   * Correct response
+   * Correct response.
    */
   correctResponse?: string | null
   /**
-   * Delay between component run and automatic end (null)
+   * Delay between component run and automatic end.
    * The component automatically ends after the number of milliseconds specified in
    * this option, if it is set.
    */
   timeout?: number
   /**
-   * Additional data
+   * Additional data.,
    * Any additional data (e.g. regarding the current trial) to be saved alongside automatically generated data entries (e.g. response and response time). This option should be an object, with the desired information in its keys and values.
    * Please consult the entry for the parameters for an explanation of the difference between these and data.
    */
   data?: { [key: string]: any }
   /**
-   * Store for any generated data
+   * Store for any generated data.
    * A data.Store() object to handle data collection (and export). If this is not set, the data will not be collected in a central location outside the component itself.
    */
   datastore?: Store | null
   /**
-   * Whether to commit data by default
+   * Whether to commit data by default.
    * If you would prefer to handle data manually, unset this option to prevent data from being commit when the component ends.
    */
   datacommit?: boolean
-  /** Media files to preload
+  /** Media files to preload.
    * Images and audio files can be preloaded in the background during the prepare phase, to reduce load times later during the experiment. To achieve this, supply an object containing the urls of the files in question, split into images and audio files as follows: */
   media?: { images: string[]; audio: string[] }
   /**
@@ -75,37 +84,22 @@ export interface ComponentOptions {
    */
   plugins?: PluginAPI[]
   /**
-   * Map of additional event handlers
+   * Map of additional event handlers.
    * In many experiments, the only events that need to be handled are responses, which can be defined using the responses option described above. However, some studies may require additional handling of events before a final response is collected. In these cases, the events object offers an alternative.
    */
   events?: { [eventType: string]: (event: Event) => void }
   /**
-   * Map of internal component events to handler functions
+   * Map of internal component events to handler functions.
    * This is a shorthand for the on() method
    */
   messageHandlers?: { [internalEventType: string]: () => void }
   /** -------------------------------
    * Internal Options
    */
-  /**
-   * Files to preload
-   */
   files?: { [key: string]: string }
-  /**
-   * Timeline
-   */
   timeline?: Timeline
-  /**
-   * Random
-   */
   random?: RandomOptions
-  /**
-   * Timing
-   */
   timing?: { method: 'frames' | 'stack' }
-  /**
-   * Jump to top of page on load
-   */
   scrollTop?: boolean
 }
 
@@ -117,40 +111,86 @@ export interface ComponentMetadata {
 
 // TODO: Is it possible to type DOM event types more strictly?
 // TypeScript Event class type field is just a string
-// TODO: Add target element mapping
-export interface ResponseMap {
-  [eventType: string]: string
-}
+// TODO: Add target element mapping and reconcile with updated DomConnection class
+export type ResponseMap = Record<string, any>
 
 // TODO: Discuss how to have some helpful compile-time typing of parameters
 // For example, optional to generically type Component by a Parameters interface?
 export interface Parameters {
-  [key: string]: any
+  [key: string]: string
 }
 
 // ---------------------------------------------------------------
 // Screen
 
-// TODO: Correct and document these
 export interface ScreenOptions extends ComponentOptions {
-  items?: any
-  events?: Record<string, any>
+  /**
+   * HTML content to insert into the page, as text
+   */
   content?: string
+  /**
+   * URL from which to load HTML content as text.
+   * The content is loaded when the screen is prepared. Replaces the screen’s content
+   */
   contentUrl?: string
+}
+
+// ---------------------------------------------------------------
+// Form
+
+export interface FormOptions extends ScreenOptions {
+  /**
+   * Function that accepts the serialized form input provided by the serialize() method, and indicates whether it is valid or not by returning true or false depending on its decision. Only if it returns true will the html.Form() end following submission of the form content.
+   * */
   validator?: (arg1: any) => boolean
+  /** -------------------------------
+   * Internal Options
+   */
+  items?: FormItem[]
   submitButtonText?: string
   submitButtonPosition?: string
   width?: number
 }
 
+export interface FormItem {
+  attributes?: Record<string, string>
+  content?: string
+  help?: string
+  label?: string
+  name?: string
+  options?: []
+  required?: boolean
+  shuffle?: boolean
+  src?: string
+  type:
+    | ' input'
+    | 'checkbox'
+    | 'divider'
+    | 'html'
+    | 'image'
+    | 'likert'
+    | 'radio'
+    | 'slider'
+    | 'text'
+    | 'textarea'
+}
+
 // ---------------------------------------------------------------
 // Frame
 
-// TODO: Correct and document these
 export interface FrameOptions extends ComponentOptions {
-  content?: Frame
+  /**
+   * HTML code in which the nested content is embedded.
+   */
   context?: string
+  /**
+   * CSS selector (as string) which specifies the element inside the context within which the content is shown. It is passed onto the nested component as el attribute.
+   */
   contextSelector?: string
+  /**
+   * Single component that is run within the content provided by the context, and given control of the HTML element defined by the selector.
+   */
+  content?: Component
 }
 
 // ---------------------------------------------------------------
@@ -195,7 +235,7 @@ export interface CanvasScreenOptions extends ComponentOptions {
   /** -------------------------------
    * Internal Options
    */
-  // TODO: discuss 3D rendering contexts. The Canvas Screen element seems to completely assume that ctx is Canvas2D right now
+  // TODO: discuss 3D rendering contexts. canvas.Screen doesn't seem to actually support it at this point.
   ctx?: RenderingContext
   canvas?: HTMLCanvasElement
   clearCanvas?: () => void
@@ -254,13 +294,7 @@ export interface LoopOptions extends SequenceOptions {
   /** -------------------------------
    * Internal Options
    */
-  /**
-   * Groups of keys to shuffle independently
-   */
   shuffleGroups?: string[]
-  /**
-   * Whether or not to shuffle ungrouped keys
-   */
   shuffleUngrouped?: boolean
 }
 

@@ -1,7 +1,7 @@
 // HTML-based displays for lab.js
 import { Component, status } from './core'
 import { prepareNested } from './flow'
-import { FrameOptions, ScreenOptions } from './types'
+import { FormOptions, FrameOptions, ScreenOptions } from './types'
 import { makePage } from './util/page'
 
 // html.Screens display HTML when run
@@ -48,12 +48,14 @@ export class Screen extends Component {
 // An html.Form can show, validate and serialize a form
 // @ts-expect-error ts-migrate(2417) FIXME: Property 'parsableOptions' is missing in type '{ m... Remove this comment to see the full error message
 export class Form extends Screen {
+  options: FormOptions
+
   static metadata = {
     module: ['html'],
     nestedComponents: [],
   }
 
-  constructor(options = {}) {
+  constructor(options: FormOptions = {}) {
     super({
       validator: () => true,
       scrollTop: true,
@@ -102,7 +104,7 @@ export class Form extends Screen {
     this.options.events['submit form'] = (e: any) => this.submit(e)
   }
 
-  onRun() {
+  onRun(): void {
     super.onRun()
 
     // Emulate form field autofocus
@@ -112,7 +114,7 @@ export class Form extends Screen {
     }
   }
 
-  submit(e = null) {
+  submit(e = null): false {
     // Suppress default form behavior
     if (e && e.preventDefault) {
       e.preventDefault()
@@ -144,7 +146,11 @@ export class Form extends Screen {
     return false
   }
 
-  serialize() {
+  /**
+   * Read the current form state from the page, and output it as a javascript object in which the keys correspond to the name attributes on the form fields,
+   * and the values correspond to their current states.
+   */
+  serialize(): Record<string, string> {
     // Search for forms within the element
     const forms = this.options.el.querySelectorAll('form')
 
@@ -202,7 +208,7 @@ export class Form extends Screen {
     return output
   }
 
-  validate() {
+  validate(): boolean {
     // Validate the form by applying the
     // form's validator to the serialized data,
     // and also checking that the browser
@@ -236,7 +242,7 @@ export class Frame extends Component {
     })
   }
 
-  async onPrepare() {
+  async onPrepare(): Promise<void> {
     // Parse context HTML
     const parser = new DOMParser()
     this.internals.parsedContext = parser.parseFromString(
@@ -258,7 +264,7 @@ export class Frame extends Component {
     await prepareNested([this.options.content], this)
   }
 
-  async onRun(frameTimestamp: any, frameSynced: any) {
+  async onRun(frameTimestamp: number, frameSynced: boolean): Promise<void> {
     // Clear element content, and insert context
     this.options.el.innerHTML = ''
 
@@ -272,7 +278,7 @@ export class Frame extends Component {
     // optional for slow components (see canvas.Frame).
   }
 
-  onEnd() {
+  onEnd(): Promise<void> | Promise<number> {
     if (this.options.content.status < status.done) {
       // Avoid an infinite loop of
       // frame and content ending one another
@@ -287,7 +293,7 @@ export class Frame extends Component {
     return Promise.resolve()
   }
 
-  get progress() {
+  get progress(): number {
     // Return progress from nested component
     return this.options.content.progress
   }
@@ -328,7 +334,7 @@ export class Page extends Form {
     },
   }
 
-  onPrepare() {
+  onPrepare(): void {
     // Generate content
     this.options.content = makePage(this.options.items, {
       submitButtonText: this.options.submitButtonText,
