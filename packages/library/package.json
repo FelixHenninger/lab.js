@@ -71,20 +71,20 @@
   },
   "scripts": {
     "analyze": "cross-env NODE_ENV=analysis webpack --profile --json > bundleStats.json",
-    "build:js:coverage": "cross-env NODE_ENV=coverage webpack -d",
-    "build:js:development": "webpack --mode=development",
-    "build:js:legacy": "cross-env NODE_ENV=legacy webpack --mode=production",
-    "build:js:production": "webpack --mode=production",
-    "build:js": "yarn run build:js:development && yarn run build:js:production && yarn run build:js:legacy",
+    "build:coverage": "cross-env NODE_ENV=coverage webpack -d",
+    "build:development": "webpack --mode=development",
+    "build:legacy": "cross-env NODE_ENV=legacy webpack --mode=production",
+    "build:production": "webpack --mode=production",
+    "build": "yarn run build:development && yarn run build:production && yarn run build:legacy",
     "build:css": "postcss --local-plugins -u postcss-preset-env -o dist/lab.css src/starterkit/lib/lab.css",
-    "build:starterkit": "yarn run build:js && yarn run build:css && node scripts/bundle_starterkit.js",
+    "build:starterkit": "yarn run build && yarn run build:css && node scripts/bundle_starterkit.js",
     "clean": "shx rm -rf dist && shx mkdir dist",
     "lint": "eslint src",
     "prepare": "yarn run build:starterkit",
     "test": "karma start test/_karma/ci.conf.js",
-    "test:coverage": "yarn run build:js:coverage && karma start test/_karma/coverage.conf.js",
+    "test:coverage": "yarn run build:coverage && karma start test/_karma/coverage.conf.js",
     "test:sauce": "karma start test/_karma/sauce.conf.js",
     "test:sauce:legacy": "karma start test/_karma/sauce_legacy.conf.js",
-    "watch:js": "onchange 'src/**/*' -- yarn run build:js"
+    "watch:js": "onchange 'src/**/*' -- yarn run build"
   }
 }
