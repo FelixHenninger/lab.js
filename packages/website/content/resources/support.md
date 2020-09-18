@@ -36,7 +36,7 @@ menu = "header"
     </div>
     <div class="col-lg d-flex align-items-center justify-content-center">
       <iframe
-        src="https://slackin-nmbrcrnchrs.herokuapp.com/"
+        src="https://slackin-numbercrunchers.herokuapp.com/"
         scrolling="no"
         class="w-100 border border-light rounded"
         style="min-height: 400px; overflow: hidden"
