@@ -39,7 +39,7 @@ menu = "header"
         src="https://slackin-numbercrunchers.herokuapp.com/"
         scrolling="no"
         class="w-100 border border-light rounded"
-        style="min-height: 400px; overflow: hidden"
+        style="min-height: 500px; overflow: hidden"
       ></iframe>
     </div>
   </div>
