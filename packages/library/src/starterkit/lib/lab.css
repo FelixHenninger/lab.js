@@ -8,7 +8,7 @@
   --border-radius-container: 5px;
   --border-radius-content: 4px;
   /* Typography */
-  --font-family: "Arial", sans-serif;
+  --font-family: 'Arial', sans-serif;
   --font-family-mono: Droid Mono, Menlo, Consolas, monospace;
   --font-size: 18px;
   --line-height: 1.45;
@@ -22,21 +22,50 @@
   --color-gray-content: #8d8d8d;
 }
 
+/* Media queries to handle devices with higher pixel ratio */
+@media (-webkit-min-device-pixel-ratio: 1.5) {
+  :root {
+    --width-container: 600px;
+    --width-min-container: 213px;
+    --height-min-header-footer: 5vh;
+    --padding-internal: 16px;
+    /* Typography */
+    --font-family: 'Arial', sans-serif;
+    --font-family-mono: Droid Mono, Menlo, Consolas, monospace;
+    --font-size: 12px;
+  }
+}
+
+@media (-webkit-min-device-pixel-ratio: 2) {
+  :root {
+    --width-container: 450px;
+    --width-min-container: 160px;
+    --height-min-header-footer: 3.5vh;
+    --padding-internal: 12px;
+    /* Typography */
+    --font-family: 'Arial', sans-serif;
+    --font-family-mono: Droid Mono, Menlo, Consolas, monospace;
+    --font-size: 9px;
+  }
+}
+
 /* Set box model to border-box globally */
 :root {
   box-sizing: border-box;
 }
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
 /* Content layout */
 body {
   margin: 0;
-  background: var(--color-background)
+  background: var(--color-background);
 }
 ::backdrop {
-  background: var(--color-background)
+  background: var(--color-background);
 }
 
 .container {
@@ -67,11 +96,14 @@ body {
   box-shadow: 0 0 5px rgba(140, 140, 140, 0.25);
 }
 
-header, footer, main {
+header,
+footer,
+main {
   padding: var(--padding-internal);
 }
 /* Individual parts: Height, borders and background */
-header, footer {
+header,
+footer {
   min-height: var(--height-min-header-footer);
 }
 main {
@@ -82,8 +114,8 @@ main {
 .container.fullscreen {
   /* Full screen minus margins */
   margin: var(--padding-internal);
-  min-height: calc(100vh - 2*var(--padding-internal));
-  width: calc(100vw - 2*var(--padding-internal));
+  min-height: calc(100vh - 2 * var(--padding-internal));
+  width: calc(100vw - 2 * var(--padding-internal));
   /* Display content using flexboxes */
   display: flex;
   flex-direction: column;
@@ -123,7 +155,7 @@ main {
   }
   .container.fullscreen {
     /* IE11 miscalculates the height, so add some slack */
-    min-height: calc(100vh - 3*var(--padding-internal));
+    min-height: calc(100vh - 3 * var(--padding-internal));
   }
 }
 
@@ -146,18 +178,22 @@ footer {
   font-size: var(--font-size);
   line-height: var(--line-height);
 }
-header, footer, main {
+header,
+footer,
+main {
   /* Set display style explicitly for legacy browsers
      that are unfamiliar with these elements */
   display: block;
   text-align: center;
 }
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   line-height: var(--line-height);
 }
 hr {
   border: none;
-  border-top: 2px solid var(--color-border)
+  border-top: 2px solid var(--color-border);
 }
 
 /* Special elements: Keyboard buttons */
@@ -278,7 +314,8 @@ kbd.big {
 .text-muted a {
   color: rgb(60, 89, 156);
 }
-small, .small {
+small,
+.small {
   font-size: 0.9rem;
 }
 .font-weight-bold {
@@ -302,7 +339,7 @@ code {
   display: none;
 }
 .hide-if-empty:empty {
-  display: none
+  display: none;
 }
 
 /* Alerts */
@@ -322,13 +359,16 @@ code {
 }
 
 /* Background styles (experimental) */
-.alert, .background-dark {
+.alert,
+.background-dark {
   background-color: var(--color-gray-background);
 }
-.alert.alert-danger, .background-danger {
+.alert.alert-danger,
+.background-danger {
   background-color: #e9afaf;
 }
-.alert.alert-warning, .background-warning {
+.alert.alert-warning,
+.background-warning {
   background-color: #ffe6a5;
 }
 .background-ok {
@@ -336,7 +376,10 @@ code {
 }
 
 /* Form elements */
-input, select, button, textarea {
+input,
+select,
+button,
+textarea {
   font-family: var(--font-family);
   font-size: 0.9rem;
   line-height: var(--line-height);
@@ -345,10 +388,10 @@ input, select, button, textarea {
   margin: 8px 0;
   padding: 8px;
 }
-input[type="checkbox"] {
+input[type='checkbox'] {
   margin: 0 10px;
 }
-input[type="range"] {
+input[type='range'] {
   border: none;
 }
 input + label {
@@ -395,8 +438,8 @@ textarea {
   padding: 0 10px;
 }
 /* Page styles */
-#page-form .page-item-table td input[type="radio"],
-#page-form .page-item-table td input[type="checkbox"] {
+#page-form .page-item-table td input[type='radio'],
+#page-form .page-item-table td input[type='checkbox'] {
   margin: 4px 0 10px;
 }
 #page-form .page-item-table td label {
@@ -414,7 +457,8 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-table td, table th {
+table td,
+table th {
   padding: 10px 8px 8px;
 }
 /* Table borders (except for plain) */
@@ -434,7 +478,7 @@ table:not(.table-plain) > tbody > tr:last-child > th {
 }
 /* Striped rows */
 table.table-striped tr:nth-child(odd) td {
-  background-color: var(--color-border-internal)
+  background-color: var(--color-border-internal);
 }
 
 /* Progress bar */
@@ -464,7 +508,7 @@ table.table-striped tr:nth-child(odd) td {
 
 /* Width, for some reason, needs to be set explicitly */
 .container.fullscreen .popover {
-  width: calc(100vw - 2*var(--padding-internal));
+  width: calc(100vw - 2 * var(--padding-internal));
 }
 /* Repeated for frameless mode on small screens */
 @media (max-width: 600px), (max-height: 600px) {
@@ -499,4 +543,3 @@ table.table-striped tr:nth-child(odd) td {
   padding-top: 24px;
   top: -8px;
 }
-
