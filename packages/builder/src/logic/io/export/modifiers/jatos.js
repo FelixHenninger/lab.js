@@ -93,14 +93,14 @@ const addJatosIntegration = (state) => {
 
   // TODO: This is probably not the most elegant way to
   // achieve integration -- possibly a plugin would be nicer?
-  state.components.root.messageHandlers.push([{
+  state.components.root.messageHandlers.push({
     title: 'JATOS integration',
     message: 'epilogue',
     code: stripIndent`
       var resultJson = study.options.datastore.exportJson();
       jatos.submitResultData(resultJson, jatos.startNextComponent);
     `
-  }])
+  })
 
   return state
 }

@@ -5,9 +5,10 @@ import { InputGroupButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem,
 import classnames from 'classnames'
 
 import { useArrayContext } from '../../../../../Form/array'
-import { ButtonCell } from '../../../../../Form/table'
+import { ButtonCell, DefaultHeader } from '../../../../../Form/table'
 import Icon from '../../../../../Icon'
 import { FastField, useField } from 'formik'
+import { range } from 'lodash'
 
 const CellTypeDropdown = ({ name, index, actions, disabled=false }) => {
   const [field, , helpers] = useField(name)
@@ -100,32 +101,34 @@ export const HeaderCell = ({ index, actions }) =>
     />
   </InputGroup>
 
-export default ({ name, columns }) => {
+export default ({ columns }) => {
   const { addColumn, fillColumn, clearColumn, deleteColumn } = useArrayContext()
 
   return (
-    <thead>
-      <tr>
-        <th></th>
-        { Array(columns).fill(null).map((_, i) =>
-          <th key={ `${ name }-header-${ i }` }>
-            <HeaderCell
-              index={ i }
-              actions={{
-                'Fill': fillColumn,
-                'Clear': clearColumn,
-                'Delete': deleteColumn,
-              }}
-            />
-          </th>
-        ) }
-        <ButtonCell
-          type="th" icon="plus"
-          style={{ height: '42px' }}
-          onClick={ () => addColumn('', { name: '', type: 'string' }) }
-          disabled={ columns >= 12 }
-        />
-      </tr>
-    </thead>
+    <DefaultHeader columns={ columns }>
+      <thead>
+        <tr>
+          <th></th>
+          { range(columns).map((_, i) =>
+            <th key={ `header-${ i }` }>
+              <HeaderCell
+                index={ i }
+                actions={{
+                  'Fill': fillColumn,
+                  'Clear': clearColumn,
+                  'Delete': deleteColumn,
+                }}
+              />
+            </th>
+          ) }
+          <ButtonCell
+            type="th" icon="plus"
+            style={{ height: '42px' }}
+            onClick={ () => addColumn('', { name: '', type: 'string' }) }
+            disabled={ columns >= 12 }
+          />
+        </tr>
+      </thead>
+    </DefaultHeader>
   )
 }

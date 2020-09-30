@@ -15,8 +15,8 @@ import exportStaticNetlify from '../../../../logic/io/export/modifiers/netlify'
 const validateApiKey = value => {
   if (!value) {
     return 'We\'ll need a API key to upload the study'
-  } else if (value.length !== 64) {
-    return 'The keys are typically 64 characters long'
+  } else if (![64, 43].includes(value.length)) {
+    return 'The keys are typically 43 or 64 characters long'
   }
 }
 
