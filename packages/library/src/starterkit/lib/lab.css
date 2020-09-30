@@ -29,9 +29,6 @@
   --width-min-container: 213px;
   --height-min-header-footer: 5vh;
   --padding-internal: 16px;
-  /* Typography */
-  --font-family: "Arial", sans-serif;
-  --font-family-mono: Droid Mono, Menlo, Consolas, monospace;
   --font-size: 12px;
   }
 }
@@ -42,9 +39,6 @@
   --width-min-container: 160px;
   --height-min-header-footer: 3.5vh;
   --padding-internal: 12px;
-  /* Typography */
-  --font-family: "Arial", sans-serif;
-  --font-family-mono: Droid Mono, Menlo, Consolas, monospace;
   --font-size: 9px;
   }
 }
