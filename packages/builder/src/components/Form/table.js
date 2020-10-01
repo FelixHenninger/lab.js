@@ -23,13 +23,13 @@ export const ButtonCell = ({ icon, onClick, style, disabled=false, type }) => {
   )
 }
 
-const DefaultColgroup = ({ name, columns=1 }) =>
+const DefaultColgroup = ({ columns=1 }) =>
   <colgroup>
     <col style={{ width: '5%' }} />
     {
       (new Array(columns)).fill(null).map(
         (_, i) => <col
-          key={ `table-${ name }-colgroup-${ i }` }
+          key={ `${ i }` }
           style={{ width: `${ 90/columns }%` }}
         />
       )
