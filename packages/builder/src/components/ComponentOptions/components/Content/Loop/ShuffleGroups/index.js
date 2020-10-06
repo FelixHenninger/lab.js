@@ -9,7 +9,7 @@ import Icon from '../../../../../Icon'
 
 export default () => {
   const { values, setFieldValue } = useFormikContext()
-  const globalShuffle = values.shuffle
+  const sampleMode = values.sample.mode
 
   const groups = groupBy(
     values.templateParameters.columns
@@ -37,7 +37,11 @@ export default () => {
       <tbody>
         {/* Default group */}
         <Group
-          title={ globalShuffle ? "Default" : "Not shuffled" }
+          title={
+            sampleMode === 'sequential'
+              ? "Not shuffled"
+              : "Default"
+          }
           groupId={ undefined }
           key={ -1 }
           columns={ groups['undefined'] }

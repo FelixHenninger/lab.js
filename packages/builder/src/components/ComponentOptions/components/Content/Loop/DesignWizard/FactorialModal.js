@@ -79,6 +79,7 @@ class FactorialModal extends Component {
     super(props)
     this.state = { isOpen: false }
     this.promiseHandlers = {}
+    this.toggle = this.toggle.bind(this)
   }
 
   toggle() {
