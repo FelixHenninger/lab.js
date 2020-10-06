@@ -37,7 +37,7 @@ const Footer = () => {
 
   return (
     <CardFooter className="px-0">
-      <table className="table grid no-header border-bottom-0 my-0">
+      <table className="table grid no-header table-borderless my-0">
         <colgroup>
           <col style={{ width: '5%' }} />
           <col style={{ width: '90%' }} />
@@ -151,7 +151,7 @@ export default ({ id, data }) =>
           defaultItem={{ type: '' }}
           row={ ItemRow }
           footer={ GridFooter }
-          className="no-header"
+          className="no-header mb-0"
         />
       </ItemContextProvider>
       <Footer />

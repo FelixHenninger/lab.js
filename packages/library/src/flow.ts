@@ -1,5 +1,5 @@
 // Flow control components for lab.js
-import { mean, isFunction, shuffle } from 'lodash'
+import { mean, isFunction } from 'lodash'
 import { Component, status } from './core'
 import { LoopOptions, SequenceOptions, ParallelOptions } from './types'
 

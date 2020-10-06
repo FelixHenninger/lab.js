@@ -90,10 +90,11 @@ export const useArrayContext = () => useContext(ArrayContext)
 
 export const FormArray = ({
   name, item: Item,
-  header: Header, footer: Footer,
-  wrapper: Wrapper=Fragment,
-  wrapperProps,
+  header: Header,
+  footer: Footer,
+  wrapper: Wrapper=Fragment, wrapperProps,
   bodyWrapper: BodyWrapper=Fragment,
+  globalProps={},
   defaultItem={},
 }) => {
   const { values, setFieldValue, setValues }  = useFormikContext()
@@ -110,7 +111,7 @@ export const FormArray = ({
             setValues={ setValues }
             setFieldValue={ setFieldValue }
           >
-            { Header && <Header name={ name } /> }
+            { Header && <Header { ...globalProps } /> }
             <BodyWrapper>
               {
                 (rows || []).map(
@@ -122,11 +123,12 @@ export const FormArray = ({
                       isLastItem={ index === rows.length - 1 }
                       data={ data }
                       arrayHelpers={ arrayHelpers }
+                      { ...globalProps }
                     />
                 )
               }
             </BodyWrapper>
-            { Footer && <Footer addItem={ (item) => arrayHelpers.push(item || defaultItem) } /> }
+            { Footer && <Footer addItem={ (item) => arrayHelpers.push(item || defaultItem) } { ...globalProps } /> }
           </ArrayContextProvider>
         </Wrapper>
       }

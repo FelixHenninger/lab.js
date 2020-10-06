@@ -23,13 +23,13 @@ export const ButtonCell = ({ icon, onClick, style, disabled=false, type }) => {
   )
 }
 
-const DefaultColgroup = ({ name, columns=1 }) =>
+const DefaultColgroup = ({ columns=1 }) =>
   <colgroup>
     <col style={{ width: '5%' }} />
     {
       (new Array(columns)).fill(null).map(
         (_, i) => <col
-          key={ `table-${ name }-colgroup-${ i }` }
+          key={ `${ i }` }
           style={{ width: `${ 90/columns }%` }}
         />
       )
@@ -84,24 +84,26 @@ const DefaultFooter = ({ addItem, columns }) =>
     </tr>
   </tfoot>
 
+export const DefaultHeader = ({ columns, children }) =>
+  <>
+    <DefaultColgroup columns={ columns }/>
+    { children }
+  </>
+
 export const Table = ({
-  header: Header,
   row,
-  footer: Footer=DefaultFooter,
+  header=DefaultHeader,
+  footer=DefaultFooter,
   columns=1,
   className, ...props
 }) =>
   <FormArray
     wrapper="table"
     wrapperProps={{ className: `table grid ${ className }` }}
-    header={ ({ name }) =>
-      <>
-        <DefaultColgroup name={ props.name } columns={ columns }/>
-        { Header && <Header name={ name } columns={ columns } /> }
-      </>
-    }
     bodyWrapper="tbody"
     item={ row }
-    footer={ (props) => <Footer columns={ columns } { ...props } /> }
+    header={ header }
+    footer={ footer }
+    globalProps={{ columns }}
     { ...props }
   />

@@ -117,7 +117,7 @@ export type ResponseMap = Record<string, any>
 // TODO: Discuss how to have some helpful compile-time typing of parameters
 // For example, optional to generically type Component by a Parameters interface?
 export interface Parameters {
-  [key: string]: string
+  [key: string]: any
 }
 
 // ---------------------------------------------------------------

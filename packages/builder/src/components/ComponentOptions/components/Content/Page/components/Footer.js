@@ -28,7 +28,10 @@ const AddWidget = ({ addItem: defaultAddItem }) => {
     >
       <DropdownToggle
         outline color="muted" size="sm"
-        className="hover-target"
+        // TODO: The rounded class shouldn't be needed,
+        // but bootstrap's dropdown-toggle class isn't
+        // very helpful either, adding a second caret.
+        className="hover-target rounded"
       >
         <Icon icon="plus" fixedWidth />
         <Icon

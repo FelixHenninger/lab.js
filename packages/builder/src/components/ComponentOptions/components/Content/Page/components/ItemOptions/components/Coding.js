@@ -86,9 +86,9 @@ export const CodingGroup = ({ name, icon, iconFallbackWeight }) => {
   const { values } = useFormikContext()
   const data = getIn(values, name) ?? []
 
+  // TODO: Think about moving the manipulation logic out of the
+  // individual pairs, and up to a higher level such as this one.
   return (
-    // TODO: Think about moving the manipulation logic out of the
-    // individual pairs, and up to a higher level such as this one.
     <div className="pt-1">
       <FieldArray
         name={ name }
