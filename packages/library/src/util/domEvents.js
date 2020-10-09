@@ -28,6 +28,7 @@ const splitEventString = function(eventString) {
 
 const keyValues = {
   Space: ' ',
+  Comma: ',',
 }
 
 // Generate a sequence of checks to apply to an event

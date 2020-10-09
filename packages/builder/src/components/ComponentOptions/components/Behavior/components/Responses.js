@@ -82,7 +82,7 @@ const ResponseHeader = () =>
           </p>
           <dl className="text-muted">
             <dt>Keyboard events</dt>
-            <dd>Label of the key pressed, e.g. <code>s</code>, <code>l</code>, <code>Space</code> etc. (upper case is available for letters)</dd>
+            <dd>Label of the key pressed, e.g. <code>s</code>, <code>l</code>, <code>Space</code>, <code>Comma</code>, etc. (upper case is available for letters)</dd>
             <dt>Mouse events</dt>
             <dd>Number corresponding to the mouse button, where <code>0</code> is the innermost button (to the left on a right-handed mouse and vice-versa).</dd>
           </dl>
