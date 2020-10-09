@@ -8,7 +8,7 @@ const splitEventString = function(eventString) {
   // into selector ('div > button'), event type ('click')
   // and additional filters (button '0')
   const directHandlerRegEx = /^(\w+)\s*([^()]*)$/
-  const wrappedHandlerRegEx = /^(\w+)\(([\w\s,]+)\)\s*(.*)$/
+  const wrappedHandlerRegEx = /^(\w+)\(([^()]+)\)\s*(.*)$/
 
   let eventName = null
   let filters = null
