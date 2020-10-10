@@ -1,4 +1,4 @@
-import { uuid4 } from '../util/random'
+import { uuid4 } from '../util/random/uuid'
 
 export default class Transmit {
   constructor(options={}) {

@@ -1,55 +1,34 @@
-import { clamp, range, isFunction, pick, flatten, omit, merge  } from 'lodash'
-import { sum } from '../stats'
+import { clamp, range, isFunction, pick, flatten, omit, merge } from 'lodash'
+//@ts-ignore 2307
 import alea from 'seedrandom/lib/alea'
 
+import { uuid4 } from './uuid'
+import { autoSeed } from './seed'
 import { maxRepSeries, minRepDistance } from './constraints'
+import { weightedIndex } from './weighted'
 
-// Random uuid4 generation
-export const uuid4 = (random=Math.random) =>
-  // This is adapted from Jed Schmidt's code,
-  // which is available under the DWTFYWTPL
-  // at https://gist.github.com/jed/982883
-  // (there are faster and shorter implemen-
-  // tations, but this one is the clearest)
-  '00000000-0000-4000-8000-000000000000'.replace(
-    /[08]/g,
-    // eslint-disable-next-line no-bitwise
-    v => (v ^ (random() * 16 >> v / 4)).toString(16),
-  )
-
-// Seed generation
-// This is adapted from the seedrandom implementation,
-// but (drastically) simplified at the cost of node.js
-// and legacy browser compatibility
-export const autoSeed = (width=256) => {
-  // Create and fill an array of random integers
-  const output = new Uint8Array(width);
-  (window.crypto || window.msCrypto).getRandomValues(output)
-
-  // Output as string of (UTF-16) characters
-  return String.fromCharCode.apply(null, output)
+export type RNGOptions = {
+  algorithm?: string
+  seed?: any
 }
 
-// Weighted random index
-// This follows Eli Bendersky's implementation in Python,
-// and will perform better if the weights are sorted in
-// descending order. For further information, please see
-// https://eli.thegreenplace.net/2010/01/22/weighted-random-generation-in-python
-const weightedIndex = (weights, rng=Math.random) => {
-  let rnd = rng() * sum(weights)
-  for (let i = 0; i < weights.length; i++) {
-    rnd -= weights[i]
-    if (rnd < 0) {
-      return i
-    }
-  }
+type ShuffleConstraints = {
+  maxRepSeries?: number
+  minRepDistance?: number
+}
+
+type ShuffleHelpers = {
+  equality?: (a: any, b: any) => boolean
+  hash?: (a: any) => string
 }
 
 export class Random {
-  constructor(options={}) {
+  random: () => number
+
+  constructor(options: RNGOptions = {}) {
     if (options.algorithm === 'alea') {
       // Generate a PRNG using the alea algorithm
-      this.random = alea(options.seed || autoSeed())
+      this.random = alea(options.seed ?? autoSeed())
     } else {
       // Fallback to the built-in random generator
       this.random = Math.random
@@ -59,17 +38,17 @@ export class Random {
   // Random integer within a specified range
   // (for a single value, the return value will be between 0 and max - 1,
   // for two input values, between min and max - 1)
-  range(a, b=undefined) {
+  range(a: number, b?: number) {
     // eslint-disable-next-line no-multi-spaces
-    const min   = b === undefined ? 0 : a
+    const min = b === undefined ? 0 : a
     const range = b === undefined ? a : b - a
 
     return min + Math.floor(this.random() * range)
   }
 
   // Draw a random element from an array
-  choice(array, weights=undefined) {
-    if (weights) {
+  choice(array: any[], weights?: number[]) {
+    if (weights !== undefined) {
       return array[weightedIndex(weights, this.random)]
     } else {
       return array[this.range(array.length)]
@@ -78,10 +57,12 @@ export class Random {
 
   // Sample multiple random elements from an array,
   // with or without replacement
-  sample(array, n=1, replace=false) {
+  sample(array: any[], n = 1, replace = false) {
     if (replace) {
       // Draw independent samples
-      return Array(n).fill(0).map(() => this.choice(array))
+      return Array(n)
+        .fill(0)
+        .map(() => this.choice(array))
     } else {
       // Draw without replacement
       // (shuffle and slice up to array length)
@@ -89,7 +70,7 @@ export class Random {
     }
   }
 
-  sampleMode(array, samples, mode='draw-shuffle') {
+  sampleMode(array: any[], samples?: number, mode = 'draw-shuffle') {
     if (!(Array.isArray(array) && array.length > 0)) {
       throw new Error("Can't sample: Empty input, or not an array")
     }
@@ -98,13 +79,11 @@ export class Random {
     const repetitions = Math.floor(n / array.length)
     const remainder = n % array.length
 
-    switch(mode) {
+    switch (mode) {
       case 'sequential':
         return [
           // Repeat the array
-          ...range(repetitions).reduce(
-            a => a.concat(array), []
-          ),
+          ...range(repetitions).reduce(a => a.concat(array), [] as any[]),
           // Append remainder
           ...array.slice(0, remainder),
         ]
@@ -113,7 +92,8 @@ export class Random {
         const output = [
           // Repeat the array
           ...range(repetitions).reduce(
-            a => a.concat(this.shuffle(array)), []
+            a => a.concat(this.shuffle(array)),
+            [] as any[],
           ),
           // Append remainder
           ...this.sample(array, remainder, false),
@@ -132,7 +112,7 @@ export class Random {
   }
 
   // Shuffle an array randomly
-  shuffle(a) {
+  shuffle(a: any[]): any[] {
     // Copy the input array first
     const array = a.slice()
 
@@ -148,24 +128,32 @@ export class Random {
       // Pick a random as-yet-unshuffleded array element
       // (note that the semicolon here is mandatory)
       // eslint-disable-next-line no-plusplus
-      const randomIndex = this.range(unshuffledElements--);
+      const randomIndex = this.range(unshuffledElements--)
 
       // Swap the last unshuffled value with
       // the randomly chosen array element
-      [array[unshuffledElements], array[randomIndex]] =
-        [array[randomIndex], array[unshuffledElements]]
+      ;[array[unshuffledElements], array[randomIndex]] = [
+        array[randomIndex],
+        array[unshuffledElements],
+      ]
     }
 
     return array
   }
 
-  constrainedShuffle(a, constraints={}, helpers={}, maxIterations=10**4, failOnMaxIterations=false) {
+  constrainedShuffle(
+    a: any[],
+    constraints: ShuffleConstraints,
+    helpers: ShuffleHelpers = {},
+    maxIterations = 10 ** 4,
+    failOnMaxIterations = false,
+  ) {
     // Generate constraint function, if necessary
     let constraintChecker
     if (isFunction(constraints)) {
       constraintChecker = constraints
     } else {
-      const checks = []
+      const checks: Function[] = []
       if (constraints.maxRepSeries) {
         checks.push(maxRepSeries(constraints.maxRepSeries, helpers.equality))
       }
@@ -174,10 +162,11 @@ export class Random {
       }
 
       // Combine constraints into checker function
-      constraintChecker = (arr) => checks.reduce(
-        (accumulator, check) => accumulator && check(arr),
-        true // start with true
-      )
+      constraintChecker = (arr: any[]) =>
+        checks.reduce(
+          (accumulator, check) => accumulator && check(arr),
+          true, // start with true
+        )
     }
 
     // Shuffle until a candidate matches the constraints,
@@ -188,7 +177,7 @@ export class Random {
       if (constraintChecker(candidate)) break
     }
     if (i >= maxIterations) {
-      const warning = `constrainedShuffle could not find a matching candidate after ${ maxIterations } iterations`
+      const warning = `constrainedShuffle could not find a matching candidate after ${maxIterations} iterations`
       if (failOnMaxIterations) {
         throw new Error(warning)
       } else {
@@ -200,23 +189,26 @@ export class Random {
 
   // Given an array of objects, shuffle groups
   // of keys independently.
-  shuffleTable(data, groups=[], shuffleUngrouped=true) {
+  shuffleTable(
+    table: Record<string, any>[],
+    columnGroups: string[] = [],
+    shuffleUngrouped = true,
+  ) {
     // Split data into independent groups
-    const groupedData = groups.map(
-      columns => data.map(entry => pick(entry, columns))
+    const groupedData = columnGroups.map(columns =>
+      table.map(entry => pick(entry, columns)),
     )
 
     // Collect remaining entries
-    const groupedColumns = flatten(groups)
-    const remainingData = data.map(entry => omit(entry, groupedColumns))
+    const groupedColumns = flatten(columnGroups)
+    const remainingData = table.map(entry => omit(entry, groupedColumns))
 
     // Shuffle and merge data
     // (moving things into a temporary key,
     // to meet lodash input requirements)
     return merge(
-      ...groupedData.map(
-        g => ({ data: this.shuffle(g) })
-      ),
+      {}, // Added to pacify TS
+      ...groupedData.map(g => ({ data: this.shuffle(g) })),
       // Shuffle ungrouped columns if requested
       { data: shuffleUngrouped ? this.shuffle(remainingData) : remainingData },
     ).data

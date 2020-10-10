@@ -1,4 +1,7 @@
-export const maxRepSeries = (arr, equalityFunc=(x, y) => x === y) => {
+export const maxRepSeries = (
+  arr: any[],
+  equalityFunc = (x: any, y: any) => x === y,
+) => {
   // Given an array, compute the longest consecutive
   // sequence of identical elements
   if (arr.length === 0) return 0
@@ -7,7 +10,7 @@ export const maxRepSeries = (arr, equalityFunc=(x, y) => x === y) => {
   let currentSequenceLength = 1
 
   for (let i = 0; i < arr.length - 1; i++) {
-    if (equalityFunc(arr[i], arr[i+1])) {
+    if (equalityFunc(arr[i], arr[i + 1])) {
       currentSequenceLength++
 
       if (currentSequenceLength > longestSequenceLength) {
@@ -33,12 +36,15 @@ export const maxRepSeries = (arr, equalityFunc=(x, y) => x === y) => {
   ]
 */
 
-export const minRepDistance = (arr, hashFunc=x => x) => {
+export const minRepDistance = (
+  arr: any[],
+  hashFunc = (x: any): string => x,
+) => {
   // Given an array, compute the minimum distance
   // between two identical elements
   if (arr.length === 0) return undefined
 
-  const lastPositions = {}
+  const lastPositions: { [hash: string]: number } = {}
   let minDistance = Infinity
 
   for (let i = 0; i < arr.length; i++) {
