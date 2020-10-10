@@ -7,8 +7,8 @@ const splitEventString = function(eventString) {
   // Split the eventString ('click(0) div > button')
   // into selector ('div > button'), event type ('click')
   // and additional filters (button '0')
-  const directHandlerRegEx = /^(\w+)\s*([^()]*)$/
-  const wrappedHandlerRegEx = /^(\w+)\(([^()]+)\)\s*(.*)$/
+  const directHandlerRegEx = /^(\w+)(?:\s+(.*))?$/
+  const wrappedHandlerRegEx = /^(\w+)\(([^()]+)\)(?:\s+(.*))?$/
 
   let eventName = null
   let filters = null
@@ -23,7 +23,8 @@ const splitEventString = function(eventString) {
     console.log('Can\'t interpret event string ', eventString)
   }
 
-  return [eventName, filters, selector]
+  // The selector defaults to an empty string
+  return [eventName, filters, selector ?? '']
 }
 
 const keyValues = {
