@@ -105,10 +105,7 @@ module.exports = (env, argv) => {
     devtool: mode === 'development' ? 'inline-source-map' : 'source-map',
     plugins: [
       new LodashModuleReplacementPlugin(),
-      new webpack.BannerPlugin({
-        banner,
-        exclude: ['lab.vendor.js'],
-      }),
+      new webpack.BannerPlugin({ banner }),
       new webpack.DefinePlugin({
         BUILD_FLAVOR: JSON.stringify(target),
         BUILD_COMMIT: JSON.stringify(
@@ -132,9 +129,6 @@ module.exports = (env, argv) => {
     config.optimization.minimizer = [
       new TerserPlugin({
         terserOptions: {
-          compress: {
-            inline: false,
-          },
           mangle: {
             reserved: reservedTerms,
           },
