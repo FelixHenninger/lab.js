@@ -3615,6 +3615,11 @@
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.0.tgz#fef1904e4668b6e5ecee60c52cc6a078ffa6697d"
   integrity sha512-I99sngh224D0M7XgW1s120zxCt3VYQ3IQsuw3P3jbq5GG4yc79+ZjyKznyOGIQrflfylLgcfekeZW/vk0yng6A==
 
+"@types/ua-parser-js@^0.7.35":
+  version "0.7.35"
+  resolved "https://registry.yarnpkg.com/@types/ua-parser-js/-/ua-parser-js-0.7.35.tgz#cca67a95deb9165e4b1f449471801e6489d3fe93"
+  integrity sha512-PsPx0RLbo2Un8+ff2buzYJnZjzwhD3jQHPOG2PtVIeOhkRDddMcKU8vJtHpzzfLB95dkUi0qAkfLg2l2Fd0yrQ==
+
 "@types/uglify-js@*":
   version "3.11.1"
   resolved "https://registry.yarnpkg.com/@types/uglify-js/-/uglify-js-3.11.1.tgz#97ff30e61a0aa6876c270b5f538737e2d6ab8ceb"

@@ -3,7 +3,7 @@ import 'shim-keyboard-event-key'
 import { ensureHighResTime } from './timing'
 
 // Split an eventString into event name, options and selector
-const splitEventString = function(eventString) {
+const splitEventString = function (eventString: string) {
   // Split the eventString ('click(0) div > button')
   // into selector ('div > button'), event type ('click')
   // and additional filters (button '0')
@@ -15,12 +15,12 @@ const splitEventString = function(eventString) {
   let selector = null
 
   if (directHandlerRegEx.test(eventString)) {
-    [, eventName, selector] = directHandlerRegEx.exec(eventString)
+    ;[, eventName, selector] = directHandlerRegEx.exec(eventString)
   } else if (wrappedHandlerRegEx.test(eventString)) {
-    [, eventName, filters, selector] = wrappedHandlerRegEx.exec(eventString)
+    ;[, eventName, filters, selector] = wrappedHandlerRegEx.exec(eventString)
     filters = filters.split(',').map(o => o.trim())
   } else {
-    console.log('Can\'t interpret event string ', eventString)
+    console.log("Can't interpret event string ", eventString)
   }
 
   // The selector defaults to an empty string
@@ -34,13 +34,14 @@ const keyValues = {
 
 // Generate a sequence of checks to apply to an event
 // before triggering a handler function
-const makeChecks = function(eventName,
-  { filters=[], filterRepeat=true, startTime=-Infinity }) {
-
+const makeChecks = function (
+  eventName: string,
+  { filters = [], filterRepeat = true, startTime = -Infinity },
+) {
   const checks = []
 
   // Check that event happened after the cut-off
-  checks.push(e => ensureHighResTime(e.timeStamp) >= startTime)
+  checks.push((e: InputEvent) => ensureHighResTime(e.timeStamp) >= startTime)
 
   // Add additional checks depending on the event type
   if (['keypress', 'keydown', 'keyup'].includes(eventName)) {
@@ -57,13 +58,14 @@ const makeChecks = function(eventName,
     // Translate some keys that we choose to represent differently
     // (i.e. the space key, which is a literal space character in the
     // spec, but would be trimmed here)
-    const keys = (filters || []).map( // (replace null value)
-      key => keyValues[key] || key,
-    )
+    const keys = (filters || []).map(
+      // (replace null value)
+      key => keyValues[key] ?? key,
+    ) as string[]
 
     // Wrap the handler only if we pre-select events
     if (keys.length > 0 || filterRepeat) {
-      checks.push(function(e) {
+      checks.push(function (e: KeyboardEvent) {
         // Fire the handler only if
         // - we filter repeats, and the key is not one
         // - target keys are defined, and the key pressed matches one
@@ -74,13 +76,11 @@ const makeChecks = function(eventName,
       })
     }
   } else if (['click', 'mousedown', 'mouseup'].includes(eventName)) {
-    const buttons = (filters || []).map(
-      button => parseInt(button),
-    )
+    const buttons = (filters || []).map(button => parseInt(button))
 
     if (buttons.length > 0) {
       // Wrap the handler accordingly
-      checks.push(function(e) {
+      checks.push(function (e: MouseEvent) {
         return buttons.includes(e.button)
       })
     }
@@ -89,27 +89,46 @@ const makeChecks = function(eventName,
   return checks
 }
 
-const defaultProcessEvent = ([eventName, filters, selector]) =>
-  ({ eventName, filters, selector })
+const defaultProcessEvent =(
+  // Pass-through (can be replaced with more elaborate logic)
+  [eventName, filters, selector]: [string, any[], string],
+) => ({ eventName, filters, selector })
 
 // eslint-disable-next-line import/prefer-default-export
 export class DomConnection {
-  constructor(options) {
+  el: HTMLElement
+  events: { [eventString: string]: Function }
+  parsedEvents: [string, string, string, EventListener][]
+  context: any
+  processEvent: Function
+  startTime: number
+
+  constructor({
+    el,
+    events,
+    context,
+    processEvent,
+  }: {
+    el: HTMLElement
+    events: { [eventString: string]: Function }
+    context: any
+    processEvent: Function // TODO be more specific
+  }) {
     // Limit search for elements to a
     // specified scope if possible,
     // otherwise search the entire document.
-    this.el = options.el || document
+    this.el = el || document
 
     // Define the handlers for a set of events
-    this.events = options.events || {}
+    this.events = events || {}
     this.parsedEvents = []
 
     // Define default context
     // in which to run handlers
-    this.context = options.context || this
+    this.context = context || this
 
     // Define event processor
-    this.processEvent = options.processEvent || defaultProcessEvent
+    this.processEvent = processEvent || defaultProcessEvent
 
     // Define time from which to accept responses
     this.startTime = -Infinity
@@ -120,7 +139,7 @@ export class DomConnection {
   // Wrap event handlers such that a series of checks are applied
   // to each observed event, and the handler is triggered only
   // if all checks pass
-  wrapHandler(handler, checks) {
+  wrapHandler(handler: Function, checks: Function[]) {
     // Add context if desired
     if (this.context !== null) {
       handler = handler.bind(this.context)
@@ -134,12 +153,16 @@ export class DomConnection {
   }
 
   prepare() {
-    this.parsedEvents = Object.entries(this.events)
-      .map(([eventString, handler]) => {
+    this.parsedEvents = Object.entries(this.events).map(
+      ([eventString, handler]) => {
         // Split event string into constituent components,
         // and pass result onto event processing
-        const { eventName, filters, selector, moreChecks=[] } =
-          this.processEvent(splitEventString(eventString))
+        const {
+          eventName,
+          filters,
+          selector,
+          moreChecks = [],
+        } = this.processEvent(splitEventString(eventString))
 
         // Apply the wrapHandler method to the handler,
         // so that any additional checks etc. are added
@@ -149,7 +172,8 @@ export class DomConnection {
         ])
 
         return [eventString, eventName, selector, wrappedHandler]
-      })
+      },
+    )
   }
 
   // DOM interaction -----------------------------------------------------------
@@ -162,14 +186,13 @@ export class DomConnection {
         // If the event is constrainted to a certain element
         // or a set of elements, search for these within the
         // specified element, and add the handler to each
-        Array.from(this.el.querySelectorAll(selector))
-          .forEach(child => child.addEventListener(eventName, handler))
+        Array.from(this.el.querySelectorAll(selector)).forEach(child =>
+          child.addEventListener(eventName, handler),
+        )
       } else {
         // If no selector is supplied, the listener is
         // added to the document itself
-        document.addEventListener(
-          eventName, handler,
-        )
+        document.addEventListener(eventName, handler)
       }
     })
   }
@@ -178,13 +201,12 @@ export class DomConnection {
     this.parsedEvents.forEach(([, eventName, selector, handler]) => {
       if (selector !== '') {
         // Remove listener from specified elements
-        Array.from(this.el.querySelectorAll(selector))
-          .forEach(child => child.removeEventListener(eventName, handler))
+        Array.from(this.el.querySelectorAll(selector)).forEach(child =>
+          child.removeEventListener(eventName, handler),
+        )
       } else {
         // Remove global listeners
-        document.removeEventListener(
-          eventName, handler,
-        )
+        document.removeEventListener(eventName, handler)
       }
     })
   }
@@ -192,6 +214,6 @@ export class DomConnection {
   teardown() {
     // NOTE: Could also remove this.el, this.events and this.context,
     // but it's probably easier to allow the entire DomConnection to be GCed
-    this.parsedEvents = null
+    this.parsedEvents = []
   }
 }

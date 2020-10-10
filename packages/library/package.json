@@ -31,6 +31,7 @@
     "@types/jest": "^26.0.16",
     "@types/lodash": "4.14.108",
     "@types/seedrandom": "2.4.27",
+    "@types/ua-parser-js": "^0.7.35",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "babel-plugin-istanbul": "^6.0.0",
