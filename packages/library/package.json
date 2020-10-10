@@ -24,8 +24,7 @@
     "nodent": "^3.2.6",
     "seedrandom": "^3.0.5",
     "shim-keyboard-event-key": "^1.0.2",
-    "ua-parser-js": "^0.7.19",
-    "whatwg-fetch": "^3.5.0"
+    "ua-parser-js": "^0.7.19"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
@@ -121,9 +120,8 @@
     "analyze": "NODE_ENV=analysis webpack --profile --json > bundleStats.json",
     "build:js:coverage": "NODE_ENV=coverage webpack --mode=development",
     "build:js:development": "webpack --mode=development",
-    "build:js:legacy": "cross-env NODE_ENV=legacy webpack --mode=production",
     "build:js:production": "webpack --mode=production",
-    "build:js": "yarn run build:js:development && yarn run build:js:production && yarn run build:js:legacy",
+    "build:js": "yarn run build:js:development && yarn run build:js:production",
     "build:css": "postcss --local-plugins -u postcss-preset-env -o dist/lab.css src/starterkit/lib/lab.css",
     "build:starterkit": "yarn run build:js && yarn run build:css && node scripts/bundle_starterkit.js",
     "clean": "shx rm -rf dist && shx mkdir dist",
@@ -132,7 +130,6 @@
     "test": "karma start test/_karma/ci.conf.js",
     "test:coverage": "yarn run build:js:coverage && karma start test/_karma/coverage.conf.js",
     "test:sauce": "karma start test/_karma/sauce.conf.js",
-    "test:sauce:legacy": "karma start test/_karma/sauce_legacy.conf.js",
     "watch:js": "onchange 'src/**/*' -- yarn run build:js"
   }
 }

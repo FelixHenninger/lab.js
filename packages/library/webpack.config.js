@@ -26,7 +26,6 @@ module.exports = (env, argv) => {
   const outputFilename = {
     'coverage': 'lab.coverage.js',
     'development': 'lab.dev.js',
-    'legacy': 'lab.legacy.js',
   }[target] || 'lab.js'
 
   const banner = [
@@ -89,11 +88,6 @@ module.exports = (env, argv) => {
 
   const config = {
     mode: mode === 'development' ? mode : 'production',
-    entry: {
-      js: target === 'legacy'
-        ? ['whatwg-fetch', './src/index.js']
-        : ['./src/index.js']
-    },
     module: {
       rules: [{
         loader: 'babel-loader',
