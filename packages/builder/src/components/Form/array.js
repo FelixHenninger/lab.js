@@ -20,10 +20,11 @@ const ArrayContextProvider = ({ name, values,
     const baseName = name.replace('.rows', '')
 
     setValues({
+      ...values,
       [baseName]: {
         ...getIn(values, baseName),
         rows, columns,
-      }
+      },
     })
   }
 
