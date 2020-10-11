@@ -67,9 +67,9 @@ const GridRow = ({ name, arrayHelpers }) =>
     <Row form>
       <Col xs="6">
         <Field
-          name={ `${ name }.name` }
+          name={ `${ name }.title` }
           component={ Input }
-          placeholder="parameter"
+          placeholder="title"
           className="text-monospace"
         />
       </Col>
