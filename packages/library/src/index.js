@@ -1,6 +1,3 @@
-// Load standard library polyfill
-import 'core-js/stable'
-
 // Components
 import { Component, Dummy } from './core'
 import { Screen as CanvasScreen, Frame as CanvasFrame } from './canvas'

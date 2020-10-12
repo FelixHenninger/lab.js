@@ -13,7 +13,6 @@
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "common-tags": "^1.8.0",
-    "core-js": "^3.8.3",
     "cross-env": "^7.0.0",
     "es2015-proxy": "^0.1.7",
     "es6-promise": "^4.1.0",
