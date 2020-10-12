@@ -20,3 +20,5 @@ export * as flow from './flow'
 export * as data from './data'
 
 export * as util from './util'
+
+export * as plugins from './plugins'
