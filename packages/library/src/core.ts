@@ -95,6 +95,8 @@ export class Component extends EventHandler {
 
   data: Record<string, any> = {} // Collected data
 
+  parent: Component | null
+
   // Storage for internal properties
   // (these are not supposed to be directly available
   // to users, and may change between versions)
@@ -346,7 +348,6 @@ export class Component extends EventHandler {
     }
 
     // Collect options 'handed down' from higher-level components
-    // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
     if (this.parent) {
       this.parents
         .reduce(
@@ -360,7 +361,6 @@ export class Component extends EventHandler {
         .forEach(
           // 'inherit' the option from the parent component
           (o: any) => {
-            // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
             this.options[o] = this.options[o] || this.parent.options[o]
           },
           // TODO: This mechanism, though elegant, is not flawless:
@@ -371,10 +371,8 @@ export class Component extends EventHandler {
     }
 
     // Initialize controller
-    // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
     if (this.parent && this.parent.internals.controller) {
       // Inherit controller from parent internals
-      // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
       this.internals.controller = this.parent.internals.controller
     } else {
       this.internals.controller = new Controller()
@@ -819,12 +817,10 @@ export class Component extends EventHandler {
 
   get parents() {
     let output: any = []
-    let currentComponent = this
+    let currentComponent: Component = this
 
     // Traverse hierarchy upwards
-    // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
     while (currentComponent.parent) {
-      // @ts-expect-error ts-migrate(2551) FIXME: Property 'parent' does not exist on type 'Componen... Remove this comment to see the full error message
       currentComponent = currentComponent.parent
       output = output.concat(currentComponent)
     }
