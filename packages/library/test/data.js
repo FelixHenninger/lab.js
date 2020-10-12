@@ -810,7 +810,7 @@ describe('Data handling', () => {
         clock.restore()
       })
 
-      it('sends data in increments', () => {
+      it('sends data in increments', async () => {
         const clock = sinon.useFakeTimers({
           toFake: ['setTimeout', 'clearTimeout']
         })
@@ -819,27 +819,24 @@ describe('Data handling', () => {
         ds.queueIncrementalTransmission('https://random.example')
 
         // Fast-forward through first transmission
-        clock.runAll()
+        await clock.runAllAsync()
         assert.ok(window.fetch.calledOnce)
 
-        return (new Promise(resolve => setImmediate(resolve)))
-          .then(() => {
-            window.fetch.resetHistory()
+        window.fetch.resetHistory()
 
-            // Add new data, and transmit it
-            ds.commit({ six: 6 })
-            ds.queueIncrementalTransmission('https://random.example')
+        // Add new data, and transmit it
+        ds.commit({ six: 6 })
+        ds.queueIncrementalTransmission('https://random.example')
 
-            // Fast-forward again
-            clock.runAll()
+        // Fast-forward again
+        await clock.runAllAsync()
+        clock.restore()
 
-            assert.ok(window.fetch.calledOnce)
-            assert.deepEqual(
-              extractData(window.fetch.lastCall.args),
-              [{ five: 5, six: 6 }]
-            )
-            clock.restore()
-          })
+        assert.ok(window.fetch.calledOnce)
+        assert.deepEqual(
+          extractData(window.fetch.lastCall.args),
+          [{ five: 5, six: 6 }]
+        )
       })
 
       it('re-sends earlier data if incremental transmission fails', () => {
