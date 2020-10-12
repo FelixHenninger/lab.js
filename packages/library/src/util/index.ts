@@ -1,5 +1,3 @@
-import fromObject from './fromObject'
-
 // Utilities
 export { Random } from './random'
 export { default as fromObject } from './fromObject'

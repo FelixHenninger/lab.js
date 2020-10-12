@@ -1,7 +1,7 @@
 // Load standard library polyfill
 import 'core-js/stable'
 
-export const version = '20.1.1'
+export const version = '21.0.0'
 export const build = {
   // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'BUILD_FLAVOR'.
   flavor: BUILD_FLAVOR,
