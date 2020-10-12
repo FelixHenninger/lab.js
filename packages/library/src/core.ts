@@ -829,7 +829,6 @@ export class Component extends EventHandler {
     return output.reverse()
   }
 
-  // @ts-expect-error 'type' is defined as a property in class 'EventHandler', but is overridden here in 'Component' as an accessor.
   get type() {
     return this.constructor.name.replace('_', '.')
   }

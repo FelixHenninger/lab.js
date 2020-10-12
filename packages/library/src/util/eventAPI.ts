@@ -34,7 +34,9 @@ export class EventHandler {
 
   plugins: any
 
-  type: any
+  get type() {
+    return this.type
+  }
 
   constructor(options = {}) {
     // Internal storage for whatever,

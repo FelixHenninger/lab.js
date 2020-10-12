@@ -46,13 +46,13 @@ export class Screen extends Component {
 }
 
 // An html.Form can show, validate and serialize a form
-// @ts-expect-error ts-migrate(2417) FIXME: Property 'parsableOptions' is missing in type '{ m... Remove this comment to see the full error message
 export class Form extends Screen {
   options: FormOptions
 
   static metadata = {
     module: ['html'],
     nestedComponents: [],
+    parsableOptions: { content: {} },
   }
 
   constructor(options: FormOptions = {}) {
@@ -331,6 +331,7 @@ export class Page extends Form {
           },
         },
       },
+      content: {},
     },
   }
 

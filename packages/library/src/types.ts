@@ -109,7 +109,7 @@ export interface ComponentOptions {
 export interface ComponentMetadata {
   module: ('core' | 'flow' | 'canvas')[]
   nestedComponents: Component[]
-  parsableOptions: ComponentOptions
+  parsableOptions: any
 }
 
 // TODO: Is it possible to type DOM event types more strictly?
