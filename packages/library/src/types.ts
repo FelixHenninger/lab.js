@@ -3,6 +3,7 @@ import { Component } from './core'
 import { Store } from './data'
 import { Loop } from './flow'
 import PluginAPI from './plugins/api'
+import { EventName } from './util/eventAPI'
 import { RandomOptions } from './util/random'
 import { Timeline } from './util/timeline'
 
@@ -92,7 +93,9 @@ export interface ComponentOptions {
    * Map of internal component events to handler functions.
    * This is a shorthand for the on() method
    */
-  messageHandlers?: { [internalEventType: string]: () => void }
+  messageHandlers?: {
+    [T in EventName]: () => void
+  }
   /** -------------------------------
    * Internal Options
    */

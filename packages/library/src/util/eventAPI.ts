@@ -1,6 +1,30 @@
 import { isFunction } from 'lodash'
 import PluginAPI from '../plugins/api'
 
+export const EVENT_NAMES = [
+  'after:commit',
+  'after:end',
+  'after:prepare',
+  'after:run',
+  'before:commit',
+  'before:end',
+  'before:prepare',
+  'before:run',
+  'commit',
+  'end',
+  'prepare',
+  'run',
+  'show',
+  'render',
+  'idle',
+  'epilogue',
+  'set',
+  'update',
+  'clear',
+  'transmit',
+] as const
+export type EventName = typeof EVENT_NAMES[number]
+
 // Most of the 'magic' that happens in the library
 // is due to event handling. The following class
 // provides a basic framework for this, in that is
@@ -36,7 +60,7 @@ export class EventHandler {
   // This is modelled after the component emitter,
   // see https://github.com/component/emitter.git
   // Any mistakes, of course, are entirely my own.
-  on(event: any, fn: any) {
+  on(event: EventName, fn: any) {
     // Setup displayName for easier debugging
     fn.displayName =
       fn.displayName || `${event} handler on ${this.internals.rawOptions.title}`
@@ -47,7 +71,7 @@ export class EventHandler {
     return this
   }
 
-  off(event: any, fn = null) {
+  off(event: EventName, fn = null) {
     if (fn === null) {
       // If there is no specific handler specified,
       // remove all handlers for an event
@@ -62,7 +86,7 @@ export class EventHandler {
     return this
   }
 
-  once(event: any, fn: any) {
+  once(event: EventName, fn: any) {
     // Create a handler for the event that will
     // remove itself, then trigger the supplied
     // function.
@@ -80,7 +104,7 @@ export class EventHandler {
     return this
   }
 
-  waitFor(event: any) {
+  waitFor(event: EventName) {
     // Return a promise that resolves when
     // the event in question is triggered
 
@@ -91,7 +115,7 @@ export class EventHandler {
   // This is heavily inspired by the excellent backbone.marionette, see
   // http://marionettejs.com/annotated-src/backbone.marionette.html#section-96
   // (though I do not catch as many special cases, probably to my peril)
-  async trigger(event: any, ...args) {
+  async trigger(event: EventName, ...args) {
     // Trigger all callbacks for a specific event,
     // within the context of the current object
     const callbacks = this.internals.callbacks[`$${event}`]
@@ -119,7 +143,7 @@ export class EventHandler {
     return this
   }
 
-  async triggerMethod(event: any, ...args) {
+  async triggerMethod(event: EventName, ...args) {
     if (this.internals.rawOptions.debug) {
       // Tell the world what we're up to
       console.info(
@@ -144,7 +168,7 @@ export class EventHandler {
     // for example:
     // run -> onRun
     // before:prepare -> onBeforePrepare
-    function getEventName(match: any, prefix: any, eventName: any) {
+    function getEventName(match: any, prefix: any, eventName: EventName) {
       return eventName.toUpperCase()
     }
     const methodName = `on${event.replace(splitter, getEventName)}`

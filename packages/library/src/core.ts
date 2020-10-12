@@ -2,7 +2,7 @@ import { cloneDeepWith } from 'lodash'
 import Proxy from 'es2015-proxy'
 
 import { Store } from './data'
-import { EventHandler } from './util/eventAPI'
+import { EventHandler, EventName } from './util/eventAPI'
 import { Timeline } from './util/timeline'
 import { DomConnection } from './util/domEvents'
 import { Random } from './util/random'
@@ -310,7 +310,7 @@ export class Component extends EventHandler {
     })
 
     // Attach component event handlers
-    Object.keys(this.options.messageHandlers).forEach((event) =>
+    Object.keys(this.options.messageHandlers).forEach((event: EventName) =>
       this.on(event, this.options.messageHandlers[event]),
     )
 
