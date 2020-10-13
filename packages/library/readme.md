@@ -23,7 +23,7 @@ The idea underlying this little library is that studies are assembled from indiv
 
 study.js
 ```
-// import the module you want to use (do include the dot on lab.js, is is actually the name, not the extension)
+// import the module you want to use
 import { html } from 'lab.js'
 
 // Define a component
