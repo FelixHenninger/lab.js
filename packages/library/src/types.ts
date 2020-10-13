@@ -83,7 +83,7 @@ export interface ComponentOptions {
   /**
    * Array of plugins that interact with the component, and are automatically notified of events. For example, adding a plugins.Logger() instance will log event notifications onto the console:
    */
-  plugins?: PluginAPI[]
+  plugins?: any[] | PluginAPI
   /**
    * Map of additional event handlers.
    * In many experiments, the only events that need to be handled are responses, which can be defined using the responses option described above. However, some studies may require additional handling of events before a final response is collected. In these cases, the events object offers an alternative.
