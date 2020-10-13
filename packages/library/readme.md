@@ -21,14 +21,39 @@ $ yarn add lab.js # (alternatively)
 
 The idea underlying this little library is that studies are assembled from individual _components_. The simplest example might be the following:
 
+study.js
 ```
+// import the module you want to use (do include the dot on lab.js, is is actually the name, not the extension)
+import { html } from 'lab.js'
+
 // Define a component
-const hello = new lab.html.Screen({
+const hello = new html.Screen({
   content: 'Hello world!'
 })
 
 // Run it
 hello.run()
+```
+
+Include the script in your index.html
+```
+  <head>
+    ...
+  </head>
+  <body>
+    <div class="container fullscreen" id="container">
+      <main class="content-vertical-center content-horizontal-center" data-labjs-section="main">
+          <p>
+            <strong>Preparing experiment</strong><br />
+            <span class="text-muted">please wait a moment</span>
+          </p>
+        </div>
+          ...
+        <script src="study.js"></script>
+      </main>
+    </div>
+  </body>
+</html>
 ```
 
 Each component can [provide information to participants](https://labjs.readthedocs.io/en/latest/reference/html.html), as in the above example, or [add structure to the study](https://labjs.readthedocs.io/en/latest/reference/flow.html). Besides the content, components [coordinate user events](https://labjs.readthedocs.io/en/latest/reference/core.html#options.responses) and [collect data](https://labjs.readthedocs.io/en/latest/reference/data.html), providing the central functionality for any browser-based study. Every component can also be extended using [hooks](https://labjs.readthedocs.io/en/latest/reference/core.html#event-api) which allow custom code to be added at any point within the study.
