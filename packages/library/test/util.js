@@ -257,6 +257,18 @@ describe('Utilities', () => {
       )
     })
 
+    it('can apply a custom equality func that checks nested keys', () => {
+      const array = [{ foo: 1 }, { foo: '1' }, { foo: 2 }, { foo: '2' }]
+
+      assert.deepEqual(
+        rng_alea.constrainedShuffle(array,
+          { maxRepSeries: 1 },
+          { equality: (a, b) => a.foo == b.foo }
+        ),
+        [{ foo: '2' }, { foo: '1' }, { foo: 2 }, { foo: 1 }]
+      )
+    })
+
     it('shuffles groups of keys in a table independently', () => {
       const table = [
         { a: 1,  b: 2,  c: 3,  d: 4,  e: 5  },
