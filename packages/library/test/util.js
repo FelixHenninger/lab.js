@@ -269,6 +269,20 @@ describe('Utilities', () => {
       )
     })
 
+    it('can raise an exception if the iteration limit is broken', () => {
+      assert.throws(
+        () => rng_alea.constrainedShuffle(
+          [1, 2, 3],
+          () => false, // Always fail check
+          {},  // No further helpers
+          5,   // Five iterations
+          true // Fail when the maximum number of iterations is reached
+        ),
+        'constrainedShuffle could not find a matching candidate ' +
+        'after 5 iterations'
+      )
+    })
+
     it('shuffles groups of keys in a table independently', () => {
       const table = [
         { a: 1,  b: 2,  c: 3,  d: 4,  e: 5  },
