@@ -127,11 +127,10 @@ export class DomConnection {
     }
 
     // Only trigger handler if all checks pass
-    return function(e) {
-      return checks.reduce((acc, check) => acc && check(e), true)
+    return e =>
+      checks.reduce((acc, check) => acc && check(e, this.context), true)
         ? handler(e)
         : null
-    }
   }
 
   prepare() {
