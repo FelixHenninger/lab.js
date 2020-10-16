@@ -117,6 +117,8 @@ const ResponseRow = ({ index, name, arrayHelpers }) =>
         <option value="click">click</option>
         <option value="mousedown">mousedown</option>
         <option value="mouseup">mouseup</option>
+        <option value="mouseenter">mouseenter</option>
+        <option value="mouseleave">mouseleave</option>
       </Field>
     </td>
     <td>
