@@ -89,7 +89,7 @@ const makeChecks = function (
   return checks
 }
 
-const defaultProcessEvent =(
+const defaultProcessEvent = (
   // Pass-through (can be replaced with more elaborate logic)
   [eventName, filters, selector]: [string, any[], string],
 ) => ({ eventName, filters, selector })

@@ -438,7 +438,7 @@ describe('Utilities', () => {
       })
 
       assert.ok(
-        c.plugins.plugins[0] instanceof lab.plugins.Debug
+        c.internals.plugins.plugins[0] instanceof lab.plugins.Debug
       )
     })
 
@@ -453,7 +453,7 @@ describe('Utilities', () => {
       })
 
       assert.ok(
-        c.plugins.plugins[0] instanceof window.MyPlugin
+        c.internals.plugins.plugins[0] instanceof window.MyPlugin
       )
     })
 
@@ -469,7 +469,7 @@ describe('Utilities', () => {
       })
 
       assert.ok(
-        c.plugins.plugins[0] instanceof window.MyPlugin
+        c.internals.plugins.plugins[0] instanceof window.MyPlugin
       )
     })
 

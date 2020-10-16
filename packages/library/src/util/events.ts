@@ -1,5 +1,5 @@
 import { ensureHighResTime } from './timing'
-import { Component } from '../core/component'
+import { Component } from '../base/component'
 
 export const logTimestamp = (columnName: string) =>
   function (this: Component, e: InputEvent) {

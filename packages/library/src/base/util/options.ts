@@ -1,8 +1,10 @@
 import { isString, isArray, isPlainObject, template } from 'lodash'
 
-import { Component } from '../base/component'
+import { Component } from '../component'
 
-const prototypeChain = (object: any) => {
+// Metadata management ---------------------------------------------------------
+
+const prototypeChain = (object: object) => {
   // Compute the prototype chain a given object
   const chain = [Object.getPrototypeOf(object)]
 
@@ -23,8 +25,10 @@ export const parsableOptions = (component: Component) =>
     ),
   )
 
+// Option parsing --------------------------------------------------------------
+
 export const parse = (
-  raw: any, // TODO clarify
+  raw: any,
   context: any,
   metadata: { [option: string]: any },
   that: any = {},
@@ -37,8 +41,8 @@ export const parse = (
   if (isString(raw)) {
     // Parse output
     const output = template(raw, {
-      escape: ('' as unknown) as RegExp, // TODO 😬
-      evaluate: ('' as unknown) as RegExp,
+      escape: '' as unknown as RegExp, // TODO 😬
+      evaluate: '' as unknown as RegExp,
     }).call(that, context)
 
     // Cooerce type if requested
@@ -82,12 +86,12 @@ export const parse = (
   }
 }
 
-export const parseRequested = (
-  rawOptions: any, // TODO clarify
+export const parseAll = (
+  rawOptions: any,
   context: any,
   metadata: { [option: string]: any },
   that: any,
-) =>
+): any =>
   // Given a set of unparsed options and metadata,
   // parse only the subset of options that are defined,
   // and for which metadata is available. The output
@@ -108,3 +112,66 @@ export const parseRequested = (
       })
       .filter(e => e !== undefined) as [string, any][],
   )
+
+// Option proxy ----------------------------------------------------------------
+
+export const makeOptionProxy = function (
+  context: Component,
+  rawOptions: any = {},
+) {
+  const parsedOptions = Object.create(rawOptions)
+
+  let armed = false
+  const arm = function (newState: boolean = true) {
+    if (newState === true) {
+      const templateContext = {
+        parameters: context.parameters,
+        state: (context as any).state,
+        files: context.files,
+        random: (context as any).random,
+      }
+      Object.assign(
+        parsedOptions,
+        parseAll(
+          rawOptions,
+          templateContext,
+          parsableOptions(context),
+          templateContext,
+        ),
+      )
+    }
+    armed = newState
+  }
+
+  const proxy = new Proxy(rawOptions, {
+    get: (obj, prop) => Reflect.get(parsedOptions, prop),
+    set: (obj, key, value) => {
+      // Set raw option
+      Reflect.set(obj, key, value)
+
+      if (armed) {
+        // Set parsed option
+        const candidate = parse(
+          value,
+          {
+            parameters: context.parameters,
+            state: (context as any).state,
+            files: context.files,
+            random: (context as any).random,
+          },
+          parsableOptions(context)[key],
+          context,
+        )
+
+        if (candidate !== value) {
+          Reflect.set(parsedOptions, key, candidate)
+        }
+      }
+
+      // Acknowledge success
+      return true
+    },
+  })
+
+  return [proxy, arm]
+}

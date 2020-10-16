@@ -1,5 +1,6 @@
 // HTML-based displays for lab.js
-import { Component, status } from './core'
+import { Component } from './core'
+import { Status } from './base/component'
 import { prepareNested } from './flow'
 
 import { makePage } from './util/page'
@@ -258,7 +259,7 @@ export class Frame extends Component {
   }
 
   onEnd() {
-    if (this.options.content.status < status.done) {
+    if (this.options.content.status < Status.done) {
       // Avoid an infinite loop of
       // frame and content ending one another
       this.options.content.off(

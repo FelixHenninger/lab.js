@@ -792,10 +792,7 @@ export class Component extends EventHandler {
   }
 
   get type() {
-    return [
-      ...this.constructor.metadata.module,
-      this.constructor.name,
-    ].join('.')
+    return this.constructor.name.replace('_', '.')
   }
 }
 

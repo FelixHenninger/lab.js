@@ -1,6 +1,7 @@
 // Flow control components for lab.js
 import { mean, isFunction } from 'lodash'
-import { Component, status } from './core'
+import { Component } from './core'
+import { Status } from './base/component'
 
 // Helper function to handle nested components
 export const prepareNested = function(nested, parent) {
@@ -76,14 +77,14 @@ export class Sequence extends Component {
     // (check whether there is an active component,
     // and if so, whether it has finished)
     if (this.internals.currentComponent &&
-      this.internals.currentComponent.status !== status.done) {
+      this.internals.currentComponent.status !== Status.done) {
       this.internals.currentComponent.off('after:end', this.internals.stepper)
       this.internals.currentComponent.end('abort by sequence')
     }
   }
 
   async step(frameTimeStamp, frameSynced) {
-    if (this.status === status.done) {
+    if (this.status === Status.done) {
       throw new Error('Sequence ended, can\'t take any more steps')
     }
 
@@ -103,7 +104,7 @@ export class Sequence extends Component {
     // If the sequence has ended,
     // report it as completed
     // (even if content was skipped)
-    return this.status === status.done ? 1 : mean(
+    return this.status === Status.done ? 1 : mean(
       this.options.content.map(c => c.progress),
     )
   }
@@ -261,7 +262,7 @@ export class Parallel extends Component {
   onEnd() {
     // Cancel remaining running nested components
     this.options.content.forEach((c) => {
-      if (c.status < status.done) {
+      if (c.status < Status.done) {
         c.end('abort by parallel')
       }
     })
@@ -271,7 +272,7 @@ export class Parallel extends Component {
     // If the parallel has ended,
     // report it as completed
     // (even if content was skipped)
-    return this.status === status.done ? 1 : mean(
+    return this.status === Status.done ? 1 : mean(
       this.options.content.map(c => c.progress),
     )
   }

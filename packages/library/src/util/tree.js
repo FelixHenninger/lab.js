@@ -9,7 +9,7 @@ export const traverse = (root, callback) => {
 
   if (metadata.nestedComponents) {
     // Retrieve nested components form associated options
-    metadata.nestedComponents.forEach((o) => {
+    metadata.nestedComponents.forEach(o => {
       const nested = root.options[o]
 
       if (isArray(nested)) {
@@ -28,16 +28,7 @@ export const reduce = (root, callback, initialValue) => {
 
   // Traverse tree, while updating
   // the initial value throughout
-  traverse(
-    root,
-    current => (accumulator = callback(accumulator, current)),
-  )
+  traverse(root, current => (accumulator = callback(accumulator, current)))
 
   return accumulator
 }
-
-export const aggregateParentOption = (leaf, option) =>
-  Object.assign({},
-    ...leaf.parents.map(o => o.options[option] || {}),
-    leaf.options[option],
-  )

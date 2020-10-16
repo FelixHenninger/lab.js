@@ -629,6 +629,29 @@ describe('Core', () => {
         })
       })
 
+      it('passes controller global to event handlers', async () => {
+        let prepareContext
+        b.on('prepare', (_, context) => {
+          prepareContext = context
+        })
+
+        let runContext
+        b.on('run', (_, context) => {
+          runContext = context
+        })
+
+        await b.run()
+
+        assert.equal(
+          prepareContext,
+          b.internals.controller.global,
+        )
+        assert.equal(
+          runContext,
+          b.internals.controller.global,
+        )
+      })
+
       it('runs internal event handlers only once if requested', () => {
         const spy = sinon.spy()
         const spyOnce = sinon.spy()
@@ -666,17 +689,20 @@ describe('Core', () => {
         })
       })
 
-      it('accepts internal event handlers via the messageHandlers option', () => {
-        const handler = () => null
+      it('accepts internal event handlers via the hooks option', async () => {
+        const handler = sinon.stub()
         b = new lab.core.Component({
-          messageHandlers: {
+          hooks: {
             'someEvent': handler
           }
         })
 
-        assert.include(
-          b.internals.callbacks['$someEvent'],
-          handler
+        // Note that this requires preparation
+        await b.prepare()
+        b.emit('someEvent')
+
+        assert.ok(
+          handler.calledOnce
         )
       })
 
@@ -685,7 +711,7 @@ describe('Core', () => {
           assert.ok(true)
         })
 
-        b.triggerMethod('foo')
+        b.trigger('foo')
 
         return p
       })
@@ -822,14 +848,9 @@ describe('Core', () => {
 
       it('proxies reads from parameter property', () => {
         const c = new lab.core.Component()
-        const s = new lab.flow.Sequence({
-          content: [c],
-          parameters: {
-            foo: 'bar'
-          }
-        })
+        c.options.parameters.foo = 'bar'
 
-        return s.prepare().then(() => {
+        return c.prepare().then(() => {
           assert.equal(
             c.parameters.foo,
             'bar'
@@ -841,12 +862,13 @@ describe('Core', () => {
         const c = new lab.core.Dummy()
 
         // (parameter inheritance is tested elsewhere)
-        c.options.datastore = new lab.data.Store()
         c.options.parameters['foo'] = 'bar'
 
-        const spy = sinon.stub(c, 'commit')
-
-        c.run().then(() => {
+        let spy
+        return c.prepare().then(() => {
+          spy = sinon.stub(c.internals.controller.globals.datastore, 'commit')
+          return c.run()
+        }).then(() => {
           assert.ok(spy.calledOnce)
           assert.equal(
             spy.firstCall.args[0]['foo'],
@@ -865,16 +887,6 @@ describe('Core', () => {
 
         c.options.demoOption = 'changed value'
         assert.equal(c.internals.rawOptions.demoOption, 'changed value')
-      })
-
-      it('retrieves options via internals.parsedOptions', () => {
-        const c = new lab.core.Component({
-          demoOption: 'demo value',
-        })
-        assert.equal(c.options.demoOption, 'demo value')
-
-        c.internals.parsedOptions.demoOption = 'substituted value'
-        assert.equal(c.options.demoOption, 'substituted value')
       })
 
       it('parses options that are included in parsableOptions during prepare', () => {
@@ -999,7 +1011,6 @@ describe('Core', () => {
         return c.prepare().then(() => {
           c.options.correctResponse = '${ parameters.foo }'
           assert.equal(c.internals.rawOptions.correctResponse, '${ parameters.foo }')
-          assert.equal(c.internals.parsedOptions.correctResponse, 'bar')
           assert.equal(c.options.correctResponse, 'bar')
         })
       })
@@ -1064,50 +1075,36 @@ describe('Core', () => {
       })
 
       it('state property reads from data store', () => {
-        b.options.datastore = new lab.data.Store()
-        b.options.datastore.set('foo', 'bar')
+        return b.prepare().then(() => {
+          b.internals.controller.globals.datastore.set('foo', 'bar')
 
-        assert.equal(
-          b.state.foo,
-          'bar'
-        )
+          assert.equal(
+            b.state.foo,
+            'bar'
+          )
+        })
       })
 
       it('state property writes to data store', () => {
-        b.options.datastore = new lab.data.Store()
-        b.state.foo = 'bar'
+        return b.prepare().then(() => {
+          b.state.foo = 'bar'
 
-        assert.equal(
-          b.options.datastore.state.foo,
-          'bar'
-        )
-      })
-
-      it('commit method passes data to data store', () => {
-        b.options.datastore = new lab.data.Store()
-
-        // Spy on the datastore's commit method
-        const spy = sinon.spy(b.options.datastore, 'commit')
-
-        b.commit({ 'foo': 'bar' })
-
-        assert.ok(spy.calledOnce)
-        assert.equal(
-          spy.firstCall.args[0].foo,
-          'bar'
-        )
+          assert.equal(
+            b.internals.controller.globals.datastore.state.foo,
+            'bar'
+          )
+        })
       })
 
       it('commits data automatically when ending', () => {
-        // Spy on the commit method
-        const spy = sinon.spy(b, 'commit')
+        let spy
 
-        // Supply the Component with a data store
-        // (it won't commit otherwise)
-        b.options.datastore = new lab.data.Store()
-
-        // Make sure the commit method was run
-        return b.run().then(
+        return b.prepare().then(() => {
+          // Spy on the commit method
+          spy = sinon.spy(b.internals.controller.globals.datastore, 'commit')
+          return b.run()
+        }).then(
+          // Make sure the commit method was run
           () => b.end()
         ).then(() => {
           assert.ok(spy.calledOnce)
@@ -1118,37 +1115,28 @@ describe('Core', () => {
     describe('Hierarchy traversal', () => {
       let a, b, c
 
-      // Note that this is somewhat hackish --
-      // a hierarchy of simple core.Components
-      // will not prepare nested components
-      // properly. However, it seemed smarter
-      // not to rely on, e.g. flow.Sequences
-      // at this point to simplify testing.
+      // Note that this is somewhat hackish, because it relies on
+      // sequences working -- it might be more useful to implement a
+      // general nested-component-preparation mechanism, and then revert
+      // all of these to core.Components.
       beforeEach(() => {
-        a = new lab.core.Component()
-        b = new lab.core.Component()
         c = new lab.core.Component()
-
-        c.parent = b
-        b.parent = a
+        b = new lab.flow.Sequence({ content: [c] })
+        a = new lab.flow.Sequence({ content: [b] })
       })
 
-      it('provides parents attribute', () => {
-        assert.deepEqual(
-          c.parents,
-          [a, b]
-        )
-      })
-
-      it('saves root component internally', () =>
-        c.prepare().then(() => {
-          assert.equal(c.internals.root, a)
+      it('provides parents attribute', () =>
+        a.prepare().then(() => {
+          assert.deepEqual(
+            c.parents,
+            [a, b]
+          )
         })
       )
 
-      it('root component is undefined for topmost component', () =>
+      it('saves root component internally', () =>
         a.prepare().then(() => {
-          assert.equal(a.internals.root, undefined)
+          assert.equal(c.internals.controller.root, a)
         })
       )
     })
@@ -1215,33 +1203,19 @@ describe('Core', () => {
       })
 
       it('provides additional output to console if debug option is set', () => {
-        // Yes, I am a slave to test coverage -FH
         sinon.stub(console, 'log')
-        sinon.stub(console, 'info')
-        sinon.stub(console, 'group')
-        sinon.stub(console, 'time')
-        sinon.stub(console, 'timeEnd')
 
         const c = new lab.core.Dummy({
           debug: true
         })
 
-        const p = c.waitFor('epilogue')
+        const p = c.waitFor('end')
 
         return c.run()
           .then(() => p)
           .then(() => {
             assert.ok(console.log.called)
-            assert.ok(console.info.called)
-            assert.ok(console.group.called)
-            assert.ok(console.time.called)
             console.log.restore()
-            console.info.restore()
-            console.group.restore()
-            console.time.restore()
-            // Wait a moment to avoid errors
-            // (the epilogue event is not yet over)
-            window.setTimeout(() => console.timeEnd.restore(), 0)
           })
       })
     })
@@ -1258,44 +1232,44 @@ describe('Core', () => {
     })
 
     it('adds and initializes new plugins', () => {
-      assert.deepEqual(c.plugins.plugins, [])
+      assert.deepEqual(c.internals.plugins.plugins, [])
 
       // Add plugin
       const spy = sinon.spy(plugin, 'handle')
-      c.plugins.add(plugin)
+      c.internals.plugins.add(plugin)
 
       // Check result
-      assert.deepEqual(c.plugins.plugins, [plugin])
+      assert.deepEqual(c.internals.plugins.plugins, [plugin])
       assert.ok(
         spy.calledWith(c, 'plugin:init')
       )
     })
 
     it('removes plugins if requested', () => {
-      c.plugins.add(plugin)
+      c.internals.plugins.add(plugin)
 
       // Remove plugin
       const spy = sinon.spy(plugin, 'handle')
-      c.plugins.remove(plugin)
+      c.internals.plugins.remove(plugin)
 
       // Check result
-      assert.deepEqual(c.plugins.plugins, [])
+      assert.deepEqual(c.internals.plugins.plugins, [])
       assert.ok(
         spy.calledWith(c, 'plugin:removal')
       )
     })
 
     it('passes events to plugins', () => {
-      c.plugins.add(plugin)
+      c.internals.plugins.add(plugin)
 
       // Setup spy
       const spy = sinon.spy(plugin, 'handle')
       assert.notOk(spy.called)
 
       // Trigger event and record results
-      c.plugins.trigger('foo', 1, 2, 3)
+      c.trigger('foo', [1, 2, 3])
       assert.ok(
-        spy.calledWith(c, 'foo', 1, 2, 3)
+        spy.calledWith(c, 'foo', [1, 2, 3])
       )
     })
   })
