@@ -159,18 +159,55 @@ export class Screen extends Component {
             ? window.devicePixelRatio
             : 1
 
-          // Return modified event
-          return {
-            eventName, filters,
-            selector: 'canvas',
-            moreChecks: [
-              e => this.options.ctx.isPointInPath(
-                this.internals.paths[selector.slice(1)],
-                e.offsetX * pixelRatio,
-                e.offsetY * pixelRatio
-              )
-            ]
+          if (['mouseenter', 'mouseleave'].includes(eventName)) {
+            const makeCheckFunc = function(initial=true, rising=true) {
+              // Buffer last result
+              let lastResult = initial
+
+              return function checkFunc(e, context) {
+                const checkResult = context.options.ctx.isPointInPath(
+                  context.internals.paths[selector.slice(1)],
+                  e.offsetX * pixelRatio,
+                  e.offsetY * pixelRatio
+                )
+
+                // Detect edge
+                const output = rising
+                  ? !lastResult && checkResult
+                  : lastResult && !checkResult
+
+                // Save last result
+                lastResult = checkResult
+
+                return output
+              }
+            }
+
+            const checkFunc = eventName == 'mouseenter'
+              ? makeCheckFunc(true, true)
+              : makeCheckFunc(false, false)
+
+            // Return modified event
+            return {
+              eventName: 'mousemove', filters,
+              selector: 'canvas',
+              moreChecks: [checkFunc],
+            }
+          } else {
+            // Return modified event
+            return {
+              eventName, filters,
+              selector: 'canvas',
+              moreChecks: [
+                e => this.options.ctx.isPointInPath(
+                  this.internals.paths[selector.slice(1)],
+                  e.offsetX * pixelRatio,
+                  e.offsetY * pixelRatio
+                )
+              ],
+            }
           }
+
         } else {
           // Return unmodified event, following default behavior
           return { eventName, filters, selector }
