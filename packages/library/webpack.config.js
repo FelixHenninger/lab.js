@@ -33,67 +33,16 @@ module.exports = (env, argv) => {
     '(c) 2015- Felix Henninger',
   ].join('\n')
 
-  // Define babel options
-  const babelPresets = {
-    legacy: {
-      presets: [
-        ['@babel/env', {
-          // Module generation is handled by webpack
-          modules: false,
-          useBuiltIns: 'usage',
-          corejs: 3,
-        }],
-      ],
-      plugins: [
-        '@babel/plugin-proposal-class-properties',
-        'lodash',
-        ['module:fast-async', {
-          runtimePattern: './src/index.js'
-        }],
-      ],
-    },
-    default: {
-      presets: [
-        ['@babel/env', {
-          targets: {
-            browsers: [
-              '> 2%',
-              'last 2 versions', // 'not dead',
-              'Firefox ESR',
-              'not IE 11', 'not ExplorerMobile 11',
-              'not OperaMini all', 'not OperaMobile < 37',
-              'not Android < 60',
-            ],
-          },
-          exclude: [
-            'transform-async-to-generator',
-            'transform-regenerator',
-          ],
-          // Module generation is handled by webpack
-          modules: false,
-          useBuiltIns: 'usage',
-          corejs: 3,
-        }],
-      ],
-      plugins: [
-        '@babel/plugin-proposal-class-properties',
-        'lodash',
-      ],
-    }
-  }
-
-  const babelOptions = Object.keys(babelPresets).includes(target)
-    ? babelPresets[target]
-    : babelPresets.default
-
   const config = {
     mode: mode === 'development' ? mode : 'production',
+    resolve: {
+      extensions: ['.ts', '.js'],
+    },
     module: {
       rules: [{
-        loader: 'babel-loader',
-        test: /\.js$/,
+        loader: 'ts-loader',
+        test: /\.[jt]s$/,
         include: path.join(__dirname, 'src'),
-        options: babelOptions,
       }],
     },
     devtool: mode === 'development' ? 'inline-source-map' : 'source-map',
