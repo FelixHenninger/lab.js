@@ -5,7 +5,7 @@ import { Screen, Form, Frame, Page } from './html'
 import { Sequence, Parallel, Loop } from './flow'
 
 // Data storage
-import { Store } from './data'
+import { Store } from './data/store'
 
 // Utilities
 import { Random } from './util/random'

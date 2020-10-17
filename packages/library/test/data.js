@@ -216,14 +216,14 @@ describe('Data handling', () => {
         ds.set({ 'one': 1, 'two': 2 })
         const spy = sinon.spy(ds, 'get')
 
-        assert.equal(ds.stateProxy['one'], 1)
+        assert.equal(ds.state['one'], 1)
         assert.ok(spy.withArgs('one').calledOnce)
       })
 
       it('writes via set method', () => {
         const spy = sinon.spy(ds, 'set')
 
-        ds.stateProxy['one'] = 1
+        ds.state['one'] = 1
         assert.equal(ds.get('one'), 1)
         assert.ok(spy.withArgs('one', 1).calledOnce)
       })
@@ -276,11 +276,11 @@ describe('Data handling', () => {
       })
 
       it('provides the participant id as a property', () => {
-        assert.isUndefined(ds.id)
+        assert.isUndefined(ds.guessId())
 
         ds.set({ id: 'abc' })
 
-        assert.equal(ds.id, 'abc')
+        assert.equal(ds.guessId(), 'abc')
       })
 
       it('can suggest a filename', () => {
@@ -652,8 +652,7 @@ describe('Data handling', () => {
 
         // Stub window.fetch to return the response,
         // wrapped in a promise
-        sinon.stub(window, 'fetch')
-          .returns(Promise.resolve(res))
+        sinon.stub(window, 'fetch').resolves(res)
 
         // Commit data to data store as well as staging area
         ds.commit({ 'one': 1, 'two': 2 })
@@ -765,29 +764,28 @@ describe('Data handling', () => {
       })
 
       it('logs last incrementally transmitted row', () => {
-        return ds.transmit(
-          'https://random.example', {},
-          { incremental: true }
-        ).then(() => {
-            assert.equal(ds._lastIncrementalTransmission, 2)
+        const queue = ds.transmissionQueue(0)
+
+        return queue.queueTransmission('https://random.example', {})
+          .then(() => {
+            assert.equal(queue.lastTransmission, 2)
 
             // Add new row and transmit again
             ds.commit()
-            return ds.transmit(
-              'https://random.example', {},
-              { incremental: true }
-            )
+            return queue.queueTransmission('https://random.example', {})
           }).then(() => {
-            assert.equal(ds._lastIncrementalTransmission, 3)
+            assert.equal(queue.lastTransmission, 3)
           })
       })
 
       it('can debounce transmissions', () => {
         const clock = sinon.useFakeTimers()
 
-        ds.queueIncrementalTransmission('https://random.example')
+        const queue = ds.transmissionQueue()
+        queue.queueTransmission('https://random.example')
+        clock.tick(100)
         assert.notOk(window.fetch.called)
-        clock.tick(2500)
+        clock.tick(2400)
         assert.ok(window.fetch.called)
 
         clock.restore()
@@ -796,9 +794,10 @@ describe('Data handling', () => {
       it('sends all new data with debounced transmission', () => {
         const clock = sinon.useFakeTimers()
 
-        ds.queueIncrementalTransmission('https://random.example')
+        const queue = ds.transmissionQueue()
+        queue.queueTransmission('https://random.example')
         ds.commit({ six: 6 })
-        ds.queueIncrementalTransmission('https://random.example')
+        queue.queueTransmission('https://random.example')
         clock.runAll()
 
         assert.ok(window.fetch.calledOnce)
@@ -816,7 +815,8 @@ describe('Data handling', () => {
         })
 
         // Queue and transmit first batch of data
-        ds.queueIncrementalTransmission('https://random.example')
+        const queue = ds.transmissionQueue()
+        queue.queueTransmission('https://random.example')
 
         // Fast-forward through first transmission
         await clock.runAllAsync()
@@ -826,7 +826,7 @@ describe('Data handling', () => {
 
         // Add new data, and transmit it
         ds.commit({ six: 6 })
-        ds.queueIncrementalTransmission('https://random.example')
+        queue.queueTransmission('https://random.example')
 
         // Fast-forward again
         await clock.runAllAsync()
@@ -839,54 +839,6 @@ describe('Data handling', () => {
         )
       })
 
-      it('re-sends earlier data if incremental transmission fails', () => {
-        // As above, but this time fail on a first set of transmissions
-        window.fetch.callsFake(() => Promise.reject('nope'))
-
-        const clock = sinon.useFakeTimers()
-        const p = ds.queueIncrementalTransmission('https://random.example')
-        clock.runAll()
-        clock.restore()
-
-        // Fast-forward through first batch of data (failing)
-        return p.catch(error => null) // Disregard error
-          .then(() => {
-            const clock = sinon.useFakeTimers()
-
-            // This time, the transmission succeeds
-            window.fetch.resetHistory()
-            window.fetch.callsFake(() => Promise.resolve(new Response()))
-
-            // Add new data, and transmit it
-            ds.commit({ six: 6 })
-            ds.queueIncrementalTransmission('https://random.example')
-
-            // Fast-forward again
-            clock.runAll()
-
-            assert.ok(window.fetch.calledOnce)
-            assert.deepEqual(
-              extractData(window.fetch.lastCall.args),
-              [
-                { one: 1, two: 2 },
-                { three: 3, four: 4 },
-                { five: 5, six: 6 }
-              ]
-            )
-            clock.restore()
-          })
-      })
-
-      it('can flush pending transmissions', () => {
-        const clock = sinon.useFakeTimers()
-
-        ds.queueIncrementalTransmission('https://random.example')
-        assert.notOk(window.fetch.called)
-        ds.flushIncrementalTransmissionQueue()
-        assert.ok(window.fetch.called)
-
-        clock.restore()
-      })
     })
   })
 })

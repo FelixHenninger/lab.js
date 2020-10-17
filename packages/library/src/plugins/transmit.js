@@ -22,10 +22,12 @@ export default class Transmit {
     switch (event) {
       case 'prepare':
         if (this.updates.incremental) {
+          // Setup incremental transmission logic
+          this.queue = context.options.datastore.transmissionQueue()
           // Set commit handler on data store
           // (inside the handler, this refers to the store)
-          context.options.datastore.on('idle', function() {
-            this.queueIncrementalTransmission(
+          context.options.datastore.on('idle', () => {
+            this.queue.queueTransmission(
               url,
               { ...metadata, payload: 'incremental' },
               { headers: this.headers, encoding: this.encoding },

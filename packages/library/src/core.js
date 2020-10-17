@@ -1,7 +1,7 @@
 import { cloneDeepWith } from 'lodash'
 import Proxy from 'es2015-proxy'
 
-import { Store } from './data'
+import { Store } from './data/store'
 import { EventHandler } from './util/eventAPI'
 import { Timeline } from './util/timeline'
 import { DomConnection } from './util/domEvents'

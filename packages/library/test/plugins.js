@@ -82,17 +82,17 @@ describe('Plugins', () => {
         sinon.stub(c.options.datastore, 'transmit')
           .callsFake(() => Promise.resolve())
 
-        sinon.stub(c.options.datastore, 'queueIncrementalTransmission')
+        sinon.stub(p.queue, 'queueTransmission')
       })
     })
 
     afterEach(() => {
       // Cancel transmission queue
-      c.options.datastore._debouncedTransmit.cancel()
+      p.queue.cancel()
 
       // Restore stubs
       c.options.datastore.transmit.restore()
-      c.options.datastore.queueIncrementalTransmission.restore()
+      p.queue.queueTransmission.restore()
     })
 
     it('queues incremental transmission before epilogue event', () => {
@@ -107,7 +107,7 @@ describe('Plugins', () => {
         epiloguePromise
       ).then(() => {
         assert.ok(
-          c.options.datastore.queueIncrementalTransmission.withArgs(
+          p.queue.queueTransmission.withArgs(
             'https://arbitrary.example',
             { id: p.metadata.id, payload: 'incremental' }
           ).calledOnce
