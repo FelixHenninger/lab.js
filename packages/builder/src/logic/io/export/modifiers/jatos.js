@@ -89,7 +89,7 @@ const updateScript = (source) =>
 const addJatosIntegration = (state) => {
   // Add logic for saving data
   state.components.root.messageHandlers =
-    (state.components.root.messageHandlers || { rows: [] })
+    (state.components.root.messageHandlers || [])
 
   // TODO: This is probably not the most elegant way to
   // achieve integration -- possibly a plugin would be nicer?
