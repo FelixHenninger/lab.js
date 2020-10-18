@@ -2,7 +2,7 @@ import { isObject } from 'lodash'
 
 import { Row } from '../store'
 
-const escapeCell = (c: any): string => {
+export const escapeCell = (c: any): string => {
   // Stringify non-primitive data
   if (isObject(c)) {
     c = JSON.stringify(c)
@@ -10,14 +10,19 @@ const escapeCell = (c: any): string => {
 
   // Escape CSV cells as per RFC 4180
   if (typeof c === 'string') {
-    // Replace double quotation marks by
-    // double double quotation marks
+    // Replace double quotation marks with double double quotation marks
     c = c.replace(/"/g, '""')
 
     // Surround a cell if it contains a comma,
     // (double) quotation marks, or a line break
     if (/[,"\n]+/.test(c)) {
       c = `"${c}"`
+    }
+
+    // Escape any symbols that Excel might interpret as formulas
+    // (see https://owasp.org/www-community/attacks/CSV_Injection)
+    if (/^[=+\-@\r\t]/.test(c)) {
+      c = `'${c}`
     }
   }
 
