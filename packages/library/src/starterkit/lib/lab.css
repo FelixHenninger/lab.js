@@ -34,10 +34,10 @@
 /* Content layout */
 body {
   margin: 0;
-  background: var(--color-background)
+  background: var(--color-background);
 }
 ::backdrop {
-  background: var(--color-background)
+  background: var(--color-background);
 }
 
 .container {
