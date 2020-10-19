@@ -3,15 +3,15 @@ import { isPlainObject, throttle } from 'lodash'
 const payload = `<style type="text/css">
   .labjs-debug-opener {
     font-size: 1.2rem;
-    color: #8d8d8d;
+    color: var(--color-gray-content, #8d8d8d);
     /* Box formatting */
     width: 40px;
     height: 32px;
     padding: 6px 8px;
     border-radius: 3px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--color-border, #e5e5e5);
     z-index: 3;
-    background-color: white;
+    background-color: var(--color-background, white);
     /* Fixed position */
     position: fixed;
     bottom: 36px;
@@ -31,7 +31,7 @@ const payload = `<style type="text/css">
   }
 
   .labjs-debug-overlay {
-    font-family: "Arial", sans-serif;
+    font-family: var(--font-family, "Arial", sans-serif);
     color: black;
     /* Box formatting */
     width: 100vw;
@@ -41,7 +41,7 @@ const payload = `<style type="text/css">
     left: 0;
     z-index: 2;
     background-color: white;
-    border-top: 2px solid #e5e5e5;
+    border-top: 2px solid var(--color-border, #e5e5e5);
     display: none;
     overflow: scroll;
   }
@@ -52,13 +52,13 @@ const payload = `<style type="text/css">
 
   .labjs-debug-overlay-menu {
     font-size: 0.8rem;
-    color: #8d8d8d;
+    color: var(--color-gray-content, #8d8d8d);
     padding: 8px 12px 6px;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--color-border, #e5e5e5);
   }
 
   .labjs-debug-overlay-menu a {
-    color: #8d8d8d;
+    color: var(--color-gray-content, #8d8d8d);
   }
 
   .labjs-debug-overlay-menu .pull-right {
@@ -79,7 +79,7 @@ const payload = `<style type="text/css">
   }
 
   .labjs-debug-overlay-contents table tr.labjs-debug-state {
-    background-color: #f8f8f8;
+    background-color: var(--color-gray-background, #f8f8f8);
   }
 
   /* Truncated cells */
