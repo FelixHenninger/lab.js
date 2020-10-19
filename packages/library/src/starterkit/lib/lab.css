@@ -15,6 +15,7 @@
   /* (line height is specified in em so that it adapts to varying font sizes) */
   --paragraph-margin-vertical: var(--font-size);
   /* Colors */
+  --color-text: black;
   --color-background: white;
   --color-border: #e5e5e5;
   --color-border-internal: #efefef;
@@ -142,6 +143,7 @@ footer {
 
 /* Typography */
 :root {
+  color: var(--color-text);
   font-family: var(--font-family);
   font-size: var(--font-size);
   line-height: var(--line-height);
@@ -173,9 +175,9 @@ kbd {
   font-size: 0.9rem;
   text-align: center;
   /* Background and border */
-  background-color: white;
+  background-color: var(--color-background);
   border-radius: var(--border-radius-content);
-  border: 1px solid rgb(180, 180, 180);
+  border: 1px solid var(--color-border);
 }
 kbd.big {
   font-size: 1.4rem;
