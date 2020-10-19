@@ -1,5 +1,5 @@
 import { Store } from './store'
-import { debounceAsync } from '../util/network'
+import { debounceAsync } from './util/network'
 
 export class TransmissionQueue {
   lastTransmission: number = 0

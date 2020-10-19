@@ -12,7 +12,7 @@ import { Emitter } from '../base/util/emitter'
 import { dateString } from './util/dates'
 import { cleanData } from './util/clean'
 import { toCsv } from './util/csv'
-import { fetch as fetchRetry } from '../util/network'
+import { fetch as fetchRetry } from './util/network'
 import { TransmissionQueue } from './queue'
 
 export type Row = Record<string, any>
