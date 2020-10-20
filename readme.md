@@ -117,6 +117,7 @@ Nick Robinson ·
 [Hendrik Singmann](http://singmann.org) ·
 Dawid Strzelczyk ·
 [Kevin Tiede](https://www.spds.uni-konstanz.de/kevin-tiede) ·
+[Anne Voormann](https://www.psychologie.uni-freiburg.de/abteilungen/Members/voormann) ·
 [Andreas Voss](https://www.psychologie.uni-heidelberg.de/ae/meth/) ·
 [Andrew White](https://github.com/shiroandy) ·
 [Malte Zimdahl](http://psycho3.uni-mannheim.de/Personen/Malte%20Zimdahl,%20M.Sc./)
