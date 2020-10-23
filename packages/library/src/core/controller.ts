@@ -1,7 +1,7 @@
 import { Component } from '../base/component'
 import { Controller as BaseController } from '../base/controller'
 import { Store } from '../data/store'
-import { ImageCache, AudioCache } from '../util/cache'
+import { ImageCache, AudioCache } from './cache'
 
 declare global {
   interface Window {
