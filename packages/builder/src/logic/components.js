@@ -40,7 +40,7 @@ const globalDefaults = {
   parameters: [
     { name: '', value: '', type: 'string' },
   ],
-  messageHandlers: [
+  hooks: [
     { title: '', message: '', code: '' },
   ],
 }

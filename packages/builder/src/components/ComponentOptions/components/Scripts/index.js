@@ -97,10 +97,10 @@ export default ({ id, data }) =>
   <Card title="Scripts" wrapContent={ false }>
     <Form
       id={ id } data={ data }
-      keys={ ['messageHandlers'] }
+      keys={ ['hooks'] }
     >
       <Table
-        name="messageHandlers"
+        name="hooks"
         defaultItem={{ title: '', message: '', code: '' }}
         row={ GridRow }
         className="no-header"

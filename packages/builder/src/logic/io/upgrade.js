@@ -500,6 +500,18 @@ const updates = {
       return c
     })
   }),
+  '21.alpha.1': data => ({
+    // Rename messageHandlers option to hooks
+    ...data,
+    version: [21, 'alpha', 2],
+    components: mapValues(data.components, c => {
+      if (c.messageHandlers) {
+        c.hooks = c.messageHandlers
+        delete c.messageHandlers
+      }
+      return c
+    })
+  }),
 }
 
 export default (data) => {

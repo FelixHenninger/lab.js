@@ -24,9 +24,9 @@ const processFiles = files =>
     files.map(f => [f.localPath.trim(), f.poolPath.trim()])
   )
 
-const processMessageHandlers = (messageHandlers) =>
+const processHooks = (hooks) =>
   fromPairs(
-    messageHandlers
+    hooks
       .filter(h => h.message.trim() !== '' && h.code.trim() !== '')
       // TODO: Evaluate the safety implications
       // of the following de-facto-eval.
@@ -143,9 +143,9 @@ const processNode = node => {
     files: node.files
       ? processFiles(node.files)
       : {},
-    messageHandlers: node.messageHandlers
-      ? processMessageHandlers(node.messageHandlers)
-      : node.messageHandlers,
+    hooks: node.hooks
+      ? processHooks(node.hooks)
+      : node.hooks,
     parameters: node.parameters
       ? processParameters(node.parameters)
       : {},
