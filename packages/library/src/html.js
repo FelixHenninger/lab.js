@@ -1,5 +1,5 @@
 // HTML-based displays for lab.js
-import { Component } from './core'
+import { Component } from './core/component'
 import { Status } from './base/component'
 import { prepareNested } from './flow'
 

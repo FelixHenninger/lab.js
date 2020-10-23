@@ -1,5 +1,6 @@
 // Components
-import { Component, Dummy } from './core'
+import { Component } from './core/component'
+import { Dummy } from './base/dummy' // FIXME
 import { Screen as CanvasScreen, Frame as CanvasFrame } from './canvas'
 import { Screen, Form, Frame, Page } from './html'
 import { Sequence, Parallel, Loop } from './flow'
@@ -16,7 +17,7 @@ import { logTimestamp } from './util/events'
 import { distance, toRadians, polygon, polygonVertex } from './util/geometry'
 import { launch, exit } from './util/fullscreen'
 import { sum, mean, variance, std } from './util/stats'
-import { FrameTimeout } from './util/timing'
+import { FrameTimeout } from './core/timing/timeout'
 import { traverse, reduce } from './util/tree'
 
 // Plugins

@@ -1,6 +1,6 @@
 // Flow control components for lab.js
 import { mean, isFunction } from 'lodash'
-import { Component } from './core'
+import { Component } from './core/component'
 import { Status } from './base/component'
 
 // Helper function to handle nested components

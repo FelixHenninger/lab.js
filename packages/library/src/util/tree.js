@@ -1,5 +1,5 @@
 import { isArray, cloneDeep } from 'lodash'
-import { Component } from '../core'
+import { Component } from '../core/component'
 
 export const traverse = (root, callback) => {
   callback(root)

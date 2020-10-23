@@ -92,7 +92,7 @@ export class ImageCache extends AsyncCache {
   }
 }
 
-import { load as loadAudioBuffer } from './timeline/items/audio'
+import { load as loadAudioBuffer } from '../core/timeline/items/audio'
 
 export class AudioCache extends AsyncCache {
   constructor(audioContext: AudioContext) {

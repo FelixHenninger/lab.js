@@ -1,6 +1,5 @@
 // Shim keyboard event data for IE and Edge for the time being
 import 'shim-keyboard-event-key'
-import { ensureHighResTime } from './timing'
 
 // Split an eventString into event name, options and selector
 const splitEventString = function (eventString: string) {
@@ -18,7 +17,7 @@ const splitEventString = function (eventString: string) {
     ;[, eventName, selector] = directHandlerRegEx.exec(eventString)
   } else if (wrappedHandlerRegEx.test(eventString)) {
     ;[, eventName, filters, selector] = wrappedHandlerRegEx.exec(eventString)
-    filters = filters.split(',').map(o => o.trim())
+    filters = filters.split(',').map((o: string) => o.trim())
   } else {
     console.log("Can't interpret event string ", eventString)
   }
@@ -41,7 +40,7 @@ const makeChecks = function (
   const checks = []
 
   // Check that event happened after the cut-off
-  checks.push((e: InputEvent) => ensureHighResTime(e.timeStamp) >= startTime)
+  checks.push((e: InputEvent) => e.timeStamp >= startTime)
 
   // Add additional checks depending on the event type
   if (['keypress', 'keydown', 'keyup'].includes(eventName)) {
@@ -94,10 +93,12 @@ const defaultProcessEvent = (
   [eventName, filters, selector]: [string, any[], string],
 ) => ({ eventName, filters, selector })
 
+export type EventMap = { [eventString: string]: (e: Event) => void }
+
 // eslint-disable-next-line import/prefer-default-export
 export class DomConnection {
   el: HTMLElement
-  events: { [eventString: string]: Function }
+  events: EventMap
   parsedEvents: [string, string, string, EventListener][]
   context: any
   processEvent: Function
@@ -110,7 +111,7 @@ export class DomConnection {
     processEvent,
   }: {
     el: HTMLElement
-    events: { [eventString: string]: Function }
+    events: EventMap
     context: any
     processEvent: Function // TODO be more specific
   }) {
@@ -146,7 +147,7 @@ export class DomConnection {
     }
 
     // Only trigger handler if all checks pass
-    return e =>
+    return (e: Event) =>
       checks.reduce((acc, check) => acc && check(e, this.context), true)
         ? handler(e)
         : null

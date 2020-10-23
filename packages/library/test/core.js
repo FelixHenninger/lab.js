@@ -138,7 +138,7 @@ describe('Core', () => {
 
         return b.prepare().then(() => {
           const [image, bitmap] =
-            b.internals.controller.cache.images.readSync(url)
+            b.internals.controller.globals.cache.images.readSync(url)
           assert.instanceOf(image, Image)
 
           // Check that loading completed
@@ -151,7 +151,7 @@ describe('Core', () => {
         b.options.media.audio.push(url)
 
         return b.prepare().then(() => {
-          const audio = b.internals.controller.cache.audio.readSync(url)
+          const audio = b.internals.controller.globals.cache.audio.readSync(url)
 
           assert.instanceOf(audio, AudioBuffer)
           assert.ok(audio.length > 0)
@@ -159,9 +159,9 @@ describe('Core', () => {
       })
 
       it('directs output to default section if no other element is specified', () =>
-        b.prepare().then(() => {
+        b.run().then(() => {
           assert.equal(
-            b.options.el,
+            b.internals.context.el,
             document.querySelector('[data-labjs-section="main"]')
           )
         })
@@ -308,7 +308,7 @@ describe('Core', () => {
           clock.runToFrame()
 
           // Component ends on next frame
-          clock.tick(500 - 16)
+          clock.tick(500)
           b.end()
         }).then(() => {
           assert.equal(b.timer, 500) // timer remains constant
@@ -329,12 +329,6 @@ describe('Core', () => {
       })
 
       it('times out if requested', () => {
-        // FIXME: This test requires that the fake clock advance itself.
-        // This has a strong whiff to it, and we should probably
-        // reconsider the API around this functionality.
-        clock.restore()
-        clock = sinon.useFakeTimers({ shouldAdvanceTime: true })
-
         // Set the timeout to 500ms
         b.options.timeout = 500
 
@@ -344,34 +338,28 @@ describe('Core', () => {
         b.on('end', callback)
 
         return b.run()
-          .then(() => b.waitFor('show'))
           .then(() => {
-            // Render component
-            clock.runToFrame()
-
-            // Check that the callback is only
-            // called after the specified interval
-            // has passed
+            // Check that the callback is only called
+            // after the specified interval has passed
             assert.notOk(callback.called)
             clock.tick(500)
+            assert.notOk(callback.called)
+            return clock.nextAsync()
+          }).then(() => {
             assert.ok(callback.calledOnce)
           })
       })
 
       it('notes timeout as status if timed out', () => {
-        // FIXME, as above
-        clock.restore()
-        clock = sinon.useFakeTimers({ shouldAdvanceTime: true })
-
         // As above
-        b.options.timeout = 500
+        b.options.timeout = 100
 
         return b.run()
-          .then(() => b.waitFor('show'))
           .then(() => {
             // Trigger timeout
-            clock.tick(1000)
-
+            clock.tick(100)
+            return clock.nextAsync()
+          }).then(() => {
             // Check that the resulting status is ok
             assert.equal(b.data.ended_on, 'timeout')
           })
@@ -419,7 +407,7 @@ describe('Core', () => {
           assert.notOk(handler.calledOnce)
 
           // Simulate click
-          b.options.el.click()
+          b.internals.context.el.click()
 
           assert.ok(handler.calledOnce)
         })
@@ -450,16 +438,16 @@ describe('Core', () => {
         return b.run().then(() => {
           // Simulate clicking both buttons in sequence,
           // and ensure that the associated handlers are triggered
-          b.options.el.querySelector('button#btn-a').click()
+          b.internals.context.el.querySelector('button#btn-a').click()
           assert.ok(handler_a.calledOnce)
           assert.notOk(handler_b.called)
 
-          b.options.el.querySelector('button#btn-b').click()
+          b.internals.context.el.querySelector('button#btn-b').click()
           assert.ok(handler_a.calledOnce)
           assert.ok(handler_b.calledOnce)
 
           // Clean up
-          b.options.el.innerHTML = ''
+          b.internals.context.el.innerHTML = ''
           return b.end()
         })
       })
@@ -573,7 +561,7 @@ describe('Core', () => {
 
         return b.run().then(() => {
           // Simulate click, triggering handler
-          b.options.el.click()
+          b.internals.context.el.click()
 
           // Check binding
           assert.ok(spy.calledOn(b))
@@ -730,12 +718,9 @@ describe('Core', () => {
           // Test whether the click triggers
           // a respond method call
           assert.notOk(spy.called)
-          b.options.el.click()
+          b.internals.context.el.click()
           assert.ok(spy.withArgs('response_keypress').calledOnce)
           assert.ok(spy.calledOnce)
-
-          // Cleanup
-          return b.end()
         })
       })
 
@@ -746,7 +731,7 @@ describe('Core', () => {
         // Run the component
         return b.run().then(() => {
           // Trigger a response
-          b.respond('foo')
+          b.respond('foo', { timestamp: 123, action: 'test' })
 
           // Check the classification
           assert.equal(b.data.correct, true)
@@ -761,7 +746,7 @@ describe('Core', () => {
         b.options.correctResponse = 'foo'
 
         return b.run().then(() => {
-          b.respond('bar')
+          b.respond('bar', { timestamp: 123, action: 'test' })
 
           // Check classification
           assert.equal(b.data.correct, false)

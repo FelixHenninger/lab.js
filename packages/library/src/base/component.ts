@@ -27,8 +27,6 @@ export type ComponentOptions = {
   plugins?: Plugin[]
   hooks?: { [event: string]: EventHandler }
   data: any
-  // FIXME: Remove catchall for strict typing
-  [key: string]: any
 }
 
 export class Component extends Emitter {
@@ -86,9 +84,9 @@ export class Component extends Emitter {
     }
 
     await this.trigger('before:prepare')
+    this.internals.armOptions()
 
     await this.trigger('prepare')
-    this.internals.armOptions()
     this.status = Status.prepared
   }
 

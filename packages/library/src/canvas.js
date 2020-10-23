@@ -1,7 +1,7 @@
 // Canvas-based displays for lab.js
 import { isObject } from 'lodash'
 
-import { Component } from './core'
+import { Component } from './core/component'
 import { Sequence as BaseSequence, Loop, Parallel,
   prepareNested } from './flow'
 import { Frame as BaseFrame } from './html'
