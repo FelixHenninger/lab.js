@@ -1,0 +1,38 @@
+import { Component } from '../base/component'
+import { Plugin } from '../base/plugin'
+
+export default class Submit implements Plugin {
+  async handle(context: Component, event: string) {
+    if (event === 'after:end' && context.options.datastore) {
+      const form = document.querySelector(
+        'form[name="labjs-data"]',
+      ) as HTMLFormElement
+
+      try {
+        // Try to insert a file directly into the submission form
+        // TODO: Remove the ugly workaround via ClipboardEvent
+        // and DataTransfer once there is a standardized way
+        // to accomplish this. See the whatwg issue at
+        // https://github.com/whatwg/html/issues/3269
+        const transfer =
+          new ClipboardEvent('').clipboardData || new DataTransfer()
+        transfer.items.add(
+          new File([context.options.datastore.exportCsv()], 'data.csv'),
+        )
+        //@ts-ignore Typescript doesn't like indexing by string
+        form.elements['dataFile'].files = transfer.files
+      } catch (error) {
+        console.log(
+          "Couldn't append data file to form " +
+            'falling back to direkt insertion. ' +
+            'Error was',
+          error,
+        )
+        //@ts-ignore As above
+        form.elements['dataRaw'].value = context.options.datastore.exportCsv()
+      }
+
+      form.submit()
+    }
+  }
+}

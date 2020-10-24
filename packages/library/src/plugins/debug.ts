@@ -1,4 +1,6 @@
 import { isPlainObject, throttle } from 'lodash'
+import { Component } from '../base/component'
+import { Store } from '../data/store'
 
 const payload = `<style type="text/css">
   .labjs-debug-opener {
@@ -107,23 +109,24 @@ const payload = `<style type="text/css">
   </div>
 </div>`
 
-const makeMessage = msg => `
+const makeMessage = (msg: string) => `
   <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center;">
-    ${ msg }
+    ${msg}
   </div>`
 
-const truncate = (s) => {
+const truncate = (s: string) => {
   // Restrict string length
-  const output = s.length > 80
-    ? `<div class="labjs-debug-trunc">${ s.substr(0, 100) }</div>`
-    : s
+  const output =
+    s.length > 80
+      ? `<div class="labjs-debug-trunc">${s.substr(0, 100)}</div>`
+      : s
 
   // Insert invisible space after commas,
   // allowing for line breaks
   return output.replace(/,/g, ',&#8203;')
 }
 
-const parseCell = (contents) => {
+const parseCell = (contents: any) => {
   switch (typeof contents) {
     case 'number':
       if (contents > 150) {
@@ -144,40 +147,49 @@ const parseCell = (contents) => {
   }
 }
 
-const formatCell = c =>
-  `<td>${ parseCell(c) }</td>`
+const formatCell = (c: any) => `<td>${parseCell(c)}</td>`
 
-const renderStore = (datastore) => {
+const renderStore = (datastore: Store) => {
   // Export keys including state
   const keys = datastore.keys(true)
 
   // Render header row
-  const header = keys.map(k => `<th>${ k }</th>`)
+  const header = keys.map(k => `<th>${k}</th>`)
 
   // Render state and store
+  //@ts-ignore FIXME: This shouldn't work, maybe make state public (this is also used elsewhere)
   const state = keys.map(k => formatCell(datastore.state[k]))
   const store = datastore.data
-    .slice().reverse() // copy before reversing in place
-    .map(
-      row => `<tr> ${ keys.map(k => formatCell(row[k])).join('') } </tr>`,
-    )
+    .slice() // copy before reversing in place
+    .reverse()
+    .map(row => `<tr> ${keys.map(k => formatCell(row[k])).join('')} </tr>`)
 
   // Export table
   return `
     <table>
-      <tr>${ header.join('\n') }</tr>
-      <tr class="labjs-debug-state">${ state.join('\n') }</tr>
-      ${ store.join('\n') }
+      <tr>${header.join('\n')}</tr>
+      <tr class="labjs-debug-state">${state.join('\n')}</tr>
+      ${store.join('\n')}
     </table>
   `
 }
 
+type DebugPluginOptions = {
+  filePrefix?: string
+}
+
 export default class Debug {
-  constructor({ filePrefix='study' }={}) {
+  filePrefix: string
+
+  private isVisible?: boolean
+  private context?: Component
+  private container?: Element
+
+  constructor({ filePrefix = 'study' }: DebugPluginOptions = {}) {
     this.filePrefix = filePrefix
   }
 
-  handle(context, event) {
+  async handle(context: Component, event: string) {
     switch (event) {
       case 'plugin:init':
         return this.onInit(context)
@@ -188,7 +200,7 @@ export default class Debug {
     }
   }
 
-  onInit(context) {
+  onInit(context: Component) {
     // Prepare internal state
     this.isVisible = false
     this.context = context
@@ -199,43 +211,32 @@ export default class Debug {
     this.container.innerHTML = payload
 
     // Toggle visibility of debug window on clicks
-    Array.from(this.container.querySelectorAll('.labjs-debug-toggle'))
-      .forEach(
-        e => e.addEventListener('click', () => this.toggle()),
+    Array.from(this.container.querySelectorAll('.labjs-debug-toggle')).forEach(
+      e => e.addEventListener('click', () => this.toggle()),
+    )
+
+    this.container
+      .querySelector('.labjs-debug-overlay-menu')!
+      .addEventListener('dblclick', () =>
+        this.container!.classList.toggle('labjs-debug-large'),
       )
 
     this.container
-      .querySelector('.labjs-debug-overlay-menu')
-      .addEventListener(
-        'dblclick',
-        () => this.container.classList.toggle('labjs-debug-large'),
-      )
-
-    this.container
-      .querySelector('.labjs-debug-data-download')
-      .addEventListener(
-        'click',
-        (e) => {
-          e.preventDefault()
-          if (this.context.options.datastore) {
-            this.context.options.datastore.download(
-              'csv',
-              context.options.datastore.makeFilename(
-                this.filePrefix, 'csv',
-              ),
-            )
-          } else {
-            alert('No datastore to download from')
-          }
-        },
-      )
+      .querySelector('.labjs-debug-data-download')!
+      .addEventListener('click', e => {
+        e.preventDefault()
+        this.context!.internals.controller.globals.datastore.download(
+          'csv',
+          context.options.datastore.makeFilename(this.filePrefix, 'csv'),
+        )
+      })
 
     // Add payload code to document
     document.body.appendChild(this.container)
   }
 
   onPrepare() {
-    if (this.context.options.datastore) {
+    if (this.context!.options.datastore) {
       // The display needs to be rerendered both
       // when variable values are set and when data
       // are committed, because the set event is not
@@ -243,9 +244,10 @@ export default class Debug {
       // data are changed.
       const throttledRender = throttle(() => this.render(), 100)
 
-      this.context.options.datastore.on('set', throttledRender)
-      this.context.options.datastore.on('commit', throttledRender)
-      this.context.options.datastore.on('update', throttledRender)
+      const datastore = this.context!.internals.controller.globals.datastore
+      datastore.on('set', throttledRender)
+      datastore.on('commit', throttledRender)
+      datastore.on('update', throttledRender)
     }
   }
 
@@ -257,16 +259,12 @@ export default class Debug {
 
   render() {
     if (this.isVisible) {
-      let contents
-      if (!this.context.options.datastore) {
-        contents = makeMessage('No data store found in component')
-      } else {
-        contents = renderStore(this.context.options.datastore)
-      }
+      const datastore = this.context!.internals.controller.globals.datastore
+      const contents = renderStore(datastore)
 
-      this.container
-        .querySelector('.labjs-debug-overlay-contents')
-        .innerHTML = contents
+      this.container!.querySelector(
+        '.labjs-debug-overlay-contents',
+      )!.innerHTML = contents
     }
   }
 }

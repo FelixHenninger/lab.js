@@ -4,6 +4,19 @@
 define(['lab'], (lab) => {
 
 describe('Plugins', () => {
+
+  // Inject a div in which DOM behavior is tested
+  let demoElement
+  beforeEach(() => {
+    demoElement = document.createElement('div')
+    demoElement.dataset.labjsSection = 'main'
+    document.body.appendChild(demoElement)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(demoElement)
+  })
+
   describe('Logger', () => {
     let fakeLog
     beforeEach(() => {
@@ -74,12 +87,11 @@ describe('Plugins', () => {
         url: 'https://arbitrary.example',
       })
       c = new lab.core.Dummy({
-        datastore: new lab.data.Store(),
         plugins: [ p ],
       })
 
       return c.prepare().then(() => {
-        sinon.stub(c.options.datastore, 'transmit')
+        sinon.stub(c.internals.controller.globals.datastore, 'transmit')
           .callsFake(() => Promise.resolve())
 
         sinon.stub(p.queue, 'queueTransmission')
@@ -91,7 +103,7 @@ describe('Plugins', () => {
       p.queue.cancel()
 
       // Restore stubs
-      c.options.datastore.transmit.restore()
+      c.internals.controller.globals.datastore.transmit.restore()
       p.queue.queueTransmission.restore()
     })
 
@@ -101,10 +113,10 @@ describe('Plugins', () => {
 
       // Data transmission runs last,
       // so we need to wait for the corresponding event
-      const epiloguePromise = c.waitFor('epilogue')
+      const endPromise = c.waitFor('end')
 
       return c.run().then(() =>
-        epiloguePromise
+        endPromise
       ).then(() => {
         assert.ok(
           p.queue.queueTransmission.withArgs(
@@ -119,18 +131,10 @@ describe('Plugins', () => {
       // Disable incremental transmissions
       p.updates.incremental = false
 
-      const epiloguePromise = c.waitFor('epilogue')
+      const endPromise = c.waitFor('end')
 
       return c.run().then(() =>
-        // TODO: This is super-hacky, basically it's very hard
-        // to wait for the epilogue event to occur before
-        // triggering the tests. So here, we don't just wait
-        // for the epilogue event, but for a minimum of 200ms.
-        // There really should be a better way of handling this.
-        Promise.all([
-          epiloguePromise,
-          new Promise(resolve => window.setTimeout(resolve, 50)),
-        ])
+        endPromise,
       ).then(() => {
         assert.ok(c.options.datastore.transmit.calledOnce)
         assert.ok(
@@ -143,17 +147,13 @@ describe('Plugins', () => {
     })
 
     it('triggers callback after full transmission', () => {
-      const epiloguePromise = c.waitFor('epilogue')
+      const endPromise = c.waitFor('end')
       p.callbacks = {
         full: sinon.spy()
       }
 
       return c.run().then(() =>
-        // TODO: As above
-        Promise.all([
-          epiloguePromise,
-          new Promise(resolve => window.setTimeout(resolve, 200)),
-        ])
+        endPromise,
       ).then(() => {
         assert.ok(
           p.callbacks.full.calledOnce

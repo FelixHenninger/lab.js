@@ -25,24 +25,34 @@ const getMetadata = () => {
   }
 }
 
-const extractURLSearchParams = search =>
+const extractURLSearchParams = (search: string) =>
   fromPairs(
     Array.from(
-      new URLSearchParams(search).entries()
-    )
+      //@ts-ignore TS doesn't recognize the entries method
+      new URLSearchParams(search).entries(),
+    ),
   )
 
-export default class Metadata {
-  constructor(options={}) {
+import { Plugin } from '../base/plugin'
+import { Component } from '../base/component'
+
+type MetadataPluginOptions = {
+  location_search?: string
+}
+
+export default class Metadata implements Plugin {
+  options: MetadataPluginOptions
+
+  constructor(options: MetadataPluginOptions = {}) {
     this.options = options
   }
 
-  handle(context, event) {
+  async handle(context: Component, event: string) {
     if (event === 'prepare') {
       // Extract URL parameters from location string
       const urlParams = extractURLSearchParams(
         // Allow injection of search string for testing
-        this.options.location_search || window.location.search
+        this.options.location_search ?? window.location.search,
       )
 
       // If a datastore is available, save the metadata there ...
