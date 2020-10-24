@@ -1,6 +1,6 @@
 // Components
 import { Component } from './core/component'
-import { Dummy } from './base/dummy' // FIXME
+import { Dummy } from './core/dummy'
 import { Screen as CanvasScreen, Frame as CanvasFrame } from './canvas'
 import { Screen, Form, Frame, Page } from './html'
 import { Sequence, Parallel, Loop } from './flow'
