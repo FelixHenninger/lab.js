@@ -5,7 +5,7 @@ import { Component } from './core/component'
 import { Sequence } from './flow/sequence'
 import { Loop } from './flow/loop'
 import { prepareNested } from './flow/util/nested'
-import { Frame as BaseFrame } from './html'
+import { Frame as BaseFrame } from "./html/frame"
 import { reduce } from './util/tree'
 import { makeRenderFunction, makePathFunction,
   makeTransform, makeInverseTransform, transform } from './util/canvas'

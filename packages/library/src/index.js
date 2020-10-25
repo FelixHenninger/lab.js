@@ -2,7 +2,10 @@
 import { Component } from './core/component'
 import { Dummy } from './core/dummy'
 import { Screen as CanvasScreen, Frame as CanvasFrame } from './canvas'
-import { Screen, Form, Frame, Page } from './html'
+import { Page } from "./html/page"
+import { Frame } from "./html/frame"
+import { Form } from "./html/form"
+import { Screen } from "./html/screen"
 import { Loop } from './flow/loop'
 import { Sequence } from './flow/sequence'
 
