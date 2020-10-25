@@ -3,7 +3,8 @@ import { Component } from './core/component'
 import { Dummy } from './core/dummy'
 import { Screen as CanvasScreen, Frame as CanvasFrame } from './canvas'
 import { Screen, Form, Frame, Page } from './html'
-import { Sequence, Parallel, Loop } from './flow'
+import { Loop } from './flow/loop'
+import { Sequence } from './flow/sequence'
 
 // Data storage
 import { Store } from './data/store'
@@ -56,7 +57,6 @@ export const html = {
 
 export const flow = {
   Sequence,
-  Parallel,
   Loop,
 }
 

@@ -5,6 +5,18 @@ define(['lab', '_'], (lab, _) => {
 
 describe('Flow control', () => {
 
+  // Inject a div in which DOM behavior is tested
+  let demoElement
+  beforeEach(() => {
+    demoElement = document.createElement('div')
+    demoElement.dataset.labjsSection = 'main'
+    document.body.appendChild(demoElement)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(demoElement)
+  })
+
   describe('prepare_nested', () => {
     // This is not ideal because the function
     // is not tested directly. Then again, it
@@ -18,28 +30,6 @@ describe('Flow control', () => {
       b = new lab.core.Component()
     })
 
-    it('distributes hand-me-downs', () => {
-      p.options.foo = 'bar'
-      b.options.foo = 'baz'
-
-      p.options.content = [a, b]
-      p.options.handMeDowns.push('foo')
-
-      return p.prepare().then(() => {
-        assert.equal(a.options.foo, 'bar')
-        assert.equal(b.options.foo, 'baz')
-      })
-    })
-
-    it('hand-me-downs do not leak between components', () => {
-      p.options.handMeDowns.push('foo')
-      const q = new lab.flow.Sequence()
-
-      assert.notOk(
-        q.options.handMeDowns.includes('foo')
-      )
-    })
-
     it('sets parent attribute', () => {
       p.options.content = [a, b]
       return p.prepare().then(() => {
@@ -51,17 +41,17 @@ describe('Flow control', () => {
     it('sets id attribute correctly on nested components', () => {
       p.options.content = [a, b]
       return p.prepare().then(() => {
-        assert.equal(a.options.id, '0')
-        assert.equal(b.options.id, '1')
+        assert.equal(a.id, '0')
+        assert.equal(b.id, '1')
       })
     })
 
     it('sets id attribute correctly on nested components with id present', () => {
-      p.options.id = '0'
+      p.id = '0'
       p.options.content = [a, b]
       return p.prepare().then(() => {
-        assert.equal(a.options.id, '0_0')
-        assert.equal(b.options.id, '0_1')
+        assert.equal(a.id, '0_0')
+        assert.equal(b.id, '0_1')
       })
     })
 
@@ -142,14 +132,6 @@ describe('Flow control', () => {
       })
     })
 
-    it('doesn\'t choke on empty content', () => {
-      s.options.content = []
-
-      return s.run().then(() => {
-        assert.equal(s.status, 3)
-      })
-    })
-
     it('shuffles content if requested', () => {
       // Generate 100 dummy components as content
       const content = _.range(100).map((i) => {
@@ -187,7 +169,7 @@ describe('Flow control', () => {
         }).then(() => {
           assert.equal(
             a.internals.timestamps.end,
-            b.internals.timestamps.render,
+            b.internals.timestamps.run,
           )
           assert.equal(
             a.internals.timestamps.switch,
@@ -196,7 +178,7 @@ describe('Flow control', () => {
         })
     })
 
-    it('runs next component before triggering epilogue', () => {
+    it('runs next component before triggering lock', () => {
       const a = new lab.core.Component()
       const b = new lab.core.Component()
       s.options.content = [a, b]
@@ -204,13 +186,18 @@ describe('Flow control', () => {
       // Setup spys
       const b_run = sinon.spy()
       b.on('run', b_run)
-      const a_epilogue = sinon.spy()
-      a.on('epilogue', a_epilogue)
+      const a_lock = sinon.spy()
+      a.on('lock', a_lock)
 
       return s.run().then(
         () => a.end()
       ).then(() => {
-        assert.ok(b_run.calledBefore(a_epilogue))
+        // TODO: The controller won't wait for pending tasks;
+        // figure out a way to signal when these are over
+        return new Promise(resolve => setTimeout(resolve, 20))
+      }).then(() => {
+        assert.ok(a_lock.called)
+        assert.ok(b_run.calledBefore(a_lock))
       })
     })
 
@@ -235,13 +222,12 @@ describe('Flow control', () => {
     it('permits terminated component to log data', () => {
       const a = new lab.core.Component({ data: { foo: 'bar' } })
       s.options.content = [a]
-      s.options.datastore = new lab.data.Store()
 
       return s.run().then(
         () => s.end()
       ).then(() => {
         assert.equal(
-          s.options.datastore.get('foo'),
+          s.internals.controller.globals.datastore.get('foo'),
           'bar',
         )
       })
@@ -249,8 +235,8 @@ describe('Flow control', () => {
 
     it('abort does not trigger outstanding components', () => {
       // Setup sequence
-      const a = new lab.core.Component()
-      const b = new lab.core.Component()
+      const a = new lab.core.Component({ name: 'a' })
+      const b = new lab.core.Component({ name: 'b' })
       s.options.content = [a, b]
 
       const b_run = sinon.spy()
@@ -267,6 +253,8 @@ describe('Flow control', () => {
         // are rarely ended manually, but it should still not
         // result in the sequence progressing
         return a.end()
+      }).catch(e => {
+        assert.equal(e, `Can't end previously completed component`)
       }).then(() => {
         assert.notOk(b_run.called)
 
@@ -295,24 +283,6 @@ describe('Flow control', () => {
         return b.end()
       }).then(() => {
         assert.equal(s.progress, 1)
-      })
-    })
-
-    it('throws error when there is no content left to step through', () => {
-      // Setup sequence
-      const a = new lab.core.Dummy()
-      s.options.content = [a]
-
-      return s.run().then(() => {
-        // Step beyond last sequence content, resolve error
-        // TODO: Extracting the error message here is not nice --
-        // it would be nicer to use chai-as-promised and assert.isRejected
-        return new Promise(resolve => s.step().catch(resolve))
-      }).then(error => {
-        assert.equal(
-          error.message,
-          'Sequence ended, can\'t take any more steps'
-        )
       })
     })
 
@@ -549,7 +519,6 @@ describe('Flow control', () => {
       })
 
       return l.run().then(() => {
-        assert.equal(l.status, 3)
         assert.ok(console.warn.calledOnce)
         console.warn.restore()
       })
@@ -602,178 +571,6 @@ describe('Flow control', () => {
         assert.equal(
           l.options.content[1].parameters.customParameter, '2'
         )
-      })
-    })
-
-    it('doesn\'t skip frames when wrapping sequence', () => {
-      // Simulate timers
-      clock = sinon.useFakeTimers({
-        shouldAdvanceTime: true
-      })
-
-      // Capture nested screens in an array
-      const screens = []
-
-      // Simulate a trial structure, with a loop,
-      // a nested trial sequence, and a screen within.
-      const l = new lab.flow.Loop({
-        title: 'Loop',
-        template: (i) => {
-          const screen = new lab.canvas.Screen({
-            timeout: 32,
-            title: `Screen ${ i }`,
-          })
-          screens.push(screen)
-
-          return new lab.flow.Sequence({
-            title: `Sequence ${ i }`,
-            content: [ screen ]
-          })
-        },
-        templateParameters: [1, 2],
-        el: document.createElement('div'),
-      })
-
-      return l.run().then(() => {
-        return l.waitFor('end')
-      }).then(() => {
-        assert.equal(
-          screens[0].internals.timestamps.end,
-          screens[1].internals.timestamps.render,
-        )
-        assert.equal(
-          screens[0].internals.timestamps.switch,
-          screens[1].internals.timestamps.show,
-        )
-        clock.restore()
-      })
-    })
-  })
-
-  describe('Parallel', () => {
-
-    let p, a, b
-    beforeEach(() => {
-      a = new lab.core.Component()
-      b = new lab.core.Component()
-      p = new lab.flow.Parallel({
-        content: [a, b]
-      })
-    })
-
-    it('prepares nested components', () => {
-      const a_prepare = sinon.spy()
-      const b_prepare = sinon.spy()
-      a.on('prepare', a_prepare)
-      // Add a lengthy preparation step
-      a.on('prepare', function() {
-        return new Promise(resolve => setTimeout(resolve, 25))
-      })
-      b.on('prepare', b_prepare)
-
-      return p.prepare().then(() => {
-        assert.equal(a.status, 1)
-        assert.equal(b.status, 1)
-        assert.ok(a_prepare.calledOnce)
-        assert.ok(b_prepare.calledOnce)
-      })
-    })
-
-    it('runs components in parallel', () => {
-      const a_run = sinon.spy()
-      const b_run = sinon.spy()
-      a.on('run', a_run)
-      b.on('run', b_run)
-
-      return p.prepare().then(() => {
-        assert.notOk(a_run.called)
-        assert.notOk(b_run.called)
-
-        return p.run()
-      }).then(() => {
-        assert.ok(a_run.calledOnce)
-        assert.ok(b_run.calledOnce)
-      })
-    })
-
-    it('ends components in parallel', () => {
-      const a_end = sinon.spy()
-      const b_end = sinon.spy()
-      a.on('end', a_end)
-      b.on('end', b_end)
-
-      return p.run().then(() => {
-        assert.notOk(a_end.called)
-        assert.notOk(b_end.called)
-        return p.end()
-      }).then(() => {
-        assert.ok(a_end.calledOnce)
-        assert.ok(b_end.calledOnce)
-      })
-    })
-
-    it('implements race mode (by default)', () => {
-      let b_end = sinon.spy()
-      b.on('end', b_end)
-      let p_end = sinon.spy()
-      p.on('end', p_end)
-
-      return p.run().then(() => {
-        assert.notOk(b_end.called)
-        return a.end()
-      }).then(() => {
-        assert.ok(b_end.calledOnce)
-        assert.ok(p_end.calledOnce)
-      })
-    })
-
-    it('implements no-component-left-behind mode (mode=all)', () => {
-      p.options.mode = 'all'
-      let p_end = sinon.spy()
-      p.on('end', p_end)
-
-      return p.run().then(
-        () => a.end()
-      ).then(() => {
-        assert.notOk(p_end.called)
-        return b.end()
-      }).then(() => {
-        assert.ok(p_end.calledOnce)
-      })
-    })
-
-    it('updates the progress property', () => {
-      // This is a tough one :-)
-      const a1 = new lab.core.Component()
-      const a2 = new lab.core.Component()
-      const b1 = new lab.core.Component()
-      const b2 = new lab.core.Component()
-      const b3 = new lab.core.Component()
-      const a = new lab.flow.Sequence({
-        content: [a1, a2]
-      })
-      const b = new lab.flow.Sequence({
-        content: [b1, b2, b3]
-      })
-      p.options.content = [a, b]
-
-      return p.run().then(() => {
-        assert.equal(p.progress, 0)
-        return a1.end()
-      }).then(() => {
-        assert.equal(p.progress, 0.25)
-        return b1.end()
-      }).then(() => {
-        assert.closeTo(p.progress, 2.5/6, Math.exp(10, -5))
-        return b2.end()
-      }).then(() => {
-        assert.closeTo(p.progress, 3.5/6, Math.exp(10, -5))
-        return a2.end()
-      }).then(() => {
-        assert.closeTo(p.progress, 5/6, Math.exp(10, -5))
-        return b3.end()
-      }).then(() => {
-        assert.equal(p.progress, 1)
       })
     })
   })

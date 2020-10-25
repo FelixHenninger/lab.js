@@ -2,8 +2,9 @@
 import { isObject } from 'lodash'
 
 import { Component } from './core/component'
-import { Sequence as BaseSequence, Loop, Parallel,
-  prepareNested } from './flow'
+import { Sequence } from './flow/sequence'
+import { Loop } from './flow/loop'
+import { prepareNested } from './flow/util/nested'
 import { Frame as BaseFrame } from './html'
 import { reduce } from './util/tree'
 import { makeRenderFunction, makePathFunction,
@@ -433,9 +434,8 @@ export class Frame extends BaseFrame {
       acc && (
         c === this ||
         c instanceof Screen ||
-        c instanceof BaseSequence ||
-        c instanceof Loop ||
-        c instanceof Parallel
+        c instanceof Sequence ||
+        c instanceof Loop
       )
 
     const canvasBasedSubtree = reduce(this, isFlowOrCanvasBased, true)
