@@ -1,7 +1,8 @@
 // Components
 import { Component } from './core/component'
 import { Dummy } from './core/dummy'
-import { Screen as CanvasScreen, Frame as CanvasFrame } from './canvas'
+import { Screen as CanvasScreen } from "./canvas/screen"
+import { Frame as CanvasFrame } from "./canvas/frame"
 import { Page } from "./html/page"
 import { Frame } from "./html/frame"
 import { Form } from "./html/form"
@@ -15,7 +16,8 @@ import { Store } from './data/store'
 // Utilities
 import { Random } from './util/random'
 import fromObject from './util/fromObject'
-import { transform, makeRenderFunction } from './util/canvas'
+import { makeRenderFunction } from './canvas/util/render'
+import { transform } from './canvas/util/transform'
 import { product } from './util/combinatorics'
 import { logTimestamp } from './util/events'
 import { distance, toRadians, polygon, polygonVertex } from './util/geometry'
