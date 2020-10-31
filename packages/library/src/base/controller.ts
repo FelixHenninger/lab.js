@@ -1,21 +1,16 @@
-import { TreeIterable } from './util/iterators'
+import { FlipIterable } from './util/iterators'
 import { Component } from './component'
-import { flip } from './util/flip'
 import { Lock } from './util/lock'
 import { Emitter } from './util/emitter'
-import { requestAnimationFrameMaybe } from './util/rAF'
 
 export class Controller extends Emitter {
   root!: Component
-  iterable: TreeIterable
+  iterable: FlipIterable
   currentStack: Array<Component>
 
   globals: any
   context: object
   private lock: Lock
-
-  private renderFrameRequest: number | undefined
-  private showFrameRequest: number | undefined
 
   flipHandlers: Function[]
 
@@ -37,10 +32,9 @@ export class Controller extends Emitter {
     // Global data container
     this.globals = globals
 
-    // The TreeIterable breaks a component tree down
-    // into a linear sequence of component stacks,
-    // which are arrays of the form [root, ..., leaf screen]
-    this.iterable = new TreeIterable(root)
+    // The FlipIterable breaks a component tree down
+    // into a linear sequence of flips between stacks of components
+    this.iterable = new FlipIterable(root)
 
     // Keep track of the currently active stack
     this.currentStack = []
@@ -57,30 +51,31 @@ export class Controller extends Emitter {
 
   async loop() {
     let flipData = {}
-    let stack
+    let done = false
 
-    // Watch out for errors while the study runs
-    try {
-      for (stack of this.iterable) {
-        // Controller loop go brrr
-        await this.flip(stack, flipData)
-        flipData = await this.lock.wait()
+    const iterator = this.iterable[Symbol.asyncIterator]()
+
+    // Flip iterator go brrr
+    while (!done) {
+      const output = await iterator.next([flipData, this.context])
+      done = output.done ?? true
+      this.context = output.value.context
+      this.currentStack = output.value.stack
+      await this.emit('flip', flipData)
+      for (let i = 0; i < this.flipHandlers.length; i++) {
+        this.flipHandlers.pop()?.()
       }
-      // Flip to empty stack after exhausting available components
-      // TODO: It would be good to have the final flip on the iterator
-      await this.flip([], flipData)
-      await this.emit('end', flipData)
-    } catch (error) {
-      console.error('Study crashed, error is', error)
-      this.trigger('error', { error, stack })
-      // Re-throw error
-      throw error
+      if (!done) {
+        flipData = await this.lock.acquire()
+      }
     }
+
+    await this.emit('end', flipData)
   }
 
   continue(sender: Component, flipData: any) {
     // Continue loop
-    const p = this.waitFor('flip:success')
+    const p = this.waitFor('flip')
     this.lock.release(flipData)
     return p
   }
@@ -91,59 +86,6 @@ export class Controller extends Emitter {
         this.iterable.abort(data.sender)
         break
       default:
-    }
-  }
-
-  async flip(nextStack: Array<Component>, flipData: any) {
-    // Cancel any outstanding frame requests
-    this.renderFrameRequest && cancelAnimationFrame(this.renderFrameRequest)
-    this.showFrameRequest && cancelAnimationFrame(this.showFrameRequest)
-
-    if (this.globals.debug) {
-      console.time('flip')
-    }
-
-    // Perform flip
-    const [outgoing, incoming, success, context] = await flip(
-      this,
-      nextStack,
-      flipData,
-      this.context,
-    )
-
-    if (this.globals.debug) {
-      console.timeEnd('flip')
-    }
-
-    this.context = context
-    // Run render method on all incoming components
-    if (success) {
-      this.renderFrameRequest = requestAnimationFrameMaybe(
-        flipData.frameSynced,
-        flipData.timestamp,
-        t => {
-          incoming.map(i => i.render?.({ timestamp: t }))
-          this.showFrameRequest = window.requestAnimationFrame(t => {
-            incoming.map(i => i.show?.({ timestamp: t }))
-            outgoing.map(o => o.lock?.({ timestamp: t }))
-            this.showFrameRequest = undefined
-          })
-          this.renderFrameRequest = undefined
-        },
-      )
-      for (let i = 0; i < this.flipHandlers.length; i++) {
-        //@ts-ignore FIXME
-        this.flipHandlers.pop()()
-      }
-    }
-
-    if (success) {
-      this.emit('flip:success', { success })
-      this.lock.acquire()
-    } else {
-      // Flip again immediately with same data
-      this.emit('flip:failure', { success })
-      this.lock.release(flipData)
     }
   }
 

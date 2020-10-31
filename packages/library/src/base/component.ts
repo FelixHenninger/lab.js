@@ -5,7 +5,7 @@ import { Emitter, EventHandler } from './util/emitter'
 import { Plugin, PluginAPI } from './plugin'
 
 import { makeOptionProxy } from './util/options'
-import { AbortFlip } from './util/flip'
+import { AbortFlip } from './util/iterators'
 import { aggregateParentOption } from './util/hierarchy'
 import { rwProxy } from './util/proxy'
 
@@ -23,6 +23,7 @@ export type ComponentOptions = {
   files: { [name: string]: string }
   debug: boolean
   skip: boolean
+  tardy: boolean
   correctResponse: string
   plugins?: Plugin[]
   hooks?: { [event: string]: EventHandler }
@@ -71,7 +72,12 @@ export class Component extends Emitter {
     }
   }
 
-  async prepare() {
+  async prepare(directCall = true) {
+    if (this.options.tardy && !directCall) {
+      this.log('Skipping automated preparation')
+      return
+    }
+
     if (!this.internals.controller) {
       this.internals.controller = new Controller({ root: this })
     }

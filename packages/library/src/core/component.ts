@@ -78,7 +78,8 @@ export class Component extends BaseComponent {
     // Create timeline
     this.internals.timeline = new Timeline(this.internals.controller)
 
-    await super.prepare()
+    // directCall can only be true at this point
+    await super.prepare(directCall)
 
     await Promise.all([
       this.internals.controller.globals.cache.images.getAll(

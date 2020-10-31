@@ -18,6 +18,9 @@ export class Frame extends Component {
       ...cloneDeep(frameDefaults),
       ...options,
     })
+
+    // Stand-in interator
+    this.internals.iterator = {}
   }
 
   async onPrepare() {

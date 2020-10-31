@@ -23,6 +23,10 @@ export class Sequence extends Component {
       ...cloneDeep(sequenceDefaults),
       ...options,
     })
+
+    // Stand-in interator
+    // TODO: Consider replacing me
+    this.internals.iterator = {}
   }
 
   async onPrepare() {

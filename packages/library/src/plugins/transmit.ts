@@ -68,7 +68,7 @@ export default class Transmit implements Plugin {
           this.queue = ds.transmissionQueue()
           // Set commit handler on data store
           // (inside the handler, this refers to the store)
-          controller.on('flip:success', () => {
+          controller.on('flip', () => {
             this.queue.queueTransmission(
               url,
               { ...metadata, payload: 'incremental' },

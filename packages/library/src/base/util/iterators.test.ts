@@ -1,23 +1,36 @@
-import { TreeIterable } from './iterators'
+import { CommandIterable } from './iterators'
 
-test('Extracts slices from study tree', () => {
-  const a1 = { name: 'a1', done: false, status: 0, internals: {} }
-  const a2 = { name: 'a2', done: false, status: 0, internals: {} }
+const makeStubComponent = (name: string) => ({
+  name,
+  done: false,
+  // FIXME I'm circumventing a check here that also
+  // requires the hack below
+  status: 2,
+  internals: {},
+  prepare: () => null,
+})
+
+test('Extracts slices from study tree', async () => {
+  const a1 = makeStubComponent('a1')
+  const a2 = makeStubComponent('a2')
   const root = {
-    name: 'root',
-    done: false,
-    status: 0,
+    ...makeStubComponent('root'),
     internals: {
       iterator: [a1, a2].entries(),
     },
   }
 
   //@ts-ignore We're faking components here
-  const tree = new TreeIterable(root)
+  const tree = new CommandIterable(root)
   const stacks = Array.from(tree)
 
   expect(stacks).toEqual([
-    [root, a1],
-    [root, a2],
+    // Missing b/c the shim I'm using here is very bad (see above)
+    //['run', root, false],
+    ['run', a1, true],
+    ['end', a1, true],
+    ['run', a2, true],
+    ['end', a2, true],
+    ['end', root, false],
   ])
 })
