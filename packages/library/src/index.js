@@ -24,7 +24,7 @@ import { distance, toRadians, polygon, polygonVertex } from './util/geometry'
 import { launch, exit } from './util/fullscreen'
 import { sum, mean, variance, std } from './util/stats'
 import { FrameTimeout } from './core/timing/timeout'
-import { traverse, reduce } from './util/tree'
+import { traverse, reduce } from './base/util/tree'
 
 // Plugins
 import Debug from './plugins/debug'

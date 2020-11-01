@@ -1,7 +1,7 @@
 import { isArray, cloneDeep } from 'lodash'
-import { Component } from '../core/component'
+import { Component } from '../component'
 
-export const traverse = (root, callback) => {
+export const traverse = (root: Component, callback: (c: Component) => void) => {
   callback(root)
 
   // Retrieve metadata from component
@@ -9,7 +9,7 @@ export const traverse = (root, callback) => {
 
   if (metadata.nestedComponents) {
     // Retrieve nested components form associated options
-    metadata.nestedComponents.forEach(o => {
+    metadata.nestedComponents.forEach((o: string) => {
       const nested = root.options[o]
 
       if (isArray(nested)) {
@@ -23,7 +23,11 @@ export const traverse = (root, callback) => {
   }
 }
 
-export const reduce = (root, callback, initialValue) => {
+export const reduce = <T>(
+  root: Component,
+  callback: (currentValue: T, c: Component) => T,
+  initialValue: T,
+) => {
   let accumulator = cloneDeep(initialValue)
 
   // Traverse tree, while updating

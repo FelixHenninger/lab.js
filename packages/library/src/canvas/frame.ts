@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash'
 
 import { Component as BaseComponent } from '../base/component'
 import { Component, ComponentOptions } from '../core/component'
-import { reduce } from '../util/tree'
+import { reduce } from '../base/util/tree'
 import { Screen, canvasDefaults } from './screen'
 import { Sequence } from '../flow/sequence'
 import { Loop } from '../flow/loop'
