@@ -1,12 +1,12 @@
 // Components
 import { Component } from './core/component'
 import { Dummy } from './core/dummy'
-import { Screen as CanvasScreen } from "./canvas/screen"
-import { Frame as CanvasFrame } from "./canvas/frame"
-import { Page } from "./html/page"
-import { Frame } from "./html/frame"
-import { Form } from "./html/form"
-import { Screen } from "./html/screen"
+import { Screen as CanvasScreen } from './canvas/screen'
+import { Frame as CanvasFrame } from './canvas/frame'
+import { Page } from './html/page'
+import { Frame } from './html/frame'
+import { Form } from './html/form'
+import { Screen } from './html/screen'
 import { Loop } from './flow/loop'
 import { Sequence } from './flow/sequence'
 
@@ -39,8 +39,10 @@ import Transmit from './plugins/transmit'
 
 export const version = '20.2.4'
 export const build = {
-  flavor: BUILD_FLAVOR,
-  commit: BUILD_COMMIT,
+  //@ts-ignore Injected by webpack
+  flavor: <string>BUILD_FLAVOR,
+  //@ts-ignore Injected by webpack
+  commit: <string>BUILD_COMMIT,
 }
 
 export const core = {
@@ -95,7 +97,8 @@ export const util = {
     logTimestamp,
   },
   fullscreen: {
-    launch, exit,
+    launch,
+    exit,
   },
   geometry: {
     distance,
@@ -104,12 +107,16 @@ export const util = {
     toRadians,
   },
   stats: {
-    sum, mean, variance, std,
+    sum,
+    mean,
+    variance,
+    std,
   },
   timing: {
     FrameTimeout,
   },
   tree: {
-    traverse, reduce,
+    traverse,
+    reduce,
   },
 }
