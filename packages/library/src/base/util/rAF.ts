@@ -6,7 +6,7 @@ export const requestAnimationFrameMaybe = function (
   if (requestFrame) {
     return window.requestAnimationFrame(handler)
   } else {
-    handler(timestamp)
+    handler(timestamp ?? document.timeline.currentTime)
     return undefined
   }
 }
