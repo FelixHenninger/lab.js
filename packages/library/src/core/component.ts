@@ -72,8 +72,8 @@ export class Component extends BaseComponent {
     }
 
     // Hook up state and legacy datastore option from controller
-    this.options.datastore = this.internals.controller.globals.datastore
-    this.state = this.internals.controller.globals.datastore.state
+    this.options.datastore = this.internals.controller.global.datastore
+    this.state = this.internals.controller.global.datastore.state
     this.random = new Random(this.options.random)
     // Create timeline
     this.internals.timeline = new Timeline(this.internals.controller)
@@ -82,10 +82,10 @@ export class Component extends BaseComponent {
     await super.prepare(directCall)
 
     await Promise.all([
-      this.internals.controller.globals.cache.images.getAll(
+      this.internals.controller.global.cache.images.getAll(
         this.options.media?.images ?? [],
       ),
-      this.internals.controller.globals.cache.audio.getAll(
+      this.internals.controller.global.cache.audio.getAll(
         this.options.media?.audio ?? [],
       ),
     ])

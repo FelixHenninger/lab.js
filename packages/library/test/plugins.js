@@ -91,7 +91,7 @@ describe('Plugins', () => {
       })
 
       return c.prepare().then(() => {
-        sinon.stub(c.internals.controller.globals.datastore, 'transmit')
+        sinon.stub(c.internals.controller.global.datastore, 'transmit')
           .callsFake(() => Promise.resolve())
 
         sinon.stub(p.queue, 'queueTransmission')
@@ -103,7 +103,7 @@ describe('Plugins', () => {
       p.queue.cancel()
 
       // Restore stubs
-      c.internals.controller.globals.datastore.transmit.restore()
+      c.internals.controller.global.datastore.transmit.restore()
       p.queue.queueTransmission.restore()
     })
 

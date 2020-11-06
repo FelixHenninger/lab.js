@@ -29,7 +29,7 @@ export default class Download implements Plugin {
   async handle(context: Component, event: string) {
     if (event === 'end') {
       const controller = context.internals.controller
-      const ds = controller.globals.datastore
+      const ds = controller.global.datastore
 
       // Make sure the window isn't accidentally closed
       window.addEventListener('beforeunload', unloadHandler)
@@ -49,7 +49,7 @@ export default class Download implements Plugin {
         )
         window.removeEventListener('beforeunload', unloadHandler)
       })
-      controller.globals.el.prepend(this.el)
+      controller.global.el.prepend(this.el)
     }
   }
 }

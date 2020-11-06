@@ -140,7 +140,7 @@ class AudioNodeItem {
     // Save timing information
     //@ts-ignore FIXME
     this.audioSyncOrigin = audioSync(
-      this.timeline.controller.globals.audioContext,
+      this.timeline.controller.global.audioContext,
     )
   }
 
@@ -151,7 +151,7 @@ class AudioNodeItem {
   // Event handlers ------------------------------------------------------------
 
   prepare() {
-    const audioContext = this.timeline.controller.globals.audioContext
+    const audioContext = this.timeline.controller.global.audioContext
 
     // Add gain node
     if (
@@ -187,7 +187,7 @@ class AudioNodeItem {
     const { start } = this.options
     const { rampUp } = this.payload
 
-    const audioContext = this.timeline.controller.globals.audioContext
+    const audioContext = this.timeline.controller.global.audioContext
     if (audioContext.state !== 'running') {
       console.warn(
         `Sending audio to a context in ${audioContext.state} state.`,
@@ -288,7 +288,7 @@ export class BufferSourceItem extends AudioNodeItem {
 
   async prepare() {
     // Populate buffer from cache, if possible
-    const { cache, audioContext } = this.timeline.controller.globals
+    const { cache, audioContext } = this.timeline.controller.global
     const { src, loop } = this.payload
     const buffer = await cache.audio.get(src)
 
@@ -317,7 +317,7 @@ export class OscillatorItem extends AudioNodeItem {
 
     this.source = createNode(
       'oscillator',
-      this.timeline.controller.globals.audioContext,
+      this.timeline.controller.global.audioContext,
       { type },
       { frequency, detune },
     )

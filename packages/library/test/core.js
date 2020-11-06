@@ -138,7 +138,7 @@ describe('Core', () => {
 
         return b.prepare().then(() => {
           const [image, bitmap] =
-            b.internals.controller.globals.cache.images.readSync(url)
+            b.internals.controller.global.cache.images.readSync(url)
           assert.instanceOf(image, Image)
 
           // Check that loading completed
@@ -151,7 +151,7 @@ describe('Core', () => {
         b.options.media.audio.push(url)
 
         return b.prepare().then(() => {
-          const audio = b.internals.controller.globals.cache.audio.readSync(url)
+          const audio = b.internals.controller.global.cache.audio.readSync(url)
 
           assert.instanceOf(audio, AudioBuffer)
           assert.ok(audio.length > 0)
@@ -851,7 +851,7 @@ describe('Core', () => {
 
         let spy
         return c.prepare().then(() => {
-          spy = sinon.stub(c.internals.controller.globals.datastore, 'commit')
+          spy = sinon.stub(c.internals.controller.global.datastore, 'commit')
           return c.run()
         }).then(() => {
           assert.ok(spy.calledOnce)
@@ -1061,7 +1061,7 @@ describe('Core', () => {
 
       it('state property reads from data store', () => {
         return b.prepare().then(() => {
-          b.internals.controller.globals.datastore.set('foo', 'bar')
+          b.internals.controller.global.datastore.set('foo', 'bar')
 
           assert.equal(
             b.state.foo,
@@ -1075,7 +1075,7 @@ describe('Core', () => {
           b.state.foo = 'bar'
 
           assert.equal(
-            b.internals.controller.globals.datastore.state.foo,
+            b.internals.controller.global.datastore.state.foo,
             'bar'
           )
         })
@@ -1086,7 +1086,7 @@ describe('Core', () => {
 
         return b.prepare().then(() => {
           // Spy on the commit method
-          spy = sinon.spy(b.internals.controller.globals.datastore, 'commit')
+          spy = sinon.spy(b.internals.controller.global.datastore, 'commit')
           return b.run()
         }).then(
           // Make sure the commit method was run

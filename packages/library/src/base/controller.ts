@@ -8,7 +8,7 @@ export class Controller extends Emitter {
   iterable: FlipIterable
   currentStack: Array<Component>
 
-  globals: any
+  global: any
   context: object
   private lock: Lock
 
@@ -16,11 +16,11 @@ export class Controller extends Emitter {
 
   constructor({
     root,
-    globals = {},
+    global = {},
     initialContext = {},
   }: {
     root: Component
-    globals?: Object
+    global?: Object
     initialContext?: Object
   }) {
     super('controller')
@@ -30,7 +30,7 @@ export class Controller extends Emitter {
     this.root.internals.controller = this
 
     // Global data container
-    this.globals = globals
+    this.global = global
 
     // The FlipIterable breaks a component tree down
     // into a linear sequence of flips between stacks of components

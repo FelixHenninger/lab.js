@@ -225,7 +225,7 @@ export default class Debug {
       .querySelector('.labjs-debug-data-download')!
       .addEventListener('click', e => {
         e.preventDefault()
-        this.context!.internals.controller.globals.datastore.download(
+        this.context!.internals.controller.global.datastore.download(
           'csv',
           context.options.datastore.makeFilename(this.filePrefix, 'csv'),
         )
@@ -244,7 +244,7 @@ export default class Debug {
       // data are changed.
       const throttledRender = throttle(() => this.render(), 100)
 
-      const datastore = this.context!.internals.controller.globals.datastore
+      const datastore = this.context!.internals.controller.global.datastore
       datastore.on('set', throttledRender)
       datastore.on('commit', throttledRender)
       datastore.on('update', throttledRender)
@@ -259,7 +259,7 @@ export default class Debug {
 
   render() {
     if (this.isVisible) {
-      const datastore = this.context!.internals.controller.globals.datastore
+      const datastore = this.context!.internals.controller.global.datastore
       const contents = renderStore(datastore)
 
       this.container!.querySelector(

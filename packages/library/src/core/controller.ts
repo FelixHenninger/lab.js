@@ -23,7 +23,7 @@ export class Controller extends BaseController {
     }
 
     const ds = new Store()
-    const globals = {
+    const global = {
       el: initialContext.el,
       datastore: ds,
       state: ds.state,
@@ -35,6 +35,6 @@ export class Controller extends BaseController {
       audioContext: audioContext,
     }
 
-    super({ root, globals, initialContext })
+    super({ root, global, initialContext })
   }
 }

@@ -227,7 +227,7 @@ describe('Flow control', () => {
         () => s.end()
       ).then(() => {
         assert.equal(
-          s.internals.controller.globals.datastore.get('foo'),
+          s.internals.controller.global.datastore.get('foo'),
           'bar',
         )
       })

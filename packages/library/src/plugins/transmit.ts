@@ -61,7 +61,7 @@ export default class Transmit implements Plugin {
     switch (event) {
       case 'prepare':
         const controller = context.internals.controller
-        const ds = controller.globals.datastore
+        const ds = controller.global.datastore
 
         if (this.updates.incremental) {
           // Setup incremental transmission logic

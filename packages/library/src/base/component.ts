@@ -175,7 +175,7 @@ export class Component extends Emitter {
       await this.trigger('end', flipData)
     }
 
-    this.internals.controller.globals.datastore?.commit({
+    this.internals.controller.global.datastore?.commit({
       sender: this.options.title,
       sender_type: this.type,
       sender_id: this.id,
