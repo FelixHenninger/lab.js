@@ -89,10 +89,14 @@ export class Component extends Emitter {
       this.on(e, handler as EventHandler)
     }
 
-    await this.trigger('before:prepare')
+    await this.trigger(
+      'before:prepare',
+      undefined,
+      this.internals.controller.global,
+    )
     this.internals.armOptions()
 
-    await this.trigger('prepare')
+    await this.trigger('prepare', undefined, this.internals.controller.global)
     this.status = Status.prepared
   }
 
@@ -129,15 +133,15 @@ export class Component extends Emitter {
       throw new AbortFlip('Skipping component')
     }
 
-    await this.trigger('before:run', flipData)
-    await this.trigger('run', flipData)
+    await this.trigger('before:run', flipData, this.internals.controller.global)
+    await this.trigger('run', flipData, this.internals.controller.global)
   }
 
   async render(data: object) {
-    await this.trigger('render', data)
+    await this.trigger('render', data, this.internals.controller.global)
   }
   async show(data: object) {
-    await this.trigger('show', data)
+    await this.trigger('show', data, this.internals.controller.global)
   }
 
   async respond(
@@ -172,7 +176,7 @@ export class Component extends Emitter {
       // Signal end to controller
       return await this.emit('end:uncontrolled', flipData)
     } else {
-      await this.trigger('end', flipData)
+      await this.trigger('end', flipData, this.internals.controller.global)
     }
 
     this.internals.controller.global.datastore?.commit({
@@ -192,8 +196,8 @@ export class Component extends Emitter {
     this.log(`Ending with reason ${flipData.reason}`)
   }
 
-  async lock({ timestamp }: { timestamp: number }) {
-    await this.trigger('lock')
+  async lock(data: any = {}) {
+    await this.trigger('lock', data, this.internals.controller.global)
     delete this.internals.context
   }
 
