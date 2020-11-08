@@ -35,6 +35,7 @@ import Metadata from './plugins/metadata'
 import NavigationGuard from './plugins/navigationGuard'
 import PostMessage from './plugins/postmessage'
 import Submit from './plugins/submit'
+import Style from './plugins/style'
 import Transmit from './plugins/transmit'
 
 export const version = '20.2.4'
@@ -76,6 +77,7 @@ export const plugins = {
   NavigationGuard,
   PostMessage,
   Submit,
+  Style,
   Transmit,
 }
 
