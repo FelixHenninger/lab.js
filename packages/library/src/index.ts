@@ -33,6 +33,7 @@ import Fullscreen from './plugins/fullscreen'
 import Logger from './plugins/log'
 import Metadata from './plugins/metadata'
 import NavigationGuard from './plugins/navigationGuard'
+import Paradata from './plugins/paradata'
 import PostMessage from './plugins/postmessage'
 import Submit from './plugins/submit'
 import Style from './plugins/style'
@@ -75,6 +76,7 @@ export const plugins = {
   Logger,
   Metadata,
   NavigationGuard,
+  Paradata,
   PostMessage,
   Submit,
   Style,
