@@ -15,6 +15,11 @@ const fullscreen = {
       label: 'Help text',
       type: 'text',
       placeholder: 'Please click to continue in full screen mode',
+    },
+    'close': {
+      label: 'Leave fullscreen mode when component ends',
+      type: 'checkbox',
+      default: true,
     }
   }
 }
