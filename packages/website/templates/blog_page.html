@@ -1,7 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="container">
-    {% include "partials/post-summary.html" %}
+  <div class="jumbotron pt-5 pb-2">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="display-5 font-weight-light mt-5">
+            {% if page.extra.title_html %}
+              {{ page.extra.title_html | safe }}
+            {% else %}
+              {{ page.title | safe }}
+            {% endif %}
+          </h1>
+          {% if page.extra.lead %}
+            <p class="lead">
+              {{ page.extra.lead }}
+            </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
   </div>
+  <hr class="divider-up">
+
+  <article class="container post">
+    <div class="row pt-5">
+      <div class="col-12">
+        {{ page.content | safe }}
+      </div>
+    </div>
+  </article>
 {% endblock %}
