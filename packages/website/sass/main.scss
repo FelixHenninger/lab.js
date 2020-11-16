@@ -27,6 +27,7 @@ $font-family-monospace: "Fira Mono", monospace;
 @import "../node_modules/bootstrap/scss/jumbotron";
 @import "../node_modules/bootstrap/scss/badge";
 @import "../node_modules/bootstrap/scss/alert";
+@import "../node_modules/bootstrap/scss/buttons";
 @import "../node_modules/bootstrap/scss/list-group";
 
 // Navbar
@@ -174,4 +175,9 @@ hr.divider-down {
   -webkit-mask-size: 100% 22px;
   mask-image: url(/media/theme/divider-down.svg);
   mask-size: 100% 22px;
+}
+
+// Buttons
+.btn {
+  padding-top: $spacer * 0.55;
 }
