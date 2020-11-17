@@ -88,14 +88,14 @@
               </a>
               {% for p in resources.pages %}
                 {% if p.extra.menu and p.extra.menu == "header" %}
-                  <a class="dropdown-item d-lg-none" href="/{{ p.path }}">
+                  <a class="dropdown-item d-lg-none" href="{{ p.path }}">
                     {{ p.title }}
                   </a>
                 {% endif %}
               {% endfor %}
               {% for p in resources.pages %}
                 {% if not p.extra.menu or p.extra.menu != "header" %}
-                  <a class="dropdown-item" href="/{{ p.path }}">
+                  <a class="dropdown-item" href="{{ p.path }}">
                     {{ p.title }}
                   </a>
                 {% endif %}
