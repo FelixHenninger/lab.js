@@ -122,6 +122,7 @@
   },
   "scripts": {
     "analyze": "NODE_ENV=analysis webpack --profile --json > bundleStats.json",
+    "build:js:base": "webpack -c webpack.base.js",
     "build:js:coverage": "NODE_ENV=coverage webpack --mode=development",
     "build:js:development": "webpack --mode=development",
     "build:js:production": "webpack --mode=production",
