@@ -6,6 +6,11 @@ class TestEnvironment extends JSDOMEnvironment {
 
     // Inject minimal AudioContext
     this.global.AudioContext = function() {}
+
+    // Inject document timeline
+    this.global.document.timeline = {
+      currentTime: 123
+    }
   }
 }
 
