@@ -350,6 +350,48 @@ describe('Flow control', () => {
       })
     })
 
+    it('clones template array to create content', () => {
+      const t = [
+        new lab.core.Component({
+          parameters: {
+            constantParameter: 'original_one',
+            customParameter: 'original',
+          },
+        }),
+        new lab.core.Component({
+          parameters: {
+            constantParameter: 'original_two',
+            customParameter: 'original',
+          },
+        }),
+      ]
+      const l = new lab.flow.Loop({
+        template: t,
+        templateParameters: [
+          { customParameter: 'one' },
+          { customParameter: 'two' },
+          { customParameter: 'three' },
+        ],
+      })
+
+      return l.prepare().then(() => {
+        assert.ok(
+          l.options.content.every((c, i) =>
+            c.options.parameters.constantParameter ===
+            t[i % 2].options.parameters.constantParameter
+          )
+        )
+
+        const expectedValues = ['one', 'two', 'three']
+        assert.ok(
+          l.options.content.every((c, i) =>
+            c.options.parameters.customParameter ===
+            expectedValues[Math.floor(i / 2)]
+          )
+        )
+      })
+    })
+
     it('uses a template function to generate content', () => {
       const l = new lab.flow.Loop({
         template: p => new lab.core.Component({

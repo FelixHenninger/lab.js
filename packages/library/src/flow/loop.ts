@@ -5,7 +5,7 @@ import { Sequence, SequenceOptions } from './sequence'
 
 const loopDefaults = {
   template: <
-    Component | ((parameters: object) => Component) | undefined
+    Component | Component[] | ((parameters: object) => Component) | undefined
   >undefined,
   templateParameters: <Record<string, any>[]>[],
   sample: {
@@ -79,6 +79,17 @@ export class Loop extends Sequence {
         }
         return c
       })
+    } else if (Array.isArray(this.options.template)) {
+      this.options.content = templateParameters.flatMap(p =>
+        this.options.template.map((t: Component) => {
+          const c = t.clone()
+          c.options.parameters = {
+            ...t.options.parameters,
+            ...p
+          }
+          return c
+        })
+      )
     } else if (isFunction(this.options.template)) {
       this.options.content = templateParameters.map((p, i) =>
         this.options.template(p, i, this),
