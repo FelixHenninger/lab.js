@@ -1079,58 +1079,6 @@ describe('Core', () => {
         )
       })
 
-      it('creates a clone of itself', () => {
-        const a = new lab.core.Component()
-        a.options.foo = 'bar'
-        const b = a.clone()
-
-        assert.deepEqual(
-          a.options,
-          b.options
-        )
-      })
-
-      it('incorporates additional options into clones', () => {
-        const a = new lab.core.Component()
-        a.options.constantProperty = 'original'
-        a.options.overwrittenProperty = 'original'
-
-        const b = a.clone({ overwrittenProperty: 'modified' })
-
-        assert.equal(
-          b.options.constantProperty,
-          'original'
-        )
-        assert.equal(
-          b.options.overwrittenProperty,
-          'modified'
-        )
-      })
-
-      it('instantiates directly nested components during cloning', () => {
-        const c = new lab.core.Component()
-        const spy = sinon.spy(c, 'clone')
-
-        const f = new lab.html.Frame({
-          content: c
-        })
-        const f1 = f.clone()
-
-        assert.ok(spy.calledOnce)
-      })
-
-      it('instantiates nested components in list during cloning', () => {
-        const c = new lab.core.Component()
-        const spy = sinon.spy(c, 'clone')
-
-        const s = new lab.flow.Sequence({
-          content: [c]
-        })
-        const s1 = s.clone()
-
-        assert.ok(spy.calledOnce)
-      })
-
       it('provides additional output to console if debug option is set', async () => {
         sinon.stub(console, 'log')
 

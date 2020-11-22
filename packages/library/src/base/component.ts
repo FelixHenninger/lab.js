@@ -1,5 +1,3 @@
-import { cloneDeepWith } from 'lodash'
-
 import { Controller } from './controller'
 import { Emitter, EventHandler } from './util/emitter'
 import { Plugin, PluginAPI } from './plugin'
@@ -236,48 +234,6 @@ export class Component extends Emitter {
 
   get files() {
     return aggregateParentOption(this, 'files')
-  }
-
-  // Duplication ---------------------------------------------------------------
-  clone(options: any = {}): Component {
-    // Return a component of the same type, with identical options
-    // We copy all options from the current component,
-    // except for those that may contain components
-    // themselves -- in that case, we recursively
-    // create cloned copies of the original component.
-    const nestedComponents =
-      (this.constructor as typeof Component).metadata.nestedComponents || []
-
-    const cloneOptions = {
-      ...cloneDeepWith(this.internals.rawOptions, (v, k, root) => {
-        // Don't clone the datastore
-        if (k === 'datastore') {
-          return null
-        }
-
-        // For immediately nested options that contain components,
-        // call their clone method instead of copying naively
-        if (
-          root === this.internals.rawOptions &&
-          nestedComponents.includes(k)
-        ) {
-          // Choose procedure depending on data type
-          if (Array.isArray(v)) {
-            // Apply clone method to arrays of components
-            return v.map(c => (c instanceof Component ? c.clone() : c))
-          } else if (v instanceof Component) {
-            // Only clone components, any other data type
-            // will be left to the library clone function
-            return v.clone()
-          }
-        }
-      }),
-      // Overwrite existing options, if so instructed
-      ...options,
-    }
-
-    // Construct a new component of the same type
-    return new (this.constructor as typeof Component)(cloneOptions)
   }
 }
 

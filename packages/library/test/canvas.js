@@ -285,7 +285,8 @@ describe('Canvas-based components', () => {
       c.options.el.style.width = '300px'
       c.options.viewport = [100, 100]
 
-      const d = c.clone()
+      const d = new lab.canvas.Screen()
+      d.options = { ...c.options }
 
       // The basic logic here is to fill a 100x100
       // viewport entirely, and check that the scaled

@@ -1,5 +1,6 @@
 import { cloneDeep, isFunction } from 'lodash'
 import { Component } from '../base/component'
+import { clone } from '../base/util/clone'
 
 import { Sequence, SequenceOptions } from './sequence'
 
@@ -71,7 +72,7 @@ export class Loop extends Sequence {
     // returns a component.
     if (this.options.template instanceof Component) {
       this.options.content = templateParameters.map(p => {
-        const c = this.options.template.clone()
+        const c = clone(template)
         // Extend parameters
         c.options.parameters = {
           ...c.options.parameters,
@@ -82,7 +83,7 @@ export class Loop extends Sequence {
     } else if (Array.isArray(this.options.template)) {
       this.options.content = templateParameters.flatMap(p =>
         this.options.template.map((t: Component) => {
-          const c = t.clone()
+          const c = clone(t)
           c.options.parameters = {
             ...t.options.parameters,
             ...p
