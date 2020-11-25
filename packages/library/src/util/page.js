@@ -78,16 +78,13 @@ const makeLikertHead = ({ width, anchors }) => {
     return ''
   } else {
     return stripIndent`
-      <thead class="sticky-top" style="background-color: white">
-        <th class="sticky-top" style="background-color: white"></th>
+      <thead class="sticky-top">
+        <th class="sticky-top"></th>
         ${
           range(width).map(j => stripIndent`
-            <th
-              class="sticky-top text-center small"
-              style="background-color: white"
-            >
+            <th class="sticky-top text-center small">
               ${ anchors[j] || '' }
-             </th>
+            </th>
           `).join('\n')
         }
       </thead>

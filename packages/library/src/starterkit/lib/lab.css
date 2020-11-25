@@ -438,6 +438,10 @@ table:not(.table-plain) > tbody > tr:last-child > th {
 table.table-striped tr:nth-child(odd) td {
   background-color: var(--color-border-internal)
 }
+table .sticky-top {
+  /* Add background color to sticky table headers */
+  background-color: var(--color-background);
+}
 
 /* Progress bar */
 .progress {
