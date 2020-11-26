@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Build and test library and builder
 
     runs-on: ubuntu-latest
     strategy:
@@ -23,3 +23,5 @@ jobs:
       - run: yarn run bootstrap
       - run: (cd packages/library && yarn build:starterkit)
       - run: (cd packages/library && yarn test)
+      - run: (cd packages/builder && yarn run build)
+      - run: (cd packages/builder && yarn test)
