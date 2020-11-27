@@ -19,9 +19,17 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - uses: saucelabs/sauce-connect-action@master
+        with:
+          username: ${{ secrets.SAUCE_USERNAME }}
+          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+          tunnelIdentifier: github-action-tunnel
+          scVersion: 4.6.2
       - run: yarn
       - run: yarn run bootstrap
       - run: (cd packages/library && yarn build:starterkit)
       - run: (cd packages/library && yarn test)
+      - run: (cd packages/library && yarn test:sauce)
+        if: ${{ github.event_name == 'push' }}
       - run: (cd packages/builder && yarn run build)
       - run: (cd packages/builder && yarn test)
