@@ -81,6 +81,14 @@ describe('Utilities', () => {
       )
     })
 
+    it('Can provide a weighted sample', () => {
+      const array = [1, 2, 3]
+      assert.deepEqual(
+        [1, 2, 3, 4].map(() => rng_alea.choice(array, weights=[0.5, 0.5, 0])),
+        [2, 2, 2, 1]
+      )
+    })
+
     it('provides multiple random samples, without replacement', () => {
       const array = [1, 2, 3, 4, 5]
 

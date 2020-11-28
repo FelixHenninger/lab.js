@@ -1,4 +1,5 @@
 import { clamp, range, isFunction, pick, flatten, omit, merge  } from 'lodash'
+import { sum } from '../stats'
 import alea from 'seedrandom/lib/alea'
 
 import { maxRepSeries, minRepDistance } from './constraints'
@@ -29,6 +30,21 @@ export const autoSeed = (width=256) => {
   return String.fromCharCode.apply(null, output)
 }
 
+// Weighted random index
+// This follows Eli Bendersky's implementation in Python,
+// and will perform better if the weights are sorted in
+// descending order. For further information, please see
+// https://eli.thegreenplace.net/2010/01/22/weighted-random-generation-in-python
+const weightedIndex = (weights, rng=Math.random) => {
+  let rnd = rng() * sum(weights)
+  for (let i = 0; i < weights.length; i++) {
+    rnd -= weights[i]
+    if (rnd < 0) {
+      return i
+    }
+  }
+}
+
 export class Random {
   constructor(options={}) {
     if (options.algorithm === 'alea') {
@@ -52,8 +68,12 @@ export class Random {
   }
 
   // Draw a random element from an array
-  choice(array) {
-    return array[this.range(array.length)]
+  choice(array, weights=undefined) {
+    if (weights) {
+      return array[weightedIndex(weights, this.random)]
+    } else {
+      return array[this.range(array.length)]
+    }
   }
 
   // Sample multiple random elements from an array,
