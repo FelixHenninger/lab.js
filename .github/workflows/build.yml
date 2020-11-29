@@ -29,5 +29,8 @@ jobs:
       - run: (cd packages/library && yarn test)
       - run: (cd packages/library && yarn test:sauce)
         if: ${{ github.event_name == 'push' }}
+        env:
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
       - run: (cd packages/builder && yarn run build)
       - run: (cd packages/builder && yarn test)
