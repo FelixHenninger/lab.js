@@ -21,7 +21,7 @@ jobs:
         with:
           username: ${{ secrets.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
-          tunnelIdentifier: github-action-tunnel
+          tunnelIdentifier: github-action-tunnel-${{ github.run_id }}
           scVersion: 4.6.2
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -42,5 +42,6 @@ jobs:
         env:
           SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+          TUNNEL_IDENTIFIER: github-action-tunnel-${{ github.run_id }}
       - run: (cd packages/builder && yarn run build)
       - run: (cd packages/builder && yarn test)
