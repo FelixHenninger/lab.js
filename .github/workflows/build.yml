@@ -37,7 +37,7 @@ jobs:
       - run: yarn run bootstrap
       - run: (cd packages/library && yarn build:starterkit)
       - run: (cd packages/library && yarn test)
-      - run: (cd packages/library && yarn test:sauce)
+      - run: (cd packages/library && yarn test:sauce) || (cd packages/library && yarn test:sauce) || (cd packages/library && yarn test:sauce)
         if: ${{ github.event_name == 'push' }}
         env:
           SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
