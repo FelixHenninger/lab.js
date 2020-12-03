@@ -48,6 +48,11 @@ jobs:
           SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
           TUNNEL_IDENTIFIER: github-action-tunnel-${{ github.run_id }}
+      - name: Upload library starterkit as build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: labjs-starterkit
+          path: packages/library/dist/labjs-starterkit.zip
       - name: Bundle builder
         run: (cd packages/builder && yarn build)
       - name: Test builder
