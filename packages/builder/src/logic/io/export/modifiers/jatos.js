@@ -50,35 +50,14 @@ const makeConfig = (state) => {
   return makeDataURI(JSON.stringify(data, null, 2))
 }
 
-const updateIndex = (source, expId) => {
+const updateIndex = (source) =>
   // Include JATOS helper script
-  source = source.replace(
+  source.replace(
     // eslint-disable-next-line no-useless-escape
     /^(\s*)<script src="[\d\w\/\.]+" data-labjs-script="library"><\/script>/mg,
     '$&\n' +
-    '$1<script src="/assets/javascripts/jatos.js"></script>',
+    '$1<script src="jatos.js"></script>',
   )
-
-  // Rewrite paths
-  // (TODO: There is probably a better way to do this,
-  // maybe replacing all local src and href paths in the head)
-  source = source.replace(
-    /lib\/lab/g,
-    `/study_assets/${ expId }/lib/lab`
-  )
-
-  source = source.replace(
-    'script.js',
-    `/study_assets/${ expId }/script.js`
-  )
-
-  source = source.replace(
-    'style.css',
-    `/study_assets/${ expId }/style.css`
-  )
-
-  return source
-}
 
 const updateScript = (source) =>
   source.replace(
@@ -113,7 +92,7 @@ export default (state) => {
   // Add changes to index.html and script
   files.files['index.html'].content = updateDataURI(
     files.files['index.html'].content,
-    updateIndex, expId
+    updateIndex
   )
   files.files['script.js'].content = updateDataURI(
     files.files['script.js'].content,

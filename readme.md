@@ -105,8 +105,10 @@ Dilek Akkus ·
 [Kerstin Fröber](http://orcid.org/0000-0001-6060-2837) ·
 [Robert Gaschler](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/staff/rgaschler/) ·
 [Benjamin E. Hilbig](https://cognition.uni-landau.de/hilbig) ·
+[Lea Hildebrandt](https://lea.netlify.app/) ·
 [Alex Irvine](https://github.com/u01ai11) ·
 [Dave Kleinschmidt](https://www.davekleinschmidt.com/) ·
+[Kristian Lange](https://github.com/kristian-lange) ·
 [Dano Morrison](https://github.com/jdpigeon) ·
 [Karthikeya Pammi](https://github.com/pvskarthikeya) ·
 Shivangi Patel ·
