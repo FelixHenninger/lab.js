@@ -6,7 +6,7 @@
     "babel-jest": "^24.9.0",
     "glob": "^7.1.6",
     "redux-devtools-extension": "^2.13.8",
-    "shx": "^0.3.2"
+    "shx": "^0.3.3"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.11.2",
