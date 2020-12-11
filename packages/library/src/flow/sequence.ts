@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash'
 
-import { Status as status } from '../base/component'
+import { Status } from '../base/component'
 import { Component, ComponentOptions } from '../core/component'
 
 import { CustomIterator } from './util/iterator'
@@ -18,6 +18,8 @@ export type SequenceOptions = ComponentOptions & typeof sequenceDefaults
 // A sequence combines an array of other
 // components and runs them sequentially
 export class Sequence extends Component {
+  options!: SequenceOptions
+
   constructor(options: Partial<SequenceOptions> = {}) {
     super({
       ...cloneDeep(sequenceDefaults),
@@ -36,10 +38,10 @@ export class Sequence extends Component {
     }
 
     // Optionally add index parameter
-    if (this.options.indexParameter) {
+    if (this.options.indexParameter !== undefined) {
       this.options.content.forEach(
         (c: Component, i: number) =>
-          (c.options.parameters[this.options.indexParameter] = i),
+          (c.options.parameters[this.options.indexParameter!] = i),
       )
     }
 
@@ -61,7 +63,7 @@ export class Sequence extends Component {
   get progress() {
     // If the sequence has ended, report it as completed
     // (even if content was skipped)
-    return this.status === status.done
+    return this.status === Status.done
       ? 1
       : mean(this.options.content.map((c: Component) => c.progress))
   }
