@@ -133,11 +133,17 @@ const renderElement = (
   ctx.restore()
 }
 
-export const makeRenderFunction = (content: CanvasContent[], cache: any) => (
-  ts: number,
-  canvas: HTMLCanvasElement,
-  ctx: CanvasRenderingContext2D,
-) => (content || []).forEach(c => renderElement(ctx, c, cache))
+export const makeRenderFunction =
+  (content: CanvasContent[] = [], cache: any) =>
+  (ts: number, canvas: HTMLCanvasElement, ctx: RenderingContext) => {
+    // Ensure that the context is of the 2d type
+    const context =
+      ctx instanceof CanvasRenderingContext2D ? ctx : canvas.getContext('2d')
+    if (!context) throw new Error(`Couldn't access 2d rendering context`)
+
+    // Render content
+    content.forEach(c => renderElement(context, c, cache))
+  }
 
 // Types -----------------------------------------------------------------------
 

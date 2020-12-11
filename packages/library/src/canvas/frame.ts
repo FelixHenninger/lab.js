@@ -16,9 +16,13 @@ const frameDefaults = {
 
 type FrameOptions = ComponentOptions &
   typeof canvasDefaults &
-  typeof frameDefaults
+  typeof frameDefaults & {
+    content: Component
+  }
 
 export class Frame extends Component {
+  options!: FrameOptions
+
   constructor(options: Partial<FrameOptions> = {}) {
     super({
       ...cloneDeep(canvasDefaults),

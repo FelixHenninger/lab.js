@@ -42,13 +42,11 @@ export const makePath = (
   return translatedPath
 }
 
-export const makePathFunction = (content: AOI[]) => (
-  ts: number,
-  canvas: HTMLCanvasElement,
-  ctx: CanvasRenderingContext2D,
-) =>
-  fromPairs(
-    content
-      .filter(c => c.label && ['aoi'].includes(c.type)) // Supported objects
-      .map(c => [c.label, makePath(ctx, c)]), // Make key / path pairs
-  )
+export const makePathFunction =
+  (content: AOI[] = []) =>
+  (ts: number, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) =>
+    fromPairs(
+      content
+        .filter(c => c.label && ['aoi'].includes(c.type)) // Supported objects
+        .map(c => [c.label, makePath(ctx, c)]), // Make key / path pairs
+    )

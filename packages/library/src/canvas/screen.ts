@@ -1,7 +1,7 @@
 import { cloneDeep, isObject } from 'lodash'
 
-import { Component } from '../core/component'
-import { makeRenderFunction, CanvasContent, Image } from './util/render'
+import { Component, ComponentOptions } from '../core/component'
+import { makeRenderFunction, CanvasContent, Image, AOI } from './util/render'
 import { makePathFunction } from './util/path'
 import {
   makeTransform,
@@ -10,7 +10,6 @@ import {
 } from './util/transform'
 import { setupCanvas } from './util/dom'
 import { makeProcessEvent } from './util/event'
-import { ComponentOptions } from '../base/component'
 
 // Canvas-based components -----------------------------------------------------
 
@@ -20,11 +19,11 @@ export const canvasDefaults = {
   // Move origin to canvas center
   translateOrigin: true,
   // Scale a viewport to the entire available space
-  viewport: [800, 600],
+  viewport: <[number, number]>[800, 600],
   viewportScale: <number | 'auto'>'auto',
   viewportEdge: false,
   // Use high resolution if possible
-  devicePixelScaling: null, // replaced by true if unspecified
+  devicePixelScaling: undefined, // replaced by true if unspecified
 }
 
 const screenDefaults = {
@@ -46,6 +45,8 @@ type ScreenOptions = ComponentOptions &
   typeof canvasDefaults
 
 export class Screen extends Component {
+  options!: ScreenOptions
+
   constructor(options: Partial<ScreenOptions> = {}) {
     super({
       ...cloneDeep(canvasDefaults),
@@ -63,8 +64,12 @@ export class Screen extends Component {
   onPrepare() {
     // Add images to cached media
     ;(this.options.content || [])
-      .filter((c: CanvasContent) => isObject(c) && c.type === 'image' && c.src)
-      .forEach((c: Image) => this.options.media!.images.push(c.src!))
+      .filter(
+        <(c: CanvasContent) => c is Image>(
+          (c => isObject(c) && c.type === 'image' && c.src !== undefined)
+        ),
+      )
+      .forEach(c => this.options.media!.images.push(c.src))
 
     // Prepare AOI event handling
     // Canvas.screen components implement one additional feature
@@ -164,7 +169,7 @@ export class Screen extends Component {
       this.internals.ctx.restore()
     }
 
-    return this.options.renderFunction.call(
+    return this.options.renderFunction!.call(
       this,
       timestamp - this.internals.timestamps.render,
       this.internals.canvas,
@@ -174,7 +179,11 @@ export class Screen extends Component {
   }
 
   onShow() {
-    this.internals.paths = makePathFunction(this.options.content ?? [])(
+    this.internals.paths = makePathFunction(
+      this.options.content.filter(
+        <(c: CanvasContent) => c is AOI>(c => c.type === 'aoi'),
+      ),
+    )(
       // TODO: Update paths
       0,
       this.internals.canvas,
@@ -188,7 +197,7 @@ export class Screen extends Component {
         this.clear()
       }
 
-      this.options.renderFunction.call(
+      this.options.renderFunction!.call(
         this,
         timestamp - this.internals.timestamps.render,
         this.internals.canvas,
