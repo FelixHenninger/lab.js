@@ -10,6 +10,8 @@ const screenDefaults = {
 export type ScreenOptions = ComponentOptions & typeof screenDefaults
 
 export class Screen extends Component {
+  options!: ScreenOptions
+
   constructor(options: Partial<ScreenOptions> = {}) {
     super({
       ...cloneDeep(screenDefaults),

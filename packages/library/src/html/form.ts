@@ -13,6 +13,8 @@ const formDefaults = {
 export type FormOptions = ScreenOptions & typeof formDefaults
 
 export class Form extends Screen {
+  options!: FormOptions
+
   constructor(options: Partial<FormOptions> = {}) {
     super({
       ...cloneDeep(formDefaults),
@@ -92,11 +94,11 @@ export class Form extends Screen {
       // (an array conversion is needed here for IE
       // and older browsers, who do not implement
       // forEach on NodeLists)
-      ;(Array.from(
-        this.internals.context.el.querySelectorAll('form'),
-      ) as HTMLFormElement[]).forEach(f =>
-        f.setAttribute('data-labjs-validated', ''),
-      )
+      ;(
+        Array.from(
+          this.internals.context.el.querySelectorAll('form'),
+        ) as HTMLFormElement[]
+      ).forEach(f => f.setAttribute('data-labjs-validated', ''))
     }
 
     // Prevent default form behavior

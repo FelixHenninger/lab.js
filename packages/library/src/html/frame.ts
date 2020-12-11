@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash'
-import { ComponentOptions } from '../base/component'
+import { ComponentOptions } from '../core/component'
 import { Component } from '../core/component'
 import { prepareNested } from '../flow/util/nested'
 import { createFragment } from './util/dom'
@@ -10,9 +10,14 @@ const frameDefaults = {
   contextSelector: '',
 }
 
-type FrameOptions = ComponentOptions & typeof frameDefaults
+type FrameOptions = ComponentOptions &
+  typeof frameDefaults & {
+    content: Component
+  }
 
 export class Frame extends Component {
+  options!: FrameOptions
+
   constructor(options: Partial<FrameOptions> = {}) {
     super({
       ...cloneDeep(frameDefaults),
@@ -66,7 +71,7 @@ export class Frame extends Component {
 
   get progress() {
     // Return progress from nested component
-    return this.options.content.progress
+    return this.options.content?.progress ?? 0
   }
 }
 

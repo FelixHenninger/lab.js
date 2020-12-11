@@ -13,6 +13,8 @@ const pageDefaults = {
 type PageOptions = FormOptions & typeof pageDefaults
 
 export class Page extends Form {
+  options!: PageOptions
+
   constructor(options: Partial<PageOptions> = {}) {
     super({
       ...cloneDeep(pageDefaults),
