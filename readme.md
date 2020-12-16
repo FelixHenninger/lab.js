@@ -15,7 +15,7 @@
 **`lab.js` makes it easy to build, run and share studies that help understand the mind.** It allows everyone to construct and construct experiments and surveys within the browser; the graphical builder makes it easy to get started without writing code.
 
 [![Slack Status](https://img.shields.io/badge/support-online-brightgreen.svg)](https://lab.js.org/resources/support/)
-[![Build Status](https://travis-ci.org/FelixHenninger/lab.js.svg?branch=master)](https://travis-ci.org/FelixHenninger/lab.js)
+[![Build Status](https://github.com/FelixHenninger/lab.js/workflows/Build/badge.svg)](https://github.com/FelixHenninger/lab.js/actions?query=workflow%3ABuild)
 [![Documentation Status](https://readthedocs.org/projects/labjs/badge/?version=latest)](https://lab.js.org/docs/en/latest/)
 [![Version on NPM](https://img.shields.io/npm/v/lab.js.svg)](https://www.npmjs.com/package/lab.js)
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.597045.svg)](https://doi.org/10.5281/zenodo.597045)

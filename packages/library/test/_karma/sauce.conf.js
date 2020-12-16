@@ -193,7 +193,7 @@ module.exports = (config) => {
     sauceLabs: {
       testName: 'lab.js browser compatibility tests',
       startConnect: false,
-      tunnelIdentifier: process.env.TUNNEL_IDENTIFIER || process.env.TRAVIS_JOB_NUMBER,
+      tunnelIdentifier: process.env.TUNNEL_IDENTIFIER,
       connectOptions: {
         port: 5757,
         logfile: 'sauce_connect.log'
