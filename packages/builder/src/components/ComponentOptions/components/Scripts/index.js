@@ -62,8 +62,8 @@ const parsingErrors = (code) => {
   }
 }
 
-const GridRow = ({ name, arrayHelpers }) =>
-  <DefaultRow name={ name } arrayHelpers={ arrayHelpers }>
+const GridRow = ({ index, name, arrayHelpers }) =>
+  <DefaultRow index={ index } name={ name } arrayHelpers={ arrayHelpers }>
     <Row form>
       <Col xs="6">
         <Field

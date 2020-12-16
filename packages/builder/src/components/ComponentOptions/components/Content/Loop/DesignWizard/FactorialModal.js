@@ -39,8 +39,11 @@ const generateTable = (factors) => {
 
 // UI --------------------------------------------------------------------------
 
-const TableRow = ({ name, arrayHelpers }) =>
-  <DefaultRow name={ name } arrayHelpers={ arrayHelpers } wrapper={ Fragment }>
+const TableRow = ({ index, name, arrayHelpers }) =>
+  <DefaultRow
+    index={ index } name={ name }
+    arrayHelpers={ arrayHelpers } wrapper={ Fragment }
+  >
     <td>
       <Field
         name={ `${ name }.name` }
