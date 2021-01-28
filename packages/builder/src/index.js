@@ -30,13 +30,13 @@ if (
   })
 }
 
-/* eslint-disable import/first */
+///* eslint-disable import/first */
 import { check } from './logic/util/compatibility'
 import { persistState } from './logic/util/persistence'
 import installPreviewWorker from './logic/io/preview/worker'
 import { register as registerServiceWorker } from './registerServiceWorker'
 import { SystemContextProvider } from './components/System'
-/* eslint-enable import/first */
+///* eslint-enable import/first */
 
 (async () => {
   const store = await configureStore()
