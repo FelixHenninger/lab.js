@@ -31,7 +31,7 @@ export function register(config) {
       return;
     }
 
-    window.addEventListener('load', () => {
+    const checkOrRegisterSW = () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
       if (isLocalhost) {
@@ -50,7 +50,13 @@ export function register(config) {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config);
       }
-    });
+    };
+
+    if (document.readyState === 'complete') {
+      checkOrRegisterSW();
+    } else {
+      window.addEventListener('load', checkOrRegisterSW);
+    }
   }
 }
 
