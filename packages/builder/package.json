@@ -11,7 +11,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.11.2",
     "@sentry/browser": "^5.15.4",
-    "@welldone-software/why-did-you-render": "^4.2.7",
+    "@welldone-software/why-did-you-render": "^6.0.5",
     "attr-accept": "^2.0.0",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
