@@ -9,8 +9,8 @@ import { Provider as ReduxProvider } from 'react-redux'
 import configureStore from './store'
 
 // React-dnd integration
-import { DragDropContext } from 'react-dnd'
-import HTML5DragDropBackend from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 // App content
 import App from './components/App'
@@ -65,9 +65,6 @@ import { SystemContextProvider } from './components/System'
       })
     }
   } finally {
-    // Wrap main app component
-    const WrappedApp = DragDropContext(HTML5DragDropBackend)(App)
-
     // Render wrapped app
     ReactDOM.render(
       <SystemContextProvider
@@ -76,7 +73,9 @@ import { SystemContextProvider } from './components/System'
         }}
       >
         <ReduxProvider store={ store }>
-          <WrappedApp />
+          <DndProvider backend={ HTML5Backend }>
+            <App />
+          </DndProvider>
         </ReduxProvider>
       </SystemContextProvider>,
       document.getElementById('root')
