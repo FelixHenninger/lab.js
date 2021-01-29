@@ -4,7 +4,7 @@ import { downloadZip } from '../index'
 import { makeDataURI, updateDataURI } from '../../../util/dataURI'
 import { transform } from 'lodash'
 import { stripIndent } from 'common-tags'
-import uuid from 'uuid4'
+import { v4 as uuidv4 } from 'uuid'
 
 const makeConfig = (state) => {
   const metadata = state.components.root.metadata
@@ -13,7 +13,7 @@ const makeConfig = (state) => {
   const data = {
     version: '3',
     data: {
-      uuid: uuid(),
+      uuid: uuidv4(),
       title: metadata.title || 'Unnamed study',
       description: metadata.description || '',
       groupStudy: false,
@@ -22,7 +22,7 @@ const makeConfig = (state) => {
       jsonData: null,
       componentList: [
         {
-          "uuid": uuid(),
+          "uuid": uuidv4(),
           "title": metadata.title || 'Unamed study',
           "htmlFilePath": "index.html",
           "reloadable": true,
@@ -33,7 +33,7 @@ const makeConfig = (state) => {
       ],
       batchList: [
         {
-          "uuid": uuid(),
+          "uuid": uuidv4(),
           "title": "Default",
           "active": true,
           "maxActiveMembers": null,
