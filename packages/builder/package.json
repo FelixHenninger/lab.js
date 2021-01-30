@@ -21,7 +21,7 @@
     "fira": "github:mozilla/Fira",
     "formik": "^2.1.4",
     "hash.js": "^1.1.7",
-    "htmlhint": "^0.11.0",
+    "htmlhint": "^0.14.2",
     "jszip": "^3.5.0",
     "konva": "^4.0.18",
     "lab.js": "file:../library",
