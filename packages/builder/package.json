@@ -25,7 +25,7 @@
     "jszip": "^3.5.0",
     "konva": "^4.0.18",
     "lab.js": "file:../library",
-    "localforage": "^1.7.3",
+    "localforage": "^1.9.0",
     "lodash": "^4.17.15",
     "moment": "^2.29.1",
     "monaco-editor-webpack-plugin": "^1.9.0",
