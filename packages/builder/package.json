@@ -9,7 +9,7 @@
     "shx": "^0.3.3"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.11.2",
+    "@fortawesome/fontawesome-free": "^5.15.2",
     "@sentry/browser": "^5.15.4",
     "@welldone-software/why-did-you-render": "^6.0.5",
     "attr-accept": "^2.2.2",
