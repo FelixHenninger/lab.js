@@ -19,7 +19,7 @@
     "fabric": "^3.5.1",
     "file-saver": "^2.0.5",
     "fira": "github:mozilla/Fira",
-    "formik": "^2.1.4",
+    "formik": "^2.2.6",
     "hash.js": "^1.1.7",
     "htmlhint": "^0.14.2",
     "jszip": "^3.5.0",
