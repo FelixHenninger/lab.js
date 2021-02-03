@@ -8760,13 +8760,13 @@ extsprintf@^1.2.0:
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
-fabric@^3.5.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/fabric/-/fabric-3.5.1.tgz#0fa8783d83c2bec011901b95c930db9a51806fd7"
-  integrity sha512-N6xPdRoa8odrADWkuvxsf6pMRiXzLYi8ywInrKhfXojpDfB6aVPFkPulPPWa2GGUvwFxKp3SoTN/ivsE7d537w==
+fabric@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/fabric/-/fabric-4.3.1.tgz#918f408840c2efbb8867b9c2c484beaa68037f8b"
+  integrity sha512-KTaGHu7re3liNumzMWmgyD35RCKFdksxHr/kFWQ7u+Vo3tdNRGBiVDT8pWLl4U8W7UenBfziHWYjj1I7pOhsxA==
   optionalDependencies:
     canvas "^2.6.1"
-    jsdom "^15.1.0"
+    jsdom "^15.2.1"
 
 fast-async@^7.0.0:
   version "7.0.6"
@@ -11476,7 +11476,7 @@ jsbn@~0.1.0:
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
   integrity sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
 
-jsdom@^15.1.0:
+jsdom@^15.2.1:
   version "15.2.1"
   resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-15.2.1.tgz#d2feb1aef7183f86be521b8c6833ff5296d07ec5"
   integrity sha512-fAl1W0/7T2G5vURSyxBzrJ1LSdQn6Tr5UX/xD4PXDx/PDgwygedfW6El/KIj3xJ7FU61TTYnc/l/B7P49Eqt6g==

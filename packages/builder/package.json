@@ -16,7 +16,7 @@
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
     "common-tags": "^1.8.0",
-    "fabric": "^3.5.1",
+    "fabric": "^4.3.1",
     "file-saver": "^2.0.5",
     "fira": "github:mozilla/Fira",
     "formik": "^2.2.6",
