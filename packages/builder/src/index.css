@@ -10,3 +10,7 @@ input, button, textarea, select {
 .input-group-text {
   background-color: white;
 }
+
+.nav.nav-tabs .nav-item a {
+  color: inherit;
+}
