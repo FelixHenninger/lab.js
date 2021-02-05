@@ -28,7 +28,7 @@
     "localforage": "^1.9.0",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
-    "monaco-editor-webpack-plugin": "^1.9.0",
+    "monaco-editor-webpack-plugin": "^1.9.1",
     "node-sass": "^4.14.1",
     "papaparse": "^5.3.0",
     "parse-author": "^2.0.0",
