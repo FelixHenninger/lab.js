@@ -25,6 +25,7 @@
     "jszip": "^3.5.0",
     "konva": "^7.2.2",
     "lab.js": "file:../library",
+    "levenary": "^1.1.1",
     "localforage": "^1.9.0",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
