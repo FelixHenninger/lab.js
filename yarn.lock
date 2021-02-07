@@ -8134,11 +8134,6 @@ file-loader@6.1.1:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
-file-saver@^1.3.8:
-  version "1.3.8"
-  resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-1.3.8.tgz#e68a30c7cb044e2fb362b428469feb291c2e09d8"
-  integrity sha512-spKHSBQIxxS81N/O21WmuXA2F6wppUCsutpzenOeZzOCCJ5gEfcbqJP983IrpLXzYmXnMUa6J03SubcNPdKrlg==
-
 file-saver@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-2.0.5.tgz#d61cfe2ce059f414d899e9dd6d4107ee25670c38"
@@ -11047,7 +11042,7 @@ konva@^7.2.2:
     es2015-proxy "^0.1.7"
     es6-promise "^4.1.0"
     fast-async "^7.0.0"
-    file-saver "^1.3.8"
+    file-saver "^2.0.5"
     lodash "^4.17.10"
     nodent "^3.2.6"
     seedrandom "^3.0.5"

@@ -18,7 +18,7 @@
     "es2015-proxy": "^0.1.7",
     "es6-promise": "^4.1.0",
     "fast-async": "^7.0.0",
-    "file-saver": "^1.3.8",
+    "file-saver": "^2.0.5",
     "lodash": "^4.17.10",
     "nodent": "^3.2.6",
     "seedrandom": "^3.0.5",
