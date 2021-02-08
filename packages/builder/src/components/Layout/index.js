@@ -12,6 +12,8 @@ import './index.css'
 
 export default ({ sidebar, footer, children }) =>
   <div className="grid-wrapper">
+    <div className="grid-header">
+    </div>
     <div className="grid-sidebar">
       { sidebar }
     </div>

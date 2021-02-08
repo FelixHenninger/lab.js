@@ -2,11 +2,19 @@
   min-height: 100vh;
   display: grid;
   grid-template-columns: 320px auto;
-  grid-template-rows: 1fr max-content;
+  grid-template-rows: auto 1fr max-content;
   grid-template-areas:
+    "header header"
     "sidebar contents"
     "footer contents";
-  border-top: 6px solid var(--highlight);
+}
+
+.grid-header {
+  grid-area: header;
+  min-height: 6px;
+  text-align: center;
+  padding: 3px;
+  background-color: var(--highlight);
 }
 
 .grid-sidebar {
