@@ -1,3 +1,7 @@
+table.grid {
+  margin-bottom: 0;
+}
+
 /* Left- and rightmost columns */
 div.card > table.grid tr td:first-child,
 div.card > table.grid tr th:first-child {
