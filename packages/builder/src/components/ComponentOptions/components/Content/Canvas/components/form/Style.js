@@ -18,12 +18,12 @@ export default ({ selection, changeHandler }) =>
     />
     <ColorDropdown
       name="stroke"
-      icon="circle" iconFallbackWeight="r"
+      icon="circle" iconWeight="r" iconFallbackWeight="r"
       disabled={ ['image', 'aoi', undefined].includes(selection.type) }
     />
     <ColorDropdown
       name="fill"
-      icon="circle" iconFallbackWeight="s"
+      icon="circle" iconWeight="s" iconFallbackWeight="s"
       disabled={ ['line', 'image', 'aoi', undefined].includes(selection.type) }
     />
   </ButtonGroup>
