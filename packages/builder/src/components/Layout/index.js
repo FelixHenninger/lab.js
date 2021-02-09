@@ -1,4 +1,5 @@
 import React from 'react'
+import classnames from 'classnames'
 
 // Bootstrap integration
 import './bootstrap-custom.scss'
@@ -10,9 +11,18 @@ import 'fira/fira.css'
 // Grid layout
 import './index.css'
 
+// Compute header mode
+let mode = 'default'
+
+if (window.location.href.includes('beta')) {
+  mode = 'header-experimental'
+} else if ((new Date()).getMonth() == 5) {
+  mode = 'header-rainbow'
+}
+
 export default ({ sidebar, footer, children }) =>
   <div className="grid-wrapper">
-    <div className="grid-header">
+    <div className={ classnames('grid-header', mode) }>
     </div>
     <div className="grid-sidebar">
       { sidebar }
