@@ -59,7 +59,7 @@ jobs:
         run: (cd packages/builder && yarn test)
       - name: Deploy builder beta
         run: (cd packages/builder && yarn deploy)
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         env:
           NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_ACCESS_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
