@@ -27,6 +27,44 @@
   );
 }
 
+.grid-header.header-rainbow {
+  background: repeating-linear-gradient(
+    135deg,
+    #d50000,
+    #d50000 20px,
+    #c51162 20px,
+    #c51162 40px,
+    #aa00ff 40px,
+    #aa00ff 60px,
+    #6708ec 60px,
+    #6708ec 80px,
+    #304ffe 80px,
+    #304ffe 100px,
+    #2962ff 100px,
+    #2962ff 120px,
+    #0091ea 120px,
+    #0091ea 140px,
+    #00b8d4 140px,
+    #00b8d4 160px,
+    #00bfa5 160px,
+    #00bfa5 180px,
+    #00c853 180px,
+    #00c853 200px,
+    #64dd17 200px,
+    #64dd17 220px,
+    #aeea00 220px,
+    #aeea00 240px,
+    #ffd600 240px,
+    #ffd600 260px,
+    #ffab00 260px,
+    #ffab00 280px,
+    #ff6d00 280px,
+    #ff6d00 300px,
+    #dd2c00 300px,
+    #dd2c00 320px
+  );
+}
+
 .grid-sidebar {
   grid-area: sidebar;
 }
