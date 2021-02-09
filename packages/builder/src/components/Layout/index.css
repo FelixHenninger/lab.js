@@ -14,7 +14,17 @@
   min-height: 6px;
   text-align: center;
   padding: 3px;
-  background-color: var(--highlight);
+  background: var(--highlight);
+}
+
+.grid-header.header-experimental {
+  background: repeating-linear-gradient(
+    35deg,
+    var(--highlight) 0px,
+    var(--highlight) 18px,
+    #774e11 18px,
+    #774e11 36px
+  );
 }
 
 .grid-sidebar {
