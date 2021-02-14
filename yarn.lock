@@ -3472,9 +3472,10 @@ acorn-walk@^7.1.1:
   resolved "https://registry.yarnpkg.com/acorn-walk/-/acorn-walk-7.2.0.tgz#0de889a601203909b0fbe07b8938dc21d2e967bc"
   integrity sha512-OPdCF6GsMIP+Az+aWfAAOEt2/+iVDKE7oy6lJ098aoe59oAmK76qV6Gw60SbZ8jHuG2wH058GF4pLFbYamYrVA==
 
-"acorn@>= 2.5.2 <= 5.7.3":
-  version "5.7.3"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
+"acorn@>= 2.5.2 <= 5.7.5":
+  version "5.7.4"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.4.tgz#3e8d8a9947d0599a1796d10225d7432f4a4acf5e"
+  integrity sha512-1D++VG7BhrtvQpNbBzovKNc1FLGGEE/oGe7b9xJm/RFHMBeUaUGpluV9RLjZa47YFdPcDAenEYuq9pQPcMdLJg==
 
 acorn@^6.0.1:
   version "6.1.1"
@@ -12340,12 +12341,12 @@ node-sass@^4.14.1:
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
 
-nodent-compiler@^3.2.11:
-  version "3.2.11"
-  resolved "https://registry.yarnpkg.com/nodent-compiler/-/nodent-compiler-3.2.11.tgz#8f4bc703d7d8d0e563f5e09ea22efdce04dbaf9b"
-  integrity sha512-rfDrGWdgIJYomPUzR8nXiWNuIhJ7cVodPeZP3Ho65LEycuaX2uVNZ0ytpcfrmUKzdFeLRtye9+pHe8OynPZuPQ==
+nodent-compiler@^3.2.13:
+  version "3.2.13"
+  resolved "https://registry.yarnpkg.com/nodent-compiler/-/nodent-compiler-3.2.13.tgz#149aefee22fe55f70e76ae7f1323e641e0c762e6"
+  integrity sha512-nzzWPXZwSdsWie34om+4dLrT/5l1nT/+ig1v06xuSgMtieJVAnMQFuZihUwREM+M7dFso9YoHfDmweexEXXrrw==
   dependencies:
-    acorn ">= 2.5.2 <= 5.7.3"
+    acorn ">= 2.5.2 <= 5.7.5"
     acorn-es7-plugin "^1.1.7"
     nodent-transform "^3.2.9"
     source-map "^0.5.7"
@@ -12361,11 +12362,11 @@ nodent-transform@^3.2.4, nodent-transform@^3.2.9:
   integrity sha512-4a5FH4WLi+daH/CGD5o/JWRR8W5tlCkd3nrDSkxbOzscJTyTUITltvOJeQjg3HJ1YgEuNyiPhQbvbtRjkQBByQ==
 
 nodent@^3.2.6:
-  version "3.2.11"
-  resolved "https://registry.yarnpkg.com/nodent/-/nodent-3.2.11.tgz#1c00b78bc8fc805fbb3b924d0cd021ef33078043"
-  integrity sha512-y+ofPYAJvGJB50B95pE26iPJqdTzgYKW3AjsqdLQboetJxH8tGRn1vr1gIe+z7PA7ZwcEUTOrahj6RaVzU2ivA==
+  version "3.2.13"
+  resolved "https://registry.yarnpkg.com/nodent/-/nodent-3.2.13.tgz#5a75caba13855e31bbba8881ca7a2ee5a1accfe3"
+  integrity sha512-eJE6FKhN9epnpWv0GypLq6ECTX+N6WJHRhwgm7wkqliJ/NV/xKbMfJIRpLh+li0FAIDuKhCE0P4RSBvgl2JccA==
   dependencies:
-    nodent-compiler "^3.2.11"
+    nodent-compiler "^3.2.13"
     nodent-runtime "^3.2.1"
     resolve "^1.5.0"
 
@@ -15339,14 +15340,14 @@ resolve@^1.1.6, resolve@^1.6.0, resolve@^1.8.1:
   dependencies:
     path-parse "^1.0.5"
 
-resolve@^1.10.0, resolve@^1.12.0, resolve@^1.3.2, resolve@^1.5.0:
+resolve@^1.10.0, resolve@^1.12.0, resolve@^1.3.2:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.13.1.tgz#be0aa4c06acd53083505abb35f4d66932ab35d16"
   integrity sha512-CxqObCX8K8YtAhOBRg+lrcdn+LK+WYOS8tSjqSFbjtrI5PnS63QPhZl4+yKfrU9tdsbMu9Anr/amegT87M9Z6w==
   dependencies:
     path-parse "^1.0.6"
 
-resolve@^1.13.1, resolve@^1.14.2, resolve@^1.17.0, resolve@^1.18.1:
+resolve@^1.13.1, resolve@^1.14.2, resolve@^1.17.0, resolve@^1.18.1, resolve@^1.5.0:
   version "1.19.0"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.19.0.tgz#1af5bf630409734a067cae29318aac7fa29a267c"
   integrity sha512-rArEXAgsBG4UgRGcynxWIWKFvh/XZCcS8UJdHhwy91zwAvCZIbcs+vAbflgBnNjYMs/i/i+/Ux6IZhML1yPvxg==
