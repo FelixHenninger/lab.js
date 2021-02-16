@@ -24,7 +24,7 @@
     "nodent": "^3.2.6",
     "seedrandom": "^3.0.5",
     "shim-keyboard-event-key": "^1.0.2",
-    "terser-webpack-plugin": "^2.3.5",
+    "terser-webpack-plugin": "^4.2.3",
     "ua-parser-js": "^0.7.19",
     "whatwg-fetch": "^3.5.0"
   },
