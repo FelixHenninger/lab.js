@@ -88,6 +88,7 @@ module.exports = (env, argv) => {
     : babelPresets.default
 
   const config = {
+    mode: mode === 'development' ? mode : 'production',
     entry: {
       js: target === 'legacy'
         ? ['whatwg-fetch', './src/index.js']

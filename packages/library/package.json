@@ -65,9 +65,9 @@
     "shelljs": "^0.8.4",
     "shx": "^0.3.3",
     "sinon": "^9.2.0",
-    "webpack": "^4.8.0",
+    "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^3.0.0",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "^4.4.0"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
@@ -119,8 +119,8 @@
     }
   },
   "scripts": {
-    "analyze": "NODE_ENV=analysis webpack --profile --json > bundleStats.json",
-    "build:js:coverage": "NODE_ENV=coverage webpack -d",
+    "analyze": "NODE_ENV=analysis webpack --analyze --json > bundleStats.json",
+    "build:js:coverage": "NODE_ENV=coverage webpack --mode=development",
     "build:js:development": "webpack --mode=development",
     "build:js:legacy": "cross-env NODE_ENV=legacy webpack --mode=production",
     "build:js:production": "webpack --mode=production",
