@@ -53,13 +53,13 @@ const customLaunchers = {
   sl_safari_last: {
     base: 'SauceLabs',
     browserName: 'safari',
-    platform: 'macOS 10.14',
+    platform: 'macOS 10.15',
     version: 'latest',
   },
   sl_safari_latest: {
     base: 'SauceLabs',
     browserName: 'safari',
-    platform: 'macOS 10.15',
+    platform: 'macOS 11.00',
     version: 'latest',
   },
   // Safari beta is not available (yet?)
