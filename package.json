@@ -18,6 +18,7 @@
       "packages/*"
     ],
     "nohoist": [
+      "lab.js/babel-loader",
       "lab.js/chai",
       "lab.js/chai/**",
       "lab.js/es6-promise",
