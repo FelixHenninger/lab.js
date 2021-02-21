@@ -212,6 +212,9 @@ describe('Utilities', () => {
       const constraint = sinon.stub()
       constraint.returns(false)
 
+      // Catch console warning
+      sinon.stub(console, 'warn')
+
       const result = rng_alea.constrainedShuffle(array, constraint, {}, 10)
 
       // Check constraint calls
@@ -224,6 +227,8 @@ describe('Utilities', () => {
         result,
         [1, 3, 2]
       )
+      assert.ok(console.warn.calledWith('constrainedShuffle could not find a matching candidate after 10 iterations'))
+      console.warn.restore()
     })
 
     it('shuffles with minimum distance constraint', () => {
