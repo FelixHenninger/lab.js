@@ -35,7 +35,7 @@ jobs:
       - name: Run library unit tests
         run: (cd packages/library && yarn test)
       - name: Connect to saucelabs for automated browser testing
-        uses: saucelabs/sauce-connect-action@master
+        uses: saucelabs/sauce-connect-action@v1
         with:
           username: ${{ secrets.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
