@@ -38,6 +38,10 @@
       "lab.js/sinon",
       "lab.js/sinon/**",
       "lab.js.builder/bootstrap",
+      "**/react",
+      "**/react/**",
+      "**/react-dom",
+      "**/react-dom/**",
       "lab.js.builder/react-scripts",
       "lab.js.builder/react-scripts/**",
       "lab.js.website/bootstrap"
