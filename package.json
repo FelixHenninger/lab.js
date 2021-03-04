@@ -37,6 +37,8 @@
       "lab.js/lodash",
       "lab.js/sinon",
       "lab.js/sinon/**",
+      "lab.js/webpack",
+      "lab.js/webpack/**",
       "lab.js.builder/bootstrap",
       "**/react",
       "**/react/**",

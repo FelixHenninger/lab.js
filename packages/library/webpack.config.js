@@ -99,7 +99,7 @@ module.exports = (env, argv) => {
         loader: 'babel-loader',
         test: /\.js$/,
         include: path.join(__dirname, 'src'),
-        query: babelOptions,
+        options: babelOptions,
       }],
     },
     devtool: mode === 'development' ? 'inline-source-map' : 'source-map',
@@ -131,7 +131,6 @@ module.exports = (env, argv) => {
     config.optimization = config.optimization || {}
     config.optimization.minimizer = [
       new TerserPlugin({
-        sourceMap: true,
         terserOptions: {
           compress: {
             inline: false,
