@@ -11687,7 +11687,7 @@ konva@^7.2.2:
   integrity sha512-i6ShSipM4o3HC3yjuTNHSa18rml7XXJowg942BrCmyyyylg1CefiwN7sZE+0ax8icRfiBSUPjRqzDeNN3aLnoQ==
 
 "lab.js@file:packages/library":
-  version "20.1.1"
+  version "20.2.2"
   dependencies:
     "@babel/runtime" "^7.12.5"
     common-tags "^1.8.0"
