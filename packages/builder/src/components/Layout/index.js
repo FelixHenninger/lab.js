@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classnames from 'classnames'
 
 // Bootstrap integration
@@ -20,10 +20,46 @@ if (window.location.href.includes('beta')) {
   mode = 'header-rainbow'
 }
 
+const Header = () => {
+  const [messageVisible, setMessageVisible] = useState(true)
+
+  return (
+    <div className={ classnames('grid-header', mode) }>
+      {
+        mode === 'header-experimental' && messageVisible
+          ? <>
+              <div className="m-1">
+                <button
+                  type="button"
+                  className="close"
+                  aria-label="Close"
+                  onClick={ () => setMessageVisible(false) }
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>
+                  This version of <code>lab.js</code> is experimental!
+                </strong>{' '}
+                It is currently unstable and prone to break,
+                please use the{' '}
+                <a
+                  href="https://labjs.felixhenninger.com"
+                  style={{ fontWeight: 600 }}
+                >
+                  stable version
+                </a>{' '}
+                for the time being.
+              </div>
+            </>
+          : null
+      }
+    </div>
+  )
+}
+
 export default ({ sidebar, footer, children }) =>
   <div className="grid-wrapper">
-    <div className={ classnames('grid-header', mode) }>
-    </div>
+    <Header />
     <div className="grid-sidebar">
       { sidebar }
     </div>

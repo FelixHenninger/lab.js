@@ -13,8 +13,22 @@
   grid-area: header;
   min-height: 6px;
   text-align: center;
+  color: white;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   padding: 3px;
   background: var(--highlight);
+}
+
+.grid-header a, .grid-header code {
+  color: white;
+}
+
+.grid-header .close {
+  color: white;
+  font-weight: normal;
+  opacity: 0.8;
+  position: relative;
+  top: -1.6px;
 }
 
 .grid-header.header-experimental {
