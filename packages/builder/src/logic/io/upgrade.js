@@ -470,6 +470,15 @@ const updates = {
     ...data,
     version: [20, 2, 2],
   }),
+  '20.2.2': data => {
+    // Remove legacy library builds
+    delete data.files.bundledFiles['lib/lab.fallback.js']
+    delete data.files.bundledFiles['lib/lab.legacy.js']
+    delete data.files.bundledFiles['lib/lab.legacy.js.map']
+
+    data.version = [21, 'alpha', 0]
+    return data
+  },
 }
 
 export default (data) => {

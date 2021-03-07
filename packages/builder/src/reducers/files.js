@@ -46,15 +46,6 @@ const defaultState = {
     'lib/lab.js.map': {
       type: 'text/plain',
     },
-    'lib/lab.fallback.js': {
-      type: 'application/javascript',
-    },
-    'lib/lab.legacy.js': {
-      type: 'application/javascript',
-    },
-    'lib/lab.legacy.js.map': {
-      type: 'text/plain',
-    },
     'lib/lab.css': {
       type: 'text/css',
     },

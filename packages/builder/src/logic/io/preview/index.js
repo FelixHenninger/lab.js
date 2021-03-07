@@ -14,9 +14,6 @@ const bundledFiles = [
   'lib/lab.dev.js',
   'lib/lab.js',
   'lib/lab.js.map',
-  'lib/lab.legacy.js',
-  'lib/lab.legacy.js.map',
-  'lib/lab.fallback.js',
   'lib/loading.svg',
 ]
 

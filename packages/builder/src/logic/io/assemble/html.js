@@ -23,10 +23,6 @@ const makeHeader = (state, { beforeHeader=[], libraryPath='lib', dev=false }={})
       'src': `${ libraryPath }/${ dev ? 'lab.dev.js' : 'lab.js' }`,
       'data-labjs-script': 'library'
     }],
-    ['script', {
-      'src': `${ libraryPath }/lab.fallback.js`,
-      'data-labjs-script': 'fallback'
-    }],
     ['link', { rel: 'stylesheet', href: `${ libraryPath }/lab.css` }],
     ['comment', { content: 'study code and styles' }],
     ['script', { src: 'script.js', defer: true }],
