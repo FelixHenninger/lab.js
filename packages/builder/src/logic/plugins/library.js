@@ -28,7 +28,6 @@ const mousetrap = {
   },
   headers: [
     ['comment', { content: 'MousetrapPlugin' }],
-    // eslint-disable-next-line no-template-curly-in-string
     ['script', { src: 'https://mousetrap.felixhenninger.com/0.1.0/mousetrap.js' }],
   ],
   options: {
