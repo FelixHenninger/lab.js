@@ -126,7 +126,7 @@ const processContent = (nodeType, content) => {
 // Process any single node in isolation
 const processNode = node => {
   // Options to exclude from JSON output
-  const filteredOptions = ['skipCondition']
+  const filteredOptions = ['skipCondition', 'metadata']
 
   // TODO: This filters empty string values, which are
   // created by empty form fields in the builder. This is
