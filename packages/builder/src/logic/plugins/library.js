@@ -19,6 +19,15 @@ const fullscreen = {
   }
 }
 
+const metadata = {
+  title: 'Metadata',
+  description: 'Default metadata collection plugin',
+  path: 'lab.plugins.Metadata',
+  files: {},
+  headers: [],
+  options: {},
+}
+
 const mousetrap = {
   title: 'Mousetrap',
   description: 'Mouse-tracking data collection',
@@ -46,6 +55,7 @@ const mousetrap = {
 
 export const plugins = {
   fullscreen,
+  metadata,
   mousetrap,
 }
 

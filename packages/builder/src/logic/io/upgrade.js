@@ -479,6 +479,19 @@ const updates = {
     data.version = [21, 'alpha', 0]
     return data
   },
+  '21.alpha.0': data => ({
+    // Include metadata plugin through plugin library mechanism
+    ...data,
+    version: [21, 'alpha', 1],
+    components: mapValues(data.components, (c, id) => {
+      if (id === 'root' && c.plugins) {
+        c.plugins = c.plugins.map(
+          p => p.type === 'lab.plugins.Metadata' ? { type: 'metadata' } : p
+        )
+      }
+      return c
+    })
+  }),
 }
 
 export default (data) => {

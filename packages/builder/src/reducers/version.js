@@ -1,4 +1,4 @@
-const defaultState = [21, 'alpha', 0]
+const defaultState = [21, 'alpha', 1]
 
 export default (state=defaultState, action) =>
   state
