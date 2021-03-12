@@ -4,6 +4,7 @@ import { useStore } from 'react-redux'
 import { ModalBody, ModalFooter, Nav, Button } from 'reactstrap'
 
 import MetadataForm from './MetadataForm'
+import Plugins from './Plugins'
 import Files from './Files'
 import Editor from '../../../Editor'
 import { NavEntry, NavCloseModal } from '../../../Nav'
@@ -19,6 +20,8 @@ const TabContent = ({ tab }) => {
   switch(tab) {
     case 'meta':
       return <MetadataForm />
+    case 'plugins':
+      return <Plugins />
     case 'files':
       return <Files />
     case 'html':
@@ -72,6 +75,9 @@ const OptionsModal = ({ closeHandler }) => {
       <Nav tabs>
         <NavEntry id="meta" activeId={ tab } setId={ setTab }>
           <Icon icon="info" weight="s" />
+        </NavEntry>
+        <NavEntry id="plugins" activeId={ tab } setId={ setTab }>
+          <Icon icon="plug" />
         </NavEntry>
         <NavEntry id="files" activeId={ tab } setId={ setTab }>
           <Icon icon="folder" />

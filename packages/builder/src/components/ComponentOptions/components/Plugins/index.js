@@ -22,7 +22,7 @@ const PluginHeader = ({ metadata }) =>
           && <small className="text-muted"> · { metadata.description }</small>
       }
     </h3>
-    <hr className="my-3" />
+    { Object.entries(metadata.options).length > 0 && <hr className="my-3" /> }
   </>
 
 const PluginHint = ({ visible }) =>
@@ -96,7 +96,7 @@ const PluginBody = ({ name, index, metadata }) =>
     }
   </>
 
-const PluginRow = ({ index, name, data, arrayHelpers }) => {
+export const PluginRow = ({ index, name, data, arrayHelpers }) => {
   const metadata = loadPlugin(data.type)
 
   return (
@@ -122,7 +122,7 @@ const getDefaultSettings = (pluginType) => {
   }
 }
 
-const PluginFooter = ({ addItem }) => {
+export const PluginFooter = ({ addItem }) => {
   const [modalOpen, setModalOpen] = useState(false)
 
   return (
