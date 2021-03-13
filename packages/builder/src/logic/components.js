@@ -10,7 +10,7 @@ export const defaultState = {
     parameters: [],
     plugins: [
       {
-        type: 'lab.plugins.Metadata',
+        type: 'metadata',
       },
     ],
     metadata: {
