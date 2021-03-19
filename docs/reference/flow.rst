@@ -55,6 +55,13 @@ Sequence
 
     The options specified as ``handMeDowns`` are transferred to nested components during the prepare phase. This option is largely for convenience, and designed to decrease the amount of repetition when all nested components behave similarly -- typically, nested components share the same data storage and output element, so these are passed on by default. Similarly, the :js:attr:`debug <options.debug>` mode is easiest to set on the topmost component, and will automatically propagate to include all other components.
 
+  .. js:attribute:: options.showProgress
+
+    If ``true``, shows a progress bar at the top of the page that visualizes progress through this Sequence.
+
+  .. js:attribute:: options.progressBarMessage
+
+    The text that will be displayed next to the progress bar (if shown). Defaults to 'Completion Progress'.
 ----
 
 .. _reference/flow/loop:
