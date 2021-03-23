@@ -1,0 +1,69 @@
+{
+    "components": {
+      "6": {
+        "id": "6",
+        "type": "lab.html.Screen",
+        "files": {
+          "rows": []
+        },
+        "parameters": {
+          "rows": [
+            [
+              {
+                "name": "message",
+                "value": "Transferring data",
+                "type": "string"
+              }
+            ],
+            [
+              {
+                "name": "subtitle",
+                "value": "Please wait a second…",
+                "type": "string"
+              }
+            ]
+          ]
+        },
+        "responses": {
+          "rows": [
+            [
+              "",
+              "",
+              "",
+              ""
+            ]
+          ]
+        },
+        "title": "EEG Experiment",
+        "content": "<main class=\"content-horizontal-center content-vertical-center\">\n  <div>\n    <img src=\"lib/loading.svg\">\n    <p>\n      <span class=\"font-weight-bold\">\n        ${ this.parameters.message }\n      </span><br>\n      <span class=\"text-muted\">\n        ${ this.parameters.subtitle }\n      </span>\n    </p>\n  </div>\n</main>",
+        "_tab": "Parameters",
+        "_template": true,
+        "notes": "This template transmits the study data to a compatible server-side backend. Currently, it supports the PHP, Open Lab and JATOS backends.\n\nIt will wait until the data is transferred, showing a waiting screen with the text defined below, and continue with the remainder of the study after the transmission is complete. Please note that this screen will be skipped if no compatible backend is available."
+      },
+      "root": {
+        "id": "root",
+        "title": "root",
+        "type": "lab.flow.Sequence",
+        "children": [
+          "6"
+        ],
+        "parameters": {
+          "rows": [
+            [
+              {
+                "name": "",
+                "value": "",
+                "type": "string"
+              }
+            ]
+          ]
+        },
+        "metadata": {
+          "title": "",
+          "description": "",
+          "repository": "",
+          "contributors": ""
+        }
+      }
+    }
+  }

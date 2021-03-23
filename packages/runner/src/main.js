@@ -1,9 +1,10 @@
 // Modules to control application life and create native browser window
-import {app, BrowserWindow, ipcMain ,Menu} from 'electron'
+import {app, BrowserWindow, ipcMain ,Menu, remote} from 'electron'
 import {StudyWindow} from './study'
+const url = require('url')
+const path = require('path')
 
 import {proto, clock, test_stream} from './test'
-
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -56,8 +57,8 @@ function createWindow () {
       nodeIntegration: true,
       partition: 'labjs-main',
     }
-
   })
+
 
   const mainMenu=Menu.buildFromTemplate(template);
 
@@ -66,8 +67,6 @@ function createWindow () {
   // and load the index.html of the app.
   mainWindow.loadFile('src/windows/main/index.html')
 
- 
-
   // Open the DevTools if in development mode.
   if (inDevelopment) {
     mainWindow.webContents.openDevTools({ mode: 'detach' })
@@ -75,9 +74,31 @@ function createWindow () {
 
   ipcMain.on('study.load', (e, filePaths) => {
     console.log('loading file paths from', filePaths)
-    const studyWindow = new StudyWindow(filePaths, {
-      development: inDevelopment,
-    })
+    // const studyWindow = new StudyWindow(filePaths, {
+    //   development: inDevelopment,
+    // })
+    //const window = remote.BrowserWindow;
+    const win = new BrowserWindow({
+      height: 600,
+      width: 800,
+      webPreferences: {
+        nodeIntegration: true
+      }
+    });
+  
+    //win.loadFile('template.html');
+    win.loadURL(url.format({
+      pathname: path.join(__dirname, './windows/Studies/template.html'),
+      protocol: 'file:',
+      slashes: true
+  }));
+
+  win.webContents.openDevTools({mode:'detach'});
+  
+  ipcMain.on('JSON',(e,mssg)=>{
+    win.webContents.send('send','dummy')
+  })
+
   })
 
   // Emitted when the window is closed.
