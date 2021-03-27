@@ -1,8 +1,6 @@
 // Modules to control application life and create native browser window
 import {app, BrowserWindow, ipcMain ,Menu , remote} from 'electron'
 import {StudyWindow} from './study'
-import url from 'url';
-import path from 'path';
 
 import {proto, clock, test_stream} from './LSL_test'
 
@@ -85,19 +83,6 @@ function createWindow () {
         nodeIntegration: true
       }
     });
-  
-    //win.loadFile('template.html');
-    win.loadURL(url.format({
-      pathname: path.join(__dirname, './windows/Studies/template.html'),
-      protocol: 'file:',
-      slashes: true
-  }));
-
-  win.webContents.openDevTools({mode:'detach'});
-  
-  ipcMain.on('JSON',(e,mssg)=>{
-    win.webContents.send('send','dummy')
-  })
 
   })
 
