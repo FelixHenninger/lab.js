@@ -13,6 +13,7 @@
     "esm": "^3.2.25",
     "glob": "^7.1.6",
     "lodash": "^4.17.15",
-    "mime": "^2.4.4"
+    "mime": "^2.4.4",
+    "node-lsl": "github:CalvinLeather/node-lsl"
   }
 }

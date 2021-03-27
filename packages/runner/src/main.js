@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
-import {app, BrowserWindow, ipcMain} from 'electron'
-import {StudyWindow} from './study'
+import { app, BrowserWindow, ipcMain, Menu } from 'electron'
+import { StudyWindow } from './study'
+import { menuEntries } from './windows/main/menu'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -9,7 +10,7 @@ let mainWindow
 // Check for development mode.
 const inDevelopment = process.env.NODE_ENV !== 'production'
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     title: 'lab.js',
@@ -20,8 +21,12 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: true,
       partition: 'labjs-main',
-    }
+    },
   })
+
+  // Initialize menu
+  const mainMenu = Menu.buildFromTemplate(menuEntries)
+  Menu.setApplicationMenu(mainMenu)
 
   // and load the index.html of the app.
   mainWindow.loadFile('src/windows/main/index.html')
