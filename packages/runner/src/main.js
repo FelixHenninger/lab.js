@@ -76,13 +76,6 @@ function createWindow () {
     //   development: inDevelopment,
     // })
     //const window = remote.BrowserWindow;
-    const win = new BrowserWindow({
-      height: 600,
-      width: 800,
-      webPreferences: {
-        nodeIntegration: true
-      }
-    });
 
   })
 
