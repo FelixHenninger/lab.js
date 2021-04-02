@@ -6,7 +6,7 @@ import { proto, clock, test_stream } from './LSL_test'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+global.mainWindow = null
 
 // Check for development mode.
 const inDevelopment = process.env.NODE_ENV !== 'production'
@@ -54,6 +54,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       partition: 'labjs-main',
+      enableRemoteModule: true,
     },
   })
 
