@@ -1,19 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <!--
       The CSP is tentative, it might need to be loosened
       to make studies work in practice
     -->
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline'"
+    />
     <title>Study</title>
   </head>
   <body>
-    <h1>Let's do a study!</h1>
-
+    <h1 id="title"></h1>
     <script>
-      console.log('Hello from the (well-isolated) study process!')
+      require('./renderer.js')
     </script>
   </body>
 </html>

@@ -1,15 +1,49 @@
 // Modules to control application life and create native browser window
-import {app, BrowserWindow, ipcMain} from 'electron'
-import {StudyWindow} from './study'
+import { app, BrowserWindow, ipcMain, Menu, remote } from 'electron'
+import { StudyWindow } from './study'
+
+import { proto, clock, test_stream } from './LSL_test'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+global.mainWindow = null
 
 // Check for development mode.
 const inDevelopment = process.env.NODE_ENV !== 'production'
 
-function createWindow () {
+const menuEntries = [
+  {
+    label: 'Test LSL',
+    submenu: [
+      {
+        label: 'Protocol Version',
+        click() {
+          proto()
+        },
+      },
+      {
+        label: 'Local Clock',
+        click() {
+          clock()
+        },
+      },
+      {
+        label: 'Stream',
+        click() {
+          test_stream()
+        },
+      },
+    ],
+  },
+  {
+    label: 'Close',
+    click() {
+      app.quit()
+    },
+  },
+]
+
+function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     title: 'lab.js',
@@ -20,8 +54,13 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: true,
       partition: 'labjs-main',
-    }
+      enableRemoteModule: true,
+    },
   })
+
+  const mainMenu = Menu.buildFromTemplate(menuEntries)
+
+  Menu.setApplicationMenu(mainMenu)
 
   // and load the index.html of the app.
   mainWindow.loadFile('src/windows/main/index.html')
@@ -30,13 +69,6 @@ function createWindow () {
   if (inDevelopment) {
     mainWindow.webContents.openDevTools({ mode: 'detach' })
   }
-
-  ipcMain.on('study.load', (e, filePaths) => {
-    console.log('loading file paths from', filePaths)
-    const studyWindow = new StudyWindow(filePaths, {
-      development: inDevelopment,
-    })
-  })
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
