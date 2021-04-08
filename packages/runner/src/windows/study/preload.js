@@ -1,4 +1,4 @@
-const {ipcRenderer} = require('electron')
+const { ipcRenderer } = require('electron')
 
 // Data URI handling -----------------------------------------------------------
 
@@ -13,19 +13,20 @@ const readDataURI = uri => {
 
   return {
     data: base64 ? data : decodeURIComponent(data),
-    mime, base64
+    mime,
+    base64,
   }
 }
 
-const blobFromDataURI = (uri, atob=window.atob) => {
-  const {data, mime, base64} = readDataURI(uri)
+const blobFromDataURI = (uri, atob = window.atob) => {
+  const { data, mime, base64 } = readDataURI(uri)
 
   if (base64) {
     // Convert base64 to binary
     const binary = atob(data)
     // Decode raw bytes
     const bytes = new Uint8Array(binary.length)
-    for (var i = 0; i < binary.length; i++)        {
+    for (var i = 0; i < binary.length; i++) {
       bytes[i] = binary.charCodeAt(i)
     }
     // Return as blob
@@ -50,7 +51,8 @@ ipcRenderer.on('ping', (event, message) => {
 // Listen for the key combination to unlock the study window
 window.addEventListener('keydown', e => {
   if (
-    e.key === 'Escape' && e.ctrlKey &&
+    e.key === 'Escape' &&
+    e.ctrlKey &&
     window.confirm('Are you sure you want to close the study?')
   ) {
     console.log('Sending request to unlock study window')
@@ -67,9 +69,9 @@ const bulkPut = async (cache, files) =>
     Object.entries(files).map(([path, dataURI]) =>
       cache.put(
         new Request(`https://study.local/${path}`),
-        new Response(blobFromDataURI(dataURI))
-      )
-    )
+        new Response(blobFromDataURI(dataURI)),
+      ),
+    ),
   )
 
 const setupCache = async () => {
@@ -77,7 +79,8 @@ const setupCache = async () => {
 
   if ((await cache.keys()).length === 0) {
     await bulkPut(cache, {
-      'https://study.local/index.html': 'data:text/plain;base64,SGVsbG8gd29ybGQh'
+      'https://study.local/index.html':
+        'data:text/plain;base64,SGVsbG8gd29ybGQh',
     })
     console.log('Loaded default preview cache')
   } else {
@@ -100,22 +103,25 @@ ipcRenderer.on('study.update', async (event, files) => {
 
 // Setup service worker --------------------------------------------------------
 
-const worker = navigator.serviceWorker.register('worker.js', {
-  scope: './'
-}).then(reg => {
-  console.log('Preview worker registration:', reg)
-  const worker = reg.installing || reg.waiting || reg.active
+const worker = navigator.serviceWorker
+  .register('worker.js', {
+    scope: './',
+  })
+  .then(reg => {
+    console.log('Preview worker registration:', reg)
+    const worker = reg.installing || reg.waiting || reg.active
 
-  // Send notification once worker is activated
-  if (worker.state === 'activated') {
-    ipcRenderer.send('study.did-activate-worker')
-  } else {
-    worker.addEventListener('statechange', () => {
-      if (worker.state === 'activated') {
-        ipcRenderer.send('study.did-activate-worker')
-      }
-    })
-  }
-}).catch((err) => {
-  console.log('Error while registering preview worker', err)
-})
+    // Send notification once worker is activated
+    if (worker.state === 'activated') {
+      ipcRenderer.send('study.did-activate-worker')
+    } else {
+      worker.addEventListener('statechange', () => {
+        if (worker.state === 'activated') {
+          ipcRenderer.send('study.did-activate-worker')
+        }
+      })
+    }
+  })
+  .catch(err => {
+    console.log('Error while registering preview worker', err)
+  })

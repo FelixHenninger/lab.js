@@ -1,6 +1,6 @@
-import {promises as fs} from 'fs'
+import { promises as fs } from 'fs'
 import path from 'path'
-import {zip} from 'lodash'
+import { zip } from 'lodash'
 import mime from 'mime'
 
 import plainGlob from 'glob'
@@ -16,7 +16,7 @@ const nestedPaths = async p =>
     ? await glob('**/*', { cwd: p, absolute: true, nodir: true })
     : p
 
-const commonPrefix = (arr) => {
+const commonPrefix = arr => {
   // Create a sorted copy of the array
   const s = [...arr].sort()
 
@@ -43,16 +43,16 @@ const commonPrefix = (arr) => {
 // I think there are still some more optimizations available, for example
 // it should be possible to sort the paths and look only at the first and
 // last. For now, this remains a TODO)
-const commonPathPrefix = (paths, sep=path.sep) => {
+const commonPathPrefix = (paths, sep = path.sep) => {
   const transposedPaths = zip(...paths.map(p => p.split(sep)))
-  const commonSegments = transposedPaths.filter(
-    segmentGroup => segmentGroup.every((s, _, a) => s === a[0])
-  ).map(g => g[0])
+  const commonSegments = transposedPaths
+    .filter(segmentGroup => segmentGroup.every((s, _, a) => s === a[0]))
+    .map(g => g[0])
   return commonSegments.join(sep)
 }
 
 // Load a file as a dataURI
-const toDataURI = async (p) => {
+const toDataURI = async p => {
   const base64 = (await fs.readFile(p)).toString('base64')
   const mimetype = mime.getType(path.extname(p).slice(1))
   return `data:${mimetype};base64,${base64}`
@@ -60,7 +60,7 @@ const toDataURI = async (p) => {
 
 // File import -----------------------------------------------------------------
 
-export const getFiles = async (paths) => {
+export const getFiles = async paths => {
   console.log('paths in getfiles: ', paths)
   // Check for file sizes
 
@@ -69,9 +69,10 @@ export const getFiles = async (paths) => {
 
   // Compute the common path prefix. If there's only a single file,
   // we assume that it's at the top level.
-  const prefix = fullPaths.length > 1
-    ? commonPathPrefix(fullPaths)
-    : path.dirname(fullPaths[0])
+  const prefix =
+    fullPaths.length > 1
+      ? commonPathPrefix(fullPaths)
+      : path.dirname(fullPaths[0])
 
   // Prune paths
   const prunedPaths = fullPaths.map(p => path.relative(prefix, p))
@@ -87,8 +88,8 @@ export const getFiles = async (paths) => {
     prefix,
     Object.fromEntries(
       await Promise.all(
-        fullPaths.map(async (p, i) => [prunedPaths[i], await toDataURI(p)])
-      )
-    )
+        fullPaths.map(async (p, i) => [prunedPaths[i], await toDataURI(p)]),
+      ),
+    ),
   ]
 }

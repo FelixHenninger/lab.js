@@ -1,14 +1,14 @@
-import {BrowserWindow, session, ipcMain} from 'electron'
-import {getFiles} from './util'
+import { BrowserWindow, session, ipcMain } from 'electron'
+import { getFiles } from './util'
 
 const awaitMessage = (channel, message) =>
   // Return a promise that resolves once a message is sent
   // via an IPC channel.
-  new Promise(resolve => channel.once(message, resolve))
   // TODO: Timeouts and error management
+  new Promise(resolve => channel.once(message, resolve))
 
 export class StudyWindow {
-  constructor(filePaths, {development=false}) {
+  constructor(filePaths, { development = false }) {
     this.development = development
     this.root = undefined
 
@@ -68,7 +68,7 @@ export class StudyWindow {
     })
 
     // Prevent users from closing the window in a locked state
-    this.window.on('close', (e) => {
+    this.window.on('close', e => {
       // Close the window after 10 unsuccessful attepts
       if (this.locked && this.closeAttempts < 10) {
         this.closeAttempts += 1
@@ -81,7 +81,7 @@ export class StudyWindow {
     })
 
     // Prevent changes to the window title
-    this.window.on('page-title-updated', (e) => {
+    this.window.on('page-title-updated', e => {
       e.preventDefault()
     })
   }
