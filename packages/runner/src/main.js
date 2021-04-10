@@ -54,7 +54,6 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       partition: 'labjs-main',
-      enableRemoteModule: true,
     },
   })
 
