@@ -77,12 +77,9 @@ function createWindow() {
     mainWindow = null
   })
 
- 
-
 }
 
-
-ipcMain.on('temp',(e,m)=>{
+ipcMain.on('temp',(e,mssg)=>{
   let win =new BrowserWindow({
     title: 'temp',
     width: 550,
@@ -96,6 +93,10 @@ ipcMain.on('temp',(e,m)=>{
 
   win.loadFile('src/windows/temp/temp.html')
   win.webContents.openDevTools({ mode: 'detach' })
+  //console.log(mssg)
+  win.webContents.on('did-finish-load',()=>{
+    win.webContents.send('info',mssg)
+  })
 })
 
 // This method will be called when Electron has finished

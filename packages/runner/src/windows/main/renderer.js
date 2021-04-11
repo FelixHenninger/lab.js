@@ -34,16 +34,15 @@ document.body.addEventListener('drop', (e) => {
         } catch (e) {
           alert('Not a valid JSON File!! Try again')
         }
+        ipcRenderer.send('temp',JSON.stringify(JSON.parse(data)))
         console.log('the json body is:' + JSON.stringify(JSON.parse(data)))
-        localStorage.setItem('jsonData', JSON.stringify(JSON.parse(data)))
+        //localStorage.setItem('jsonData', JSON.stringify(JSON.parse(data)))
       })
     }
     console.log('file is dragged from: ' + files[0].path)
   }
-
-  ipcRenderer.send('temp','something')
+  
   //window.open('../temp/temp.html','Temporary')
-
 
   // Empty data transfer
   e.dataTransfer.items.clear()
