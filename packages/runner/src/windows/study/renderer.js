@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Data from study process')
-  console.log(sessionStorage.getItem('jsonData'))
-  let jsonData = JSON.parse(sessionStorage.getItem('jsonData'))
+  console.log(localStorage.getItem('jsonData'))
+  let jsonData = JSON.parse(localStorage.getItem('jsonData'))
   document.getElementById('title').innerHTML = jsonData['components']['1']['title'].toString()
 })

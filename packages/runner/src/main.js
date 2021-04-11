@@ -76,7 +76,27 @@ function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+
+ 
+
 }
+
+
+ipcMain.on('temp',(e,m)=>{
+  let win =new BrowserWindow({
+    title: 'temp',
+    width: 550,
+    height: 500,
+    resizable: false,
+    maximizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      partition: 'labjs-main',}
+  })
+
+  win.loadFile('src/windows/temp/temp.html')
+  win.webContents.openDevTools({ mode: 'detach' })
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

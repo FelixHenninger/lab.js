@@ -19,7 +19,7 @@ document.body.addEventListener('drop', (e) => {
   const files = Array.from(e.dataTransfer.files)
 
   window.location.href = '../study/index.html'
-
+ 
   //Checking for number of files
   if (files.length == 1) {
     //Checking for json file
@@ -35,11 +35,16 @@ document.body.addEventListener('drop', (e) => {
           alert('Not a valid JSON File!! Try again')
         }
         console.log('the json body is:' + JSON.stringify(JSON.parse(data)))
-        sessionStorage.setItem('jsonData', JSON.stringify(JSON.parse(data)))
+        localStorage.setItem('jsonData', JSON.stringify(JSON.parse(data)))
       })
     }
     console.log('file is dragged from: ' + files[0].path)
   }
+
+  ipcRenderer.send('temp','something')
+  //window.open('../temp/temp.html','Temporary')
+
+
   // Empty data transfer
   e.dataTransfer.items.clear()
 })
