@@ -2,13 +2,19 @@ import { FlipIterable } from './util/iterators'
 import { Component } from './component'
 import { Lock } from './util/lock'
 import { Emitter } from './util/emitter'
+import { Store } from '../data'
+
+type global = {
+  store?: Store
+  [key: string]: any
+}
 
 export class Controller extends Emitter {
   root!: Component
   iterable: FlipIterable
   currentStack: Array<Component>
 
-  global: any
+  global: global
   context: object
   private lock: Lock
 
