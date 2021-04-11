@@ -1,5 +1,4 @@
 export { Random } from './random'
-export { default as fromObject } from './fromObject'
 
 import { makeRenderFunction } from '../canvas/util/render'
 import { transform } from '../canvas/util/transform'

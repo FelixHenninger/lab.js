@@ -1,6 +1,6 @@
 import { isObject, cloneDeep } from 'lodash'
 
-type SerializedComponent = {
+export type SerializedComponent = {
   type: string
   plugins: SerializedPlugin[]
   [option: string]: any

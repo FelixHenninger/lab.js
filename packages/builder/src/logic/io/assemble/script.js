@@ -225,7 +225,7 @@ export const makeStudyTree = (state) => {
 
 const makeStudyScript = studyTree =>
 `// Define study
-const study = lab.util.fromObject(${ studyTree })
+const study = lab.core.deserialize(${ studyTree })
 
 // Let's go!
 study.run()`
