@@ -235,6 +235,18 @@ export class Component extends Emitter {
   get files() {
     return aggregateParentOption(this, 'files')
   }
+
+  // Experiment state ----------------------------------------------------------
+  get global() {
+    if (this.#controller) {
+      return this.#controller.global
+    } else {
+      console.error(
+        'Trying to retrieve global state but no controller available',
+      )
+      return {}
+    }
+  }
 }
 
 Component.metadata = {
