@@ -9,7 +9,7 @@ import { Store } from '../data'
 import { Random, RNGOptions } from '../util/random'
 import { Controller } from './controller'
 import { DomConnection, EventMap } from './events/index'
-import { Timeline } from './timeline'
+import { Timeline, SerializedItem as SerializedTimelineItem } from './timeline'
 import { FrameTimeout, timingParameters } from './timing/timeout'
 
 type Media = {
@@ -27,7 +27,7 @@ const componentDefaults = {
     images: [],
     audio: [],
   },
-  timeline: <Array<any>>[], //Fixme
+  timeline: <SerializedTimelineItem[]>[],
   scrollTop: false,
   // Legacy shim
   datastore: <Store | undefined>undefined,

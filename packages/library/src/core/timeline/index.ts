@@ -6,31 +6,57 @@ import { Controller } from '../controller'
 
 // Global timeline logic -------------------------------------------------------
 
-type Event = {
-  type: 'sound' | 'oscillator'
+type AbstractSerializedItem = {
+  type: string
   payload: any
   start: number
+  stop: number
+  gain: number
+  pain: number
+  rampUp: number
+  rampDown: number
   priority: number
 }
 
+type SerializedSound = AbstractSerializedItem & {
+  type: 'sound'
+  payload: {
+    src: string
+    loop: boolean
+  }
+}
+
+type SerializedOscillator = AbstractSerializedItem & {
+  type: 'oscillator'
+  payload: {
+    type: 'sine' | 'square' | 'sawtooth' | 'triangle'
+    frequency: number
+    detune: number
+  }
+}
+
+export type SerializedItem = SerializedSound | SerializedOscillator
 type Item = BufferSourceItem | OscillatorItem
 
 export class Timeline {
   controller: Controller
-  events: Event[]
+  serializedItems: SerializedItem[]
   items!: Item[]
   offset?: number
 
-  constructor(controller: Controller, events: [] = []) {
+  constructor(controller: Controller, serializedItems: SerializedItem[] = []) {
     this.controller = controller
-    this.events = events
+    this.serializedItems = serializedItems
     this.offset = undefined
   }
 
   async prepare() {
-    const orderedEvents = sortBy(this.events, [e => e.start, e => e.priority])
+    const orderedItems = sortBy(this.serializedItems, [
+      e => e.start,
+      e => e.priority,
+    ])
 
-    this.items = <Item[]>orderedEvents
+    this.items = orderedItems
       .map(e => {
         const options = omit(e, 'payload')
 
@@ -40,7 +66,7 @@ export class Timeline {
           case 'oscillator':
             return new OscillatorItem(this, options, e.payload)
           default:
-            console.warn(`Unknown event type ${e.type}, skipping`)
+            throw new Error(`Unknown item type on ${e}`)
         }
       })
       .filter(i => i !== undefined)

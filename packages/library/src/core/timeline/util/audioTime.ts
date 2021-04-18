@@ -1,14 +1,17 @@
 export const audioSync = (context: AudioContext, useContextTiming = false) => {
   if (useContextTiming && 'getOutputTimestamp' in context) {
     return {
-      ...context.getOutputTimestamp(),
-      baseLatency: context.baseLatency || 0,
+      ...(context.getOutputTimestamp() as {
+        contextTime: number
+        performanceTime: number
+      }),
+      baseLatency: context.baseLatency ?? 0,
     }
   } else {
     return {
       contextTime: context.currentTime,
       performanceTime: performance.now(),
-      baseLatency: context.baseLatency || 0,
+      baseLatency: context.baseLatency ?? 0,
     }
   }
 }

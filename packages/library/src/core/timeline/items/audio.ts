@@ -59,11 +59,11 @@ const createNode = (
 
   // Apply settings
   Object.entries(options).forEach(([setting, value]) => {
-    //@ts-ignore FIXME
+    //@ts-ignore TS is unhappy with the dynamic use of settings here
     if (value) node[setting] = value
   })
   Object.entries(audioParams).forEach(([setting, value]) => {
-    //@ts-ignore FIXME
+    //@ts-ignore TS is unhappy with the dynamic use of settings here
     if (value) node[setting].value = value
   })
 
@@ -138,7 +138,6 @@ class AudioNodeItem {
 
   setAudioOrigin() {
     // Save timing information
-    //@ts-ignore FIXME
     this.audioSyncOrigin = audioSync(
       this.timeline.controller.global.audioContext,
     )
