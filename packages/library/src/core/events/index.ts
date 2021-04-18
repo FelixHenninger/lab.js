@@ -2,22 +2,26 @@
 import 'shim-keyboard-event-key'
 
 // Split an eventString into event name, options and selector
-const splitEventString = function (eventString: string) {
+const splitEventString = function (
+  eventString: string,
+): [string, string[], string] {
   // Split the eventString ('click(0) div > button')
   // into selector ('div > button'), event type ('click')
   // and additional filters (button '0')
   const directHandlerRegEx = /^(\w+)(?:\s+(.*))?$/
   const wrappedHandlerRegEx = /^(\w+)\(([^()]+)\)(?:\s+(.*))?$/
 
-  let eventName = null
-  let filters = null
+  let eventName = ''
+  let filterString
+  let filters: string[] = []
   let selector = null
 
   if (directHandlerRegEx.test(eventString)) {
-    ;[, eventName, selector] = directHandlerRegEx.exec(eventString)
+    ;[, eventName, selector] = directHandlerRegEx.exec(eventString)!
   } else if (wrappedHandlerRegEx.test(eventString)) {
-    ;[, eventName, filters, selector] = wrappedHandlerRegEx.exec(eventString)
-    filters = filters.split(',').map((o: string) => o.trim())
+    ;[, eventName, filterString, selector] =
+      wrappedHandlerRegEx.exec(eventString)!
+    filters = filterString.split(',').map((o: string) => o.trim())
   } else {
     console.log("Can't interpret event string ", eventString)
   }
@@ -26,7 +30,7 @@ const splitEventString = function (eventString: string) {
   return [eventName, filters, selector ?? '']
 }
 
-const keyValues = {
+const keyValues: { [key: string]: string } = {
   Space: ' ',
   Comma: ',',
 }
@@ -35,7 +39,15 @@ const keyValues = {
 // before triggering a handler function
 const makeChecks = function (
   eventName: string,
-  { filters = [], filterRepeat = true, startTime = -Infinity },
+  {
+    filters = [],
+    filterRepeat = true,
+    startTime = -Infinity,
+  }: {
+    filters: string[]
+    filterRepeat?: boolean
+    startTime?: number
+  },
 ) {
   const checks = []
 
@@ -57,10 +69,10 @@ const makeChecks = function (
     // Translate some keys that we choose to represent differently
     // (i.e. the space key, which is a literal space character in the
     // spec, but would be trimmed here)
-    const keys = (filters || []).map(
+    const keys = filters.map(
       // (replace null value)
-      key => keyValues[key] ?? key,
-    ) as string[]
+      key => <string>keyValues[key] ?? key,
+    )
 
     // Wrap the handler only if we pre-select events
     if (keys.length > 0 || filterRepeat) {
@@ -75,7 +87,7 @@ const makeChecks = function (
       })
     }
   } else if (['click', 'mousedown', 'mouseup'].includes(eventName)) {
-    const buttons = (filters || []).map(button => parseInt(button))
+    const buttons = filters.map(button => parseInt(button))
 
     if (buttons.length > 0) {
       // Wrap the handler accordingly
@@ -90,18 +102,18 @@ const makeChecks = function (
 
 const defaultProcessEvent = (
   // Pass-through (can be replaced with more elaborate logic)
-  [eventName, filters, selector]: [string, any[], string],
-) => ({ eventName, filters, selector })
+  [eventName, filters, selector]: [string, string[], string],
+) => ({ eventName, filters, selector, moreChecks: [] })
 
 export type EventMap = { [eventString: string]: (e: Event) => void }
 
 // eslint-disable-next-line import/prefer-default-export
 export class DomConnection {
-  el: HTMLElement
+  el: HTMLElement | Document
   events: EventMap
   parsedEvents: [string, string, string, EventListener][]
   context: any
-  processEvent: Function
+  processEvent: typeof defaultProcessEvent
   startTime: number
 
   constructor({
@@ -110,10 +122,10 @@ export class DomConnection {
     context,
     processEvent,
   }: {
-    el: HTMLElement
-    events: EventMap
+    el?: HTMLElement | Document
+    events?: EventMap
     context: any
-    processEvent: Function // TODO be more specific
+    processEvent?: typeof defaultProcessEvent
   }) {
     // Limit search for elements to a
     // specified scope if possible,

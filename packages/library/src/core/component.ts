@@ -53,7 +53,6 @@ export class Component extends BaseComponent {
       },
     })
 
-    //@ts-ignore FIXME
     this.internals.domConnection = new DomConnection({ context: this })
     this.internals.timestamps = {}
   }
