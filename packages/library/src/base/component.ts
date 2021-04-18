@@ -28,10 +28,29 @@ export type ComponentOptions = {
   data: any
 }
 
+type CoercionType = 'object' | 'array' | 'string' | 'number' | 'boolean'
+
+type ParsableOption = {
+  type?: CoercionType
+  content?: {
+    '*'?: CoercionType | {}
+    [key: string]: ParsableOption | string | undefined
+  }
+  [key: string]: any
+}
+
+type Metadata = {
+  module: string[]
+  nestedComponents: string[]
+  parsableOptions?: {
+    [key: string]: ParsableOption
+  }
+}
+
 export class Component extends Emitter {
   options: any
   data: any
-  static metadata: any
+  static metadata: Metadata
 
   state: any
   parameters: any

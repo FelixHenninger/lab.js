@@ -25,8 +25,9 @@ export const clone = <T extends Component>(
       // For immediately nested options that contain components,
       // call their clone method instead of copying naively
       if (
+        // TS demands a string coercion, just in case
         root === component.internals.rawOptions &&
-        nestedComponents.includes(k)
+        nestedComponents.includes(k as string)
       ) {
         // Choose procedure depending on data type
         if (Array.isArray(v)) {
