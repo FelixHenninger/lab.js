@@ -66,22 +66,43 @@ To achieve the connection, you'll need to add JavaScript logic to the `Descripti
 
 .. code-block:: JS
 
-  const page = this
-  page.hideNextButton()
+const page = this;
+page.hideNextButton();
 
-  // Listen for the study sending data
-  window.addEventListener('message', function _labjs_data_handler(event) {
-    // Make sure that the event is from lab.js, then ...
-    if (event.data.type === 'labjs.data') {
-      // ... extract the JSON data lab.js is sending.
-      const data = event.data.json
+// Listen for the study sending data
 
-      // ... save data and submit page
-      Qualtrics.SurveyEngine.setEmbeddedData('labjs-data', data)
-      window.removeEventListener('message', _labjs_data_handler)
-      page.clickNextButton()
-    }
-  })
+window.addEventListener("message", function _labjs_data_handler(event) {
+	// Make sure that the event is from lab.js, then ...
+
+	if (event.data.type === "labjs.data") {
+		// !!IMPORTANT: Qualtrics restricts the size of Embedded Variables to a maximum of 15,000 characters
+		// If you plan to modify the code below, ensure that you take these limits into account.
+
+		// ... extract the JSON data lab.js is sending
+
+		const data = event.data.json,
+			max_size = 14999;
+
+		const parts =
+			data.length / max_size > data.length % max_size
+				? (data.length % max_size) + 1
+				: data.length % max_size;
+
+		// To get access to your data, you'll need to create multiple variables with the names
+		// labjs_data_part_1, labjs_data_part_2 etc.
+		// Create an embedded variable with the name "labjs_data_size" and do a few dry runs to see how many such variables you need to created
+
+		Qualtrics.SurveyEngine.setEmbeddedData("labjs_data_size", parts);
+
+		for (let i = 1; i <= parts; i++) {
+			let data_part = data.slice(max_size * (i - 1), max_size * i);
+			Qualtrics.SurveyEngine.setEmbeddedData("labjs_data_part_" + i, data_part);
+		}
+		window.removeEventListener("message", _labjs_data_handler);
+		page.clickNextButton();
+	}
+});
+
 
 .. video:: 3a-qualtrics/3-connect_behavior.webm
 
