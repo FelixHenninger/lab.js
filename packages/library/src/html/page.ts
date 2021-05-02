@@ -8,6 +8,7 @@ const pageDefaults = {
   submitButtonText: 'Continue →',
   submitButtonPosition: <'left' | 'right' | 'center'>'right',
   width: <'s' | 'm' | 'l'>'m',
+  scrollTop: true,
 }
 
 type PageOptions = FormOptions & typeof pageDefaults

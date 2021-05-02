@@ -7,7 +7,6 @@ import { serialize } from './util/form'
 
 const formDefaults = {
   validator: <(data: object) => Boolean>(() => true),
-  scrollTop: true,
 }
 
 export type FormOptions = ScreenOptions & typeof formDefaults
