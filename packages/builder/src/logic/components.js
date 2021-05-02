@@ -102,7 +102,6 @@ export const metadata = {
           <button type="submit">Submit</button>
         </form>
       `,
-      scrollTop: true,
       ...globalDefaults,
     },
   },
