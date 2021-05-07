@@ -30,7 +30,7 @@ menu = "header"
     <div class="col-lg d-flex align-items-center justify-content-end mr-4">
       <div>
         <h3 class="h4"><strong>Community support</strong></h3>
-        <p>The secret superpower behind <code>lab.js</code> is the awesome, friendly and respectful <strong>user community</strong>. The community convenes in the <a href="https://slackin-nmbrcrnchrs.herokuapp.com/"><strong>project Slack channel</strong></a>, where there's usually somebody around to answer questions and fix issues.</p>
+        <p>The secret superpower behind <code>lab.js</code> is the awesome, friendly and respectful <strong>user community</strong>. The community convenes in the <a href="https://slackin-numbercrunchers.herokuapp.com/"><strong>project Slack channel</strong></a>, where there's usually somebody around to answer questions and fix issues.</p>
         <p><strong>You're very welcome to join</strong>, please register via the form <span class="d-lg-none">below</span><span class="d-none d-lg-inline">to the right</span>, and we'll send you an invitation immediately.</p>
       </div>
     </div>
