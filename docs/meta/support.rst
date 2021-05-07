@@ -13,7 +13,7 @@ Online support
 * Our `Slack channel`_ is always available for **quick questions** -- we try to be around as much as possible, and other community members will also pitch in. Please be invited to join the discussion, and help your fellow researchers too!
 * For long-term **proposals, more formal technical discussions and bug reports**, please use `GitHub issues`_. These allow all developers involved to triage and keep track of outstanding to-dos and any organize longer-term work.
 
-.. _Slack channel: https://slackin-nmbrcrnchrs.herokuapp.com/
+.. _Slack channel: https://slackin-numbercrunchers.herokuapp.com/
 .. _GitHub issues: https://github.com/felixhenninger/lab.js/issues
 
 ----

@@ -33,7 +33,7 @@ Report bugs or suggest improvements
 .. note::
   This software was built to make our own research easier, and we're always eager to make it more useful. **If there's an annoyance we can fix easily, we're always glad to do so!**
 
-.. _Slack channel: https://slackin-nmbrcrnchrs.herokuapp.com/
+.. _Slack channel: https://slackin-numbercrunchers.herokuapp.com/
 .. _GitHub issues: https://github.com/felixhenninger/lab.js/issues
 .. _open issues: https://github.com/felixhenninger/lab.js/issues?q=is%3Aopen
 

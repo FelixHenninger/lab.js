@@ -130,7 +130,7 @@ description = "lab.js makes it easy to build powerful studies for the neuro- and
         <div class="media mb-4">
           <div class="media-body pr-5">
             <h5 class="mt-0 mb-1">Support</h5>
-            You'll always find friendly people in our <a href="https://slackin-nmbrcrnchrs.herokuapp.com/" target="_blank" rel="noopener"><strong>Slack channel</strong></a>. We're happy to help!
+            You'll always find friendly people in our <a href="https://slackin-numbercrunchers.herokuapp.com/" target="_blank" rel="noopener"><strong>Slack channel</strong></a>. We're happy to help!
           </div>
           <i class="ml-3 fas fa-life-ring fa-fw"></i>
         </div>

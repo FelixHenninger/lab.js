@@ -42,7 +42,7 @@ A `readme` like this one can only provide the most general overview. Please find
 * [Repository](https://github.com/FelixHenninger/lab.js)
 * [Contributor's guide](https://github.com/FelixHenninger/lab.js/blob/master/contributing.md)
 
-We welcome any questions or feedback you might have, and would like to warmly invite you to [join our **slack channel**](https://slackin-nmbrcrnchrs.herokuapp.com/) where we gladly answer your questions. Please [subscribe to our **newsletter**](http://eepurl.com/co0K9r) for occasional updates.
+We welcome any questions or feedback you might have, and would like to warmly invite you to [join our **slack channel**](https://slackin-numbercrunchers.herokuapp.com/) where we gladly answer your questions. Please [subscribe to our **newsletter**](http://eepurl.com/co0K9r) for occasional updates.
 
 Finally, **we would love to have you as part of this project!** Ideas and suggestions, bug reports and code contributions are all very welcome. This is an open project, and we'd be glad to get you started if you would like to help, but are unsure how.
 

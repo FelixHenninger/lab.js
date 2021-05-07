@@ -23,7 +23,7 @@ const HelpHint = () =>
       The <a className="font-weight-bold" target="_blank" rel="noopener noreferrer" href="https://labjs.readthedocs.io">online documentation</a> provides tutorials, useful tricks, and detailed technical reference. It is probably the best place to gain an overview.
     </p>
     <p>
-      You're always welcome to <a className="font-weight-bold" target="_blank" rel="noopener noreferrer" href="https://slackin-nmbrcrnchrs.herokuapp.com/">join the project chat</a>, where fellow users will answer questions and help you get unstuck. If you can, please pay it forward by helping in turn.
+      You're always welcome to <a className="font-weight-bold" target="_blank" rel="noopener noreferrer" href="https://slackin-numbercrunchers.herokuapp.com/">join the project chat</a>, where fellow users will answer questions and help you get unstuck. If you can, please pay it forward by helping in turn.
     </p>
     <p>
       You've probably already spotted the <Icon icon="info-circle" className="text-muted" /> symbols in the interface; they provide further <strong>contextual information</strong>, which you can access by clicking on them.
