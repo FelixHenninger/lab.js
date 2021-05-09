@@ -66,22 +66,42 @@ To achieve the connection, you'll need to add JavaScript logic to the `Descripti
 
 .. code-block:: JS
 
-  const page = this
-  page.hideNextButton()
+  const question = this;
+question.hideNextButton();
 
-  // Listen for the study sending data
-  window.addEventListener('message', function _labjs_data_handler(event) {
-    // Make sure that the event is from lab.js, then ...
-    if (event.data.type === 'labjs.data') {
-      // ... extract the JSON data lab.js is sending.
-      const data = event.data.json
+// Listen for the study sending data
+window.addEventListener("message", function _labjs_data_handler(event) {
+	// Make sure that the event is from lab.js, then ...
+	if (event.data.type === "labjs.data") {
+		// Store Data in Qualtrics as Embedded Data
+		// Since Qualtrics enforces a limit 20,000 characters on their variables
+		// We will need to break the data into smaller parts
+		// Create an ED in your survey flow called "labjs_data_size" to see the number of parts your data has
+		// Then create multiple ED variables like labjs_data_part_1, labjs_data_part_2 etc. depending on the size
+    // The data is base64 encoded as ED can not store linebreaks
+    // Refer to the post processing section to access this data
 
-      // ... save data and submit page
-      Qualtrics.SurveyEngine.setEmbeddedData('labjs-data', data)
-      window.removeEventListener('message', _labjs_data_handler)
-      page.clickNextButton()
-    }
-  })
+		let csv_data = btoa(event.data.csv),
+			max_size = 19999;
+
+		let parts = 1;
+		if (csv_data.length > max_size) {
+			parts =
+				Math.floor(csv_data.length / max_size) < csv_data.length / max_size
+					? Math.floor(csv_data.length / max_size) + 1
+					: Math.floor(csv_data.length / max_size);
+		}
+
+		for (let i = 1; i <= parts; i++) {
+			let data_part = csv_data.slice(max_size * (i - 1), max_size * i);
+			Qualtrics.SurveyEngine.setEmbeddedData("labjs_data_part_" + i, data_part);
+		}
+		Qualtrics.SurveyEngine.setEmbeddedData("labjs_data_size", parts);
+		window.removeEventListener("message", _labjs_data_handler);
+		question.clickNextButton();
+	}
+});
+
 
 .. video:: 3a-qualtrics/3-connect_behavior.webm
 
