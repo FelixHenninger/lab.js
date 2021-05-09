@@ -8,7 +8,7 @@ import Card from '../../../Card'
 import Form from '../Form'
 import Icon from '../../../Icon'
 
-import { Input } from '../../../Form'
+import { Input, CustomInput } from '../../../Form'
 import { Table, DefaultRow } from '../../../Form/table'
 import PluginAddModal from './modal'
 import { loadPlugin } from '../../../../logic/plugins/library'
@@ -69,17 +69,38 @@ const PluginHint = ({ visible }) =>
     }
   }
 
-const PluginOption = (props) =>
-  <FormGroup row>
-    <Label for={ props.option } sm={ 3 }>{ props.label }</Label>
-    <Col sm={ 9 }>
-      <PluginControl { ...props } />
-      {
-        props.help &&
-          <small className="form-text text-muted">{ props.help }</small>
-      }
-    </Col>
-  </FormGroup>
+const PluginOption = (props) => {
+  switch(props.type) {
+    case 'checkbox':
+      return <FormGroup row>
+        <Col sm={ 3 } className="text-right" style={{ paddingTop: '0.425rem'}}>
+          <Field
+            name={ props.name } id={ props.name }
+            component={ CustomInput }
+            type="checkbox"
+          />
+        </Col>
+        <Label for={ props.name } sm={ 9 }>
+          { props.label }
+          {
+            props.help &&
+              <small className="form-text text-muted">{ props.help }</small>
+          }
+        </Label>
+      </FormGroup>
+    default:
+      return <FormGroup row>
+        <Label for={ props.option } sm={ 3 }>{ props.label }</Label>
+        <Col sm={ 9 }>
+          <PluginControl { ...props } />
+          {
+            props.help &&
+              <small className="form-text text-muted">{ props.help }</small>
+          }
+        </Col>
+      </FormGroup>
+  }
+}
 
 const PluginBody = ({ name, index, metadata }) =>
   <>
