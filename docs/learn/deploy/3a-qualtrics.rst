@@ -66,7 +66,8 @@ To achieve the connection, you'll need to add JavaScript logic to the `Descripti
 
 .. code-block:: JS
 
-  const question = this;
+
+const question = this;
 question.hideNextButton();
 
 // Listen for the study sending data
@@ -178,10 +179,10 @@ walk2(results_csv$ResponseId, results_csv$labjs_data, one_df_per_part)
 
 
 
-
+----
 
 .. note::
 
-  If you can see the experiment embedded in the survey, but aren't redirected to the next survey page after completing the experiment, or if you don't see the collected data, please make sure that your experiment doesn't get stuck on the last screen. For example, you might set a timeout on the last screen, or allow participants to respond to your goodbye message.
+If you can see the experiment embedded in the survey, but aren't redirected to the next survey page after completing the experiment, or if you don't see the collected data, please make sure that your experiment doesn't get stuck on the last screen. For example, you might set a timeout on the last screen, or allow participants to respond to your goodbye message.
 
-  Without this, Qualtrics will not count the dataset as a complete response, and will exclude it from the data export.
+Without this, Qualtrics will not count the dataset as a complete response, and will exclude it from the data export.
