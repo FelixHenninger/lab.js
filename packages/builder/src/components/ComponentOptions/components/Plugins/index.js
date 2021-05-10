@@ -82,7 +82,7 @@ export const PluginFooter = ({ addItem }) => {
 }
 
 export default ({ id, data }) =>
-  <Card title="Plugins" badge="Beta" wrapContent={ false }>
+  <Card title="Plugins" wrapContent={ false }>
     <Form
       id={ id } data={ data }
       keys={ ['plugins'] }
