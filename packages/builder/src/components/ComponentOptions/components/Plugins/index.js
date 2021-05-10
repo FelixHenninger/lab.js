@@ -11,14 +11,25 @@ import { Table, DefaultRow } from '../../../Form/table'
 import { loadPlugin } from '../../../../logic/plugins/library'
 import PluginHint from './hint'
 import PluginAddModal from './modal'
+
 import GenericPlugin from './generic'
+import StylePlugin from './custom/style'
 
 export const PluginRow = ({ index, name, data, arrayHelpers }) => {
   const metadata = loadPlugin(data.type)
 
+  let Component
+  switch(data.type) {
+    case 'style':
+      Component = StylePlugin
+      break
+    default:
+      Component = GenericPlugin
+  }
+
   return (
     <DefaultRow index={ index } arrayHelpers={ arrayHelpers }>
-      <GenericPlugin
+      <Component
         index={ index }
         name={ name }
         data={ data }

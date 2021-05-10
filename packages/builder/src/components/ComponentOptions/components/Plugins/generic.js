@@ -5,7 +5,7 @@ import { FormGroup, Label, Col } from 'reactstrap'
 
 import { Input, CustomInput } from '../../../Form'
 
-const PluginHeader = ({ metadata, forceDivider=false }) =>
+export const PluginHeader = ({ metadata, forceDivider=false }) =>
   <>
     <h3 className="h5 mt-2">
       { metadata.title }
