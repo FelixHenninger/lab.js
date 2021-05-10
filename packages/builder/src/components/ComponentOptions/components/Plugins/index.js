@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { Button } from 'reactstrap'
-import { fromPairs } from 'lodash'
+import { fromPairs, set } from 'lodash'
 
 import Card from '../../../Card'
 import Form from '../Form'
@@ -31,13 +31,14 @@ export const PluginRow = ({ index, name, data, arrayHelpers }) => {
 const getDefaultSettings = (pluginType) => {
   const metadata = loadPlugin(pluginType)
 
-  return {
-    type: pluginType,
-    ...fromPairs(
-      Object.entries(metadata.options)
-        .map(([k, v]) => [k, v.default || ''])
-    ),
+  const output = {
+    type: pluginType
   }
+
+  Object.entries(metadata.options)
+    .forEach(([k, v]) => set(output, k, v.default ?? ''))
+
+  return output
 }
 
 export const PluginFooter = ({ addItem }) => {
