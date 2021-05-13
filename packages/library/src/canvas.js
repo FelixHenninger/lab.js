@@ -405,6 +405,7 @@ Screen.metadata = {
           angle: { type: 'number' },
           src: {},
           fontSize: { type: 'number' },
+          strokeWidth: { type: 'number' },
         },
       },
     },
