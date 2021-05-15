@@ -52,7 +52,7 @@ export const metadata = {
     category: 'Flow',
     icon: 'repeat',
     minChildren: 1,
-    maxChildren: 1,
+    maxChildren: Infinity,
     tabs: defaultTabs,
     defaultTab: 'Content',
     defaults: {
@@ -111,7 +111,7 @@ export const metadata = {
     category: 'HTML',
     icon: 'expand-wide',
     minChildren: 1,
-    maxChildren: 1,
+    maxChildren: Infinity,
     tabs: defaultTabs,
     defaultTab: 'Content',
     defaults: {
@@ -165,7 +165,7 @@ export const metadata = {
     category: 'Canvas',
     icon: 'expand-wide',
     minChildren: 1,
-    maxChildren: 1,
+    maxChildren: Infinity,
     tabs: defaultTabs,
     defaultTab: 'Content',
     defaults: {

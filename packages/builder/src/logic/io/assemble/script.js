@@ -180,31 +180,23 @@ const makeComponentTree = (data, root) => {
     if (currentNode.children) {
       switch (currentNode.type) {
         case 'lab.flow.Sequence':
-          // A sequence can have several components as content
+        case 'lab.canvas.Frame':
+        case 'lab.html.Frame':
+          // Sequence and frames can have several components as content
           output.content = currentNode.children
             .map(c => makeComponentTree(data, c))
           break
         case 'lab.flow.Loop':
-          // A loop has a single template
-          if (!isEmpty(currentNode.children)) {
-            output.template = makeComponentTree(data, currentNode.children[0])
-          }
-          break
-        case 'lab.canvas.Frame':
-        case 'lab.html.Frame':
-          // A loop has a single template
-          if (!isEmpty(currentNode.children)) {
-            output.content = makeComponentTree(data, currentNode.children[0])
-          }
+          // A loop has a template array
+          output.template = currentNode.children
+            .map(c => makeComponentTree(data, c))
           break
         default:
-          // TODO: This won't catch canvas-based
-          // components, but it also doesn't need
-          // to right now.
+          console.log(`Unexpectedly found nested components on ${currentNode.type}`)
           break
       }
 
-      // After parsing, children components are no longer needed
+      // After parsing, nested components are no longer needed
       delete output.children
     }
 
