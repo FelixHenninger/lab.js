@@ -12,7 +12,7 @@ const frameDefaults = {
 
 type FrameOptions = ComponentOptions &
   typeof frameDefaults & {
-    content: Component
+    content: Component | Component[]
   }
 
 export class Frame extends Component {
@@ -29,11 +29,16 @@ export class Frame extends Component {
   }
 
   async onPrepare() {
+    // Wrap content in array if that is not already so
+    const content = Array.isArray(this.options.content)
+      ? this.options.content
+      : [this.options.content]
+
     // Prepare content
-    await prepareNested([this.options.content], this)
+    await prepareNested(content, this)
 
     // Prepare iterator
-    this.internals.iterator = [this.options.content].entries()
+    this.internals.iterator = content.entries()
   }
 
   enterContext(context: object) {
