@@ -3,14 +3,8 @@ import { CanvasContent, AOI } from './render'
 
 // Path handling ---------------------------------------------------------------
 
-// Load a matrix transformation class:
-// DOMMatrix if available, SVGMatrix otherwise
-const MatrixReadOnly =
-  window.DOMMatrixReadOnly !== undefined
-    ? new window.DOMMatrixReadOnly()
-    : document
-        .createElementNS('http://www.w3.org/2000/svg', 'svg')
-        .createSVGMatrix()
+// Load a matrix transformation class
+const MatrixReadOnly = new window.DOMMatrixReadOnly()
 
 export const makePath = (
   ctx: CanvasRenderingContext2D,
@@ -37,7 +31,8 @@ export const makePath = (
   const translatedPath = new Path2D()
   translatedPath.addPath(
     rawPath,
-    MatrixReadOnly.translate(content.left, content.top).rotate(content.angle), // (in degrees, for a change)
+    MatrixReadOnly.translate(content.left, content.top) //
+      .rotate(content.angle), // (in degrees, for a change)
   )
   return translatedPath
 }
