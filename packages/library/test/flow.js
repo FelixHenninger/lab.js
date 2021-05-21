@@ -161,7 +161,7 @@ describe('Flow control', () => {
       const b = new lab.core.Component()
       s.options.content = [a, b]
 
-      const p = b.waitFor('render')
+      const p = b.internals.emitter.waitFor('render')
 
       return s.run()
         .then(() => {

@@ -20,6 +20,7 @@ type EventHandlerMap = PureEventHandlerMap & {
 
 export type EmitterOptions = {
   debug?: boolean
+  context?: object
 }
 
 // Event name splitter functions
@@ -34,12 +35,17 @@ const getMethodName = function (event: string) {
 export class Emitter {
   id?: string
   options: EmitterOptions
+  #context: object
   #hooks: EventHandlerMap
 
-  constructor(id?: string, options: EmitterOptions = { debug: false }) {
+  constructor(
+    id?: string,
+    options: EmitterOptions = { debug: false, context: undefined },
+  ) {
     this.id = id
     this.options = options
     this.#hooks = {}
+    this.#context = options.context ?? this
   }
 
   async trigger(event: string, ...payload: any[]) {
@@ -49,9 +55,9 @@ export class Emitter {
 
     // Trigger local method, if available
     const methodName = getMethodName(event)
-    const method = (this as any)[methodName]
+    const method = (this.#context as any)[methodName]
     if (method && typeof method === 'function') {
-      await method.apply(this, payload)
+      await method.apply(this.#context, payload)
     }
 
     await this.emit(event, ...payload)
@@ -61,10 +67,10 @@ export class Emitter {
     await Promise.all([
       ...(this.#hooks[event] ?? [])
         .slice()
-        .map(handler => handler.apply(this, payload)),
+        .map(handler => handler.apply(this.#context, payload)),
       ...(this.#hooks['*'] ?? [])
         .slice()
-        .map(handler => handler.call(this, event, ...payload)),
+        .map(handler => handler.call(this.#context, event, ...payload)),
     ])
   }
 

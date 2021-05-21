@@ -34,7 +34,7 @@ describe('Plugins', () => {
         ],
       })
 
-      c.trigger('SomeEvent')
+      c.internals.emitter.trigger('SomeEvent')
 
       assert.ok(
         fakeLog
@@ -113,7 +113,7 @@ describe('Plugins', () => {
 
       // Data transmission runs last,
       // so we need to wait for the corresponding event
-      const endPromise = c.waitFor('end')
+      const endPromise = c.internals.emitter.waitFor('end')
 
       return c.run().then(() =>
         endPromise
@@ -131,7 +131,7 @@ describe('Plugins', () => {
       // Disable incremental transmissions
       p.updates.incremental = false
 
-      const endPromise = c.waitFor('end')
+      const endPromise = c.internals.emitter.waitFor('end')
 
       return c.run().then(() =>
         endPromise,
@@ -147,7 +147,7 @@ describe('Plugins', () => {
     })
 
     it('triggers callback after full transmission', () => {
-      const endPromise = c.waitFor('end')
+      const endPromise = c.internals.emitter.waitFor('end')
       p.callbacks = {
         full: sinon.spy()
       }

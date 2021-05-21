@@ -648,7 +648,7 @@ describe('Core', () => {
 
         // Note that this requires preparation
         await b.prepare()
-        b.emit('someEvent')
+        b.internals.emitter.emit('someEvent')
 
         assert.ok(
           handler.calledOnce
@@ -1086,7 +1086,7 @@ describe('Core', () => {
           debug: true
         })
 
-        const p = c.waitFor('end')
+        const p = c.internals.emitter.waitFor('end')
 
         await c.run()
         await p
@@ -1143,7 +1143,7 @@ describe('Core', () => {
       assert.notOk(spy.called)
 
       // Trigger event and record results
-      c.trigger('foo', [1, 2, 3])
+      c.internals.emitter.trigger('foo', [1, 2, 3])
       assert.ok(
         spy.calledWith(c, 'foo', [1, 2, 3])
       )
