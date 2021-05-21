@@ -47,7 +47,8 @@ type Metadata = {
   }
 }
 
-export class Component extends Emitter {
+export class Component {
+  id?: string
   options: any
   data: any
   static metadata: Metadata
@@ -59,13 +60,23 @@ export class Component extends Emitter {
   parent?: Component
   status: Status
 
+  #emitter: Emitter
+  on: typeof Emitter.prototype.on
+  off: typeof Emitter.prototype.off
+
   constructor(options: Partial<ComponentOptions> = {}) {
     const { id, debug } = options
-    super(id, { debug })
 
+    this.id = id
     this.status = Status.initialized
     this.internals = {}
     this.data = options.data ?? {}
+
+    // Setup emitter and expose via internals
+    this.#emitter = new Emitter(id, { debug, context: this })
+    this.on = (...args) => this.internals.emitter.on(...args)
+    this.off = (...args) => this.internals.emitter.off(...args)
+    this.internals.emitter = this.#emitter
 
     // Setup options
     this.internals.rawOptions = {
@@ -103,17 +114,21 @@ export class Component extends Emitter {
     // fixed at initialization time; later changes won't be reflected in
     // component behavior at this point
     for (const [e, handler] of Object.entries(this.options.hooks ?? {})) {
-      this.on(e, handler as EventHandler)
+      this.#emitter.on(e, handler as EventHandler)
     }
 
-    await this.trigger(
+    await this.#emitter.trigger(
       'before:prepare',
       undefined,
       this.internals.controller.global,
     )
     this.internals.armOptions()
 
-    await this.trigger('prepare', undefined, this.internals.controller.global)
+    await this.#emitter.trigger(
+      'prepare',
+      undefined,
+      this.internals.controller.global,
+    )
     this.status = Status.prepared
   }
 
@@ -150,15 +165,31 @@ export class Component extends Emitter {
       throw new AbortFlip('Skipping component')
     }
 
-    await this.trigger('before:run', flipData, this.internals.controller.global)
-    await this.trigger('run', flipData, this.internals.controller.global)
+    await this.#emitter.trigger(
+      'before:run',
+      flipData,
+      this.internals.controller.global,
+    )
+    await this.#emitter.trigger(
+      'run',
+      flipData,
+      this.internals.controller.global,
+    )
   }
 
   async render(data: object) {
-    await this.trigger('render', data, this.internals.controller.global)
+    await this.#emitter.trigger(
+      'render',
+      data,
+      this.internals.controller.global,
+    )
   }
   async show(data: object) {
-    await this.trigger('show', data, this.internals.controller.global)
+    await this.#emitter.trigger(
+      'show',
+      data,
+      this.internals.controller.global,
+    )
   }
 
   async respond(
@@ -191,9 +222,13 @@ export class Component extends Emitter {
 
     if (!flipData.controlled) {
       // Signal end to controller
-      return await this.emit('end:uncontrolled', flipData)
+      return await this.#emitter.emit('end:uncontrolled', flipData)
     } else {
-      await this.trigger('end', flipData, this.internals.controller.global)
+      await this.#emitter.trigger(
+        'end',
+        flipData,
+        this.internals.controller.global,
+      )
     }
 
     this.internals.controller.global.datastore?.commit({
@@ -214,7 +249,11 @@ export class Component extends Emitter {
   }
 
   async lock(data: any = {}) {
-    await this.trigger('lock', data, this.internals.controller.global)
+    await this.#emitter.trigger(
+      'lock',
+      data,
+      this.internals.controller.global,
+    )
     delete this.internals.context
   }
 

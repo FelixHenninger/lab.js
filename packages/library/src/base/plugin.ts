@@ -18,7 +18,7 @@ export class PluginAPI {
 
     // Setup event handlers
     this.handle = this.handle.bind(this)
-    this.context.on('*', this.handle)
+    this.context.internals.emitter.on('*', this.handle)
   }
 
   add(plugin: Plugin) {

@@ -124,13 +124,13 @@ export class FlipIterable {
           try {
             switch (command) {
               case 'end':
-                c.off('end:uncontrolled', triggerContinue)
+                c.internals.emitter.off('end:uncontrolled', triggerContinue)
                 await c.end(flipData.reason, { ...flipData, controlled: true })
                 context = c.leaveContext(context)
                 outgoing.push(c)
                 break
               case 'run':
-                c.on('end:uncontrolled', triggerContinue)
+                c.internals.emitter.on('end:uncontrolled', triggerContinue)
                 incoming.push(c)
                 context = c.enterContext(context)
                 await c.run({
