@@ -563,22 +563,6 @@ describe('Core', () => {
         assert.ok(callback_end.calledOnce)
       })
 
-      it('waits for async event handlers to resolve', async () => {
-        let done = false
-        const handler = () => new Promise(resolve => {
-          window.setTimeout(() => {
-            done = true
-            resolve()
-          }, 20)
-        })
-
-        const c = new lab.core.Component()
-        c.on('event', handler)
-
-        await c.trigger('event')
-        assert.ok(done)
-      })
-
       it('passes controller global to event handlers', async () => {
         let prepareContext
         b.on('prepare', (_, context) => {
@@ -602,42 +586,6 @@ describe('Core', () => {
         )
       })
 
-      it('runs internal event handlers only once if requested', () => {
-        const spy = sinon.spy()
-        const spyOnce = sinon.spy()
-
-        const c = new lab.core.Component()
-        c.on('event', spy)
-        c.once('event', spyOnce)
-
-        // First event: Should trigger both spies
-        c.trigger('event')
-        assert.ok(spy.calledOnce)
-        assert.ok(spyOnce.calledOnce)
-
-        // Second event: Single-call spy should not be called
-        c.trigger('event')
-        assert.notOk(spy.calledOnce)
-        assert.ok(spyOnce.calledOnce)
-      })
-
-      it('waits for one-shot async event handlers', async () => {
-        // ... as above, except for the call to once below
-        let done = false
-        const handler = () => new Promise(resolve => {
-          window.setTimeout(() => {
-            done = true
-            resolve()
-          }, 20)
-        })
-
-        const c = new lab.core.Component()
-        c.once('event', handler)
-
-        await c.trigger('event')
-        assert.ok(done)
-      })
-
       it('accepts internal event handlers via the hooks option', async () => {
         const handler = sinon.stub()
         b = new lab.core.Component({
@@ -653,16 +601,6 @@ describe('Core', () => {
         assert.ok(
           handler.calledOnce
         )
-      })
-
-      it('resolves promises via waitFor', () => {
-        const p = b.waitFor('foo').then(() => {
-          assert.ok(true)
-        })
-
-        b.trigger('foo')
-
-        return p
       })
     })
 
