@@ -3,6 +3,7 @@ import { Component } from '../core/component'
 import { clone } from '../base/util/clone'
 
 import { Sequence, SequenceOptions } from './sequence'
+import { sampleMode } from './util/sample'
 
 const loopDefaults = {
   template: <
@@ -58,7 +59,8 @@ export class Loop extends Sequence {
         : this.options.templateParameters
 
       // Sample parameters
-      templateParameters = this.random.sampleMode(
+      templateParameters = sampleMode(
+        this.random,
         shuffledParameters,
         this.options.sample.n,
         this.options.sample.mode,
