@@ -64,6 +64,8 @@ export class Component {
   on: typeof Emitter.prototype.on
   off: typeof Emitter.prototype.off
 
+  #controller!: Controller
+
   constructor(options: Partial<ComponentOptions> = {}) {
     const { id, debug } = options
 
@@ -107,7 +109,12 @@ export class Component {
     }
 
     if (!this.internals.controller) {
-      this.internals.controller = new Controller({ root: this })
+      this.#controller = new Controller({ root: this })
+      this.internals.controller = this.#controller
+    } else if (this.internals.controller && !this.#controller) {
+      // Recreate private class field if controller was initialized elsewhere
+      // (which is most of the time, in practice, for core.Component instances)
+      this.#controller = this.internals.controller
     }
 
     // Note that we're assuming at this point that the hooks option is
@@ -120,15 +127,11 @@ export class Component {
     await this.#emitter.trigger(
       'before:prepare',
       undefined,
-      this.internals.controller.global,
+      this.#controller.global,
     )
     this.internals.armOptions()
 
-    await this.#emitter.trigger(
-      'prepare',
-      undefined,
-      this.internals.controller.global,
-    )
+    await this.#emitter.trigger('prepare', undefined, this.#controller.global)
     this.status = Status.prepared
   }
 
@@ -152,8 +155,8 @@ export class Component {
     }
 
     // Pass control to controller if run() is called directly
-    if (!controlled && this.internals.controller.root === this) {
-      return this.internals.controller.run()
+    if (!controlled && this.#controller.root === this) {
+      return this.#controller.run()
     }
 
     this.status = Status.running
@@ -165,31 +168,15 @@ export class Component {
       throw new AbortFlip('Skipping component')
     }
 
-    await this.#emitter.trigger(
-      'before:run',
-      flipData,
-      this.internals.controller.global,
-    )
-    await this.#emitter.trigger(
-      'run',
-      flipData,
-      this.internals.controller.global,
-    )
+    await this.#emitter.trigger('before:run', flipData, this.#controller.global)
+    await this.#emitter.trigger('run', flipData, this.#controller.global)
   }
 
   async render(data: object) {
-    await this.#emitter.trigger(
-      'render',
-      data,
-      this.internals.controller.global,
-    )
+    await this.#emitter.trigger('render', data, this.#controller.global)
   }
   async show(data: object) {
-    await this.#emitter.trigger(
-      'show',
-      data,
-      this.internals.controller.global,
-    )
+    await this.#emitter.trigger('show', data, this.#controller.global)
   }
 
   async respond(
@@ -224,14 +211,10 @@ export class Component {
       // Signal end to controller
       return await this.#emitter.emit('end:uncontrolled', flipData)
     } else {
-      await this.#emitter.trigger(
-        'end',
-        flipData,
-        this.internals.controller.global,
-      )
+      await this.#emitter.trigger('end', flipData, this.#controller.global)
     }
 
-    this.internals.controller.global.datastore?.commit({
+    this.#controller.global.datastore?.commit({
       sender: this.options.title,
       sender_type: this.type,
       sender_id: this.id,
@@ -249,11 +232,7 @@ export class Component {
   }
 
   async lock(data: any = {}) {
-    await this.#emitter.trigger(
-      'lock',
-      data,
-      this.internals.controller.global,
-    )
+    await this.#emitter.trigger('lock', data, this.#controller.global)
     delete this.internals.context
   }
 
