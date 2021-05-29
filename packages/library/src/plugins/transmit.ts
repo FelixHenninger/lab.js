@@ -2,7 +2,7 @@ import { Component } from '../base/component'
 import { Plugin } from '../base/plugin'
 import { uuid4 } from '../util/random/uuid'
 
-type TransmitPluginOptions = {
+export type TransmitPluginOptions = {
   url: string
   metadata?: {
     id: string

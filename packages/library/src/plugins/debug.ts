@@ -174,7 +174,7 @@ const renderStore = (datastore: Store) => {
   `
 }
 
-type DebugPluginOptions = {
+export type DebugPluginOptions = {
   filePrefix?: string
 }
 

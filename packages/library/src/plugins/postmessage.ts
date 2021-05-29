@@ -1,7 +1,7 @@
 import { Component } from '../base/component'
 import { Plugin } from '../base/plugin'
 
-type PostMessagePluginOptions = {
+export type PostMessagePluginOptions = {
   origin?: string
   target?: Window
   messageType?: string

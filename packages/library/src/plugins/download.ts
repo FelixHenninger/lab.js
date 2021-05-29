@@ -10,7 +10,7 @@ const unloadHandler = (e: Event) => {
   return warning
 }
 
-type DownloadPluginOptions = {
+export type DownloadPluginOptions = {
   filePrefix?: string
   fileType?: string
 }

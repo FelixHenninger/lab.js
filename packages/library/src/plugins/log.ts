@@ -1,7 +1,7 @@
 import { Component } from '../base/component'
 import { Plugin } from '../base/plugin'
 
-type LoggerOptions = {
+export type LoggerOptions = {
   title?: string
 }
 

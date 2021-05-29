@@ -37,7 +37,7 @@ const extractURLSearchParams = (search: string) =>
 import { Plugin } from '../base/plugin'
 import { Component } from '../base/component'
 
-type MetadataPluginOptions = {
+export type MetadataPluginOptions = {
   location_search?: string
 }
 

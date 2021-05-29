@@ -6,7 +6,7 @@ import {
   launch,
 } from '../util/fullscreen'
 
-type FullscreenOptions = {
+export type FullscreenOptions = {
   message?: string
   hint?: string
   close?: boolean
