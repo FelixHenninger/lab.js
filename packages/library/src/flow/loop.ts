@@ -21,7 +21,7 @@ const loopDefaults = {
   shuffleUngrouped: false,
 }
 
-type LoopOptions = SequenceOptions & typeof loopDefaults
+export type LoopOptions = SequenceOptions & typeof loopDefaults
 
 // A loop functions exactly like a sequence,
 // except that the components in the loop are
