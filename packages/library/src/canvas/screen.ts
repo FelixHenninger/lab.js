@@ -40,7 +40,7 @@ const screenDefaults = {
   clearCanvas: true,
 }
 
-type ScreenOptions = ComponentOptions &
+export type ScreenOptions = ComponentOptions &
   typeof screenDefaults &
   typeof canvasDefaults
 

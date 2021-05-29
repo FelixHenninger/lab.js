@@ -1,2 +1,2 @@
-export { Screen } from './screen'
-export { Frame } from './frame'
+export { Screen, ScreenOptions } from './screen'
+export { Frame, FrameOptions } from './frame'

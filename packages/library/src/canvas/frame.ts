@@ -14,7 +14,7 @@ const frameDefaults = {
   context: '<canvas></canvas>',
 }
 
-type FrameOptions = ComponentOptions &
+export type FrameOptions = ComponentOptions &
   typeof canvasDefaults &
   typeof frameDefaults & {
     content: Component | Component[]
