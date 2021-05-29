@@ -10,7 +10,7 @@ const frameDefaults = {
   contextSelector: '',
 }
 
-type FrameOptions = ComponentOptions &
+export type FrameOptions = ComponentOptions &
   typeof frameDefaults & {
     content: Component | Component[]
   }

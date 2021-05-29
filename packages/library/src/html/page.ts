@@ -11,7 +11,7 @@ const pageDefaults = {
   scrollTop: true,
 }
 
-type PageOptions = FormOptions & typeof pageDefaults
+export type PageOptions = FormOptions & typeof pageDefaults
 
 export class Page extends Form {
   options!: PageOptions
