@@ -1,4 +1,4 @@
-export { Component } from './component'
+export { Component, ComponentOptions } from './component'
 export { Controller } from './controller'
 export { Dummy } from './dummy'
 
