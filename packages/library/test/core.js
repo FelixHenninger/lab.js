@@ -1018,19 +1018,19 @@ describe('Core', () => {
       })
 
       it('provides additional output to console if debug option is set', async () => {
-        sinon.stub(console, 'log')
+        sinon.stub(console, 'info')
 
         const c = new lab.core.Dummy({
           debug: true
         })
 
-        const p = c.internals.emitter.waitFor('end')
+        const p = c.internals.emitter.waitFor('lock')
 
         await c.run()
         await p
 
-        assert.ok(console.log.called)
-        console.log.restore()
+        assert.ok(console.info.called)
+        console.info.restore()
       })
     })
 

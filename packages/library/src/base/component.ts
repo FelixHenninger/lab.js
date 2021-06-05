@@ -98,7 +98,7 @@ export class Component {
 
   log(message: string) {
     if (this.options.debug) {
-      console.log(`${this.id} (${this.type}): \t ${message}`)
+      console.info(`${this.id} (${this.type}): \t ${message}`)
     }
   }
 
