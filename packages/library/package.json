@@ -132,6 +132,7 @@
     "clean": "shx rm -rf dist && shx mkdir dist",
     "lint": "eslint src",
     "prepare": "yarn run build:starterkit",
+    "prettier": "prettier --write src",
     "test": "karma start test/_karma/ci.conf.js",
     "test:base": "jest",
     "test:coverage": "yarn run build:js:coverage && karma start test/_karma/coverage.conf.js",
