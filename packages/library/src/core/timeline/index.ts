@@ -12,7 +12,7 @@ type AbstractSerializedItem = {
   start: number
   stop: number
   gain: number
-  pain: number
+  pan: number
   rampUp: number
   rampDown: number
   priority: number
