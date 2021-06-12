@@ -6,6 +6,11 @@ import { makeOptionProxy } from './util/options'
 import { AbortFlip } from './util/iterators'
 import { aggregateParentOption } from './util/hierarchy'
 import { rwProxy } from './util/proxy'
+import { Row } from '../data/store'
+
+// TODO: Browser switching is a leaky abstraction that assumes
+// a client context, and should be revisited
+import { browserName } from '../util/browser'
 
 export enum Status {
   initialized,
@@ -207,6 +212,23 @@ export class Component {
     this.status = Status.done
     this.data.ended_on = this.data.ended_on ?? reason
 
+    // Compute duration
+    if (this.data.ended_on === 'timeout') {
+      // For timeouts, we can really only know the component's
+      // duration after the next component is rendered. We're making
+      // a preliminary guess here, and updating it later.
+      this.data.duration =
+        this.internals.timestamps.end - this.internals.timestamps.render
+    } else if (this.data.ended_on === 'response' && browserName === 'Safari') {
+      // Safari rAF timestamps are one frame ahead of event timing
+      this.data.duration =
+        this.internals.timestamps.end - this.internals.timestamps.render
+    } else {
+      this.data.duration =
+        this.internals.timestamps.end -
+        (this.internals.timestamps.show || this.internals.timestamps.render)
+    }
+
     if (!flipData.controlled) {
       // Signal end to controller
       return await this.#emitter.emit('end:uncontrolled', flipData)
@@ -214,7 +236,7 @@ export class Component {
       await this.#emitter.trigger('end', flipData, this.#controller.global)
     }
 
-    this.#controller.global.datastore?.commit({
+    this.internals.logIndex = this.#controller.global.datastore?.commit({
       sender: this.options.title,
       sender_type: this.type,
       sender_id: this.id,
@@ -232,6 +254,20 @@ export class Component {
   }
 
   async lock(data: any = {}) {
+    const { timestamp } = data
+
+    this.options.datastore.update(this.internals.logIndex, (d: Row) => ({
+      ...d,
+      // Log switch frame
+      time_switch: timestamp,
+      // If the component was ended by a timeout,
+      // update the duration based on the actual presentation time
+      duration:
+        d.ended_on === 'timeout'
+          ? timestamp - (d.time_show || d.time_render)
+          : d.duration,
+    }))
+
     await this.#emitter.trigger('lock', data, this.#controller.global)
     delete this.internals.context
   }
