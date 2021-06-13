@@ -512,6 +512,23 @@ const updates = {
       return c
     })
   }),
+  '21.alpha.2': data => ({
+    ...data,
+    version: [21, 'alpha', 3],
+    components: mapValues(data.components, c => {
+      if (c.hooks) {
+        c.hooks = c.hooks.map((h) => {
+          if (h.message === 'commit' || h.message === 'after:end') {
+            return { ...h, message: 'lock' }
+          } else {
+            return h
+          }
+        })
+        console.log('new hooks', c.hooks)
+      }
+      return c
+    })
+  })
 }
 
 export default (data) => {
