@@ -27,6 +27,9 @@ const gifs = [
   'https://media.giphy.com/media/APqEbxBsVlkWSuFpth/giphy.mp4', // Seems fishy
   'https://media.giphy.com/media/Rhkq4ehWqVX56/giphy.mp4', // Sheldon Cooper I
   'https://media.giphy.com/media/fOVGTYyYtV6Ra/giphy.mp4', // Sheldon Cooper II
+  'https://media.giphy.com/media/kET6ysq7ugWYZkS4Pg/giphy.mp4', // Crash and burn
+  'https://media.giphy.com/media/PnJKk4krGg4VZSI7EZ/giphy.mp4', // I hacked it!
+  'https://media.giphy.com/media/dLolp8dtrYCJi/giphy.mp4', // Mr. Robot
 ]
 
 const Error = ({ reset, error, errorInfo, eventId }) => {
