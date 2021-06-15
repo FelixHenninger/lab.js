@@ -48,7 +48,9 @@ export default class Editor extends React.Component {
       // is first loaded, therefore it is split out here.
       import('htmlhint').then(({ HTMLHint }) => {
         model.onDidChangeContent(throttle(() => {
-          const hints = HTMLHint.verify(
+          // Reporting shows that HTMLHint doesn't always load,
+          // therefore we fall back onto an empty hint array
+          const hints = HTMLHint?.verify(
             model.getValue(), {
               "tagname-lowercase": true,
               "attr-lowercase": true,
@@ -65,7 +67,7 @@ export default class Editor extends React.Component {
             endLineNumber: hint.line, endColumn: hint.col + hint.raw.length,
             message: hint.message,
             severity: 1,
-          }))
+          })) ?? []
 
           monaco.editor.setModelMarkers(
             model, 'custom-linter', hints
