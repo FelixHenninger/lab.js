@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { ReactReduxContext } from 'react-redux'
 
 import { Button } from 'reactstrap'
-import * as Sentry from '@sentry/browser'
+import * as Sentry from '@sentry/react'
 
 import Icon from '../../Icon'
 import { SystemContext } from '../../System'

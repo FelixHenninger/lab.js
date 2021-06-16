@@ -18,7 +18,7 @@ import './index.css'
 
 // Sentry error reporting for production releases
 // (if a DSN is specified as an environment parameter, that is)
-import * as Sentry from '@sentry/browser'
+import * as Sentry from '@sentry/react'
 
 if (
   process.env.NODE_ENV === 'production' &&

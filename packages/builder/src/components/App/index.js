@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import * as Sentry from '@sentry/browser'
+import * as Sentry from '@sentry/react'
 
 import Error from './Error'
 import Layout from '../Layout'
