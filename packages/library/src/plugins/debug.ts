@@ -1,4 +1,5 @@
 import { isPlainObject, throttle } from 'lodash'
+import { Controller } from '../base'
 import { Component } from '../base/component'
 import { Store } from '../data/store'
 
@@ -236,15 +237,17 @@ export default class Debug {
   }
 
   onPrepare() {
-    if (this.context!.options.datastore) {
-      // The display needs to be rerendered both
-      // when variable values are set and when data
-      // are committed, because the set event is not
-      // triggered when data are committed, even if
-      // data are changed.
+    if (this.context!.internals.controller) {
       const throttledRender = throttle(() => this.render(), 100)
 
-      const datastore = this.context!.internals.controller.global.datastore
+      // Rerender after flips
+      const controller = this.context!.internals.controller
+      controller.on('flip', throttledRender)
+
+      // Listen for datastore updates too, just in case
+      // (it's really doubtful whether we need the commit event,
+      // but for now, we decided better safe than sorry)
+      const datastore = controller.global.datastore
       datastore.on('set', throttledRender)
       datastore.on('commit', throttledRender)
       datastore.on('update', throttledRender)
@@ -259,12 +262,12 @@ export default class Debug {
 
   render() {
     if (this.isVisible) {
-      const datastore = this.context!.internals.controller.global.datastore
-      const contents = renderStore(datastore)
+      const controller = this.context!.internals.controller
+      const datastore = controller.global.datastore
 
       this.container!.querySelector(
         '.labjs-debug-overlay-contents',
-      )!.innerHTML = contents
+      )!.innerHTML = renderStore(datastore)
     }
   }
 }
