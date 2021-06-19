@@ -132,7 +132,7 @@ export class Store extends Emitter {
     this.staging = Object.assign(this.staging, partial)
 
     if (!suppressSetTrigger) {
-      this.trigger('set')
+      this.emit('set')
     }
   }
 
@@ -200,7 +200,7 @@ export class Store extends Emitter {
     // that the set event occurs only if new values
     // are actually set. These changes should also be
     // reflected in the debug plugin.
-    this.trigger('commit')
+    this.emit('commit')
 
     this.staging = {}
 
@@ -210,12 +210,12 @@ export class Store extends Emitter {
   // Update saved data ------------------------------------
   update(index: number, callback = (d: Row): Row => d) {
     this.data[index] = callback(this.data[index] || {})
-    this.trigger('update')
+    this.emit('update')
   }
 
   // Erase collected data ---------------------------------
   clear(persistence = true, state = false) {
-    this.trigger('clear')
+    this.emit('clear')
     // Clear persistent state
     if (persistence && this.storage) {
       // TODO: Maybe limit this to specific keys?
@@ -412,7 +412,7 @@ export class Store extends Emitter {
       slice?: [number?, number?]
     } = {},
   ): Promise<Response> {
-    this.trigger('transmit')
+    this.emit('transmit')
 
     // Determine start and end of transmission
     const sliceStart = slice[0] ?? 0
