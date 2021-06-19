@@ -3,8 +3,10 @@ import { Controller } from '../base'
 import { Component } from '../base/component'
 import { Store } from '../data/store'
 
+// Overlay UI container --------------------------------------------------------
+
 const payload = `<style type="text/css">
-  .labjs-debug-opener {
+  .labjs-debug-open {
     font-size: 1.2rem;
     color: var(--color-gray-content, #8d8d8d);
     /* Box formatting */
@@ -29,7 +31,7 @@ const payload = `<style type="text/css">
     cursor: pointer;
   }
 
-  body.labjs-debugtools-visible .labjs-debug-opener {
+  body.labjs-debugtools-visible .labjs-debug-open {
     display: none;
   }
 
@@ -65,8 +67,16 @@ const payload = `<style type="text/css">
   }
 
   .labjs-debug-overlay-menu .pull-right {
-    font-size: 1rem;
     float: right;
+    position: relative;
+    top: -4px;
+  }
+
+  .labjs-debug-overlay-menu .pull-right .labjs-debug-close {
+    font-size: 1rem;
+    margin-left: 0.5em;
+    position: relative;
+    top: 1px;
   }
 
   body.labjs-debugtools-visible .labjs-debug-overlay {
@@ -95,25 +105,24 @@ const payload = `<style type="text/css">
     opacity: 0.5;
   }
 </style>
-<div class="labjs-debug-opener labjs-debug-toggle"><div>≡</div></div>
+<div class="labjs-debug-open labjs-debug-toggle"><div>≡</div></div>
 <div class="labjs-debug-overlay">
   <div class="labjs-debug-overlay-menu">
     <div class="pull-right">
-      <span class="labjs-debug-toggle">&times;</span>
+      <code>lab.js</code> debug tools ·
+      <a href="#" class="labjs-debug-data-download">download csv</a>
+      <span class="labjs-debug-close labjs-debug-toggle">&times;</span>
     </div>
-    <code>lab.js</code> ·
-    data preview ·
-    <a href="#" class="labjs-debug-data-download">download csv</a>
+    <div>
+      <span class="labjs-debug-overlay-breadcrumbs"></span>
+    </div>
   </div>
   <div class="labjs-debug-overlay-contents">
     Contents
   </div>
 </div>`
 
-const makeMessage = (msg: string) => `
-  <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center;">
-    ${msg}
-  </div>`
+// Data display ----------------------------------------------------------------
 
 const truncate = (s: string) => {
   // Restrict string length
@@ -174,6 +183,26 @@ const renderStore = (datastore: Store) => {
     </table>
   `
 }
+
+// Breadcrumbs and skip UI -----------------------------------------------------
+
+const renderBreadcrumbs = (controller: Controller) => {
+  const stack = controller.currentStack.map((c, i) => {
+    const title =
+      i === 0 && c.options.title === 'root' ? 'Experiment' : c.options.title
+
+    return {
+      title: title ?? 'unnamed',
+      type: c.type,
+    }
+  })
+
+  return stack
+    .map(c => `${c.title}`)
+    .join(' <span style="opacity: 0.5">/</span> ')
+}
+
+// Plugin proper ---------------------------------------------------------------
 
 export type DebugPluginOptions = {
   filePrefix?: string
@@ -268,6 +297,9 @@ export default class Debug {
       this.container!.querySelector(
         '.labjs-debug-overlay-contents',
       )!.innerHTML = renderStore(datastore)
+      this.container!.querySelector(
+        '.labjs-debug-overlay-breadcrumbs',
+      )!.innerHTML = renderBreadcrumbs(controller)
     }
   }
 }
