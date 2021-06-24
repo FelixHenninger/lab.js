@@ -33,7 +33,7 @@ import PostMessage from './plugins/postmessage'
 import Submit from './plugins/submit'
 import Transmit from './plugins/transmit'
 
-export const version = '20.2.2'
+export const version = '20.2.3'
 export const build = {
   flavor: BUILD_FLAVOR,
   commit: BUILD_COMMIT,
