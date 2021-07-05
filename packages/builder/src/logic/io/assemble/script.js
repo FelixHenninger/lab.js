@@ -53,7 +53,7 @@ const createResponsePair = r =>
     `${ r.event }` +
       `${ r.filter ? `(${ r.filter.trim() })` : ''}` +
       `${ r.target ? ` ${ r.target.trim() }`  : ''}`,
-    r.label.trim()
+    r.label?.trim() ?? ''
   ]
 
 // Process individual fields
