@@ -30,7 +30,6 @@
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
     "monaco-editor-webpack-plugin": "^1.9.1",
-    "node-sass": "^4.14.1",
     "papaparse": "^5.3.0",
     "parse-author": "^2.0.0",
     "prop-types": "^15.7.2",
@@ -48,6 +47,7 @@
     "reactstrap": "^8.9.0",
     "redux": "^4.0.5",
     "reselect": "^4.0.0",
+    "sass": "^1.35.2",
     "serialize-javascript": "^5.0.1",
     "slugify": "^1.4.6",
     "uuid": "^8.3.2"
