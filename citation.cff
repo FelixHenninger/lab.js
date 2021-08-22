@@ -17,7 +17,7 @@ authors:
 - given-names: Benjamin E.
   family-names: Hilbig
 doi: 10.5281/zenodo.801791
-version: 20.2.3
+version: 20.2.4
 date-released: 2021-03-05
 repository-code: https://github.com/felixhenninger/lab.js
 license: other-open
