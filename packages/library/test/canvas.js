@@ -515,6 +515,8 @@ describe('Canvas-based components', () => {
 
     it('throws error if the context does not contain a canvas element', () => {
       f.options.context = '<div>Nope</div>'
+      // Suppress error message
+      const stub = sinon.stub(console, 'error')
 
       return f.run().then(() => {
           assert.ok(false, 'Component should throw error during setup')
@@ -523,6 +525,7 @@ describe('Canvas-based components', () => {
             err.message,
             'No canvas found in canvas.Frame context',
           )
+          stub.restore()
         })
     })
 
