@@ -99,6 +99,9 @@ export class Component {
       this.options.parameters,
     )
     this.internals.plugins = new PluginAPI(this, options.plugins)
+
+    // Setup diagnostics
+    this.internals.timestamps = {}
   }
 
   log(message: string) {
