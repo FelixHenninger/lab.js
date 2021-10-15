@@ -192,7 +192,7 @@ const renderBreadcrumbs = (controller: Controller) => {
       i === 0 && c.options.title === 'root' ? 'Experiment' : c.options.title
 
     return {
-      title: title ?? 'unnamed',
+      title: title ?? `Untitled ${c.type}`,
       type: c.type,
     }
   })
