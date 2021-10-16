@@ -115,6 +115,7 @@ const payload = `<style type="text/css">
     </div>
     <div>
       <span class="labjs-debug-overlay-breadcrumbs"></span>
+      &nbsp; <!-- prevent element from collapsing -->
     </div>
   </div>
   <div class="labjs-debug-overlay-contents">
