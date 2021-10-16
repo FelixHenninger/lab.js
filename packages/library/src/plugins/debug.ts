@@ -56,9 +56,12 @@ const payload = `<style type="text/css">
   }
 
   .labjs-debug-overlay-menu {
+    position: sticky;
+    top: 0px;
     font-size: 0.8rem;
-    color: var(--color-gray-content, #8d8d8d);
     padding: 8px 12px 6px;
+    color: var(--color-gray-content, #8d8d8d);
+    background-color: white;
     border-bottom: 1px solid var(--color-border, #e5e5e5);
   }
 
