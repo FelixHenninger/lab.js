@@ -202,7 +202,7 @@ const renderBreadcrumbs = (controller: Controller) => {
   })
 
   return stack
-    .map(c => `${c.title}`)
+    .map((c, i) => `<span data-labjs-debug-breadcrumb="${i}">${c.title}</span>`)
     .join(' <span style="opacity: 0.5">/</span> ')
 }
 
@@ -259,10 +259,29 @@ export default class Debug {
       .querySelector('.labjs-debug-data-download')!
       .addEventListener('click', e => {
         e.preventDefault()
-        this.context!.internals.controller.global.datastore.download(
+        this.context?.internals.controller.global.datastore.download(
           'csv',
           context.options.datastore.makeFilename(this.filePrefix, 'csv'),
         )
+      })
+
+    this.container
+      .querySelector('.labjs-debug-overlay-breadcrumbs')!
+      .addEventListener('click', e => {
+        if (
+          e.target instanceof HTMLSpanElement &&
+          'labjsDebugBreadcrumb' in e.target.dataset
+        ) {
+          // Pull index from data attribute
+          const index = e.target.dataset['labjsDebugBreadcrumb']!
+          // Access corresponding component
+          const component =
+            this.context?.internals.controller.currentStack[index]
+          // Trigger abort for this component
+          this.context?.internals.controller.jump('abort', {
+            sender: component,
+          })
+        }
       })
 
     // Add payload code to document
