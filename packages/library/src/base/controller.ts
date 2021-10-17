@@ -90,6 +90,7 @@ export class Controller extends Emitter {
     switch (instruction) {
       case 'abort':
         this.iterable.abort(data.sender)
+        data.sender.end('aborted')
         break
       default:
     }
