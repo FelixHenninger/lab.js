@@ -1,7 +1,7 @@
-import { Component } from '../../base/component'
+import { Screen } from '../screen'
 
 export const makeProcessEvent =
-  (component: Component) =>
+  (component: Screen) =>
   (
     // Post-process event caught on canvas
     [eventName, filters, selector]: [string, any[], string],
@@ -19,8 +19,8 @@ export const makeProcessEvent =
           let lastResult = initial
 
           // TODO: Specify that the function applies to Canvas Components only
-          return function checkFunc(e: MouseEvent, context: Component) {
-            const checkResult = context.options.ctx.isPointInPath(
+          return function checkFunc(e: MouseEvent, context: Screen) {
+            const checkResult = context.internals.ctx.isPointInPath(
               context.internals.paths[selector.slice(1)],
               e.offsetX * pixelRatio,
               e.offsetY * pixelRatio,
@@ -58,7 +58,7 @@ export const makeProcessEvent =
           selector: 'canvas',
           moreChecks: [
             (e: MouseEvent) =>
-              component.options.ctx.isPointInPath(
+              component.internals.ctx.isPointInPath(
                 component.internals.paths[selector.slice(1)],
                 e.offsetX * pixelRatio,
                 e.offsetY * pixelRatio,

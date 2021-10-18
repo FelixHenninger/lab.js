@@ -261,7 +261,7 @@ export default class Debug {
         e.preventDefault()
         this.context?.internals.controller.global.datastore.download(
           'csv',
-          context.options.datastore.makeFilename(this.filePrefix, 'csv'),
+          context.global.datastore.makeFilename(this.filePrefix, 'csv'),
         )
       })
 
