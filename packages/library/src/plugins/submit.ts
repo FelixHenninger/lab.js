@@ -3,7 +3,7 @@ import { Plugin } from '../base/plugin'
 
 export default class Submit implements Plugin {
   async handle(context: Component, event: string) {
-    if (event === 'after:end' && context.options.datastore) {
+    if (event === 'after:end' && context.global.datastore) {
       const form = document.querySelector(
         'form[name="labjs-data"]',
       ) as HTMLFormElement
@@ -17,7 +17,7 @@ export default class Submit implements Plugin {
         const transfer =
           new ClipboardEvent('').clipboardData || new DataTransfer()
         transfer.items.add(
-          new File([context.options.datastore.exportCsv()], 'data.csv'),
+          new File([context.global.datastore.exportCsv()], 'data.csv'),
         )
         //@ts-ignore Typescript doesn't like indexing by string
         form.elements['dataFile'].files = transfer.files
@@ -29,7 +29,7 @@ export default class Submit implements Plugin {
           error,
         )
         //@ts-ignore As above
-        form.elements['dataRaw'].value = context.options.datastore.exportCsv()
+        form.elements['dataRaw'].value = context.global.datastore.exportCsv()
       }
 
       form.submit()

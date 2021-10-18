@@ -259,7 +259,7 @@ export class Component {
   async lock(data: any = {}) {
     const { timestamp } = data
 
-    this.options.datastore.update(this.internals.logIndex, (d: Row) => ({
+    this.global.datastore?.update(this.internals.logIndex, (d: Row) => ({
       ...d,
       // Log switch frame
       time_switch: timestamp,

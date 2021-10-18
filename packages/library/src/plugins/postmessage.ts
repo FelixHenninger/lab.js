@@ -27,9 +27,9 @@ export default class PostMessage implements Plugin {
             payload: 'full',
             url: window.location.href,
           },
-          raw: context.options.datastore.data,
-          json: context.options.datastore.exportJson(),
-          csv: context.options.datastore.exportCsv(),
+          raw: context.global.datastore.data,
+          json: context.global.datastore.exportJson(),
+          csv: context.global.datastore.exportCsv(),
         },
         this.origin,
       )

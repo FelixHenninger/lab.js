@@ -57,7 +57,7 @@ export default class Metadata implements Plugin {
       )
 
       // If a datastore is available, save the metadata there ...
-      context.options.datastore.set({
+      context.global.datastore.set({
         url: urlParams,
         meta: getMetadata(),
       })

@@ -54,7 +54,7 @@ describe('Plugins', () => {
 
       return c.prepare().then(() => {
         assert.include(
-          c.options.datastore.staging.meta,
+          c.global.datastore.staging.meta,
           { userAgent: window.navigator.userAgent },
         )
       })
@@ -72,7 +72,7 @@ describe('Plugins', () => {
 
       return c.prepare().then(() => {
         assert.deepEqual(
-          c.options.datastore.staging.url,
+          c.global.datastore.staging.url,
           { foo: 'bar', baz: '123' }
         )
       })
@@ -136,9 +136,9 @@ describe('Plugins', () => {
       return c.run().then(() =>
         endPromise,
       ).then(() => {
-        assert.ok(c.options.datastore.transmit.calledOnce)
+        assert.ok(c.global.datastore.transmit.calledOnce)
         assert.ok(
-          c.options.datastore.transmit.withArgs(
+          c.global.datastore.transmit.withArgs(
             'https://arbitrary.example',
             { id: p.metadata.id, payload: 'full' },
           ).calledOnce

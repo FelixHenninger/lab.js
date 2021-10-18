@@ -70,9 +70,8 @@ export class Component extends BaseComponent {
       })
     }
 
-    // Hook up state and legacy datastore option from controller
-    this.options.datastore = this.internals.controller.global.datastore
-    this.state = this.internals.controller.global.datastore.state
+    // Hook up state from controller
+    this.state = this.internals.controller.global.datastore?.state
     this.random = new Random(this.options.random)
     // Create timeline
     this.internals.timeline = new Timeline(this.internals.controller)

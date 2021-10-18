@@ -929,7 +929,7 @@ describe('Core', () => {
       it('data store is automatically initialized during preparation', async () => {
         await b.prepare()
         assert.instanceOf(
-          b.options.datastore,
+          b.global.datastore,
           lab.data.Store
         )
       })
@@ -941,14 +941,14 @@ describe('Core', () => {
 
         await s.prepare()
         assert.strictEqual( // Must be the same instance
-          s.options.datastore,
-          b.options.datastore
+          s.global.datastore,
+          b.global.datastore
         )
       })
 
       it('state property reads from data store', async () => {
         await b.prepare()
-        b.internals.controller.global.datastore.set('foo', 'bar')
+        b.global.datastore.set('foo', 'bar')
 
         assert.equal(
           b.state.foo,
