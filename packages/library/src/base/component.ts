@@ -22,6 +22,7 @@ export enum Status {
 
 export type ComponentOptions = {
   id: string
+  title: string
   parameters: any
   files: { [name: string]: string }
   debug: boolean
