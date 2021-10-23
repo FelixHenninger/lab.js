@@ -3,7 +3,7 @@ import { Emitter, EventHandler } from './util/emitter'
 import { Plugin, PluginAPI } from './plugin'
 
 import { makeOptionProxy } from './util/options'
-import { AbortFlip } from './util/iterators'
+import { AbortFlip } from './util/iterators/flipIterable'
 import { aggregateParentOption } from './util/hierarchy'
 import { rwProxy } from './util/proxy'
 import { Row } from '../data/store'
