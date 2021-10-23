@@ -1,4 +1,4 @@
-import { CommandIterable } from './iterators'
+import { CommandIterable } from "./commandIterable"
 
 const makeStubComponent = (name: string) => ({
   name,
