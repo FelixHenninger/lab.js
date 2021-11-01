@@ -27,10 +27,6 @@ export class FlipIterable {
     this.commandIterable = new CommandIterable(root)
   }
 
-  abort(component: Component) {
-    this.commandIterable.abort(component)
-  }
-
   [Symbol.asyncIterator](): AsyncIterator<IteratorOutput, any, IteratorInput> {
     return {
       next: async ([flipData, context]: [any, object]) => {

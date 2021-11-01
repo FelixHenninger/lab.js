@@ -89,7 +89,7 @@ export class Controller extends Emitter {
   jump(instruction: string, data: any) {
     switch (instruction) {
       case 'abort':
-        this.iterable.abort(data.sender)
+        this.iterable.commandIterable.abort(data.sender)
         data.sender.end('aborted')
         break
       default:
