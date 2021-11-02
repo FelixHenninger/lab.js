@@ -1,7 +1,8 @@
 import { CommandIterable } from './commandIterable'
 
-const makeStubComponent = (name: string) => ({
+const makeStubComponent = (name: string, id?: string) => ({
   name,
+  id,
   done: false,
   // FIXME I'm circumventing a check here that also
   // requires the hack below
@@ -11,10 +12,10 @@ const makeStubComponent = (name: string) => ({
 })
 
 const makeStubTree = () => {
-  const a1 = makeStubComponent('a1')
-  const a2 = makeStubComponent('a2')
+  const a1 = makeStubComponent('a1', '0')
+  const a2 = makeStubComponent('a2', '1')
   const root = {
-    ...makeStubComponent('root'),
+    ...makeStubComponent('root', '0'),
     internals: {
       iterator: [a1, a2].entries(),
     },
