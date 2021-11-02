@@ -24,6 +24,25 @@ const makeStubTree = () => {
   return { a1, a2, root }
 }
 
+const makeDeepTree = () => {
+  const { a1, a2, root } = makeStubTree()
+
+  // Nested tree beneath a1
+  const b1 = makeStubComponent('b1', '0')
+  const b2 = makeStubComponent('b2', '1')
+  a1.internals = {
+    iterator: [b1, b2].entries(),
+  }
+
+  const c1 = makeStubComponent('c1', '0')
+  const c2 = makeStubComponent('c2', '1')
+  a2.internals = {
+    iterator: [c1, c2].entries(),
+  }
+
+  return { root, a1, a2, b1, b2, c1, c2 }
+}
+
 test('Extracts slices from study tree', async () => {
   const { a1, a2, root } = makeStubTree()
 
@@ -67,20 +86,7 @@ test('Can abort a leaf component', () => {
 })
 
 test('Can jump stacks', () => {
-  const { a1, a2, root } = makeStubTree()
-
-  // Nested tree beneath a1
-  const b1 = makeStubComponent('b1')
-  const b2 = makeStubComponent('b2')
-  a1.internals = {
-    iterator: [b1, b2].entries(),
-  }
-
-  const c1 = makeStubComponent('c1')
-  const c2 = makeStubComponent('c2')
-  a2.internals = {
-    iterator: [c1, c2].entries(),
-  }
+  const { root, a1, a2, b1, b2, c1, c2 } = makeDeepTree()
 
   //@ts-ignore We're faking components here
   const tree = new CommandIterable(root)
