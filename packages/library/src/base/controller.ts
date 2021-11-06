@@ -87,12 +87,19 @@ export class Controller extends Emitter {
   }
 
   jump(instruction: string, data: any) {
+    // TODO: The implementation is baked into this (internal) API,
+    // may need an abstraction later. (there used to be a passthrough
+    // function on the flipIterable this was dropped)
     switch (instruction) {
       case 'abort':
         this.iterable.commandIterable.abort(data.sender)
         data.sender.end('aborted')
         break
+      case 'fastforward':
+        this.iterable.commandIterable.fastForward(data.target)
+        break
       default:
+        console.error(`Unknown jump instruction ${instruction}`)
     }
   }
 
