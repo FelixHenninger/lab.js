@@ -86,7 +86,7 @@ test('Can abort a leaf component', () => {
 })
 
 test('Can jump stacks', () => {
-  const { root, a1, a2, b1, b2, c1, c2 } = makeDeepTree()
+  const { root, a1, a2, b1, c2 } = makeDeepTree()
 
   //@ts-ignore We're faking components here
   const tree = new CommandIterable(root)
@@ -130,4 +130,48 @@ test('Can fast-forward through tree', () => {
   expect(iterator.next().value).toEqual(['end', c2, true])
   expect(iterator.next().value).toEqual(['end', a2, false])
   expect(iterator.next().value).toEqual(['end', root, false])
+})
+
+test('Can fast-forward through a subtree', () => {
+  // In the test above, we're skipping all levels of the tree
+  // (except the root node, which is constant). We need to make
+  // sure that skipping works also if only a subtree is skipped
+  const { root, a1, b1, b2 } = makeDeepTree()
+
+  //@ts-ignore We're faking components here
+  const tree = new CommandIterable(root)
+  const iterator = tree[Symbol.iterator]()
+
+  expect(iterator.next().value).toEqual(['run', a1, false])
+  expect(iterator.next().value).toEqual(['run', b1, true])
+
+  tree.fastForward(['0', '1'])
+  expect(tree.targetStack).toEqual([root, a1, b2])
+  expect(iterator.next().value).toEqual(['end', b1, true])
+  expect(iterator.next().value).toEqual(['run', b2, true])
+})
+
+test('Stops if an id is not met', () => {
+  const { root, a1, a2, b1, c1 } = makeDeepTree()
+
+  //@ts-ignore We're faking components here
+  const tree = new CommandIterable(root)
+  const iterator = tree[Symbol.iterator]()
+
+  expect(iterator.next().value).toEqual(['run', a1, false])
+  expect(iterator.next().value).toEqual(['run', b1, true])
+
+  // Fast-forward to an id that doesn't exist
+  // (remember that we keep the root level, so id 0 refers to a1)
+  tree.fastForward(['0', 'foo'])
+  expect(tree.targetStack).toEqual([root, a1])
+
+  // Complete transition and remaining iteration run
+  expect(iterator.next().value).toEqual(['end', b1, true])
+  // Skip b2
+  expect(iterator.next().value).toEqual(['end', a1, false])
+  expect(iterator.next().value).toEqual(['run', a2, false])
+  expect(iterator.next().value).toEqual(['run', c1, true])
+  expect(iterator.next().value).toEqual(['end', c1, true])
+  // ... continue from here
 })
