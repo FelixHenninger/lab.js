@@ -107,3 +107,27 @@ test('Can jump stacks', () => {
   // Note that this doesn't test that the a2 iterator is updated,
   // so the next drawn component drawn would be wrong
 })
+
+test('Can fast-forward through tree', () => {
+  const { root, a1, a2, b1, c2 } = makeDeepTree()
+
+  //@ts-ignore We're faking components here
+  const tree = new CommandIterable(root)
+  const iterator = tree[Symbol.iterator]()
+
+  expect(iterator.next().value).toEqual(['run', a1, false])
+  expect(iterator.next().value).toEqual(['run', b1, true])
+
+  // Fast-forward
+  tree.fastForward(['1', '1'])
+  expect(tree.targetStack).toEqual([root, a2, c2])
+
+  // Complete transition and remaining iteration run
+  expect(iterator.next().value).toEqual(['end', b1, true])
+  expect(iterator.next().value).toEqual(['end', a1, false])
+  expect(iterator.next().value).toEqual(['run', a2, false])
+  expect(iterator.next().value).toEqual(['run', c2, true])
+  expect(iterator.next().value).toEqual(['end', c2, true])
+  expect(iterator.next().value).toEqual(['end', a2, false])
+  expect(iterator.next().value).toEqual(['end', root, false])
+})

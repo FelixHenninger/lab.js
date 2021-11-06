@@ -1,5 +1,6 @@
 import { isEqual } from 'lodash'
 import { Component } from '../../component'
+import { fastForward } from './fastforward'
 
 const isLeaf = (node: Component) => node.internals.iterator === undefined
 
@@ -20,6 +21,53 @@ export class CommandIterable {
     } else {
       this.targetStack = this.stack.slice(0, level)
     }
+  }
+
+  fastForward(ids: string[]) {
+    // Always include the root node, ...
+    const newStack = [this.stack[0]]
+
+    // ... and work down the tree from there ...
+    let currentLevel = 1
+
+    // ... copy over the current stack while ids match ...
+    // (note that the ids don't include the root node)
+    while (this.stack[currentLevel].id === ids[currentLevel - 1]) {
+      newStack.push(this.stack[currentLevel])
+      currentLevel += 1
+    }
+
+    // ... then fill the remainder of the stack by taking
+    // the last component in the new stack, and search inside its iterator
+    // until we find a matching id. The component is then appended to the
+    // new stack, and the process repeats ...
+    let currentTail = newStack[newStack.length - 1]
+
+    // ... until we find a leaf, or can't find an id in the iterator
+    while (!isLeaf(currentTail)) {
+      // Search in the iterator ...
+      const iterator = currentTail.internals.iterator as Iterator<
+        [number, Component]
+      >
+      // ... until we find a matching id
+      const [{ done, value, }, ] = fastForward(
+        iterator,
+        ([, component]) => component.id === ids[currentLevel - 1],
+      )
+
+      if (done || value === undefined) {
+        // Stop if any iterator runs out of components, ...
+        break
+      } else {
+        const [, component] = value
+        // ... otherwise continue down the stack
+        newStack.push(component)
+        currentLevel += 1
+        currentTail = component
+      }
+    }
+
+    this.targetStack = newStack
   }
 
   [Symbol.iterator](): Iterator<[string, Component, boolean]> {
