@@ -161,6 +161,11 @@ export class Store extends Emitter {
     this.#state = {}
   }
 
+  _hydrate({ data = [], state = {} }: { data: Table; state: Row }) {
+    this.data = data
+    this.#state = state
+  }
+
   // Extracting data --------------------------------------
   keys(includeState = false, prioritize = defaultMetadata) {
     // Extract all keys from the data collected
