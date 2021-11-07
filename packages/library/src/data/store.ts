@@ -46,74 +46,16 @@ export type StoreOptions = {
 }
 
 export class Store extends Emitter {
-  #state!: Row
+  #state: Row
   private staging: Row
-  data!: Table
-
-  storage?: Storage
+  data: Table
 
   constructor(options: StoreOptions = {}) {
     super()
 
-    // Setup persistent storage, if requested
-    if (options.persistence === 'session') {
-      this.storage = sessionStorage
-    } else if (options.persistence === 'local') {
-      this.storage = localStorage
-    } else {
-      this.storage = undefined
-    }
-
-    // Clear persistent storage
-    if (options.clearPersistence) {
-      this.clear()
-    }
-
-    // Remember to trigger fallback if something
-    // goes wrong
-    let fallback = true
-
-    // Recover state from storage, if present,
-    // otherwise initialize empty data array
-    if (this.storage) {
-      // Check for preexisting data
-      const data = this.storage.getItem('lab.js-data')
-
-      // Perform initialization
-      if (data) {
-        // Fail gracefully if JSON parsing fails
-        try {
-          this.data = JSON.parse(data)
-          this.#state = Object.assign({}, ...this.data)
-
-          // Remove metadata from current state
-          // (It would otherwise be added anew
-          // with the next commit)
-          defaultMetadata.forEach(key => {
-            if (Object.hasOwnProperty.call(this.#state, key)) {
-              delete this.#state[key]
-            }
-          })
-
-          // Everything went well,
-          // skip initialization of data and state
-          fallback = false
-        } catch (err) {
-          // If an error occurs, play it safe
-          fallback = true
-        }
-      }
-    }
-
-    // Initialize empty data and state
-    // if no existing data were found,
-    // or data were invalid
-    if (fallback) {
-      this.data = []
-      this.#state = {}
-    }
-
-    // Initialize empty staging data
+    // Initialize empty state
+    this.data = []
+    this.#state = {}
     this.staging = {}
   }
 
@@ -183,10 +125,6 @@ export class Store extends Emitter {
     // Remember the index of the new entry
     const logIndex = this.data.push(cloneDeep(this.staging)) - 1
 
-    // Make persistent data copy if desired
-    if (this.storage) {
-      this.storage.setItem('lab.js-data', JSON.stringify(this.data))
-    }
     // TODO: The differentiation of set and commit
     // events is not entirely clean. In particular,
     // data can be changed from a call to the commit
@@ -214,20 +152,13 @@ export class Store extends Emitter {
   }
 
   // Erase collected data ---------------------------------
-  clear(persistence = true, state = false) {
+  clear() {
     this.emit('clear')
-    // Clear persistent state
-    if (persistence && this.storage) {
-      // TODO: Maybe limit this to specific keys?
-      this.storage.clear()
-    }
 
     // Clear local (transient) state
-    if (state) {
-      this.data = []
-      this.staging = {}
-      this.#state = {}
-    }
+    this.data = []
+    this.staging = {}
+    this.#state = {}
   }
 
   // Extracting data --------------------------------------
