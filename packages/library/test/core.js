@@ -749,7 +749,7 @@ describe('Core', () => {
 
         let spy
         await c.prepare()
-        spy = sinon.stub(c.internals.controller.global.datastore, 'commit')
+        spy = sinon.stub(c.internals.controller.global.datastore, 'set')
 
         await c.run()
 

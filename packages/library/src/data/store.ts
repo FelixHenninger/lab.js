@@ -113,34 +113,12 @@ export class Store extends Emitter {
   )
 
   // Commit data to storage -------------------------------
-  commit(key?: Row): number
-  commit(key: string, value: any): number
-  commit(key?: string | Row, value?: any): number {
-    if (key && value) {
-      this.set(key as string, value)
-    } else if (key) {
-      this.set(key as Row)
-    }
-
+  commit(): number {
     // Remember the index of the new entry
     const logIndex = this.data.push(cloneDeep(this.staging)) - 1
-
-    // TODO: The differentiation of set and commit
-    // events is not entirely clean. In particular,
-    // data can be changed from a call to the commit
-    // method, and the set method is called regardless
-    // of whether new data are supplied.
-    // Presently, the set trigger is not called if
-    // new data are provided to commit rather than
-    // via the set method directly.
-    // Possibly, the set call should be made contingent
-    // upon the presence of to-be-updated data, so
-    // that the set event occurs only if new values
-    // are actually set. These changes should also be
-    // reflected in the debug plugin.
-    this.emit('commit')
-
     this.staging = {}
+
+    this.emit('commit')
 
     return logIndex
   }

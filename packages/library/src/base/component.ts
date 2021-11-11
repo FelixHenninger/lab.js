@@ -240,7 +240,7 @@ export class Component {
       await this.#emitter.trigger('end', flipData, this.#controller.global)
     }
 
-    this.internals.logIndex = this.#controller.global.datastore?.commit({
+    this.internals.logIndex = this.#controller.global.datastore?.set({
       sender: this.options.title,
       sender_type: this.type,
       sender_id: this.id,
@@ -253,6 +253,7 @@ export class Component {
       time_show: this.internals.timestamps.show,
       time_end: this.internals.timestamps.end,
     })
+    this.#controller.global.datastore?.commit()
 
     this.log(`Ending with reason ${flipData.reason}`)
   }
