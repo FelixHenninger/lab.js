@@ -53,14 +53,16 @@ describe('Data handling', () => {
       })
 
       it('can extract individual columns from the data', () => {
-        ds.commit({
-          'column_1': 1,
-          'column_2': 'a'
-        })
-        ds.commit({
-          'column_1': 2,
-          'column_2': 'b'
-        })
+        ds.data = [
+          {
+            'column_1': 1,
+            'column_2': 'a'
+          },
+          {
+            'column_1': 2,
+            'column_2': 'b'
+          }
+        ]
 
         assert.deepEqual(
           ds.extract('column_1'),
@@ -73,18 +75,20 @@ describe('Data handling', () => {
       })
 
       it('can filter by sender when extracting columns', () => {
-        ds.commit({
-          'sender': 'relevantScreen',
-          'column_1': 'foo'
-        })
-        ds.commit({
-          'sender': 'irrelevantScreen',
-          'column_1': 'bar'
-        })
-        ds.commit({
-          'sender': 'relevantScreen',
-          'column_1': 'baz'
-        })
+        ds.data = [
+          {
+            'sender': 'relevantScreen',
+            'column_1': 'foo'
+          },
+          {
+            'sender': 'irrelevantScreen',
+            'column_1': 'bar'
+          },
+          {
+            'sender': 'relevantScreen',
+            'column_1': 'baz'
+          }
+        ]
 
         assert.deepEqual(
           ds.extract('column_1', 'relevantScreen'),
@@ -94,11 +98,14 @@ describe('Data handling', () => {
 
       it('can select specified columns in data by a filtering function', () =>{
         var filter_function = (e) => (e.startsWith('c'))
-        ds.commit({
-          'random': 1,
-          'column_1': 'a',
-          'column_2': 'b'
-        })
+        ds.data = [
+          {
+            'random': 1,
+            'column_1': 'a',
+            'column_2': 'b'
+          }
+        ]
+
         assert.deepEqual(
           ds.select( filter_function ),
           [{ column_1: 'a', column_2: 'b' }]
@@ -106,11 +113,14 @@ describe('Data handling', () => {
       })
 
       it('can select specified columns in data by an array of columns names', () =>{
-        ds.commit({
-          'random': 1,
-          'column_1': 'a',
-          'column_2': 'b'
-        })
+        ds.data=[
+          {
+            'random': 1,
+            'column_1': 'a',
+            'column_2': 'b'
+          }
+        ]
+
         assert.deepEqual(
           ds.select( ['column_1', 'column_2'] ),
           [{ column_1: 'a', column_2: 'b' }]
@@ -141,9 +151,10 @@ describe('Data handling', () => {
 
       it('clones stored information, breaking references', () => {
         const someObject = { one: 1 }
-        ds.commit({
+        ds.set({
           someObject: someObject
         })
+        ds.commit()
         ds.state.someObject.one = 2
 
         // State should changed, but not the stored data
@@ -161,11 +172,13 @@ describe('Data handling', () => {
       })
 
       it('provides data without keys beginning with an underscore', () => {
-        ds.commit({
+        ds.set({
           'one': 1,
           'two': 2,
           '_parameter': 3
         })
+        ds.commit()
+
         assert.deepEqual(
           ds.data,
           [{
@@ -231,14 +244,17 @@ describe('Data handling', () => {
 
     describe('Metadata', () => {
       it('computes column keys', () => {
-        ds.commit({
-          'one': 1,
-          'two': 2
-        })
-        ds.commit({
-          'two': 2,
-          'three': 3
-        })
+        ds.data = [
+          {
+            'one': 1,
+            'two': 2
+          },
+          {
+            'two': 2,
+            'three': 3
+          }
+        ]
+
         assert.deepEqual(
           ds.keys(), // sorted alphabetically
           ['one', 'three', 'two']
@@ -247,10 +263,12 @@ describe('Data handling', () => {
 
       it('moves metadata to first columns', () => {
         // sender should be moved to the front by default
-        ds.commit({
-          'abc': 1,
-          'sender': 2
-        })
+        ds.data = [
+          {
+            'abc': 1,
+            'sender': 2
+          }
+        ]
         assert.deepEqual(
           ds.keys(),
           ['sender', 'abc']
@@ -258,10 +276,12 @@ describe('Data handling', () => {
       })
 
       it('can include state keys if requested', () => {
-        ds.commit({
-          'one': 1,
-          'two': 2
-        })
+        ds.data = [
+          {
+            'one': 1,
+            'two': 2
+          }
+        ]
         ds.set('three', 3)
 
         assert.deepEqual(
@@ -343,14 +363,16 @@ describe('Data handling', () => {
       })
 
       it('exports correct jsonl data', () => {
-        ds.commit({
-          'one': 1,
-          'two': 2
-        })
-        ds.commit({
-          'two': 2,
-          'three': 3
-        })
+        ds.data = [
+          {
+            'one': 1,
+            'two': 2
+          },
+          {
+            'two': 2,
+            'three': 3
+          }
+        ]
 
         assert.deepEqual(
           ds.exportJsonL(),
@@ -362,14 +384,17 @@ describe('Data handling', () => {
       })
 
       it('exports correct csv data', () => {
-        ds.commit({
-          'one': 1,
-          'two': 2
-        })
-        ds.commit({
-          'two': 2,
-          'three': 3
-        })
+        ds.data = [
+          {
+            'one': 1,
+            'two': 2
+          },
+          {
+            'two': 2,
+            'three': 3
+          }
+        ]
+
         assert.strictEqual(
           ds.exportCsv(),
           [
@@ -381,11 +406,14 @@ describe('Data handling', () => {
       })
 
       it('places cells in quotation marks if required for csv export', () => {
-        ds.commit({
-          '1': 'a',
-          '2': 'b,',
-          '3': 'c\n',
-        })
+        ds.data = [
+          {
+            '1': 'a',
+            '2': 'b,',
+            '3': 'c\n',
+          }
+        ]
+
         assert.strictEqual(
           ds.exportCsv(),
           [
@@ -396,11 +424,14 @@ describe('Data handling', () => {
       })
 
       it('escapes quotation marks in cells during csv export', () => {
-        ds.commit({
-          '1': 'a',
-          '2': 'b"',
-          '3': 'c',
-        })
+        ds.data = [
+          {
+            '1': 'a',
+            '2': 'b"',
+            '3': 'c',
+          }
+        ]
+
         assert.strictEqual(
           ds.exportCsv(),
           [
@@ -411,9 +442,12 @@ describe('Data handling', () => {
       })
 
       it('escapes all quotation marks during csv export', () => {
-        ds.commit({
-          '1': '["a", "b", "c"]',
-        })
+        ds.data = [
+          {
+            '1': '["a", "b", "c"]',
+          }
+        ]
+
         assert.strictEqual(
           ds.exportCsv(),
           [
@@ -424,10 +458,12 @@ describe('Data handling', () => {
       })
 
       it('stringifies complex data types during csv export', () => {
-        ds.commit({
-          'array': [1, 2, 3, 'a', 'b', 'c'],
-          'object': { one: 1, two: 2 },
-        })
+        ds.data = [
+          {
+            'array': [1, 2, 3, 'a', 'b', 'c'],
+            'object': { one: 1, two: 2 },
+          }
+        ]
 
         assert.strictEqual(
           ds.exportCsv(),
@@ -439,16 +475,19 @@ describe('Data handling', () => {
       })
 
       it('omits columns starting with an underscore in csv export', () => {
-        ds.commit({
-          'one': 1,
-          'two': 2,
-          '_three': 3,
-        })
-        ds.commit({
-          'two': 2,
-          'three': 3,
-          '_four': 4,
-        })
+        ds.data = [
+          {
+            'one': 1,
+            'two': 2,
+            '_three': 3,
+          },
+          {
+            'two': 2,
+            'three': 3,
+            '_four': 4,
+          }
+        ]
+
         assert.strictEqual(
           ds.exportCsv(),
           [
@@ -697,7 +736,8 @@ describe('Data handling', () => {
         window.fetch.resetHistory()
 
         // Add new data, and transmit it
-        ds.commit({ six: 6 })
+        ds.set({ six: 6 })
+        ds.commit()
         queue.queueTransmission('https://random.example')
 
         // Fast-forward again
