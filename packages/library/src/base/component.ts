@@ -269,7 +269,7 @@ export class Component {
       // update the duration based on the actual presentation time
       duration:
         d.ended_on === 'timeout'
-          ? timestamp - (d.time_show || d.time_render)
+          ? timestamp - (d.time_show! ?? d.time_render!)
           : d.duration,
     }))
 

@@ -15,7 +15,21 @@ import { toCsv } from './util/csv'
 import { fetch as fetchRetry } from './util/network'
 import { TransmissionQueue } from './queue'
 
-export type Row = Record<string, any>
+export type BaseRow = {
+  sender: string
+  sender_type: string
+  sender_id: string
+  timestamp: Date
+  meta: object
+  time_run: number
+  time_render: number
+  time_show: number
+  time_end: number
+  time_switch: number
+  time_lock: number
+}
+
+export type Row = Partial<BaseRow> & Record<string, unknown>
 export type Table = Array<Row>
 export type FileFormat = 'csv' | 'json' | 'jsonl'
 
@@ -171,7 +185,7 @@ export class Store extends Emitter {
 
   // Extract a single column for the data,
   // also filtering by sender, if desired
-  extract(column: string, senderRegExp = RegExp('.*')) {
+  extract(column: string, senderRegExp: RegExp | string = RegExp('.*')) {
     // If the filter is defined a a string,
     // convert it into the corresponding
     // regular expression.
@@ -182,7 +196,9 @@ export class Store extends Emitter {
 
     // Filter the data using the sender column,
     // and then extract the column in question
-    return this.data.filter(r => filter.test(r.sender)).map(r => r[column])
+    return this.data
+      .filter(r => filter.test(r.sender ?? ''))
+      .map(r => r[column])
   }
 
   // Select the columns that should be present in the data
@@ -214,7 +230,7 @@ export class Store extends Emitter {
         : senderRegExp
 
     return this.data
-      .filter(r => filter.test(r.sender))
+      .filter(r => filter.test(r.sender ?? ''))
       .map(r => pick(r, columns))
   }
 
