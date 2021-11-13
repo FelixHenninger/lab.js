@@ -113,7 +113,10 @@ const payload = `<style type="text/css">
   <div class="labjs-debug-overlay-menu">
     <div class="pull-right">
       <code>lab.js</code> debug tools ·
-      <a href="#" class="labjs-debug-data-download">download csv</a>
+      <a href="#" class="labjs-debug-data-download">📦 csv</a>
+      <a href="" class="labjs-debug-snapshot">📌 Snapshot</a>
+      <a href="" class="labjs-debug-snapshot-reload">Reload</a>
+      <a href="" class="labjs-debug-snapshot-clear">Clear</a>
       <span class="labjs-debug-close labjs-debug-toggle">&times;</span>
     </div>
     <div>
@@ -206,6 +209,14 @@ const renderBreadcrumbs = (controller: Controller) => {
     .join(' <span style="opacity: 0.5">/</span> ')
 }
 
+// Hydration logic -------------------------------------------------------------
+
+// TODO: Type me
+const hydrate = (component: Component, data: any) => {
+  component.global.datastore._hydrate({ data: data.data, state: data.state })
+  component.internals.controller.jump('fastforward', { target: data.target })
+}
+
 // Plugin proper ---------------------------------------------------------------
 
 export type DebugPluginOptions = {
@@ -266,6 +277,46 @@ export default class Debug {
       })
 
     this.container
+      .querySelector('.labjs-debug-snapshot')!
+      .addEventListener('click', e => {
+        e.preventDefault()
+
+        // Calculate set of current ids
+        const target = this.context!.internals //
+          .controller //
+          .currentStack.slice(1)
+          .map((c: Component) => c.id)
+
+        // Get data and state
+        const data = this.context!.global.datastore.data
+        const state = this.context!.state
+
+        window.sessionStorage.setItem(
+          'labjs-debug-snapshot',
+          JSON.stringify({
+            target,
+            data,
+            state,
+            keep: true,
+          }),
+        )
+      })
+
+    this.container
+      .querySelector('.labjs-debug-snapshot-reload')!
+      .addEventListener('click', e => {
+        e.preventDefault()
+        window.location.reload()
+      })
+
+    this.container
+      .querySelector('.labjs-debug-snapshot-clear')!
+      .addEventListener('click', e => {
+        e.preventDefault()
+        window.sessionStorage.removeItem('labjs-debug-snapshot')
+      })
+
+    this.container
       .querySelector('.labjs-debug-overlay-breadcrumbs')!
       .addEventListener('click', e => {
         if (
@@ -303,6 +354,14 @@ export default class Debug {
       datastore.on('set', throttledRender)
       datastore.on('commit', throttledRender)
       datastore.on('update', throttledRender)
+
+      if (window.sessionStorage.getItem('labjs-debug-snapshot')) {
+        const { target, data, state, keep } = JSON.parse(
+          //@ts-ignore TODO
+          window.sessionStorage.getItem('labjs-debug-snapshot'),
+        )
+        hydrate(this.context!, { target, data, state })
+      }
     }
   }
 
