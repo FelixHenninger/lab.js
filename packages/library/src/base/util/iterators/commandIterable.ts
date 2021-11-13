@@ -32,7 +32,7 @@ export class CommandIterable {
 
     // ... copy over the current stack while ids match ...
     // (note that the ids don't include the root node)
-    while (this.stack[currentLevel].id === ids[currentLevel - 1]) {
+    while (this.stack[currentLevel - 1].id === ids[currentLevel - 1]) {
       newStack.push(this.stack[currentLevel])
       currentLevel += 1
     }
