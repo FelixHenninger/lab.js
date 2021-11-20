@@ -54,17 +54,12 @@ const defaultMetadata = [
 
 // Data storage class -------------------------------------
 
-export type StoreOptions = {
-  persistence?: 'session' | 'local'
-  clearPersistence?: boolean
-}
-
 export class Store extends Emitter {
   #state: Row
   private staging: Row
   data: Table
 
-  constructor(options: StoreOptions = {}) {
+  constructor() {
     super()
 
     // Initialize empty state
