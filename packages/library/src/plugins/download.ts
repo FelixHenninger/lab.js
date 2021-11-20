@@ -49,7 +49,7 @@ export default class Download implements Plugin {
         )
         window.removeEventListener('beforeunload', unloadHandler)
       })
-      controller.global.el.prepend(this.el)
+      controller.global.rootEl.prepend(this.el)
     }
   }
 }
