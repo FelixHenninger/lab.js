@@ -1,6 +1,7 @@
 import { Component } from '../base/component'
 import { Plugin } from '../base/plugin'
 import { uuid4 } from '../util/random/uuid'
+import { transmit } from '../data/transmit'
 
 export type TransmitPluginOptions = {
   url: string
@@ -80,8 +81,9 @@ export default class Transmit implements Plugin {
         if (this.updates.full) {
           // Transmit the entire data set
           controller.on('end', () => {
-            ds.transmit(
+            transmit(
               url,
+              ds.data,
               { ...metadata, payload: 'full' },
               { headers: this.headers, encoding: this.encoding },
             )
