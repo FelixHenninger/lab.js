@@ -1,5 +1,5 @@
 import { Store } from '../store'
-import { debounceAsync } from '../util/network'
+import { debounceAsync } from './debounce'
 import { transmit } from './transmit'
 
 export class Connection {

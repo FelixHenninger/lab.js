@@ -1,6 +1,6 @@
 import { Table } from '../store'
 import { cleanData } from '../util/clean'
-import { fetch as fetchRetry } from '../util/network'
+import { fetch as fetchRetry } from './fetch'
 
 export const transmit = function (
   url: string,
