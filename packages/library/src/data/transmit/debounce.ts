@@ -16,15 +16,15 @@ export const debounceAsync = (
   let skipped = false
 
   const invoke = function () {
+    // Reset timer
+    timer = null
+
     if (running && throttle) {
       skipped = true
     } else {
       // Keep hold currently pending resolvers, and reset list
       const pendingResolvers = resolvers
       resolvers = []
-
-      // Reset timer
-      timer = null
 
       // Execute function, capture and pass on result (or error)
       running = true
@@ -40,10 +40,11 @@ export const debounceAsync = (
           }
         })
         .finally(() => {
-          if (skipped && timer === null) {
+          const wasSkipped = skipped
+          running = skipped = false
+          if (wasSkipped && timer === null) {
             flush()
           }
-          running = skipped = false
         })
     }
   }
@@ -51,7 +52,16 @@ export const debounceAsync = (
   const flush = function () {
     timer && clearTimeout(timer)
     if (resolvers.length > 0) {
+      // Create promise that resolves with final flush call
+      const p = new Promise<any>((resolve, reject) => {
+        resolvers.push([resolve, reject])
+      })
+      // Invoke the function once more
       invoke()
+      // Return promise
+      return p
+    } else {
+      return Promise.resolve()
     }
   }
 
@@ -71,7 +81,7 @@ export const debounceAsync = (
 
       // Stop the current and setup a new timer
       timer && clearTimeout(timer)
-      timer = <any>setTimeout(invoke, wait)
+      timer = setTimeout(invoke, wait) as unknown as number
 
       // Save resolvers for future use
       resolvers.push([resolve, reject])
