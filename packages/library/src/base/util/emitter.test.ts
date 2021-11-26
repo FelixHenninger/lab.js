@@ -1,6 +1,6 @@
 import { Emitter } from './emitter'
 
-test('runs handlers in emitter context by default', async () => {
+it('runs handlers in emitter context by default', async () => {
   const e = new Emitter()
   let observedContext: any = undefined
   const handler = function () {
@@ -14,7 +14,7 @@ test('runs handlers in emitter context by default', async () => {
   expect(observedContext).toEqual(e)
 })
 
-test('can run handlers in custom context', async () => {
+it('can run handlers in custom context', async () => {
   let observedContext: any = undefined
   const customContext = {}
   const e = new Emitter('id', { context: customContext })
@@ -30,7 +30,7 @@ test('can run handlers in custom context', async () => {
   expect(observedContext).toEqual(customContext)
 })
 
-test('runs internal event handlers only once if requested', () => {
+it('runs internal event handlers only once if requested', () => {
   const spy = jest.fn()
   const spyOnce = jest.fn()
   const e = new Emitter()
@@ -49,7 +49,7 @@ test('runs internal event handlers only once if requested', () => {
   expect(spyOnce).toBeCalledTimes(1)
 })
 
-test('waits for async event handlers to resolve', async () => {
+it('waits for async event handlers to resolve', async () => {
   let done = false
   const e = new Emitter()
 
@@ -68,7 +68,7 @@ test('waits for async event handlers to resolve', async () => {
   expect(done).toEqual(true)
 })
 
-test('waits for one-shot async event handlers to resolve', async () => {
+it('waits for one-shot async event handlers to resolve', async () => {
   // ... as above, except for the call to once below
   let done = false
   const e = new Emitter()
@@ -88,7 +88,7 @@ test('waits for one-shot async event handlers to resolve', async () => {
   expect(done).toEqual(true)
 })
 
-test('resolves promises via waitFor', async () => {
+it('resolves promises via waitFor', async () => {
   let done = false
   const e = new Emitter()
 
