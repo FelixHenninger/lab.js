@@ -80,85 +80,58 @@ describe('Plugins', () => {
   })
 
   describe('Transmit', () => {
-
-    let c, p
     beforeEach(() => {
-      p = new lab.plugins.Transmit({
-        url: 'https://arbitrary.example',
-      })
-      c = new lab.core.Dummy({
-        plugins: [ p ],
-      })
-
-      return c.prepare().then(() => {
-        sinon.stub(c.internals.controller.global.datastore, 'transmit')
-          .callsFake(() => Promise.resolve())
-
-        sinon.stub(p.queue, 'queueTransmission')
-      })
+      sinon.stub(window, 'fetch').callsFake(() => Promise.resolve())
     })
 
     afterEach(() => {
-      // Cancel transmission queue
-      p.queue.cancel()
-
-      // Restore stubs
-      c.internals.controller.global.datastore.transmit.restore()
-      p.queue.queueTransmission.restore()
+      // Restore stub
+      window.fetch.restore()
     })
 
-    it('queues incremental transmission before epilogue event', () => {
+    const makeExample = async (options={}) => {
+      p = new lab.plugins.Transmit({
+        url: 'https://arbitrary.example',
+        ...options,
+      })
+      c = new lab.core.Dummy({
+        debug: true,
+        plugins: [ p ],
+      })
+
+      await c.prepare()
+      sinon.stub(p.connection, 'enqueue').callsFake(() => Promise.resolve())
+
+      return { c, p }
+    }
+
+    it('queues incremental transmission before epilogue event', async () => {
       // Disable final transmission
-      p.updates.full = false
+      const m = { id: 'abc' }
+      const { c, p } = await makeExample({ updates: { full: false }, metadata: m })
 
-      // Data transmission runs last,
-      // so we need to wait for the corresponding event
-      const endPromise = c.internals.emitter.waitFor('end')
-
-      return c.run().then(() =>
-        endPromise
-      ).then(() => {
-        assert.ok(
-          p.queue.queueTransmission.withArgs(
-            'https://arbitrary.example',
-            { id: p.metadata.id, payload: 'incremental' }
-          ).calledOnce
-        )
-      })
+      await c.run()
+      assert.ok(p.connection.enqueue.calledOnce)
     })
 
-    it('sends complete dataset when component ends', () => {
+    it('sends complete dataset when component ends', async () => {
       // Disable incremental transmissions
-      p.updates.incremental = false
+      const { c } = await makeExample({ updates: { incremental: false }})
 
-      const endPromise = c.internals.emitter.waitFor('end')
-
-      return c.run().then(() =>
-        endPromise,
-      ).then(() => {
-        assert.ok(c.global.datastore.transmit.calledOnce)
-        assert.ok(
-          c.global.datastore.transmit.withArgs(
-            'https://arbitrary.example',
-            { id: p.metadata.id, payload: 'full' },
-          ).calledOnce
-        )
-      })
+      await c.run()
+      assert.ok(window.fetch.calledOnce)
     })
 
-    it('triggers callback after full transmission', () => {
-      const endPromise = c.internals.emitter.waitFor('end')
-      p.callbacks = {
-        full: sinon.spy()
-      }
-
-      return c.run().then(() =>
-        endPromise,
-      ).then(() => {
-        assert.ok(
-          p.callbacks.full.calledOnce
-        )
+    it('triggers callback after full transmission', async () => {
+      const spy = sinon.spy()
+      const { c } = await makeExample({
+        callbacks: {
+          full: spy
+        }
       })
+      await c.run()
+      await new Promise(resolve => setTimeout(resolve, 10))
+      assert.ok(spy.calledOnce) // ONCE
     })
   })
 })
