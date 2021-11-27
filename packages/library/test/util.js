@@ -404,36 +404,6 @@ describe('Utilities', () => {
     })
   })
 
-  describe('Statistics', () => {
-    it('calculates the sum of an array', () => {
-      assert.equal(
-        lab.util.stats.sum([1, 2, 3]),
-        6
-      )
-    })
-
-    it('calculates the mean of an array', () => {
-      assert.equal(
-        lab.util.stats.mean([1, 2, 3]),
-        2
-      )
-    })
-
-    it('calculates the variance of an array', () => {
-      assert.equal(
-        lab.util.stats.variance([1, 2, 3]),
-        2/3
-      )
-    })
-
-    it('calculates the standard deviation of an array', () => {
-      assert.equal(
-        lab.util.stats.std([1, 2, 3]),
-        Math.sqrt(2/3)
-      )
-    })
-  })
-
   describe('Combinatorics', () => {
     it('produces set products', () => {
       // Is a generator
