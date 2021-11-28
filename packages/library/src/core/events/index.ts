@@ -107,7 +107,6 @@ const defaultProcessEvent = (
 
 export type EventMap = { [eventString: string]: (e: Event) => void }
 
-// eslint-disable-next-line import/prefer-default-export
 export class DomConnection {
   el: HTMLElement | Document
   events: EventMap
