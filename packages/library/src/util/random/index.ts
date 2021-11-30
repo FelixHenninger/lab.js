@@ -349,7 +349,7 @@ export class Random {
   // of keys independently.
   shuffleTable(
     table: Record<string, any>[],
-    columnGroups: string[] = [],
+    columnGroups: string[][] = [],
     shuffleUngrouped = true,
   ) {
     // Split data into independent groups
