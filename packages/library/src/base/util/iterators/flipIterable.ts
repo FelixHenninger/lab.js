@@ -53,12 +53,13 @@ export class FlipIterable {
                 break
               case 'run':
                 c.internals.emitter.on('end:uncontrolled', triggerContinue)
-                incoming.push(c)
                 context = c.enterContext(context)
                 await c.run({
                   controlled: true,
                   ...flipData,
                 })
+                // Only add component to incoming if run was successful
+                incoming.push(c)
                 break
               default:
             }
