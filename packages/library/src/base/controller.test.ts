@@ -1,4 +1,14 @@
 import { Component } from './component'
+import { Controller } from './controller'
+
+test('can build experiment with explicit controller', async () => {
+  const study = new Component()
+  const c = new Controller({ root: study })
+
+  await c.run()
+  expect(study.internals.controller).toEqual(c)
+  expect(study.global).toEqual(c.global)
+})
 
 test('runs skipped components in sequence', async () => {
   const a = new Component({ id: 'a', skip: true })
