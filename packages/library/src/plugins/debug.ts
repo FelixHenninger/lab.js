@@ -257,9 +257,9 @@ export default class Debug {
     this.container.innerHTML = payload
 
     // Toggle visibility of debug window on clicks
-    Array.from(
-      this.container.querySelectorAll('.labjs-debug-toggle'),
-    ).forEach(e => e.addEventListener('click', () => this.toggle()))
+    Array.from(this.container.querySelectorAll('.labjs-debug-toggle')).forEach(
+      e => e.addEventListener('click', () => this.toggle()),
+    )
 
     this.container
       .querySelector('.labjs-debug-overlay-menu')!
@@ -327,9 +327,8 @@ export default class Debug {
           // Pull index from data attribute
           const index = e.target.dataset['labjsDebugBreadcrumb']!
           // Access corresponding component
-          const component = this.context?.internals.controller.currentStack[
-            index
-          ]
+          const component =
+            this.context?.internals.controller.currentStack[index]
           // Trigger abort for this component
           this.context?.internals.controller.jump('abort', {
             sender: component,

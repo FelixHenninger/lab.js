@@ -50,7 +50,7 @@ export class CommandIterable {
         [number, Component]
       >
       // ... until we find a matching id
-      const [{ done, value, }, ] = fastForward(
+      const [{ done, value }] = fastForward(
         iterator,
         ([, component]) => component.id === ids[currentLevel - 1],
       )
