@@ -40,7 +40,7 @@ const globalDefaults = {
   parameters: [
     { name: '', value: '', type: 'string' },
   ],
-  messageHandlers: [
+  hooks: [
     { title: '', message: '', code: '' },
   ],
 }
@@ -52,7 +52,7 @@ export const metadata = {
     category: 'Flow',
     icon: 'repeat',
     minChildren: 1,
-    maxChildren: 1,
+    maxChildren: Infinity,
     tabs: defaultTabs,
     defaultTab: 'Content',
     defaults: {
@@ -102,7 +102,6 @@ export const metadata = {
           <button type="submit">Submit</button>
         </form>
       `,
-      scrollTop: true,
       ...globalDefaults,
     },
   },
@@ -112,7 +111,7 @@ export const metadata = {
     category: 'HTML',
     icon: 'expand-wide',
     minChildren: 1,
-    maxChildren: 1,
+    maxChildren: Infinity,
     tabs: defaultTabs,
     defaultTab: 'Content',
     defaults: {
@@ -166,7 +165,7 @@ export const metadata = {
     category: 'Canvas',
     icon: 'expand-wide',
     minChildren: 1,
-    maxChildren: 1,
+    maxChildren: Infinity,
     tabs: defaultTabs,
     defaultTab: 'Content',
     defaults: {

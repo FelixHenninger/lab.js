@@ -92,28 +92,20 @@ const customLaunchers = {
     deviceOrientation: 'portrait'
   },
   */
-  sl_ios_11: {
-    base: 'SauceLabs',
-    browserName: 'Safari',
-    platform: 'iOS',
-    version: '11.3',
-    deviceName: 'iPhone X Simulator',
-    deviceOrientation: 'portrait'
-  },
-  sl_ios_12: {
-    base: 'SauceLabs',
-    browserName: 'Safari',
-    platform: 'iOS',
-    version: '12.2',
-    deviceName: 'iPhone XS Simulator',
-    deviceOrientation: 'portrait'
-  },
   sl_ios_13: {
     base: 'SauceLabs',
     browserName: 'Safari',
     platform: 'iOS',
-    version: '13.0',
-    deviceName: 'iPhone XS Simulator',
+    version: '13.4',
+    deviceName: 'iPhone 11 Simulator',
+    deviceOrientation: 'portrait'
+  },
+  sl_ios_14: {
+    base: 'SauceLabs',
+    browserName: 'Safari',
+    platform: 'iOS',
+    version: '14.5',
+    deviceName: 'iPhone 12 Simulator',
     deviceOrientation: 'portrait'
   },
 }

@@ -7,6 +7,7 @@ import { Input } from '../../../Form'
 import { Table, DefaultRow } from '../../../Form/table'
 import Card from '../../../Card'
 import Editor from '../../../Editor'
+import HookDropdown from './HookDropdown'
 
 import { adaptiveFunction } from '../../../../logic/util/async'
 
@@ -74,18 +75,7 @@ const GridRow = ({ index, name, arrayHelpers }) =>
         />
       </Col>
       <Col xs="6">
-        <Field
-          name={ `${ name }.message` } as="select"
-          className="text-monospace form-control custom-select"
-        >
-          <option value="">event</option>
-          <option value="before:prepare">before:prepare</option>
-          <option value="after:prepare">after:prepare</option>
-          <option value="run">run</option>
-          <option value="end">end</option>
-          <option value="after:end">after:end</option>
-          <option value="commit">commit</option>
-        </Field>
+        <HookDropdown name={ `${ name }.message` } />
       </Col>
     </Row>
     <WrappedEditor
@@ -97,10 +87,10 @@ export default ({ id, data }) =>
   <Card title="Scripts" wrapContent={ false }>
     <Form
       id={ id } data={ data }
-      keys={ ['messageHandlers'] }
+      keys={ ['hooks'] }
     >
       <Table
-        name="messageHandlers"
+        name="hooks"
         defaultItem={{ title: '', message: '', code: '' }}
         row={ GridRow }
         className="no-header"

@@ -34,6 +34,8 @@ jobs:
         run: (cd packages/library && yarn build:starterkit)
       - name: Run library unit tests
         run: (cd packages/library && yarn test)
+      - name: Run library core tests
+        run: (cd packages/library && yarn test:base)
       - name: Connect to saucelabs for automated browser testing
         uses: saucelabs/sauce-connect-action@v1
         with:

@@ -122,17 +122,6 @@ main {
   }
 }
 
-/* Flexbox fix for IE11, per https://github.com/philipwalton/flexbugs */
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-  body {
-    display: flex;
-  }
-  .container.fullscreen {
-    /* IE11 miscalculates the height, so add some slack */
-    min-height: calc(100vh - 3 * var(--padding-internal));
-  }
-}
-
 /* Borders and backgrounds */
 .container {
   border: 1px solid var(--color-border);

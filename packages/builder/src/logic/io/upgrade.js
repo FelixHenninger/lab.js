@@ -474,7 +474,11 @@ const updates = {
     ...data,
     version: [20, 2, 3],
   }),
-  '20.2.3': data => {
+  '20.2.3': data => ({
+    ...data,
+    version: [20, 2, 4],
+  }),
+  '20.2.4': data => {
     // Remove legacy library builds
     delete data.files.bundledFiles['lib/lab.fallback.js']
     delete data.files.bundledFiles['lib/lab.legacy.js']
@@ -496,6 +500,35 @@ const updates = {
       return c
     })
   }),
+  '21.alpha.1': data => ({
+    // Rename messageHandlers option to hooks
+    ...data,
+    version: [21, 'alpha', 2],
+    components: mapValues(data.components, c => {
+      if (c.messageHandlers) {
+        c.hooks = c.messageHandlers
+        delete c.messageHandlers
+      }
+      return c
+    })
+  }),
+  '21.alpha.2': data => ({
+    ...data,
+    version: [21, 'alpha', 3],
+    components: mapValues(data.components, c => {
+      if (c.hooks) {
+        c.hooks = c.hooks.map((h) => {
+          if (h.message === 'commit' || h.message === 'after:end') {
+            return { ...h, message: 'lock' }
+          } else {
+            return h
+          }
+        })
+        console.log('new hooks', c.hooks)
+      }
+      return c
+    })
+  })
 }
 
 export default (data) => {

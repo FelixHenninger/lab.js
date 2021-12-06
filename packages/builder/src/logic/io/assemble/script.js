@@ -24,9 +24,9 @@ const processFiles = files =>
     files.map(f => [f.localPath.trim(), f.poolPath.trim()])
   )
 
-const processMessageHandlers = (messageHandlers) =>
+const processHooks = (hooks) =>
   fromPairs(
-    messageHandlers
+    hooks
       .filter(h => h.message.trim() !== '' && h.code.trim() !== '')
       // TODO: Evaluate the safety implications
       // of the following de-facto-eval.
@@ -53,7 +53,7 @@ const createResponsePair = r =>
     `${ r.event }` +
       `${ r.filter ? `(${ r.filter.trim() })` : ''}` +
       `${ r.target ? ` ${ r.target.trim() }`  : ''}`,
-    r.label.trim()
+    r.label?.trim() ?? ''
   ]
 
 // Process individual fields
@@ -143,9 +143,9 @@ const processNode = node => {
     files: node.files
       ? processFiles(node.files)
       : {},
-    messageHandlers: node.messageHandlers
-      ? processMessageHandlers(node.messageHandlers)
-      : node.messageHandlers,
+    hooks: node.hooks
+      ? processHooks(node.hooks)
+      : node.hooks,
     parameters: node.parameters
       ? processParameters(node.parameters)
       : {},
@@ -180,31 +180,23 @@ const makeComponentTree = (data, root) => {
     if (currentNode.children) {
       switch (currentNode.type) {
         case 'lab.flow.Sequence':
-          // A sequence can have several components as content
+        case 'lab.canvas.Frame':
+        case 'lab.html.Frame':
+          // Sequence and frames can have several components as content
           output.content = currentNode.children
             .map(c => makeComponentTree(data, c))
           break
         case 'lab.flow.Loop':
-          // A loop has a single template
-          if (!isEmpty(currentNode.children)) {
-            output.template = makeComponentTree(data, currentNode.children[0])
-          }
-          break
-        case 'lab.canvas.Frame':
-        case 'lab.html.Frame':
-          // A loop has a single template
-          if (!isEmpty(currentNode.children)) {
-            output.content = makeComponentTree(data, currentNode.children[0])
-          }
+          // A loop has a template array
+          output.template = currentNode.children
+            .map(c => makeComponentTree(data, c))
           break
         default:
-          // TODO: This won't catch canvas-based
-          // components, but it also doesn't need
-          // to right now.
+          console.log(`Unexpectedly found nested components on ${currentNode.type}`)
           break
       }
 
-      // After parsing, children components are no longer needed
+      // After parsing, nested components are no longer needed
       delete output.children
     }
 
@@ -225,7 +217,7 @@ export const makeStudyTree = (state) => {
 
 const makeStudyScript = studyTree =>
 `// Define study
-const study = lab.util.fromObject(${ studyTree })
+const study = lab.core.deserialize(${ studyTree })
 
 // Let's go!
 study.run()`

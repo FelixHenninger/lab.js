@@ -1,110 +1,39 @@
 import React, { useState } from 'react'
 
-import { Field } from 'formik'
-import { FormGroup, Label, Col, Button } from 'reactstrap'
-import { fromPairs } from 'lodash'
+import { Button } from 'reactstrap'
+import { fromPairs, set } from 'lodash'
 
 import Card from '../../../Card'
 import Form from '../Form'
 import Icon from '../../../Icon'
-
-import { Input } from '../../../Form'
 import { Table, DefaultRow } from '../../../Form/table'
-import PluginAddModal from './modal'
+
 import { loadPlugin } from '../../../../logic/plugins/library'
+import PluginHint from './hint'
+import PluginAddModal from './modal'
 
-const PluginHeader = ({ metadata }) =>
-  <>
-    <h3 className="h5 mt-2">
-      { metadata.title }
-      {
-        metadata.description
-          && <small className="text-muted"> · { metadata.description }</small>
-      }
-    </h3>
-    { Object.entries(metadata.options).length > 0 && <hr className="my-3" /> }
-  </>
-
-const PluginHint = ({ visible }) =>
-  visible
-    ? <div className="text-center p-5 pb-2">
-        <Icon
-          icon="plug"
-          className="d-block text-muted p-3"
-          style={{
-            fontSize: '3.5rem',
-          }}
-        />
-        <div className="text-muted">
-          <strong>
-            Plugins extend components' functionality
-          </strong><br />
-          <small>Please click below to add one.</small>
-        </div>
-      </div>
-    : null
-
- const PluginControl = ({ name, type, options=[], placeholder }) => {
-    switch (type) {
-      case 'select':
-        return <Field
-          name={ name } as="select"
-          className="form-control custom-select text-monospace"
-        >
-          {
-            options.map(o =>
-              <option key={ `${ name }-${ o.coding }` } value={ o.coding }>
-                { o.label }
-              </option>
-            )
-          }
-        </Field>
-      default:
-        return <Field
-          name={ name }
-          component={ Input }
-          placeholder={ placeholder }
-          className="text-monospace"
-        />
-    }
-  }
-
-const PluginOption = (props) =>
-  <FormGroup row>
-    <Label for={ props.option } sm={ 3 }>{ props.label }</Label>
-    <Col sm={ 9 }>
-      <PluginControl { ...props } />
-      {
-        props.help &&
-          <small className="form-text text-muted">{ props.help }</small>
-      }
-    </Col>
-  </FormGroup>
-
-const PluginBody = ({ name, index, metadata }) =>
-  <>
-    {
-      Object.entries(metadata.options).map(
-        ([optionName, { default: defaultValue, ...optionProps }]) =>
-          <PluginOption
-            key={ `plugin-${ index }-${ optionName }` }
-            name={ `${ name }.${ optionName }` }
-            defaultValue={ defaultValue }
-            { ...optionProps }
-          />
-      )
-    }
-  </>
+import GenericPlugin from './generic'
+import StylePlugin from './custom/style'
 
 export const PluginRow = ({ index, name, data, arrayHelpers }) => {
   const metadata = loadPlugin(data.type)
 
+  let Component
+  switch(data.type) {
+    case 'style':
+      Component = StylePlugin
+      break
+    default:
+      Component = GenericPlugin
+  }
+
   return (
     <DefaultRow index={ index } arrayHelpers={ arrayHelpers }>
-      <PluginHeader metadata={ metadata } />
-      <PluginBody
-        name={ name } index={ index }
-        data={ data } metadata={ metadata }
+      <Component
+        index={ index }
+        name={ name }
+        data={ data }
+        metadata={ metadata }
       />
     </DefaultRow>
   )
@@ -113,13 +42,14 @@ export const PluginRow = ({ index, name, data, arrayHelpers }) => {
 const getDefaultSettings = (pluginType) => {
   const metadata = loadPlugin(pluginType)
 
-  return {
-    type: pluginType,
-    ...fromPairs(
-      Object.entries(metadata.options)
-        .map(([k, v]) => [k, v.default || ''])
-    ),
+  const output = {
+    type: pluginType
   }
+
+  Object.entries(metadata.options)
+    .forEach(([k, v]) => set(output, k, v.default ?? ''))
+
+  return output
 }
 
 export const PluginFooter = ({ addItem }) => {
@@ -152,7 +82,7 @@ export const PluginFooter = ({ addItem }) => {
 }
 
 export default ({ id, data }) =>
-  <Card title="Plugins" badge="Beta" wrapContent={ false }>
+  <Card title="Plugins" wrapContent={ false }>
     <Form
       id={ id } data={ data }
       keys={ ['plugins'] }

@@ -4,6 +4,19 @@
 define(['lab'], (lab) => {
 
 describe('Plugins', () => {
+
+  // Inject a div in which DOM behavior is tested
+  let demoElement
+  beforeEach(() => {
+    demoElement = document.createElement('div')
+    demoElement.dataset.labjsSection = 'main'
+    document.body.appendChild(demoElement)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(demoElement)
+  })
+
   describe('Logger', () => {
     let fakeLog
     beforeEach(() => {
@@ -21,7 +34,7 @@ describe('Plugins', () => {
         ],
       })
 
-      c.trigger('SomeEvent')
+      c.internals.emitter.trigger('SomeEvent')
 
       assert.ok(
         fakeLog
@@ -41,7 +54,7 @@ describe('Plugins', () => {
 
       return c.prepare().then(() => {
         assert.include(
-          c.options.datastore.staging.meta,
+          c.global.datastore.staging.meta,
           { userAgent: window.navigator.userAgent },
         )
       })
@@ -59,7 +72,7 @@ describe('Plugins', () => {
 
       return c.prepare().then(() => {
         assert.deepEqual(
-          c.options.datastore.staging.url,
+          c.global.datastore.staging.url,
           { foo: 'bar', baz: '123' }
         )
       })
@@ -74,25 +87,24 @@ describe('Plugins', () => {
         url: 'https://arbitrary.example',
       })
       c = new lab.core.Dummy({
-        datastore: new lab.data.Store(),
         plugins: [ p ],
       })
 
       return c.prepare().then(() => {
-        sinon.stub(c.options.datastore, 'transmit')
+        sinon.stub(c.internals.controller.global.datastore, 'transmit')
           .callsFake(() => Promise.resolve())
 
-        sinon.stub(c.options.datastore, 'queueIncrementalTransmission')
+        sinon.stub(p.queue, 'queueTransmission')
       })
     })
 
     afterEach(() => {
       // Cancel transmission queue
-      c.options.datastore._debouncedTransmit.cancel()
+      p.queue.cancel()
 
       // Restore stubs
-      c.options.datastore.transmit.restore()
-      c.options.datastore.queueIncrementalTransmission.restore()
+      c.internals.controller.global.datastore.transmit.restore()
+      p.queue.queueTransmission.restore()
     })
 
     it('queues incremental transmission before epilogue event', () => {
@@ -101,13 +113,13 @@ describe('Plugins', () => {
 
       // Data transmission runs last,
       // so we need to wait for the corresponding event
-      const epiloguePromise = c.waitFor('epilogue')
+      const endPromise = c.internals.emitter.waitFor('end')
 
       return c.run().then(() =>
-        epiloguePromise
+        endPromise
       ).then(() => {
         assert.ok(
-          c.options.datastore.queueIncrementalTransmission.withArgs(
+          p.queue.queueTransmission.withArgs(
             'https://arbitrary.example',
             { id: p.metadata.id, payload: 'incremental' }
           ).calledOnce
@@ -119,22 +131,14 @@ describe('Plugins', () => {
       // Disable incremental transmissions
       p.updates.incremental = false
 
-      const epiloguePromise = c.waitFor('epilogue')
+      const endPromise = c.internals.emitter.waitFor('end')
 
       return c.run().then(() =>
-        // TODO: This is super-hacky, basically it's very hard
-        // to wait for the epilogue event to occur before
-        // triggering the tests. So here, we don't just wait
-        // for the epilogue event, but for a minimum of 200ms.
-        // There really should be a better way of handling this.
-        Promise.all([
-          epiloguePromise,
-          new Promise(resolve => window.setTimeout(resolve, 50)),
-        ])
+        endPromise,
       ).then(() => {
-        assert.ok(c.options.datastore.transmit.calledOnce)
+        assert.ok(c.global.datastore.transmit.calledOnce)
         assert.ok(
-          c.options.datastore.transmit.withArgs(
+          c.global.datastore.transmit.withArgs(
             'https://arbitrary.example',
             { id: p.metadata.id, payload: 'full' },
           ).calledOnce
@@ -143,17 +147,13 @@ describe('Plugins', () => {
     })
 
     it('triggers callback after full transmission', () => {
-      const epiloguePromise = c.waitFor('epilogue')
+      const endPromise = c.internals.emitter.waitFor('end')
       p.callbacks = {
         full: sinon.spy()
       }
 
       return c.run().then(() =>
-        // TODO: As above
-        Promise.all([
-          epiloguePromise,
-          new Promise(resolve => window.setTimeout(resolve, 200)),
-        ])
+        endPromise,
       ).then(() => {
         assert.ok(
           p.callbacks.full.calledOnce
