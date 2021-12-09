@@ -11,13 +11,15 @@ interface TimelineIterator<T> extends Iterator<(T | NestedIterable<T>)[]> {
 
 export class SliceIterator<T> {
   #root: NestedIterable<T>
+  #extractIterator: (v: NestedIterable<T>) => Iterator<T | NestedIterable<T>>
 
   constructor(root: NestedIterable<T>) {
     this.#root = root
+    this.#extractIterator = v => v[Symbol.iterator]()
   }
 
   [Symbol.iterator](): TimelineIterator<T> {
-    const iteratorStack = [this.#root[Symbol.iterator]()]
+    const iteratorStack = [this.#extractIterator(this.#root)]
     const outputStack: (T | NestedIterable<T>)[] = [this.#root]
     let tempLeaf: T | undefined = undefined
 
@@ -42,7 +44,7 @@ export class SliceIterator<T> {
           } else {
             if (Symbol.iterator in value) {
               outputStack.push(value)
-              iteratorStack.push(value[Symbol.iterator]())
+              iteratorStack.push(this.#extractIterator(value))
             } else {
               return { value: [...outputStack, value], done: false }
             }
