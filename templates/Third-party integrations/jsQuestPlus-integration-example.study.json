@@ -1,0 +1,558 @@
+{
+  "components": {
+    "1": {
+      "id": "1",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "i-text",
+          "version": "4.3.1",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": -75,
+          "width": 649.02,
+          "height": 245.89,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeUniform": false,
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "skewX": 0,
+          "skewY": 0,
+          "text": "The psychometric parameters have been \nestimated to be:\n\nThreshold = ${state.threshold}\nC0 = ${state.c0}\nCf = ${state.cf}",
+          "fontSize": 32,
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "204",
+          "styles": {}
+        },
+        {
+          "type": "i-text",
+          "version": "4.3.1",
+          "originX": "center",
+          "originY": "center",
+          "left": 12,
+          "top": 165,
+          "width": 361.06,
+          "height": 36.16,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeUniform": false,
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "skewX": 0,
+          "skewY": 0,
+          "text": "Press any key to finish.",
+          "fontSize": 32,
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "223",
+          "styles": {}
+        }
+      ],
+      "viewport": [
+        800,
+        600
+      ],
+      "files": [],
+      "responses": [
+        {
+          "label": "",
+          "event": "keypress",
+          "target": "",
+          "filter": ""
+        }
+      ],
+      "parameters": [
+        {
+          "name": "",
+          "value": "",
+          "type": "string"
+        }
+      ],
+      "messageHandlers": [
+        {
+          "title": "",
+          "message": "run",
+          "code": ""
+        }
+      ],
+      "title": "Debriefing",
+      "_tab": "Content",
+      "tardy": true
+    },
+    "2": {
+      "id": "2",
+      "type": "lab.html.Screen",
+      "files": [],
+      "responses": [
+        {
+          "label": "",
+          "event": "keypress",
+          "target": "",
+          "filter": ""
+        }
+      ],
+      "parameters": [
+        {
+          "name": "",
+          "value": "",
+          "type": "string"
+        }
+      ],
+      "messageHandlers": [
+        {
+          "title": "",
+          "message": "before:prepare",
+          "code": "// Psychometric function corresponding to the first response (response = 0)\r\n// You can specify the function or use the weibull/normcdf function jsQuestPlus provides.\r\nfunction func_resp0(freq, contrast, threshold, c0, cf){\r\n    const max = Math.max(threshold, c0 + cf*freq)\r\n    return jsQuestPlus.weibull(contrast, max, 3, 0.5, 0.01)\r\n}\r\n\r\n// Psychometric function corresponding to the second response (response = 1).\r\nfunction func_resp1(freq, contrast, threshold, c0, cf){\r\n    return 1 - func_resp0(freq, contrast, threshold, c0, cf) \r\n}\r\n\r\nconst spatial_frequency = jsQuestPlus.array(0, 2, 40) // [0, 2, 4, ..., 38, 40]\r\nconst contrast = jsQuestPlus.array(-50, 2, 0) // [-50, -48, -46, ..., -2, 0]\r\nconst threshold = jsQuestPlus.array(-50, 2, -30) // [-50, -48, -46, ..., -32, -30]\r\nconst c0 = jsQuestPlus.array(-60, 2, -40) // [-60, -58, -56, ..., -42, -40]\r\nconst cf = jsQuestPlus.array(0.8, 0.2, 1.6) // [0.8, 1, 1.2, 1.4, 1.6]\r\n\r\n// jsqp means jsQuestPlus. You can use any variable name you like.\r\nwindow.jsqp = new jsQuestPlus([func_resp0, func_resp1], [spatial_frequency, contrast], [threshold, c0, cf])\r\n\r\nwindow.trial_num = 0"
+        }
+      ],
+      "title": "jsQuestPlus initialization",
+      "content": "<h1>QUEST+</h1>\r\n<p>Using adaptive psychometric procedures, the experimenter can estimate the parameters of the psychometric function based on the outcome of the preceding trials. <a href=\"https://jov.arvojournals.org/article.aspx?articleid=2611972\">Watson (2017)</a> reported an adaptive psychometric method named QUEST+ which uses a Bayesian method. jsQuestPlus is a JavaScript library for the QUEST+ method. </p>\r\n\r\n<h1>Demonstration</h1>\r\n<p>This program simulates Watson (2017)'s fourth example: \"Contrast sensitivity function {2, 3, 2}\".</p>\r\n<ul>\r\n  <li>The number of stimulus parameters is 2 (Spatial frequency and Contrast).</li>\r\n  <li>The number of psychometric parameters is 3 (Threshold, c0, cf).</li>\r\n  <li>The number of responses is 2 (2AFC).</li>\r\n</ul>\r\n<p>In Watson (2017), the trial was repeated 32 times, while it is repeated 10 times in this demo. The simulated responses are predetermined. The psychometric parameters, threshold, c0, and cf would be estimated as -36, -56, and 1.4, respectively.</p>\r\n\r\n<h2>Press any key to start.</h2>",
+      "_tab": "Scripts"
+    },
+    "6": {
+      "id": "6",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "7",
+        "12"
+      ],
+      "files": [],
+      "responses": [
+        {
+          "label": "",
+          "event": "",
+          "target": "",
+          "filter": ""
+        }
+      ],
+      "parameters": [
+        {
+          "name": "",
+          "value": "",
+          "type": "string"
+        }
+      ],
+      "messageHandlers": [
+        {
+          "title": "",
+          "message": "",
+          "code": ""
+        }
+      ],
+      "title": "Sequence",
+      "_tab": "Scripts"
+    },
+    "7": {
+      "id": "7",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "i-text",
+          "version": "4.3.1",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 0,
+          "width": 25.72,
+          "height": 36.16,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeUniform": false,
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "skewX": 0,
+          "skewY": 0,
+          "text": "+",
+          "fontSize": 32,
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "13",
+          "styles": {}
+        }
+      ],
+      "viewport": [
+        800,
+        600
+      ],
+      "files": [],
+      "responses": [
+        {
+          "label": "",
+          "event": "",
+          "target": "",
+          "filter": ""
+        }
+      ],
+      "parameters": [
+        {
+          "name": "",
+          "value": "",
+          "type": "string"
+        }
+      ],
+      "messageHandlers": [
+        {
+          "title": "",
+          "message": "run",
+          "code": "// Before presenting the stimulus, the stimulus parameters need to be determined.\r\nwindow.stim = window.jsqp.getStimParams()\r\n"
+        }
+      ],
+      "title": "fixation",
+      "_tab": "Scripts",
+      "timeout": "1000"
+    },
+    "9": {
+      "id": "9",
+      "type": "lab.flow.Loop",
+      "children": [
+        "6"
+      ],
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "repetition",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "1"
+          ],
+          [
+            "2"
+          ],
+          [
+            "3"
+          ],
+          [
+            "4"
+          ],
+          [
+            "5"
+          ],
+          [
+            "6"
+          ],
+          [
+            "7"
+          ],
+          [
+            "8"
+          ],
+          [
+            "9"
+          ],
+          [
+            "10"
+          ]
+        ]
+      },
+      "sample": {
+        "mode": "sequential"
+      },
+      "files": [],
+      "responses": [
+        {
+          "label": "",
+          "event": "",
+          "target": "",
+          "filter": ""
+        }
+      ],
+      "parameters": [
+        {
+          "name": "",
+          "value": "",
+          "type": "string"
+        }
+      ],
+      "messageHandlers": [
+        {
+          "title": "",
+          "message": "",
+          "code": ""
+        }
+      ],
+      "title": "Loop",
+      "_tab": "Behavior"
+    },
+    "12": {
+      "id": "12",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "i-text",
+          "version": "4.3.1",
+          "originX": "center",
+          "originY": "center",
+          "left": -100,
+          "top": -250,
+          "width": 526.88,
+          "height": 36.16,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeUniform": false,
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "skewX": 0,
+          "skewY": 0,
+          "text": "Trial ${parameters.repetition}/10",
+          "fontSize": 32,
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "213",
+          "styles": {}
+        },
+        {
+          "type": "i-text",
+          "version": "4.3.1",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 25,
+          "width": 787.98,
+          "height": 288.56,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeUniform": false,
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "skewX": 0,
+          "skewY": 0,
+          "text": "The following stimulus parameters have been determined\nbased on the outcome of the preceding trials.\n\n Spatial frequency = ${window.stim[0]}\nContrast = ${window.stim[1]}\n\n\nPress any key to continue.",
+          "fontSize": "28",
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "225",
+          "styles": {}
+        }
+      ],
+      "viewport": [
+        800,
+        600
+      ],
+      "files": [],
+      "responses": [
+        {
+          "label": "f",
+          "event": "keypress",
+          "target": "",
+          "filter": "f"
+        },
+        {
+          "label": "j",
+          "filter": "j",
+          "event": "keypress"
+        },
+        {
+          "filter": "",
+          "event": "keypress",
+          "label": "anykey"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "",
+          "value": "",
+          "type": "string"
+        }
+      ],
+      "messageHandlers": [
+        {
+          "title": "",
+          "message": "run",
+          "code": "// Don't forget to check the tardy box to reflect the results of jsQuestPlus on the screen!\r\n// See. https://labjs.readthedocs.io/en/latest/learn/builder/7-feedback.html\r\n\r\n// The next 32 responses are consistent with those described in Watson (2017). However, this demo is restricted to the first 10 responses.\r\nconst simulated_answers = [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1]\r\n\r\nconst resp = simulated_answers[window.trial_num]\r\nwindow.trial_num++\r\n\r\n// % Update the data\r\nwindow.jsqp.update(window.stim, resp)\r\n\r\n// In this demo, the psychometric parameters are estimated every trial, but in a real experiment, it is sufficient to estimate them only once at the end of the experiment.\r\nconst estimates = jsqp.getEstimates()\r\n\r\n// store the stimulus parameters\r\nthis.parameters.spatial_frequency = stim[0]\r\nthis.parameters.contrast = stim[1]\r\n// store the psychometric parameters\r\nthis.parameters.threshold = estimates[0]\r\nthis.parameters.c0 = estimates[1]\r\nthis.parameters.cf = estimates[2]\r\n"
+        }
+      ],
+      "title": "Screen",
+      "_tab": "Scripts",
+      "tardy": true,
+      "timeout": ""
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "2",
+        "9",
+        "1"
+      ],
+      "parameters": [],
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "",
+        "description": "",
+        "repository": "",
+        "contributors": ""
+      }
+    }
+  },
+  "version": [
+    20,
+    2,
+    4
+  ],
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20viewport%20setup%20--%3E%0A%20%20%3Cmeta%20name%3D%22viewport%22%20content%3D%22width%3Ddevice-width%2C%20initial-scale%3D1%22%3E%0A%20%20%3Cscript%20src%3D%22https%3A%2F%2Fwww.hes.kyushu-u.ac.jp%2F~kurokid%2FjsQuestPlus%2Fdist%2FjsQuestPlus.js%22%3E%3C%2Fscript%3E%0A%20%20%3C!--%20lab.js%20library%20and%20experiment%20code%20--%3E%0A%20%20%24%7B%20header%20%7D%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "source": "library"
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F",
+        "source": "library"
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.fallback.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      }
+    }
+  }
+}
