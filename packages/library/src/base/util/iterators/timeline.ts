@@ -1,7 +1,7 @@
 import { fastForward } from './fastforward'
 
 interface NestedIterable<T> extends Iterable<T | NestedIterable<T>> {}
-interface TimelineIterator<T> extends Iterator<(T | NestedIterable<T>)[]> {
+interface TimelineIterator<T> extends AsyncIterator<(T | NestedIterable<T>)[]> {
   splice: (level: number) => void
   findSplice: (value: T | NestedIterable<T>) => void
   fastForward: (
@@ -11,20 +11,33 @@ interface TimelineIterator<T> extends Iterator<(T | NestedIterable<T>)[]> {
 
 export class SliceIterator<T> {
   #root: NestedIterable<T>
-  #extractIterator: (v: NestedIterable<T>) => Iterator<T | NestedIterable<T>>
+  #extractIterator: (
+    v: NestedIterable<T>,
+  ) => Promise<Iterator<T | NestedIterable<T>>>
 
   constructor(root: NestedIterable<T>) {
     this.#root = root
-    this.#extractIterator = v => v[Symbol.iterator]()
+    this.#extractIterator = async v => v[Symbol.iterator]()
   }
 
-  [Symbol.iterator](): TimelineIterator<T> {
-    const iteratorStack = [this.#extractIterator(this.#root)]
-    const outputStack: (T | NestedIterable<T>)[] = [this.#root]
+  [Symbol.asyncIterator](): TimelineIterator<T> {
+    // Since initialization is syncronous, we need to
+    // do initial setup on the first call to next()
+    let initialized = false
+
+    // Setup empty stacks for iterator and output
+    const iteratorStack: Iterator<T | NestedIterable<T>>[] = []
+    const outputStack: (T | NestedIterable<T>)[] = []
     let tempLeaf: T | undefined = undefined
 
     return {
-      next: (): IteratorResult<(T | NestedIterable<T>)[]> => {
+      next: async (): Promise<IteratorResult<(T | NestedIterable<T>)[]>> => {
+        if (!initialized) {
+          iteratorStack.push(await this.#extractIterator(this.#root))
+          outputStack.push(this.#root)
+          initialized = true
+        }
+
         // If another method has created a temporary stack,
         // output that, and then make sure we return to
         // normal iteration on the next call.
@@ -44,7 +57,7 @@ export class SliceIterator<T> {
           } else {
             if (Symbol.iterator in value) {
               outputStack.push(value)
-              iteratorStack.push(this.#extractIterator(value))
+              iteratorStack.push(await this.#extractIterator(value))
             } else {
               return { value: [...outputStack, value], done: false }
             }

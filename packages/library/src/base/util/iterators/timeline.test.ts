@@ -4,6 +4,12 @@ type TestObject = {
   id: string
 }
 
+async function asyncArrayFrom<T> (asyncIterator: AsyncIterable<T>): Promise<T[]> {
+  const arr = []
+  for await (const v of asyncIterator) arr.push(v)
+  return arr
+}
+
 const makeExample = () => {
   const c1 = { id: 'c1' }
   const c2 = { id: 'c2' }
@@ -17,58 +23,58 @@ const makeExample = () => {
   return { a1, b1, b2, c1, c2, c3 }
 }
 
-it('works with array tree', () => {
+it('works with array tree', async () => {
   const { a1, b1, b2, c1, c2, c3 } = makeExample()
 
   const s = new SliceIterator(a1)
-  const output = Array.from(s)
+  const output = await asyncArrayFrom(s)
 
   expect(output[0]).toEqual([a1, b1, c1])
   expect(output[1]).toEqual([a1, b1, c2])
   expect(output[2]).toEqual([a1, b2, c3])
 })
 
-it('can splice a tree based on level index', () => {
+it('can splice a tree based on level index', async () => {
   const { a1, b1, b2, c1, c3 } = makeExample()
 
   const s = new SliceIterator(a1)
 
-  const iterator = s[Symbol.iterator]()
+  const iterator = s[Symbol.asyncIterator]()
 
-  expect(iterator.next()?.value).toEqual([a1, b1, c1])
+  expect((await iterator.next())?.value).toEqual([a1, b1, c1])
   iterator.splice(1)
-  expect(iterator.next()?.value).toEqual([a1, b2, c3])
+  expect((await iterator.next())?.value).toEqual([a1, b2, c3])
 })
 
-it('can splice a tree based on an intermediate object', () => {
+it('can splice a tree based on an intermediate object', async () => {
   const { a1, b1, b2, c1, c3 } = makeExample()
 
   const s = new SliceIterator(a1)
 
-  const iterator = s[Symbol.iterator]()
-  expect(iterator.next()?.value).toEqual([a1, b1, c1])
+  const iterator = s[Symbol.asyncIterator]()
+  expect((await iterator.next())?.value).toEqual([a1, b1, c1])
   iterator.findSplice(b1)
-  expect(iterator.next()?.value).toEqual([a1, b2, c3])
+  expect((await iterator.next())?.value).toEqual([a1, b2, c3])
 })
 
-it('ends iteration after top-level splice', () => {
+it('ends iteration after top-level splice', async () => {
   const { a1, b1, c1 } = makeExample()
 
   const s = new SliceIterator<TestObject>(a1)
 
-  const iterator = s[Symbol.iterator]()
-  expect(iterator.next()?.value).toEqual([a1, b1, c1])
+  const iterator = s[Symbol.asyncIterator]()
+  expect((await iterator.next())?.value).toEqual([a1, b1, c1])
   iterator.findSplice(a1)
-  expect(iterator.next()?.done).toEqual(true)
+  expect((await iterator.next())?.done).toEqual(true)
 })
 
-it('can fast-forward', () => {
+it('can fast-forward', async () => {
   const { a1, b1, b2, c1, c3 } = makeExample()
 
   const s = new SliceIterator<TestObject>(a1)
 
-  const iterator = s[Symbol.iterator]()
-  expect(iterator.next()?.value).toEqual([a1, b1, c1])
+  const iterator = s[Symbol.asyncIterator]()
+  expect((await iterator.next())?.value).toEqual([a1, b1, c1])
 
   iterator.fastForward((v, level) => {
     if (level === 1) {
@@ -77,7 +83,7 @@ it('can fast-forward', () => {
       return v === c3
     }
   })
-  expect(iterator.next().value).toEqual([a1, b2, c3])
+  expect((await iterator.next()).value).toEqual([a1, b2, c3])
 })
 
 // What would be good tests?
