@@ -14,10 +14,19 @@ export class SliceIterator<T> {
   #extractIterator: (
     v: NestedIterable<T>,
   ) => Promise<Iterator<T | NestedIterable<T>>>
+  #checkIterator: (v: NestedIterable<T>) => boolean
 
-  constructor(root: NestedIterable<T>) {
+  // TODO: Helper functions are necessary because components
+  // do not follow the iterator protocol; when this change
+  // is implemented, the helpers can be removed.
+  constructor(
+    root: NestedIterable<T>,
+    extractIterator = async (v: NestedIterable<T>) => v[Symbol.iterator](),
+    checkIterator = (v: NestedIterable<T>) => Symbol.iterator in v,
+  ) {
     this.#root = root
-    this.#extractIterator = async v => v[Symbol.iterator]()
+    this.#extractIterator = extractIterator
+    this.#checkIterator = checkIterator
   }
 
   [Symbol.asyncIterator](): TimelineIterator<T> {
@@ -33,8 +42,13 @@ export class SliceIterator<T> {
     return {
       next: async (): Promise<IteratorResult<(T | NestedIterable<T>)[]>> => {
         if (!initialized) {
-          iteratorStack.push(await this.#extractIterator(this.#root))
-          outputStack.push(this.#root)
+          if (this.#checkIterator(this.#root)) {
+            iteratorStack.push(await this.#extractIterator(this.#root))
+            outputStack.push(this.#root)
+          } else {
+            // TODO
+            tempLeaf = this.#root as unknown as T
+          }
           initialized = true
         }
 
@@ -55,7 +69,7 @@ export class SliceIterator<T> {
             iteratorStack.pop()
             outputStack.pop()
           } else {
-            if (Symbol.iterator in value) {
+            if (this.#checkIterator(value)) {
               outputStack.push(value)
               iteratorStack.push(await this.#extractIterator(value))
             } else {

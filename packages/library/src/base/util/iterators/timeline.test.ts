@@ -4,7 +4,9 @@ type TestObject = {
   id: string
 }
 
-async function asyncArrayFrom<T> (asyncIterator: AsyncIterable<T>): Promise<T[]> {
+async function asyncArrayFrom<T>(
+  asyncIterator: AsyncIterable<T>,
+): Promise<T[]> {
   const arr = []
   for await (const v of asyncIterator) arr.push(v)
   return arr

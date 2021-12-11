@@ -1,4 +1,4 @@
-import { FlipIterable } from './util/iterators/flipIterable'
+import { FlipIterable, FlipIterator } from './util/iterators/flipIterable'
 import { Component } from './component'
 import { Lock } from './util/lock'
 import { Emitter } from './util/emitter'
@@ -12,6 +12,7 @@ type global = {
 export class Controller extends Emitter {
   root!: Component
   iterable: FlipIterable
+  iterator?: FlipIterator<Component>
   currentStack: Array<Component>
 
   global: global
@@ -59,11 +60,11 @@ export class Controller extends Emitter {
     let flipData = {}
     let done = false
 
-    const iterator = this.iterable[Symbol.asyncIterator]()
+    this.iterator = this.iterable[Symbol.asyncIterator]()
 
     // Flip iterator go brrr
     while (!done) {
-      const output = await iterator.next([flipData, this.context])
+      const output = await this.iterator.next([flipData, this.context])
       done = output.done ?? true
       this.context = output.value.context
       this.currentStack = output.value.stack
@@ -92,11 +93,11 @@ export class Controller extends Emitter {
     // function on the flipIterable this was dropped)
     switch (instruction) {
       case 'abort':
-        this.iterable.commandIterable.abort(data.sender)
+        this.iterator?.findSplice(data.sender)
         data.sender.end('aborted')
         break
       case 'fastforward':
-        this.iterable.commandIterable.fastForward(data.target)
+        this.iterator?.fastForward(data.target)
         break
       default:
         console.error(`Unknown jump instruction ${instruction}`)
