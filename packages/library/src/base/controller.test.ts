@@ -15,7 +15,8 @@ test('runs skipped components in sequence', async () => {
   const b = new Component({ id: 'b', skip: true })
 
   const s = new Component({ id: 's' })
-  s.internals.iterator = [a, b].entries()
+  // TODO This isn't great -- fix with pending iteator protocol update
+  s.internals.iterator = [a, b][Symbol.iterator]()
 
   const a_run = jest.fn()
   const b_run = jest.fn()
@@ -40,7 +41,8 @@ test('runs controlled components in sequence', async () => {
   const a = new Component({ id: 'a' })
   const b = new Component({ id: 'b' })
   const s = new Component({ id: 's' })
-  s.internals.iterator = [a, b].entries()
+  // TODO This isn't great -- fix with pending iteator protocol update
+  s.internals.iterator = [a, b][Symbol.iterator]()
 
   // Setup spys
   const a_run = jest.fn()

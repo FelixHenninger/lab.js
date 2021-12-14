@@ -60,7 +60,7 @@ export class Frame extends Component {
     await prepareNested(content, this)
 
     // Prepare iterator
-    this.internals.iterator = content.entries()
+    this.internals.iterator = content[Symbol.iterator]()
   }
 
   enterContext(context: object) {
