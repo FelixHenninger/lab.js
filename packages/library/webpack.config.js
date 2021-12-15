@@ -4,7 +4,6 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const TerserPlugin = require('terser-webpack-plugin')
-const DeclarationBundlerPlugin = require('types-webpack-bundler')
 const shell = require('shelljs')
 
 // Minify code
