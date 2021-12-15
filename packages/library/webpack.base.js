@@ -7,13 +7,24 @@ const shell = require('shelljs')
 // Minify code
 const reservedTerms = [
   // Components
-  'Component', 'Dummy',
-  'Screen', 'Page', 'Form', 'Frame',
-  'Sequence', 'Loop', 'Parallel',
+  'Component',
+  'Dummy',
+  'Screen',
+  'Page',
+  'Form',
+  'Frame',
+  'Sequence',
+  'Loop',
+  'Parallel',
   // Plugins
-  'Debug', 'Download', 'Logger', 'Metadata', 'Transmit',
+  'Debug',
+  'Download',
+  'Logger',
+  'Metadata',
+  'Transmit',
   // Utilities
-  'Random', 'fromObject',
+  'Random',
+  'fromObject',
 ]
 
 module.exports = (env, argv) => {
@@ -31,17 +42,19 @@ module.exports = (env, argv) => {
   const config = {
     mode: mode === 'development' ? mode : 'production',
     entry: {
-      js: './src/base.ts'
+      js: './src/base.ts',
     },
     resolve: {
       extensions: ['.ts', '.js'],
     },
     module: {
-      rules: [{
-        loader: 'ts-loader',
-        test: /\.[jt]s$/,
-        include: path.join(__dirname, 'src'),
-      }],
+      rules: [
+        {
+          loader: 'ts-loader',
+          test: /\.[jt]s$/,
+          include: path.join(__dirname, 'src'),
+        },
+      ],
     },
     devtool: mode === 'development' ? 'inline-source-map' : 'source-map',
     plugins: [
@@ -50,7 +63,7 @@ module.exports = (env, argv) => {
       new webpack.DefinePlugin({
         BUILD_FLAVOR: JSON.stringify(target),
         BUILD_COMMIT: JSON.stringify(
-          shell.exec('git rev-list -1 HEAD -- .', { silent: true }).trim()
+          shell.exec('git rev-list -1 HEAD -- .', { silent: true }).trim(),
         ),
       }),
     ],
@@ -77,7 +90,7 @@ module.exports = (env, argv) => {
             reserved: reservedTerms,
           },
         },
-      })
+      }),
     ]
   }
 
