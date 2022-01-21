@@ -32,15 +32,8 @@
     "@types/lodash": "4.14.108",
     "@types/seedrandom": "2.4.27",
     "@types/ua-parser-js": "^0.7.35",
-    "@typescript-eslint/eslint-plugin": "^4.0.1",
-    "@typescript-eslint/parser": "^4.0.1",
     "babel-plugin-istanbul": "^6.0.0",
     "chai": "^4.1.0",
-    "eslint": "^7.18.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.22.0",
     "jest": "^26.6.3",
     "jsdom": "^16.4.0",
     "karma": "^6.1.1",
@@ -71,55 +64,6 @@
     "webpack-bundle-analyzer": "^4.4.0",
     "webpack-cli": "^4.4.0"
   },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": "airbnb",
-    "rules": {
-      "key-spacing": [
-        2,
-        {
-          "mode": "minimum"
-        }
-      ],
-      "no-console": 0,
-      "no-else-return": 1,
-      "no-param-reassign": 1,
-      "no-warning-comments": [
-        "error",
-        {
-          "terms": [
-            "fixme",
-            "xxx"
-          ]
-        }
-      ],
-      "prefer-rest-params": 1,
-      "radix": [
-        2,
-        "as-needed"
-      ],
-      "react/no-multi-comp": 0,
-      "react/sort-comp": 0,
-      "semi": [
-        2,
-        "never"
-      ],
-      "space-before-function-paren": [
-        2,
-        "never"
-      ],
-      "space-infix-ops": 1,
-      "template-curly-spacing": [
-        2,
-        "always"
-      ]
-    },
-    "env": {
-      "browser": true,
-      "es6": true,
-      "node": true
-    }
-  },
   "scripts": {
     "analyze": "NODE_ENV=analysis webpack --profile --json > bundleStats.json",
     "build:js:base": "webpack -c webpack.base.js",
@@ -130,7 +74,6 @@
     "build:css": "postcss --local-plugins -u postcss-preset-env -o dist/lab.css src/starterkit/lib/lab.css",
     "build:starterkit": "yarn run build:js && yarn run build:css && node scripts/bundle_starterkit.js",
     "clean": "shx rm -rf dist && shx mkdir dist",
-    "lint": "eslint src",
     "prepare": "yarn run build:starterkit",
     "prettier": "prettier --write src",
     "test": "karma start test/_karma/ci.conf.js",
