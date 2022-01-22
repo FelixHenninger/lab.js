@@ -10,6 +10,7 @@
   },
   "homepage": "https://lab.js.org",
   "main": "dist/lab.js",
+  "typings": "dist/index.d.js",
   "dependencies": {
     "@types/common-tags": "^1.8.0",
     "@types/jsdom": "^16.2.5",
