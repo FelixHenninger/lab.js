@@ -34,11 +34,13 @@ export class Page extends Form {
 
     // Preload images
     this.options.items
-      .filter(
-        <(c: PageItem) => c is ImageItem>(i => i.type === 'image' && i.src),
-      )
+      .filter(isImageItem)
       .forEach(i => this.options.media.images.push(i.src))
   }
+}
+
+function isImageItem(item: PageItem): item is ImageItem {
+  return 'src' in item && item.type === 'image'
 }
 
 Page.metadata = {
