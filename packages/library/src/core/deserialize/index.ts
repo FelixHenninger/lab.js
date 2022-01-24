@@ -85,10 +85,11 @@ const _fromObject = (options: SerializedComponent, libraryRoot: Object) => {
           scope === 'global' ? global ?? window : library,
         ) as any // TODO: Make plugin type
         return new PluginConstructor(pluginOptions)
-      } catch (e) {
+      } catch (e: any) {
+        const message = e.message ?? 'Unspecified error'
         throw new Error(
           `Couldn't instantiate plugin ${pluginOptions.type}. ` +
-            `Error: ${e.message}`,
+            `Error: ${message}`,
         )
       }
     })
