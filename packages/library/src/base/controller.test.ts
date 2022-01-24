@@ -15,7 +15,7 @@ test('runs skipped components in sequence', async () => {
   const b = new Component({ id: 'b', skip: true })
 
   const s = new Component({ id: 's' })
-  // TODO This isn't great -- fix with pending iteator protocol update
+  // TODO This isn't great -- fix with pending iterator protocol update
   s.internals.iterator = [a, b][Symbol.iterator]()
 
   const a_run = jest.fn()
