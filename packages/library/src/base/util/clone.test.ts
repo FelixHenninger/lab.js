@@ -15,7 +15,7 @@ class CustomComponent extends Component {
 class Nested extends CustomComponent {}
 Nested.metadata.nestedComponents = ['content']
 
-test('can clone a component', () => {
+it('can clone a component', () => {
   const a = new CustomComponent({
     foo: 'bar',
   })
@@ -24,7 +24,7 @@ test('can clone a component', () => {
   expect(b.options).toEqual(a.options)
 })
 
-test('incorporates further options', () => {
+it('incorporates further options', () => {
   const a = new CustomComponent({
     constantProperty: 'original',
     overwrittenProperty: 'original',
@@ -35,7 +35,7 @@ test('incorporates further options', () => {
   expect(b.options.overwrittenProperty).toBe('modified')
 })
 
-test('instantiates directly nested components during cloning', () => {
+it('instantiates directly nested components during cloning', () => {
   const c = new CustomComponent()
   const f = new Nested({ content: c })
 
@@ -45,7 +45,7 @@ test('instantiates directly nested components during cloning', () => {
   expect(f1.options.content).not.toEqual(f.options.content)
 })
 
-test('instantiates nested components in list during cloning', () => {
+it('instantiates nested components in list during cloning', () => {
   const c1 = new CustomComponent({ foo: 'bar' })
   const c2 = new CustomComponent()
   const f = new Nested({ content: [c1, c2] })

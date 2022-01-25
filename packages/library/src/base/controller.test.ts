@@ -1,7 +1,7 @@
 import { Component } from './component'
 import { Controller } from './controller'
 
-test('can build experiment with explicit controller', async () => {
+it('can build experiment with explicit controller', async () => {
   const study = new Component()
   const c = new Controller({ root: study })
 
@@ -10,7 +10,7 @@ test('can build experiment with explicit controller', async () => {
   expect(study.global).toEqual(c.global)
 })
 
-test('runs skipped components in sequence', async () => {
+it('runs skipped components in sequence', async () => {
   const a = new Component({ id: 'a', skip: true })
   const b = new Component({ id: 'b', skip: true })
 
@@ -36,7 +36,7 @@ test('runs skipped components in sequence', async () => {
   expect(s_end.mock.calls.length).toBe(1)
 })
 
-test('runs controlled components in sequence', async () => {
+it('runs controlled components in sequence', async () => {
   // Setup sequence
   const a = new Component({ id: 'a' })
   const b = new Component({ id: 'b' })

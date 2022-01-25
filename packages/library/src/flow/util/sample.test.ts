@@ -11,7 +11,7 @@ beforeEach(() => {
   })
 })
 
-test('sampleMode supports sequential mode', () => {
+it('supports sequential mode', () => {
   expect(
     sampleMode(rng_alea, array, 12, 'sequential'), //
   ).toEqual(
@@ -19,7 +19,7 @@ test('sampleMode supports sequential mode', () => {
   )
 })
 
-test('sampleMode supports draw-then-repeat sample mode', () => {
+it('supports draw-then-repeat sample mode', () => {
   expect(
     sampleMode(rng_alea, array, 12, 'draw'), //
   ).toEqual(
@@ -27,7 +27,7 @@ test('sampleMode supports draw-then-repeat sample mode', () => {
   )
 })
 
-test('sampleMode supports draw-then-repeat-then-shuffle sample mode', () => {
+it('supports draw-then-repeat-then-shuffle sample mode', () => {
   expect(
     sampleMode(rng_alea, array, 12, 'draw-shuffle'), //
   ).toEqual(
@@ -35,7 +35,7 @@ test('sampleMode supports draw-then-repeat-then-shuffle sample mode', () => {
   )
 })
 
-test('sampleMode defers sampling with replacement to sample method', () => {
+it('defers sampling with replacement to sample method', () => {
   const spy = jest.spyOn(rng_alea, 'sample')
 
   sampleMode(rng_alea, array, 12, 'draw-replace'),
@@ -43,7 +43,7 @@ test('sampleMode defers sampling with replacement to sample method', () => {
   expect(spy).toHaveBeenCalledWith(array, 12, true)
 })
 
-test('sampleMode does not subsample if no number of samples is provided', () => {
+it('does not subsample if no number of samples is provided', () => {
   expect(
     sampleMode(rng_alea, array, undefined, 'draw-shuffle'), //
   ).toEqual(
@@ -51,7 +51,7 @@ test('sampleMode does not subsample if no number of samples is provided', () => 
   )
 })
 
-test('sampleMode throws an error if asked to sample from an empty array', () => {
+it('throws an error if asked to sample from an empty array', () => {
   expect(
     () => sampleMode(rng_alea, []), //
   ).toThrowError(
@@ -59,7 +59,7 @@ test('sampleMode throws an error if asked to sample from an empty array', () => 
   )
 })
 
-test('sampleMode throws an error if the sample mode is unknown', () => {
+it('throws an error if the sample mode is unknown', () => {
   expect(
     () => sampleMode(rng_alea, array, 2, 'unknown'), //
   ).toThrowError(

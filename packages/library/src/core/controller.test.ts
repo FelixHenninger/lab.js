@@ -11,7 +11,7 @@ afterEach(() => {
   document.body.removeChild(el!)
 })
 
-test('can initialize controller', async () => {
+it('can initialize controller', async () => {
   //@ts-ignore
   const c = new Controller({ root: { internals: {} } })
   expect(c instanceof Controller).toBeTruthy()
