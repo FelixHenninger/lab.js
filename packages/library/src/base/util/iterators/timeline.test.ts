@@ -1,4 +1,4 @@
-import { SliceIterator } from './timeline'
+import { SliceIterable } from './timeline'
 
 type TestObject = {
   id: string
@@ -28,7 +28,7 @@ const makeExample = () => {
 it('works with array tree', async () => {
   const { a1, b1, b2, c1, c2, c3 } = makeExample()
 
-  const s = new SliceIterator(a1)
+  const s = new SliceIterable(a1)
   const output = await asyncArrayFrom(s)
 
   expect(output[0]).toEqual([a1, b1, c1])
@@ -39,7 +39,7 @@ it('works with array tree', async () => {
 it('can splice a tree based on level index', async () => {
   const { a1, b1, b2, c1, c3 } = makeExample()
 
-  const s = new SliceIterator(a1)
+  const s = new SliceIterable(a1)
 
   const iterator = s[Symbol.asyncIterator]()
 
@@ -51,7 +51,7 @@ it('can splice a tree based on level index', async () => {
 it('can splice a tree based on an intermediate object', async () => {
   const { a1, b1, b2, c1, c3 } = makeExample()
 
-  const s = new SliceIterator(a1)
+  const s = new SliceIterable(a1)
 
   const iterator = s[Symbol.asyncIterator]()
   expect((await iterator.next())?.value).toEqual([a1, b1, c1])
@@ -62,7 +62,7 @@ it('can splice a tree based on an intermediate object', async () => {
 it('ends iteration after top-level splice', async () => {
   const { a1, b1, c1 } = makeExample()
 
-  const s = new SliceIterator<TestObject>(a1)
+  const s = new SliceIterable<TestObject>(a1)
 
   const iterator = s[Symbol.asyncIterator]()
   expect((await iterator.next())?.value).toEqual([a1, b1, c1])
@@ -73,7 +73,7 @@ it('ends iteration after top-level splice', async () => {
 it('can fast-forward', async () => {
   const { a1, b1, b2, c1, c3 } = makeExample()
 
-  const s = new SliceIterator<TestObject>(a1)
+  const s = new SliceIterable<TestObject>(a1)
 
   const iterator = s[Symbol.asyncIterator]()
   expect((await iterator.next())?.value).toEqual([a1, b1, c1])

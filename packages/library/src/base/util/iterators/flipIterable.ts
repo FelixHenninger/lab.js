@@ -2,7 +2,7 @@ import { range } from 'lodash'
 
 import { Component, Status } from '../../component'
 import { requestAnimationFrameMaybe } from '../rAF'
-import { SliceIterator } from './timeline'
+import { SliceIterable } from './timeline'
 
 export const resolveFlip = <T>(oldStack: T[], newStack: T[]) => {
   // Figure out to which level the old and new stack are identical
@@ -43,14 +43,14 @@ export interface FlipIterator<T>
 
 export class FlipIterable {
   root: Component
-  timelineIterable: SliceIterator<Component>
+  timelineIterable: SliceIterable<Component>
 
   private renderFrameRequest: number | undefined
   private showFrameRequest: number | undefined
 
   constructor(root: Component) {
     this.root = root
-    this.timelineIterable = new SliceIterator<Component>(
+    this.timelineIterable = new SliceIterable<Component>(
       //@ts-ignore TODO
       root,
       async (c: Component) => {

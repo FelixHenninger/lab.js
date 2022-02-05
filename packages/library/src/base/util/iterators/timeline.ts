@@ -9,7 +9,7 @@ interface TimelineIterator<T> extends AsyncIterator<(T | NestedIterable<T>)[]> {
   ) => void
 }
 
-export class SliceIterator<T> {
+export class SliceIterable<T> {
   #root: NestedIterable<T>
   #extractIterator: (
     v: NestedIterable<T>,
