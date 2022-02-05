@@ -140,8 +140,13 @@ export class Component {
     )
     this.internals.armOptions()
 
-    await this.#emitter.trigger('prepare', undefined, this.#controller.global)
+    // TODO: The preemptive status update is a band-aid fix for
+    // underlying logic issues: In combination with the fast-forward
+    // logic, applying the status only after preparation led to
+    // infinite regressions. This is an issue that should be fixed
+    // in the overall design, and not at the symptom level.
     this.status = Status.prepared
+    await this.#emitter.trigger('prepare', undefined, this.#controller.global)
   }
 
   // Attach and detach context
