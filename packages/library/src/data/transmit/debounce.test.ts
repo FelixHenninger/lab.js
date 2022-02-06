@@ -3,7 +3,8 @@ import { debounceAsync } from './debounce'
 let fn: Function, debouncedFn: Function
 
 beforeEach(() => {
-  jest.useFakeTimers()
+  // TODO: Replace legacy timers and setImmediate shims
+  jest.useFakeTimers('legacy')
   fn = jest.fn(async () => 42)
   debouncedFn = debounceAsync(fn, 1000)
 })
@@ -54,7 +55,7 @@ it('runs function multiple times if interval is passed', async () => {
   expect(fn).toHaveBeenCalledTimes(1)
 
   // Flush pending async calls
-  await new Promise(resolve => setImmediate(resolve))
+  await new Promise(process.nextTick)
 
   // Second run
   debouncedFn()
@@ -76,21 +77,21 @@ it('will re-run if timer expires while the wrapped function is executing', async
   const p1 = debouncedFn()
 
   // Wait until the first function call is running, then queue second call
-  jest.runTimersToTime(1500)
+  jest.advanceTimersByTime(1500)
   expect(fn).toHaveBeenCalledTimes(1)
   const p2 = debouncedFn()
   expect(fn).toHaveBeenCalledTimes(1)
 
   // Fast-forward to next interval, nothing should happen here
-  jest.runTimersToTime(500)
+  jest.advanceTimersByTime(500)
   expect(fn).toHaveBeenCalledTimes(1)
 
   // Second call should be scheduled after 3000ms
   // (first interval + first execution duration)
-  jest.runTimersToTime(900) // at 2900ms
+  jest.advanceTimersByTime(900) // at 2900ms
   expect(fn).toHaveBeenCalledTimes(1)
-  jest.runTimersToTime(100) // at 3000ms
-  await new Promise(resolve => setImmediate(resolve))
+  jest.advanceTimersByTime(100) // at 3000ms
+  await new Promise(process.nextTick)
   expect(fn).toHaveBeenCalledTimes(2)
 
   // Check return values (these become available at 5000ms)
@@ -114,7 +115,7 @@ it('resolves all promises once run', async () => {
   jest.advanceTimersByTime(1)
 
   // Introduce a miniscule wait for the engine to resolve promises
-  await new Promise(resolve => setImmediate(resolve))
+  await new Promise(process.nextTick)
 
   // Now all promises should be resolved
   expect(promise1Resolved).toBeTruthy()

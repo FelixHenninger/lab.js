@@ -72,7 +72,9 @@ it('sends all new data with debounced transmission', () => {
 })
 
 it('sends data in increments', async () => {
-  jest.useFakeTimers()
+  // TODO: Use modern timer implementation,
+  // and replace tick shim below
+  jest.useFakeTimers('legacy')
 
   // Queue and transmit first batch of data
   connection.enqueue()
@@ -82,7 +84,7 @@ it('sends data in increments', async () => {
   expect(fetchMock).toHaveBeenCalledTimes(1)
 
   // Flush async queue
-  await new Promise(resolve => setImmediate(resolve))
+  await new Promise(process.nextTick)
 
   // Add new data, and transmit it
   store.set({ six: 6 })
