@@ -212,10 +212,9 @@ const renderBreadcrumbs = (controller: Controller) => {
 
 // Hydration logic -------------------------------------------------------------
 
-// TODO: Type me
-const hydrate = (component: Component, data: any) => {
+const hydrate = async (component: Component, data: any) => {
   component.global.datastore._hydrate({ data: data.data, state: data.state })
-  component.internals.controller.jump('fastforward', { target: data.target })
+  await component.internals.controller.jump('fastforward', { target: data.target })
 }
 
 // Plugin proper ---------------------------------------------------------------
@@ -240,7 +239,7 @@ export default class Debug {
       case 'plugin:init':
         return this.onInit(context)
       case 'prepare':
-        return this.onPrepare()
+        return await this.onPrepare()
       default:
         return null
     }
@@ -340,7 +339,7 @@ export default class Debug {
     document.body.appendChild(this.container)
   }
 
-  onPrepare() {
+  async onPrepare() {
     if (this.context!.internals.controller) {
       const throttledRender = throttle(() => this.render(), 100)
 
@@ -361,7 +360,7 @@ export default class Debug {
           //@ts-ignore TODO
           window.sessionStorage.getItem('labjs-debug-snapshot'),
         )
-        hydrate(this.context!, { target, data, state })
+        await hydrate(this.context!, { target, data, state })
         if (!this.isVisible) {
           this.toggle()
         }

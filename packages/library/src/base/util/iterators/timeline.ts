@@ -2,11 +2,12 @@ import { fastForward } from './fastforward'
 
 interface NestedIterable<T> extends Iterable<T | NestedIterable<T>> {}
 interface TimelineIterator<T> extends AsyncIterator<(T | NestedIterable<T>)[]> {
+  initialize: () => Promise<void>
   splice: (level: number) => void
   findSplice: (value: T | NestedIterable<T>) => void
   fastForward: (
     consume: (value: T | NestedIterable<T>, level: number) => boolean,
-  ) => void
+  ) => Promise<void>
 }
 
 export class SliceIterable<T> {
@@ -39,17 +40,24 @@ export class SliceIterable<T> {
     const outputStack: (T | NestedIterable<T>)[] = []
     let tempLeaf: T | undefined = undefined
 
+    const initialize = async (): Promise<void> => {
+      if (!initialized) {
+        if (this.#checkIterator(this.#root)) {
+          iteratorStack.push(await this.#extractIterator(this.#root))
+          outputStack.push(this.#root)
+        } else {
+          // TODO
+          tempLeaf = this.#root as unknown as T
+        }
+        initialized = true
+      }
+    }
+
     return {
+      initialize,
       next: async (): Promise<IteratorResult<(T | NestedIterable<T>)[]>> => {
         if (!initialized) {
-          if (this.#checkIterator(this.#root)) {
-            iteratorStack.push(await this.#extractIterator(this.#root))
-            outputStack.push(this.#root)
-          } else {
-            // TODO
-            tempLeaf = this.#root as unknown as T
-          }
-          initialized = true
+          await initialize()
         }
 
         // If another method has created a temporary stack,
@@ -90,20 +98,25 @@ export class SliceIterable<T> {
           this.splice(level)
         }
       },
-      fastForward: (
+      fastForward: async (
         consume: (value: T | NestedIterable<T>, level: number) => boolean,
       ) => {
         // Starting from the root node ...
-        iteratorStack.splice(1)
-        outputStack.splice(1)
+        // Note that, working on the first level (index 0)
+        // means looking (in that iterator) for the entry
+        // on the second level.
         let currentLevel = 0
 
-        // ... rebuild the iterator stack and
-        // the output level by level
+        // Starting from the root node, which is always
+        // included in the output ...
+        iteratorStack.splice(1)
+        outputStack.splice(1)
+
+        // ... rebuild the iterator stack and output level by level
         while (true) {
           const iterator = iteratorStack[currentLevel]
           const [{ value, done }] = fastForward(iterator, v =>
-            consume(v, currentLevel + 1),
+            consume(v, currentLevel),
           )
 
           // If we reach an iterator that's done,
@@ -115,8 +128,8 @@ export class SliceIterable<T> {
 
           // Continue if the next entry
           // is also an iterator
-          if (Symbol.iterator in value) {
-            iteratorStack.push(value[Symbol.iterator]())
+          if (this.#checkIterator(value)) {
+            iteratorStack.push(await this.#extractIterator(value))
             outputStack.push(value)
             currentLevel += 1
           } else {

@@ -78,8 +78,8 @@ it('can fast-forward', async () => {
   const iterator = s[Symbol.asyncIterator]()
   expect((await iterator.next())?.value).toEqual([a1, b1, c1])
 
-  iterator.fastForward((v, level) => {
-    if (level === 1) {
+  await iterator.fastForward((v, level) => {
+    if (level === 0) {
       return v === b2
     } else {
       return v === c3

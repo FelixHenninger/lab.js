@@ -36,9 +36,12 @@ type IteratorInput = [any, object]
 
 export interface FlipIterator<T>
   extends AsyncIterator<IteratorOutput, any, IteratorInput> {
+  initialize: () => Promise<void>
   splice: (level: number) => void
   findSplice: (value: T) => void
-  fastForward: (targetStack: T[]) => void
+  // NOTE: We index by id here, which is inconsistent
+  // with the remainder of the interface.
+  fastForward: (targetStack: String[]) => Promise<void>
 }
 
 export class FlipIterable {
@@ -69,6 +72,9 @@ export class FlipIterable {
     let currentStack: Component[] = []
 
     return {
+      initialize: async () => {
+        await sliceIterator.initialize()
+      },
       next: async ([flipData, context]: [any, object]) => {
         // Cancel any outstanding frame requests
         this.renderFrameRequest && cancelAnimationFrame(this.renderFrameRequest)
@@ -168,10 +174,16 @@ export class FlipIterable {
       },
       splice: sliceIterator.splice,
       findSplice: sliceIterator.findSplice,
-      fastForward: (targetStack: Component[]) => {
-        sliceIterator.fastForward(
+      fastForward: async (targetStack: String[]) => {
+        // Note that the level here is shifted, in that we never
+        // fast-forward on the level of the root node.
+        // Instead, we search inside the top-level iterator
+        // for the second-level node, and so on.
+        await sliceIterator.fastForward(
           //@ts-ignore
-          (c: Component, level) => targetStack[level] === c,
+          (c: Component, level) => {
+            return targetStack[level] === c.id
+          },
         )
       },
     }
