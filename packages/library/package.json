@@ -16,13 +16,9 @@
     "@types/jsdom": "^16.2.5",
     "common-tags": "^1.8.0",
     "cross-env": "^7.0.0",
-    "es2015-proxy": "^0.1.7",
-    "es6-promise": "^4.1.0",
-    "fast-async": "^7.0.0",
     "file-saver": "^2.0.5",
     "jszip": "^3.5.0",
     "lodash": "^4.17.10",
-    "nodent": "^3.2.6",
     "seedrandom": "^3.0.5",
     "shim-keyboard-event-key": "^1.0.2",
     "ua-parser-js": "^0.7.19"

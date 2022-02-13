@@ -146,16 +146,6 @@
     source-map "^0.5.0"
     trim-right "^1.0.1"
 
-"@babel/generator@^7.0.0-beta.44", "@babel/generator@^7.7.4":
-  version "7.7.4"
-  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.7.4.tgz#db651e2840ca9aa66f327dcec1dc5f5fa9611369"
-  integrity sha512-m5qo2WgdOJeyYngKImbkyQrnUN1mPceaG5BV+G0E3gWsa4l/jCSryWJdM2x8OuGAOyh+3d5pVYfZWCiNFtynxg==
-  dependencies:
-    "@babel/types" "^7.7.4"
-    jsesc "^2.5.1"
-    lodash "^4.17.13"
-    source-map "^0.5.0"
-
 "@babel/generator@^7.12.1":
   version "7.12.11"
   resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.12.11.tgz#98a7df7b8c358c9a37ab07a24056853016aba3af"
@@ -181,6 +171,16 @@
   dependencies:
     "@babel/types" "^7.17.0"
     jsesc "^2.5.1"
+    source-map "^0.5.0"
+
+"@babel/generator@^7.7.4":
+  version "7.7.4"
+  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.7.4.tgz#db651e2840ca9aa66f327dcec1dc5f5fa9611369"
+  integrity sha512-m5qo2WgdOJeyYngKImbkyQrnUN1mPceaG5BV+G0E3gWsa4l/jCSryWJdM2x8OuGAOyh+3d5pVYfZWCiNFtynxg==
+  dependencies:
+    "@babel/types" "^7.7.4"
+    jsesc "^2.5.1"
+    lodash "^4.17.13"
     source-map "^0.5.0"
 
 "@babel/generator@^7.9.0":
@@ -374,13 +374,6 @@
   integrity sha512-SR713Ogqg6++uexFRORf/+nPXMmWIn80TALu0uaFb+iQIUoR7bOC7zBWyzBs5b3tBBJXuyD0cRu1F15GyzjOWA==
   dependencies:
     "@babel/types" "^7.12.5"
-
-"@babel/helper-module-imports@^7.0.0-beta.44":
-  version "7.7.4"
-  resolved "https://registry.yarnpkg.com/@babel/helper-module-imports/-/helper-module-imports-7.7.4.tgz#e5a92529f8888bf319a6376abfbd1cebc491ad91"
-  integrity sha512-dGcrX6K9l8258WFjyDLJwuVKxR4XZfU0/vTUgOQYWEnRD8mgr+p4d6fCUMq/ys0h4CCt/S5JhbvtyErjWouAUQ==
-  dependencies:
-    "@babel/types" "^7.7.4"
 
 "@babel/helper-module-imports@^7.12.1", "@babel/helper-module-imports@^7.12.5":
   version "7.12.13"
@@ -4469,11 +4462,6 @@ accepts@~1.3.5, accepts@~1.3.7:
     mime-types "~2.1.24"
     negotiator "0.6.2"
 
-acorn-es7-plugin@^1.1.7:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/acorn-es7-plugin/-/acorn-es7-plugin-1.1.7.tgz#f2ee1f3228a90eead1245f9ab1922eb2e71d336b"
-  integrity sha1-8u4fMiipDurRJF+asZIusucdM2s=
-
 acorn-globals@^4.3.2:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/acorn-globals/-/acorn-globals-4.3.4.tgz#9fa1926addc11c97308c4e66d7add0d40c3272e7"
@@ -4514,11 +4502,6 @@ acorn-walk@^8.0.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/acorn-walk/-/acorn-walk-8.2.0.tgz#741210f2e2426454508853a2f44d0ab83b7f69c1"
   integrity sha512-k+iyHEuPgSw6SbuDpGQM+06HQUa04DZ3o+F6CSzXMvvI5KMvnaEqXe+YVe555R9nn6GPt404fos4wcgpw12SDA==
-
-"acorn@>= 2.5.2 <= 5.7.5":
-  version "5.7.4"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.4.tgz#3e8d8a9947d0599a1796d10225d7432f4a4acf5e"
-  integrity sha512-1D++VG7BhrtvQpNbBzovKNc1FLGGEE/oGe7b9xJm/RFHMBeUaUGpluV9RLjZa47YFdPcDAenEYuq9pQPcMdLJg==
 
 acorn@^6.0.1, acorn@^6.4.1:
   version "6.4.2"
@@ -5291,11 +5274,6 @@ babylon@7.0.0-beta.44:
 babylon@^6.18.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.18.0.tgz#af2f3b88fa6f5c1e4c634d1a0f8eac4f55b395e3"
-
-babylon@^7.0.0-beta.44:
-  version "7.0.0-beta.47"
-  resolved "https://registry.yarnpkg.com/babylon/-/babylon-7.0.0-beta.47.tgz#6d1fa44f0abec41ab7c780481e62fd9aafbdea80"
-  integrity sha512-+rq2cr4GDhtToEzKFD6KZZMDBXhjFAr9JjPw9pAppZACeEWqNM294j+NdBzkSHYXwzzBmVjZ3nEVJlOhbR2gOQ==
 
 balanced-match@^1.0.0:
   version "1.0.2"
@@ -8225,11 +8203,6 @@ es-to-primitive@^1.2.0:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-es2015-proxy@^0.1.7:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/es2015-proxy/-/es2015-proxy-0.1.7.tgz#d94d27beed01fc97eea399076184ed73e30bf610"
-  integrity sha1-2U0nvu0B/Jfuo5kHYYTtc+ML9hA=
-
 es5-ext@^0.10.35, es5-ext@^0.10.50:
   version "0.10.53"
   resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.53.tgz#93c5a3acfdbef275220ad72644ad02ee18368de1"
@@ -8253,7 +8226,7 @@ es6-iterator@2.0.3, es6-iterator@~2.0.3:
     es5-ext "^0.10.35"
     es6-symbol "^3.1.1"
 
-es6-promise@^4.0.3, es6-promise@^4.1.0:
+es6-promise@^4.0.3:
   version "4.2.8"
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"
   integrity sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==
@@ -8884,17 +8857,6 @@ fabric@^4.3.1:
   optionalDependencies:
     canvas "^2.6.1"
     jsdom "^15.2.1"
-
-fast-async@^7.0.0:
-  version "7.0.6"
-  resolved "https://registry.yarnpkg.com/fast-async/-/fast-async-7.0.6.tgz#a9bcc0b4aa6c7a5b25f0cec1a9b7324d13cb169b"
-  integrity sha512-/iUa3eSQC+Xh5tN6QcVLsEsN7b1DaPIoTZo++VpLLIxtdNW2tEmMZex4TcrMeRnBwMOpZwue2CB171wjt5Kgqg==
-  dependencies:
-    "@babel/generator" "^7.0.0-beta.44"
-    "@babel/helper-module-imports" "^7.0.0-beta.44"
-    babylon "^7.0.0-beta.44"
-    nodent-runtime "^3.2.1"
-    nodent-transform "^3.2.4"
 
 fast-deep-equal@^2.0.1:
   version "2.0.1"
@@ -12383,13 +12345,9 @@ konva@^7.2.2:
     "@types/jsdom" "^16.2.5"
     common-tags "^1.8.0"
     cross-env "^7.0.0"
-    es2015-proxy "^0.1.7"
-    es6-promise "^4.1.0"
-    fast-async "^7.0.0"
     file-saver "^2.0.5"
     jszip "^3.5.0"
     lodash "^4.17.10"
-    nodent "^3.2.6"
     seedrandom "^3.0.5"
     shim-keyboard-event-key "^1.0.2"
     ua-parser-js "^0.7.19"
@@ -13729,35 +13687,6 @@ node-releases@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.1.tgz#3d1d395f204f1f2f29a54358b9fb678765ad2fc5"
   integrity sha512-CqyzN6z7Q6aMeF/ktcMVTzhAHCEpf8SOarwpzpf8pNBY2k5/oM34UHldUwp8VKI7uxct2HxSRdJjBaZeESzcxA==
-
-nodent-compiler@^3.2.13:
-  version "3.2.13"
-  resolved "https://registry.yarnpkg.com/nodent-compiler/-/nodent-compiler-3.2.13.tgz#149aefee22fe55f70e76ae7f1323e641e0c762e6"
-  integrity sha512-nzzWPXZwSdsWie34om+4dLrT/5l1nT/+ig1v06xuSgMtieJVAnMQFuZihUwREM+M7dFso9YoHfDmweexEXXrrw==
-  dependencies:
-    acorn ">= 2.5.2 <= 5.7.5"
-    acorn-es7-plugin "^1.1.7"
-    nodent-transform "^3.2.9"
-    source-map "^0.5.7"
-
-nodent-runtime@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/nodent-runtime/-/nodent-runtime-3.2.1.tgz#9e2755d85e39f764288f0d4752ebcfe3e541e00e"
-  integrity sha512-7Ws63oC+215smeKJQCxzrK21VFVlCFBkwl0MOObt0HOpVQXs3u483sAmtkF33nNqZ5rSOQjB76fgyPBmAUrtCA==
-
-nodent-transform@^3.2.4, nodent-transform@^3.2.9:
-  version "3.2.9"
-  resolved "https://registry.yarnpkg.com/nodent-transform/-/nodent-transform-3.2.9.tgz#ec11a6116b5476e60bc212371cf6b8e4c74f40b6"
-  integrity sha512-4a5FH4WLi+daH/CGD5o/JWRR8W5tlCkd3nrDSkxbOzscJTyTUITltvOJeQjg3HJ1YgEuNyiPhQbvbtRjkQBByQ==
-
-nodent@^3.2.6:
-  version "3.2.13"
-  resolved "https://registry.yarnpkg.com/nodent/-/nodent-3.2.13.tgz#5a75caba13855e31bbba8881ca7a2ee5a1accfe3"
-  integrity sha512-eJE6FKhN9epnpWv0GypLq6ECTX+N6WJHRhwgm7wkqliJ/NV/xKbMfJIRpLh+li0FAIDuKhCE0P4RSBvgl2JccA==
-  dependencies:
-    nodent-compiler "^3.2.13"
-    nodent-runtime "^3.2.1"
-    resolve "^1.5.0"
 
 nopt@^4.0.1:
   version "4.0.3"
@@ -16698,7 +16627,7 @@ resolve@^1.12.0:
   dependencies:
     path-parse "^1.0.6"
 
-resolve@^1.14.2, resolve@^1.5.0:
+resolve@^1.14.2:
   version "1.19.0"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.19.0.tgz#1af5bf630409734a067cae29318aac7fa29a267c"
   integrity sha512-rArEXAgsBG4UgRGcynxWIWKFvh/XZCcS8UJdHhwy91zwAvCZIbcs+vAbflgBnNjYMs/i/i+/Ux6IZhML1yPvxg==
@@ -17578,7 +17507,7 @@ source-map@0.6.1, source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.0, sourc
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
 
-source-map@^0.5.0, source-map@^0.5.3, source-map@^0.5.6, source-map@^0.5.7:
+source-map@^0.5.0, source-map@^0.5.3, source-map@^0.5.6:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
   integrity sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w=
