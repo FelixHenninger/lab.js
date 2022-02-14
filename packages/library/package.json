@@ -43,7 +43,7 @@
     "karma-sauce-launcher": "^4.0.0",
     "karma-sinon": "^1.0.5",
     "lodash-webpack-plugin": "^0.11.5",
-    "mocha": "^8.3.0",
+    "mocha": "^9.2.0",
     "onchange": "^7.1.0",
     "postcss": "^8.2.4",
     "postcss-cli": "^9.1.0",
