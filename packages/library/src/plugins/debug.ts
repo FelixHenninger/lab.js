@@ -109,7 +109,17 @@ const payload = `<style type="text/css">
     opacity: 0.5;
   }
 </style>
-<div class="labjs-debug-open labjs-debug-toggle"><div>≡</div></div>
+<div class="labjs-debug-open labjs-debug-toggle">
+  <div style="position:relative;top:3.2px;left:-1.5px">
+    <svg width="21" height="21" viewBox="0 0 16.93 16.93" xmlns="http://www.w3.org/2000/svg">
+      <ellipse style="fill:currentColor" cx="8.47" cy="4.49" rx="2.49" ry=".89"/>
+      <ellipse style="fill:none;stroke:currentColor;stroke-width:1.1" cx="8.47" cy="9.07" rx="4.65" ry="5.44"/>
+      <path style="fill:none;stroke:currentColor;stroke-width:.2" d="M12.33 6c0 .9-1.73 1.63-3.86 1.63C6.33 7.63 4.6 6.9 4.6 6"/>
+      <path style="fill:none;stroke:currentColor;stroke-width:.2" d="M8.47 7.58v6.8"/>
+      <path style="fill:none;stroke:currentColor;stroke-width:.9" d="M5.65 2.12s.22 1.13.78 1.76M1.94 9.95s1.15-.1 1.89-.31M3.26 13.8s1.29-.6 1.55-1.13M2.54 5.6s1 .76 1.74 1.02M11.29 2.12s-.23 1.13-.78 1.76M15 9.95s-1.16-.1-1.9-.31M13.68 13.8s-1.3-.6-1.56-1.13M14.39 5.6s-1 .76-1.73 1.02"/>
+    </svg>
+  </div>
+</div>
 <div class="labjs-debug-overlay">
   <div class="labjs-debug-overlay-menu">
     <div class="pull-right">
