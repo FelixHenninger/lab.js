@@ -3,18 +3,16 @@
 // Any mistakes, of course, are entirely my own.
 
 export type EventHandler = (...payload: any[]) => void
-type WildCardEventHandler = (event: string, ...payload: any[]) => void
+type WildCardEventHandler<T> = (event: T, ...payload: any[]) => void
 
 // Currently registered handlers for an event
 type EventHandlerList = Array<EventHandler>
-type WildCardEventHandlerList = Array<WildCardEventHandler>
+type WildCardEventHandlerList<T> = Array<WildCardEventHandler<T>>
 
 // Map events to their corresponding handlers
-type PureEventHandlerMap = {
-  [type: string]: EventHandlerList
-}
-type EventHandlerMap = PureEventHandlerMap & {
-  '*'?: WildCardEventHandlerList
+type PureEventHandlerMap<T> = Map<T, EventHandlerList>
+type EventHandlerMap<T> = PureEventHandlerMap<T> & {
+  '*'?: WildCardEventHandlerList<T>
 }
 // TODO: Is there an easier way to do this?
 
@@ -32,11 +30,11 @@ const getMethodName = function (event: string) {
   return `on${event.replace(splitter, getEventName)}`
 }
 
-export class Emitter {
+export class Emitter<T extends string = string> {
   id?: string
   options: EmitterOptions
   #context: object
-  #hooks: EventHandlerMap
+  #hooks: EventHandlerMap<T>
 
   constructor(
     id?: string,
@@ -44,11 +42,11 @@ export class Emitter {
   ) {
     this.id = id
     this.options = options
-    this.#hooks = {}
+    this.#hooks = new Map()
     this.#context = options.context ?? this
   }
 
-  async trigger(event: string, ...payload: any[]) {
+  async trigger(event: T, ...payload: any[]) {
     if (this.options.debug) {
       console.info(`Caught ${event} on ${this.id}, data`, payload)
     }
@@ -63,22 +61,26 @@ export class Emitter {
     await this.emit(event, ...payload)
   }
 
-  async emit(event: string, ...payload: any[]) {
+  async emit(event: T, ...payload: any[]) {
     await Promise.all([
-      ...(this.#hooks[event] ?? [])
+      ...(this.#hooks.get(event) ?? [])
         .slice()
         .map(handler => handler.apply(this.#context, payload)),
-      ...(this.#hooks['*'] ?? [])
+      // TODO: Can we do without the cast?
+      ...(this.#hooks.get('*' as T) ?? [])
         .slice()
         .map(handler => handler.call(this.#context, event, ...payload)),
     ])
   }
 
-  on(event: string, handler: EventHandler | WildCardEventHandler) {
-    ;(this.#hooks[event] ?? (this.#hooks[event] = [])).push(handler)
+  on(event: T, handler: EventHandler | WildCardEventHandler<T>) {
+    this.#hooks.set(
+      event, //
+      [...(this.#hooks.get(event) ?? []), handler],
+    )
   }
 
-  once(type: string, handler: EventHandler | WildCardEventHandler) {
+  once(type: T, handler: EventHandler | WildCardEventHandler<T>) {
     const onceHandler = (data?: any) => {
       this.off(type, onceHandler)
       return handler(data)
@@ -86,14 +88,17 @@ export class Emitter {
     this.on(type, onceHandler)
   }
 
-  off(type: string, handler: EventHandler | WildCardEventHandler) {
-    if (this.#hooks[type]) {
-      this.#hooks[type].splice(this.#hooks[type].indexOf(handler) >>> 0, 1)
+  off(type: T, handler: EventHandler | WildCardEventHandler<T>) {
+    if (this.#hooks.get(type) !== undefined) {
+      this.#hooks.set(
+        type,
+        this.#hooks.get(type)!.filter(v => v !== handler),
+      )
     }
   }
 
   // TODO: Consider removing this
-  waitFor(type: string) {
+  waitFor(type: T) {
     return new Promise(resolve => this.once(type, resolve))
   }
 }

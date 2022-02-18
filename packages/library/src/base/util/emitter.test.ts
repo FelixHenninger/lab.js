@@ -49,6 +49,26 @@ it('runs internal event handlers only once if requested', () => {
   expect(spyOnce).toBeCalledTimes(1)
 })
 
+
+it('runs wildcard handlers on every event', () => {
+  const spy = jest.fn()
+  const spyWildcard = jest.fn()
+  const e = new Emitter()
+
+  e.on('event', spy)
+  e.on('*', spyWildcard)
+
+  // First event: Should trigger both spies
+  e.trigger('event')
+  expect(spy).toBeCalledTimes(1)
+  expect(spyWildcard).toBeCalledTimes(1)
+
+  // Second event: Single-call spy should not be called
+  e.trigger('novel-event')
+  expect(spy).toBeCalledTimes(1)
+  expect(spyWildcard).toBeCalledTimes(2)
+})
+
 it('waits for async event handlers to resolve', async () => {
   let done = false
   const e = new Emitter()
