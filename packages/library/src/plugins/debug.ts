@@ -224,7 +224,9 @@ const renderBreadcrumbs = (controller: Controller) => {
 
 const hydrate = async (component: Component, data: any) => {
   component.global.datastore._hydrate({ data: data.data, state: data.state })
-  await component.internals.controller.jump('fastforward', { target: data.target })
+  await component.internals.controller.jump('fastforward', {
+    target: data.target,
+  })
 }
 
 // Plugin proper ---------------------------------------------------------------
