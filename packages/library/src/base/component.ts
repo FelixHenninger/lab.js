@@ -20,6 +20,17 @@ export enum Status {
   locked,
 }
 
+type EventName =
+  | 'before:prepare'
+  | 'prepare'
+  | 'before:run'
+  | 'run'
+  | 'render'
+  | 'show'
+  | 'end'
+  | 'end:uncontrolled'
+  | 'lock'
+
 export type ComponentOptions = {
   id: string
   title: string
@@ -30,7 +41,7 @@ export type ComponentOptions = {
   tardy: boolean
   correctResponse: string
   plugins?: Plugin[]
-  hooks?: { [event: string]: EventHandler }
+  hooks?: { EventName: EventHandler }
   data: any
 }
 
@@ -66,7 +77,7 @@ export class Component {
   parent?: Component
   status: Status
 
-  #emitter: Emitter
+  #emitter: Emitter<EventName>
   on: typeof Emitter.prototype.on
   off: typeof Emitter.prototype.off
 
@@ -130,7 +141,7 @@ export class Component {
     // fixed at initialization time; later changes won't be reflected in
     // component behavior at this point
     for (const [e, handler] of Object.entries(this.options.hooks ?? {})) {
-      this.#emitter.on(e, handler as EventHandler)
+      this.#emitter.on(e as EventName, handler as EventHandler)
     }
 
     await this.#emitter.trigger(
