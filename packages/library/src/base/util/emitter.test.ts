@@ -49,7 +49,6 @@ it('runs internal event handlers only once if requested', () => {
   expect(spyOnce).toBeCalledTimes(1)
 })
 
-
 it('runs wildcard handlers on every event', () => {
   const spy = jest.fn()
   const spyWildcard = jest.fn()
