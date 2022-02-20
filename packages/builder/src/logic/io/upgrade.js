@@ -544,6 +544,10 @@ const updates = {
       ...data,
       version: [22, 'alpha', 4],
     }),
+    '22.alpha.4': data => ({
+      ...data,
+      version: [22, 'alpha', 5],
+    }),
   })
 }
 
