@@ -1,6 +1,8 @@
 import { fastForward } from './fastforward'
 
-interface NestedIterable<T> extends Iterable<T | NestedIterable<T>> {}
+interface NestedIterable<T> extends Iterable<T | NestedIterable<T>> {
+  peek?: () => void
+}
 interface TimelineIterator<T> extends AsyncIterator<(T | NestedIterable<T>)[]> {
   initialize: () => Promise<void>
   splice: (level: number) => void
@@ -143,6 +145,11 @@ export class SliceIterable<T> {
       },
       peek: function () {
         console.log('Peeking in sliceiterator')
+        for (const i of iteratorStack) {
+          console.log('peeking at', i)
+          //@ts-ignore
+          console.log(i.peek?.())
+        }
       },
     }
   }

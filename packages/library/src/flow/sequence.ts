@@ -47,7 +47,7 @@ export class Sequence extends Component {
 
     // Define an iterator over the content
     this.internals._iterator = new CustomIterator(
-      this.options.content[Symbol.iterator](),
+      this.options.content,
     )
     this.internals.iterator = this.internals._iterator[Symbol.iterator]()
 
