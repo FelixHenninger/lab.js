@@ -42,6 +42,7 @@ export interface FlipIterator<T>
   // NOTE: We index by id here, which is inconsistent
   // with the remainder of the interface.
   fastForward: (targetStack: String[]) => Promise<void>
+  peek: () => void
 }
 
 export class FlipIterable {
@@ -186,6 +187,7 @@ export class FlipIterable {
           },
         )
       },
+      peek: sliceIterator.peek,
     }
   }
 }

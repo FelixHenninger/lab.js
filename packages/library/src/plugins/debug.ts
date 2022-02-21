@@ -128,6 +128,7 @@ const payload = `<style type="text/css">
       <a href="" class="labjs-debug-snapshot">📌 Snapshot</a>
       <a href="" class="labjs-debug-snapshot-reload">Reload</a>
       <a href="" class="labjs-debug-snapshot-clear">Clear</a>
+      <a href="" class="labjs-debug-snapshot-peek">Peek</a>
       <span class="labjs-debug-close labjs-debug-toggle">&times;</span>
     </div>
     <div>
@@ -326,6 +327,16 @@ export default class Debug {
       .addEventListener('click', e => {
         e.preventDefault()
         window.sessionStorage.removeItem('labjs-debug-snapshot')
+      })
+
+    this.container
+      .querySelector('.labjs-debug-snapshot-peek')!
+      .addEventListener('click', e => {
+        e.preventDefault()
+        this.context!.internals //
+          .controller //
+          .iterator //
+          .peek()
       })
 
     this.container

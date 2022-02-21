@@ -8,6 +8,7 @@ interface TimelineIterator<T> extends AsyncIterator<(T | NestedIterable<T>)[]> {
   fastForward: (
     consume: (value: T | NestedIterable<T>, level: number) => boolean,
   ) => Promise<void>
+  peek: () => void
 }
 
 export class SliceIterable<T> {
@@ -139,6 +140,9 @@ export class SliceIterable<T> {
             break
           }
         }
+      },
+      peek: function () {
+        console.log('Peeking in sliceiterator')
       },
     }
   }
