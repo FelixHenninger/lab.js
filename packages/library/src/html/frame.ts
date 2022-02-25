@@ -1,6 +1,7 @@
 import { cloneDeep } from 'lodash'
 import { ComponentOptions } from '../core/component'
 import { Component } from '../core/component'
+import { CustomIterable } from '../flow/util/iterable'
 import { prepareNested } from '../flow/util/nested'
 import { createFragment } from './util/dom'
 
@@ -38,7 +39,7 @@ export class Frame extends Component {
     await prepareNested(content, this)
 
     // Prepare iterator
-    this.internals.iterator = content[Symbol.iterator]()
+    this.internals.iterator = new CustomIterable(content)[Symbol.iterator]()
   }
 
   enterContext(context: object) {

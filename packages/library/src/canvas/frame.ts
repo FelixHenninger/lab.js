@@ -9,6 +9,7 @@ import { Loop } from '../flow/loop'
 import { prepareNested } from '../flow/util/nested'
 import { createFragment } from '../html/util/dom'
 import { setupCanvas } from './util/dom'
+import { CustomIterable } from '../flow/util/iterable'
 
 const frameDefaults = {
   context: '<canvas></canvas>',
@@ -60,7 +61,7 @@ export class Frame extends Component {
     await prepareNested(content, this)
 
     // Prepare iterator
-    this.internals.iterator = content[Symbol.iterator]()
+    this.internals.iterator = new CustomIterable(content)[Symbol.iterator]()
   }
 
   enterContext(context: object) {
