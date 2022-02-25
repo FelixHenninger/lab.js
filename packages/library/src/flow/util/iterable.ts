@@ -23,11 +23,9 @@ export class CustomIterable<T> {
           return { done: true, value: null }
         }
       },
-      peek: () => {
-        for (const c of this.#iterable) {
-          console.log('Found component', c)
-        }
-      },
+      peek: () =>
+        //@ts-ignore
+        Array.from(this.#iterable).map(c => [c.id, c.options.title, c.type]),
     }
   }
 }

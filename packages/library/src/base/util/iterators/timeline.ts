@@ -144,12 +144,28 @@ export class SliceIterable<T> {
         }
       },
       peek: function () {
-        console.log('Peeking in sliceiterator')
-        for (const i of iteratorStack) {
-          console.log('peeking at', i)
+        const output = []
+
+        for (const [level, iterator] of iteratorStack.entries()) {
           //@ts-ignore
-          console.log(i.peek?.())
+          const idStack = outputStack.slice(1, level + 1).map(c => c.id)
+
+          //@ts-ignore
+          if (iterator.peek != undefined) {
+            const result = iterator
+              //@ts-ignore
+              .peek?.()
+              //@ts-ignore
+              .map(([id, ...rest]) => [[...idStack, id], ...rest])
+
+            output.push(result)
+          } else {
+            console.error(`Iterator at level ${level} does not support peeking`)
+            break
+          }
         }
+
+        return output
       },
     }
   }
