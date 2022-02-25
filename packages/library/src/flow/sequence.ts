@@ -3,7 +3,7 @@ import { cloneDeep } from 'lodash'
 import { Status } from '../base/component'
 import { Component, ComponentOptions } from '../core/component'
 
-import { CustomIterator } from './util/iterator'
+import { CustomIterable } from './util/iterable'
 import { prepareNested } from './util/nested'
 import { mean } from '../util/stats'
 
@@ -46,17 +46,16 @@ export class Sequence extends Component {
     }
 
     // Define an iterator over the content
-    this.internals._iterator = new CustomIterator(
-      this.options.content,
-    )
-    this.internals.iterator = this.internals._iterator[Symbol.iterator]()
+    this.internals._iterable = new CustomIterable(this.options.content)
+    this.internals.iterator = this.internals._iterable[Symbol.iterator]()
 
     // Prepare nested items
     await prepareNested(this.options.content, this)
   }
 
   async end(reason: string, flipData: any) {
-    this.internals._iterator.flush()
+    // TODO: This should operate on the iterator, not the iterable
+    this.internals._iterable.flush()
     return super.end(reason, flipData)
   }
 
