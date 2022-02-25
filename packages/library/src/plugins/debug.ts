@@ -128,13 +128,14 @@ const payload = `<style type="text/css">
       <a href="" class="labjs-debug-snapshot">📌 Snapshot</a>
       <a href="" class="labjs-debug-snapshot-reload">Reload</a>
       <a href="" class="labjs-debug-snapshot-clear">Clear</a>
-      <a href="" class="labjs-debug-snapshot-peek">Peek</a>
       <span class="labjs-debug-close labjs-debug-toggle">&times;</span>
     </div>
     <div>
       <span class="labjs-debug-overlay-breadcrumbs"></span>
       &nbsp; <!-- prevent element from collapsing -->
     </div>
+  </div>
+  <div class="labjs-debug-overlay-peek">
   </div>
   <div class="labjs-debug-overlay-contents">
     Contents
@@ -201,6 +202,34 @@ const renderStore = (datastore: Store) => {
       ${store.join('\n')}
     </table>
   `
+}
+
+// Peek UI ---------------------------------------------------------------------
+
+type peekItem = [string[], string, string]
+type peekLevel = peekItem[]
+
+const renderItem = (i: peekItem) => `
+  <a
+    href=""
+    data-labjs-debug-jump-id='${JSON.stringify(i[0])}'
+  >
+    ${i[1]} (${i[2]})
+  </a>`
+
+const renderPeek = (controller: Controller) => {
+  const peekData: peekLevel[] = controller.iterator //
+    .peek() as any as peekLevel[]
+
+  return peekData
+    .map(
+      d => `
+        <ul>
+          ${d.map(i => `<li>${renderItem(i)}</li>`).join('\n')}
+        </ul>
+      `,
+    )
+    .join('')
 }
 
 // Breadcrumbs and skip UI -----------------------------------------------------
@@ -330,16 +359,6 @@ export default class Debug {
       })
 
     this.container
-      .querySelector('.labjs-debug-snapshot-peek')!
-      .addEventListener('click', e => {
-        e.preventDefault()
-        this.context!.internals //
-          .controller //
-          .iterator //
-          .peek()
-      })
-
-    this.container
       .querySelector('.labjs-debug-overlay-breadcrumbs')!
       .addEventListener('click', e => {
         if (
@@ -408,6 +427,8 @@ export default class Debug {
       this.container!.querySelector(
         '.labjs-debug-overlay-breadcrumbs',
       )!.innerHTML = renderBreadcrumbs(controller)
+      this.container!.querySelector('.labjs-debug-overlay-peek')!.innerHTML =
+        renderPeek(controller)
     }
   }
 }
