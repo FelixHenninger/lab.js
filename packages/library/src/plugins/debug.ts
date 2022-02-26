@@ -252,6 +252,29 @@ const renderBreadcrumbs = (controller: Controller) => {
 
 // Hydration logic -------------------------------------------------------------
 
+const snapshot = (context: Component, target?: string[]) => {
+  // Calculate set of current ids
+  const targetId =
+    target ??
+    context.internals.controller.currentStack
+      .slice(1)
+      .map((c: Component) => c.id)
+
+  // Get data and state
+  const data = context!.global.datastore.data
+  const state = context!.state
+
+  window.sessionStorage.setItem(
+    'labjs-debug-snapshot',
+    JSON.stringify({
+      target: targetId,
+      data,
+      state,
+      keep: true,
+    }),
+  )
+}
+
 const hydrate = async (component: Component, data: any) => {
   component.global.datastore._hydrate({ data: data.data, state: data.state })
   await component.internals.controller.jump('fastforward', {
@@ -322,26 +345,7 @@ export default class Debug {
       .querySelector('.labjs-debug-snapshot')!
       .addEventListener('click', e => {
         e.preventDefault()
-
-        // Calculate set of current ids
-        const target = this.context!.internals //
-          .controller //
-          .currentStack.slice(1)
-          .map((c: Component) => c.id)
-
-        // Get data and state
-        const data = this.context!.global.datastore.data
-        const state = this.context!.state
-
-        window.sessionStorage.setItem(
-          'labjs-debug-snapshot',
-          JSON.stringify({
-            target,
-            data,
-            state,
-            keep: true,
-          }),
-        )
+        snapshot(this.context!)
       })
 
     this.container
