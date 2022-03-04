@@ -183,7 +183,21 @@ export class FlipIterable {
         await sliceIterator.fastForward(
           //@ts-ignore
           (c: Component, level) => {
-            return targetStack[level] === c.id
+            // If we're jumping, we usually expect a fully
+            // specified target id stack, i.e. the happy path
+            // knows that we want to jump to ['1', '1_0', '1_0_0']
+            // and that it will find a leaf node there.
+            // however, manual jumps may also specify a partial
+            // target path, in that only the first elements are
+            // given, such as ['1', '1_0'], which might point to
+            // a sequence. In these cases, we want to accept any
+            // nested component that we find on lower levels,
+            // and stop searching immediately.
+            if (targetStack[level] === undefined) {
+              return true
+            } else {
+              return targetStack[level] === c.id
+            }
           },
         )
       },
