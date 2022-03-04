@@ -381,6 +381,26 @@ export default class Debug {
         }
       })
 
+    this.container
+      .querySelector('.labjs-debug-overlay-peek')!
+      .addEventListener('click', e => {
+        if (
+          e.target instanceof HTMLAnchorElement &&
+          'labjsDebugJumpId' in e.target.dataset
+        ) {
+          e.preventDefault()
+
+          // Pull target id stack from data attribute
+          const target = JSON.parse(e.target.dataset['labjsDebugJumpId']!)
+
+          // Create snapshot with this target
+          snapshot(this.context!, target)
+
+          // Reload page to rehydrate
+          window.location.reload()
+        }
+      })
+
     // Add payload code to document
     document.body.appendChild(this.container)
   }
