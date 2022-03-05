@@ -1,3 +1,5 @@
+export { type Plugin } from '../base/plugin'
+
 export { default as Debug, DebugPluginOptions } from './debug'
 export { default as Download, DownloadPluginOptions } from './download'
 export { default as Fullscreen, FullscreenOptions } from './fullscreen'
