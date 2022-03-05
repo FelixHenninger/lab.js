@@ -291,9 +291,9 @@ export type DebugPluginOptions = {
 export default class Debug {
   filePrefix: string
 
-  private isVisible?: boolean
-  private context?: Component
-  private container?: Element
+  #isVisible?: boolean
+  #context?: Component
+  #container?: Element
 
   constructor({ filePrefix = 'study' }: DebugPluginOptions = {}) {
     this.filePrefix = filePrefix
@@ -312,57 +312,57 @@ export default class Debug {
 
   onInit(context: Component) {
     // Prepare internal state
-    this.isVisible = false
-    this.context = context
+    this.#isVisible = false
+    this.#context = context
 
     // Prepare container element for debug tools
-    this.container = document.createElement('div')
-    this.container.id = 'labjs-debug'
-    this.container.innerHTML = payload
+    this.#container = document.createElement('div')
+    this.#container.id = 'labjs-debug'
+    this.#container.innerHTML = payload
 
     // Toggle visibility of debug window on clicks
-    Array.from(this.container.querySelectorAll('.labjs-debug-toggle')).forEach(
+    Array.from(this.#container.querySelectorAll('.labjs-debug-toggle')).forEach(
       e => e.addEventListener('click', () => this.toggle()),
     )
 
-    this.container
+    this.#container
       .querySelector('.labjs-debug-overlay-menu')!
       .addEventListener('dblclick', () =>
-        this.container!.classList.toggle('labjs-debug-large'),
+        this.#container!.classList.toggle('labjs-debug-large'),
       )
 
-    this.container
+    this.#container
       .querySelector('.labjs-debug-data-download')!
       .addEventListener('click', e => {
         e.preventDefault()
-        this.context?.internals.controller.global.datastore.download(
+        this.#context?.internals.controller.global.datastore.download(
           'csv',
           context.global.datastore.makeFilename(this.filePrefix, 'csv'),
         )
       })
 
-    this.container
+    this.#container
       .querySelector('.labjs-debug-snapshot')!
       .addEventListener('click', e => {
         e.preventDefault()
-        snapshot(this.context!)
+        snapshot(this.#context!)
       })
 
-    this.container
+    this.#container
       .querySelector('.labjs-debug-snapshot-reload')!
       .addEventListener('click', e => {
         e.preventDefault()
         window.location.reload()
       })
 
-    this.container
+    this.#container
       .querySelector('.labjs-debug-snapshot-clear')!
       .addEventListener('click', e => {
         e.preventDefault()
         window.sessionStorage.removeItem('labjs-debug-snapshot')
       })
 
-    this.container
+    this.#container
       .querySelector('.labjs-debug-overlay-breadcrumbs')!
       .addEventListener('click', e => {
         if (
@@ -373,15 +373,15 @@ export default class Debug {
           const index = e.target.dataset['labjsDebugBreadcrumb']!
           // Access corresponding component
           const component =
-            this.context?.internals.controller.currentStack[index]
+            this.#context?.internals.controller.currentStack[index]
           // Trigger abort for this component
-          this.context?.internals.controller.jump('abort', {
+          this.#context?.internals.controller.jump('abort', {
             sender: component,
           })
         }
       })
 
-    this.container
+    this.#container
       .querySelector('.labjs-debug-overlay-peek')!
       .addEventListener('click', e => {
         if (
@@ -394,7 +394,7 @@ export default class Debug {
           const target = JSON.parse(e.target.dataset['labjsDebugJumpId']!)
 
           // Create snapshot with this target
-          snapshot(this.context!, target)
+          snapshot(this.#context!, target)
 
           // Reload page to rehydrate
           window.location.reload()
@@ -402,15 +402,15 @@ export default class Debug {
       })
 
     // Add payload code to document
-    document.body.appendChild(this.container)
+    document.body.appendChild(this.#container)
   }
 
   async onPrepare() {
-    if (this.context!.internals.controller) {
+    if (this.#context!.internals.controller) {
       const throttledRender = throttle(() => this.render(), 100)
 
       // Rerender after flips
-      const controller = this.context!.internals.controller
+      const controller = this.#context!.internals.controller
       controller.on('flip', throttledRender)
 
       // Listen for datastore updates too, just in case
@@ -426,8 +426,8 @@ export default class Debug {
           //@ts-ignore TODO
           window.sessionStorage.getItem('labjs-debug-snapshot'),
         )
-        await hydrate(this.context!, { target, data, state })
-        if (!this.isVisible) {
+        await hydrate(this.#context!, { target, data, state })
+        if (!this.#isVisible) {
           this.toggle()
         }
       }
@@ -435,23 +435,23 @@ export default class Debug {
   }
 
   toggle() {
-    this.isVisible = !this.isVisible
+    this.#isVisible = !this.#isVisible
     this.render()
     document.body.classList.toggle('labjs-debugtools-visible')
   }
 
   render() {
-    if (this.isVisible) {
-      const controller = this.context!.internals.controller
+    if (this.#isVisible) {
+      const controller = this.#context!.internals.controller
       const datastore = controller.global.datastore
 
-      this.container!.querySelector(
+      this.#container!.querySelector(
         '.labjs-debug-overlay-contents',
       )!.innerHTML = renderStore(datastore)
-      this.container!.querySelector(
+      this.#container!.querySelector(
         '.labjs-debug-overlay-breadcrumbs',
       )!.innerHTML = renderBreadcrumbs(controller)
-      this.container!.querySelector('.labjs-debug-overlay-peek')!.innerHTML =
+      this.#container!.querySelector('.labjs-debug-overlay-peek')!.innerHTML =
         renderPeek(controller)
     }
   }
