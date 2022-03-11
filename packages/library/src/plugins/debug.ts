@@ -31,7 +31,7 @@ const payload = `<style type="text/css">
     cursor: pointer;
   }
 
-  body.labjs-debugtools-visible .labjs-debug-open {
+  body.labjs-debug-visible .labjs-debug-open {
     display: none;
   }
 
@@ -83,7 +83,7 @@ const payload = `<style type="text/css">
     top: 1px;
   }
 
-  body.labjs-debugtools-visible .labjs-debug-overlay {
+  body.labjs-debug-visible .labjs-debug-overlay {
     display: block;
   }
 
@@ -372,12 +372,12 @@ export default class Debug {
         // Swap alignment
         if (this.#alignment == 'horizontal') {
           // TODO: Factor out body class updates to use class property
-          document.body.classList.remove('labjs-debugtools-horizontal')
-          document.body.classList.add('labjs-debugtools-vertical')
+          document.body.classList.remove('labjs-debug-horizontal')
+          document.body.classList.add('labjs-debug-vertical')
           this.#alignment = 'vertical'
         } else {
-          document.body.classList.remove('labjs-debugtools-vertical')
-          document.body.classList.add('labjs-debugtools-horizontal')
+          document.body.classList.remove('labjs-debug-vertical')
+          document.body.classList.add('labjs-debug-horizontal')
           this.#alignment = 'horizontal'
         }
       })
@@ -457,7 +457,7 @@ export default class Debug {
   toggle() {
     this.#isVisible = !this.#isVisible
     this.render()
-    document.body.classList.toggle('labjs-debugtools-visible')
+    document.body.classList.toggle('labjs-debug-visible')
   }
 
   render() {
