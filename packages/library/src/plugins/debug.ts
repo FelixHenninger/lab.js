@@ -128,6 +128,7 @@ const payload = `<style type="text/css">
       <a href="" class="labjs-debug-snapshot">📌 Snapshot</a>
       <a href="" class="labjs-debug-snapshot-reload">Reload</a>
       <a href="" class="labjs-debug-snapshot-clear">Clear</a>
+      <a href="" class="labjs-debug-alignment-toggle">Toggle alignment</a>
       <span class="labjs-debug-close labjs-debug-toggle">&times;</span>
     </div>
     <div>
@@ -292,6 +293,7 @@ export default class Debug {
   filePrefix: string
 
   #isVisible?: boolean
+  #alignment: 'horizontal' | 'vertical' = 'horizontal'
   #context?: Component
   #container?: Element
 
@@ -360,6 +362,24 @@ export default class Debug {
       .addEventListener('click', e => {
         e.preventDefault()
         window.sessionStorage.removeItem('labjs-debug-snapshot')
+      })
+
+    this.#container
+      .querySelector('.labjs-debug-alignment-toggle')!
+      .addEventListener('click', e => {
+        e.preventDefault()
+
+        // Swap alignment
+        if (this.#alignment == 'horizontal') {
+          // TODO: Factor out body class updates to use class property
+          document.body.classList.remove('labjs-debugtools-horizontal')
+          document.body.classList.add('labjs-debugtools-vertical')
+          this.#alignment = 'vertical'
+        } else {
+          document.body.classList.remove('labjs-debugtools-vertical')
+          document.body.classList.add('labjs-debugtools-horizontal')
+          this.#alignment = 'horizontal'
+        }
       })
 
     this.#container
