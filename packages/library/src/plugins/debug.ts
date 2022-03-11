@@ -35,21 +35,36 @@ const payload = `<style type="text/css">
     display: none;
   }
 
+  body.labjs-debug-visible.labjs-debug-vertical > .container.fullscreen {
+    width: calc(50vw - 2 * var(--padding-internal));
+  }
+
   .labjs-debug-overlay {
     font-family: var(--font-family, "Arial", sans-serif);
     color: black;
-    /* Box formatting */
-    width: 100vw;
-    height: 30vh;
+    /* Box formatting, exact positions defined below */
     position: fixed;
-    bottom: 0;
-    left: 0;
     z-index: 2;
     background-color: white;
-    border-top: 2px solid var(--color-border, #e5e5e5);
     display: none;
     overflow: scroll;
     contain: strict;
+  }
+
+  body.labjs-debug-horizontal .labjs-debug-overlay {
+    width: 100vw;
+    height: 30vh;
+    bottom: 0;
+    left: 0;
+    border-top: 2px solid var(--color-border, #e5e5e5);
+  }
+
+  body.labjs-debug-vertical .labjs-debug-overlay {
+    width: 50vw;
+    height: 100vh;
+    top: 0;
+    right: 0;
+    border-left: 2px solid var(--color-border, #e5e5e5);
   }
 
   #labjs-debug.labjs-debug-large .labjs-debug-overlay {
@@ -316,6 +331,8 @@ export default class Debug {
     // Prepare internal state
     this.#isVisible = false
     this.#context = context
+
+    document.body.classList.add('labjs-debug-horizontal')
 
     // Prepare container element for debug tools
     this.#container = document.createElement('div')
