@@ -332,8 +332,6 @@ export default class Debug {
     this.#isVisible = false
     this.#context = context
 
-    document.body.classList.add('labjs-debug-horizontal')
-
     // Prepare container element for debug tools
     this.#container = document.createElement('div')
     this.#container.id = 'labjs-debug'
@@ -388,15 +386,12 @@ export default class Debug {
 
         // Swap alignment
         if (this.#alignment == 'horizontal') {
-          // TODO: Factor out body class updates to use class property
-          document.body.classList.remove('labjs-debug-horizontal')
-          document.body.classList.add('labjs-debug-vertical')
           this.#alignment = 'vertical'
         } else {
-          document.body.classList.remove('labjs-debug-vertical')
-          document.body.classList.add('labjs-debug-horizontal')
           this.#alignment = 'horizontal'
         }
+
+        this.#updateBodyClassList()
       })
 
     this.#container
@@ -440,6 +435,7 @@ export default class Debug {
 
     // Add payload code to document
     document.body.appendChild(this.#container)
+    this.#updateBodyClassList()
   }
 
   async onPrepare() {
@@ -474,7 +470,7 @@ export default class Debug {
   toggle() {
     this.#isVisible = !this.#isVisible
     this.render()
-    document.body.classList.toggle('labjs-debug-visible')
+    this.#updateBodyClassList()
   }
 
   render() {
@@ -491,5 +487,17 @@ export default class Debug {
       this.#container!.querySelector('.labjs-debug-overlay-peek')!.innerHTML =
         renderPeek(controller)
     }
+  }
+
+  #updateBodyClassList() {
+    document.body.classList.toggle('labjs-debug-visible', this.#isVisible)
+    document.body.classList.toggle(
+      'labjs-debug-horizontal',
+      this.#alignment === 'horizontal',
+    )
+    document.body.classList.toggle(
+      'labjs-debug-vertical',
+      this.#alignment === 'vertical',
+    )
   }
 }
