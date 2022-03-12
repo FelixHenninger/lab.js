@@ -304,16 +304,22 @@ export type DebugPluginOptions = {
   filePrefix?: string
 }
 
+type DebugPluginAlignment = 'horizontal' | 'vertical'
+
 export default class Debug {
   filePrefix: string
 
   #isVisible?: boolean
-  #alignment: 'horizontal' | 'vertical' = 'horizontal'
+  #alignment: DebugPluginAlignment
   #context?: Component
   #container?: Element
 
   constructor({ filePrefix = 'study' }: DebugPluginOptions = {}) {
     this.filePrefix = filePrefix
+    this.#alignment =
+      (window.sessionStorage.getItem(
+        'labjs-debug-alignment',
+      ) as DebugPluginAlignment) ?? 'horizontal'
   }
 
   async handle(context: Component, event: string) {
@@ -391,6 +397,7 @@ export default class Debug {
           this.#alignment = 'horizontal'
         }
 
+        window.sessionStorage.setItem('labjs-debug-alignment', this.#alignment)
         this.#updateBodyClassList()
       })
 
