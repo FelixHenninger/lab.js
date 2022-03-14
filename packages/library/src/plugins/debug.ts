@@ -123,6 +123,32 @@ const payload = `<style type="text/css">
     content: "...";
     opacity: 0.5;
   }
+
+  /* Layer peeking */
+  .labjs-debug-overlay ul.labjs-debug-peek-layer {
+    display: flex;
+    padding: 0;
+  }
+
+  .labjs-debug-overlay ul.labjs-debug-peek-layer li {
+    list-style: none;
+    flex-grow: 1;
+    flex-basis: min-content;
+    padding: 12px;
+    border: 1px solid var(--color-border, #e5e5e5);
+    color: inherit;
+    text-align: center;
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .labjs-debug-overlay ul.labjs-debug-peek-layer li a {
+    text-decoration: none;
+  }
+  .labjs-debug-overlay ul.labjs-debug-peek-layer li a .labjs-debug-jump-type {
+    display: block;
+    font-size: 8px;
+  }
 </style>
 <div class="labjs-debug-open labjs-debug-toggle">
   <div style="position:relative;top:3.2px;left:-1.5px">
@@ -151,10 +177,9 @@ const payload = `<style type="text/css">
       &nbsp; <!-- prevent element from collapsing -->
     </div>
   </div>
-  <div class="labjs-debug-overlay-peek">
-  </div>
   <div class="labjs-debug-overlay-contents">
-    Contents
+    <div class="labjs-debug-overlay-peek"></div>
+    <div class="labjs-debug-overlay-data"></div>
   </div>
 </div>`
 
@@ -230,7 +255,8 @@ const renderItem = (i: peekItem) => `
     href=""
     data-labjs-debug-jump-id='${JSON.stringify(i[0])}'
   >
-    ${i[1]} (${i[2]})
+    ${i[1]}
+    <span class="labjs-debug-jump-type">(${i[2]})</span>
   </a>`
 
 const renderPeek = (controller: Controller) => {
@@ -240,7 +266,7 @@ const renderPeek = (controller: Controller) => {
   return peekData
     .map(
       d => `
-        <ul>
+        <ul class="labjs-debug-peek-layer">
           ${d.map(i => `<li>${renderItem(i)}</li>`).join('\n')}
         </ul>
       `,
@@ -486,7 +512,7 @@ export default class Debug {
       const datastore = controller.global.datastore
 
       this.#container!.querySelector(
-        '.labjs-debug-overlay-contents',
+        '.labjs-debug-overlay-contents .labjs-debug-overlay-data',
       )!.innerHTML = renderStore(datastore)
       this.#container!.querySelector(
         '.labjs-debug-overlay-breadcrumbs',
