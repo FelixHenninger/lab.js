@@ -153,7 +153,7 @@
         {
           "title": "",
           "message": "before:prepare",
-          "code": "// Psychometric function corresponding to the first response (response = 0)\r\n// You can specify the function or use the weibull/normcdf function jsQuestPlus provides.\r\nfunction func_resp0(freq, contrast, threshold, c0, cf){\r\n    const max = Math.max(threshold, c0 + cf*freq)\r\n    return jsQuestPlus.weibull(contrast, max, 3, 0.5, 0.01)\r\n}\r\n\r\n// Psychometric function corresponding to the second response (response = 1).\r\nfunction func_resp1(freq, contrast, threshold, c0, cf){\r\n    return 1 - func_resp0(freq, contrast, threshold, c0, cf) \r\n}\r\n\r\nconst spatial_frequency = jsQuestPlus.array(0, 2, 40) // [0, 2, 4, ..., 38, 40]\r\nconst contrast = jsQuestPlus.array(-50, 2, 0) // [-50, -48, -46, ..., -2, 0]\r\nconst threshold = jsQuestPlus.array(-50, 2, -30) // [-50, -48, -46, ..., -32, -30]\r\nconst c0 = jsQuestPlus.array(-60, 2, -40) // [-60, -58, -56, ..., -42, -40]\r\nconst cf = jsQuestPlus.array(0.8, 0.2, 1.6) // [0.8, 1, 1.2, 1.4, 1.6]\r\n\r\n// jsqp means jsQuestPlus. You can use any variable name you like.\r\nwindow.jsqp = new jsQuestPlus([func_resp0, func_resp1], [spatial_frequency, contrast], [threshold, c0, cf])\r\n\r\nwindow.trial_num = 0"
+          "code": "// Psychometric function corresponding to the first response (response = 0)\r\n// You can specify the function or use the weibull/normcdf function jsQuestPlus provides.\r\nfunction func_resp0(freq, contrast, threshold, c0, cf){\r\n    const max = Math.max(threshold, c0 + cf*freq)\r\n    return jsQuestPlus.weibull(contrast, max, 3, 0.5, 0.01)\r\n}\r\n\r\n// Psychometric function corresponding to the second response (response = 1).\r\nfunction func_resp1(freq, contrast, threshold, c0, cf){\r\n    return 1 - func_resp0(freq, contrast, threshold, c0, cf) \r\n}\r\n\r\nconst spatial_frequency = jsQuestPlus.array(0, 2, 40) // [0, 2, 4, ..., 38, 40]\r\nconst contrast = jsQuestPlus.array(-50, 2, 0) // [-50, -48, -46, ..., -2, 0]\r\nconst threshold = jsQuestPlus.array(-50, 2, -30) // [-50, -48, -46, ..., -32, -30]\r\nconst c0 = jsQuestPlus.array(-60, 2, -40) // [-60, -58, -56, ..., -42, -40]\r\nconst cf = jsQuestPlus.array(0.8, 0.2, 1.6) // [0.8, 1, 1.2, 1.4, 1.6]\r\n\r\n// jsqp means jsQuestPlus. You can use any variable name you like.\r\nwindow.jsqp = new jsQuestPlus({\r\n  psych_func: [func_resp0, func_resp1], \r\n  stim_samples: [spatial_frequency, contrast], \r\n  psych_samples: [threshold, c0, cf]})\r\n\r\nwindow.trial_num = 0"
         }
       ],
       "title": "jsQuestPlus initialization",
@@ -191,7 +191,7 @@
         }
       ],
       "title": "Sequence",
-      "_tab": "Scripts"
+      "_tab": "Content"
     },
     "7": {
       "id": "7",
@@ -273,7 +273,7 @@
         }
       ],
       "title": "fixation",
-      "_tab": "Scripts",
+      "_tab": "Behavior",
       "timeout": "1000"
     },
     "9": {
@@ -488,7 +488,7 @@
         }
       ],
       "title": "Screen",
-      "_tab": "Scripts",
+      "_tab": "Behavior",
       "tardy": true,
       "timeout": ""
     },
@@ -523,7 +523,7 @@
   "files": {
     "files": {
       "index.html": {
-        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20viewport%20setup%20--%3E%0A%20%20%3Cmeta%20name%3D%22viewport%22%20content%3D%22width%3Ddevice-width%2C%20initial-scale%3D1%22%3E%0A%20%20%3Cscript%20src%3D%22https%3A%2F%2Fwww.hes.kyushu-u.ac.jp%2F~kurokid%2FjsQuestPlus%2Fdist%2FjsQuestPlus.js%22%3E%3C%2Fscript%3E%0A%20%20%3C!--%20lab.js%20library%20and%20experiment%20code%20--%3E%0A%20%20%24%7B%20header%20%7D%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20viewport%20setup%20--%3E%0A%20%20%3Cmeta%20name%3D%22viewport%22%20content%3D%22width%3Ddevice-width%2C%20initial-scale%3D1%22%3E%0A%20%20%3Cscript%20src%3D%22https%3A%2F%2Fwww.hes.kyushu-u.ac.jp%2F~kurokid%2FjsQuestPlusV2%2Fdist%2FjsQuestPlus.js%22%3E%3C%2Fscript%3E%0A%20%20%3C!--%20lab.js%20library%20and%20experiment%20code%20--%3E%0A%20%20%24%7B%20header%20%7D%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
         "source": "library"
       },
       "style.css": {
