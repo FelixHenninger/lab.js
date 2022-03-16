@@ -30,14 +30,12 @@ const renderElement = (
       )
       break
     case 'triangle':
-      /* eslint-disable space-in-parens, no-multi-spaces */
       // prettier-ignore
       ctx.moveTo(-content.width / 2,  content.height / 2)
       // prettier-ignore
       ctx.lineTo(                 0, -content.height / 2)
       // prettier-ignore
       ctx.lineTo( content.width / 2,  content.height / 2)
-      /* eslint-enable space-in-parens, no-multi-spaces */
       ctx.closePath()
       break
     case 'circle':

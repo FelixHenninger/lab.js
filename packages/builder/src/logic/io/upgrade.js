@@ -527,7 +527,27 @@ const updates = {
         console.log('new hooks', c.hooks)
       }
       return c
-    })
+    }),
+    '21.alpha.3': data => ({
+      ...data,
+      version: [22, 'alpha', 1],
+    }),
+    '22.alpha.1': data => ({
+      ...data,
+      version: [22, 'alpha', 2],
+    }),
+    '22.alpha.2': data => ({
+      ...data,
+      version: [22, 'alpha', 3],
+    }),
+    '22.alpha.3': data => ({
+      ...data,
+      version: [22, 'alpha', 4],
+    }),
+    '22.alpha.4': data => ({
+      ...data,
+      version: [22, 'alpha', 5],
+    }),
   })
 }
 

@@ -88,7 +88,7 @@ const _fromObject = (options: SerializedComponent, libraryRoot: Object) => {
       } catch (e) {
         throw new Error(
           `Couldn't instantiate plugin ${pluginOptions.type}. ` +
-            `Error: ${e.message}`,
+            `Error: ${(e as Error).message ?? 'Undefined error'}`,
         )
       }
     })

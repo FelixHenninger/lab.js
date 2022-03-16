@@ -1,38 +1,38 @@
 import { escapeCell } from './csv'
 
-test('escapes commas', () => {
+it('escapes commas', () => {
   expect(escapeCell(',')).toEqual('","')
 })
 
-test('escapes double quotation marks', () => {
+it('escapes double quotation marks', () => {
   expect(escapeCell('"content')).toEqual('"""content"')
 })
 
-test('escapes double double quotation marks', () => {
+it('escapes double double quotation marks', () => {
   expect(escapeCell('""content')).toEqual('"""""content"')
 })
 
-test('escapes commas', () => {
+it('escapes commas', () => {
   expect(escapeCell(',')).toEqual('","')
 })
 
-test('escapes cells beginning with an equal sign', () => {
+it('escapes cells beginning with an equal sign', () => {
   expect(escapeCell('=UNSAFE()')).toEqual(`'=UNSAFE()`)
 })
 
-test(`doesn't escape an equal sign elsewhere in the cell`, () => {
+it(`doesn't escape an equal sign elsewhere in the cell`, () => {
   expect(escapeCell('this is =SAFE()')).toEqual('this is =SAFE()')
 })
 
-test(`doesn't escape a number`, () => {
+it(`doesn't escape a number`, () => {
   expect(escapeCell(123)).toEqual(123)
 })
 
-test(`doesn't escape booleans`, () => {
+it(`doesn't escape booleans`, () => {
   expect(escapeCell(false)).toEqual(false)
 })
 
-test(`doesn't modify the input value if it is a primtive`, () => {
+it(`doesn't modify the input value if it is a primtive`, () => {
   let input = ','
   let originalInput = input
 
@@ -41,7 +41,7 @@ test(`doesn't modify the input value if it is a primtive`, () => {
   expect(originalInput).toEqual(',')
 })
 
-test(`doesn't modify the input value if it is an object`, () => {
+it(`doesn't modify the input value if it is an object`, () => {
   let input = { abc: '123' }
   let originalInput = input
 

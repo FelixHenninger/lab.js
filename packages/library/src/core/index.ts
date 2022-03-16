@@ -7,3 +7,7 @@ export {
   SerializedComponent,
   SerializedPlugin,
 } from './deserialize'
+
+export {
+  PublicEventName as EventName, //
+} from '../base/component'

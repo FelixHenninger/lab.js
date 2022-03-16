@@ -17,7 +17,7 @@ const loopDefaults = {
     n: <number | undefined>undefined,
     mode: <'sequential' | 'draw' | 'draw-shuffle' | 'draw-replace'>'sequential',
   },
-  shuffleGroups: <string[] | undefined>undefined,
+  shuffleGroups: <string[][] | undefined>undefined,
   shuffleUngrouped: false,
 }
 

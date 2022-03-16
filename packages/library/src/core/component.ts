@@ -142,10 +142,6 @@ export class Component extends BaseComponent {
       this.internals.domConnection.el = this.internals.context.el
       this.internals.domConnection.attach()
     }
-
-    if (this.options.skip) {
-      return
-    }
   }
 
   async render({ timestamp }: { timestamp: number }) {

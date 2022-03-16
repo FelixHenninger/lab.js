@@ -1,4 +1,4 @@
-import { FlipIterable } from './util/iterators/flipIterable'
+import { FlipIterable, FlipIterator } from './util/iterators/flipIterable'
 import { Component } from './component'
 import { Lock } from './util/lock'
 import { Emitter } from './util/emitter'
@@ -12,6 +12,7 @@ type global = {
 export class Controller extends Emitter {
   root!: Component
   iterable: FlipIterable
+  iterator: FlipIterator<Component>
   currentStack: Array<Component>
 
   global: global
@@ -42,6 +43,28 @@ export class Controller extends Emitter {
     // into a linear sequence of flips between stacks of components
     this.iterable = new FlipIterable(root)
 
+    // TODO: This isn't great: We really want one iterator
+    // per call to .loop(), so that we can discard it later.
+    // That being said, right now, we can't wait until the
+    // study is running to setup the iterator, because calls
+    // to .jump() might come in during study preparation.
+    // (also, because the iterator was already saved as an
+    // property on the controller, it would stick around
+    // in memory regardless)
+    //
+    // It's unclear how best to proceed: We could use a lock
+    // and block jumps until the study is running, or change
+    // downstream logic to jump only after the study has
+    // started (which might lead to visible cuts).
+    //
+    // Another side-effect of this solution is that we have
+    // to manually ensure that the iterator is initialized
+    // before we use it (see code below). It would be nice,
+    // if that could just happen transparently on the first
+    // call to .next() or to .jump(), as it did prior to
+    // this change.
+    this.iterator = this.iterable[Symbol.asyncIterator]()
+
     // Keep track of the currently active stack
     this.currentStack = []
 
@@ -59,11 +82,12 @@ export class Controller extends Emitter {
     let flipData = {}
     let done = false
 
-    const iterator = this.iterable[Symbol.asyncIterator]()
+    // See above
+    await this.iterator.initialize()
 
     // Flip iterator go brrr
     while (!done) {
-      const output = await iterator.next([flipData, this.context])
+      const output = await this.iterator.next([flipData, this.context])
       done = output.done ?? true
       this.context = output.value.context
       this.currentStack = output.value.stack
@@ -86,17 +110,20 @@ export class Controller extends Emitter {
     return p
   }
 
-  jump(instruction: string, data: any) {
+  async jump(instruction: string, data: any) {
+    // Initialize iterator (see above)
+    await this.iterator.initialize()
+
     // TODO: The implementation is baked into this (internal) API,
     // may need an abstraction later. (there used to be a passthrough
     // function on the flipIterable this was dropped)
     switch (instruction) {
       case 'abort':
-        this.iterable.commandIterable.abort(data.sender)
+        this.iterator?.findSplice(data.sender)
         data.sender.end('aborted')
         break
       case 'fastforward':
-        this.iterable.commandIterable.fastForward(data.target)
+        await this.iterator?.fastForward(data.target)
         break
       default:
         console.error(`Unknown jump instruction ${instruction}`)

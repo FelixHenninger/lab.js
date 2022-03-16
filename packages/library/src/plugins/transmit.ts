@@ -1,6 +1,9 @@
 import { Component } from '../base/component'
 import { Plugin } from '../base/plugin'
 import { uuid4 } from '../util/random/uuid'
+import { transmit } from '../data/transmit/transmit'
+import { Store } from '../data'
+import { Connection } from '../data/transmit/connection'
 
 export type TransmitPluginOptions = {
   url: string
@@ -20,11 +23,11 @@ export type TransmitPluginOptions = {
 }
 
 export default class Transmit implements Plugin {
-  url: string
-  metadata: {
+  #url: string
+  #metadata: {
     id: string
   }
-  updates: {
+  #updates: {
     incremental: boolean
     full: boolean
   }
@@ -35,18 +38,17 @@ export default class Transmit implements Plugin {
   headers: object
   encoding: 'json' | 'form'
 
-  // TODO: Implement me
-  queue: any
+  connection?: Connection
 
   constructor(options: TransmitPluginOptions) {
-    this.url = options.url
-    this.metadata = {
+    this.#url = options.url
+    this.#metadata = {
       id: options.metadata?.id ?? uuid4(),
       ...options.metadata,
     }
 
     // Updates need to be disabled explicitly
-    this.updates = {
+    this.#updates = {
       incremental: options.updates?.incremental !== false,
       full: options.updates?.full !== false,
     }
@@ -56,41 +58,32 @@ export default class Transmit implements Plugin {
   }
 
   async handle(context: Component, event: string) {
-    const { url, metadata } = this
-
     switch (event) {
       case 'prepare':
         const controller = context.internals.controller
-        const ds = controller.global.datastore
+        const ds = controller.global.datastore as Store
 
-        if (this.updates.incremental) {
-          // Setup incremental transmission logic
-          this.queue = ds.transmissionQueue()
+        // Setup incremental transmission logic
+        this.connection = new Connection(ds, this.#url, {
+          metadata: this.#metadata,
+          headers: this.headers,
+          encoding: this.encoding,
+        })
+
+        if (this.#updates.incremental) {
           // Set commit handler on data store
           // (inside the handler, this refers to the store)
-          controller.on('flip', () => {
-            this.queue.queueTransmission(
-              url,
-              { ...metadata, payload: 'incremental' },
-              { headers: this.headers, encoding: this.encoding },
-            )
-          })
+          controller.on('flip', () => this.connection?.enqueue())
         }
 
-        if (this.updates.full) {
+        if (this.#updates.full) {
           // Transmit the entire data set
-          controller.on('end', () => {
-            ds.transmit(
-              url,
-              { ...metadata, payload: 'full' },
-              { headers: this.headers, encoding: this.encoding },
-            )
-              .then((response: Response) => {
-                this.queue?.flush()
-                return response
-              })
-              .then(() => this.callbacks.full?.())
-          })
+          controller.on('end', () =>
+            Promise.all([
+              this.connection?.transmit(),
+              this.connection?.finalize(),
+            ]).then(() => this.callbacks.full?.()),
+          )
         }
 
         // Trigger setup callback

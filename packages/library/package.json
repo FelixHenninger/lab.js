@@ -1,7 +1,7 @@
 {
   "name": "lab.js",
   "description": "Building blocks for web-based behavioral experiments",
-  "version": "20.2.4",
+  "version": "22.0.0-alpha5",
   "author": "Felix Henninger <mailbox@felixhenninger.com>",
   "license": "Apache-2.0",
   "repository": {
@@ -10,38 +10,27 @@
   },
   "homepage": "https://lab.js.org",
   "main": "dist/lab.js",
+  "typings": "dist/index.d.ts",
   "dependencies": {
     "@types/common-tags": "^1.8.0",
     "@types/jsdom": "^16.2.5",
     "common-tags": "^1.8.0",
-    "cross-env": "^7.0.0",
-    "es2015-proxy": "^0.1.7",
-    "es6-promise": "^4.1.0",
-    "fast-async": "^7.0.0",
     "file-saver": "^2.0.5",
     "jszip": "^3.5.0",
     "lodash": "^4.17.10",
-    "nodent": "^3.2.6",
     "seedrandom": "^3.0.5",
     "shim-keyboard-event-key": "^1.0.2",
-    "ua-parser-js": "^0.7.19"
+    "ua-parser-js": "^1.0.2"
   },
   "devDependencies": {
     "@types/file-saver": "1.3.0",
-    "@types/jest": "^26.0.16",
+    "@types/jest": "^27.4.0",
     "@types/lodash": "4.14.108",
     "@types/seedrandom": "2.4.27",
     "@types/ua-parser-js": "^0.7.35",
-    "@typescript-eslint/eslint-plugin": "^4.0.1",
-    "@typescript-eslint/parser": "^4.0.1",
     "babel-plugin-istanbul": "^6.0.0",
     "chai": "^4.1.0",
-    "eslint": "^7.18.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.22.0",
-    "jest": "^26.6.3",
+    "jest": "^27.4.7",
     "jsdom": "^16.4.0",
     "karma": "^6.1.1",
     "karma-babel-preprocessor": "^8.0.1",
@@ -53,72 +42,23 @@
     "karma-sauce-launcher": "^4.0.0",
     "karma-sinon": "^1.0.5",
     "lodash-webpack-plugin": "^0.11.5",
-    "mocha": "^8.3.0",
+    "mocha": "^9.2.0",
     "onchange": "^7.1.0",
     "postcss": "^8.2.4",
-    "postcss-cli": "^8.3.1",
+    "postcss-cli": "^9.1.0",
     "postcss-preset-env": "^6.7.0",
-    "prettier": "^2.2.1",
+    "prettier": "^2.5.1",
     "requirejs": "^2.3.3",
     "shelljs": "^0.8.4",
     "shx": "^0.3.3",
-    "sinon": "^9.2.0",
-    "ts-jest": "^26.4.4",
+    "sinon": "^13.0.1",
+    "ts-jest": "^27.1.3",
     "ts-loader": "8.0.3",
     "ts-node": "^9.1.0",
-    "typescript": "^4.0.2",
+    "typescript": "^4.5.5",
     "webpack": "^5.23.0",
     "webpack-bundle-analyzer": "^4.4.0",
-    "webpack-cli": "^4.4.0"
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": "airbnb",
-    "rules": {
-      "key-spacing": [
-        2,
-        {
-          "mode": "minimum"
-        }
-      ],
-      "no-console": 0,
-      "no-else-return": 1,
-      "no-param-reassign": 1,
-      "no-warning-comments": [
-        "error",
-        {
-          "terms": [
-            "fixme",
-            "xxx"
-          ]
-        }
-      ],
-      "prefer-rest-params": 1,
-      "radix": [
-        2,
-        "as-needed"
-      ],
-      "react/no-multi-comp": 0,
-      "react/sort-comp": 0,
-      "semi": [
-        2,
-        "never"
-      ],
-      "space-before-function-paren": [
-        2,
-        "never"
-      ],
-      "space-infix-ops": 1,
-      "template-curly-spacing": [
-        2,
-        "always"
-      ]
-    },
-    "env": {
-      "browser": true,
-      "es6": true,
-      "node": true
-    }
+    "webpack-cli": "^4.9.2"
   },
   "scripts": {
     "analyze": "NODE_ENV=analysis webpack --profile --json > bundleStats.json",
@@ -130,7 +70,6 @@
     "build:css": "postcss --local-plugins -u postcss-preset-env -o dist/lab.css src/starterkit/lib/lab.css",
     "build:starterkit": "yarn run build:js && yarn run build:css && node scripts/bundle_starterkit.js",
     "clean": "shx rm -rf dist && shx mkdir dist",
-    "lint": "eslint src",
     "prepare": "yarn run build:starterkit",
     "prettier": "prettier --write src",
     "test": "karma start test/_karma/ci.conf.js",

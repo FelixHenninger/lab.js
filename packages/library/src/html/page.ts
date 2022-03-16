@@ -35,7 +35,9 @@ export class Page extends Form {
     // Preload images
     this.options.items
       .filter(
-        <(c: PageItem) => c is ImageItem>(i => i.type === 'image' && i.src),
+        <(c: PageItem) => c is ImageItem>(
+          (i => i.type === 'image' && i.src !== undefined)
+        ),
       )
       .forEach(i => this.options.media.images.push(i.src))
   }

@@ -1,6 +1,6 @@
 import { Lock } from './lock'
 
-test('Basic functionality', async () => {
+it('provides basic functionality', async () => {
   const l = new Lock()
 
   const p = l.acquire()

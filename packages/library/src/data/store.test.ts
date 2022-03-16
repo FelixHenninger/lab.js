@@ -7,18 +7,18 @@ beforeEach(() => {
   ds = new Store()
 })
 
-test('store loads', () => {
+it('is empty on initialization', () => {
   expect(ds.state).toEqual({})
   expect(ds.data).toEqual([])
 })
 
 describe('Storage', () => {
-  test('sets individual values as state', () => {
+  it('sets individual values as state', () => {
     ds.set('one', 1)
     expect(ds.state).toEqual({ one: 1 })
   })
 
-  test('sets multiple values at once', () => {
+  it('sets multiple values at once', () => {
     ds.set({
       one: 1,
       two: 2,
@@ -31,7 +31,7 @@ describe('Storage', () => {
 })
 
 describe('Retrieval', () => {
-  test('retrieves individual values', () => {
+  it('retrieves individual values', () => {
     ds.set({
       one: 1,
       two: 2,
@@ -40,7 +40,7 @@ describe('Retrieval', () => {
     expect(ds.get('two')).toEqual((ds.state as any)['two'])
   })
 
-  test('extracts individual columns from the data', () => {
+  it('extracts individual columns from the data', () => {
     ds.data = [
       {
         column_1: 1,
@@ -56,7 +56,7 @@ describe('Retrieval', () => {
     expect(ds.extract('column_2')).toEqual(['a', 'b'])
   })
 
-  test('filters by sender when extracting columns', () => {
+  it('filters by sender when extracting columns', () => {
     ds.data = [
       {
         sender: 'relevantScreen',
@@ -75,7 +75,7 @@ describe('Retrieval', () => {
     expect(ds.extract('column_1', 'relevantScreen')).toEqual(['foo', 'baz'])
   })
 
-  test('selects specified columns via a filtering function', () => {
+  it('selects specified columns via a filtering function', () => {
     ds.data = [
       {
         random: 1,
@@ -91,7 +91,7 @@ describe('Retrieval', () => {
     ])
   })
 
-  test('select specified columns via an array of names', () => {
+  it('selects specified columns via an array of names', () => {
     ds.data = [
       {
         random: 1,
@@ -107,7 +107,7 @@ describe('Retrieval', () => {
 })
 
 describe('Commit', () => {
-  test('copy data to storage on commit', () => {
+  it('copys data to storage on commit', () => {
     ds.set({
       one: 1,
       two: 2,
@@ -121,7 +121,7 @@ describe('Commit', () => {
     expect(ds.data).toEqual([ds.state])
   })
 
-  test('commit clones information, breaking references', () => {
+  it('clones information on commit, breaking references', () => {
     const someObject = { one: 1 }
     ds.set({
       someObject: someObject,
@@ -131,7 +131,7 @@ describe('Commit', () => {
     expect(ds.data[0].someObject).not.toBe(someObject)
   })
 
-  test('commit clears staging data', () => {
+  it('clears staging data on commit', () => {
     ds.set({
       one: 1,
       two: 2,
@@ -141,7 +141,7 @@ describe('Commit', () => {
     expect(ds.staging).toEqual({})
   })
 
-  test('cleanData omits keys starting with an underscore', () => {
+  it('omits keys starting with an underscore in cleanData', () => {
     ds.set({
       one: 1,
       two: 2,
@@ -165,14 +165,14 @@ describe('Commit', () => {
     ])
   })
 
-  test('commit returns the row index', () => {
+  it('returns the new row index from commit', () => {
     expect(ds.commit()).toBe(0)
     expect(ds.commit()).toBe(1)
   })
 })
 
 describe('Update', () => {
-  test('previously committed data can be updated', () => {
+  it('can update previously committed data', () => {
     ds.set({ foo: 'bar' })
     ds.commit()
     expect(ds.data).toEqual([{ foo: 'bar' }])
@@ -186,7 +186,7 @@ describe('Update', () => {
 })
 
 describe('State proxy', () => {
-  test('proxy reads via get method', () => {
+  it('can proxy reads via get method', () => {
     ds.set({ one: 1, two: 2 })
     const spy = jest.spyOn(ds, 'get')
 
@@ -194,7 +194,7 @@ describe('State proxy', () => {
     expect(spy).toHaveBeenCalledWith('one')
   })
 
-  test('proxy writes via set method', () => {
+  it('can proxy writes via set method', () => {
     const spy = jest.spyOn(ds, 'set')
 
     ;(ds.state as any)['one'] = 1
@@ -205,7 +205,7 @@ describe('State proxy', () => {
 })
 
 describe('Metadata', () => {
-  test('keys property collects column names', () => {
+  it('collects column names in keys property ', () => {
     ds.data = [
       {
         one: 1,
@@ -221,7 +221,7 @@ describe('Metadata', () => {
     expect(ds.keys()).toEqual(['one', 'three', 'two'])
   })
 
-  test('metadata are moved to the first columns', () => {
+  it('moves metadata to the first columns', () => {
     // sender should be moved to the front by default
     ds.data = [
       {
@@ -233,7 +233,7 @@ describe('Metadata', () => {
     expect(ds.keys()).toEqual(['sender', 'abc'])
   })
 
-  test('if requested, state keys are included', () => {
+  it('includes state keys if requested', () => {
     ds.data = [
       {
         one: 1,
@@ -246,13 +246,13 @@ describe('Metadata', () => {
     expect(ds.keys(true)).toEqual(['one', 'three', 'two'])
   })
 
-  test('participant ids are available as a property', () => {
+  it('provides participant ids as a property', () => {
     expect(ds.guessId()).toBeUndefined()
     ds.set('id', 'abc')
     expect(ds.guessId()).toBe('abc')
   })
 
-  test('filename generation', () => {
+  it('generates filenames', () => {
     const now = new Date('2018-05-25T12:00:00+00:00')
     const clock = jest.useFakeTimers('modern')
     jest.setSystemTime(now)
@@ -273,7 +273,7 @@ describe('Metadata', () => {
 })
 
 describe('Reset', () => {
-  test('clearing transient data', () => {
+  it('clears transient data on reset', () => {
     ds.set('a', 'b')
     ds.commit()
 
@@ -287,7 +287,7 @@ describe('Reset', () => {
 })
 
 describe('Data export', () => {
-  test('json data export', () => {
+  it('exports json data', () => {
     ds.data = [
       { one: 1, two: 2 },
       { two: 2, three: 3 },
@@ -296,7 +296,7 @@ describe('Data export', () => {
     expect(ds.exportJson()).toEqual(JSON.stringify(ds.data))
   })
 
-  test('jsonl data export', () => {
+  it('exports jsonl data', () => {
     ds.data = [
       { one: 1, two: 2 },
       { two: 2, three: 3 },
@@ -307,7 +307,7 @@ describe('Data export', () => {
     )
   })
 
-  test('csv data export', () => {
+  it('exports csv data', () => {
     ds.data = [
       { one: 1, two: 2 },
       { two: 2, three: 3 },
@@ -316,7 +316,7 @@ describe('Data export', () => {
     expect(ds.exportCsv()).toBe(['one,three,two', '1,,2', ',3,2'].join('\r\n'))
   })
 
-  test('special character escapes in csv export', () => {
+  it('escapes special characters in csv export', () => {
     ds.data = [
       {
         '1': 'a',
@@ -328,7 +328,7 @@ describe('Data export', () => {
     expect(ds.exportCsv()).toBe(['1,2,3', 'a,"b,","c\n"'].join('\r\n'))
   })
 
-  test('quotation mark escapes in csv export', () => {
+  it('escapes quotation marks in csv export', () => {
     ds.data = [
       {
         '1': 'a',
@@ -340,7 +340,7 @@ describe('Data export', () => {
     expect(ds.exportCsv()).toBe(['1,2,3', 'a,"b""",c'].join('\r\n'))
   })
 
-  test('quotation mark escapes in csv export', () => {
+  it('escapes quotation marks in csv export', () => {
     ds.data = [
       {
         '1': '["a", "b", "c"]',
@@ -350,7 +350,7 @@ describe('Data export', () => {
     expect(ds.exportCsv()).toBe(['1', '"[""a"", ""b"", ""c""]"'].join('\r\n'))
   })
 
-  test('complex data stringification in csv export', () => {
+  it('stringifies complex data in csv export', () => {
     ds.data = [
       {
         array: [1, 2, 3, 'a', 'b', 'c'],
@@ -366,7 +366,7 @@ describe('Data export', () => {
     )
   })
 
-  test('column filtering in csv export', () => {
+  it('filters columns in csv export', () => {
     ds.data = [
       {
         one: 1,
@@ -383,7 +383,7 @@ describe('Data export', () => {
     expect(ds.exportCsv()).toBe(['one,three,two', '1,,2', ',3,2'].join('\r\n'))
   })
 
-  test('blob export', async () => {
+  it('exports blobs', async () => {
     ds.data = [
       {
         one: 1,
@@ -416,7 +416,7 @@ describe('Data export', () => {
     expect(jsonText).toEqual(ds.exportJson())
   })
 
-  test('console data output', () => {
+  it('outputs data to console', () => {
     ds.data = [
       {
         one: 1,

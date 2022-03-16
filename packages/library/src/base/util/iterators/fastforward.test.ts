@@ -1,6 +1,6 @@
 import { fastForward } from './fastforward'
 
-test('Skips through iterator until criterion is met', () => {
+it('skips through iterator until criterion is met', () => {
   const a = [1, 2, 3]
   const i = a.entries()
 
@@ -12,7 +12,7 @@ test('Skips through iterator until criterion is met', () => {
   expect(done).toBe(false)
 })
 
-test('Returns value matching criterion', () => {
+it('returns value matching criterion', () => {
   const a = [1, 2, 3]
   const i = a.entries()
 
@@ -23,7 +23,7 @@ test('Returns value matching criterion', () => {
   expect(j).toBe(i)
 })
 
-test('Returns undefined if iterator is consumed', () => {
+it('returns undefined if iterator is consumed', () => {
   const a = [1, 2, 3]
   const i = a.entries()
 

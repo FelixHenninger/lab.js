@@ -20,6 +20,24 @@ export enum Status {
   locked,
 }
 
+export enum PublicEventName {
+  beforePrepare = 'before:prepare',
+  prepare = 'prepare',
+  run = 'run',
+  render = 'render',
+  end = 'end',
+  lock = 'lock',
+}
+
+enum PrivateEventName {
+  beforeRun = 'before:run',
+  show = 'show',
+  endUncontrolled = 'end:uncontrolled',
+}
+
+const EventName = { ...PublicEventName, ...PrivateEventName }
+type EventName = PublicEventName | PrivateEventName
+
 export type ComponentOptions = {
   id: string
   title: string
@@ -30,7 +48,7 @@ export type ComponentOptions = {
   tardy: boolean
   correctResponse: string
   plugins?: Plugin[]
-  hooks?: { [event: string]: EventHandler }
+  hooks?: { [N in EventName]: EventHandler }
   data: any
 }
 
@@ -66,7 +84,7 @@ export class Component {
   parent?: Component
   status: Status
 
-  #emitter: Emitter
+  #emitter: Emitter<EventName>
   on: typeof Emitter.prototype.on
   off: typeof Emitter.prototype.off
 
@@ -130,18 +148,27 @@ export class Component {
     // fixed at initialization time; later changes won't be reflected in
     // component behavior at this point
     for (const [e, handler] of Object.entries(this.options.hooks ?? {})) {
-      this.#emitter.on(e, handler as EventHandler)
+      this.#emitter.on(e as EventName, handler as EventHandler)
     }
 
     await this.#emitter.trigger(
-      'before:prepare',
+      EventName.beforePrepare,
       undefined,
       this.#controller.global,
     )
     this.internals.armOptions()
 
-    await this.#emitter.trigger('prepare', undefined, this.#controller.global)
+    // TODO: The preemptive status update is a band-aid fix for
+    // underlying logic issues: In combination with the fast-forward
+    // logic, applying the status only after preparation led to
+    // infinite regressions. This is an issue that should be fixed
+    // in the overall design, and not at the symptom level.
     this.status = Status.prepared
+    await this.#emitter.trigger(
+      EventName.prepare,
+      undefined,
+      this.#controller.global,
+    )
   }
 
   // Attach and detach context
@@ -177,15 +204,23 @@ export class Component {
       throw new AbortFlip('Skipping component')
     }
 
-    await this.#emitter.trigger('before:run', flipData, this.#controller.global)
-    await this.#emitter.trigger('run', flipData, this.#controller.global)
+    await this.#emitter.trigger(
+      EventName.beforeRun,
+      flipData,
+      this.#controller.global,
+    )
+    await this.#emitter.trigger(
+      EventName.run,
+      flipData,
+      this.#controller.global,
+    )
   }
 
   async render(data: object) {
-    await this.#emitter.trigger('render', data, this.#controller.global)
+    await this.#emitter.trigger(EventName.render, data, this.#controller.global)
   }
   async show(data: object) {
-    await this.#emitter.trigger('show', data, this.#controller.global)
+    await this.#emitter.trigger(EventName.show, data, this.#controller.global)
   }
 
   async respond(
@@ -235,9 +270,13 @@ export class Component {
 
     if (!flipData.controlled) {
       // Signal end to controller
-      return await this.#emitter.emit('end:uncontrolled', flipData)
+      return await this.#emitter.emit(EventName.endUncontrolled, flipData)
     } else {
-      await this.#emitter.trigger('end', flipData, this.#controller.global)
+      await this.#emitter.trigger(
+        EventName.end,
+        flipData,
+        this.#controller.global,
+      )
     }
 
     this.internals.logIndex = this.#controller.global.datastore?.set({
@@ -273,7 +312,7 @@ export class Component {
           : d.duration,
     }))
 
-    await this.#emitter.trigger('lock', data, this.#controller.global)
+    await this.#emitter.trigger(EventName.lock, data, this.#controller.global)
     delete this.internals.context
   }
 

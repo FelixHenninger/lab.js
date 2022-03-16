@@ -1,47 +1,4 @@
-// Fetch wrapper with retrying and exponential backoff
-// (this is loosely based on https://github.com/jonbern/fetch-retry,
-// very much simplified and minus the isomorphic-fetch dependency)
-
-type fetchOptions = RequestInit & {
-  retry?: {
-    times?: number
-    delay?: number
-    factor?: number
-  }
-}
-
-export const fetch = (
-  url: RequestInfo,
-  {
-    retry: { times = 3, delay = 10, factor = 5 } = {},
-    ...options
-  }: fetchOptions = {},
-): Promise<Response> =>
-  new Promise((resolve, reject) => {
-    const wrappedFetch = (attempt: number) =>
-      window
-        .fetch(url, options)
-        .then(response => resolve(response))
-        .catch(error => {
-          if (attempt <= times) {
-            retry(attempt)
-          } else {
-            reject(error)
-          }
-        })
-
-    const retry = (attempt: number) => {
-      const d = delay * factor ** attempt
-      setTimeout(() => wrappedFetch(++attempt), d)
-    }
-
-    return wrappedFetch(0)
-  })
-
-// TODO: Making a generic variant of this function
-// is left as an exercise to the reader (PRs very much appreciated)
-
-// Debouncing/throttling for async functions -----------------------------------
+// Debouncing/throttling for async functions
 // (this is an heavily modified version of the excellent
 // https://github.com/sindresorhus/p-debounce that supports
 // the cancel and flush helpers that lodash's debounce offers.
@@ -59,15 +16,15 @@ export const debounceAsync = (
   let skipped = false
 
   const invoke = function () {
+    // Reset timer
+    timer = null
+
     if (running && throttle) {
       skipped = true
     } else {
       // Keep hold currently pending resolvers, and reset list
       const pendingResolvers = resolvers
       resolvers = []
-
-      // Reset timer
-      timer = null
 
       // Execute function, capture and pass on result (or error)
       running = true
@@ -83,10 +40,11 @@ export const debounceAsync = (
           }
         })
         .finally(() => {
-          if (skipped && timer === null) {
+          const wasSkipped = skipped
+          running = skipped = false
+          if (wasSkipped && timer === null) {
             flush()
           }
-          running = skipped = false
         })
     }
   }
@@ -94,7 +52,16 @@ export const debounceAsync = (
   const flush = function () {
     timer && clearTimeout(timer)
     if (resolvers.length > 0) {
+      // Create promise that resolves with final flush call
+      const p = new Promise<any>((resolve, reject) => {
+        resolvers.push([resolve, reject])
+      })
+      // Invoke the function once more
       invoke()
+      // Return promise
+      return p
+    } else {
+      return Promise.resolve()
     }
   }
 
@@ -114,7 +81,7 @@ export const debounceAsync = (
 
       // Stop the current and setup a new timer
       timer && clearTimeout(timer)
-      timer = <any>setTimeout(invoke, wait)
+      timer = setTimeout(invoke, wait) as unknown as number
 
       // Save resolvers for future use
       resolvers.push([resolve, reject])

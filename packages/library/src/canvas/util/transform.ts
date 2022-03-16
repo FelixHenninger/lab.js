@@ -46,7 +46,6 @@ const calcTransformationParameters = (
   // The calculation needs to adjust for the fact that the
   // width and height of the canvas may represent virtual
   // coordinates on a latent high-resolution canvas
-  /* eslint-disable indent */
   const viewportScale =
     options.viewportScale === 'auto'
       ? Math.min(
@@ -54,7 +53,6 @@ const calcTransformationParameters = (
           canvasSize[1] / (pixelRatio * viewportSize[1]),
         )
       : (options.viewportScale as number)
-  /* eslint-enable indent */
 
   // The total canvas scaling factor is determined
   // by the translation of viewport pixels to canvas

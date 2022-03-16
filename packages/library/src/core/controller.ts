@@ -14,6 +14,7 @@ export class Controller extends BaseController {
     const audioContext = new (window.AudioContext ??
       window.webkitAudioContext)()
 
+    // Construct initial component context
     const initialContext = {
       el: el ?? document.querySelector('[data-labjs-section="main"]'),
     }
@@ -23,8 +24,10 @@ export class Controller extends BaseController {
     }
 
     const ds = new Store()
+
+    // Construct initial global variables
     const global = {
-      el: initialContext.el,
+      rootEl: initialContext.el,
       datastore: ds,
       state: ds.state,
       cache: {
