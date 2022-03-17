@@ -126,28 +126,14 @@ const payload = `<style type="text/css">
 
   /* Layer peeking */
   .labjs-debug-overlay ul.labjs-debug-peek-layer {
-    display: flex;
-    padding: 0;
   }
 
   .labjs-debug-overlay ul.labjs-debug-peek-layer li {
-    list-style: none;
-    flex-grow: 1;
-    flex-basis: min-content;
-    padding: 12px;
-    border: 1px solid var(--color-border, #e5e5e5);
-    color: inherit;
-    text-align: center;
-    font-size: 14px;
-    line-height: 18px;
   }
 
   .labjs-debug-overlay ul.labjs-debug-peek-layer li a {
-    text-decoration: none;
   }
   .labjs-debug-overlay ul.labjs-debug-peek-layer li a .labjs-debug-jump-type {
-    display: block;
-    font-size: 8px;
   }
 </style>
 <div class="labjs-debug-open labjs-debug-toggle">
@@ -262,7 +248,7 @@ const renderItem = ([id, title, type]: peekItem) => `
   </li>
   `
 
-const renderLayer = ([layer, items]: [number, peekLevel]) => {
+const renderLayer = (items: peekLevel, currentId?: string) => {
   return `
     <ul class="labjs-debug-peek-layer">
       ${items.map(renderItem).join('\n')}
@@ -274,8 +260,10 @@ const renderPeek = (controller: Controller) => {
   const peekData: peekLevel[] = controller.iterator //
     .peek() as any as peekLevel[]
 
-  return Array.from(peekData.entries()) //
-    .map(renderLayer)
+  const currentStack = controller.currentStack.map(c => c.id)
+
+  return peekData //
+    .map((items, layer) => renderLayer(items, currentStack[layer]))
     .join('')
 }
 
