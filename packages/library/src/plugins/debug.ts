@@ -442,14 +442,15 @@ export default class Debug {
     this.#container
       .querySelector('.labjs-debug-overlay-peek')!
       .addEventListener('click', e => {
-        if (
-          e.target instanceof HTMLAnchorElement &&
-          'labjsDebugJumpId' in e.target.dataset
-        ) {
+        // Clicks may be caught by other elements;
+        // in this case, find the next link
+        const jumpLink = (e.target as HTMLElement)?.closest('a')
+
+        if (jumpLink && 'labjsDebugJumpId' in jumpLink.dataset) {
           e.preventDefault()
 
           // Pull target id stack from data attribute
-          const target = JSON.parse(e.target.dataset['labjsDebugJumpId']!)
+          const target = JSON.parse(jumpLink.dataset['labjsDebugJumpId']!)
 
           // Create snapshot with this target
           snapshot(this.#context!, target)
