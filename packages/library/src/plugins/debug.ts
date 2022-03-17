@@ -250,27 +250,32 @@ const renderStore = (datastore: Store) => {
 type peekItem = [string[], string, string]
 type peekLevel = peekItem[]
 
-const renderItem = (i: peekItem) => `
-  <a
-    href=""
-    data-labjs-debug-jump-id='${JSON.stringify(i[0])}'
-  >
-    ${i[1]}
-    <span class="labjs-debug-jump-type">(${i[2]})</span>
-  </a>`
+const renderItem = ([id, title, type]: peekItem) => `
+  <li>
+    <a
+      href=""
+      data-labjs-debug-jump-id='${JSON.stringify(id)}'
+    >
+      ${title}
+      <span class="labjs-debug-jump-type">(type)</span>
+    </a>
+  </li>
+  `
+
+const renderLayer = ([layer, items]: [number, peekLevel]) => {
+  return `
+    <ul class="labjs-debug-peek-layer">
+      ${items.map(renderItem).join('\n')}
+    </ul>
+  `
+}
 
 const renderPeek = (controller: Controller) => {
   const peekData: peekLevel[] = controller.iterator //
     .peek() as any as peekLevel[]
 
-  return peekData
-    .map(
-      d => `
-        <ul class="labjs-debug-peek-layer">
-          ${d.map(i => `<li>${renderItem(i)}</li>`).join('\n')}
-        </ul>
-      `,
-    )
+  return Array.from(peekData.entries()) //
+    .map(renderLayer)
     .join('')
 }
 
