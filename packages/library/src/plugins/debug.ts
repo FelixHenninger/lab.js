@@ -130,7 +130,7 @@ const payload = `<style type="text/css">
 
   .labjs-debug-overlay ul.labjs-debug-peek-layer li {
   }
-  .labjs-debug-overlay ul.labjs-debug-peek-layer li.current {
+  .labjs-debug-overlay ul.labjs-debug-peek-layer li.current > a > .labjs-debug-jump-title {
     font-weight: bold;
   }
 
@@ -239,34 +239,53 @@ const renderStore = (datastore: Store) => {
 type peekItem = [string[], string, string]
 type peekLevel = peekItem[]
 
-const renderItem = ([idStack, title, type]: peekItem, currentId?: string) => `
-  <li ${idStack.at(-1) === currentId ? 'class="current"' : ''}>
-    <a
-      href=""
-      data-labjs-debug-jump-id='${JSON.stringify(idStack)}'
-    >
-      ${title}
-      <span class="labjs-debug-jump-type">(${type})</span>
-    </a>
-  </li>
-  `
+const renderItem = (
+  level: number,
+  index: number,
+  peekData: peekLevel[],
+  currentStack: (string | undefined)[],
+) => {
+  const [idStack, title, type] = peekData[level][index]
+  const currentId = currentStack[level + 1]
+  const inStack = idStack.at(-1) === currentId
+  const renderChildren = inStack && currentStack[level + 2] !== undefined
 
-const renderLayer = (items: peekLevel, currentId?: string) => {
+  return `
+    <li ${inStack ? 'class="current"' : ''}>
+      <a
+        href=""
+        data-labjs-debug-jump-id='${JSON.stringify(idStack)}'
+      >
+        <span class="labjs-debug-jump-title">${title}</span>
+        <span class="labjs-debug-jump-type">(${type})</span>
+        ${renderChildren ? renderLayer(peekData, level + 1, currentStack) : ''}
+      </a>
+    </li>
+  `
+}
+
+const renderLayer = (
+  peekData: peekLevel[],
+  level: number,
+  currentStack: (string | undefined)[],
+): string => {
+  const items = peekData[level]
+
   return `
     <ul class="labjs-debug-peek-layer">
-      ${items.map(i => renderItem(i, currentId)).join('\n')}
+      ${
+        items &&
+        items.map((_, i) => renderItem(level, i, peekData, currentStack)).join('\n')
+      }
     </ul>
   `
 }
 
 const renderPeek = (controller: Controller) => {
   const peekData = controller.iterator.peek() as any as peekLevel[]
-
   const currentStack = controller.currentStack.map(c => c.id)
 
-  return peekData //
-    .map((items, layer) => renderLayer(items, currentStack[layer + 1]))
-    .join('')
+  return renderLayer(peekData, 0, currentStack)
 }
 
 // Breadcrumbs and skip UI -----------------------------------------------------
