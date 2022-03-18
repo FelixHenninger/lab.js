@@ -260,8 +260,7 @@ const renderLayer = (items: peekLevel, currentId?: string) => {
 }
 
 const renderPeek = (controller: Controller) => {
-  const peekData: peekLevel[] = controller.iterator //
-    .peek() as any as peekLevel[]
+  const peekData = controller.iterator.peek() as any as peekLevel[]
 
   const currentStack = controller.currentStack.map(c => c.id)
 
@@ -413,7 +412,7 @@ export default class Debug {
         e.preventDefault()
 
         // Swap alignment
-        if (this.#alignment == 'horizontal') {
+        if (this.#alignment === 'horizontal') {
           this.#alignment = 'vertical'
         } else {
           this.#alignment = 'horizontal'
