@@ -130,6 +130,9 @@ const payload = `<style type="text/css">
 
   .labjs-debug-overlay ul.labjs-debug-peek-layer li {
   }
+  .labjs-debug-overlay ul.labjs-debug-peek-layer li.current {
+    font-weight: bold;
+  }
 
   .labjs-debug-overlay ul.labjs-debug-peek-layer li a {
   }
@@ -236,14 +239,14 @@ const renderStore = (datastore: Store) => {
 type peekItem = [string[], string, string]
 type peekLevel = peekItem[]
 
-const renderItem = ([id, title, type]: peekItem) => `
-  <li>
+const renderItem = ([idStack, title, type]: peekItem, currentId?: string) => `
+  <li ${idStack.at(-1) === currentId ? 'class="current"' : ''}>
     <a
       href=""
-      data-labjs-debug-jump-id='${JSON.stringify(id)}'
+      data-labjs-debug-jump-id='${JSON.stringify(idStack)}'
     >
       ${title}
-      <span class="labjs-debug-jump-type">(type)</span>
+      <span class="labjs-debug-jump-type">(${type})</span>
     </a>
   </li>
   `
@@ -251,7 +254,7 @@ const renderItem = ([id, title, type]: peekItem) => `
 const renderLayer = (items: peekLevel, currentId?: string) => {
   return `
     <ul class="labjs-debug-peek-layer">
-      ${items.map(renderItem).join('\n')}
+      ${items.map(i => renderItem(i, currentId)).join('\n')}
     </ul>
   `
 }
@@ -263,7 +266,7 @@ const renderPeek = (controller: Controller) => {
   const currentStack = controller.currentStack.map(c => c.id)
 
   return peekData //
-    .map((items, layer) => renderLayer(items, currentStack[layer]))
+    .map((items, layer) => renderLayer(items, currentStack[layer + 1]))
     .join('')
 }
 
