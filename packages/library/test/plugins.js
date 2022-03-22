@@ -95,7 +95,6 @@ describe('Plugins', () => {
         ...options,
       })
       c = new lab.core.Dummy({
-        debug: true,
         plugins: [ p ],
       })
 
