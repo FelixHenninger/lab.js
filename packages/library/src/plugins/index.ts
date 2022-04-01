@@ -1,4 +1,5 @@
-export { type Plugin } from '../base/plugin'
+// Plugin interface definition
+export { Plugin } from '../base/plugin'
 
 export { default as Debug, DebugPluginOptions } from './debug'
 export { default as Download, DownloadPluginOptions } from './download'
