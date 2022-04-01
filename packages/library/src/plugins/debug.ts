@@ -275,7 +275,9 @@ const renderLayer = (
     <ul class="labjs-debug-peek-layer">
       ${
         items &&
-        items.map((_, i) => renderItem(level, i, peekData, currentStack)).join('\n')
+        items
+          .map((_, i) => renderItem(level, i, peekData, currentStack))
+          .join('\n')
       }
     </ul>
   `
