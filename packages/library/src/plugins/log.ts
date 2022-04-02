@@ -1,14 +1,14 @@
 import { Component } from '../base/component'
 import { Plugin } from '../base/plugin'
 
-export type LoggerOptions = {
+export type LoggerPluginOptions = {
   title?: string
 }
 
 export default class Logger implements Plugin {
   title?: string
 
-  constructor({ title }: LoggerOptions = {}) {
+  constructor({ title }: LoggerPluginOptions = {}) {
     this.title = title
   }
 

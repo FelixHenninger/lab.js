@@ -6,7 +6,7 @@ import {
   launch,
 } from '../util/fullscreen'
 
-export type FullscreenOptions = {
+export type FullscreenPluginOptions = {
   message?: string
   hint?: string
   close?: boolean
@@ -17,7 +17,7 @@ export default class FullscreenPlugin implements Plugin {
   hint: string
   close: boolean
 
-  constructor({ message, hint, close }: FullscreenOptions = {}) {
+  constructor({ message, hint, close }: FullscreenPluginOptions = {}) {
     this.message = message || 'This experiment requires full screen display'
     this.hint = hint || 'Please click to continue in full screen mode'
     this.close = close ?? true
