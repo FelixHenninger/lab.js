@@ -161,7 +161,7 @@ export class Component extends BaseComponent {
     }
   }
 
-  async end(reason: string | undefined, flipData: any = {}) {
+  async end(reason?: string, flipData: any = {}) {
     this.internals.domConnection.detach()
 
     // End timeout

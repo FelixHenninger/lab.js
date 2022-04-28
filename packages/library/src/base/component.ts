@@ -243,7 +243,7 @@ export class Component {
     return this.end('response', { timestamp })
   }
 
-  async end(reason: string | undefined, flipData: any = {}) {
+  async end(reason?: string, flipData: any = {}) {
     if (this.status >= Status.done && !flipData.controlled) {
       throw "Can't end previously completed component"
     }
