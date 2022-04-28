@@ -41,6 +41,8 @@ export class Component extends BaseComponent {
   events!: EventMap
   random!: Random
 
+  parent?: Component
+
   constructor(options: Partial<ComponentOptions> = {}) {
     super({
       ...cloneDeep(componentDefaults),
