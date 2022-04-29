@@ -3639,25 +3639,15 @@
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.1.tgz#283f669ff76d7b8260df8ab7a4262cc83d988256"
   integrity sha512-fZQQafSREFyuZcdWFAExYjBiCL7AUCdgsk80iO0q4yihYYdcIiH28CcuPTGFgLOCC8RlW49GSQxdHwZP+I7CNg==
 
-"@types/node@*":
+"@types/node@*", "@types/node@>= 8", "@types/node@>=10.0.0":
   version "17.0.30"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.30.tgz#2c6e8512acac70815e8176aa30c38025067880ef"
   integrity sha512-oNBIZjIqyHYP8VCNAV9uEytXVeXG2oR0w9lgAXro20eugRQfY002qr3CUl6BAe+Yf/z3CRjPdz27Pu6WWtuSRw==
 
-"@types/node@>= 8":
-  version "14.14.22"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.22.tgz#0d29f382472c4ccf3bd96ff0ce47daf5b7b84b18"
-  integrity sha512-g+f/qj/cNcqKkc3tFqlXOYjrmZA+jNBiDzbP3kH+B+otKFqAdPgVTGP1IeKRdMml/aE69as5S4FqtxAbl+LaMw==
-
-"@types/node@>=10.0.0":
-  version "17.0.15"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.15.tgz#97779282c09c09577120a2162e71d8380003590a"
-  integrity sha512-zWt4SDDv1S9WRBNxLFxFRHxdD9tvH8f5/kg5/IaLFdnSNXsDY4eL3Q3XXN+VxUnWIhyVFDwcsmAprvwXoM/ClA==
-
-"@types/node@^12.0.12":
-  version "12.20.15"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.15.tgz#10ee6a6a3f971966fddfa3f6e89ef7a73ec622df"
-  integrity sha512-F6S4Chv4JicJmyrwlDkxUdGNSplsQdGwp1A0AJloEVDirWdZOAiRHhovDlsFkKUrquUXhz1imJhXHsf59auyAg==
+"@types/node@^14.6.2":
+  version "14.18.16"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.16.tgz#878f670ba3f00482bf859b6550b6010610fc54b5"
+  integrity sha512-X3bUMdK/VmvrWdoTkz+VCn6nwKwrKCFTHtqwBIaQJNx4RUIBBUFXM00bqPz/DsDd+Icjmzm6/tyYZzeGVqb6/Q==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -7792,13 +7782,13 @@ electron-to-chromium@^1.4.118, electron-to-chromium@^1.4.17:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.126.tgz#56e9d3cbb658c58b45d05ecfedbcb3b09ab1a2d8"
   integrity sha512-g/e18Yv0fBdN2c2Z8hWV9jOXxOxOByyG8uGufrJWUym+LHMYa5K2oR9C+D8Bvh0slUTarBwBBZFi41ImQjEZIA==
 
-electron@^11.3.0:
-  version "11.4.8"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-11.4.8.tgz#6f89be903bd917bda52afacf7cd3bdf2154b5c79"
-  integrity sha512-NrxlDZN1sWiDCWWOm5aX+tPGtiLgsCUwNqNFP3eJfY+RPdYLsxYRJDFa1vc4GcuCZEp9kZusINjmpPWsvJdspQ==
+electron@^13.6.6:
+  version "13.6.6"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-13.6.6.tgz#ebd4754b2b55d54a2e8e9cdc3d0a2bb6b7053827"
+  integrity sha512-TP2Bl1nTxaH1yRmlYiF7imzvKE/NASE0cl6wOYA3AaP/UrBGc4L3NwJfn5Z55o+1t4TH8vCRxENufESyb32HhA==
   dependencies:
     "@electron/get" "^1.0.1"
-    "@types/node" "^12.0.12"
+    "@types/node" "^14.6.2"
     extract-zip "^1.0.3"
 
 elliptic@^6.0.0:
@@ -12195,7 +12185,7 @@ konva@^7.2.2:
   integrity sha512-yk/li8rUF+09QNlOdkwbEId+QvfATMe/aMGVouWW1oFoUVTYWHsQuIAE6lWy11DK8mLJEJijkNAXC5K+NVlMew==
 
 "lab.js@file:packages/library":
-  version "22.0.0-alpha6"
+  version "22.0.0-beta1"
   dependencies:
     "@types/common-tags" "^1.8.0"
     "@types/jsdom" "^16.2.5"

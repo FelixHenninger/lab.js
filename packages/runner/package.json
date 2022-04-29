@@ -7,7 +7,7 @@
     "start": "electron ."
   },
   "devDependencies": {
-    "electron": "^11.3.0"
+    "electron": "^13.6.6"
   },
   "dependencies": {
     "esm": "^3.2.25",
