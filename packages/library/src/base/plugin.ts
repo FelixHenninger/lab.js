@@ -1,10 +1,15 @@
 import { without } from 'lodash'
+import { EventName } from '../core'
 import { Component } from './component'
 
 type PluginEvent = 'plugin:init' | 'plugin:removal'
 
-export type Plugin<T extends Component> = {
-  handle: (context: T, event: string | PluginEvent, data?: any) => Promise<void>
+export type Plugin<T extends Component = Component> = {
+  handle: (
+    context: T,
+    event: EventName | PluginEvent,
+    data?: any,
+  ) => Promise<void>
 }
 
 export class PluginAPI<T extends Component> {
@@ -33,7 +38,7 @@ export class PluginAPI<T extends Component> {
     this.plugins = without(this.plugins, plugin)
   }
 
-  async handle(event: string, data: any) {
+  async handle(event: EventName, data: any) {
     await Promise.all(
       this.plugins.map(p => p.handle(this.context, event, data)),
     )

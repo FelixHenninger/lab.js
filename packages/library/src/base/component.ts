@@ -117,7 +117,7 @@ export class Component {
       () => this.aggregateParameters,
       this.options.parameters,
     )
-    this.internals.plugins = new PluginAPI<EventName>(this, options.plugins)
+    this.internals.plugins = new PluginAPI(this, options.plugins)
 
     // Setup diagnostics
     this.internals.timestamps = {}
