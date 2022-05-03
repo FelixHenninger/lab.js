@@ -3,19 +3,15 @@ import { Component } from './component'
 
 type PluginEvent = 'plugin:init' | 'plugin:removal'
 
-export type Plugin<T = string> = {
-  handle: (
-    context: Component,
-    event: T | PluginEvent,
-    data?: any,
-  ) => Promise<void>
+export type Plugin<T extends Component> = {
+  handle: (context: T, event: string | PluginEvent, data?: any) => Promise<void>
 }
 
-export class PluginAPI<T = string> {
+export class PluginAPI<T extends Component> {
   plugins: Array<Plugin<T>>
-  context: Component
+  context: T
 
-  constructor(context: Component, plugins: Array<Plugin<T>> = []) {
+  constructor(context: T, plugins: Array<Plugin<T>> = []) {
     this.context = context
     this.plugins = plugins
 
@@ -37,7 +33,7 @@ export class PluginAPI<T = string> {
     this.plugins = without(this.plugins, plugin)
   }
 
-  async handle(event: T, data: any) {
+  async handle(event: string, data: any) {
     await Promise.all(
       this.plugins.map(p => p.handle(this.context, event, data)),
     )
