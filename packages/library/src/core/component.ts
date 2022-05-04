@@ -5,6 +5,7 @@ import {
   ComponentOptions as BaseComponentOptions,
   Status,
 } from '../base/component'
+import { Plugin } from '../plugins'
 import { Store } from '../data'
 import { Random, RNGOptions } from '../util/random'
 import { Controller } from './controller'
@@ -27,13 +28,15 @@ const componentDefaults = {
     images: [],
     audio: [],
   },
+  plugins: <Plugin[] | undefined>undefined,
   timeline: <SerializedTimelineItem[]>[],
   scrollTop: false,
   // Legacy shim
   datastore: <Store | undefined>undefined,
 }
 
-export type ComponentOptions = BaseComponentOptions & typeof componentDefaults
+export type ComponentOptions = Omit<BaseComponentOptions, 'plugins'> &
+  typeof componentDefaults
 
 export class Component extends BaseComponent {
   options!: ComponentOptions
