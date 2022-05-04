@@ -3,19 +3,19 @@ import { Component } from './component'
 
 type PluginEvent = 'plugin:init' | 'plugin:removal'
 
-export type Plugin<T = string> = {
+export type Plugin<C extends Component = Component, E = string> = {
   handle: (
-    context: Component,
-    event: T | PluginEvent,
+    context: C,
+    event: E | PluginEvent,
     data?: any,
   ) => Promise<void>
 }
 
-export class PluginAPI<T = string> {
-  plugins: Array<Plugin<T>>
-  context: Component
+export class PluginAPI<C extends Component = Component, E = string> {
+  plugins: Array<Plugin<C, E>>
+  context: C
 
-  constructor(context: Component, plugins: Array<Plugin<T>> = []) {
+  constructor(context: C, plugins: Array<Plugin<C, E>> = []) {
     this.context = context
     this.plugins = plugins
 
@@ -27,17 +27,17 @@ export class PluginAPI<T = string> {
     this.context.internals.emitter.on('*', this.handle)
   }
 
-  add(plugin: Plugin<T>) {
+  add(plugin: Plugin<C, E>) {
     this.plugins.push(plugin)
     plugin.handle(this.context, 'plugin:init')
   }
 
-  remove(plugin: Plugin<T>) {
+  remove(plugin: Plugin<C, E>) {
     plugin.handle(this.context, 'plugin:removal')
     this.plugins = without(this.plugins, plugin)
   }
 
-  async handle(event: T, data: any) {
+  async handle(event: E, data: any) {
     await Promise.all(
       this.plugins.map(p => p.handle(this.context, event, data)),
     )
