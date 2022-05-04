@@ -5,12 +5,14 @@ import {
   ComponentOptions as BaseComponentOptions,
   Status,
 } from '../base/component'
+import { Plugin } from '../plugins'
 import { Store } from '../data'
 import { Random, RNGOptions } from '../util/random'
 import { Controller } from './controller'
 import { DomConnection, EventMap } from './events/index'
 import { Timeline, SerializedItem as SerializedTimelineItem } from './timeline'
 import { FrameTimeout, timingParameters } from './timing/timeout'
+import { plugins } from '..'
 
 type Media = {
   images: string[]
@@ -31,9 +33,13 @@ const componentDefaults = {
   scrollTop: false,
   // Legacy shim
   datastore: <Store | undefined>undefined,
+  plugins: <Plugin[] | undefined>undefined,
 }
 
-export type ComponentOptions = BaseComponentOptions & typeof componentDefaults
+export type ComponentOptions = Omit<BaseComponentOptions, 'plugins'> &
+  typeof componentDefaults
+
+export type testPluginOptions = ComponentOptions['plugins']
 
 export class Component extends BaseComponent {
   options!: ComponentOptions

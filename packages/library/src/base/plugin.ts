@@ -3,8 +3,8 @@ import { Component } from './component'
 
 type PluginEvent = 'plugin:init' | 'plugin:removal'
 
-export type Plugin<C extends Component = Component, E = string> = {
-  handle: (context: C, event: E | PluginEvent, data?: any) => Promise<void>
+export class Plugin<C extends Component = Component, E = string> {
+  async handle(context: C, event: E | PluginEvent, data?: any) {}
 }
 
 export class PluginAPI<C extends Component = Component, E = string> {
