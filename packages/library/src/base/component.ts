@@ -35,7 +35,7 @@ enum PrivateEventName {
   endUncontrolled = 'end:uncontrolled',
 }
 
-const EventName = { ...PublicEventName, ...PrivateEventName }
+export const EventName = { ...PublicEventName, ...PrivateEventName }
 type EventName = PublicEventName | PrivateEventName
 
 export type ComponentOptions = {
@@ -117,7 +117,7 @@ export class Component {
       () => this.aggregateParameters,
       this.options.parameters,
     )
-    this.internals.plugins = new PluginAPI(this, options.plugins)
+    this.internals.plugins = new PluginAPI<this, EventName>(this, options.plugins)
 
     // Setup diagnostics
     this.internals.timestamps = {}
