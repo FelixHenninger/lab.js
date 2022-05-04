@@ -1,8 +1,10 @@
 // Plugin interface definition
 import { Plugin as BasePlugin } from '../base/plugin'
 import { Component, EventName } from '../core'
-export type Plugin = BasePlugin<Component, EventName>
-
+export type Plugin<
+  C extends Component = Component,
+  E extends EventName = EventName,
+> = BasePlugin<C, E>
 export { default as Debug, DebugPluginOptions } from './debug'
 export { default as Download, DownloadPluginOptions } from './download'
 export { default as Fullscreen, FullscreenPluginOptions } from './fullscreen'
