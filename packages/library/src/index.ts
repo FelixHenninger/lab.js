@@ -12,6 +12,7 @@ export * as data from './data'
 export * as flow from './flow'
 export * as html from './html'
 export * as canvas from './canvas'
+export * as react from './react'
 
 export * as plugins from './plugins'
 
