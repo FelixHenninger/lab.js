@@ -12,7 +12,6 @@ import { Controller } from './controller'
 import { DomConnection, EventMap } from './events/index'
 import { Timeline, SerializedItem as SerializedTimelineItem } from './timeline'
 import { FrameTimeout, timingParameters } from './timing/timeout'
-import { plugins } from '..'
 
 type Media = {
   images: string[]

@@ -35,7 +35,7 @@ enum PrivateEventName {
   endUncontrolled = 'end:uncontrolled',
 }
 
-export const EventName = { ...PublicEventName, ...PrivateEventName }
+const EventName = { ...PublicEventName, ...PrivateEventName }
 type EventName = PublicEventName | PrivateEventName
 
 export type ComponentOptions = {
