@@ -1055,7 +1055,7 @@ describe('Core', () => {
       // Check result
       assert.deepEqual(c.internals.plugins.plugins, [plugin])
       assert.ok(
-        spy.calledWith(c, 'plugin:init')
+        spy.calledWith(c, 'plugin:add')
       )
     })
 
@@ -1069,7 +1069,7 @@ describe('Core', () => {
       // Check result
       assert.deepEqual(c.internals.plugins.plugins, [])
       assert.ok(
-        spy.calledWith(c, 'plugin:removal')
+        spy.calledWith(c, 'plugin:remove')
       )
     })
 
