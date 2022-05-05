@@ -38,8 +38,6 @@ const componentDefaults = {
 export type ComponentOptions = Omit<BaseComponentOptions, 'plugins'> &
   typeof componentDefaults
 
-export type testPluginOptions = ComponentOptions['plugins']
-
 export class Component extends BaseComponent {
   options!: ComponentOptions
   state: any
