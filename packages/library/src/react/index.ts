@@ -24,13 +24,8 @@ export class ReactScreen<T> extends Screen {
   onRun() {
     super.onRun()
     this.componentDiv = document.createElement('div')
-    this.options.el?.appendChild(this.componentDiv)
-    if (!this.options.component) {
-      return
-    }
-
+    this.internals.domConnection.el?.appendChild(this.componentDiv)
     const { component, props } = this.options
-
     const element = React.createElement(component, props)
     ReactDOM.render(element, this.componentDiv)
   }
