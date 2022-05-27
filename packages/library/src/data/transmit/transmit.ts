@@ -2,9 +2,9 @@ import { Table } from '../store'
 import { cleanData } from '../util/clean'
 import { fetch as fetchRetry } from './fetch'
 
-export const transmit = function (
+export const transmit = function <R>(
   url: string,
-  rawData: Table,
+  rawData: Table<R>,
   metadata = {},
   {
     encoding = 'json',

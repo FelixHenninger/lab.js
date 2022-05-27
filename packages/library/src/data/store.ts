@@ -28,7 +28,7 @@ export type BaseRow = {
 }
 
 export type Row = Partial<BaseRow> & Record<string, unknown>
-export type Table = Array<Row>
+export type Table<R> = Array<R>
 export type FileFormat = 'csv' | 'json' | 'jsonl'
 
 // Default column names -----------------------------------
@@ -52,25 +52,25 @@ const defaultMetadata = [
 
 // Data storage class -------------------------------------
 
-export class Store extends Emitter {
-  #state: Row
-  private staging: Row
-  data: Table
+export class Store<R extends Row = Row> extends Emitter {
+  #state: R
+  private staging: R
+  data: Table<R>
 
   constructor() {
     super()
 
     // Initialize empty state
     this.data = []
-    this.#state = {}
-    this.staging = {}
+    this.#state = {} as R
+    this.staging = {} as R
   }
 
   // Get and set individual values ------------------------
-  set(key: Row): void
-  set(key: string, value: any, suppressSetTrigger?: boolean): void
-  set(key: string | Row, value?: any, suppressSetTrigger = false): void {
-    let partial: Row = {}
+  set(key: R): void
+  set(key: keyof R, value: any, suppressSetTrigger?: boolean): void
+  set(key: keyof R | R, value?: any, suppressSetTrigger = false): void {
+    let partial: R = {} as R
     if (typeof key === 'object') {
       partial = key
     } else {
@@ -123,7 +123,7 @@ export class Store extends Emitter {
   commit(): number {
     // Remember the index of the new entry
     const logIndex = this.data.push(cloneDeep(this.staging)) - 1
-    this.staging = {}
+    this.staging = {} as R
 
     this.emit('commit')
 
@@ -131,8 +131,8 @@ export class Store extends Emitter {
   }
 
   // Update saved data ------------------------------------
-  update(index: number, callback = (d: Row): Row => d) {
-    this.data[index] = callback(this.data[index] || {})
+  update(index: number, callback = (d: R): R => d) {
+    this.data[index] = callback(this.data[index] || {} as R)
     this.emit('update')
   }
 
@@ -142,11 +142,11 @@ export class Store extends Emitter {
 
     // Clear local (transient) state
     this.data = []
-    this.staging = {}
-    this.#state = {}
+    this.staging = {} as R
+    this.#state = {} as R
   }
 
-  _hydrate({ data = [], state = {} }: { data: Table; state: Row }) {
+  _hydrate({ data = [], state = {} as R }: { data: Table<R>; state: R }) {
     this.data = data
     this.#state = state
   }
@@ -197,16 +197,16 @@ export class Store extends Emitter {
   // Select the columns that should be present in the data
   // Input is an array of strings, a string, or a filter function
   select(
-    selector: string | string[] | ((key: string) => boolean),
+    selector: keyof R | (keyof R)[] | ((key: keyof R) => boolean),
     senderRegExp = RegExp('.*'),
   ) {
-    let columns: string[]
+    let columns: (keyof R)[]
     if (typeof selector === 'function') {
       columns = this.keys().filter(selector)
     } else if (typeof selector === 'string') {
       columns = [selector]
     } else {
-      columns = selector
+      columns = selector as (keyof R)[]
     }
 
     if (!Array.isArray(columns)) {
@@ -227,7 +227,7 @@ export class Store extends Emitter {
       .map(r => pick(r, columns))
   }
 
-  get cleanData() {
+  get cleanData(): Table<Partial<R>> {
     return cleanData(this.data)
   }
 
