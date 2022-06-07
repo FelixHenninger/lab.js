@@ -11,22 +11,24 @@ export interface ReactScreenOptions<T> extends ScreenOptions {
 /**
  * ReactScreens have all the features of Screen as well as the
  * ability to render a React component to a DOM element. Simply include
- * a reference to a React.FunctionComponent in the `component` option and its props as the `props` option.
+ * a reference to a React.FunctionComponent in the `component` option and its props within the `props` option.
  */
 export class ReactScreen<T> extends Screen {
-  options!: ReactScreenOptions<T>
   componentDiv?: HTMLElement
+  component: React.FC<T>
+  props: T
 
   constructor(options: ReactScreenOptions<T>) {
     super(options)
+    this.component = options.component
+    this.props = options.props
   }
 
   onRun() {
     super.onRun()
     this.componentDiv = document.createElement('div')
     this.global.rootEl?.appendChild(this.componentDiv)
-    const { component, props } = this.options
-    const element = React.createElement(component, props)
+    const element = React.createElement(this.component, this.props)
     ReactDOM.render(element, this.componentDiv)
   }
 
