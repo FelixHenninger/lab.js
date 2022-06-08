@@ -10,4 +10,5 @@ export {
 
 export {
   PublicEventName as EventName, //
+  ParsableOption,
 } from '../base/component'

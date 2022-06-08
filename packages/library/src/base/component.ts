@@ -54,7 +54,7 @@ export type ComponentOptions = {
 
 type CoercionType = 'object' | 'array' | 'string' | 'number' | 'boolean'
 
-type ParsableOption = {
+export type ParsableOption = {
   type?: CoercionType
   content?: {
     '*'?: CoercionType | {}
