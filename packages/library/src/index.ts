@@ -1,4 +1,4 @@
-export const version = '22.0.0-beta1'
+export const version = '22.0.0-beta2'
 export const build = {
   //@ts-ignore Injected by webpack
   flavor: <string>BUILD_FLAVOR,
