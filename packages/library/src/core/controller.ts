@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export interface CoreGlobal {
+export interface ControllerGlobal {
   rootEl: Element
   datastore: Store<Row>
   state: Row
@@ -23,7 +23,7 @@ export interface CoreGlobal {
 }
 
 export class Controller extends BaseController {
-  global!: CoreGlobal
+  global!: ControllerGlobal
 
   constructor({ root, el }: { root: Component; el?: Element }) {
     const audioContext = new (window.AudioContext ??
