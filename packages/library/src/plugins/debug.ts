@@ -319,8 +319,8 @@ const snapshot = (context: Component, target?: string[]) => {
       .map((c: Component) => c.id)
 
   // Get data and state
-  const data = context!.global.datastore.data
-  const state = context!.state
+  const data = context.global.datastore.data
+  const state = context.state
 
   window.sessionStorage.setItem(
     'labjs-debug-snapshot',
