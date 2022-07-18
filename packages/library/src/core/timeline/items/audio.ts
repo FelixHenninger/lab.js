@@ -91,7 +91,7 @@ const defaultPayload = {
   pan: 0,
   rampUp: 0,
   rampDown: 0,
-  panningModel: 'equalpower',
+  panningModel: 'equalpower' as PanningModelType,
 }
 
 type nodeOrder = {
