@@ -87,12 +87,8 @@ export class Component extends BaseComponent {
     await super.prepare(directCall)
 
     await Promise.all([
-      this.internals.controller.global.cache.images.getAll(
-        this.options.media?.images ?? [],
-      ),
-      this.internals.controller.global.cache.audio.getAll(
-        this.options.media?.audio ?? [],
-      ),
+      this.global.cache.images.getAll(this.options.media?.images ?? []),
+      this.global.cache.audio.getAll(this.options.media?.audio ?? []),
     ])
 
     // Finalize timeline
@@ -200,14 +196,7 @@ export class Component extends BaseComponent {
   }
 
   get global() {
-    if (this.#controller) {
-      return this.#controller.global
-    } else {
-      console.error(
-        'Trying to retrieve global state but no controller available',
-      )
-      return {}
-    }
+    return this.#controller.global
   }
 
   // Timekeeping ------------------------------------------

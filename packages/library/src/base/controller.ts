@@ -11,7 +11,7 @@ export class Controller extends Emitter {
   currentStack: Array<Component>
 
   global: Record<string, any>
-  context: object
+  context: Record<string, any>
   private lock: Lock
 
   flipHandlers: Function[]
@@ -23,7 +23,7 @@ export class Controller extends Emitter {
   }: {
     root: Component
     global?: Record<string, any>
-    initialContext?: Object
+    initialContext?: Record<string, any>
   }) {
     super('controller')
 
