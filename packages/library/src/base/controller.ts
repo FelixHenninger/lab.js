@@ -4,18 +4,13 @@ import { Lock } from './util/lock'
 import { Emitter } from './util/emitter'
 import { Store } from '../data'
 
-type global = {
-  store?: Store
-  [key: string]: any
-}
-
 export class Controller extends Emitter {
   root!: Component
   iterable: FlipIterable
   iterator: FlipIterator<Component>
   currentStack: Array<Component>
 
-  global: global
+  global: Record<string, any>
   context: object
   private lock: Lock
 
@@ -27,7 +22,7 @@ export class Controller extends Emitter {
     initialContext = {},
   }: {
     root: Component
-    global?: Object
+    global?: Record<string, any>
     initialContext?: Object
   }) {
     super('controller')
