@@ -1,6 +1,6 @@
 import { Component } from '../base/component'
 import { Controller as BaseController } from '../base/controller'
-import { Store } from '../data/store'
+import { Row, Store } from '../data/store'
 import { ImageCache, AudioCache } from './cache'
 
 declare global {
@@ -9,7 +9,22 @@ declare global {
   }
 }
 
+export interface CoreGlobal {
+  rootEl: Element
+  datastore: Store<Row>
+  state: Row
+  cache: {
+    images: ImageCache
+    audio: AudioCache
+  }
+  random: Record<string, any>
+  audioContext: AudioContext
+  [key: string]: any
+}
+
 export class Controller extends BaseController {
+  global!: CoreGlobal
+
   constructor({ root, el }: { root: Component; el?: Element }) {
     const audioContext = new (window.AudioContext ??
       window.webkitAudioContext)()

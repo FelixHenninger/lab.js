@@ -46,6 +46,8 @@ export class Component extends BaseComponent {
 
   parent?: Component
 
+  #controller!: Controller
+
   constructor(options: Partial<ComponentOptions> = {}) {
     super({
       ...cloneDeep(componentDefaults),
@@ -195,6 +197,17 @@ export class Component extends BaseComponent {
     this.internals.domConnection.teardown()
     await super.lock({ timestamp })
     this.status = Status.locked
+  }
+
+  get global() {
+    if (this.#controller) {
+      return this.#controller.global
+    } else {
+      console.error(
+        'Trying to retrieve global state but no controller available',
+      )
+      return {}
+    }
   }
 
   // Timekeeping ------------------------------------------
