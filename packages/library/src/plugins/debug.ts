@@ -371,7 +371,7 @@ export default class Debug {
       case 'prepare':
         return await this.onPrepare()
       default:
-        return null
+        return
     }
   }
 
