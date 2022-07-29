@@ -132,7 +132,7 @@ export class Store<R extends Row = Row> extends Emitter {
 
   // Update saved data ------------------------------------
   update(index: number, callback = (d: R): R => d) {
-    this.data[index] = callback(this.data[index] || {} as R)
+    this.data[index] = callback(this.data[index] || ({} as R))
     this.emit('update')
   }
 
