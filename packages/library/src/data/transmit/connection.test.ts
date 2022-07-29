@@ -74,7 +74,7 @@ it('sends all new data with debounced transmission', () => {
 it('sends data in increments', async () => {
   // TODO: Use modern timer implementation,
   // and replace tick shim below
-  jest.useFakeTimers('legacy')
+  jest.useFakeTimers({ legacyFakeTimers: true })
 
   // Queue and transmit first batch of data
   connection.enqueue()

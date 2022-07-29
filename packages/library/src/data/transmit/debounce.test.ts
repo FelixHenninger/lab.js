@@ -4,7 +4,7 @@ let fn: Function, debouncedFn: Function
 
 beforeEach(() => {
   // TODO: Replace legacy timers and setImmediate shims
-  jest.useFakeTimers('legacy')
+  jest.useFakeTimers({ legacyFakeTimers: true })
   fn = jest.fn(async () => 42)
   debouncedFn = debounceAsync(fn, 1000)
 })

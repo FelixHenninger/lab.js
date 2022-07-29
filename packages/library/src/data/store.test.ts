@@ -254,7 +254,7 @@ describe('Metadata', () => {
 
   it('generates filenames', () => {
     const now = new Date('2018-05-25T12:00:00+00:00')
-    const clock = jest.useFakeTimers('modern')
+    const clock = jest.useFakeTimers()
     jest.setSystemTime(now)
 
     // Compensate for time zone
