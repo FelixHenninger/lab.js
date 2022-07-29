@@ -18,7 +18,7 @@ export class SliceIterable<T> {
   #extractIterator: (
     v: NestedIterable<T>,
   ) => Promise<Iterator<T | NestedIterable<T>>>
-  #checkIterator: (v: NestedIterable<T>) => boolean
+  #checkIterator: (v: NestedIterable<T> | T) => boolean
 
   // TODO: Helper functions are necessary because components
   // do not follow the iterator protocol; when this change
@@ -26,7 +26,7 @@ export class SliceIterable<T> {
   constructor(
     root: NestedIterable<T>,
     extractIterator = async (v: NestedIterable<T>) => v[Symbol.iterator](),
-    checkIterator = (v: NestedIterable<T>) => Symbol.iterator in v,
+    checkIterator = (v: NestedIterable<T> | T) => Symbol.iterator in v,
   ) {
     this.#root = root
     this.#extractIterator = extractIterator
@@ -82,7 +82,9 @@ export class SliceIterable<T> {
           } else {
             if (this.#checkIterator(value)) {
               outputStack.push(value)
-              iteratorStack.push(await this.#extractIterator(value))
+              // We know that the value is an iterator
+              // courtesy of the condition above
+              iteratorStack.push(await this.#extractIterator(value as NestedIterable<T>))
             } else {
               return { value: [...outputStack, value], done: false }
             }
