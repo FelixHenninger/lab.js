@@ -46,8 +46,6 @@ export class Component extends BaseComponent {
 
   parent?: Component
 
-  #controller!: Controller
-
   constructor(options: Partial<ComponentOptions> = {}) {
     super({
       ...cloneDeep(componentDefaults),
@@ -196,7 +194,7 @@ export class Component extends BaseComponent {
   }
 
   get global() {
-    return this.#controller.global
+    return this.internals.controller.global
   }
 
   // Timekeeping ------------------------------------------
