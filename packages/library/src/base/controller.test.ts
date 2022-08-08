@@ -1,5 +1,12 @@
-import { Component } from './component'
+import { Component, ComponentOptions } from './component'
 import { Controller } from './controller'
+
+// TODO This isn't great -- fix with pending iterator protocol update
+const makeShimSequence = (content: Component[], options: Partial<ComponentOptions>) => {
+  const s = new Component(options)
+  s.internals.iterator = content[Symbol.iterator]()
+  return s
+}
 
 it('can build experiment with explicit controller', async () => {
   const study = new Component()
@@ -13,10 +20,7 @@ it('can build experiment with explicit controller', async () => {
 it('runs skipped components in sequence', async () => {
   const a = new Component({ id: 'a', skip: true })
   const b = new Component({ id: 'b', skip: true })
-
-  const s = new Component({ id: 's' })
-  // TODO This isn't great -- fix with pending iterator protocol update
-  s.internals.iterator = [a, b][Symbol.iterator]()
+  const s = makeShimSequence([a, b], { id: 's' })
 
   const a_run = jest.fn()
   const b_run = jest.fn()
@@ -40,9 +44,7 @@ it('runs controlled components in sequence', async () => {
   // Setup sequence
   const a = new Component({ id: 'a' })
   const b = new Component({ id: 'b' })
-  const s = new Component({ id: 's' })
-  // TODO This isn't great -- fix with pending iteator protocol update
-  s.internals.iterator = [a, b][Symbol.iterator]()
+  const s = makeShimSequence([a, b], { id: 's' })
 
   // Setup spys
   const a_run = jest.fn()
@@ -85,10 +87,7 @@ it('runs controlled components in sequence', async () => {
 
 it('ends skipped components, but does not show them', async () => {
   const a = new Component({ id: 'a', skip: true })
-
-  const s = new Component({ id: 's' })
-  // TODO This isn't great -- fix with pending iterator protocol update
-  s.internals.iterator = [a][Symbol.iterator]()
+  const s = makeShimSequence([a], { id: 's' })
 
   const a_run = jest.spyOn(a, 'run')
   const a_end = jest.spyOn(a, 'end')
@@ -113,9 +112,7 @@ it('can skip multiple components in fast succession', async () => {
   const b = new Component({ id: 'b', skip: true })
   const c = new Component({ id: 'c' })
 
-  const s = new Component({ id: 's' })
-  // TODO This isn't great -- fix with pending iterator protocol update
-  s.internals.iterator = [a, b, c][Symbol.iterator]()
+  const s = makeShimSequence([a, b, c], { id: 's' })
 
   const a_run = jest.spyOn(a, 'run')
   const a_end = jest.spyOn(a, 'end')
@@ -151,10 +148,9 @@ it('returns the current leaf component', async () => {
   const a = new Component({ id: 'a', skip: true })
   const b = new Component({ id: 'b' })
   const c = new Component({ id: 'c' })
-  const s = new Component({ id: 's' })
+  const s = makeShimSequence([a, b, c], { id: 's' })
 
   // TODO black magic removal
-  s.internals.iterator = [a, b, c][Symbol.iterator]()
   await s.prepare()
   a.internals.controller = s.internals.controller
   b.internals.controller = s.internals.controller
