@@ -146,3 +146,23 @@ it('can skip multiple components in fast succession', async () => {
   expect(c_render.mock.calls.length).toBe(1)
   expect(c_end.mock.calls.length).toBe(0)
 })
+
+it('returns the current leaf component', async () => {
+  const a = new Component({ id: 'a', skip: true })
+  const b = new Component({ id: 'b' })
+  const c = new Component({ id: 'c' })
+  const s = new Component({ id: 's' })
+
+  // TODO black magic removal
+  s.internals.iterator = [a, b, c][Symbol.iterator]()
+  await s.prepare()
+  a.internals.controller = s.internals.controller
+  b.internals.controller = s.internals.controller
+  c.internals.controller = s.internals.controller
+
+  await s.run()
+
+  expect(s.internals.controller.currentLeaf).toEqual(b)
+  await s.internals.controller.currentLeaf.end()
+  expect(s.internals.controller.currentLeaf).toEqual(c)
+})

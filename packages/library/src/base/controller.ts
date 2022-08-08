@@ -2,7 +2,8 @@ import { FlipIterable, FlipIterator } from './util/iterators/flipIterable'
 import { Component } from './component'
 import { Lock } from './util/lock'
 import { Emitter } from './util/emitter'
-import { Store } from '../data'
+
+import { last } from 'lodash'
 
 export class Controller extends Emitter {
   root!: Component
@@ -140,5 +141,9 @@ export class Controller extends Emitter {
     // TODO: This has a slight smell to it -- it might be worthwhile
     // communicating errors through the flipHandlers instead?
     return Promise.race([flipPromise, loopPromise])
+  }
+
+  get currentLeaf() {
+    return last(this.currentStack) as Component
   }
 }
