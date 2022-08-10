@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "babel-jest": "^26.6.0",
+    "buffer": "^6.0.3",
     "glob": "^7.1.6",
     "redux-devtools-extension": "^2.13.8",
     "shx": "^0.3.3"
@@ -21,7 +22,7 @@
     "fira": "github:mozilla/Fira",
     "formik": "^2.2.6",
     "hash.js": "^1.1.7",
-    "htmlhint": "^0.14.2",
+    "htmlhint": "^1.1.4",
     "jszip": "^3.5.0",
     "konva": "^7.2.2",
     "lab.js": "file:../library",
@@ -42,7 +43,7 @@
     "react-modal": "^3.12.1",
     "react-monaco-editor": "^0.41.2",
     "react-redux": "^7.2.2",
-    "react-scripts": "4.0.3",
+    "react-scripts": "5.0.0",
     "react-transition-group": "^4.4.1",
     "reactstrap": "^8.9.0",
     "redux": "^4.0.5",
