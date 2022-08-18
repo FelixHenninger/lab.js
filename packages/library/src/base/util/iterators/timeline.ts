@@ -84,7 +84,9 @@ export class SliceIterable<T> {
               outputStack.push(value)
               // We know that the value is an iterator
               // courtesy of the condition above
-              iteratorStack.push(await this.#extractIterator(value as NestedIterable<T>))
+              iteratorStack.push(
+                await this.#extractIterator(value as NestedIterable<T>),
+              )
             } else {
               return { value: [...outputStack, value], done: false }
             }

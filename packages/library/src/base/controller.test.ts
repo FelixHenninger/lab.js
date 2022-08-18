@@ -2,7 +2,10 @@ import { Component, ComponentOptions } from './component'
 import { Controller } from './controller'
 
 // TODO This isn't great -- fix with pending iterator protocol update
-const makeShimSequence = (content: Component[], options: Partial<ComponentOptions>) => {
+const makeShimSequence = (
+  content: Component[],
+  options: Partial<ComponentOptions>,
+) => {
   const s = new Component(options)
   s.internals.iterator = content[Symbol.iterator]()
   return s
