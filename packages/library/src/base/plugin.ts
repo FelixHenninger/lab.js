@@ -26,7 +26,7 @@ export class PluginAPI<
     this.plugins = plugins
 
     // Initialize existing plugins
-    this.plugins.forEach(p => p.handle(this.context, 'plugin:add'))
+    this.plugins.forEach(p => p.handle(this.context, 'pluginAdd'))
 
     // Setup event handlers
     this.handle = this.handle.bind(this)
@@ -35,11 +35,11 @@ export class PluginAPI<
 
   add(plugin: Plugin<C, E>) {
     this.plugins.push(plugin)
-    plugin.handle(this.context, 'plugin:add')
+    plugin.handle(this.context, 'pluginAdd')
   }
 
   remove(plugin: Plugin<C, E>) {
-    plugin.handle(this.context, 'plugin:remove')
+    plugin.handle(this.context, 'pluginRemove')
     this.plugins = without(this.plugins, plugin)
   }
 

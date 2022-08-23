@@ -7,7 +7,7 @@ it('Calls plugin for registration', () => {
   const c = new Component({ id: 'c', plugins: [p] })
 
   expect(spy).toHaveBeenCalledTimes(1)
-  expect(spy).toHaveBeenCalledWith(c, 'plugin:add')
+  expect(spy).toHaveBeenCalledWith(c, 'pluginAdd')
 })
 
 it('Calls plugin handle method on component event', () => {

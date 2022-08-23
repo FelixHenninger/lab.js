@@ -366,7 +366,7 @@ export default class Debug {
 
   async handle(context: Component, event: string) {
     switch (event) {
-      case 'plugin:add':
+      case 'pluginAdd':
         return this.onInit(context)
       case 'prepare':
         return await this.onPrepare()
