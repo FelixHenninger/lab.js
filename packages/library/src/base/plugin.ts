@@ -1,16 +1,18 @@
-import { without } from 'lodash'
+import { capitalize, without } from 'lodash'
 import { Component } from './component'
-import { getEventMethodName } from './util/eventName'
 
-type PluginEvent = 'plugin:add' | 'plugin:remove'
+type PluginEvent = 'pluginAdd' | 'pluginRemove'
+type EventHandler<E extends string, C, P> = {
+  [key in `on${Capitalize<E>}`]?: (context: C, ...params: P[]) => Promise<void>
+}
 
-export class Plugin<
-  C extends Component = Component,
-  E extends string = string,
-> {
+//@ts-expect-error TS2359: No methods in common with EventHandler type
+export class Plugin<C extends Component = Component, E extends string = string>
+  implements EventHandler<PluginEvent, Component, any>
+{
   async handle(context: C, event: E | PluginEvent, ...params: any[]) {
     //@ts-ignore Dynamic dispatch is too much for TS
-    this[getEventMethodName(event)]?.call(this, context, ...params)
+    this[`on${capitalize(event)}`]?.call(this, context, ...params)
   }
 }
 
