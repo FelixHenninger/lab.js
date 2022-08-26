@@ -52,6 +52,12 @@ export class SliceIterable<T> {
           // TODO
           tempLeaf = this.#root as unknown as T
         }
+        await Promise.allSettled(
+          iteratorStack.map(async iterator => {
+            //@ts-ignore
+            return await this.#extractIterator(iterator)
+          }),
+        )
         initialized = true
       }
     }
