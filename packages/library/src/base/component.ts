@@ -33,6 +33,7 @@ enum PrivateEventName {
   beforeRun = 'before:run',
   show = 'show',
   endUncontrolled = 'end:uncontrolled',
+  reset = 'reset',
 }
 
 const EventName = { ...PublicEventName, ...PrivateEventName }
@@ -298,6 +299,16 @@ export class Component {
     this.#controller.global.datastore?.commit()
 
     this.log(`Ending with reason ${flipData.reason}`)
+  }
+
+  async reset() {
+    await this.end('reset', { controlled: true })
+    await this.#emitter.trigger(
+      PrivateEventName.reset,
+      {},
+      this.#controller.global,
+    )
+    await this.run({ controlled: true })
   }
 
   async lock(data: any = {}) {
