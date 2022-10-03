@@ -137,12 +137,19 @@ development of this tool:
 
 [FernUniversität in Hagen](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/) ·
 [GESS, University of Mannheim](http://gess.uni-mannheim.de/) ·
+[Meta Reality Labs](https://research.facebook.com/) ·
 [Mozilla Science Lab](https://science.mozilla.org) ·
 [Rational Altruists Mannheim](http://www.ram-ev.de/) ·
 [Stifterverband](https://www.stifterverband.org/english/) ·
 [University of Koblenz-Landau](https://www.cognition.uni-landau.de/) ·
 [Volkswagen Foundation](https://www.volkswagenstiftung.de/en/foundation/) ·
 [Wikimedia Germany](https://meta.wikimedia.org/wiki/Wikimedia_Deutschland)
+
+<div align="center">
+  <a href="https://research.facebook.com/">
+    <img src="docs/media/sponsors/RL_logo.png">
+  </a>
+</div>
 
 If you would like to support development as a scientific institution, the
 easiest way is to **host a workshop**. We'll gladly show you and your
