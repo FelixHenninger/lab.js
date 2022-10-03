@@ -149,7 +149,7 @@ development of this tool:
   <a href="https://research.facebook.com/">
     <img src="docs/media/sponsors/RL_logo.png">
   </a>
-</div>
+</div><br>
 
 If you would like to support development as a scientific institution, the
 easiest way is to **host a workshop**. We'll gladly show you and your
