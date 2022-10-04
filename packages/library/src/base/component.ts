@@ -33,7 +33,7 @@ enum PrivateEventName {
   beforeRun = 'before:run',
   show = 'show',
   endUncontrolled = 'end:uncontrolled',
-  reset = 'reset',
+  rerun = 'rerun',
 }
 
 const EventName = { ...PublicEventName, ...PrivateEventName }
@@ -301,10 +301,10 @@ export class Component {
     this.log(`Ending with reason ${flipData.reason}`)
   }
 
-  async reset() {
-    await this.end('reset', { controlled: true })
+  async rerun() {
+    await this.end('rerun', { controlled: true })
     await this.#emitter.trigger(
-      PrivateEventName.reset,
+      PrivateEventName.rerun,
       {},
       this.#controller.global,
     )
