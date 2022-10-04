@@ -302,13 +302,22 @@ export class Component {
   }
 
   async rerun() {
-    await this.end('rerun', { controlled: true })
-    await this.#emitter.trigger(
-      PrivateEventName.rerun,
-      {},
-      this.#controller.global,
-    )
-    await this.run({ controlled: true })
+    if (
+      this.status === Status.running &&
+      this.#controller.currentLeaf === this
+    ) {
+      await this.end('rerun', { controlled: true })
+      await this.#emitter.trigger(
+        PrivateEventName.rerun,
+        {},
+        this.#controller.global,
+      )
+      await this.run({ controlled: true })
+    } else {
+      console.error(
+        "Can't rerun: Component is not the current leaf or not running.",
+      )
+    }
   }
 
   async lock(data: any = {}) {
