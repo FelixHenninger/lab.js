@@ -250,7 +250,7 @@ export class Component {
 
   async end(reason?: string, flipData: any = {}) {
     if (this.status >= Status.done && !flipData.controlled) {
-      throw "Can't end previously completed component"
+      throw new Error("Can't end completed component (again)")
     }
 
     this.status = Status.done
