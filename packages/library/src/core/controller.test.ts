@@ -1,15 +1,7 @@
 import { Controller } from './controller'
+import { setupTestingContext } from './test/helpers'
 
-beforeEach(() => {
-  const el = document.createElement('div')
-  el.dataset['labjsSection'] = 'main'
-  document.body.appendChild(el)
-})
-
-afterEach(() => {
-  const el = document.querySelector('[data-labjs-section="main"]')
-  document.body.removeChild(el!)
-})
+setupTestingContext()
 
 it('can initialize controller', async () => {
   //@ts-ignore
