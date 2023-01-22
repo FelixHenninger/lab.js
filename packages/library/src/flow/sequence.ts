@@ -6,6 +6,7 @@ import { Component, ComponentOptions } from '../core/component'
 import { CustomIterable } from './util/iterable'
 import { prepareNested } from './util/nested'
 import { mean } from '../util/stats'
+import { calcProgress } from './util/progress'
 
 const sequenceDefaults = {
   content: <Component[]>[],
@@ -62,9 +63,7 @@ export class Sequence extends Component {
   get progress() {
     // If the sequence has ended, report it as completed
     // (even if content was skipped)
-    return this.status === Status.done
-      ? 1
-      : mean(this.options.content.map((c: Component) => c.progress))
+    return this.status === Status.done ? 1 : calcProgress(this.options.content)
   }
 }
 

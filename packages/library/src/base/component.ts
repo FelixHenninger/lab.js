@@ -48,6 +48,7 @@ export type ComponentOptions = {
   skip: boolean
   tardy: boolean
   correctResponse: string
+  progressWeight?: number
   plugins?: Plugin[]
   hooks?: { [N in EventName]: EventHandler }
   data: any
