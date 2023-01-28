@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
 
     steps:
       - name: Checkout code
@@ -34,7 +34,10 @@ jobs:
         run: (cd packages/library && yarn build:starterkit)
       - name: Run library unit tests
         run: (cd packages/library && yarn test)
+      - name: Run library core tests
+        run: (cd packages/library && yarn test:base)
       - name: Connect to saucelabs for automated browser testing
+        if: ${{ github.event_name == 'push' }}
         uses: saucelabs/sauce-connect-action@v1
         with:
           username: ${{ secrets.SAUCE_USERNAME }}

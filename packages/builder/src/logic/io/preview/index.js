@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser'
+import * as Sentry from '@sentry/react'
 
 import assemble from '../assemble'
 import { blobFromDataURI } from '../../util/dataURI'

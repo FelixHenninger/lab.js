@@ -47,7 +47,7 @@ describe('Core', () => {
     })
 
     describe('Preparation', () => {
-      it('skips automated preparation when tardy option is set', () => {
+      it('skips automated preparation when tardy option is set', async () => {
         // Set tardy option: No automated preparation
         b.options.tardy = true
 
@@ -56,12 +56,11 @@ describe('Core', () => {
         b.on('prepare', callback)
 
         // Prepare item (indicate non-direct call)
-        return b.prepare(false).then(() => {
-          assert.notOk(callback.called)
-        })
+        await b.prepare(false)
+        assert.notOk(callback.called)
       })
 
-      it('responds to manual preparation when tardy option is set', () => {
+      it('responds to manual preparation when tardy option is set', async () => {
         // Set tardy option: No automated preparation
         b.options.tardy = true
 
@@ -70,53 +69,48 @@ describe('Core', () => {
         b.on('prepare', callback)
 
         // Prepare item (via direct call)
-        return b.prepare().then(() => {
-          assert.ok(callback.calledOnce)
-        })
+        await b.prepare()
+        assert.ok(callback.calledOnce)
       })
 
-      it('calls prepare method automatically when running unprepared', () => {
+      it('calls prepare method automatically when running unprepared', async () => {
         const callback = sinon.spy()
         b.on('prepare', callback)
 
-        return b.run().then(() => {
-          assert.ok(callback.calledOnce)
-        })
+        await b.run()
+        assert.ok(callback.calledOnce)
       })
 
-      it('calls prepare method automatically on run, even with tardy option', () => {
+      it('calls prepare method automatically on run, even with tardy option', async () => {
         const callback = sinon.spy()
         b.on('prepare', callback)
 
         // Set tardy option
         b.tardy = true
-        return b.run().then(() => {
-          assert.ok(callback.calledOnce)
-        })
+        await b.run()
+        assert.ok(callback.calledOnce)
       })
 
-      it('does not call prepare on a previously prepared item when run', () => {
+      it('does not call prepare on a previously prepared item when run', async () => {
         const callback = sinon.spy()
 
         // Prepare item beforehand
-        return b.prepare().then(() => {
-          // Run item
-          b.on('prepare', callback)
-          return b.run()
-        }).then(() => {
-          assert.notOk(callback.called)
-        })
+        await b.prepare()
+
+        // Run item
+        b.on('prepare', callback)
+        await b.run()
+        assert.notOk(callback.called)
       })
 
-      it('initializes RNG on component', () => {
-        return b.prepare().then(() => {
-          assert.ok(
-            b.random instanceof lab.util.Random
-          )
-        })
+      it('initializes RNG on component', async () => {
+        await b.prepare()
+        assert.ok(
+          b.random instanceof lab.util.Random
+        )
       })
 
-      it('passes randomization options to RNG', () => {
+      it('passes randomization options to RNG', async () => {
         const c = new lab.core.Component({
           random: {
             algorithm: 'alea',
@@ -124,89 +118,80 @@ describe('Core', () => {
           },
         })
 
-        return c.prepare().then(() => {
-          assert.equal(
-            c.random.random(),
-            new lab.util.Random(c.options.random).random()
-          )
-        })
+        await c.prepare()
+        assert.equal(
+          c.random.random(),
+          new lab.util.Random(c.options.random).random()
+        )
       })
 
-      it('caches images', () => {
+      it('caches images', async () => {
         const url = 'static/example_image.png'
         b.options.media.images.push(url)
 
-        return b.prepare().then(() => {
-          const [image, bitmap] =
-            b.internals.controller.cache.images.readSync(url)
-          assert.instanceOf(image, Image)
+        await b.prepare()
 
-          // Check that loading completed
-          assert.ok(image.complete)
-        })
+        const [image, bitmap] =
+          b.internals.controller.global.cache.images.readSync(url)
+        assert.instanceOf(image, Image)
+
+        // Check that loading completed
+        assert.ok(image.complete)
       })
 
-      it('caches audio', () => {
+      it('caches audio', async () => {
         const url = 'static/example_audio.mp3'
         b.options.media.audio.push(url)
 
-        return b.prepare().then(() => {
-          const audio = b.internals.controller.cache.audio.readSync(url)
+        await b.prepare()
+        const audio = b.internals.controller.global.cache.audio.readSync(url)
 
-          assert.instanceOf(audio, AudioBuffer)
-          assert.ok(audio.length > 0)
-        })
+        assert.instanceOf(audio, AudioBuffer)
+        assert.ok(audio.length > 0)
       })
 
-      it('directs output to default section if no other element is specified', () =>
-        b.prepare().then(() => {
-          assert.equal(
-            b.options.el,
-            document.querySelector('[data-labjs-section="main"]')
-          )
-        })
-      )
+      it('directs output to default section if no other element is specified', async () => {
+        await b.run()
+        assert.equal(
+          b.internals.context.el,
+          document.querySelector('[data-labjs-section="main"]')
+        )
+      })
     })
 
     describe('Running', () => {
-      it('resolves promise when running', () =>
-        b.run().then(() => {
-          assert.ok(true)
-        })
-      )
+      it('resolves promise when running', async () => {
+        await b.run()
+        assert.ok(true)
+      })
 
-      it('updates status when running', () => {
+      it('updates status when running', async () => {
         // Before preparation
         assert.equal(b.status, 0)
 
-        return b.prepare().then(() => {
-          // After preparation
-          assert.equal(b.status, 1)
-          return b.run()
-        }).then(() => {
-          // After running
-          assert.equal(b.status, 2)
-          return b.end()
-        }).then(() => {
-          // After ending
-          assert.equal(b.status, 3)
-        })
+        await b.prepare()
+        assert.equal(b.status, 1)
+
+        await b.run()
+        assert.equal(b.status, 2)
+
+        await b.end()
+        assert.equal(b.status, 3)
       })
 
-      it('updates the progress property', () => {
+      it('updates the progress property', async () => {
         // Before running
         assert.equal(b.progress, 0)
 
         // Run
-        return b.run().then(() => {
-          assert.equal(b.progress, 0)
-          return b.end()
-        }).then(() => {
-          assert.equal(b.progress, 1)
-        })
+        await b.run()
+        assert.equal(b.progress, 0)
+
+        await b.end()
+        assert.equal(b.progress, 1)
       })
 
-      it('skips run if requested', () => {
+      it('skips run if requested', async () => {
         b.options.skip = true
 
         const spy_run = sinon.spy()
@@ -215,19 +200,17 @@ describe('Core', () => {
         const spy_end = sinon.spy()
         b.on('end', spy_end)
 
-        return b.run()
-          .then(() => {
-            assert.notOk(spy_run.called)
+        await b.run()
+        assert.notOk(spy_run.called)
 
-            assert.ok(spy_end.called)
-            assert.equal(
-              b.data.ended_on,
-              'skipped'
-            )
-          })
+        assert.ok(spy_end.called)
+        assert.equal(
+          b.data.ended_on,
+          'skipped'
+        )
       })
 
-      it('reports progress even if nested content was skipped', () => {
+      it('reports progress even if nested content was skipped', async () => {
         const a = new lab.core.Component()
 
         const spy = sinon.spy()
@@ -238,14 +221,13 @@ describe('Core', () => {
           skip: true,
         })
 
-        return s.run().then(() => {
-          assert.notOk(spy.called)
-          assert.equal(a.progress, 0)
-          assert.equal(s.progress, 1)
-        })
+        await s.run()
+        assert.notOk(spy.called)
+        assert.equal(a.progress, 0)
+        assert.equal(s.progress, 1)
       })
 
-      it('scrolls to top if so instructed', () => {
+      it('scrolls to top if so instructed', async () => {
         const scrollStub = sinon.stub(window, 'scrollTo')
 
         const noScroll = new lab.core.Component()
@@ -253,14 +235,12 @@ describe('Core', () => {
           scrollTop: true,
         })
 
-        return noScroll.run().then(() => {
-          assert.notOk( scrollStub.called )
-        }).then(() =>
-          scroll.run()
-        ).then(() => {
-          assert.ok( scrollStub.withArgs(0, 0).calledOnce )
-          window.scrollTo.restore()
-        })
+        await noScroll.run()
+        assert.notOk( scrollStub.called )
+
+        await scroll.run()
+        assert.ok( scrollStub.withArgs(0, 0).calledOnce )
+        window.scrollTo.restore()
       })
     })
 
@@ -275,46 +255,42 @@ describe('Core', () => {
         clock.restore()
       })
 
-      it('timer property is undefined before running', () => {
+      it('timer property is undefined before running', async () => {
         assert.equal(b.timer, undefined)
-        return b.prepare().then(() => {
-          assert.equal(b.timer, undefined)
-        })
+        await b.prepare()
+        assert.equal(b.timer, undefined)
       })
 
-      it('timer property holds a value while running', () =>
-        b.run().then(() => {
-          assert.notEqual(b.timer, undefined)
-        })
-      )
-
-      it('provides and increments timer property while running', () => {
-        return b.run().then(() => {
-          // Show component
-          clock.runToFrame()
-
-          // Simulate progress of time and check timer
-          assert.equal(b.timer, 0)
-          clock.tick(500)
-          assert.equal(b.timer, 500)
-          clock.tick(500)
-          assert.equal(b.timer, 1000)
-        })
+      it('timer property holds a value while running', async () => {
+        await b.run()
+        assert.notEqual(b.timer, undefined)
       })
 
-      it('timer property remains static after run is complete', () => {
-        return b.run().then(() => {
-          // Show component
-          clock.runToFrame()
+      it('provides and increments timer property while running', async () => {
+        await b.run()
+        // Show component
+        clock.runToFrame()
 
-          // Component ends on next frame
-          clock.tick(500 - 16)
-          b.end()
-        }).then(() => {
-          assert.equal(b.timer, 500) // timer remains constant
-          clock.tick(500)
-          assert.equal(b.timer, 500) // timer remains constant
-        })
+        // Simulate progress of time and check timer
+        assert.equal(b.timer, 0)
+        clock.tick(500)
+        assert.equal(b.timer, 500)
+        clock.tick(500)
+        assert.equal(b.timer, 1000)
+      })
+
+      it('timer property remains static after run is complete', async () => {
+        await b.run()
+        // Show component
+        clock.runToFrame()
+
+        // Component ends on next frame
+        clock.tick(500)
+
+        await b.end()
+        assert.equal(b.timer, 500) // timer remains constant
+        clock.tick(500)
+        assert.equal(b.timer, 500) // timer remains constant
       })
     })
 
@@ -328,13 +304,7 @@ describe('Core', () => {
         clock.restore()
       })
 
-      it('times out if requested', () => {
-        // FIXME: This test requires that the fake clock advance itself.
-        // This has a strong whiff to it, and we should probably
-        // reconsider the API around this functionality.
-        clock.restore()
-        clock = sinon.useFakeTimers({ shouldAdvanceTime: true })
-
+      it('times out if requested', async () => {
         // Set the timeout to 500ms
         b.options.timeout = 500
 
@@ -343,38 +313,27 @@ describe('Core', () => {
         const callback = sinon.spy()
         b.on('end', callback)
 
-        return b.run()
-          .then(() => b.waitFor('show'))
-          .then(() => {
-            // Render component
-            clock.runToFrame()
+        await b.run()
+        // Check that the callback is only called
+        // after the specified interval has passed
+        assert.notOk(callback.called)
+        clock.tick(500)
+        assert.notOk(callback.called)
 
-            // Check that the callback is only
-            // called after the specified interval
-            // has passed
-            assert.notOk(callback.called)
-            clock.tick(500)
-            assert.ok(callback.calledOnce)
-          })
+        await clock.nextAsync()
+        assert.ok(callback.calledOnce)
       })
 
-      it('notes timeout as status if timed out', () => {
-        // FIXME, as above
-        clock.restore()
-        clock = sinon.useFakeTimers({ shouldAdvanceTime: true })
-
+      it('notes timeout as status if timed out', async () => {
         // As above
-        b.options.timeout = 500
+        b.options.timeout = 100
 
-        return b.run()
-          .then(() => b.waitFor('show'))
-          .then(() => {
-            // Trigger timeout
-            clock.tick(1000)
-
-            // Check that the resulting status is ok
-            assert.equal(b.data.ended_on, 'timeout')
-          })
+        await b.run()
+        // Trigger timeout
+        clock.tick(100)
+        await clock.nextAsync()
+        // Check that the resulting status is ok
+        assert.equal(b.data.ended_on, 'timeout')
       })
 
       const simulateTimeout = function(duration) {
@@ -408,24 +367,23 @@ describe('Core', () => {
 
     describe('Event handlers', () => {
 
-      it('runs event handlers in response to DOM events', () => {
+      it('runs event handlers in response to DOM events', async () => {
         // Bind a handler to clicks within the document
         const handler = sinon.spy()
         b.options.events = {
           'click': handler
         }
 
-        return b.run().then(() => {
-          assert.notOk(handler.calledOnce)
+        await b.run()
+        assert.notOk(handler.calledOnce)
 
-          // Simulate click
-          b.options.el.click()
+        // Simulate click
+        b.internals.context.el.click()
 
-          assert.ok(handler.calledOnce)
-        })
+        assert.ok(handler.calledOnce)
       })
 
-      it('runs event handlers in response to specific events/emitters', () => {
+      it('runs event handlers in response to specific events/emitters', async () => {
         // We need to set the output element
         // manually at this point so that we
         // can inject content before running
@@ -447,24 +405,23 @@ describe('Core', () => {
           'click button#btn-b': handler_b,
         }
 
-        return b.run().then(() => {
-          // Simulate clicking both buttons in sequence,
-          // and ensure that the associated handlers are triggered
-          b.options.el.querySelector('button#btn-a').click()
-          assert.ok(handler_a.calledOnce)
-          assert.notOk(handler_b.called)
+        await b.run()
+        // Simulate clicking both buttons in sequence,
+        // and ensure that the associated handlers are triggered
+        b.internals.context.el.querySelector('button#btn-a').click()
+        assert.ok(handler_a.calledOnce)
+        assert.notOk(handler_b.called)
 
-          b.options.el.querySelector('button#btn-b').click()
-          assert.ok(handler_a.calledOnce)
-          assert.ok(handler_b.calledOnce)
+        b.internals.context.el.querySelector('button#btn-b').click()
+        assert.ok(handler_a.calledOnce)
+        assert.ok(handler_b.calledOnce)
 
-          // Clean up
-          b.options.el.innerHTML = ''
-          return b.end()
-        })
+        // Clean up
+        b.internals.context.el.innerHTML = ''
+        await b.end()
       })
 
-      it('accepts multiple options for events', () => {
+      it('accepts multiple options for events', async () => {
         // Use an actual element in the page for testing
         // (keyboard event listeners are typically
         // located at the document level, and the
@@ -483,21 +440,20 @@ describe('Core', () => {
         // Check that the handler is called
         // when either key is pressed, and
         // that the event is passed as an argument
-        return b.run().then(() => {
-          const b_pressed = simulateKeyPress('b', b.options.el)
-          assert.ok(handler.calledOnce)
-          assert.ok(handler.firstCall.calledWith(b_pressed))
+        await b.run()
+        const b_pressed = simulateKeyPress('b', b.options.el)
+        assert.ok(handler.calledOnce)
+        assert.ok(handler.firstCall.calledWith(b_pressed))
 
-          const a_pressed = simulateKeyPress('a', b.options.el)
-          assert.ok(handler.calledTwice)
-          assert.ok(handler.secondCall.calledWith(a_pressed))
+        const a_pressed = simulateKeyPress('a', b.options.el)
+        assert.ok(handler.calledTwice)
+        assert.ok(handler.secondCall.calledWith(a_pressed))
 
-          // Clean up
-          return b.end()
-        })
+        // Clean up
+        await b.end()
       })
 
-      it('triggers all applicable events', () => {
+      it('triggers all applicable events', async () => {
         // See above for a fully commented, very similar test
         b.options.el = document.querySelector('[data-labjs-section="main"]')
 
@@ -510,30 +466,29 @@ describe('Core', () => {
           'keypress': handler_global,
         }
 
-        return b.run().then(() => {
-          const c_pressed = simulateKeyPress('c', b.options.el)
-          assert.ok(handler_global.calledOnce)
-          assert.ok(handler_global.firstCall.calledWith(c_pressed))
+        await b.run()
+        const c_pressed = simulateKeyPress('c', b.options.el)
+        assert.ok(handler_global.calledOnce)
+        assert.ok(handler_global.firstCall.calledWith(c_pressed))
 
-          const b_pressed = simulateKeyPress('b', b.options.el)
-          assert.ok(handler_general.calledOnce)
-          assert.ok(handler_general.firstCall.calledWith(b_pressed))
-          assert.ok(handler_global.calledTwice)
-          assert.ok(handler_global.secondCall.calledWith(b_pressed))
+        const b_pressed = simulateKeyPress('b', b.options.el)
+        assert.ok(handler_general.calledOnce)
+        assert.ok(handler_general.firstCall.calledWith(b_pressed))
+        assert.ok(handler_global.calledTwice)
+        assert.ok(handler_global.secondCall.calledWith(b_pressed))
 
-          const a_pressed = simulateKeyPress('a', b.options.el)
-          assert.ok(handler_specific.calledOnce)
-          assert.ok(handler_specific.firstCall.calledWith(a_pressed))
-          assert.ok(handler_general.calledTwice)
-          assert.ok(handler_general.secondCall.calledWith(a_pressed))
-          assert.ok(handler_global.calledThrice)
-          assert.ok(handler_global.thirdCall.calledWith(a_pressed))
+        const a_pressed = simulateKeyPress('a', b.options.el)
+        assert.ok(handler_specific.calledOnce)
+        assert.ok(handler_specific.firstCall.calledWith(a_pressed))
+        assert.ok(handler_general.calledTwice)
+        assert.ok(handler_general.secondCall.calledWith(a_pressed))
+        assert.ok(handler_global.calledThrice)
+        assert.ok(handler_global.thirdCall.calledWith(a_pressed))
 
-          return b.end()
-        })
+        await b.end()
       })
 
-      it('does not trigger handler before startTime', () => {
+      it('does not trigger handler before startTime', async () => {
         // Set a startTime in the future
         b.internals.domConnection.startTime = performance.now() + 1000
 
@@ -544,13 +499,12 @@ describe('Core', () => {
           'keypress': handler,
         }
 
-        return b.run().then(() => {
-          simulateKeyPress('a', b.options.el)
-          assert.ok(handler.notCalled)
-        })
+        await b.run()
+        simulateKeyPress('a', b.options.el)
+        assert.ok(handler.notCalled)
       })
 
-      it('deals with spaces in event string options', () => {
+      it('deals with spaces in event string options', async () => {
         b.options.el = document.querySelector('[data-labjs-section="main"]')
 
         const handler = sinon.spy()
@@ -558,32 +512,30 @@ describe('Core', () => {
           'keypress( a,b )': handler,
         }
 
-        return b.run().then(() => {
-          simulateKeyPress('b', b.options.el)
-          assert.ok(handler.calledOnce)
-        })
+        await b.run()
+        simulateKeyPress('b', b.options.el)
+        assert.ok(handler.calledOnce)
       })
 
-      it('binds event handlers to component', () => {
+      it('binds event handlers to component', async () => {
         // Define a spy and use it as an event handler
         const spy = sinon.spy()
         b.options.events = {
           'click': spy
         }
 
-        return b.run().then(() => {
-          // Simulate click, triggering handler
-          b.options.el.click()
+        await b.run()
+        // Simulate click, triggering handler
+        b.internals.context.el.click()
 
-          // Check binding
-          assert.ok(spy.calledOn(b))
+        // Check binding
+        assert.ok(spy.calledOn(b))
 
-          // Cleanup
-          return b.end()
-        })
+        // Cleanup
+        await b.end()
       })
 
-      it('calls internal event handlers', () => {
+      it('calls internal event handlers', async () => {
         const callback_prepare = sinon.spy()
         b.on('prepare', callback_prepare)
 
@@ -595,104 +547,65 @@ describe('Core', () => {
 
         // Check whether internal event handlers
         // are called at the appropriate times
-        return b.prepare().then(() => {
-          assert.ok(callback_prepare.calledOnce)
-          assert.notOk(callback_run.called)
-          assert.notOk(callback_end.called)
-          return b.run()
-        }).then(() => {
-          assert.ok(callback_prepare.calledOnce)
-          assert.ok(callback_run.calledOnce)
-          assert.notOk(callback_end.called)
-          return b.end()
-        }).then(() => {
-          assert.ok(callback_prepare.calledOnce)
-          assert.ok(callback_run.calledOnce)
-          assert.ok(callback_end.calledOnce)
-        })
+        await b.prepare()
+        assert.ok(callback_prepare.calledOnce)
+        assert.notOk(callback_run.called)
+        assert.notOk(callback_end.called)
+
+        await b.run()
+        assert.ok(callback_prepare.calledOnce)
+        assert.ok(callback_run.calledOnce)
+        assert.notOk(callback_end.called)
+
+        await b.end()
+        assert.ok(callback_prepare.calledOnce)
+        assert.ok(callback_run.calledOnce)
+        assert.ok(callback_end.calledOnce)
       })
 
-      it('waits for async event handlers to resolve', () => {
-        let done = false
-        const handler = () => new Promise(resolve => {
-          window.setTimeout(() => {
-            done = true
-            resolve()
-          }, 20)
+      it('passes controller global to event handlers', async () => {
+        let prepareContext
+        b.on('prepare', (_, context) => {
+          prepareContext = context
         })
 
-        const c = new lab.core.Component()
-        c.on('event', handler)
-
-        return c.trigger('event').then(() => {
-          assert.ok(done)
+        let runContext
+        b.on('run', (_, context) => {
+          runContext = context
         })
+
+        await b.run()
+
+        assert.equal(
+          prepareContext,
+          b.internals.controller.global,
+        )
+        assert.equal(
+          runContext,
+          b.internals.controller.global,
+        )
       })
 
-      it('runs internal event handlers only once if requested', () => {
-        const spy = sinon.spy()
-        const spyOnce = sinon.spy()
-
-        const c = new lab.core.Component()
-        c.on('event', spy)
-        c.once('event', spyOnce)
-
-        // First event: Should trigger both spies
-        c.trigger('event')
-        assert.ok(spy.calledOnce)
-        assert.ok(spyOnce.calledOnce)
-
-        // Second event: Single-call spy should not be called
-        c.trigger('event')
-        assert.notOk(spy.calledOnce)
-        assert.ok(spyOnce.calledOnce)
-      })
-
-      it('waits for one-shot async event handlers', () => {
-        // ... as above, except for the call to once below
-        let done = false
-        const handler = () => new Promise(resolve => {
-          window.setTimeout(() => {
-            done = true
-            resolve()
-          }, 20)
-        })
-
-        const c = new lab.core.Component()
-        c.once('event', handler)
-
-        return c.trigger('event').then(() => {
-          assert.ok(done)
-        })
-      })
-
-      it('accepts internal event handlers via the messageHandlers option', () => {
-        const handler = () => null
+      it('accepts internal event handlers via the hooks option', async () => {
+        const handler = sinon.stub()
         b = new lab.core.Component({
-          messageHandlers: {
+          hooks: {
             'someEvent': handler
           }
         })
 
-        assert.include(
-          b.internals.callbacks['$someEvent'],
-          handler
+        // Note that this requires preparation
+        await b.prepare()
+        b.internals.emitter.emit('someEvent')
+
+        assert.ok(
+          handler.calledOnce
         )
-      })
-
-      it('resolves promises via waitFor', () => {
-        const p = b.waitFor('foo').then(() => {
-          assert.ok(true)
-        })
-
-        b.triggerMethod('foo')
-
-        return p
       })
     })
 
     describe('Responses', () => {
-      it('maps responses onto event handlers', () => {
+      it('maps responses onto event handlers', async () => {
         b.options.responses = {
           'click': 'response_keypress'
         }
@@ -700,60 +613,56 @@ describe('Core', () => {
         // Attach a spy to the respond method
         const spy = sinon.spy(b, 'respond')
 
-        return b.run().then(() => {
-          // Test whether the click triggers
-          // a respond method call
-          assert.notOk(spy.called)
-          b.options.el.click()
-          assert.ok(spy.withArgs('response_keypress').calledOnce)
-          assert.ok(spy.calledOnce)
+        await b.run()
 
-          // Cleanup
-          return b.end()
-        })
+        // Test whether the click triggers
+        // a respond method call
+        assert.notOk(spy.called)
+        b.internals.context.el.click()
+        assert.ok(spy.withArgs('response_keypress').calledOnce)
+        assert.ok(spy.calledOnce)
       })
 
-      it('classifies correct responses as such', () => {
+      it('classifies correct responses as such', async () => {
         // Define a correct response
         b.options.correctResponse = 'foo'
 
         // Run the component
-        return b.run().then(() => {
-          // Trigger a response
-          b.respond('foo')
+        await b.run()
 
-          // Check the classification
-          assert.equal(b.data.correct, true)
+        // Trigger a response
+        b.respond('foo', { timestamp: 123, action: 'test' })
 
-          // Check that the resulting status is ok
-          assert.equal(b.data.ended_on, 'response')
-        })
+        // Check the classification
+        assert.equal(b.data.correct, true)
+
+        // Check that the resulting status is ok
+        assert.equal(b.data.ended_on, 'response')
       })
 
-      it('classifies incorrect responses as such', () => {
+      it('classifies incorrect responses as such', async () => {
         // Same as above
         b.options.correctResponse = 'foo'
 
-        return b.run().then(() => {
-          b.respond('bar')
+        await b.run()
 
-          // Check classification
-          assert.equal(b.data.correct, false)
+        b.respond('bar', { timestamp: 123, action: 'test' })
 
-          // Check that the resulting status is ok
-          assert.equal(b.data.ended_on, 'response')
-        })
+        // Check classification
+        assert.equal(b.data.correct, false)
+
+        // Check that the resulting status is ok
+        assert.equal(b.data.ended_on, 'response')
       })
 
-      it('accepts timestamp for response', () => {
-        return b.run().then(() => {
-          b.respond('bar', { timestamp: 123 })
+      it('accepts timestamp for response', async () => {
+        await b.run()
+        b.respond('bar', { timestamp: 123 })
 
-          assert.equal(b.internals.timestamps.end, 123)
-        })
+        assert.equal(b.internals.timestamps.end, 123)
       })
 
-      it('saves event timestamp if available', () => {
+      it('saves event timestamp if available', async () => {
         // See above for a fully commented, very similar test
         b.options.el = document.querySelector('[data-labjs-section="main"]')
 
@@ -767,18 +676,18 @@ describe('Core', () => {
           performance.timing = { navigationStart: 999 }
         }
 
-        return b.run().then(() => {
-          const b_pressed = simulateKeyPress('a', b.options.el)
+        await b.run()
 
-          assert.ok(
-            b.internals.timestamps.end === b_pressed.timeStamp ||
-            // If the event does not provide a high-res timeStamp,
-            // we measure the time in the library as a fall-back.
-            b.internals.timestamps.end === performance.now()
-          )
+        const b_pressed = simulateKeyPress('a', b.options.el)
 
-          clock.restore()
-        })
+        assert.ok(
+          b.internals.timestamps.end === b_pressed.timeStamp ||
+          // If the event does not provide a high-res timeStamp,
+          // we measure the time in the library as a fall-back.
+          b.internals.timestamps.end === performance.now()
+        )
+
+        clock.restore()
       })
     })
 
@@ -820,39 +729,35 @@ describe('Core', () => {
         )
       })
 
-      it('proxies reads from parameter property', () => {
+      it('proxies reads from parameter property', async () => {
         const c = new lab.core.Component()
-        const s = new lab.flow.Sequence({
-          content: [c],
-          parameters: {
-            foo: 'bar'
-          }
-        })
+        c.options.parameters.foo = 'bar'
 
-        return s.prepare().then(() => {
-          assert.equal(
-            c.parameters.foo,
-            'bar'
-          )
-        })
+        await c.prepare()
+
+        assert.equal(
+          c.parameters.foo,
+          'bar'
+        )
       })
 
-      it('commits parameters alongside data', () => {
+      it('commits parameters alongside data', async () => {
         const c = new lab.core.Dummy()
 
         // (parameter inheritance is tested elsewhere)
-        c.options.datastore = new lab.data.Store()
         c.options.parameters['foo'] = 'bar'
 
-        const spy = sinon.stub(c, 'commit')
+        let spy
+        await c.prepare()
+        spy = sinon.stub(c.internals.controller.global.datastore, 'set')
 
-        c.run().then(() => {
-          assert.ok(spy.calledOnce)
-          assert.equal(
-            spy.firstCall.args[0]['foo'],
-            'bar'
-          )
-        })
+        await c.run()
+
+        assert.ok(spy.calledOnce)
+        assert.equal(
+          spy.firstCall.args[0]['foo'],
+          'bar'
+        )
       })
     })
 
@@ -867,17 +772,7 @@ describe('Core', () => {
         assert.equal(c.internals.rawOptions.demoOption, 'changed value')
       })
 
-      it('retrieves options via internals.parsedOptions', () => {
-        const c = new lab.core.Component({
-          demoOption: 'demo value',
-        })
-        assert.equal(c.options.demoOption, 'demo value')
-
-        c.internals.parsedOptions.demoOption = 'substituted value'
-        assert.equal(c.options.demoOption, 'substituted value')
-      })
-
-      it('parses options that are included in parsableOptions during prepare', () => {
+      it('parses options that are included in parsableOptions during prepare', async () => {
         // As below, this would be more cleanly
         // tested using a custom component class.
         const c = new lab.core.Component({
@@ -891,14 +786,14 @@ describe('Core', () => {
           c.options.correctResponse, 'inserted value'
         )
 
-        return c.prepare().then(() => {
-          assert.equal(
-            c.options.correctResponse, 'inserted value'
-          )
-        })
+        await c.prepare()
+
+        assert.equal(
+          c.options.correctResponse, 'inserted value'
+        )
       })
 
-      it('doesn\'t parse options that are not included in parsableOptions', () => {
+      it('doesn\'t parse options that are not included in parsableOptions', async () => {
         const c = new lab.core.Component({
           foo: '${ parameters.foo }',
           parameters: {
@@ -906,12 +801,11 @@ describe('Core', () => {
           }
         })
 
-        return c.prepare().then(() => {
-          assert.equal(c.options.foo, '${ parameters.foo }')
-        })
+        await c.prepare()
+        assert.equal(c.options.foo, '${ parameters.foo }')
       })
 
-      it('coerces types where requested', () => {
+      it('coerces types where requested', async () => {
         const c = new lab.core.Component({
           timeout: '${ parameters.timeout }',
           parameters: {
@@ -919,13 +813,12 @@ describe('Core', () => {
           },
         })
 
-        return c.prepare().then(() => {
-          assert.equal(c.options.timeout, 123)
-          assert.equal(typeof c.options.timeout, 'number')
-        })
+        await c.prepare()
+        assert.equal(c.options.timeout, 123)
+        assert.equal(typeof c.options.timeout, 'number')
       })
 
-      it('recursively parses options when outputtype is \'object\'', () => {
+      it('recursively parses options when outputtype is \'object\'', async () => {
         const c = new lab.canvas.Screen({
           content: [
             { text: '${ parameters.foo }' }
@@ -935,12 +828,11 @@ describe('Core', () => {
           },
         })
 
-        return c.prepare().then(() => {
-          assert.equal(c.options.content[0].text, 'bar')
-        })
+        await c.prepare()
+        assert.equal(c.options.content[0].text, 'bar')
       })
 
-      it('collects parsableOptions via prototype chain', () => {
+      it('collects parsableOptions via prototype chain', async () => {
         // This is awkward to test, since the parsableOptions
         // are not exposed on components. An alternative would
         // be to construct an artificial component prototype
@@ -961,33 +853,30 @@ describe('Core', () => {
             .includes('correctResponse')
         )
 
-        return s.prepare().then(() => {
-          assert.equal(s.options.correctResponse, 'Hello world!')
-        })
+        await s.prepare()
+        assert.equal(s.options.correctResponse, 'Hello world!')
       })
 
-      it('makes available component parameters through this', () => {
+      it('makes available component parameters through this', async () => {
         const c = new lab.core.Component({
           correctResponse: '${ this.parameters.foo }',
         })
         c.parameters.foo = 'Hooray!'
 
-        return c.prepare().then(() => {
-          assert.equal(c.options.correctResponse, 'Hooray!')
-        })
+        await c.prepare()
+        assert.equal(c.options.correctResponse, 'Hooray!')
       })
 
-      it('does not allow code execution in template', () => {
+      it('does not allow code execution in template', async () => {
         const c = new lab.core.Component({
           correctResponse: '<% print("I am evil"); %>!',
         })
 
-        return c.prepare().then(() => {
-          assert.notEqual(c.options.correctResponse, 'I am evil!')
-        })
+        await c.prepare()
+        assert.notEqual(c.options.correctResponse, 'I am evil!')
       })
 
-      it('automatically parses options set after preparing', () => {
+      it('automatically parses options set after preparing', async () => {
         const c = new lab.core.Component({
           parameters: {
             foo: 'bar',
@@ -996,17 +885,15 @@ describe('Core', () => {
 
         assert.equal(c.options.correctResponse, null)
 
-        return c.prepare().then(() => {
-          c.options.correctResponse = '${ parameters.foo }'
-          assert.equal(c.internals.rawOptions.correctResponse, '${ parameters.foo }')
-          assert.equal(c.internals.parsedOptions.correctResponse, 'bar')
-          assert.equal(c.options.correctResponse, 'bar')
-        })
+        await c.prepare()
+        c.options.correctResponse = '${ parameters.foo }'
+        assert.equal(c.internals.rawOptions.correctResponse, '${ parameters.foo }')
+        assert.equal(c.options.correctResponse, 'bar')
       })
     })
 
     describe('Files', () => {
-      it('makes available files through placeholders', () => {
+      it('makes available files through placeholders', async () => {
         const c = new lab.html.Screen({
           files: {
             'local/fancy.png': 'remote/long-uninteresting-hashed-url.png',
@@ -1014,15 +901,14 @@ describe('Core', () => {
           content: '<img src="${ files[\'local/fancy.png\'] }">'
         })
 
-        return c.prepare().then(() => {
-          assert.equal(
-            c.options.content,
-            '<img src="remote/long-uninteresting-hashed-url.png">'
-          )
-        })
+        await c.prepare()
+        assert.equal(
+          c.options.content,
+          '<img src="remote/long-uninteresting-hashed-url.png">'
+        )
       })
 
-      it('inherits files from parent components', () => {
+      it('inherits files from parent components', async () => {
         const c = new lab.core.Component()
         const s = new lab.flow.Sequence({
           files: {
@@ -1031,41 +917,38 @@ describe('Core', () => {
           content: [c]
         })
 
-        return s.prepare().then(() => {
-          assert.equal(
-            c.files['local/fromParent.png'],
-            'remote/fromParent.png'
-          )
-        })
+        await s.prepare()
+        assert.equal(
+          c.files['local/fromParent.png'],
+          'remote/fromParent.png'
+        )
       })
     })
 
     describe('Data', () => {
-      it('data store is automatically initialized during preparation', () => {
-        return b.prepare().then(() => {
-          assert.instanceOf(
-            b.options.datastore,
-            lab.data.Store
-          )
-        })
+      it('data store is automatically initialized during preparation', async () => {
+        await b.prepare()
+        assert.instanceOf(
+          b.global.datastore,
+          lab.data.Store
+        )
       })
 
-      it('data store is passed to nested components', () => {
+      it('data store is passed to nested components', async () => {
         const s = new lab.flow.Sequence({
           content: [b]
         })
 
-        return s.prepare().then(() => {
-          assert.strictEqual( // Must be the same instance
-            s.options.datastore,
-            b.options.datastore
-          )
-        })
+        await s.prepare()
+        assert.strictEqual( // Must be the same instance
+          s.global.datastore,
+          b.global.datastore
+        )
       })
 
-      it('state property reads from data store', () => {
-        b.options.datastore = new lab.data.Store()
-        b.options.datastore.set('foo', 'bar')
+      it('state property reads from data store', async () => {
+        await b.prepare()
+        b.global.datastore.set('foo', 'bar')
 
         assert.equal(
           b.state.foo,
@@ -1073,84 +956,56 @@ describe('Core', () => {
         )
       })
 
-      it('state property writes to data store', () => {
-        b.options.datastore = new lab.data.Store()
+      it('state property writes to data store', async () => {
+        await b.prepare()
         b.state.foo = 'bar'
 
         assert.equal(
-          b.options.datastore.state.foo,
+          b.internals.controller.global.datastore.state.foo,
           'bar'
         )
       })
 
-      it('commit method passes data to data store', () => {
-        b.options.datastore = new lab.data.Store()
+      it('commits data automatically when ending', async () => {
+        let spy
 
-        // Spy on the datastore's commit method
-        const spy = sinon.spy(b.options.datastore, 'commit')
-
-        b.commit({ 'foo': 'bar' })
-
-        assert.ok(spy.calledOnce)
-        assert.equal(
-          spy.firstCall.args[0].foo,
-          'bar'
-        )
-      })
-
-      it('commits data automatically when ending', () => {
+        await b.prepare()
         // Spy on the commit method
-        const spy = sinon.spy(b, 'commit')
+        spy = sinon.spy(b.internals.controller.global.datastore, 'commit')
 
-        // Supply the Component with a data store
-        // (it won't commit otherwise)
-        b.options.datastore = new lab.data.Store()
+        await b.run()
 
         // Make sure the commit method was run
-        return b.run().then(
-          () => b.end()
-        ).then(() => {
-          assert.ok(spy.calledOnce)
-        })
+        await b.end()
+        assert.ok(spy.calledOnce)
       })
     })
 
     describe('Hierarchy traversal', () => {
       let a, b, c
 
-      // Note that this is somewhat hackish --
-      // a hierarchy of simple core.Components
-      // will not prepare nested components
-      // properly. However, it seemed smarter
-      // not to rely on, e.g. flow.Sequences
-      // at this point to simplify testing.
+      // Note that this is somewhat hackish, because it relies on
+      // sequences working -- it might be more useful to implement a
+      // general nested-component-preparation mechanism, and then revert
+      // all of these to core.Components.
       beforeEach(() => {
-        a = new lab.core.Component()
-        b = new lab.core.Component()
         c = new lab.core.Component()
-
-        c.parent = b
-        b.parent = a
+        b = new lab.flow.Sequence({ content: [c] })
+        a = new lab.flow.Sequence({ content: [b] })
       })
 
-      it('provides parents attribute', () => {
+      it('provides parents attribute', async () => {
+        await a.prepare()
         assert.deepEqual(
           c.parents,
           [a, b]
         )
       })
 
-      it('saves root component internally', () =>
-        c.prepare().then(() => {
-          assert.equal(c.internals.root, a)
-        })
-      )
-
-      it('root component is undefined for topmost component', () =>
-        a.prepare().then(() => {
-          assert.equal(a.internals.root, undefined)
-        })
-      )
+      it('saves root component internally', async () => {
+        await a.prepare()
+        assert.equal(c.internals.controller.root, a)
+      })
     })
 
     describe('Utilities', () => {
@@ -1162,87 +1017,20 @@ describe('Core', () => {
         )
       })
 
-      it('creates a clone of itself', () => {
-        const a = new lab.core.Component()
-        a.options.foo = 'bar'
-        const b = a.clone()
-
-        assert.deepEqual(
-          a.options,
-          b.options
-        )
-      })
-
-      it('incorporates additional options into clones', () => {
-        const a = new lab.core.Component()
-        a.options.constantProperty = 'original'
-        a.options.overwrittenProperty = 'original'
-
-        const b = a.clone({ overwrittenProperty: 'modified' })
-
-        assert.equal(
-          b.options.constantProperty,
-          'original'
-        )
-        assert.equal(
-          b.options.overwrittenProperty,
-          'modified'
-        )
-      })
-
-      it('instantiates directly nested components during cloning', () => {
-        const c = new lab.core.Component()
-        const spy = sinon.spy(c, 'clone')
-
-        const f = new lab.html.Frame({
-          content: c
-        })
-        const f1 = f.clone()
-
-        assert.ok(spy.calledOnce)
-      })
-
-      it('instantiates nested components in list during cloning', () => {
-        const c = new lab.core.Component()
-        const spy = sinon.spy(c, 'clone')
-
-        const s = new lab.flow.Sequence({
-          content: [c]
-        })
-        const s1 = s.clone()
-
-        assert.ok(spy.calledOnce)
-      })
-
-      it('provides additional output to console if debug option is set', () => {
-        // Yes, I am a slave to test coverage -FH
-        sinon.stub(console, 'log')
+      it('provides additional output to console if debug option is set', async () => {
         sinon.stub(console, 'info')
-        sinon.stub(console, 'group')
-        sinon.stub(console, 'time')
-        sinon.stub(console, 'timeEnd')
 
         const c = new lab.core.Dummy({
           debug: true
         })
 
-        const p = c.waitFor('epilogue')
+        const p = c.internals.emitter.waitFor('lock')
 
-        return c.run()
-          .then(() => p)
-          .then(() => {
-            assert.ok(console.log.called)
-            assert.ok(console.info.called)
-            assert.ok(console.group.called)
-            assert.ok(console.time.called)
-            console.log.restore()
-            console.info.restore()
-            console.group.restore()
-            console.time.restore()
-            // Wait a moment to avoid errors
-            // (the epilogue event is not yet over)
-            window.setTimeout(() => console.timeEnd.restore(), 0)
-          })
+        await c.run()
+        await p
+
+        assert.ok(console.info.called)
+        console.info.restore()
       })
     })
 
@@ -1258,44 +1046,175 @@ describe('Core', () => {
     })
 
     it('adds and initializes new plugins', () => {
-      assert.deepEqual(c.plugins.plugins, [])
+      assert.deepEqual(c.internals.plugins.plugins, [])
 
       // Add plugin
       const spy = sinon.spy(plugin, 'handle')
-      c.plugins.add(plugin)
+      c.internals.plugins.add(plugin)
 
       // Check result
-      assert.deepEqual(c.plugins.plugins, [plugin])
+      assert.deepEqual(c.internals.plugins.plugins, [plugin])
       assert.ok(
-        spy.calledWith(c, 'plugin:init')
+        spy.calledWith(c, 'plugin:add')
       )
     })
 
     it('removes plugins if requested', () => {
-      c.plugins.add(plugin)
+      c.internals.plugins.add(plugin)
 
       // Remove plugin
       const spy = sinon.spy(plugin, 'handle')
-      c.plugins.remove(plugin)
+      c.internals.plugins.remove(plugin)
 
       // Check result
-      assert.deepEqual(c.plugins.plugins, [])
+      assert.deepEqual(c.internals.plugins.plugins, [])
       assert.ok(
-        spy.calledWith(c, 'plugin:removal')
+        spy.calledWith(c, 'plugin:remove')
       )
     })
 
     it('passes events to plugins', () => {
-      c.plugins.add(plugin)
+      c.internals.plugins.add(plugin)
 
       // Setup spy
       const spy = sinon.spy(plugin, 'handle')
       assert.notOk(spy.called)
 
       // Trigger event and record results
-      c.plugins.trigger('foo', 1, 2, 3)
+      c.internals.emitter.trigger('foo', [1, 2, 3])
       assert.ok(
-        spy.calledWith(c, 'foo', 1, 2, 3)
+        spy.calledWith(c, 'foo', [1, 2, 3])
+      )
+    })
+  })
+
+  describe('Deserialization', () => {
+
+    // The deserialization function (currently) assumes that the library
+    // is available as a global variable. This is not the case with karma-based
+    // testing, so the following code injects the local variable into the
+    // global namespace if necessary.
+    let libraryInjected = false
+
+    beforeEach(() => {
+      if (!window.lab) {
+        libraryInjected = true
+        window.lab = lab
+      }
+
+      // Construct a minimal plugin in the global scope
+      window.MyPlugin = function MyPlugin() {
+        this.handle = function() {}
+      }
+    })
+
+    afterEach(() => {
+      if (libraryInjected) {
+        delete window.lab
+      }
+
+      // Remove plugin
+      delete window.MyPlugin
+    })
+
+    it('creates a lab.js component from a base object', () => {
+      const c = lab.core.deserialize({
+        type: 'lab.core.Component'
+      })
+
+      assert.instanceOf(c, lab.core.Component)
+    })
+
+    it('transfers options to new object', () => {
+      const c = lab.core.deserialize({
+        type: 'lab.core.Dummy',
+        option: 'value',
+      })
+
+      assert.instanceOf(c, lab.core.Dummy)
+      assert.equal(c.options.option, 'value')
+    })
+
+    it('parses nested components as array', () => {
+      const s = lab.core.deserialize({
+        type: 'lab.flow.Sequence',
+        content: [
+          {
+            type: 'lab.core.Dummy',
+            option: 'value'
+          }
+        ]
+      })
+
+      assert.instanceOf(s.options.content[0], lab.core.Dummy)
+      assert.equal(s.options.content[0].options.option, 'value')
+    })
+
+    it('parses individual nested components', () => {
+      const f = lab.core.deserialize({
+        type: 'lab.html.Frame',
+        content: {
+          type: 'lab.core.Dummy',
+          option: 'value'
+        }
+      })
+
+      assert.instanceOf(f.options.content, lab.core.Dummy)
+      assert.equal(f.options.content.options.option, 'value')
+    })
+
+    it('parses plugins', () => {
+      const pluginArgs = {
+        type: 'lab.plugins.Debug',
+      }
+
+      const c = lab.core.deserialize({
+        type: 'lab.core.Component',
+        plugins: [ pluginArgs ],
+      })
+
+      assert.ok(
+        c.internals.plugins.plugins[0] instanceof lab.plugins.Debug
+      )
+    })
+
+    it('parses plugins from global scope', () => {
+      const pluginArgs = {
+        type: 'global.MyPlugin',
+      }
+
+      const c = lab.core.deserialize({
+        type: 'lab.core.Component',
+        plugins: [ pluginArgs ],
+      })
+
+      assert.ok(
+        c.internals.plugins.plugins[0] instanceof window.MyPlugin
+      )
+    })
+
+    it('loads plugins via the path option', () => {
+      const pluginArgs = {
+        type: 'global.UnavailablePlugin',
+        path: 'global.MyPlugin',
+      }
+
+      const c = lab.core.deserialize({
+        type: 'lab.core.Component',
+        plugins: [ pluginArgs ],
+      })
+
+      assert.ok(
+        c.internals.plugins.plugins[0] instanceof window.MyPlugin
+      )
+    })
+
+    it('throws error if plugin is not available', () => {
+      assert.throws(
+        () => lab.core.deserialize({
+          type: 'lab.core.Component',
+          plugins: [{ path: 'global.UnavailablePlugin' }]
+        })
       )
     })
   })

@@ -112,7 +112,10 @@ export default class CanvasEditor extends Component {
 
   componentWillUnmount() {
     this._isMounted = false
-    this.canvas.current.updateActive()
+
+    // Apparently the canvas is unavailable sometimes,
+    // thus the fallback at this point.
+    this.canvas.current?.updateActive()
   }
 
   // Selection -----------------------------------------------------------------

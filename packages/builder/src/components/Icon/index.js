@@ -27,6 +27,7 @@ const replacements = {
   'file-exclamation': 'exclamation-circle',
   'flask-potion': 'flask',
   'heart-circle': 'heart',
+  'lock-alt': 'lock',
   'long-arrow-down': 'long-arrow-alt-down',
   'long-arrow-right': 'long-arrow-alt-right',
   'repeat': 'redo',

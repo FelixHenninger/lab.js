@@ -12,6 +12,13 @@ Before you go through the steps below, please make sure that you've :ref:`prepar
 .. contents:: Steps
   :local:
 
+.. danger::
+  **Qualtrics is prone to deleting data without warning**. Specifically, as of March 2021, `Qualtrics will truncate data saved from outside tools <https://community.qualtrics.com/XMcommunity/discussion/15232/restriction-on-embedded-variable-length-as-of-march-11-output-getting-truncated>`__ such as ``lab.js``. This means that especially longer experiments run the risk of Qualtrics throwing away parts of the experimental data. They do not provide any indication that this is happening.
+
+  If you use Qualtrics, **we implore you to make sure that your collected data is exported completely**. Even if your study works perfectly in the ``lab.js`` builder, Qualtrics may still render the collected data unusable. We would very much like to spare you the pain of losing data.
+
+  Especially if you are new to online data collection, please consider using a service such as :ref:`Open Lab <tutorial/deploy/third-party/openlab>` instead; the experience is much smoother and the caveats fewer.
+
 ----
 
 Set up data storage

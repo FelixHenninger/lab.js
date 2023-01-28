@@ -1,6 +1,6 @@
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
-import * as Sentry from '@sentry/browser'
+import * as Sentry from '@sentry/react'
 
 import assemble from '../assemble'
 import { readDataURI } from '../../util/dataURI'

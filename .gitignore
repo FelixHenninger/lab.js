@@ -1,6 +1,7 @@
 # build files
 docs/_build*
 __pycache__
+packages/builder/build.zip
 packages/library/dist
 packages/library/lab.js-*.tgz
 

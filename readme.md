@@ -137,12 +137,19 @@ development of this tool:
 
 [FernUniversität in Hagen](https://www.fernuni-hagen.de/psychologie/psychologisches_institut/about_institute/departments/app_lme/) ·
 [GESS, University of Mannheim](http://gess.uni-mannheim.de/) ·
+[Meta Reality Labs](https://research.facebook.com/) ·
 [Mozilla Science Lab](https://science.mozilla.org) ·
 [Rational Altruists Mannheim](http://www.ram-ev.de/) ·
 [Stifterverband](https://www.stifterverband.org/english/) ·
 [University of Koblenz-Landau](https://www.cognition.uni-landau.de/) ·
 [Volkswagen Foundation](https://www.volkswagenstiftung.de/en/foundation/) ·
 [Wikimedia Germany](https://meta.wikimedia.org/wiki/Wikimedia_Deutschland)
+
+<div align="center">
+  <a href="https://research.facebook.com/">
+    <img src="docs/media/sponsors/RL_logo.png">
+  </a>
+</div><br>
 
 If you would like to support development as a scientific institution, the
 easiest way is to **host a workshop**. We'll gladly show you and your
@@ -158,7 +165,7 @@ that we can discuss things in more detail.
 We [kindly request](https://www.youtube.com/watch?v=kVwl-Va7cNM) that you cite
 ``lab.js`` if you use it in your research. Here's how:
 
-> Henninger, F., Shevchenko, Y., Mertens, U. K., Kieslich, P. J., & Hilbig, B. E. (2020). lab.js: A free, open, online study builder. doi: [10.5281/zenodo.597045](https://doi.org/10.5281/zenodo.597045)
+> Henninger, F., Shevchenko, Y., Mertens, U. K., Kieslich, P. J., & Hilbig, B. E. (2022). lab.js: A free, open, online study builder. Behavior Research Methods, 54(2), 556–573. [https://doi.org/10.3758/s13428-019-01283-5](https://doi.org/10.3758/s13428-019-01283-5)
 
 (There are also [version-specific dois](https://doi.org/10.5281/zenodo.597045) if you prefer those)
 

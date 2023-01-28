@@ -12,3 +12,10 @@ div.card.editor-field.border-warning .card-footer {
   position: sticky;
   bottom: 0px;
 }
+
+/* Right-align the caret in a dropdown toggle
+   if the text is left-aligned */
+.dropdown-toggle.text-left::after {
+  float: right;
+  margin-top: 9px;
+}

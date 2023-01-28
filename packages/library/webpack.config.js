@@ -1,21 +1,32 @@
 const path = require('path')
 const webpack = require('webpack')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const TerserPlugin = require('terser-webpack-plugin')
 const shell = require('shelljs')
 
 // Minify code
 const reservedTerms = [
   // Components
-  'Component', 'Dummy',
-  'Screen', 'Page', 'Form', 'Frame',
-  'Sequence', 'Loop', 'Parallel',
+  'Component',
+  'Dummy',
+  'Screen',
+  'Page',
+  'Form',
+  'Frame',
+  'Sequence',
+  'Loop',
+  'Parallel',
   // Plugins
-  'Debug', 'Download', 'Logger', 'Metadata', 'Transmit',
+  'Debug',
+  'Download',
+  'Logger',
+  'Metadata',
+  'Transmit',
   // Utilities
-  'Random', 'fromObject',
+  'Random',
+  'fromObject',
 ]
 
 module.exports = (env, argv) => {
@@ -23,10 +34,11 @@ module.exports = (env, argv) => {
   const target = process.env.NODE_ENV || mode
 
   // Set output file name
-  const outputFilename = {
-    'coverage': 'lab.coverage.js',
-    'development': 'lab.dev.js',
-  }[target] || 'lab.js'
+  const outputFilename =
+    {
+      coverage: 'lab.coverage.js',
+      development: 'lab.dev.js',
+    }[target] || 'lab.js'
 
   const banner = [
     'lab.js -- Building blocks for online experiments',
@@ -39,11 +51,13 @@ module.exports = (env, argv) => {
       extensions: ['.ts', '.js'],
     },
     module: {
-      rules: [{
-        loader: 'ts-loader',
-        test: /\.[jt]s$/,
-        include: path.join(__dirname, 'src'),
-      }],
+      rules: [
+        {
+          loader: 'ts-loader',
+          test: /\.[jt]s$/,
+          include: path.join(__dirname, 'src'),
+        },
+      ],
     },
     devtool: mode === 'development' ? 'inline-source-map' : 'source-map',
     plugins: [
@@ -52,7 +66,7 @@ module.exports = (env, argv) => {
       new webpack.DefinePlugin({
         BUILD_FLAVOR: JSON.stringify(target),
         BUILD_COMMIT: JSON.stringify(
-          shell.exec('git rev-list -1 HEAD -- .', { silent: true }).trim()
+          shell.exec('git rev-list -1 HEAD -- .', { silent: true }).trim(),
         ),
       }),
     ],
@@ -76,13 +90,11 @@ module.exports = (env, argv) => {
             reserved: reservedTerms,
           },
         },
-      })
+      }),
     ]
 
     if (target === 'analysis') {
-      config.plugins.push(
-        new BundleAnalyzerPlugin()
-      )
+      config.plugins.push(new BundleAnalyzerPlugin())
     }
   } else if (target === 'coverage') {
     // Add code coverage instrumentation

@@ -8,6 +8,9 @@ module.exports = {
         languages: ['html', 'css', 'javascript']
       })
     )
+    config.resolve.fallback = config.resolve.fallback ?? {}
+    config.resolve.fallback.buffer = require.resolve('buffer/')
+
     return config
   },
   // NOTE: This pulls in babel-jest as a dependency;

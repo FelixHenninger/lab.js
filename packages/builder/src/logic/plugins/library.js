@@ -15,6 +15,11 @@ const fullscreen = {
       label: 'Help text',
       type: 'text',
       placeholder: 'Please click to continue in full screen mode',
+    },
+    'close': {
+      label: 'Leave fullscreen mode when component ends',
+      type: 'checkbox',
+      default: true,
     }
   }
 }
@@ -53,8 +58,40 @@ const mousetrap = {
   }
 }
 
+const style = {
+  title: 'Style',
+  description: 'Change study appearance',
+  path: 'lab.plugins.Style',
+  files: {},
+  headers: [],
+  options: {
+    'properties.--color-text': {
+      default: 'black',
+    },
+    'properties.--color-background': {
+      default: 'white',
+    },
+    'properties.--color-gray-background': {
+      default: '#f8f8f8',
+    },
+    'properties.--color-gray-content': {
+      default: '#8d8d8d',
+    },
+    'properties.--color-border': {
+      default: '#e5e5e5',
+    },
+    'properties.--color-border-internal': {
+      default: '#efefef',
+    },
+    'transition': {
+      default: true,
+    },
+  },
+}
+
 export const plugins = {
   fullscreen,
+  style,
   metadata,
   mousetrap,
 }

@@ -27,9 +27,12 @@ const gifs = [
   'https://media.giphy.com/media/APqEbxBsVlkWSuFpth/giphy.mp4', // Seems fishy
   'https://media.giphy.com/media/Rhkq4ehWqVX56/giphy.mp4', // Sheldon Cooper I
   'https://media.giphy.com/media/fOVGTYyYtV6Ra/giphy.mp4', // Sheldon Cooper II
+  'https://media.giphy.com/media/kET6ysq7ugWYZkS4Pg/giphy.mp4', // Crash and burn
+  'https://media.giphy.com/media/PnJKk4krGg4VZSI7EZ/giphy.mp4', // I hacked it!
+  'https://media.giphy.com/media/dLolp8dtrYCJi/giphy.mp4', // Mr. Robot
 ]
 
-const Error = ({ reset, error, errorInfo, eventId }) => {
+const Error = ({ resetError, error, componentStack }) => {
   const [backup, setBackup] = useState(false)
 
   // TODO: This is not (yet) canonical redux: The component is still
@@ -78,7 +81,7 @@ const Error = ({ reset, error, errorInfo, eventId }) => {
             <Button
               outline color="primary"
               block size="lg"
-              onClick={ e => {
+              onClick={ () => {
                 stateToDownload(store.getState())
                 setBackup(true)
               } }
@@ -96,7 +99,7 @@ const Error = ({ reset, error, errorInfo, eventId }) => {
                     type: 'SHOW_COMPONENT_DETAIL',
                     id: undefined,
                   })
-                  reset()
+                  resetError()
                 } }
               >
                 Close currently<br />
@@ -110,8 +113,8 @@ const Error = ({ reset, error, errorInfo, eventId }) => {
 
                   if (window.confirm(warning)) {
                     store.dispatch({ type: 'RESET_STATE' })
+                    resetError()
                   }
-                  reset()
                 } }
               >
                 Start from scratch<br />
@@ -126,13 +129,11 @@ const Error = ({ reset, error, errorInfo, eventId }) => {
             >
               <dl>
                 <dt>Error message</dt>
-                <dd>{ (error && error.toString()) || <em>(unavailable)</em> }</dd>
+                <dd>{ error?.toString() ?? <em>(unavailable)</em> }</dd>
                 <dt>Component stack</dt>
                 <dd style={{ whiteSpace: "pre-wrap" }}>
-                  { errorInfo.componentStack || <em>(unavailable)</em> }
+                  { componentStack ?? <em>(unavailable)</em> }
                 </dd>
-                <dt>EventId</dt>
-                <dd>{ eventId || <em>(unavailable)</em> }</dd>
               </dl>
             </Card>
           </Alert>

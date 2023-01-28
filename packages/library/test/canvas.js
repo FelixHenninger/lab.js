@@ -38,24 +38,11 @@ describe('Canvas-based components', () => {
       c.run().then(() => {
         // Check whether a canvas has been
         // inserted into the page
-        const canvas = c.options.el.getElementsByTagName('canvas')[0]
+        const canvas = c.internals.context.el.querySelector('canvas')
         assert.ok(canvas)
-        assert.equal(canvas, c.options.canvas)
+        assert.equal(canvas, c.internals.canvas)
       })
     )
-
-    it('does not insert a canvas if provided with one', () => {
-      // Specify a canvas for the Screen
-      c.options.canvas = document.createElement('canvas')
-
-      return c.run().then(() => {
-        // The element should be empty
-        assert.equal(
-          c.options.el.getElementsByTagName('canvas').length,
-          0
-        )
-      })
-    })
 
     // TODO: The screen will, by default, scale according to the
     // devicePixelRatio constant. This is disabled here. Ideally,
@@ -68,21 +55,21 @@ describe('Canvas-based components', () => {
 
       return c.run().then(() => {
         assert.equal(
-          c.options.canvas.height,
+          c.internals.canvas.height,
           200
         )
         assert.equal(
-          c.options.canvas.width,
+          c.internals.canvas.width,
           300
         )
         assert.equal(
-          c.options.canvas.height,
-          c.options.el.clientHeight,
+          c.internals.canvas.height,
+          c.internals.context.el.clientHeight,
           'canvas height set correctly'
         )
         assert.equal(
-          c.options.canvas.width,
-          c.options.el.clientWidth,
+          c.internals.canvas.width,
+          c.internals.context.el.clientWidth,
           'canvas width set correctly'
         )
       })
@@ -102,14 +89,14 @@ describe('Canvas-based components', () => {
 
       return c.run().then(() => {
         assert.equal(
-          c.options.canvas.height,
-          c.options.el.clientHeight * fakeDevicePixelRatio,
+          c.internals.canvas.height,
+          c.internals.context.el.clientHeight * fakeDevicePixelRatio,
           'canvas height set correctly',
         )
 
         assert.equal(
-          c.options.canvas.width,
-          c.options.el.clientWidth * fakeDevicePixelRatio,
+          c.internals.canvas.width,
+          c.internals.context.el.clientWidth * fakeDevicePixelRatio,
           'canvas width set correctly',
         )
 
@@ -164,7 +151,7 @@ describe('Canvas-based components', () => {
     it('selects 2d canvas context by default',
       () => c.run().then(() => {
         assert.ok(
-          c.options.ctx instanceof CanvasRenderingContext2D
+          c.internals.ctx instanceof CanvasRenderingContext2D
         )
       })
     )
@@ -205,13 +192,13 @@ describe('Canvas-based components', () => {
       c.options.el.style.width = '300px'
 
       return c.run().then(() => {
-        c.options.ctx.fillRect(
+        c.internals.ctx.fillRect(
           -5, -5, 10, 10,
         )
 
         // Reset transform, so that tests
         // are performed using standard coordinates
-        c.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
+        c.internals.ctx.setTransform(1, 0, 0, 1, 0, 0)
         // TODO: Some beautiful day, Safari will
         // support the simpler standard (then, this
         // can also be used in several places below)
@@ -221,15 +208,15 @@ describe('Canvas-based components', () => {
 
         // Compute center coordinates
         const [cx, cy] = [
-          c.options.canvas.width / 2,
-          c.options.canvas.height / 2,
+          c.internals.canvas.width / 2,
+          c.internals.canvas.height / 2,
         ]
 
         // TODO: Some beautiful day, we'll refactor
         // this color checking command into an easy-to-use helper
         assert.deepEqual(
           Array.from(
-            c.options.ctx
+            c.internals.ctx
               .getImageData(cx, cy, 1, 1)
               .data
           ),
@@ -248,15 +235,15 @@ describe('Canvas-based components', () => {
       c.options.el.style.width = '300px'
 
       return c.run().then(() => {
-        c.options.ctx.fillRect(
+        c.internals.ctx.fillRect(
           -5, -5, 10, 10,
         )
 
-        c.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
+        c.internals.ctx.setTransform(1, 0, 0, 1, 0, 0)
 
         assert.deepEqual(
           Array.from(
-            c.options.ctx
+            c.internals.ctx
               .getImageData(0, 0, 1, 1)
               .data
           ),
@@ -275,15 +262,15 @@ describe('Canvas-based components', () => {
       c.options.viewport = [150, 100]
 
       return c.run().then(() => {
-        c.options.ctx.fillRect(
+        c.internals.ctx.fillRect(
           -5, -5, 10, 10,
         )
 
-        c.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
+        c.internals.ctx.setTransform(1, 0, 0, 1, 0, 0)
 
         assert.deepEqual(
           Array.from(
-            c.options.ctx
+            c.internals.ctx
               .getImageData(150, 90, 1, 1)
               .data
           ),
@@ -298,7 +285,8 @@ describe('Canvas-based components', () => {
       c.options.el.style.width = '300px'
       c.options.viewport = [100, 100]
 
-      const d = c.clone()
+      const d = new lab.canvas.Screen()
+      d.options = { ...c.options }
 
       // The basic logic here is to fill a 100x100
       // viewport entirely, and check that the scaled
@@ -307,15 +295,15 @@ describe('Canvas-based components', () => {
       // then with a portrait-oriented canvas
 
       return c.run().then(() => {
-        c.options.ctx.fillRect(
+        c.internals.ctx.fillRect(
           -50, -50, 100, 100,
         )
 
-        c.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
+        c.internals.ctx.setTransform(1, 0, 0, 1, 0, 0)
 
         assert.deepEqual(
           Array.from(
-            c.options.ctx
+            c.internals.ctx
               .getImageData(10, 100, 1, 1)
               .data
           ),
@@ -325,7 +313,7 @@ describe('Canvas-based components', () => {
 
         assert.deepEqual(
           Array.from(
-            c.options.ctx
+            c.internals.ctx
               .getImageData(150, 100, 1, 1)
               .data
           ),
@@ -339,15 +327,15 @@ describe('Canvas-based components', () => {
 
         return d.run()
       }).then(() => {
-        d.options.ctx.fillRect(
+        d.internals.ctx.fillRect(
           -50, -50, 100, 100,
         )
 
-        d.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
+        d.internals.ctx.setTransform(1, 0, 0, 1, 0, 0)
 
         assert.deepEqual(
           Array.from(
-            d.options.ctx
+            d.internals.ctx
               .getImageData(10, 150, 1, 1)
               .data
           ),
@@ -357,7 +345,7 @@ describe('Canvas-based components', () => {
 
         assert.deepEqual(
           Array.from(
-            d.options.ctx
+            d.internals.ctx
               .getImageData(100, 10, 1, 1)
               .data
           ),
@@ -368,27 +356,22 @@ describe('Canvas-based components', () => {
     })
 
     it('can scale the canvas by an arbitrary factor', () => {
-      c.options.canvas = document.createElement('canvas')
-      c.options.ctx = c.options.canvas.getContext('2d')
       c.options.viewportScale = 3.14
-
-      // Spy on the context's scale method
-      const spy = sinon.spy(c.options.ctx, 'setTransform')
 
       return c.run()
         .then(() => {
-          assert.equal(
-            spy.firstCall.args[0], 3.14
-          )
+          const transform = c.internals.ctx.getTransform()
 
-          assert.equal(
-            spy.firstCall.args[3], 3.14
+          // Approximate comparisons to account for floating point error
+          assert.isBelow(
+            Math.abs(transform['a'] - 3.14),
+            0.001
+          )
+          assert.isBelow(
+            Math.abs(transform['d'] - 3.14),
+            0.001
           )
         })
-
-      // This can be made nicer in the future when the
-      // transformation matrix can be accessed directly,
-      // wee comments below.
     })
 
     it('can draw viewport border if requested', () => {
@@ -399,11 +382,11 @@ describe('Canvas-based components', () => {
 
       return c.run().then(() => {
         clock.runToFrame()
-        c.options.ctx.setTransform(1, 0, 0, 1, 0, 0)
+        c.internals.ctx.setTransform(1, 0, 0, 1, 0, 0)
 
         assert.deepEqual(
           Array.from(
-            c.options.ctx
+            c.internals.ctx
               .getImageData(199, 199, 1, 1)
               .data
           ),
@@ -415,39 +398,31 @@ describe('Canvas-based components', () => {
 
     it('scales coordinates to account for device pixel ratios', () => {
       // Create artificial canvas
-      c.options.canvas = document.createElement('canvas')
-      c.options.ctx = c.options.canvas.getContext('2d')
       c.options.viewportScale = 1
       c.options.devicePixelScaling = true
 
       const oldDevicePixelRatio = window.devicePixelRatio
       window.devicePixelRatio = 2.5
 
-      // Spy on the context's scale method
-      const spy = sinon.spy(c.options.ctx, 'setTransform')
-
       return c.run()
         .then(() => {
-          assert.equal(
-            spy.firstCall.args[0], window.devicePixelRatio,
-          )
+          const transform = c.internals.ctx.getTransform()
 
           assert.equal(
-            spy.firstCall.args[3], window.devicePixelRatio,
+            transform['a'], window.devicePixelRatio,
+          )
+          assert.equal(
+            transform['d'], window.devicePixelRatio,
           )
 
           window.devicePixelRatio = oldDevicePixelRatio
         })
-
-      // Like the test below, this should be changed at a
-      // later point to check the canvas transformation
     })
 
     it('saves and resets canvas transformations to original values', () => {
       // Create artificial canvas
-      const canvas = document.createElement('canvas')
-      canvas.width = canvas.height = 400
-      c.options.canvas = canvas
+      c.options.el.style.height = '400px'
+      c.options.el.style.width = '400px'
 
       // Render square in the center of the canvas
       c.options.renderFunction = (ts, canvas, ctx) =>
@@ -462,7 +437,7 @@ describe('Canvas-based components', () => {
         ).then(() => {
           assert.deepEqual(
             Array.from(
-              c.options.ctx
+              c.internals.ctx
                 .getImageData(200, 200, 1, 1)
                 .data
             ),
@@ -473,12 +448,12 @@ describe('Canvas-based components', () => {
           return c.end()
         }).then(() => {
           // Draw second rectangle with the same coordinates
-          c.options.ctx
+          c.internals.ctx
             .fillRect(-50, -50, 100, 100)
 
           assert.deepEqual(
             Array.from(
-              c.options.ctx
+              c.internals.ctx
                 .getImageData(0, 0, 1, 1)
                 .data
             ),
@@ -528,26 +503,29 @@ describe('Canvas-based components', () => {
     it('throws error if nested components are incompatible', () => {
       s.options.content.push(new lab.html.Screen())
 
-      return f.prepare().then(() => {
-          assert.ok(false, 'Component should throw error during preparation')
+      return f.run().then(() => {
+          assert.ok(false, 'Component should throw error during setup')
         }).catch(err => {
           assert.equal(
             err.message,
-            'CanvasFrame may only contain flow or canvas-based components',
+            'canvas.Frame may only contain flow or canvas-based components',
           )
         })
     })
 
     it('throws error if the context does not contain a canvas element', () => {
       f.options.context = '<div>Nope</div>'
+      // Suppress error message
+      const stub = sinon.stub(console, 'error')
 
-      return f.prepare().then(() => {
-          assert.ok(false, 'Component should throw error during preparation')
+      return f.run().then(() => {
+          assert.ok(false, 'Component should throw error during setup')
         }).catch(err => {
           assert.equal(
             err.message,
-            'No canvas found in context',
+            'No canvas found in canvas.Frame context',
           )
+          stub.restore()
         })
     })
 
@@ -557,7 +535,7 @@ describe('Canvas-based components', () => {
       return f.run().then(() =>
         assert.equal(
           f.options.el.querySelector('div#canvas-parent'),
-          a.options.el,
+          a.internals.context.el,
         )
       )
     })
@@ -568,15 +546,14 @@ describe('Canvas-based components', () => {
 
       return f.run().then(() =>
         assert.equal(
-          f.options.el,
-          a.options.el,
+          f.internals.context.el,
+          a.internals.context.el,
         )
       )
     })
 
     it('ends with content', () =>
-      // This is tested in more depth
-      // in the HTML.Frame test suite
+      // This is tested in more depth in the HTML.Frame test suite
       f.run().then(
         () => s.end()
       ).then(() => {
@@ -609,16 +586,11 @@ describe('Canvas-based components', () => {
 
       return f.run()
         .then(() => {
-          // This used to run clock.next(), but the epilogue event
-          // uses a timer as shim for requestIdleCallback, which
-          // so that resolving a single queued timer was not enough.
-          clock.runToLast()
-
           // After drawing the first screen ...
           // ... left area should be black
           assert.deepEqual(
             Array.from(
-              f.options.canvas
+              f.internals.canvas
                 .getContext('2d')
                 .getImageData(5, 5, 1, 1)
                 .data
@@ -628,7 +600,7 @@ describe('Canvas-based components', () => {
           // ... right area should be empty/blank
           assert.deepEqual(
             Array.from(
-              f.options.canvas
+              f.internals.canvas
                 .getContext('2d')
                 .getImageData(15, 5, 1, 1)
                 .data
@@ -636,15 +608,12 @@ describe('Canvas-based components', () => {
             [0, 0, 0, 0]
           )
           return a.end()
-        })
-        .then(() => b.run())
-        .then(() => {
-          clock.runToLast()
+        }).then(() => {
           // After drawing the second screen ...
           // ... left area should be empty
           assert.deepEqual(
             Array.from(
-              f.options.canvas
+              f.internals.canvas
                 .getContext('2d')
                 .getImageData(5, 5, 1, 1)
                 .data
@@ -654,7 +623,7 @@ describe('Canvas-based components', () => {
           // ... right area should be filled
           assert.deepEqual(
             Array.from(
-              f.options.canvas
+              f.internals.canvas
                 .getContext('2d')
                 .getImageData(15, 5, 1, 1)
                 .data

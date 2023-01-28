@@ -4,6 +4,19 @@
 define(['lab'], (lab) => {
 
 describe('Plugins', () => {
+
+  // Inject a div in which DOM behavior is tested
+  let demoElement
+  beforeEach(() => {
+    demoElement = document.createElement('div')
+    demoElement.dataset.labjsSection = 'main'
+    document.body.appendChild(demoElement)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(demoElement)
+  })
+
   describe('Logger', () => {
     let fakeLog
     beforeEach(() => {
@@ -21,7 +34,7 @@ describe('Plugins', () => {
         ],
       })
 
-      c.trigger('SomeEvent')
+      c.internals.emitter.trigger('SomeEvent')
 
       assert.ok(
         fakeLog
@@ -41,7 +54,7 @@ describe('Plugins', () => {
 
       return c.prepare().then(() => {
         assert.include(
-          c.options.datastore.staging.meta,
+          c.global.datastore.staging.meta,
           { userAgent: window.navigator.userAgent },
         )
       })
@@ -59,7 +72,7 @@ describe('Plugins', () => {
 
       return c.prepare().then(() => {
         assert.deepEqual(
-          c.options.datastore.staging.url,
+          c.global.datastore.staging.url,
           { foo: 'bar', baz: '123' }
         )
       })
@@ -67,98 +80,57 @@ describe('Plugins', () => {
   })
 
   describe('Transmit', () => {
-
-    let c, p
     beforeEach(() => {
-      p = new lab.plugins.Transmit({
-        url: 'https://arbitrary.example',
-      })
-      c = new lab.core.Dummy({
-        datastore: new lab.data.Store(),
-        plugins: [ p ],
-      })
-
-      return c.prepare().then(() => {
-        sinon.stub(c.options.datastore, 'transmit')
-          .callsFake(() => Promise.resolve())
-
-        sinon.stub(c.options.datastore, 'queueIncrementalTransmission')
-      })
+      sinon.stub(window, 'fetch').callsFake(() => Promise.resolve())
     })
 
     afterEach(() => {
-      // Cancel transmission queue
-      c.options.datastore._debouncedTransmit.cancel()
-
-      // Restore stubs
-      c.options.datastore.transmit.restore()
-      c.options.datastore.queueIncrementalTransmission.restore()
+      // Restore stub
+      window.fetch.restore()
     })
 
-    it('queues incremental transmission before epilogue event', () => {
+    const makeExample = async (options={}) => {
+      p = new lab.plugins.Transmit({
+        url: 'https://arbitrary.example',
+        ...options,
+      })
+      c = new lab.core.Dummy({
+        plugins: [ p ],
+      })
+
+      await c.prepare()
+      sinon.stub(p.connection, 'enqueue').callsFake(() => Promise.resolve())
+
+      return { c, p }
+    }
+
+    it('queues incremental transmission before epilogue event', async () => {
       // Disable final transmission
-      p.updates.full = false
+      const m = { id: 'abc' }
+      const { c, p } = await makeExample({ updates: { full: false }, metadata: m })
 
-      // Data transmission runs last,
-      // so we need to wait for the corresponding event
-      const epiloguePromise = c.waitFor('epilogue')
-
-      return c.run().then(() =>
-        epiloguePromise
-      ).then(() => {
-        assert.ok(
-          c.options.datastore.queueIncrementalTransmission.withArgs(
-            'https://arbitrary.example',
-            { id: p.metadata.id, payload: 'incremental' }
-          ).calledOnce
-        )
-      })
+      await c.run()
+      assert.ok(p.connection.enqueue.calledOnce)
     })
 
-    it('sends complete dataset when component ends', () => {
+    it('sends complete dataset when component ends', async () => {
       // Disable incremental transmissions
-      p.updates.incremental = false
+      const { c } = await makeExample({ updates: { incremental: false }})
 
-      const epiloguePromise = c.waitFor('epilogue')
-
-      return c.run().then(() =>
-        // TODO: This is super-hacky, basically it's very hard
-        // to wait for the epilogue event to occur before
-        // triggering the tests. So here, we don't just wait
-        // for the epilogue event, but for a minimum of 200ms.
-        // There really should be a better way of handling this.
-        Promise.all([
-          epiloguePromise,
-          new Promise(resolve => window.setTimeout(resolve, 50)),
-        ])
-      ).then(() => {
-        assert.ok(c.options.datastore.transmit.calledOnce)
-        assert.ok(
-          c.options.datastore.transmit.withArgs(
-            'https://arbitrary.example',
-            { id: p.metadata.id, payload: 'full' },
-          ).calledOnce
-        )
-      })
+      await c.run()
+      assert.ok(window.fetch.calledOnce)
     })
 
-    it('triggers callback after full transmission', () => {
-      const epiloguePromise = c.waitFor('epilogue')
-      p.callbacks = {
-        full: sinon.spy()
-      }
-
-      return c.run().then(() =>
-        // TODO: As above
-        Promise.all([
-          epiloguePromise,
-          new Promise(resolve => window.setTimeout(resolve, 200)),
-        ])
-      ).then(() => {
-        assert.ok(
-          p.callbacks.full.calledOnce
-        )
+    it('triggers callback after full transmission', async () => {
+      const spy = sinon.spy()
+      const { c } = await makeExample({
+        callbacks: {
+          full: spy
+        }
       })
+      await c.run()
+      await new Promise(resolve => setTimeout(resolve, 10))
+      assert.ok(spy.calledOnce) // ONCE
     })
   })
 })
