@@ -254,7 +254,7 @@ describe('Flow control', () => {
         // result in the sequence progressing
         return a.end()
       }).catch(e => {
-        assert.equal(e, `Can't end previously completed component`)
+        assert.equal(e.message, `Can't end completed component (again)`)
       }).then(() => {
         assert.notOk(b_run.called)
 
