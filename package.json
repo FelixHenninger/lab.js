@@ -2,7 +2,7 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "lerna": "^3.0.0-beta.21",
+    "lerna": "^6.0.0",
     "onchange": "^7.1.0"
   },
   "scripts": {
