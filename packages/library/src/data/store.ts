@@ -67,10 +67,10 @@ export class Store<R extends Row = Row> extends Emitter {
   }
 
   // Get and set individual values ------------------------
-  set(key: R): void
+  set(key: Partial<R>): void
   set(key: keyof R, value: any, suppressSetTrigger?: boolean): void
-  set(key: keyof R | R, value?: any, suppressSetTrigger = false): void {
-    let partial: R = {} as R
+  set(key: keyof R | Partial<R>, value?: any, suppressSetTrigger = false): void {
+    let partial: Partial<R> = {}
     if (typeof key === 'object') {
       partial = key
     } else {
