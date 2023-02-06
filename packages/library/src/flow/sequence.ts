@@ -5,7 +5,6 @@ import { Component, ComponentOptions } from '../core/component'
 
 import { CustomIterable } from './util/iterable'
 import { prepareNested } from './util/nested'
-import { mean } from '../util/stats'
 import { calcProgress } from './util/progress'
 
 const sequenceDefaults = {
