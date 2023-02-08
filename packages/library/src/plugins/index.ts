@@ -1,6 +1,7 @@
 // Plugin interface definition
 import { Plugin as BasePlugin } from '../base/plugin'
 import { Component, EventName } from '../core'
+
 export type Plugin<
   C extends Component = Component,
   E extends EventName = EventName,
