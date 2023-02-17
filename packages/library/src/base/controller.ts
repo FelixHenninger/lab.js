@@ -116,7 +116,7 @@ export class Controller extends Emitter {
     switch (instruction) {
       case 'abort':
         this.iterator?.findSplice(data.sender)
-        data.sender.end('aborted')
+        await data.sender.end('aborted')
         break
       case 'fastforward':
         await this.iterator?.fastForward(data.target)
