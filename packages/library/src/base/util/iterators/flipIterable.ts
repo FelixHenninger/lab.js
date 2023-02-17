@@ -24,8 +24,8 @@ export const resolveFlip = <T>(oldStack: T[], newStack: T[]) => {
 
 export class AbortFlip extends Error {}
 
-const triggerContinue = function (this: Component, data: any) {
-  return this.internals.controller?.continue(this, data)
+const triggerContinue = async function (this: Component, data: any) {
+  return await this.internals.controller?.continue(this, data)
 }
 
 type IteratorOutput = {
