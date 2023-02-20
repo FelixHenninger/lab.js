@@ -1,11 +1,8 @@
-import { Component, Controller, Dummy } from '../core'
+import { Component, Dummy } from '../core'
+import { makeController } from '../core/test/helpers'
 import { Loop } from './loop'
 
 import { assignIn } from 'lodash'
-
-const makeController = (root: Component) => {
-  return new Controller({ root, el: document.body })
-}
 
 it('clones template to create content', async () => {
   const t = new Component({
