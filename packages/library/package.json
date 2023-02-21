@@ -74,7 +74,7 @@
     "prepare": "yarn run build:starterkit",
     "prettier": "prettier --write src",
     "test": "karma start test/_karma/ci.conf.js",
-    "test:base": "jest",
+    "test:base": "jest --detect-open-handles",
     "test:coverage": "yarn run build:js:coverage && karma start test/_karma/coverage.conf.js",
     "test:sauce": "karma start test/_karma/sauce.conf.js",
     "watch:js": "onchange 'src/**/*' -- yarn run build:js"
