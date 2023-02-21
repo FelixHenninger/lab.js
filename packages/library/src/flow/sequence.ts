@@ -4,7 +4,7 @@ import { Status } from '../base/component'
 import { Component, ComponentOptions } from '../core/component'
 
 import { CustomIterable } from './util/iterable'
-import { prepareNested } from './util/nested'
+import { prepareNested, resetNested } from './util/nested'
 import { calcProgress } from './util/progress'
 
 const sequenceDefaults = {
@@ -51,6 +51,10 @@ export class Sequence extends Component {
 
     // Prepare nested items
     await prepareNested(this.options.content, this)
+  }
+
+  async onReset() {
+    resetNested(this.options.content)
   }
 
   async end(reason?: string, flipData: any = {}) {
