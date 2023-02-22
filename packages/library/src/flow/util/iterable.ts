@@ -13,7 +13,7 @@ export class CustomIterable<T> {
 
   [Symbol.iterator]() {
     // Extract iterator from iterable
-    const iterator = this.#iterable[Symbol.iterator]()
+    let iterator = this.#iterable[Symbol.iterator]()
 
     return {
       next: (): IteratorResult<T> => {
@@ -26,6 +26,10 @@ export class CustomIterable<T> {
       peek: () =>
         //@ts-ignore
         Array.from(this.#iterable).map(c => [c.id, c.options.title, c.type]),
+      reset: () => {
+        iterator = this.#iterable[Symbol.iterator]()
+        this.#running = true
+      },
     }
   }
 }
