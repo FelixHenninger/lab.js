@@ -39,6 +39,8 @@ export interface FlipIterator<T>
   initialize: () => Promise<void>
   splice: (level: number) => void
   findSplice: (value: T) => void
+  reset: (level: number) => Promise<void>
+  findReset: (value: T) => Promise<void>
   // NOTE: We index by id here, which is inconsistent
   // with the remainder of the interface.
   fastForward: (targetStack: String[]) => Promise<void>
@@ -175,6 +177,8 @@ export class FlipIterable {
       },
       splice: sliceIterator.splice,
       findSplice: sliceIterator.findSplice,
+      reset: sliceIterator.reset,
+      findReset: sliceIterator.findReset,
       fastForward: async (targetStack: String[]) => {
         // Note that the level here is shifted, in that we never
         // fast-forward on the level of the root node.

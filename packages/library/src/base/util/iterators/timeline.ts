@@ -7,6 +7,8 @@ interface TimelineIterator<T> extends AsyncIterator<(T | NestedIterable<T>)[]> {
   initialize: () => Promise<void>
   splice: (level: number) => void
   findSplice: (value: T | NestedIterable<T>) => void
+  reset: (level: number) => Promise<void>
+  findReset: (value: T | NestedIterable<T>) => Promise<void>
   fastForward: (
     consume: (value: T | NestedIterable<T>, level: number) => boolean,
   ) => Promise<void>
@@ -104,6 +106,26 @@ export class SliceIterable<T> {
         if (level >= 0) {
           this.splice(level)
         }
+      },
+      reset: async function (level) {
+        // Throw away remainder of stack
+        this.splice(level + 1)
+
+        //@ts-ignore
+        if (iteratorStack[level] && 'reset' in iteratorStack[level]) {
+          //@ts-ignore
+          iteratorStack[level].reset()
+        } else {
+          throw new Error('No reset method on current iterator')
+        }
+      },
+      findReset: async function (value: T | NestedIterable<T>) {
+        const level = outputStack.indexOf(value)
+        if (level >= 0) {
+          await this.reset(level)
+        }
+        // TODO: Decide whether to include error here
+        return Promise.resolve()
       },
       fastForward: async (
         consume: (value: T | NestedIterable<T>, level: number) => boolean,

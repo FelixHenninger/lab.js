@@ -1,3 +1,4 @@
+import { CustomIterable } from '../flow/util/iterable'
 import { Component, ComponentOptions } from './component'
 import { Controller } from './controller'
 
@@ -7,7 +8,7 @@ const makeShimSequence = (
   options: Partial<ComponentOptions>,
 ) => {
   const s = new Component(options)
-  s.internals.iterator = content[Symbol.iterator]()
+  s.internals.iterator = (new CustomIterable(content))[Symbol.iterator]()
   return s
 }
 
@@ -164,4 +165,24 @@ it('returns the current leaf component', async () => {
   expect(s.internals.controller.currentLeaf).toEqual(b)
   await s.internals.controller.currentLeaf.end()
   expect(s.internals.controller.currentLeaf).toEqual(c)
+})
+
+it('reruns components in the current stack', async () => {
+  const a = new Component({ id: 'a', skip: true })
+  const b = new Component({ id: 'b' })
+  const c = new Component({ id: 'c' })
+  const s = makeShimSequence([a, b, c], { id: 's' })
+
+  // TODO black magic removal as above
+  await s.prepare()
+  a.internals.controller = s.internals.controller
+  b.internals.controller = s.internals.controller
+  c.internals.controller = s.internals.controller
+
+  await s.run()
+  await b.end('end')
+
+  expect(s.internals.controller.currentLeaf).toEqual(c)
+  await s.internals.controller.jump('rerun', { sender: s })
+  expect(s.internals.controller.currentLeaf).toEqual(b)
 })

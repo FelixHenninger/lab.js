@@ -118,6 +118,11 @@ export class Controller extends Emitter {
         this.iterator?.findSplice(data.sender)
         await data.sender.end('aborted')
         break
+      case 'rerun':
+        data.sender.reset()
+        await this.iterator?.findReset(data.sender)
+        await this.continue(data.sender, {})
+        break
       case 'fastforward':
         await this.iterator?.fastForward(data.target)
         break
