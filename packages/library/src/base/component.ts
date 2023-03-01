@@ -302,6 +302,10 @@ export class Component {
     this.log(`Ending with reason ${flipData.reason}`)
   }
 
+  async reset() {
+    this.status = Status.prepared
+  }
+
   async rerun() {
     if (
       this.status === Status.running &&
