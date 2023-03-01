@@ -342,6 +342,7 @@ export class Component {
 
     await this.#emitter.trigger(EventName.lock, data, this.#controller.global)
     delete this.internals.context
+    this.status = Status.locked
   }
 
   // Metadata ------------------------------------------------------------------
