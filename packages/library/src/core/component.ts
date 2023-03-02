@@ -195,6 +195,7 @@ export class Component extends BaseComponent {
     this.internals.timestamps.lock = timestamp
     this.internals.timeline.teardown()
     this.internals.domConnection.teardown()
+    this.internals.timeout = null
     await super.lock({ timestamp })
     this.status = Status.locked
   }
