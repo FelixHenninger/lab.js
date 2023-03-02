@@ -303,7 +303,11 @@ export class Component {
   }
 
   async reset() {
-    this.status = Status.prepared
+    // If only just prepared, this step is not necessary
+    this.internals.iterator?.reset()
+    await this.#emitter.trigger(EventName.reset)
+
+    this.status = Status.initialized
   }
 
   async lock(data: any = {}) {
