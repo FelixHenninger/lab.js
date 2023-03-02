@@ -33,7 +33,7 @@ enum PrivateEventName {
   beforeRun = 'before:run',
   show = 'show',
   endUncontrolled = 'end:uncontrolled',
-  rerun = 'rerun',
+  reset = 'reset',
 }
 
 const EventName = { ...PublicEventName, ...PrivateEventName }
