@@ -193,6 +193,9 @@ export class Component {
   }: { controlled?: boolean } = {}) {
     if (this.status < Status.prepared) {
       await this.prepare()
+    } else if (this.status >= Status.done) {
+      await this.reset()
+      await this.prepare()
     }
 
     // Pass control to controller if run() is called directly
