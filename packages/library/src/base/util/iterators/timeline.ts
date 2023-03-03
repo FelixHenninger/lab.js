@@ -1,4 +1,5 @@
 import { fastForward } from './fastforward'
+import { Status } from '../../component'
 
 interface NestedIterable<T> extends Iterable<T | NestedIterable<T>> {
   peek?: () => void
@@ -82,6 +83,11 @@ export class SliceIterable<T> {
             iteratorStack.pop()
             outputStack.pop()
           } else {
+            //@ts-ignore
+            if (value.status >= Status.running) {
+              //@ts-ignore
+              value.reset()
+            }
             if (this.#checkIterator(value)) {
               outputStack.push(value)
               // We know that the value is an iterator
