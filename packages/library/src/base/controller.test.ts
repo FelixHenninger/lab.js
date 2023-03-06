@@ -153,6 +153,27 @@ it('can skip multiple components in fast succession', async () => {
   expect(c_end.mock.calls.length).toBe(0)
 })
 
+it('locks all previous components', async () => {
+  const a = new Component({ id: 'a', skip: true })
+  const b = new Component({ id: 'b' })
+  const s = makeShimSequence([a, b], { id: 's' })
+
+  const a_lock = jest.spyOn(a, 'lock')
+  const b_lock = jest.spyOn(b, 'lock')
+  const s_lock = jest.spyOn(s, 'lock')
+  jest.useRealTimers()
+
+  await s.run()
+  await new Promise(resolve => setTimeout(resolve, 50))
+  expect(a_lock.mock.calls.length).toBe(1)
+  expect(b_lock.mock.calls.length).toBe(0)
+
+  await b.end()
+  await new Promise(resolve => setTimeout(resolve, 50))
+  expect(b_lock.mock.calls.length).toBe(1)
+  expect(s_lock.mock.calls.length).toBe(1)
+})
+
 it('returns the current leaf component', async () => {
   const a = new Component({ id: 'a', skip: true })
   const b = new Component({ id: 'b' })
