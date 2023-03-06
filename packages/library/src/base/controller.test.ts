@@ -2,13 +2,18 @@ import { CustomIterable } from '../flow/util/iterable'
 import { Component, ComponentOptions } from './component'
 import { Controller } from './controller'
 
-// TODO This isn't great -- fix with pending iterator protocol update
 const makeShimSequence = (
   content: Component[],
   options: Partial<ComponentOptions>,
 ) => {
   const s = new Component(options)
   s.internals.iterator = new CustomIterable(content)[Symbol.iterator]()
+  s.on('prepare', function () {
+    content.forEach(c => {
+      c.parent = s
+      c.internals.controller = s.internals.controller
+    })
+  })
   return s
 }
 
@@ -154,12 +159,6 @@ it('returns the current leaf component', async () => {
   const c = new Component({ id: 'c' })
   const s = makeShimSequence([a, b, c], { id: 's' })
 
-  // TODO black magic removal
-  await s.prepare()
-  a.internals.controller = s.internals.controller
-  b.internals.controller = s.internals.controller
-  c.internals.controller = s.internals.controller
-
   await s.run()
 
   expect(s.internals.controller.currentLeaf).toEqual(b)
@@ -172,12 +171,6 @@ it('reruns components in the current stack', async () => {
   const b = new Component({ id: 'b' })
   const c = new Component({ id: 'c' })
   const s = makeShimSequence([a, b, c], { id: 's' })
-
-  // TODO black magic removal as above
-  await s.prepare()
-  a.internals.controller = s.internals.controller
-  b.internals.controller = s.internals.controller
-  c.internals.controller = s.internals.controller
 
   await s.run()
   await b.end('end')
