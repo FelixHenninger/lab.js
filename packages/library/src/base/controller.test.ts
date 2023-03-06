@@ -8,7 +8,7 @@ const makeShimSequence = (
   options: Partial<ComponentOptions>,
 ) => {
   const s = new Component(options)
-  s.internals.iterator = (new CustomIterable(content))[Symbol.iterator]()
+  s.internals.iterator = new CustomIterable(content)[Symbol.iterator]()
   return s
 }
 
