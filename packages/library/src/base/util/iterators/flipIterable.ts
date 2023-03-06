@@ -73,6 +73,7 @@ export class FlipIterable {
   [Symbol.asyncIterator](): FlipIterator<Component> {
     const sliceIterator = this.timelineIterable[Symbol.asyncIterator]()
     let currentStack: Component[] = []
+    let lockPromises: Promise<any>[] = []
 
     return {
       initialize: async () => {
@@ -87,6 +88,9 @@ export class FlipIterable {
         let incoming: Component[]
         let outgoing: Component[]
         let cancelled: Component[] = []
+
+        // Wait for previous components to lock before flipping
+        await Promise.all(lockPromises)
 
         // Components can abort a flip. We keep on going until we have performed
         // one full flip.
@@ -152,16 +156,23 @@ export class FlipIterable {
         // discarding any that have been skipped in between
         const { incoming: finalIncoming } = resolveFlip(oldStack, currentStack)
 
+        lockPromises = cancelled.map(c => c.internals.emitter.waitFor('lock'))
+
         // Queue render, show and lock calls for the upcoming frames
+        // (note that this takes two frames, one for render and one for show)
         this.renderFrameRequest = requestAnimationFrameMaybe(
           flipData.frameSynced,
           flipData.timestamp,
           t => {
             finalIncoming.map(i => i.render?.({ timestamp: t }))
+            // Request frame for post-render callback
             this.showFrameRequest = window.requestAnimationFrame(t => {
               finalIncoming.map(i => i.show?.({ timestamp: t }))
-              cancelled.map(c => c.lock?.({ timestamp: t }))
               this.showFrameRequest = undefined
+            })
+            // Treat locks independently so they aren't cancelled
+            window.requestAnimationFrame(t => {
+              cancelled.map(c => c.lock?.({ timestamp: t }))
             })
             this.renderFrameRequest = undefined
           },
