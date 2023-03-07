@@ -121,7 +121,7 @@ export class Controller extends Emitter {
       case 'rerun':
         data.sender.reset()
         await this.iterator?.findReset(data.sender)
-        await this.continue(data.sender, {})
+        await data.sender.end('rerun')
         break
       case 'fastforward':
         await this.iterator?.fastForward(data.target)
