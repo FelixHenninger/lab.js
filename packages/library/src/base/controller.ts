@@ -84,6 +84,7 @@ export class Controller extends Emitter {
     // Flip iterator go brrr
     while (!done) {
       const output = await this.iterator.next([flipData, this.context])
+      const lockPromise = this.lock.acquire()
       done = output.done ?? true
       this.context = output.value.context
       this.currentStack = output.value.stack
@@ -92,7 +93,9 @@ export class Controller extends Emitter {
         this.flipHandlers.pop()?.()
       }
       if (!done) {
-        flipData = await this.lock.acquire()
+        flipData = await lockPromise
+      } else {
+        this.lock.release()
       }
     }
 
@@ -121,7 +124,10 @@ export class Controller extends Emitter {
       case 'rerun':
         data.sender.reset()
         await this.iterator?.findReset(data.sender)
-        await data.sender.end('rerun')
+        // Hypothesis: This is not great: We don't want to end
+        // this component, really only restart the iterator (which should
+        // happen above), and then continue
+        await this.continue(data.sender, {}) //data.sender.end('rerun')
         break
       case 'fastforward':
         await this.iterator?.fastForward(data.target)
