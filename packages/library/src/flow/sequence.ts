@@ -4,7 +4,7 @@ import { Status } from '../base/component'
 import { Component, ComponentOptions } from '../core/component'
 
 import { CustomIterable } from './util/iterable'
-import { prepareNested, resetNested } from './util/nested'
+import { prepareNested } from './util/nested'
 import { calcProgress } from './util/progress'
 
 const sequenceDefaults = {

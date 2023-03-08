@@ -24,7 +24,3 @@ export const prepareNested = function (nested: Component[], parent: Component) {
     nested.map(c => c.prepare(false)), // indicate automated call
   )
 }
-
-export const resetNested = function (nested: Component[]) {
-  nested.forEach(c => c.reset())
-}
