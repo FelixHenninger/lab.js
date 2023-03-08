@@ -45,7 +45,7 @@ it('Supports rerunning top level in multiply nested content', async () => {
   const t = new Component()
 
   const s = new Sequence({
-    content: [t, s_nested]
+    content: [t, s_nested],
   })
 
   await s.run()
@@ -79,7 +79,7 @@ it('Supports rerunning nested level in multiply nested content', async () => {
 
   const s = new Sequence({
     id: 's',
-    content: [t, s_nested]
+    content: [t, s_nested],
   })
 
   await s.run()
