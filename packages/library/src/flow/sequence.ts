@@ -53,10 +53,6 @@ export class Sequence extends Component {
     await prepareNested(this.options.content, this)
   }
 
-  async onReset() {
-    resetNested(this.options.content)
-  }
-
   async end(reason?: string, flipData: any = {}) {
     // TODO: This should operate on the iterator, not the iterable
     this.internals._iterable.flush()
