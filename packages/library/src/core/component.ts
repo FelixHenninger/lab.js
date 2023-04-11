@@ -48,6 +48,23 @@ const componentDefaults = {
 export type ComponentOptions = Omit<BaseComponentOptions, 'plugins'> &
   typeof componentDefaults
 
+/**
+ * Abstract component implementation
+ *
+ * The `Component` class represents the basic building block from which
+ * `lab.js` studies are constructed. Every component represents part of
+ * the experiment at varying levels of granularity -- at the most
+ * detailed, individual screens and forms are types of components, but
+ * so are sequences and loops that themselves contain further
+ * components.
+ *
+ * The `core.Component` is the most abstract instantiation of the a
+ * component -- by itself, it does not do anything (and is not designed
+ * to be used directly), but exists to be supplemented with additional
+ * behavior to make up the other, more useful, component types.
+ * Nonetheless, it can be informative to refer to this class as it
+ * contains much of the behavior shown by other components.
+ */
 export class Component extends BaseComponent {
   options!: ComponentOptions
   state: any
