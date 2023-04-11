@@ -20,17 +20,27 @@ type Media = {
 
 const componentDefaults = {
   events: <EventMap>{},
+  /** Map from events to their interpretation as a response */
   responses: <{ [eventString: string]: string }>{},
+  /** Time to show the component for, in milliseconds */
   timeout: <number | undefined>undefined,
+  /** Document element in which to show the component */
   el: <Element | undefined>undefined,
+  /** Options to pass to the random number generator */
   random: <RNGOptions | undefined>undefined,
+  /** Media to preload in the component */
   media: <Media>{
     images: [],
     audio: [],
   },
+  /** Plugins to load with the component */
   plugins: <Plugin[] | undefined>undefined,
+  /** Media to show during presentation */
   timeline: <SerializedTimelineItem[]>[],
+  /** Whether to scroll to the top of the page when a component is shown */
   scrollTop: false,
+  /** Datastore to use for the component (included only for backward
+   * compatibility) */
   // Legacy shim
   datastore: <Store | undefined>undefined,
 }
