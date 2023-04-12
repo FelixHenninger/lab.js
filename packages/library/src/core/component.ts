@@ -168,6 +168,16 @@ export class Component extends BaseComponent {
     this.internals.domConnection.prepare()
   }
 
+  /**
+   * Run the component
+   *
+   * Running a component gives it control over the study, for example to
+   * show content onscreen and collect responses (in case of a screen),
+   * or, in turn to run subordinate components (in case of sequences,
+   * loops, and other flow control components)
+   *
+   * @public
+   */
   async run({
     controlled = false,
     ...flipData
