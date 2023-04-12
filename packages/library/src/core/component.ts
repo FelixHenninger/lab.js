@@ -89,8 +89,26 @@ export class Component extends BaseComponent {
     this.internals.timestamps = {}
   }
 
-  async prepare(directCall = true) {
-    if (this.options.tardy && !directCall) {
+  /**
+   * Perform all necessary preparations to show a component.
+   *
+   * This method will, for example, download media files, setup the
+   * random number generator, and the like. Importantly, preparation
+   * will also resolve component options that are defined via
+   * placeholders (containing `${}`) into their final state.
+   *
+   * This function should not be called directly, but will be run by the
+   * overall study logic at an appropriate time. To attach further logic
+   * to the preparation, add a callback via `on('prepare', [...])`
+   *
+   * @param force - Force preparation (if the `tardy` option is set,
+   *  a component may defer preparation until it is `run`)
+   * @returns
+   *
+   * @internal
+   */
+  async prepare(force = true) {
+    if (this.options.tardy && !force) {
       this.log('Skipping automated preparation')
       return
     }
@@ -109,7 +127,7 @@ export class Component extends BaseComponent {
     this.internals.timeline = new Timeline(this.internals.controller)
 
     // directCall can only be true at this point
-    await super.prepare(directCall)
+    await super.prepare(force)
 
     await Promise.all([
       this.global.cache.images.getAll(this.options.media?.images ?? []),
