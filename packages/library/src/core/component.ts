@@ -200,6 +200,13 @@ export class Component extends BaseComponent {
     }
   }
 
+  /**
+   * Render component
+   *
+   * If the component provides screen content, show it.
+   *
+   * @internal
+   */
   async render({ timestamp }: { timestamp: number }) {
     this.internals.timestamps.render = timestamp
     // TODO: Revisit which one of these to trigger first
