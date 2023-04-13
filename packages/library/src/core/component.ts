@@ -214,6 +214,14 @@ export class Component extends BaseComponent {
     this.internals.timeline.start(timestamp + timingParameters.frameInterval)
   }
 
+  /**
+   * Indicate that component is fully visible
+   *
+   * This is largely used for timekeeping, or changing onscreen content
+   * directly after it has been rendered.
+   *
+   * @internal
+   */
   async show({ timestamp }: { timestamp: number }) {
     this.internals.timestamps.show = timestamp ?? performance.now()
     await super.show({ timestamp })
