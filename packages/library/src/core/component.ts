@@ -230,6 +230,17 @@ export class Component extends BaseComponent {
     }
   }
 
+  /**
+   * Stop presentation of component
+   *
+   * Remove component from ongoing study, tear down connection to
+   * document, and move on with the study.
+   *
+   * @param reason - Reason supplied for ending the component
+   *  (typically set internally, e.g. `response` or `timeout`)
+   *
+   * @public
+   */
   async end(reason?: string, flipData: any = {}) {
     if (this.status < Status.running) {
       throw new Error("Trying to end component that's not running yet")
