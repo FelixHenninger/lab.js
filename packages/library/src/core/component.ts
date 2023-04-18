@@ -272,6 +272,15 @@ export class Component extends BaseComponent {
     await super.end(reason, flipData)
   }
 
+  /**
+   * Tear down any remnants of the component
+   *
+   * Continue the work begun in `.end()` by tearing down all remnants of
+   * the component presentation. In particular, remove any reference to
+   * elements in the open document so as not to leak memory.
+   *
+   * @internal
+   */
   async lock({ timestamp }: { timestamp: number }) {
     this.internals.timestamps.lock = timestamp
     this.internals.timeline.teardown()
