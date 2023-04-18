@@ -298,6 +298,13 @@ export class Component extends BaseComponent {
   }
 
   // Timekeeping ------------------------------------------
+  /**
+   * Time since component onset, or, after presentation,
+   * total display time
+   *
+   * The timer will return `undefined` if a component has not yet been
+   * shown at all.
+   */
   get timer(): number | undefined {
     const timestamps = this.internals.timestamps
 
