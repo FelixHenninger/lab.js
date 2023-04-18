@@ -290,6 +290,9 @@ export class Component extends BaseComponent {
     this.status = Status.locked
   }
 
+  /**
+   * Shortcut for experiment globals
+   */
   get global() {
     return this.internals.controller.global
   }
