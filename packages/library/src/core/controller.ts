@@ -22,9 +22,26 @@ export interface ControllerGlobal {
   [key: string]: any
 }
 
+/**
+ * Study controller class
+ *
+ * The study controller is responsible for running the components in
+ * sequence, preparing them in time, and jumping between sections of a
+ * study. It also provides a common context of global settings that is
+ * shared across all of a study's components.
+ *
+ * You will rarely need to create a controller manually -- one is
+ * instantiated by default for a study as soon as it starts running, if
+ * not supplied.
+ *
+ * @internal
+ */
 export class Controller extends BaseController {
   global!: ControllerGlobal
 
+  /**
+   * Create a new controller
+   */
   constructor({ root, el }: { root: Component; el?: Element }) {
     const audioContext = new (window.AudioContext ??
       window.webkitAudioContext)()
