@@ -87,6 +87,9 @@ export class Store<R extends Row = Row> extends Emitter {
   }
 
   // Get and set individual values ------------------------
+  /**
+   * Set one or more values in the current staging row.
+   */
   set(key: Partial<R>): void
   set(key: keyof R, value: any, suppressSetTrigger?: boolean): void
   set(
