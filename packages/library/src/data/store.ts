@@ -52,11 +52,31 @@ const defaultMetadata = [
 
 // Data storage class -------------------------------------
 
+/**
+ * Data storage class
+ *
+ * The data `Store` class deals with the data that accrues during every
+ * study. It provides a basic tabular structure with rows and columns,
+ * and the functionality to append more, as well as export to various
+ * formats.
+ *
+ * There are a few additional features that are unique and worth mentioning.
+ * * The most recent row, or the one that is currently being assembled
+ *   before being added to the dataset, is known as the `staging` row.
+ *   The store will keep track of this row as it is gradually filled,
+ *   until it is appended to the remainder of the table.
+ * * The most recent entry in any column is summarized in the `state`. This
+ *   will (for every column) contain data from the last row in which a value
+ *   was set. Note that this will include values in `staging`.
+ */
 export class Store<R extends Row = Row> extends Emitter {
   #state: R
   private staging: R
   data: Table<R>
 
+  /**
+   * Create a new data `Store`
+   */
   constructor() {
     super()
 
