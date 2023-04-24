@@ -122,6 +122,12 @@ export class Store<R extends Row = Row> extends Emitter {
     return this.#state[key]
   }
 
+  /**
+   * Test several column names, get the first existing entry
+   *
+   * @param keys - Array of column names
+   * @returns The value in the first existing column
+   */
   getAny(keys: string[] = []) {
     // Check whether any of the columns is present in the data --
     // if so, return its value
