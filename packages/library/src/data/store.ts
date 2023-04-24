@@ -141,9 +141,13 @@ export class Store<R extends Row = Row> extends Emitter {
     return undefined
   }
 
-  // The stateProxy property provides proxy-mediated access
-  // to the datastore state, while saving changes to staging.
-  // This will replace the datastore's state property. (TODO)
+  /**
+   * Provide direct access to the data store state
+   *
+   * The store's `state` property functions as an object, so that keys
+   * can be set and read directly on it. In each case, it will write to the
+   * store `staging`, and read from the store `state`.
+   */
   state = new Proxy(
     {},
     {
