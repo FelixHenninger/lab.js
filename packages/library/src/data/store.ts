@@ -112,6 +112,12 @@ export class Store<R extends Row = Row> extends Emitter {
     }
   }
 
+  /**
+   * Get the state value for a given column
+   *
+   * @param key - Column name
+   * @returns Value of the state for that column
+   */
   get(key: string) {
     return this.#state[key]
   }
