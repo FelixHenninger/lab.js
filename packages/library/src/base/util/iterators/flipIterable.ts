@@ -3,6 +3,7 @@ import { range } from 'lodash'
 import { Component, Status } from '../../component'
 import { requestAnimationFrameMaybe } from '../rAF'
 import { SliceIterable } from './timeline'
+import { EventName } from '../../../base/component'
 
 export const resolveFlip = <T>(oldStack: T[], newStack: T[]) => {
   // Figure out to which level the old and new stack are identical
@@ -113,7 +114,10 @@ export class FlipIterable {
           // End all outgoing components, starting from the leaf
           for (const c of [...outgoing].reverse()) {
             try {
-              c.internals.emitter.off('end:uncontrolled', triggerContinue)
+              c.internals.emitter.off(
+                EventName.endUncontrolled,
+                triggerContinue,
+              )
               currentStack.pop()
               cancelled.push(c)
               await c.end(flipData.reason, { ...flipData, controlled: true })
@@ -127,7 +131,7 @@ export class FlipIterable {
           // Start all incoming components, starting from the top of the stack
           for (const c of incoming) {
             try {
-              c.internals.emitter.on('end:uncontrolled', triggerContinue)
+              c.internals.emitter.on(EventName.endUncontrolled, triggerContinue)
               context = c.enterContext(context)
               currentStack.push(c)
               await c.run({
@@ -156,7 +160,9 @@ export class FlipIterable {
         // discarding any that have been skipped in between
         const { incoming: finalIncoming } = resolveFlip(oldStack, currentStack)
 
-        lockPromises = cancelled.map(c => c.internals.emitter.waitFor('lock'))
+        lockPromises = cancelled.map(c =>
+          c.internals.emitter.waitFor(EventName.lock),
+        )
 
         // Queue render, show and lock calls for the upcoming frames
         // (note that this takes two frames, one for render and one for show)

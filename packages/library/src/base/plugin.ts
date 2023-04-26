@@ -1,5 +1,5 @@
 import { without } from 'lodash'
-import { Component } from './component'
+import { Component, EventName } from './component'
 
 type PluginEvent = 'plugin:add' | 'plugin:remove'
 
@@ -20,7 +20,7 @@ export class PluginAPI<C extends Component = Component, E = string> {
 
     // Setup event handlers
     this.handle = this.handle.bind(this)
-    this.#context.internals.emitter.on('*', this.handle)
+    this.#context.on(EventName.any, this.handle)
   }
 
   add(plugin: Plugin<C, E>) {

@@ -21,6 +21,7 @@ export enum Status {
 }
 
 export enum PublicEventName {
+  any = '*',
   beforePrepare = 'before:prepare',
   prepare = 'prepare',
   run = 'run',
@@ -36,7 +37,7 @@ enum PrivateEventName {
   reset = 'reset',
 }
 
-const EventName = { ...PublicEventName, ...PrivateEventName }
+export const EventName = { ...PublicEventName, ...PrivateEventName }
 type EventName = PublicEventName | PrivateEventName
 
 export type ComponentOptions = {
