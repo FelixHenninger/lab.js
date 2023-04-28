@@ -8,15 +8,19 @@ import { prepareNested } from './util/nested'
 import { calcProgress } from './util/progress'
 
 const sequenceDefaults = {
+  /** Constituent components of the sequence */
   content: <Component[]>[],
+  /** Whether to shuffle the content before running */
   shuffle: false,
+  /** Optional parameter name to supply an index to nested components */
   indexParameter: <string | undefined>undefined,
 }
 
 export type SequenceOptions = ComponentOptions & typeof sequenceDefaults
 
-// A sequence combines an array of other
-// components and runs them sequentially
+/**
+ * A sequence combines an array of other components and runs them sequentially
+ */
 export class Sequence extends Component {
   options!: SequenceOptions
 
