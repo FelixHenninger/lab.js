@@ -162,7 +162,11 @@ export class Store<R extends Row = Row> extends Emitter {
     },
   )
 
-  // Commit data to storage -------------------------------
+  /**
+   * Commit data to storage
+   *
+   * @returns The row number of the newly added row
+   */
   commit(): number {
     // Remember the index of the new entry
     const logIndex = this.data.push(cloneDeep(this.staging)) - 1
@@ -173,17 +177,23 @@ export class Store<R extends Row = Row> extends Emitter {
     return logIndex
   }
 
-  // Update saved data ------------------------------------
+  /**
+   * Update an existing row in the data store
+   *
+   * @param index The number of the row to update
+   * @param callback A function that operates on the row to create a new entry
+   */
   update(index: number, callback = (d: R): R => d) {
     this.data[index] = callback(this.data[index] || ({} as R))
     this.emit('update')
   }
 
-  // Erase collected data ---------------------------------
+  /**
+   * Erase the collected data
+   */
   clear() {
     this.emit('clear')
 
-    // Clear local (transient) state
     this.data = []
     this.staging = {} as R
     this.#state = {} as R
@@ -194,7 +204,13 @@ export class Store<R extends Row = Row> extends Emitter {
     this.#state = state
   }
 
-  // Extracting data --------------------------------------
+  /**
+   * Extract keys/column names from all rows
+   *
+   * @param includeState Include keys from the current state
+   * @param prioritize Keys/column names to move to the start of the array
+   * @returns Array of keys/column names
+   */
   keys(includeState = false, prioritize = defaultMetadata) {
     // Extract all keys from the data collected
     let keys = this.data.map(e => Object.keys(e))
@@ -219,8 +235,13 @@ export class Store<R extends Row = Row> extends Emitter {
     return prioritizedKeys.concat(remainingKeys)
   }
 
-  // Extract a single column for the data,
-  // also filtering by sender, if desired
+  /**
+   * Extract a single column from the data, optionally filtering by the sender column
+   *
+   * @param column Name of column/key to extract across all rows
+   * @param senderRegExp String pattern or regular expression to apply to the `sender` value in each row
+   * @returns Array of values from a particular column
+   */
   extract(column: string, senderRegExp: RegExp | string = RegExp('.*')) {
     // If the filter is defined a a string,
     // convert it into the corresponding
@@ -237,8 +258,13 @@ export class Store<R extends Row = Row> extends Emitter {
       .map(r => r[column])
   }
 
-  // Select the columns that should be present in the data
-  // Input is an array of strings, a string, or a filter function
+  /**
+   * Select a subset of columns from the data table
+   *
+   * @param selector Array of strings, a string, or a filter function to select columns by
+   * @param senderRegExp String pattern or regular expression to apply to the `sender` values in every row
+   * @returns An array of rows, containing only the specified columns
+   */
   select(
     selector: keyof R | (keyof R)[] | ((key: keyof R) => boolean),
     senderRegExp = RegExp('.*'),
@@ -270,11 +296,19 @@ export class Store<R extends Row = Row> extends Emitter {
       .map(r => pick(r, columns))
   }
 
+  /**
+   * Omit columns/keys that start with an underscore
+   */
   get cleanData(): Table<Partial<R>> {
     return cleanData(this.data)
   }
 
-  // Export data in various formats -----------------------
+  /**
+   * Export data in JSON format
+   *
+   * @param clean Omit keys/columns starting with an underscore
+   * @returns A JSON string representing the data store
+   */
   exportJson(clean = true) {
     // Optionally export raw data
     const data = clean ? this.cleanData : this.data
@@ -283,16 +317,27 @@ export class Store<R extends Row = Row> extends Emitter {
     return JSON.stringify(data)
   }
 
+  /**
+   * Export data in JSONL format
+   * (see http://jsonlines.org/)
+   *
+   * @param clean Omit keys/columns starting with an underscore
+   * @returns A JSONL string representing the data store
+   */
   exportJsonL(clean = true) {
-    // Export data in the json-lines format
-    // (see http://jsonlines.org/)
-
     // Optionally export raw data
     const data = clean ? this.cleanData : this.data
 
     return data.map(e => JSON.stringify(e)).join('\n')
   }
 
+  /**
+   * Export data in CSV format
+   *
+   * @param separator Column separator
+   * @param clean Omit keys/columns starting with an underscore
+   * @returns A CSV string representing the data store contents
+   */
   exportCsv(separator = ',', clean = true) {
     // Export data as csv string
     // Optionally export raw data
@@ -305,17 +350,26 @@ export class Store<R extends Row = Row> extends Emitter {
     return toCsv(data, keys, separator)
   }
 
+  /**
+   * Export data to blob representing the output file
+   *
+   * @param format Output format, `csv`, `json` or `jsonl`
+   * @param clean
+   * @returns
+   */
   exportBlob(format: FileFormat = 'csv', clean = true) {
     // Assemble the text representation
     // of the current data
     let text = ''
 
-    if (format === 'json') {
+    if (format === 'csv') {
+      text = this.exportCsv(undefined, clean)
+    } else if (format === 'json') {
       text = this.exportJson(clean)
     } else if (format === 'jsonl') {
       text = this.exportJsonL(clean)
     } else {
-      text = this.exportCsv(undefined, clean)
+      throw new Error(`Unsupported format ${format}`)
     }
 
     const mime = {
@@ -328,12 +382,22 @@ export class Store<R extends Row = Row> extends Emitter {
     return new Blob([text], { type: mime })
   }
 
-  // Extract a participant id -----------------------------
+  /**
+   * Extract a participant id by going through likely columns and returning the first available value
+   * @param columns Columns to check
+   * @returns
+   */
   guessId(columns: string[] = defaultIdColumns) {
     return this.getAny(columns)
   }
 
-  // Suggest a filename -----------------------------------
+  /**
+   * Suggest a filename from prefix, inferred participant id, and file extension
+   *
+   * @param prefix Optional prefix (defaults to `study`)
+   * @param extension Optional file extension (defaults to `csv`)
+   * @returns
+   */
   makeFilename(prefix = 'study', extension = 'csv') {
     // Extract an id from the data, if available
     const id = this.guessId()
@@ -347,20 +411,26 @@ export class Store<R extends Row = Row> extends Emitter {
     )
   }
 
+  /**
+   * Download data file in browser
+   *
+   * @param format Output format, one of `csv` (default), `json` and `jsonl`
+   * @param filename Output filename
+   */
   download(format: FileFormat = 'csv', filename?: string) {
-    return saveAs(
+    saveAs(
       this.exportBlob(format),
       filename ?? this.makeFilename('data', format),
     )
   }
 
-  // Display data on the console
+  /**
+   * Display data on the console
+   */
   show() {
-    return console.table(
+    console.table(
       this.data,
       this.keys(), // Use a neater column order
     )
   }
-
-  // Send data via POST request ---------------------------
 }
