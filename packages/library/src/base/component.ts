@@ -55,6 +55,23 @@ export type ComponentOptions = {
   data: any
 }
 
+export type ComponentInternals = {
+  controller: Controller,
+  emitter: Emitter<EventName>
+  plugins: PluginAPI
+  context?: any
+  iterator?: CustomIterator<Component>
+  // Options
+  rawOptions: Partial<ComponentOptions>
+  parsedOptions?: Partial<ComponentOptions>
+  // Logging
+  timestamps: Record<string, number>
+  // More esoteric members
+  armOptions?: () => void
+  logIndex?: number
+  [key: string]: any
+}
+
 type CoercionType = 'object' | 'array' | 'string' | 'number' | 'boolean'
 
 export type ParsableOption = {
@@ -82,7 +99,7 @@ export class Component {
 
   state: any
   parameters: any
-  internals: any
+  internals: ComponentInternals
 
   parent?: Component
   status: Status
@@ -98,35 +115,40 @@ export class Component {
 
     this.id = id
     this.status = Status.initialized
-    this.internals = {}
     this.data = options.data ?? {}
 
-    // Setup emitter and expose via internals
+    // Setup emitter
     this.#emitter = new Emitter(id, { debug, context: this })
-    this.on = (...args) => this.internals.emitter.on(...args)
-    this.off = (...args) => this.internals.emitter.off(...args)
-    this.internals.emitter = this.#emitter
+    this.on = (...args) => this.#emitter.on(...args)
+    this.off = (...args) => this.#emitter.off(...args)
+
+    // Setup plugin API
+    const plugins = new PluginAPI<this, EventName>(this, options.plugins)
+
+    // Expose some private properties via internals
+    this.internals = {
+      //@ts-ignore The controller is added at the prepare stage
+      controller: undefined,
+      emitter: this.#emitter,
+      plugins,
+      // Option backup
+      rawOptions: {
+        parameters: {},
+        files: {},
+        ...options,
+      },
+      // Diagnostics
+      timestamps: {},
+    }
 
     // Setup options
-    this.internals.rawOptions = {
-      parameters: {},
-      files: {},
-      ...options,
-    }
     const [proxy, arm] = makeOptionProxy(this, this.internals.rawOptions)
     this.options = proxy
-    this.internals.armOptions = arm
     this.parameters = rwProxy(
       () => this.aggregateParameters,
       this.options.parameters,
     )
-    this.internals.plugins = new PluginAPI<this, EventName>(
-      this,
-      options.plugins,
-    )
-
-    // Setup diagnostics
-    this.internals.timestamps = {}
+    this.internals.armOptions = arm
   }
 
   log(message: string) {
@@ -162,7 +184,7 @@ export class Component {
       undefined,
       this.#controller.global,
     )
-    this.internals.armOptions()
+    this.internals.armOptions!()
 
     // TODO: The preemptive status update is a band-aid fix for
     // underlying logic issues: In combination with the fast-forward

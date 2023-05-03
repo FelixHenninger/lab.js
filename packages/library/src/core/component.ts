@@ -3,6 +3,7 @@ import { mapValues, cloneDeep } from 'lodash'
 import {
   Component as BaseComponent,
   ComponentOptions as BaseComponentOptions,
+  ComponentInternals as BaseComponentInternals,
   Status,
 } from '../base/component'
 import { Plugin } from '../plugins'
@@ -16,6 +17,13 @@ import { FrameTimeout, timingParameters } from './timing/timeout'
 type Media = {
   images: string[]
   audio: string[]
+}
+
+type ComponentInternals = BaseComponentInternals & {
+  controller: Controller
+  domConnection: DomConnection
+  timeline: Timeline
+  timeout?: FrameTimeout
 }
 
 const componentDefaults = {
@@ -67,6 +75,8 @@ export type ComponentOptions = Omit<BaseComponentOptions, 'plugins'> &
  */
 export class Component extends BaseComponent {
   options!: ComponentOptions
+  internals!: ComponentInternals
+
   state: any
   events!: EventMap
   random!: Random
@@ -124,7 +134,10 @@ export class Component extends BaseComponent {
     this.state = this.internals.controller.global.datastore?.state
     this.random = new Random(this.options.random)
     // Create timeline
-    this.internals.timeline = new Timeline(this.internals.controller)
+    this.internals.timeline = new Timeline(
+      this.internals.controller,
+      this.options.timeline,
+    )
 
     // directCall can only be true at this point
     await super.prepare(force)
@@ -135,7 +148,6 @@ export class Component extends BaseComponent {
     ])
 
     // Finalize timeline
-    this.internals.timeline.events = this.options.timeline
     await this.internals.timeline.prepare()
 
     // Prepare timeout
@@ -251,9 +263,7 @@ export class Component extends BaseComponent {
     this.internals.domConnection.detach()
 
     // End timeout
-    if (this.options.timeout) {
-      this.internals.timeout.cancel()
-    }
+    this.internals.timeout?.cancel()
 
     // End the timeline (without waiting)
     this.internals.timeline.end(
@@ -285,7 +295,7 @@ export class Component extends BaseComponent {
     this.internals.timestamps.lock = timestamp
     this.internals.timeline.teardown()
     this.internals.domConnection.teardown()
-    this.internals.timeout = null
+    this.internals.timeout = undefined
     await super.lock({ timestamp })
     this.status = Status.locked
   }
