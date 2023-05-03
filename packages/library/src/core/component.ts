@@ -96,7 +96,6 @@ export class Component extends BaseComponent {
     })
 
     this.internals.domConnection = new DomConnection({ context: this })
-    this.internals.timestamps = {}
   }
 
   /**
