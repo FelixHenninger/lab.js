@@ -11,7 +11,7 @@ export class CustomIterable<T> {
     this.#running = false
   }
 
-  [Symbol.iterator]() {
+  [Symbol.iterator](): CustomIterator<T> {
     // Extract iterator from iterable
     let iterator = this.#iterable[Symbol.iterator]()
 
@@ -31,5 +31,13 @@ export class CustomIterable<T> {
         this.#running = true
       },
     }
+  }
+
+  static empty() {
+    return new CustomIterable([])
+  }
+
+  static emptyIterator() {
+    return CustomIterable.empty()[Symbol.iterator]()
   }
 }

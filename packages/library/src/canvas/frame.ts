@@ -32,7 +32,7 @@ export class Frame extends Component {
     })
 
     // Stand-in interator
-    this.internals.iterator = {}
+    this.internals.iterator = CustomIterable.emptyIterator()
   }
 
   async onPrepare() {

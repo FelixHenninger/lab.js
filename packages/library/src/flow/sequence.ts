@@ -31,8 +31,7 @@ export class Sequence extends Component {
     })
 
     // Stand-in interator
-    // TODO: Consider replacing me
-    this.internals.iterator = {}
+    this.internals.iterator = CustomIterable.emptyIterator()
   }
 
   async onPrepare() {
