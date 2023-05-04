@@ -86,7 +86,7 @@ export class SliceIterable<T> {
             //@ts-ignore
             if (value.status >= Status.running) {
               //@ts-ignore
-              value.reset()
+              value._reset()
             }
             if (this.#checkIterator(value)) {
               outputStack.push(value)

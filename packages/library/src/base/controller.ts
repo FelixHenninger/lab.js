@@ -122,12 +122,10 @@ export class Controller extends Emitter {
         await data.sender.end('aborted')
         break
       case 'rerun':
-        data.sender.reset()
+        // Reset iterator state
         await this.iterator?.findReset(data.sender)
-        // Hypothesis: This is not great: We don't want to end
-        // this component, really only restart the iterator (which should
-        // happen above), and then continue
-        await this.continue(data.sender, {}) //data.sender.end('rerun')
+        // Continue from there
+        await this.continue(data.sender, {})
         break
       case 'fastforward':
         await this.iterator?.fastForward(data.target)

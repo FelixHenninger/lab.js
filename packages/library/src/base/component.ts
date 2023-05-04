@@ -217,7 +217,7 @@ export class Component {
     if (this.status < Status.prepared) {
       await this.prepare()
     } else if (this.status >= Status.done) {
-      await this.reset()
+      await this._reset()
       await this.prepare()
     }
 
@@ -328,12 +328,15 @@ export class Component {
     this.log(`Ending with reason ${flipData.reason}`)
   }
 
-  async reset() {
-    // If only just prepared, this step is not necessary
+  private async _reset() {
     this.internals.iterator?.reset()
-    await this.#emitter.trigger(EventName.reset)
-
     this.status = Status.initialized
+    await this.#emitter.trigger(EventName.reset)
+  }
+
+  async reset() {
+    // Delegate rerun to controller
+    await this.#controller.jump('rerun', { sender: this })
   }
 
   async lock(data: any = {}) {

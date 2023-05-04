@@ -201,6 +201,20 @@ it('reruns components in the current stack', async () => {
   expect(s.internals.controller.currentLeaf).toEqual(b)
 })
 
+it('can rerun component from its reset method', async () => {
+  const a = new Component({ id: 'a', skip: true })
+  const b = new Component({ id: 'b' })
+  const c = new Component({ id: 'c' })
+  const s = makeShimSequence([a, b, c], { id: 's' })
+
+  await s.run()
+  await b.end('end')
+
+  expect(s.internals.controller.currentLeaf).toEqual(c)
+  await s.reset()
+  expect(s.internals.controller.currentLeaf).toEqual(b)
+})
+
 it('reruns doubly nested sequences', async () => {
   const a = new Component({ id: 'a', skip: true })
   const b = new Component({ id: 'b' })
