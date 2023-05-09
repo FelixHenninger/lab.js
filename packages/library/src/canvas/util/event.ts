@@ -4,7 +4,7 @@ export const makeProcessEvent =
   (component: Screen) =>
   (
     // Post-process event caught on canvas
-    [eventName, filters, selector]: [string, any[], string],
+    [eventName, filters, selector]: [string, string[], string],
   ) => {
     // TODO: Split multiple selectors
     if (selector && selector.startsWith('@')) {
@@ -19,22 +19,26 @@ export const makeProcessEvent =
           let lastResult = initial
 
           // TODO: Specify that the function applies to Canvas Components only
-          return function checkFunc(e: MouseEvent, context: Screen) {
-            const checkResult = context.internals.ctx.isPointInPath(
-              context.internals.paths[selector.slice(1)],
-              e.offsetX * pixelRatio,
-              e.offsetY * pixelRatio,
-            )
+          return function checkFunc(e: Event, context: Screen) {
+            if (e instanceof MouseEvent) {
+              const checkResult = context.internals.ctx.isPointInPath(
+                context.internals.paths[selector.slice(1)],
+                e.offsetX * pixelRatio,
+                e.offsetY * pixelRatio,
+              )
 
-            // Detect edge
-            const output = rising
-              ? !lastResult && checkResult
-              : lastResult && !checkResult
+              // Detect edge
+              const output = rising
+                ? !lastResult && checkResult
+                : lastResult && !checkResult
 
-            // Save last result
-            lastResult = checkResult
+              // Save last result
+              lastResult = checkResult
 
-            return output
+              return output
+            } else {
+              return false
+            }
           }
         }
 
@@ -57,7 +61,8 @@ export const makeProcessEvent =
           filters,
           selector: 'canvas',
           moreChecks: [
-            (e: MouseEvent) =>
+            (e: Event) =>
+              e instanceof MouseEvent &&
               component.internals.ctx.isPointInPath(
                 component.internals.paths[selector.slice(1)],
                 e.offsetX * pixelRatio,
@@ -68,6 +73,6 @@ export const makeProcessEvent =
       }
     } else {
       // Return unmodified event, following default behavior
-      return { eventName, filters, selector }
+      return { eventName, filters, selector, moreChecks: [] }
     }
   }

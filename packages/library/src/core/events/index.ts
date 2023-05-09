@@ -49,10 +49,10 @@ const makeChecks = function (
     startTime?: number
   },
 ) {
-  const checks = []
+  const checks: (<E extends Event>(event: E) => boolean)[] = []
 
   // Check that event happened after the cut-off
-  checks.push((e: InputEvent) => e.timeStamp >= startTime)
+  checks.push((e: Event) => e.timeStamp >= startTime)
 
   // Add additional checks depending on the event type
   if (['keypress', 'keydown', 'keyup'].includes(eventName)) {
@@ -76,11 +76,12 @@ const makeChecks = function (
 
     // Wrap the handler only if we pre-select events
     if (keys.length > 0 || filterRepeat) {
-      checks.push(function (e: KeyboardEvent) {
+      checks.push(function (e: Event) {
         // Fire the handler only if
         // - we filter repeats, and the key is not one
         // - target keys are defined, and the key pressed matches one
         return (
+          e instanceof KeyboardEvent &&
           !(filterRepeat && e.repeat) &&
           !(keys.length > 0 && !keys.includes(e.key))
         )
@@ -91,8 +92,8 @@ const makeChecks = function (
 
     if (buttons.length > 0) {
       // Wrap the handler accordingly
-      checks.push(function (e: MouseEvent) {
-        return buttons.includes(e.button)
+      checks.push(function (e: Event) {
+        return e instanceof MouseEvent && buttons.includes(e.button)
       })
     }
   }
@@ -103,7 +104,12 @@ const makeChecks = function (
 const defaultProcessEvent = (
   // Pass-through (can be replaced with more elaborate logic)
   [eventName, filters, selector]: [string, string[], string],
-) => ({ eventName, filters, selector, moreChecks: [] })
+) => ({
+  eventName,
+  filters,
+  selector,
+  moreChecks: [] as ((e: Event, context: any) => void)[],
+})
 
 export type EventMap = { [eventString: string]: (e: Event) => void }
 
