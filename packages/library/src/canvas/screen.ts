@@ -88,7 +88,7 @@ export class Screen extends Component {
         (this.options.content || []).filter(
           (c: CanvasContent) => isObject(c) && c.type !== 'aoi',
         ),
-        this.internals.controller.cache,
+        this.internals.controller.global.cache,
       )
     }
   }
