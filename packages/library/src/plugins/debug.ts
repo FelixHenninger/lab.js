@@ -451,7 +451,7 @@ export default class Debug {
           'labjsDebugBreadcrumb' in e.target.dataset
         ) {
           // Pull index from data attribute
-          const index = e.target.dataset['labjsDebugBreadcrumb']!
+          const index = parseInt(e.target.dataset['labjsDebugBreadcrumb']!)
           // Access corresponding component
           const component =
             this.#context?.internals.controller.currentStack[index]
