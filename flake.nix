@@ -26,10 +26,13 @@
           pkgs.pkg-config
           pkgs.pixman
           pkgs.libffi
+          # node-canvas dependencies
+          pkgs.cairo
+          pkgs.pango
           # Website builder
           pkgs.deno
           pkgs.zola
-        ];
+        ] ++ [ pkgs.darwin.apple_sdk.frameworks.CoreText ];
       };
     });
 }

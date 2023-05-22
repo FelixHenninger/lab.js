@@ -48,5 +48,9 @@
       "lab.js.builder/react-scripts/**",
       "lab.js.website/bootstrap"
     ]
+  },
+  "resolutions": {
+    "canvas": "^2.11.2",
+    "webdriverio": "^7.19.5"
   }
 }
