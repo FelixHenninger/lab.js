@@ -24,21 +24,18 @@ const customLaunchers = {
     browserName: 'firefox',
     version: 'latest-1',
     platform: 'Windows 11',
-    "moz:debuggerAddress": true,
   },
   sl_firefox_latest: {
     base: 'SauceLabs',
     browserName: 'firefox',
     version: 'latest',
     platform: 'Windows 11',
-    "moz:debuggerAddress": true,
   },
   sl_firefox_beta: {
     base: 'SauceLabs',
     browserName: 'firefox',
     version: 'beta',
     platform: 'Windows 11',
-    "moz:debuggerAddress": true,
   },
   sl_edge_last: {
     base: 'SauceLabs',
