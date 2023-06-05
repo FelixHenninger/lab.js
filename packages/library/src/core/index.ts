@@ -1,5 +1,5 @@
 export { Component, ComponentOptions } from './component'
-export { Controller } from './controller'
+export { Controller, ControllerGlobal } from './controller'
 export { Dummy } from './dummy'
 
 export {
