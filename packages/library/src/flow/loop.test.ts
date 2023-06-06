@@ -153,7 +153,7 @@ it('issues warning if no template, or an invalid one, is provided', async () => 
 })
 
 // Helper function
-const extractParameters = <T>(l: Loop<T>) =>
+const extractParameters = <T extends Record<string, any>>(l: Loop<T>) =>
   l.options.content.map(component => {
     //@ts-ignore
     const { a, b, c } = component.parameters
