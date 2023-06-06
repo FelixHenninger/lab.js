@@ -22,6 +22,7 @@ beforeEach(() => {
     fetchMock = jest.spyOn(window, 'fetch')
   } else {
     fetchMock = jest.fn()
+    //@ts-ignore
     window.fetch = fetchMock
   }
   fetchMock.mockImplementation(async () => ({}))
