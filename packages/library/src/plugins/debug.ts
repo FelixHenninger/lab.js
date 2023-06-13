@@ -1,6 +1,6 @@
 import { isPlainObject, throttle } from 'lodash'
-import { Controller } from '../base'
-import { Component } from '../base/component'
+import { Controller } from '../core'
+import { Component } from '../core/component'
 import { Store } from '../data/store'
 
 // Overlay UI container --------------------------------------------------------
