@@ -1,4 +1,4 @@
-import { Component } from '../base/component'
+import { Component } from './component'
 import { Controller as BaseController } from '../base/controller'
 import { Row, Store } from '../data/store'
 import { ImageCache, AudioCache } from './cache'
