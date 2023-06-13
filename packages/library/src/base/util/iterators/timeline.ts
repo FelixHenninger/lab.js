@@ -1,6 +1,9 @@
 import { fastForward } from './fastforward'
 import { Status } from '../../component'
 
+type peekItem = [string[], string, string]
+export type peekLevel = peekItem[]
+
 interface NestedIterable<T> extends Iterable<T | NestedIterable<T>> {
   peek?: () => void
 }
@@ -13,10 +16,10 @@ interface TimelineIterator<T> extends AsyncIterator<(T | NestedIterable<T>)[]> {
   fastForward: (
     consume: (value: T | NestedIterable<T>, level: number) => boolean,
   ) => Promise<void>
-  peek: () => void
+  peek: () => peekLevel
 }
 
-export class SliceIterable<T extends object> {
+export class SliceIterable<T extends Object> {
   #root: NestedIterable<T>
   #extractIterator: (
     v: NestedIterable<T>,

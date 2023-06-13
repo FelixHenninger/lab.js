@@ -2,6 +2,7 @@ import { isPlainObject, throttle } from 'lodash'
 import { Controller } from '../core'
 import { Component } from '../core/component'
 import { Store } from '../data/store'
+import { peekLevel } from '../base/util/iterators/timeline'
 
 // Overlay UI container --------------------------------------------------------
 
@@ -236,13 +237,11 @@ const renderStore = (datastore: Store) => {
 
 // Peek UI ---------------------------------------------------------------------
 
-type peekItem = [string[], string, string]
-type peekLevel = peekItem[]
 
 const renderItem = (
   level: number,
   index: number,
-  peekData: peekLevel[],
+  peekData: peekLevel,
   currentStack: (string | undefined)[],
 ) => {
   const [idStack, title, type] = peekData[level][index]
@@ -265,7 +264,7 @@ const renderItem = (
 }
 
 const renderLayer = (
-  peekData: peekLevel[],
+  peekData: peekLevel,
   level: number,
   currentStack: (string | undefined)[],
 ): string => {
@@ -284,7 +283,7 @@ const renderLayer = (
 }
 
 const renderPeek = (controller: Controller) => {
-  const peekData = controller.iterator.peek() as any as peekLevel[]
+  const peekData = controller.iterator.peek()
   const currentStack = controller.currentStack.map(c => c.id)
 
   return renderLayer(peekData, 0, currentStack)
@@ -316,7 +315,7 @@ const snapshot = (context: Component, target?: string[]) => {
     target ??
     context.internals.controller.currentStack
       .slice(1)
-      .map((c: Component) => c.id)
+      .map(c => c.id)
 
   // Get data and state
   const data = context.global.datastore.data
