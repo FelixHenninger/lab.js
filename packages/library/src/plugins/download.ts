@@ -1,5 +1,6 @@
-import { Component } from '../base/component'
+import { Component } from '../core/component'
 import { Plugin } from '../base/plugin'
+import { FileFormat } from '../data/store'
 
 const unloadHandler = (e: Event) => {
   const warning = 'Are you sure you want to close this window?'

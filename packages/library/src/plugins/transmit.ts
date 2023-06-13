@@ -1,4 +1,4 @@
-import { Component } from '../base/component'
+import { Component } from '../core/component'
 import { Plugin } from '../base/plugin'
 import { uuid4 } from '../util/random/uuid'
 import { transmit } from '../data/transmit/transmit'

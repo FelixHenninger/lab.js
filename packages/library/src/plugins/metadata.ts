@@ -1,5 +1,9 @@
 import { fromPairs } from 'lodash'
+
 import { version, build } from '../index'
+import { Plugin } from '../base/plugin'
+import { Component } from '../core/component'
+
 
 const getMetadata = () => {
   const intl = window.Intl.DateTimeFormat().resolvedOptions()
@@ -33,9 +37,6 @@ const extractURLSearchParams = (search: string) =>
       new URLSearchParams(search).entries(),
     ),
   )
-
-import { Plugin } from '../base/plugin'
-import { Component } from '../base/component'
 
 export type MetadataPluginOptions = {
   location_search?: string

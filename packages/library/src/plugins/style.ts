@@ -1,6 +1,6 @@
 import { stripIndent } from 'common-tags'
 
-import { Component } from '../base/component'
+import { Component } from '../core/component'
 import { Plugin } from '../base/plugin'
 
 // Bulk CSS property management ------------------------------------------------

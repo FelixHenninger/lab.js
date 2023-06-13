@@ -1,4 +1,4 @@
-import { Component } from '../base/component'
+import { Component } from '../core/component'
 import { Plugin } from '../base/plugin'
 
 export type PostMessagePluginOptions = {

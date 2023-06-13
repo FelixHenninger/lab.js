@@ -1,3 +1,6 @@
+import { Component } from '../core/component'
+import { Plugin } from '../base/plugin'
+
 const unloadHandler = (e: Event) => {
   const warning = 'Closing this window will abort the study. Are you sure?'
   //@ts-ignore I know this shouldn't work, but browsers
@@ -6,9 +9,6 @@ const unloadHandler = (e: Event) => {
   e.returnValue = warning
   return warning
 }
-
-import { Component } from '../base/component'
-import { Plugin } from '../base/plugin'
 
 export default class NavigationGuard implements Plugin {
   async handle(_: Component, event: string) {
