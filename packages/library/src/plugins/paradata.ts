@@ -49,6 +49,7 @@ export default class PageFocusPlugin implements Plugin {
 
   logEvent(e: Event, context: Component) {
     const ds = context.internals.controller.global.datastore
+    //@ts-expect-error
     const staging = ds.staging
     if (!staging.paradata) {
       staging.paradata = []
@@ -58,7 +59,7 @@ export default class PageFocusPlugin implements Plugin {
       if (staging[`${e.type}Count`] === undefined) {
         staging[`${e.type}Count`] = 1
       } else {
-        staging[`${e.type}Count`]++
+        ;(staging[`${e.type}Count`] as number)++
       }
     }
 
@@ -77,6 +78,7 @@ export default class PageFocusPlugin implements Plugin {
       log.visibilityState = document.visibilityState
     }
 
+    //@ts-expect-error
     ds.staging.paradata.push(log)
 
     // Warn participants if they leave the window
