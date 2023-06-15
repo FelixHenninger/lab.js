@@ -13,13 +13,13 @@ const unloadHandler = (e: Event) => {
 
 export type DownloadPluginOptions = {
   filePrefix?: string
-  fileType?: string
+  fileType?: FileFormat
 }
 
 export default class Download implements Plugin {
   el?: Element
   filePrefix: string
-  fileType: string
+  fileType: FileFormat
 
   constructor({ filePrefix, fileType }: DownloadPluginOptions = {}) {
     this.el = undefined
