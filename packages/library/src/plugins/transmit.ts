@@ -1,8 +1,6 @@
 import { Component } from '../core/component'
 import { Plugin } from '../base/plugin'
 import { uuid4 } from '../util/random/uuid'
-import { transmit } from '../data/transmit/transmit'
-import { Store } from '../data'
 import { Connection } from '../data/transmit/connection'
 
 export type TransmitPluginOptions = {
