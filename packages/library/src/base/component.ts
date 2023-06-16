@@ -56,7 +56,7 @@ export type ComponentOptions = {
 }
 
 export type ComponentInternals = {
-  controller: Controller,
+  controller: Controller
   emitter: Emitter<EventName>
   plugins: PluginAPI
   context?: any
