@@ -237,7 +237,6 @@ const renderStore = (datastore: Store) => {
 
 // Peek UI ---------------------------------------------------------------------
 
-
 const renderItem = (
   level: number,
   index: number,
@@ -312,10 +311,7 @@ const renderBreadcrumbs = (controller: Controller) => {
 const snapshot = (context: Component, target?: string[]) => {
   // Calculate set of current ids
   const targetId =
-    target ??
-    context.internals.controller.currentStack
-      .slice(1)
-      .map(c => c.id)
+    target ?? context.internals.controller.currentStack.slice(1).map(c => c.id)
 
   // Get data and state
   const data = context.global.datastore.data

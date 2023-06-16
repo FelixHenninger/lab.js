@@ -4,7 +4,6 @@ import { version, build } from '../index'
 import { Plugin } from '../base/plugin'
 import { Component } from '../core/component'
 
-
 const getMetadata = () => {
   const intl = window.Intl.DateTimeFormat().resolvedOptions()
 
