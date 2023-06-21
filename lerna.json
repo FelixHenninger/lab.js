@@ -6,5 +6,5 @@
   "npmClient": "yarn",
   "npmClientArgs": ["--ignore-optional"],
   "useWorkspaces": true,
-  "version": "22.0.0-beta8"
+  "version": "22.0.0-beta9"
 }
