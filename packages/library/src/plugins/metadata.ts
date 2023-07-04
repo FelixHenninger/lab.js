@@ -32,7 +32,6 @@ const getMetadata = () => {
 const extractURLSearchParams = (search: string) =>
   fromPairs(
     Array.from(
-      //@ts-ignore TS doesn't recognize the entries method
       new URLSearchParams(search).entries(),
     ),
   )
