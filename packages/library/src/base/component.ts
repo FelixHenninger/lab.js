@@ -55,12 +55,12 @@ export type ComponentOptions = {
   data: any
 }
 
-export type ComponentInternals = {
-  controller: Controller
+export type ComponentInternals<C extends Component> = {
+  controller: Controller<Component>
   emitter: Emitter<EventName>
   plugins: PluginAPI
   context?: any
-  iterator?: CustomIterator<Component>
+  iterator?: CustomIterator<C>
   // Options
   rawOptions: Partial<ComponentOptions>
   parsedOptions?: Partial<ComponentOptions>
@@ -99,7 +99,7 @@ export class Component {
 
   state: any
   parameters: any
-  internals: ComponentInternals
+  internals: ComponentInternals<Component>
 
   parent?: Component
   status: Status
@@ -164,6 +164,7 @@ export class Component {
     }
 
     if (!this.internals.controller) {
+      //@ts-ignore
       this.#controller = new Controller({ root: this })
       this.internals.controller = this.#controller
     } else if (this.internals.controller && !this.#controller) {

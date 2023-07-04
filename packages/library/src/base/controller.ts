@@ -5,11 +5,11 @@ import { Emitter } from './util/emitter'
 
 import { last } from 'lodash'
 
-export class Controller extends Emitter {
-  root!: Component
+export class Controller<C extends Component = Component> extends Emitter {
+  root!: C
   iterable: FlipIterable
-  iterator: FlipIterator<Component>
-  currentStack: Array<Component>
+  iterator: FlipIterator<C>
+  currentStack: Array<C>
 
   global: Record<string, any>
   context: Record<string, any>
@@ -22,7 +22,7 @@ export class Controller extends Emitter {
     global = {},
     initialContext = {},
   }: {
-    root: Component
+    root: C
     global?: Record<string, any>
     initialContext?: Record<string, any>
   }) {
@@ -30,6 +30,7 @@ export class Controller extends Emitter {
 
     // Study root component
     this.root = root
+    //@ts-ignore
     this.root.internals.controller = this
 
     // Global data container

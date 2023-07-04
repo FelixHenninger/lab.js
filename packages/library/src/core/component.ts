@@ -19,7 +19,7 @@ type Media = {
   audio: string[]
 }
 
-type ComponentInternals = BaseComponentInternals & {
+type ComponentInternals<C extends BaseComponent> = BaseComponentInternals<C> & {
   controller: Controller
   domConnection: DomConnection
   timeline: Timeline
@@ -75,7 +75,7 @@ export type ComponentOptions = Omit<BaseComponentOptions, 'plugins'> &
  */
 export class Component extends BaseComponent {
   options!: ComponentOptions
-  internals!: ComponentInternals
+  internals!: ComponentInternals<Component>
 
   state: any
   events!: EventMap
@@ -123,6 +123,7 @@ export class Component extends BaseComponent {
     }
 
     if (!this.internals.controller) {
+      //@ts-ignore
       this.internals.controller = new Controller({
         root: this,
         el: this.options.el,
