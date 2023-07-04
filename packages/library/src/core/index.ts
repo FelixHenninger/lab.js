@@ -12,3 +12,7 @@ export {
   PublicEventName as EventName, //
   ParsableOption,
 } from '../base/component'
+
+export {
+  peekLevel
+} from '../base/util/iterators/timeline'
