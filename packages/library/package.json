@@ -9,8 +9,8 @@
     "url": "https://github.com/felixhenninger/lab.js.git"
   },
   "homepage": "https://lab.js.org",
-  "main": "dist/lab.js",
-  "typings": "dist/index.d.ts",
+  "main": "dist/es6/index.js",
+  "types": "dist/es6/index.d.ts",
   "dependencies": {
     "@types/common-tags": "^1.8.0",
     "@types/jsdom": "^20.0.0",
@@ -67,8 +67,10 @@
     "build:js:coverage": "NODE_ENV=coverage webpack --mode=development",
     "build:js:development": "webpack --mode=development",
     "build:js:production": "webpack --mode=production",
-    "build:js": "yarn run build:js:development && yarn run build:js:production",
-    "build:css": "postcss --local-plugins -u postcss-preset-env -o dist/lab.css src/starterkit/lib/lab.css",
+    "build:js:esm": "tsc -m es6 --outDir dist/es6",
+    "build:js:tsc": "tsc --outDir dist/es2022",
+    "build:js": "yarn run build:js:development && yarn run build:js:production && (yarn run build:js:esm || true) && (yarn run build:js:tsc || true)",
+    "build:css": "postcss --local-plugins -u postcss-preset-env -o dist/css/lab.css src/starterkit/lib/lab.css",
     "build:starterkit": "yarn run build:js && yarn run build:css && node scripts/bundle_starterkit.js",
     "clean": "shx rm -rf dist && shx mkdir dist",
     "prepare": "yarn run build:starterkit",

@@ -72,7 +72,7 @@ module.exports = (env, argv) => {
     ],
     output: {
       filename: outputFilename,
-      path: path.join(__dirname, '/dist'),
+      path: path.join(__dirname, '/dist/umd'),
       library: 'lab',
       libraryTarget: 'umd',
       umdNamedDefine: true,
