@@ -1,3 +1,5 @@
+import { CustomIterator } from '../../base/util/iterators/interface'
+
 export class CustomIterable<T> {
   #iterable: Iterable<T>
   #running: boolean
