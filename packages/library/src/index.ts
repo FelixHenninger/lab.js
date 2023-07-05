@@ -1,8 +1,8 @@
 export const version = '22.0.0-beta10'
 export const build = {
-  //@ts-ignore Injected by webpack
+  //@ts-ignore Injected during build
   flavor: <string>BUILD_FLAVOR,
-  //@ts-ignore Injected by webpack
+  //@ts-ignore Injected during build
   commit: <string>BUILD_COMMIT,
 }
 
