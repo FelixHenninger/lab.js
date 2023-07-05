@@ -4,6 +4,7 @@ import { Plugin, PluginAPI } from './plugin'
 
 import { makeOptionProxy } from './util/options'
 import { AbortFlip } from './util/iterators/flipIterable'
+import { CustomIterator } from './util/iterators/interface'
 import { aggregateParentOption } from './util/hierarchy'
 import { rwProxy } from './util/proxy'
 import { Row } from '../data/store'
