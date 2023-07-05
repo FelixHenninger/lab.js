@@ -17,9 +17,9 @@ require(['/base/packages/library/node_modules/lodash/lodash.min'], function(_) {
     .map(flavor => flavor.split('-')[1])[0] || 'default'
 
   const libraryPath = {
-    coverage: '/base/packages/library/dist/lab.coverage',
-    legacy: '/base/packages/library/dist/lab.legacy',
-  }[libraryFlavor] || '/base/packages/library/dist/lab'
+    coverage: '/base/packages/library/dist/umd/lab.coverage',
+    legacy: '/base/packages/library/dist/umd/lab.legacy',
+  }[libraryFlavor] || '/base/packages/library/dist/umd/lab'
 
   require.config({
     // Karma serves files under /base, which is
@@ -28,8 +28,8 @@ require(['/base/packages/library/node_modules/lodash/lodash.min'], function(_) {
 
     paths: {
       'lab': libraryFlavor === 'coverage'
-        ? '/base/packages/library/dist/lab.coverage'
-        : '/base/packages/library/dist/lab',
+        ? '/base/packages/library/dist/umd/lab.coverage'
+        : '/base/packages/library/dist/umd/lab',
       '_': '/base/packages/library/node_modules/lodash/lodash.min'
     },
 
