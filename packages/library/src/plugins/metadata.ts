@@ -30,11 +30,7 @@ const getMetadata = () => {
 }
 
 const extractURLSearchParams = (search: string) =>
-  fromPairs(
-    Array.from(
-      new URLSearchParams(search).entries(),
-    ),
-  )
+  fromPairs(Array.from(new URLSearchParams(search).entries()))
 
 export type MetadataPluginOptions = {
   location_search?: string
