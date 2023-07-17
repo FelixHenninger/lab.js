@@ -592,7 +592,11 @@ const updates = {
       ...data,
       version: [22, 'beta', 10],
     }),
-    // TODO: Add shortcut for folks upgrading from v21 stable to v22
+    '22.beta.10': data => ({
+      ...data,
+      version: [23, 'alpha', 1],
+    }),
+    // TODO: Add shortcut for folks upgrading from v21 stable to v23
   })
 }
 
