@@ -70,6 +70,20 @@ type levelSummary = componentSummary[]
  */
 export type stackSummary = levelSummary[]
 
+/**
+ * Custom iterator type implemented by `lab.js` flow control components
+ *
+ * Those `lab.js` components that themselves expose nested components
+ * do so by providing an iterator over those components. Any generic iterator
+ * will do for this task, as long as the study proceeds linearly, forward
+ * through components.
+ *
+ * If additional functionality is desired (specifically jumping and restarting),
+ * this needs to be implemented in the iterator also, allowing it to
+ * fast-forward through the available components, or start over (or both
+ * in sequence). These additional interfaces are summarized in the
+ * `CustomIterator`.
+ */
 export interface CustomIterator<T, TReturn = any, TNext = undefined>
   extends Iterator<T, TReturn, TNext> {
   peek: () => levelSummary
