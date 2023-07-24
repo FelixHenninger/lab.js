@@ -2,7 +2,8 @@ import { range } from 'lodash'
 
 import { Component, Status } from '../../component'
 import { requestAnimationFrameMaybe } from '../rAF'
-import { SliceIterable, peekLevel } from './timeline'
+import { SliceIterable } from './timeline'
+import { stackSummary } from './interface'
 import { EventName } from '../../../base/component'
 
 export const resolveFlip = <T>(oldStack: T[], newStack: T[]) => {
@@ -45,7 +46,7 @@ export interface FlipIterator<T>
   // NOTE: We index by id here, which is inconsistent
   // with the remainder of the interface.
   fastForward: (targetStack: String[]) => Promise<void>
-  peek: () => peekLevel
+  peek: () => stackSummary
 }
 
 export class FlipIterable {
