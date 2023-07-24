@@ -1,8 +1,6 @@
 import { fastForward } from './fastforward'
 import { Status } from '../../component'
-
-type peekItem = [string[], string, string]
-export type peekLevel = peekItem[]
+import { componentSummary, stackSummary } from './interface'
 
 interface NestedIterable<T> extends Iterable<T | NestedIterable<T>> {
   peek?: () => void
@@ -16,7 +14,7 @@ interface TimelineIterator<T> extends AsyncIterator<(T | NestedIterable<T>)[]> {
   fastForward: (
     consume: (value: T | NestedIterable<T>, level: number) => boolean,
   ) => Promise<void>
-  peek: () => peekLevel
+  peek: () => stackSummary
 }
 
 export class SliceIterable<T extends Object> {
@@ -178,8 +176,8 @@ export class SliceIterable<T extends Object> {
           }
         }
       },
-      peek: function () {
-        const output = []
+      peek: function (): stackSummary {
+        const output: stackSummary = []
 
         for (const [level, iterator] of iteratorStack.entries()) {
           //@ts-ignore
@@ -190,8 +188,11 @@ export class SliceIterable<T extends Object> {
             const result = iterator
               //@ts-ignore
               .peek?.()
-              //@ts-ignore
-              .map(([id, ...rest]) => [[...idStack, id], ...rest])
+              .map(([id, title, type]: componentSummary) => [
+                [...idStack, id],
+                title,
+                type,
+              ])
 
             output.push(result)
           } else {

@@ -2,7 +2,7 @@ import { isPlainObject, throttle } from 'lodash'
 import { Controller } from '../core'
 import { Component } from '../core/component'
 import { Store } from '../data/store'
-import { peekLevel } from '../base/util/iterators/timeline'
+import { stackSummary } from '../base/util/iterators/interface'
 
 // Overlay UI container --------------------------------------------------------
 
@@ -240,7 +240,7 @@ const renderStore = (datastore: Store) => {
 const renderItem = (
   level: number,
   index: number,
-  peekData: peekLevel,
+  peekData: stackSummary,
   currentStack: (string | undefined)[],
 ) => {
   const [idStack, title, type] = peekData[level][index]
@@ -263,7 +263,7 @@ const renderItem = (
 }
 
 const renderLayer = (
-  peekData: peekLevel,
+  peekData: stackSummary,
   level: number,
   currentStack: (string | undefined)[],
 ): string => {

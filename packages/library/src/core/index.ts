@@ -14,5 +14,5 @@ export {
 } from '../base/component'
 
 export {
-  peekLevel, //
-} from '../base/util/iterators/timeline'
+  stackSummary, //
+} from '../base/util/iterators/interface'
