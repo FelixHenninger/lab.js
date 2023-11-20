@@ -9,6 +9,40 @@
   },
   "license": "Apache-2.0",
   "author": "Felix Henninger <mailbox@felixhenninger.com>",
+  "exports": {
+    ".": {
+      "import": "./dist/es6/index.js",
+      "types": "./dist/es6/index.d.ts"
+    },
+    "./canvas": {
+      "import": "./dist/es6/canvas/index.js",
+      "types": "./dist/es6/canvas/index.d.ts"
+    },
+    "./core": {
+      "import": "./dist/es6/core/index.js",
+      "types": "./dist/es6/core/index.d.ts"
+    },
+    "./data": {
+      "import": "./dist/es6/data/index.js",
+      "types": "./dist/es6/data/index.d.ts"
+    },
+    "./flow": {
+      "import": "./dist/es6/flow/index.js",
+      "types": "./dist/es6/flow/index.d.ts"
+    },
+    "./html": {
+      "import": "./dist/es6/html/index.js",
+      "types": "./dist/es6/html/index.d.ts"
+    },
+    "./plugins": {
+      "import": "./dist/es6/plugins/index.js",
+      "types": "./dist/es6/plugins/index.d.ts"
+    },
+    "./util": {
+      "import": "./dist/es6/util/index.js",
+      "types": "./dist/es6/util/index.d.ts"
+    }
+  },
   "main": "dist/es6/index.js",
   "types": "dist/es6/index.d.ts",
   "scripts": {
