@@ -1,19 +1,37 @@
 {
   "name": "lab.js",
-  "description": "Building blocks for web-based behavioral experiments",
   "version": "23.0.0-alpha2",
-  "author": "Felix Henninger <mailbox@felixhenninger.com>",
-  "license": "Apache-2.0",
+  "description": "Building blocks for web-based behavioral experiments",
+  "homepage": "https://lab.js.org",
   "repository": {
     "type": "git",
     "url": "https://github.com/felixhenninger/lab.js.git"
   },
-  "homepage": "https://lab.js.org",
+  "license": "Apache-2.0",
+  "author": "Felix Henninger <mailbox@felixhenninger.com>",
   "main": "dist/es6/index.js",
   "types": "dist/es6/index.d.ts",
+  "scripts": {
+    "analyze": "NODE_ENV=analysis webpack --profile --json > bundleStats.json",
+    "build:css": "postcss --local-plugins -u postcss-preset-env -o dist/css/lab.css src/starterkit/lib/lab.css",
+    "build:js": "yarn run build:js:development && yarn run build:js:production && yarn run build:js:esm && yarn run build:js:tsc",
+    "build:js:base": "webpack -c webpack.base.js",
+    "build:js:coverage": "NODE_ENV=coverage webpack --mode=development",
+    "build:js:development": "webpack --mode=development",
+    "build:js:esm": "(tsc -m es6 --outDir dist/es6 || true) && node scripts/postprocess_module_build.js",
+    "build:js:production": "webpack --mode=production",
+    "build:js:tsc": "(tsc --outDir dist/es2022 || true) && node scripts/postprocess_module_build.js",
+    "build:starterkit": "yarn run build:js && yarn run build:css && node scripts/bundle_starterkit.js",
+    "clean": "shx rm -rf dist && shx mkdir dist",
+    "prepare": "yarn run build:starterkit",
+    "prettier": "prettier --write src",
+    "test": "karma start test/_karma/ci.conf.js",
+    "test:base": "jest --detect-open-handles",
+    "test:coverage": "yarn run build:js:coverage && karma start test/_karma/coverage.conf.js",
+    "test:sauce": "karma start test/_karma/sauce.conf.js",
+    "watch:js": "onchange 'src/**/*' -- yarn run build:js"
+  },
   "dependencies": {
-    "@types/common-tags": "^1.8.0",
-    "@types/jsdom": "^20.0.0",
     "common-tags": "^1.8.0",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.0",
@@ -23,8 +41,10 @@
     "ua-parser-js": "^1.0.2"
   },
   "devDependencies": {
+    "@types/common-tags": "^1.8.0",
     "@types/file-saver": "^2.0.5",
     "@types/jest": "^28.1.6",
+    "@types/jsdom": "^20.0.0",
     "@types/lodash": "4.14.108",
     "@types/seedrandom": "2.4.27",
     "@types/ua-parser-js": "^0.7.35",
@@ -60,25 +80,5 @@
     "webpack": "^5.74.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.10.0"
-  },
-  "scripts": {
-    "analyze": "NODE_ENV=analysis webpack --profile --json > bundleStats.json",
-    "build:js:base": "webpack -c webpack.base.js",
-    "build:js:coverage": "NODE_ENV=coverage webpack --mode=development",
-    "build:js:development": "webpack --mode=development",
-    "build:js:production": "webpack --mode=production",
-    "build:js:esm": "(tsc -m es6 --outDir dist/es6 || true) && node scripts/postprocess_module_build.js",
-    "build:js:tsc": "(tsc --outDir dist/es2022 || true) && node scripts/postprocess_module_build.js",
-    "build:js": "yarn run build:js:development && yarn run build:js:production && yarn run build:js:esm && yarn run build:js:tsc",
-    "build:css": "postcss --local-plugins -u postcss-preset-env -o dist/css/lab.css src/starterkit/lib/lab.css",
-    "build:starterkit": "yarn run build:js && yarn run build:css && node scripts/bundle_starterkit.js",
-    "clean": "shx rm -rf dist && shx mkdir dist",
-    "prepare": "yarn run build:starterkit",
-    "prettier": "prettier --write src",
-    "test": "karma start test/_karma/ci.conf.js",
-    "test:base": "jest --detect-open-handles",
-    "test:coverage": "yarn run build:js:coverage && karma start test/_karma/coverage.conf.js",
-    "test:sauce": "karma start test/_karma/sauce.conf.js",
-    "watch:js": "onchange 'src/**/*' -- yarn run build:js"
   }
 }
