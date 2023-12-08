@@ -22,7 +22,10 @@
       "import": "./dist/es6/core/index.js",
       "types": "./dist/es6/core/index.d.ts"
     },
-    "./css/*": "./dist/css/*",
+    "./css": {
+      "import": "./dist/css/lab.css",
+      "require": "./dist/css/lab.css"
+    },
     "./data": {
       "import": "./dist/es6/data/index.js",
       "types": "./dist/es6/data/index.d.ts"

@@ -1,35 +1,41 @@
-import lab from 'lab.js'
-import 'lab.js/css/lab.css'
+import { Store } from 'lab.js/data'
+import { Loop, Sequence } from 'lab.js/flow'
+import { Screen } from 'lab.js/html'
+
+import welcomePage from './pages/1-welcome.html?raw'
+import summaryPage from './pages/2-summary.html?raw'
+import trialPage from './pages/3-trial.html?raw'
+import interludePage from './pages/4-interlude.html?raw'
+import thanksPage from './pages/5-thanks.html?raw'
+
+import 'lab.js/css'
 
 // Define a template for a stroop trial
-var trialTemplate = new lab.flow.Sequence({
-  datacommit: false,
+const trialTemplate = new Sequence({
   content: [
     // Fixation cross ----------------------------------------------------------
     // This screen uses the trial page template,
     // but substitutes a gray plus as a fixation cross
-    new lab.html.Screen({
-      contentUrl: 'pages/3-trial.html',
+    new Screen({
+      content: trialPage,
       parameters: {
         color: 'gray',
         word: '+',
         weight: 'normal',
       },
-      // Don't log data from this screen
-      datacommit: false,
       // Display the fixation cross for 500ms
       timeout: 500,
     }),
     // Trial screen ------------------------------------------------------------
     // This is the central screen in the experiment:
     // the display that participants respond to.
-    new lab.html.Screen({
+    new Screen({
       // This screen is assigned a title,
       // so that we can recognize it more easily
       // in the dataset.
       title: 'StroopScreen',
       // Again, we use the trial page template
-      contentUrl: 'pages/3-trial.html',
+      content: trialPage,
       parameters: {
         // Color and displayed word
         // are determined by the trial
@@ -56,14 +62,13 @@ var trialTemplate = new lab.flow.Sequence({
       },
     }),
     // Feedback (or empty) screen ----------------------------------------------
-    new lab.html.Screen({
-      contentUrl: 'pages/3-trial.html',
+    new Screen({
+      content: trialPage,
       parameters: {
         color: 'gray',
         word: '', // This is a placeholder, we generate the word below
         weight: 'normal',
       },
-      datacommit: false,
       // Because feedback can only be given after
       // the choice has been recorded, this component
       // is prepared at the last possible moment.
@@ -100,7 +105,7 @@ var trialTemplate = new lab.flow.Sequence({
 
 // Define the trials in terms of the central parameters:
 // The word shown on screen, and its color
-var trials = [
+const trials = [
   { color: 'red', word: 'red' },
   { color: 'red', word: 'green' },
   { color: 'red', word: 'blue' },
@@ -121,24 +126,24 @@ var trials = [
 
 // With the individual components in place,
 // now put together the entire experiment
-var experiment = new lab.flow.Sequence({
+const experiment = new Sequence({
   content: [
     // Initial instructions
-    new lab.html.Screen({
-      contentUrl: 'pages/1-welcome.html',
+    new Screen({
+      content: welcomePage,
       responses: {
         'keypress(Space)': 'continue',
       },
     }),
     // Instruction summary
-    new lab.html.Screen({
-      contentUrl: 'pages/2-summary.html',
+    new Screen({
+      content: summaryPage,
       responses: {
         'keypress(Space)': 'continue',
       },
     }),
     // Practice trials
-    new lab.flow.Loop({
+    new Loop({
       template: trialTemplate,
       templateParameters: trials,
       shuffle: true,
@@ -147,14 +152,14 @@ var experiment = new lab.flow.Sequence({
       },
     }),
     // Interlude
-    new lab.html.Screen({
-      contentUrl: 'pages/4-interlude.html',
+    new Screen({
+      content: interludePage,
       responses: {
         'keypress(Space)': 'continue',
       },
     }),
     // Actual trials
-    new lab.flow.Loop({
+    new Loop({
       template: trialTemplate,
       templateParameters: trials,
       shuffle: true,
@@ -163,8 +168,8 @@ var experiment = new lab.flow.Sequence({
       },
     }),
     // Thank-you page
-    new lab.html.Screen({
-      contentUrl: 'pages/5-thanks.html',
+    new Screen({
+      content: thanksPage,
       // Respond to clicks on the download button
       events: {
         'click button#download': function () {
@@ -173,7 +178,7 @@ var experiment = new lab.flow.Sequence({
       },
     }),
   ],
-  datastore: new lab.data.Store(),
+  datastore: new Store(),
 })
 
 // Go!
