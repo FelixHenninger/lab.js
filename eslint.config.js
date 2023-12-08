@@ -14,7 +14,12 @@ const __dirname = path.dirname(__filename)
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
   {
-    ignores: ['**/build/*', '**/dist/*', 'packages/runner/*', "packages/website/*"],
+    ignores: [
+      '**/build/*',
+      '**/dist/*',
+      'packages/runner/*',
+      'packages/website/*',
+    ],
   },
   {
     files: [
@@ -34,6 +39,8 @@ export default [
     },
     rules: {
       ...js.configs.recommended.rules,
+      'prefer-const': 'error',
+      'no-var': 'error',
     },
   },
   {
