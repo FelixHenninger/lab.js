@@ -2,13 +2,22 @@
   "name": "lab.js.builder",
   "version": "23.0.0-alpha2",
   "private": true,
-  "devDependencies": {
-    "babel-jest": "^26.6.0",
-    "buffer": "^6.0.3",
-    "glob": "^7.1.6",
-    "redux-devtools-extension": "^2.13.8",
-    "shx": "^0.3.3"
+  "scripts": {
+    "analyze": "source-map-explorer build/static/js/main.*",
+    "build": "yarn run static:library && react-app-rewired build && node scripts/postprocess_build.js",
+    "deploy": "node scripts/deploy.js",
+    "eject": "react-scripts eject",
+    "start": "yarn run static:library && react-app-rewired start",
+    "start:demo": "HTTPS=true PORT=443 DOMAIN=labjs.felixhenninger.com yarn start",
+    "static:library": "shx mkdir -p public/api/_defaultStatic/lib/ && shx cp -R ../library/dist/labjs-starterkit/lib/* public/api/_defaultStatic/lib/",
+    "test": "react-app-rewired test --env=jsdom"
   },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@sentry/react": "^6.7.1",
@@ -53,20 +62,11 @@
     "slugify": "^1.4.6",
     "uuid": "^8.3.2"
   },
-  "scripts": {
-    "start": "yarn run static:library && react-app-rewired start",
-    "start:demo": "HTTPS=true PORT=443 DOMAIN=labjs.felixhenninger.com yarn start",
-    "build": "yarn run static:library && react-app-rewired build && node scripts/postprocess_build.js",
-    "test": "react-app-rewired test --env=jsdom",
-    "eject": "react-scripts eject",
-    "analyze": "source-map-explorer build/static/js/main.*",
-    "deploy": "node scripts/deploy.js",
-    "static:library": "shx mkdir -p public/api/_defaultStatic/lib/ && shx cp -R ../library/dist/labjs-starterkit/lib/* public/api/_defaultStatic/lib/"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "devDependencies": {
+    "babel-jest": "^26.6.0",
+    "buffer": "^6.0.3",
+    "glob": "^7.1.6",
+    "redux-devtools-extension": "^2.13.8",
+    "shx": "^0.3.3"
+  }
 }
