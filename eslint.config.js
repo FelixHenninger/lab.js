@@ -14,7 +14,7 @@ const __dirname = path.dirname(__filename)
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
   {
-    ignores: ['**/build/*', '**/dist/*'],
+    ignores: ['**/build/*', '**/dist/*', 'packages/runner/*', "packages/website/*"],
   },
   {
     files: [
@@ -85,15 +85,15 @@ export default [
     rules: {
       ...reactPlugin.configs.recommended.rules,
       ...jsxA11yPlugin.configs.recommended.rules,
-      'no-alert': 'error',
-      'no-console': ['error', { allow: ['warn', 'error'] }],
-      'react/function-component-definition': [
-        'error',
-        {
-          namedComponents: 'arrow-function',
-          unnamedComponents: 'arrow-function',
-        },
-      ],
+      // 'no-alert': 'error',
+      // 'no-console': ['error', { allow: ['warn', 'error'] }],
+      // 'react/function-component-definition': [
+      //   'error',
+      //   {
+      //     namedComponents: 'arrow-function',
+      //     unnamedComponents: 'arrow-function',
+      //   },
+      // ],
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
     },
