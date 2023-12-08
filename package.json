@@ -51,6 +51,7 @@
   "dependencies": {},
   "devDependencies": {
     "lerna": "^6.0.0",
-    "onchange": "^7.1.0"
+    "onchange": "^7.1.0",
+    "typescript": "^4.7.4"
   }
 }
