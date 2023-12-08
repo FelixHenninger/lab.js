@@ -5,7 +5,8 @@
     "packages": [
       "packages/builder",
       "packages/library",
-      "packages/website"
+      "packages/website",
+      "tasks/*"
     ],
     "nohoist": [
       "lab.js/babel-loader",
