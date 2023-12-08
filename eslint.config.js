@@ -67,7 +67,7 @@ export default [
     },
   },
   {
-    files: ['**/*.jsx', '**/*.tsx'],
+    files: ['**/*.jsx', '**/*.tsx', 'packages/builder/src/**/*.js'],
     languageOptions: {
       globals: {
         ...globals.browser,
