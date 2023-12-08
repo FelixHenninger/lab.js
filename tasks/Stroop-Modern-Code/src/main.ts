@@ -11,7 +11,7 @@ import thanksPage from './pages/5-thanks.html?raw'
 import 'lab.js/css'
 
 // Define a template for a stroop trial
-var trialTemplate = new Sequence({
+const trialTemplate = new Sequence({
   content: [
     // Fixation cross ----------------------------------------------------------
     // This screen uses the trial page template,
@@ -105,7 +105,7 @@ var trialTemplate = new Sequence({
 
 // Define the trials in terms of the central parameters:
 // The word shown on screen, and its color
-var trials = [
+const trials = [
   { color: 'red', word: 'red' },
   { color: 'red', word: 'green' },
   { color: 'red', word: 'blue' },
@@ -126,7 +126,7 @@ var trials = [
 
 // With the individual components in place,
 // now put together the entire experiment
-var experiment = new Sequence({
+const experiment = new Sequence({
   content: [
     // Initial instructions
     new Screen({

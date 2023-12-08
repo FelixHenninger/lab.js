@@ -79,6 +79,8 @@ export default [
       ],
       'no-redeclare': 'off',
       'no-undef': 'off',
+      'prefer-const': 'error',
+      'no-var': 'error',
     },
   },
   {
