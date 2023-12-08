@@ -3,7 +3,7 @@ import url from 'node:url'
 
 import js from '@eslint/js'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
-import tsParser from '@typescript-eslint/parser/dist/index'
+import tsParser from '@typescript-eslint/parser'
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y'
 import reactPlugin from 'eslint-plugin-react'
 import globals from 'globals'
