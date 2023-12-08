@@ -29,7 +29,7 @@ fs.readFile('build/service-worker.js', 'utf8', (err, data) => {
     /precacheConfig=(\[(?:\["[^"]+","[\w\d]+"\],?)+\])/g,
     (match, assets) => `precacheConfig=${ JSON.stringify([
       ...JSON.parse(assets)
-        .filter(([filename, hash]) => !filename.match(/(ttf|eot|woff)$/)),
+        .filter(([filename]) => !filename.match(/(ttf|eot|woff)$/)),
       ...localStaticFiles,
     ]) }`
   )
