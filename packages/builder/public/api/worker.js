@@ -25,7 +25,7 @@ self.addEventListener('install', event => {
 
 // Claim this worker as the active worker for all clients,
 // as per https://serviceworke.rs/immediate-claim.html
-self.addEventListener('activate', event => {
+self.addEventListener('activate', () => {
   console.log('Activating preview worker')
   return self.clients.claim()
 })
