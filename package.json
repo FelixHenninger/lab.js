@@ -1,18 +1,5 @@
 {
   "private": true,
-  "dependencies": {},
-  "devDependencies": {
-    "lerna": "^6.0.0",
-    "onchange": "^7.1.0"
-  },
-  "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "bootstrap:ci": "lerna bootstrap --npm-ci-mode",
-    "build:docs": "cd docs && make html",
-    "clean:docs": "cd docs && make clean",
-    "clean:modules": "lerna clean",
-    "watch:docs": "onchange 'docs/**/*.rst' 'docs/**/*.py' -- npm run build:docs"
-  },
   "workspaces": {
     "packages": [
       "packages/*"
@@ -49,8 +36,21 @@
       "lab.js.website/bootstrap"
     ]
   },
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "bootstrap:ci": "lerna bootstrap --npm-ci-mode",
+    "build:docs": "cd docs && make html",
+    "clean:docs": "cd docs && make clean",
+    "clean:modules": "lerna clean",
+    "watch:docs": "onchange 'docs/**/*.rst' 'docs/**/*.py' -- npm run build:docs"
+  },
   "resolutions": {
     "canvas": "^2.11.2",
     "webdriverio": "^7.19.5"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "lerna": "^6.0.0",
+    "onchange": "^7.1.0"
   }
 }

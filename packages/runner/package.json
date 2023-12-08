@@ -6,14 +6,14 @@
   "scripts": {
     "start": "electron ."
   },
-  "devDependencies": {
-    "electron": "^11.3.0"
-  },
   "dependencies": {
     "esm": "^3.2.25",
     "glob": "^7.1.6",
     "lodash": "^4.17.15",
     "mime": "^2.4.4",
     "node-lsl": "github:CalvinLeather/node-lsl"
+  },
+  "devDependencies": {
+    "electron": "^11.3.0"
   }
 }
