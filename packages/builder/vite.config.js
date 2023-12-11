@@ -13,12 +13,15 @@ export default defineConfig({
     target: 'es2022',
   },
   esbuild: {
-    loader: "tsx",
+    loader: 'tsx',
     include: /src\/.*\.[tj]sx?$/,
     exclude: [],
   },
   optimizeDeps: {
     esbuildOptions: {
+      define: {
+        global: 'globalThis',
+      },
       plugins: [
         {
           name: 'load-js-files-as-jsx',

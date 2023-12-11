@@ -26,8 +26,8 @@ export default class PreviewButton extends Component {
       // TODO: When we enable multiple
       // parallel instances, change labjs_preview
       // with a variable instance identifier
-      `${ process.env.PUBLIC_URL }/api/labjs_preview/index.html`,
-      windowState => this.setState({ windowState })
+      '/api/labjs_preview/index.html',
+      windowState => this.setState({ windowState }),
     )
 
     // Create reference to the actual button element
@@ -63,7 +63,7 @@ export default class PreviewButton extends Component {
       await populateCache(
         store.getState(),
         state => addDownloadPlugin(addDebugPlugin(state)),
-        { headerOptions: { dev: true }}, // load development build for preview
+        { headerOptions: { dev: true } }, // load development build for preview
       )
 
       // Reload page to provided URL
@@ -74,18 +74,18 @@ export default class PreviewButton extends Component {
       if (error.name === 'QuotaExceededError') {
         alert(
           "Sorry, we couldn't generate the preview because " +
-          "the browser wouldn't allow us to use storage space. " +
-          "Could you check whether there's room on your hard drive?"
+            "the browser wouldn't allow us to use storage space. " +
+            "Could you check whether there's room on your hard drive?",
         )
       } else {
-        console.log(`Received error while generating preview: ${ error }`)
-        Sentry.withScope((scope) => {
+        console.log(`Received error while generating preview: ${error}`)
+        Sentry.withScope(scope => {
           scope.setTag('scope', 'preview')
           Sentry.captureException(error)
         })
         alert(
           'Sorry, an error occured while we were trying ' +
-          `to put together the study preview: ${ error }`
+            `to put together the study preview: ${error}`,
         )
       }
     }
@@ -95,30 +95,30 @@ export default class PreviewButton extends Component {
     const { windowState } = this.state
     return (
       <SystemContext.Consumer>
-        {({ previewActive }) =>
+        {({ previewActive }) => (
           <ReactReduxContext.Consumer>
-            {({ store }) =>
+            {({ store }) => (
               <Button
                 color="primary"
-                ref={ this.button }
-                onClick={ () => this.openPreview(store) }
-                onMouseEnter={ () => {
+                ref={this.button}
+                onClick={() => this.openPreview(store)}
+                onMouseEnter={() => {
                   // Prepare potential preview
                   if (previewActive) {
                     const event = new Event('preview:preempt')
                     window.dispatchEvent(event)
                   }
                 }}
-                disabled={ !previewActive }
+                disabled={!previewActive}
               >
                 <Icon
-                  icon={ windowState === 'closed' ? 'play' : 'sync-alt' }
+                  icon={windowState === 'closed' ? 'play' : 'sync-alt'}
                   weight="s"
                 />
               </Button>
-            }
+            )}
           </ReactReduxContext.Consumer>
-        }
+        )}
       </SystemContext.Consumer>
     )
   }

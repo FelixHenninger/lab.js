@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
-    "build": "yarn run static:library && react-app-rewired build && node scripts/postprocess_build.js",
+    "build": "vite build",
     "deploy": "node scripts/deploy.js",
     "dev": "vite",
     "eject": "react-scripts eject",

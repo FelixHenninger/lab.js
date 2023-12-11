@@ -2,9 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "allowJs": true,
-    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
-    "esModuleInterop": false,
     "jsx": "react",
     "paths": {
       "@/*": ["./src/*"]

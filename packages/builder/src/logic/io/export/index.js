@@ -19,46 +19,44 @@ const createZip = async ({ files, bundledFiles }) => {
 
   await Promise.all(
     // Add library static files to bundle
-    Object.entries(bundledFiles).map(
-      ([path, data]) =>
-        fetch(`${ process.env.PUBLIC_URL }/api/_defaultStatic/${ data.source }`)
-          .then(data => zip.file(path, data.blob()))
-    )
+    Object.entries(bundledFiles).map(([path, data]) =>
+      fetch(
+        `${import.meta.env.PUBLIC_URL}/api/_defaultStatic/${data.source}`,
+      ).then(data => zip.file(path, data.blob())),
+    ),
   )
 
   // Generate zip file and return blob
   return await zip.generateAsync({ type: 'blob' })
 }
 
-export const downloadZip = async (data, filename='study_export.zip') => {
+export const downloadZip = async (data, filename = 'study_export.zip') => {
   // Generate blob and save file
   try {
     const blob = await createZip(data, filename)
     return saveAs(blob, filename)
   } catch (error) {
-    Sentry.withScope((scope) => {
+    Sentry.withScope(scope => {
       scope.setTag('scope', 'export')
       Sentry.captureException(error)
     })
-    alert(`Couldn't export bundle: ${ error }`)
+    alert(`Couldn't export bundle: ${error}`)
   }
 }
 
-export const createStaticBlob = (state,
-  stateModifier=state => state,
-  options
-) =>
-  createZip(
-    assemble(state, stateModifier, options),
-  )
+export const createStaticBlob = (
+  state,
+  stateModifier = state => state,
+  options,
+) => createZip(assemble(state, stateModifier, options))
 
 // Bundle all files into a zip archive
-export const downloadStatic = (state,
-  stateModifier=state => state,
-  options
+export const downloadStatic = (
+  state,
+  stateModifier = state => state,
+  options,
 ) =>
   downloadZip(
     assemble(state, stateModifier, options),
-    makeFilename(state) + '-export.zip'
+    makeFilename(state) + '-export.zip',
   )
-
