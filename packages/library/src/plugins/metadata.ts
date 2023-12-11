@@ -43,7 +43,7 @@ export default class Metadata implements Plugin {
     this.options = options
   }
 
-  async handle(context: Component, event: string) {
+  handle(context: Component, event: string) {
     if (event === 'prepare') {
       // Extract URL parameters from location string
       const urlParams = extractURLSearchParams(

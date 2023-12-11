@@ -4,7 +4,7 @@ import { FileFormat } from '../data/store'
 
 const unloadHandler = (e: Event) => {
   const warning = 'Are you sure you want to close this window?'
-  //@ts-ignore I know this shouldn't work, but browsers
+  // @ts-expect-error - I know this shouldn't work, but browsers
   // are a lot more messy than typescript assumes
   // (see also the NavigationGuard plugin)
   e.returnValue = warning
@@ -27,7 +27,7 @@ export default class Download implements Plugin {
     this.fileType = fileType || 'csv'
   }
 
-  async handle(context: Component, event: string) {
+  handle(context: Component, event: string) {
     if (event === 'end') {
       const controller = context.internals.controller
       const ds = controller.global.datastore

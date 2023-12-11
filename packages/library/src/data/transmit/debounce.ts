@@ -5,12 +5,12 @@
 // Mistakes, of course, are entirely the present author's fault)
 
 export const debounceAsync = (
-  fn: Function,
+  fn: (...args: any[]) => any,
   wait: number,
   { throttle = true } = {},
 ) => {
   let timer: number | null
-  let resolvers: [Function, Function][] = []
+  let resolvers: [(...args: any[]) => any, (...args: any[]) => any][] = []
   let lastArgs: IArguments | undefined, lastThis: any
   let running = false
   let skipped = false
@@ -28,13 +28,14 @@ export const debounceAsync = (
 
       // Execute function, capture and pass on result (or error)
       running = true
-      Promise.resolve(fn.apply(lastThis, lastArgs))
+      Promise.resolve(fn.apply(lastThis, Array.from(lastArgs ?? [])))
         .then(result => {
-          for (const [resolve, _] of pendingResolvers) {
+          for (const [resolve] of pendingResolvers) {
             resolve(result)
           }
         })
         .catch(error => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           for (const [_, reject] of pendingResolvers) {
             reject(error)
           }
@@ -43,7 +44,7 @@ export const debounceAsync = (
           const wasSkipped = skipped
           running = skipped = false
           if (wasSkipped && timer === null) {
-            flush()
+            void flush()
           }
         })
     }
@@ -77,6 +78,7 @@ export const debounceAsync = (
     return new Promise((resolve, reject) => {
       // Save arguments and context
       lastArgs = arguments
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
       lastThis = this
 
       // Stop the current and setup a new timer

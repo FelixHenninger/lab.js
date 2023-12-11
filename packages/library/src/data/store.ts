@@ -108,7 +108,7 @@ export class Store<R extends Row = Row> extends Emitter {
     this.staging = Object.assign(this.staging, partial)
 
     if (!suppressSetTrigger) {
-      this.emit('set')
+      void this.emit('set')
     }
   }
 
@@ -172,7 +172,7 @@ export class Store<R extends Row = Row> extends Emitter {
     const logIndex = this.data.push(cloneDeep(this.staging)) - 1
     this.staging = {} as R
 
-    this.emit('commit')
+    void this.emit('commit')
 
     return logIndex
   }
@@ -185,14 +185,14 @@ export class Store<R extends Row = Row> extends Emitter {
    */
   update(index: number, callback = (d: R): R => d) {
     this.data[index] = callback(this.data[index] || ({} as R))
-    this.emit('update')
+    void this.emit('update')
   }
 
   /**
    * Erase the collected data
    */
   clear() {
-    this.emit('clear')
+    void this.emit('clear')
 
     this.data = []
     this.staging = {} as R
@@ -288,7 +288,7 @@ export class Store<R extends Row = Row> extends Emitter {
     // As above
     const filter =
       typeof senderRegExp === 'string'
-        ? RegExp(`^${senderRegExp}$`)
+        ? RegExp(`^${senderRegExp as string}$`)
         : senderRegExp
 
     return this.data
@@ -369,7 +369,7 @@ export class Store<R extends Row = Row> extends Emitter {
     } else if (format === 'jsonl') {
       text = this.exportJsonL(clean)
     } else {
-      throw new Error(`Unsupported format ${format}`)
+      throw new Error(`Unsupported format ${JSON.stringify(format)}`)
     }
 
     const mime = {
@@ -405,7 +405,7 @@ export class Store<R extends Row = Row> extends Emitter {
     return (
       prefix +
       '--' +
-      (id ? `${id}--` : '') +
+      (id ? `${JSON.stringify(id)}--` : '') +
       dateString() +
       (extension ? `.${extension}` : '')
     )

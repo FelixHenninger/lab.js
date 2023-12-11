@@ -1,5 +1,5 @@
 import { clamp, isFunction, pick, flatten, omit, merge } from 'lodash'
-//@ts-ignore 2307
+// @ts-expect-error - untyped lib
 import alea from 'seedrandom/lib/alea'
 
 import { uuid4 } from './uuid'
@@ -305,7 +305,7 @@ export class Random {
     if (isCheckFunction(checks)) {
       constraintChecker = checks
     } else if (isShuffleConstraint(checks)) {
-      const constraints: Function[] = []
+      const constraints: ((...args: any[]) => any)[] = []
       if (checks.maxRepSeries) {
         constraints.push(
           maxRepSeries(checks.maxRepSeries, definitions.equality),
@@ -324,7 +324,9 @@ export class Random {
           true, // start with true
         )
     } else {
-      throw new Error(`Invalid constraint check definition ${checks}`)
+      throw new Error(
+        `Invalid constraint check definition ${checks.toString()}`,
+      )
     }
 
     // Shuffle until a candidate matches the constraints,

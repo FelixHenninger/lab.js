@@ -33,8 +33,8 @@ export default class PageFocusPlugin implements Plugin {
       'Please do not switch to another window' +
         'or minimize the browser while the study is running.'
   }
-
-  async handle(context: Component, event: string) {
+  
+  handle(context: Component, event: string) {
     if (event === 'run') {
       this._handleEvent = e => this.logEvent(e, context)
       window.addEventListener('focus', this._handleEvent)
@@ -49,7 +49,7 @@ export default class PageFocusPlugin implements Plugin {
 
   logEvent(e: Event, context: Component) {
     const ds = context.internals.controller.global.datastore
-    //@ts-expect-error
+    // @ts-expect-error - LEGACY
     const staging = ds.staging
     if (!staging.paradata) {
       staging.paradata = []
@@ -78,7 +78,7 @@ export default class PageFocusPlugin implements Plugin {
       log.visibilityState = document.visibilityState
     }
 
-    //@ts-expect-error
+    // @ts-expect-error - LEGACY
     ds.staging.paradata.push(log)
 
     // Warn participants if they leave the window

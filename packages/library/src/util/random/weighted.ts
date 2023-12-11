@@ -14,5 +14,5 @@ export const weightedIndex = (weights: number[], rng = Math.random): number => {
     }
   }
   // We shouldn't ever get here if the weights are specified correctly
-  throw new Error(`Couldn't compute weighted index with weights ${weights}`)
+  throw new Error(`Couldn't compute weighted index with weights ${weights.join(', ')}`)
 }

@@ -1,14 +1,14 @@
 // Stack-based timeout ---------------------------------------------------------
 
 export class StackTimeout {
-  f: Function
+  f: (...args: any) => any
   delay: number
   params: any[]
 
   private running: boolean
   private timeoutHandle: null | number
 
-  constructor(f: Function, delay: number, ...params: any[]) {
+  constructor(f: (...args: any) => any, delay: number, ...params: any[]) {
     this.f = f
     this.delay = delay
     this.params = params
@@ -47,7 +47,7 @@ const thresholds = {
 }
 
 export class FrameTimeout {
-  f: Function
+  f: (...args: any) => any
   delay: number
   params: any[]
 
@@ -59,7 +59,7 @@ export class FrameTimeout {
   private animationFrameHandle: undefined | number
   private lastAnimationFrame: undefined | number
 
-  constructor(f: Function, delay: number, ...params: any[]) {
+  constructor(f: (...args: any) => any, delay: number, ...params: any[]) {
     this.delay = delay
     this.f = f
     this.params = params
@@ -80,7 +80,7 @@ export class FrameTimeout {
     this.tick = this.tick.bind(this)
   }
 
-  tick(frameTime = performance.now(), frameSynced = false) {
+  tick = (frameTime = performance.now(), frameSynced = false) => {
     // Estimate the current frame interval, falling back
     // onto the minimum observed interval if necessary
     const frameInterval =

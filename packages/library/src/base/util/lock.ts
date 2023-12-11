@@ -1,9 +1,9 @@
 export class Lock {
   #promise!: Promise<any>
-  #resolve!: Function
+  #resolve!: (...args: any[]) => any
 
   constructor() {
-    this.acquire()
+    void this.acquire()
   }
 
   wait() {

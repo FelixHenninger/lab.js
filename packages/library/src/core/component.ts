@@ -95,7 +95,7 @@ export class Component extends BaseComponent {
     super({
       ...cloneDeep(componentDefaults),
       ...options,
-      //@ts-ignore Not sure why this doesn't work
+      //@ts-expect-error - Not sure why this doesn't work
       media: {
         images: [],
         audio: [],
@@ -131,7 +131,7 @@ export class Component extends BaseComponent {
     }
 
     if (!this.internals.controller) {
-      //@ts-ignore
+      //@ts-expect-error - LEGACY
       this.internals.controller = new Controller({
         root: this,
         el: this.options.el,
@@ -174,7 +174,7 @@ export class Component extends BaseComponent {
         // Prevent default browser response
         e.preventDefault()
         // Trigger internal response handling
-        this.respond(response, {
+        void this.respond(response, {
           timestamp: e.timeStamp,
           action: eventString,
         })
@@ -274,7 +274,7 @@ export class Component extends BaseComponent {
     this.internals.timeout?.cancel()
 
     // End the timeline (without waiting)
-    this.internals.timeline.end(
+    await this.internals.timeline.end(
       flipData.timestamp + timingParameters.frameInterval,
     )
 
@@ -301,7 +301,7 @@ export class Component extends BaseComponent {
    */
   async lock({ timestamp }: { timestamp: number }) {
     this.internals.timestamps.lock = timestamp
-    this.internals.timeline.teardown()
+    await this.internals.timeline.teardown()
     this.internals.domConnection.teardown()
     this.internals.timeout = undefined
     await super.lock({ timestamp })

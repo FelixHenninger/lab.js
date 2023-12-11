@@ -44,7 +44,7 @@ export class Frame extends Component {
 
   enterContext(context: object) {
     const c = super.enterContext(context)
-    //@ts-ignore FIXME
+    //@ts-expect-error - FIXME
     this.internals.outerEl = c.el as HTMLElement
     this.internals.parsedContext = createFragment(this.options.context)
     this.internals.innerEl = this.internals.parsedContext.querySelector(
@@ -67,7 +67,7 @@ export class Frame extends Component {
     return super.leaveContext(c)
   }
 
-  async onRun() {
+  onRun() {
     const outerEl = this.internals.outerEl
 
     // Insert context

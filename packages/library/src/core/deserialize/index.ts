@@ -14,7 +14,7 @@ export type SerializedPlugin = {
 
 // Retrieve an entry from a nested object
 // hierarchy, given a path
-const retrieveNested = (path: string[], object: Object) =>
+const retrieveNested = (path: string[], object: Record<string, any>) =>
   path.reduce(
     (subobject: { [key: string]: any }, subpath: string) => subobject[subpath],
     object,
@@ -22,18 +22,20 @@ const retrieveNested = (path: string[], object: Object) =>
 
 // Copy the options object before passing it into the
 // (recursive) function that does the actual work
-const fromObject = (options: SerializedComponent, libraryRoot: Object) =>
-  _fromObject(cloneDeep(options), libraryRoot)
+const fromObject = (
+  options: SerializedComponent,
+  libraryRoot: Record<string, any>,
+) => _fromObject(cloneDeep(options), libraryRoot)
 
 // Construct a component given only an
 // object that specifies the options
 // (as would be passed to a regular object)
 // and a type field that specifies the
 // component type (e.g. 'lab.html.Screen')
-const _fromObject = (options: SerializedComponent, libraryRoot: Object) => {
+const _fromObject = (options: SerializedComponent, libraryRoot: Record<string, any>) => {
   // If not explicitly specified, we assume that
   // the library is available as a global variable.
-  //@ts-ignore (we check for the presence of the library below)
+  //@ts-expect-error - (we check for the presence of the library below)
   const library = libraryRoot ?? window.lab
 
   if (library === undefined) {

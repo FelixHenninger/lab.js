@@ -15,7 +15,7 @@ export class Controller<C extends Component = Component> extends Emitter {
   context: Record<string, any>
   private lock: Lock
 
-  flipHandlers: Function[]
+  flipHandlers: ((...args: any[]) => any)[]
 
   constructor({
     root,
@@ -30,7 +30,7 @@ export class Controller<C extends Component = Component> extends Emitter {
 
     // Study root component
     this.root = root
-    //@ts-ignore
+    //@ts-expect-error - LEGACY
     this.root.internals.controller = this
 
     // Global data container

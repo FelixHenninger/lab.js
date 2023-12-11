@@ -7,5 +7,5 @@ it('provides basic functionality', async () => {
   setTimeout(() => l.release('foo'), 25)
   await l.wait()
 
-  expect(p).resolves.toBe('foo')
+  await expect(p).resolves.toBe('foo')
 })

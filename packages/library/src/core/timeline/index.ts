@@ -66,7 +66,7 @@ export class Timeline {
           case 'oscillator':
             return new OscillatorItem(this, options, e.payload)
           default:
-            throw new Error(`Unknown item type on ${e}`)
+            throw new Error(`Unknown item type on ${JSON.stringify(e)}`)
         }
       })
       .filter(i => i !== undefined)

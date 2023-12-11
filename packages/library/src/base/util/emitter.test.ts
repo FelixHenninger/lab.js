@@ -4,7 +4,8 @@ it('runs handlers in emitter context by default', async () => {
   const e = new Emitter()
   let observedContext: any = undefined
   const handler = function () {
-    //@ts-ignore
+    //@ts-expect-error - LEGACY
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     observedContext = this
   }
 
@@ -20,7 +21,8 @@ it('can run handlers in custom context', async () => {
   const e = new Emitter('id', { context: customContext })
 
   const handler = function () {
-    //@ts-ignore
+    //@ts-expect-error - LEGACY
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     observedContext = this
   }
 
@@ -30,7 +32,7 @@ it('can run handlers in custom context', async () => {
   expect(observedContext).toEqual(customContext)
 })
 
-it('runs internal event handlers only once if requested', () => {
+it('runs internal event handlers only once if requested', async () => {
   const spy = jest.fn()
   const spyOnce = jest.fn()
   const e = new Emitter()
@@ -39,17 +41,17 @@ it('runs internal event handlers only once if requested', () => {
   e.once('event', spyOnce)
 
   // First event: Should trigger both spies
-  e.trigger('event')
+  await e.trigger('event')
   expect(spy).toBeCalledTimes(1)
   expect(spyOnce).toBeCalledTimes(1)
 
   // Second event: Single-call spy should not be called
-  e.trigger('event')
+  await e.trigger('event')
   expect(spy).toBeCalledTimes(2)
   expect(spyOnce).toBeCalledTimes(1)
 })
 
-it('runs wildcard handlers on every event', () => {
+it('runs wildcard handlers on every event', async () => {
   const spy = jest.fn()
   const spyWildcard = jest.fn()
   const e = new Emitter()
@@ -58,12 +60,12 @@ it('runs wildcard handlers on every event', () => {
   e.on('*', spyWildcard)
 
   // First event: Should trigger both spies
-  e.trigger('event')
+  await e.trigger('event')
   expect(spy).toBeCalledTimes(1)
   expect(spyWildcard).toBeCalledTimes(1)
 
   // Second event: Single-call spy should not be called
-  e.trigger('novel-event')
+  await e.trigger('novel-event')
   expect(spy).toBeCalledTimes(1)
   expect(spyWildcard).toBeCalledTimes(2)
 })
@@ -74,6 +76,7 @@ it('waits for async event handlers to resolve', async () => {
 
   e.on(
     'event',
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     () =>
       new Promise<void>(resolve => {
         window.setTimeout(() => {
@@ -94,6 +97,7 @@ it('waits for one-shot async event handlers to resolve', async () => {
 
   e.once(
     'event',
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     () =>
       new Promise<void>(resolve => {
         window.setTimeout(() => {
@@ -114,7 +118,7 @@ it('resolves promises via waitFor', async () => {
   const p = e.waitFor('event').then(() => {
     done = true
   })
-  e.trigger('event')
+  await e.trigger('event')
 
   await p
   expect(done).toEqual(true)

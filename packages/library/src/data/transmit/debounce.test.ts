@@ -1,11 +1,11 @@
 import { debounceAsync } from './debounce'
 
-let fn: Function, debouncedFn: Function
+let fn: (...args: any) => any, debouncedFn: (...args: any) => any
 
 beforeEach(() => {
   // TODO: Replace legacy timers and setImmediate shims
   jest.useFakeTimers({ legacyFakeTimers: true })
-  fn = jest.fn(async () => 42)
+  fn = jest.fn(async () => Promise.resolve(42))
   debouncedFn = debounceAsync(fn, 1000)
 })
 
@@ -55,6 +55,7 @@ it('runs function multiple times if interval is passed', async () => {
   expect(fn).toHaveBeenCalledTimes(1)
 
   // Flush pending async calls
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   await new Promise(process.nextTick)
 
   // Second run
@@ -91,12 +92,13 @@ it('will re-run if timer expires while the wrapped function is executing', async
   jest.advanceTimersByTime(900) // at 2900ms
   expect(fn).toHaveBeenCalledTimes(1)
   jest.advanceTimersByTime(100) // at 3000ms
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   await new Promise(process.nextTick)
   expect(fn).toHaveBeenCalledTimes(2)
 
   // Check return values (these become available at 5000ms)
-  expect(p1).resolves.toBe(1)
-  expect(p2).resolves.toBe(2)
+  await expect(p1).resolves.toBe(1)
+  await expect(p2).resolves.toBe(2)
 })
 
 it('resolves all promises once run', async () => {
@@ -115,6 +117,7 @@ it('resolves all promises once run', async () => {
   jest.advanceTimersByTime(1)
 
   // Introduce a miniscule wait for the engine to resolve promises
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   await new Promise(process.nextTick)
 
   // Now all promises should be resolved
@@ -134,7 +137,7 @@ it('calls wrapped funtion using the last set of arguments', () => {
 it('can cancel pending calls', () => {
   debouncedFn()
   jest.advanceTimersByTime(999)
-  //@ts-ignore TODO
+  //@ts-expect-error - TODO
   debouncedFn.cancel()
   jest.runAllTimers()
   expect(fn).not.toHaveBeenCalled()
@@ -144,7 +147,7 @@ it('can flush pending calls', () => {
   debouncedFn()
   jest.advanceTimersByTime(500)
   expect(fn).not.toHaveBeenCalled()
-  //@ts-ignore TODO
+  //@ts-expect-error - TODO
   debouncedFn.flush()
   expect(fn).toHaveBeenCalled()
   jest.runAllTimers()

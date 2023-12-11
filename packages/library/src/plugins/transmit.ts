@@ -13,8 +13,8 @@ export type TransmitPluginOptions = {
     full: boolean
   }
   callbacks?: {
-    setup: Function
-    full: Function
+    setup: (...args: any) => any
+    full: (...args: any) => any
   }
   headers?: object
   encoding?: 'json' | 'form'
@@ -30,8 +30,8 @@ export default class Transmit implements Plugin {
     full: boolean
   }
   callbacks: {
-    setup?: Function
-    full?: Function
+    setup?: (...args: any) => any
+    full?: (...args: any) => any
   }
   headers: object
   encoding: 'json' | 'form'
@@ -55,41 +55,40 @@ export default class Transmit implements Plugin {
     this.encoding = options.encoding || 'json'
   }
 
-  async handle(context: Component, event: string) {
-    switch (event) {
-      case 'prepare':
-        const controller = context.internals.controller
-        const ds = controller.global.datastore
+  handle(context: Component, event: string) {
+    if (event !== 'prepare') {
+      return
+    }
 
-        // Setup incremental transmission logic
-        this.connection = new Connection(ds, this.#url, {
-          metadata: this.#metadata,
-          headers: this.headers,
-          encoding: this.encoding,
-        })
+    const controller = context.internals.controller
+    const ds = controller.global.datastore
 
-        if (this.#updates.incremental) {
-          // Set commit handler on data store
-          // (inside the handler, this refers to the store)
-          controller.on('flip', () => this.connection?.enqueue())
-        }
+    // Setup incremental transmission logic
+    this.connection = new Connection(ds, this.#url, {
+      metadata: this.#metadata,
+      headers: this.headers,
+      encoding: this.encoding,
+    })
 
-        if (this.#updates.full) {
-          // Transmit the entire data set
-          controller.on('end', () =>
-            Promise.all([
-              this.connection?.transmit(),
-              this.connection?.finalize(),
-            ]).then(() => this.callbacks.full?.()),
-          )
-        }
+    if (this.#updates.incremental) {
+      // Set commit handler on data store
+      // (inside the handler, this refers to the store)
+      controller.on('flip', () => void this.connection?.enqueue())
+    }
 
-        // Trigger setup callback
-        if (this.callbacks.setup) {
-          this.callbacks.setup.call(this)
-        }
-        break
-      default:
+    if (this.#updates.full) {
+      // Transmit the entire data set
+      controller.on('end', () => {
+        void Promise.all([
+          this.connection?.transmit(),
+          this.connection?.finalize(),
+        ]).then(() => this.callbacks.full?.())
+      })
+    }
+
+    // Trigger setup callback
+    if (this.callbacks.setup) {
+      this.callbacks.setup.call(this)
     }
   }
 }

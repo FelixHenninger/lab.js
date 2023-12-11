@@ -8,7 +8,7 @@ import { Timeline } from '..'
 // because Safari doesn't (as of now) support the promise-based variant
 const decodeAudioData = (context: AudioContext, buffer: ArrayBuffer) =>
   new Promise((resolve, reject) => {
-    context.decodeAudioData(buffer, resolve, reject)
+    void context.decodeAudioData(buffer, resolve, reject)
   })
 
 export const load = async (
@@ -59,11 +59,11 @@ const createNode = (
 
   // Apply settings
   Object.entries(options).forEach(([setting, value]) => {
-    //@ts-ignore TS is unhappy with the dynamic use of settings here
+    //@ts-expect-error - TS is unhappy with the dynamic use of settings here
     if (value) node[setting] = value
   })
   Object.entries(audioParams).forEach(([setting, value]) => {
-    //@ts-ignore TS is unhappy with the dynamic use of settings here
+    //@ts-expect-error - TS is unhappy with the dynamic use of settings here
     if (value) node[setting].value = value
   })
 

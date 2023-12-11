@@ -2,7 +2,7 @@ import { Component } from '../core/component'
 import { Plugin } from '../base/plugin'
 
 export default class Submit implements Plugin {
-  async handle(context: Component, event: string) {
+  handle(context: Component, event: string) {
     if (event === 'after:end' && context.global.datastore) {
       const form = document.querySelector(
         'form[name="labjs-data"]',
@@ -19,7 +19,7 @@ export default class Submit implements Plugin {
         transfer.items.add(
           new File([context.global.datastore.exportCsv()], 'data.csv'),
         )
-        //@ts-ignore Typescript doesn't like indexing by string
+        // @ts-expect-error - Typescript doesn't like indexing by string
         form.elements['dataFile'].files = transfer.files
       } catch (error) {
         console.log(
@@ -28,7 +28,7 @@ export default class Submit implements Plugin {
             'Error was',
           error,
         )
-        //@ts-ignore As above
+        // @ts-expect-error - As above
         form.elements['dataRaw'].value = context.global.datastore.exportCsv()
       }
 

@@ -1,3 +1,5 @@
+/* eslint-disable no-case-declarations */
+
 import { toRadians } from '../../util/geometry'
 
 // Generic render function -----------------------------------------------------

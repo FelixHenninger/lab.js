@@ -5,7 +5,6 @@ type PluginEvent = 'plugin:add' | 'plugin:remove'
 
 export class Plugin<C extends Component = Component, E = string> {
   handle(context: C, event: E | PluginEvent, data?: any): any
-  // eslint-disable-next-line no-dupe-class-members
   handle(...args: any[]) {
     console.error(`Handler called with args: ${JSON.stringify(args, null, 2)}`)
     return

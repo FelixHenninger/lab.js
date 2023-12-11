@@ -26,7 +26,7 @@ export class CustomIterable<T> {
         }
       },
       peek: () =>
-        //@ts-ignore
+        //@ts-expect-error - LEGACY
         Array.from(this.#iterable).map(c => [c.id, c.options.title, c.type]),
       reset: () => {
         iterator = this.#iterable[Symbol.iterator]()

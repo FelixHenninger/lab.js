@@ -157,7 +157,10 @@ export class DomConnection {
   // Wrap event handlers such that a series of checks are applied
   // to each observed event, and the handler is triggered only
   // if all checks pass
-  wrapHandler(handler: Function, checks: Function[]) {
+  wrapHandler(
+    handler: (...args: any[]) => any,
+    checks: ((...args: any[]) => any)[],
+  ) {
     // Add context if desired
     if (this.context !== null) {
       handler = handler.bind(this.context)

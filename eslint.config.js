@@ -51,6 +51,7 @@ export default [
       ...js.configs.recommended.rules,
       'prefer-const': 'error',
       'no-var': 'error',
+      'no-dupe-class-members': 'off'
     },
   },
   {
@@ -69,7 +70,7 @@ export default [
       ...tsPlugin.configs['eslint-recommended'].rules,
       ...tsPlugin.configs.recommended.rules,
       ...tsPlugin.configs['recommended-type-checked'].rules,
-      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+      '@typescript-eslint/consistent-type-definitions': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',

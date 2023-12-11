@@ -17,6 +17,7 @@ export const fetch = (
     ...options
   }: fetchOptions = {},
 ): Promise<Response> =>
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   new Promise((resolve, reject) => {
     const wrappedFetch = (attempt: number) =>
       window
@@ -32,6 +33,7 @@ export const fetch = (
 
     const retry = (attempt: number) => {
       const d = delay * factor ** attempt
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       setTimeout(() => wrappedFetch(++attempt), d)
     }
 

@@ -86,7 +86,7 @@ export class Form extends Screen {
       Object.assign(this.data, this.serialize())
 
       // Bye!
-      this.end('form submission')
+      void this.end('form submission')
     } else {
       // Mark form(s) as validated, but leave
       // the display unchanged otherwise

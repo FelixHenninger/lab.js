@@ -137,7 +137,7 @@ describe('Commit', () => {
       two: 2,
     })
     ds.commit()
-    //@ts-ignore private property
+    //@ts-expect-error - private property
     expect(ds.staging).toEqual({})
   })
 
@@ -280,7 +280,7 @@ describe('Reset', () => {
 
     expect(ds.data).toEqual([])
     expect(ds.state).toEqual({})
-    //@ts-ignore private property
+    //@ts-expect-error - private property
     expect(ds.staging).toEqual({})
   })
 })

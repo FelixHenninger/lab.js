@@ -17,8 +17,8 @@ export default class PostMessage implements Plugin {
     this.target = target ?? window.parent
     this.messageType = messageType ?? 'labjs.data'
   }
-
-  async handle(context: Component, event: string) {
+  
+  handle(context: Component, event: string) {
     if (event === 'lock') {
       this.target.postMessage(
         {

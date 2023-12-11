@@ -58,7 +58,7 @@ export class FlipIterable {
   constructor(root: Component) {
     this.root = root
     this.timelineIterable = new SliceIterable<Component>(
-      //@ts-ignore TODO
+      //@ts-expect-error - TODO
       root,
       async (c: Component) => {
         if (c.status < Status.prepared) {
@@ -116,6 +116,7 @@ export class FlipIterable {
             try {
               c.internals.emitter.off(
                 EventName.endUncontrolled,
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 triggerContinue,
               )
               currentStack.pop()
@@ -131,6 +132,7 @@ export class FlipIterable {
           // Start all incoming components, starting from the top of the stack
           for (const c of incoming) {
             try {
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               c.internals.emitter.on(EventName.endUncontrolled, triggerContinue)
               context = c.enterContext(context)
               currentStack.push(c)
@@ -202,7 +204,7 @@ export class FlipIterable {
         // Instead, we search inside the top-level iterator
         // for the second-level node, and so on.
         await sliceIterator.fastForward(
-          //@ts-ignore
+          //@ts-expect-error - LEGACY
           (c: Component, level) => {
             // If we're jumping, we usually expect a fully
             // specified target id stack, i.e. the happy path

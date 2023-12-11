@@ -26,6 +26,7 @@ export function sampleMode<T>(
       ]
     case 'draw':
     case 'draw-shuffle':
+      // eslint-disable-next-line no-case-declarations
       const output = [
         // Repeat the array
         ...range(repetitions).reduce(

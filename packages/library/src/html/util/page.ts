@@ -4,7 +4,7 @@ import { Random } from '../../util/random'
 
 const makeAttributes = (attrs = {}) =>
   Object.entries(attrs)
-    .map(([attr, val]) => `${attr}="${val}"`)
+    .map(([attr, val]) => `${attr}="${JSON.stringify(val)}"`)
     .join(' ')
 
 const makeFooter = ({

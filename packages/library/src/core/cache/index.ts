@@ -4,9 +4,9 @@ class AsyncCache {
   // (the end result is very similar to memoization)
   cache = new Map()
   pending = new Map()
-  cachedFunc: Function
+  cachedFunc: (...args: any[]) => any
 
-  constructor(cachedFunc: Function) {
+  constructor(cachedFunc: (...args: any[]) => any) {
     // Async function that populates the cache given a single atomic key
     this.cachedFunc = cachedFunc
   }
@@ -71,13 +71,15 @@ export class ImageCache extends AsyncCache {
   async get(key: string) {
     const image = await super.get(key)
 
-    //@ts-ignore (I wish this function was always defined)
+    //@ts-expect-error - (I wish this function was always defined)
     if (window.createImageBitmap) {
       try {
         const bitmap = await createImageBitmap(image)
         this.bitmapCache.set(image, bitmap)
       } catch (e) {
-        console.log(`Couldn't cache bitmap for ${key}, error ${e}`)
+        console.log(
+          `Couldn't cache bitmap for ${key}, error ${JSON.stringify(e)}`,
+        )
       }
     }
 

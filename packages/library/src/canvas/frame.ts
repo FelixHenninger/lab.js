@@ -68,7 +68,7 @@ export class Frame extends Component {
     const c = super.enterContext(context)
 
     // Attach a canvas and a canvas context
-    //@ts-ignore We don't track context data yet
+    //@ts-expect-error - We don't track context data yet
     this.internals.outerEl = c.el // as HTMLElement
     this.internals.parsedContext = createFragment(this.options.context)
     this.internals.canvas = this.internals.parsedContext.querySelector('canvas')
@@ -84,7 +84,7 @@ export class Frame extends Component {
     }
   }
 
-  async onRun() {
+  onRun() {
     const outerEl = this.internals.outerEl
 
     // Insert context
@@ -99,9 +99,9 @@ export class Frame extends Component {
 
   leaveContext(context: object) {
     // TODO: Maybe create a new object and filter instead?
-    //@ts-ignore Again, we don't track context content
+    //@ts-expect-error - Again, we don't track context content
     context.el = this.internals.outerEl
-    //@ts-ignore
+    //@ts-expect-error - LEGACY
     delete context.canvas
     delete this.internals.canvas
     return super.leaveContext(context)

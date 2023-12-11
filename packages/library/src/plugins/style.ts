@@ -64,8 +64,8 @@ export default class Style implements Plugin {
     this.transition = transition
     this.reverse = reverse
   }
-
-  async handle(_: Component, event: string) {
+  
+  handle(_: Component, event: string) {
     if (event === 'prepare' && this.transition) {
       insertStyles()
     } else if (event === 'run') {

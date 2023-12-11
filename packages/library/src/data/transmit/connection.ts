@@ -61,7 +61,7 @@ export class Connection {
   }
 
   async transmit() {
-    this.#queueTransmission.flush()
+    await this.#queueTransmission.flush()
     return transmit(
       this.#url,
       this.#store.data,

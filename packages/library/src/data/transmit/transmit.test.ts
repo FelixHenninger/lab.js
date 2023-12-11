@@ -12,7 +12,7 @@ beforeEach(() => {
     fetchMock = jest.spyOn(window, 'fetch')
   } else {
     fetchMock = jest.fn()
-    //@ts-ignore
+    //@ts-expect-error - LEGACY
     window.fetch = fetchMock
   }
 
@@ -24,7 +24,7 @@ beforeEach(() => {
     },
   }
 
-  fetchMock.mockImplementation(async () => response)
+  fetchMock.mockImplementation(async () => Promise.resolve(response))
 
   store.set({ one: 1, two: 2 })
   store.commit()

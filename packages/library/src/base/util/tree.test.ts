@@ -38,15 +38,15 @@ it('traverses nested structure of components', () => {
 })
 
 it('reduces a tree to a specific value', () => {
-  //@ts-ignore arbitrary property
+  //@ts-expect-error - arbitrary property
   s.options.multiplier = 3
-  //@ts-ignore arbitrary property
+  //@ts-expect-error - arbitrary property
   a.options.multiplier = 4
-  //@ts-ignore arbitrary property
+  //@ts-expect-error - arbitrary property
   b.options.multiplier = 5
-  //@ts-ignore arbitrary property
+  //@ts-expect-error - arbitrary property
   c.options.multiplier = 6
-  //@ts-ignore arbitrary property
+  //@ts-expect-error - arbitrary property
   d.options.multiplier = 7
 
   const spy = jest.fn((acc, c) => acc * c.options.multiplier)

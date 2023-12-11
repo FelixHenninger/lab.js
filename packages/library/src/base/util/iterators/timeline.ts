@@ -17,7 +17,7 @@ type TimelineIterator<T> = {
   peek: () => stackSummary
 } & AsyncIterator<(T | NestedIterable<T>)[]>
 
-export class SliceIterable<T extends Object> {
+export class SliceIterable<T extends object> {
   #root: NestedIterable<T>
   #extractIterator: (
     v: NestedIterable<T>,
@@ -29,7 +29,8 @@ export class SliceIterable<T extends Object> {
   // is implemented, the helpers can be removed.
   constructor(
     root: NestedIterable<T>,
-    extractIterator = async (v: NestedIterable<T>) => v[Symbol.iterator](),
+    extractIterator = async (v: NestedIterable<T>) =>
+      Promise.resolve(v[Symbol.iterator]()),
     checkIterator = (v: NestedIterable<T> | T) => Symbol.iterator in v,
   ) {
     this.#root = root
@@ -38,7 +39,7 @@ export class SliceIterable<T extends Object> {
   }
 
   [Symbol.asyncIterator](): TimelineIterator<T> {
-    // Since initialization is syncronous, we need to
+    // Since initialization is synchronous, we need to
     // do initial setup on the first call to next()
     let initialized = false
 
@@ -84,9 +85,9 @@ export class SliceIterable<T extends Object> {
             iteratorStack.pop()
             outputStack.pop()
           } else {
-            //@ts-ignore
+            //@ts-expect-error - LEGACY
             if (value.status >= Status.running) {
-              //@ts-ignore
+              //@ts-expect-error - LEGACY
               value._reset()
             }
             if (this.#checkIterator(value)) {
@@ -117,14 +118,13 @@ export class SliceIterable<T extends Object> {
       reset: async function (level) {
         // Throw away remainder of stack
         this.splice(level + 1)
-
-        //@ts-ignore
         if (iteratorStack[level] && 'reset' in iteratorStack[level]) {
-          //@ts-ignore
+          //@ts-expect-error - LEGACY
           iteratorStack[level].reset()
         } else {
           throw new Error('No reset method on current iterator')
         }
+        return Promise.resolve()
       },
       findReset: async function (value: T | NestedIterable<T>) {
         const level = outputStack.indexOf(value)
@@ -149,6 +149,7 @@ export class SliceIterable<T extends Object> {
         outputStack.splice(1)
 
         // ... rebuild the iterator stack and output level by level
+        // eslint-disable-next-line no-constant-condition
         while (true) {
           const iterator = iteratorStack[currentLevel]
           const [{ value, done }] = fastForward(iterator, v =>
@@ -180,13 +181,13 @@ export class SliceIterable<T extends Object> {
         const output: stackSummary = []
 
         for (const [level, iterator] of iteratorStack.entries()) {
-          //@ts-ignore
+          //@ts-expect-error - LEGACY
           const idStack = outputStack.slice(1, level + 1).map(c => c.id)
 
-          //@ts-ignore
+          //@ts-expect-error - LEGACY
           if (iterator.peek != undefined) {
             const result = iterator
-              //@ts-ignore
+              //@ts-expect-error - LEGACY
               .peek?.()
               .map(([id, title, type]: componentSummary) => [
                 [...idStack, id],
