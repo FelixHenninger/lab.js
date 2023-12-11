@@ -6,7 +6,7 @@ import { TaskList } from '../../../../../ComponentOptions/components/Welcome/com
 import { importComponent } from '../importTab'
 
 const basePath =
-  process.env.REACT_APP_TEMPLATE_PATH ??
+  import.meta.env.REACT_APP_TEMPLATE_PATH ??
   'https://raw.githubusercontent.com/FelixHenninger/lab.js/master/templates/'
 
 const TemplateTab = ({ parent, index }) => {

@@ -44,6 +44,7 @@
     "bootstrap": "lerna bootstrap",
     "bootstrap:ci": "lerna bootstrap --npm-ci-mode",
     "build:docs": "cd docs && make html",
+    "clean": "find . -type d '(' -name 'build' -o -name 'dist' -o -name 'node_modules' ')' -prune -exec rm -rf {} \\;",
     "clean:docs": "cd docs && make clean",
     "clean:modules": "lerna clean",
     "watch:docs": "onchange 'docs/**/*.rst' 'docs/**/*.py' -- npm run build:docs"
@@ -52,7 +53,6 @@
     "canvas": "^2.11.2",
     "webdriverio": "^7.19.5"
   },
-  "dependencies": {},
   "devDependencies": {
     "@eslint/js": "^8.55.0",
     "@types/eslint": "^8.44.8",
@@ -65,6 +65,7 @@
     "globals": "^13.23.0",
     "lerna": "^6.0.0",
     "onchange": "^7.1.0",
+    "prettier": "^3.1.1",
     "typescript": "~5.0.0"
   }
 }

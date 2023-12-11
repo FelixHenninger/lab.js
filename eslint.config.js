@@ -22,12 +22,14 @@ export default [
       'packages/website/*',
     ],
   },
-  jsdoc.configs['flat/recommended'],
   {
     files: ['**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
     plugins: {
       jsdoc,
     },
+    rules: {
+      ...jsdoc.configs['flat/recommended'].rules
+    }
   },
   {
     files: [
@@ -69,7 +71,14 @@ export default [
       ...tsPlugin.configs['recommended-type-checked'].rules,
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
       '@typescript-eslint/restrict-plus-operands': 'off',
+
       '@typescript-eslint/restrict-template-expressions': [
         'error',
         {

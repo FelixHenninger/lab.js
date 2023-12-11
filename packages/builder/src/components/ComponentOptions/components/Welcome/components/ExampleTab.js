@@ -7,7 +7,7 @@ import { CardBody, CardText, CardTitle, CardSubtitle,
 import { fromObject } from '../../../../../logic/io/load'
 
 const basePath =
-  process.env.REACT_APP_EXAMPLE_PATH ??
+  import.meta.env.REACT_APP_EXAMPLE_PATH ??
   'https://raw.githubusercontent.com/FelixHenninger/lab.js/master/tasks/'
 
 // Transform an array of names into an author list, e.g.

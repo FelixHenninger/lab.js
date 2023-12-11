@@ -4,21 +4,21 @@ export default class Preview {
     this.stateChangeCallback = stateChangeCallback
 
     this.window = null
-    window.addEventListener(
-      'beforeunload', () => { this.close() }
-    )
+    window.addEventListener('beforeunload', () => {
+      this.close()
+    })
   }
 
   // Open, close, reload, ... the preview window
   open() {
     this.window = window.open(
-      `${ process.env.PUBLIC_URL }/api/_defaultStatic/empty.html`,
+      `${import.meta.env.PUBLIC_URL}/api/_defaultStatic/empty.html`,
       'labjs_preview',
-      'menubar=no,location=no,resizable=yes,scrollbars=yes,status=no'
+      'menubar=no,location=no,resizable=yes,scrollbars=yes,status=no',
     )
-    this.window.addEventListener(
-      'unload', () => this.checkWindow(), { once: true }
-    )
+    this.window.addEventListener('unload', () => this.checkWindow(), {
+      once: true,
+    })
     // Trigger callback
     this.stateChangeCallback('opened')
   }
@@ -71,11 +71,10 @@ export default class Preview {
         this.stateChangeCallback('closed')
       } else {
         // Window is still open, renew unload listener
-        this.window.addEventListener(
-          'unload', () => this.checkWindow(), { once: true }
-        )
+        this.window.addEventListener('unload', () => this.checkWindow(), {
+          once: true,
+        })
       }
     }, 25)
   }
-
 }
