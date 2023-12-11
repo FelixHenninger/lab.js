@@ -2,10 +2,10 @@ import { fastForward } from './fastforward'
 import { Status } from '../../component'
 import { componentSummary, stackSummary } from './interface'
 
-interface NestedIterable<T> extends Iterable<T | NestedIterable<T>> {
+type NestedIterable<T> = {
   peek?: () => void
-}
-interface TimelineIterator<T> extends AsyncIterator<(T | NestedIterable<T>)[]> {
+} & Iterable<T | NestedIterable<T>>
+type TimelineIterator<T> = {
   initialize: () => Promise<void>
   splice: (level: number) => void
   findSplice: (value: T | NestedIterable<T>) => void
@@ -15,7 +15,7 @@ interface TimelineIterator<T> extends AsyncIterator<(T | NestedIterable<T>)[]> {
     consume: (value: T | NestedIterable<T>, level: number) => boolean,
   ) => Promise<void>
   peek: () => stackSummary
-}
+} & AsyncIterator<(T | NestedIterable<T>)[]>
 
 export class SliceIterable<T extends Object> {
   #root: NestedIterable<T>

@@ -98,7 +98,7 @@ const renderElement = (
     } else {
       // TODO: This wants to be abstracted out,
       // along with the analogous stroke function below.
-      content.text!.split('\n').forEach((lineContent, i, lines) => {
+      content.text.split('\n').forEach((lineContent, i, lines) => {
         ctx.fillText(
           lineContent,
           0,
@@ -116,7 +116,7 @@ const renderElement = (
     if (content.type !== 'i-text' && content.type !== 'text') {
       ctx.stroke()
     } else {
-      content.text!.split('\n').forEach((lineContent, i, lines) => {
+      content.text.split('\n').forEach((lineContent, i, lines) => {
         ctx.strokeText(
           lineContent,
           0,

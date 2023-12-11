@@ -9,7 +9,7 @@ import { EventName } from '../../../base/component'
 export const resolveFlip = <T>(oldStack: T[], newStack: T[]) => {
   // Figure out to which level the old and new stack are identical
   let firstDifference = 0
-  for (let i of range(Math.max(oldStack.length, newStack.length))) {
+  for (const i of range(Math.max(oldStack.length, newStack.length))) {
     if (oldStack[i] !== newStack[i]) {
       break
     } else {
@@ -36,8 +36,7 @@ type IteratorOutput = {
 }
 type IteratorInput = [any, object]
 
-export interface FlipIterator<T>
-  extends AsyncIterator<IteratorOutput, any, IteratorInput> {
+export type FlipIterator<T> = {
   initialize: () => Promise<void>
   splice: (level: number) => void
   findSplice: (value: T) => void
@@ -45,9 +44,9 @@ export interface FlipIterator<T>
   findReset: (value: T) => Promise<void>
   // NOTE: We index by id here, which is inconsistent
   // with the remainder of the interface.
-  fastForward: (targetStack: String[]) => Promise<void>
+  fastForward: (targetStack: string[]) => Promise<void>
   peek: () => stackSummary
-}
+} & AsyncIterator<IteratorOutput, any, IteratorInput>
 
 export class FlipIterable {
   root: Component
@@ -74,7 +73,7 @@ export class FlipIterable {
 
   [Symbol.asyncIterator](): FlipIterator<Component> {
     const sliceIterator = this.timelineIterable[Symbol.asyncIterator]()
-    let currentStack: Component[] = []
+    const currentStack: Component[] = []
     let lockPromises: Promise<any>[] = []
 
     return {
@@ -86,10 +85,10 @@ export class FlipIterable {
         this.renderFrameRequest && cancelAnimationFrame(this.renderFrameRequest)
         this.showFrameRequest && cancelAnimationFrame(this.showFrameRequest)
 
-        let oldStack = [...currentStack]
+        const oldStack = [...currentStack]
         let incoming: Component[]
         let outgoing: Component[]
-        let cancelled: Component[] = []
+        const cancelled: Component[] = []
 
         // Wait for previous components to lock before flipping
         await Promise.all(lockPromises)
@@ -197,7 +196,7 @@ export class FlipIterable {
       findSplice: sliceIterator.findSplice,
       reset: sliceIterator.reset,
       findReset: sliceIterator.findReset,
-      fastForward: async (targetStack: String[]) => {
+      fastForward: async (targetStack: string[]) => {
         // Note that the level here is shifted, in that we never
         // fast-forward on the level of the root node.
         // Instead, we search inside the top-level iterator

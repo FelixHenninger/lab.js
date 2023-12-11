@@ -84,8 +84,7 @@ export type stackSummary = levelSummary[]
  * in sequence). These additional interfaces are summarized in the
  * `CustomIterator`.
  */
-export interface CustomIterator<T, TReturn = any, TNext = undefined>
-  extends Iterator<T, TReturn, TNext> {
+export type CustomIterator<T, TReturn = any, TNext = undefined> = {
   peek: () => levelSummary
   reset: () => void
-}
+} & Iterator<T, TReturn, TNext>

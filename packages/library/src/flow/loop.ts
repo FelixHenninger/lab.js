@@ -13,7 +13,7 @@ const loopDefaults = {
   shuffleUngrouped: false,
 }
 
-export interface LoopOptions<T> extends SequenceOptions {
+export type LoopOptions<T> = {
   /** Array of settings to generate components from */
   templateParameters: T[]
   /**
@@ -53,7 +53,7 @@ export interface LoopOptions<T> extends SequenceOptions {
   }
   shuffleGroups?: string[][]
   shuffleUngrouped?: boolean
-}
+} & SequenceOptions
 
 /**
  * Loop

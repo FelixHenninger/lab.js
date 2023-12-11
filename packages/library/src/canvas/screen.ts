@@ -63,13 +63,13 @@ export class Screen extends Component {
 
   onPrepare() {
     // Add images to cached media
-    ;(this.options.content || [])
+    (this.options.content || [])
       .filter(
         <(c: CanvasContent) => c is Image>(
           (c => isObject(c) && c.type === 'image' && c.src !== undefined)
         ),
       )
-      .forEach(c => this.options.media!.images.push(c.src))
+      .forEach(c => this.options.media.images.push(c.src))
 
     // Prepare AOI event handling
     // Canvas.screen components implement one additional feature

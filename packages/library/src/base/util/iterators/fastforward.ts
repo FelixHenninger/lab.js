@@ -5,7 +5,7 @@ export const fastForward = function <T>(
   let { value, done } = iterator.next()
 
   while (!done && !tester(value)) {
-    ;({ value, done } = iterator.next())
+    ({ value, done } = iterator.next())
   }
 
   return [{ value, done }, iterator]

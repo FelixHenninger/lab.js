@@ -130,7 +130,7 @@ export class FrameTimeout {
   }
 
   cancel() {
-    window.clearTimeout(this.timeoutHandle!)
+    window.clearTimeout(this.timeoutHandle)
     window.cancelAnimationFrame(this.animationFrameHandle!)
   }
 }

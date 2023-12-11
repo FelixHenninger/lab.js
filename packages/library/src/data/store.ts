@@ -213,7 +213,7 @@ export class Store<R extends Row = Row> extends Emitter {
    */
   keys(includeState = false, prioritize = defaultMetadata) {
     // Extract all keys from the data collected
-    let keys = this.data.map(e => Object.keys(e))
+    const keys = this.data.map(e => Object.keys(e))
 
     // Include keys from state
     if (includeState) {

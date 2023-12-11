@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export interface ControllerGlobal {
+export type ControllerGlobal = {
   rootEl: Element
   datastore: Store<Row>
   state: Row

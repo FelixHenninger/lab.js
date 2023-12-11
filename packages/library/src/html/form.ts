@@ -29,7 +29,7 @@ export class Form extends Screen {
     // but it will help push users toward standard-conformant
     // behavior so that the polyfill can be removed safely
     // at some point in the future.
-    this.options.events!['click button[type="submit"]'] = e => {
+    this.options.events['click button[type="submit"]'] = e => {
       // If the button references another form...
       if ((<HTMLButtonElement>e.target).getAttribute('form')) {
         // ... find it and ...
@@ -59,7 +59,7 @@ export class Form extends Screen {
     }
 
     // Capture form submissions
-    this.options.events!['submit form'] = e => this.submit(e)
+    this.options.events['submit form'] = e => this.submit(e)
   }
 
   onRun() {
@@ -93,10 +93,10 @@ export class Form extends Screen {
       // (an array conversion is needed here for IE
       // and older browsers, who do not implement
       // forEach on NodeLists)
-      ;(
+      (
         Array.from(
           this.internals.context.el.querySelectorAll('form'),
-        ) as HTMLFormElement[]
+        ) 
       ).forEach(f => f.setAttribute('data-labjs-validated', ''))
     }
 

@@ -33,8 +33,8 @@ it(`doesn't escape booleans`, () => {
 })
 
 it(`doesn't modify the input value if it is a primtive`, () => {
-  let input = ','
-  let originalInput = input
+  const input = ','
+  const originalInput = input
 
   expect(escapeCell(input)).toEqual('","')
   expect(input).toEqual(originalInput)
@@ -42,8 +42,8 @@ it(`doesn't modify the input value if it is a primtive`, () => {
 })
 
 it(`doesn't modify the input value if it is an object`, () => {
-  let input = { abc: '123' }
-  let originalInput = input
+  const input = { abc: '123' }
+  const originalInput = input
 
   expect(escapeCell(input)).toEqual('"{""abc"":""123""}"')
   expect(input).toEqual(originalInput)

@@ -60,6 +60,7 @@
     "build:js:tsc": "(tsc --outDir dist/es2022 || true) && node scripts/postprocess_module_build.js",
     "build:starterkit": "yarn run build:js && yarn run build:css && node scripts/bundle_starterkit.js",
     "clean": "shx rm -rf dist && shx mkdir dist",
+    "lint": "eslint --fix src",
     "prepare": "yarn run build:starterkit",
     "prettier": "prettier --write src",
     "test": "karma start test/_karma/ci.conf.js",

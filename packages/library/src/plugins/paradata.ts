@@ -59,7 +59,7 @@ export default class PageFocusPlugin implements Plugin {
       if (staging[`${e.type}Count`] === undefined) {
         staging[`${e.type}Count`] = 1
       } else {
-        ;(staging[`${e.type}Count`] as number)++
+        (staging[`${e.type}Count`] as number)++
       }
     }
 

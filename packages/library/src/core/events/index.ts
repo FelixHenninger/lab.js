@@ -17,9 +17,9 @@ const splitEventString = function (
   let selector = null
 
   if (directHandlerRegEx.test(eventString)) {
-    ;[, eventName, selector] = directHandlerRegEx.exec(eventString)!
+    [, eventName, selector] = directHandlerRegEx.exec(eventString)!
   } else if (wrappedHandlerRegEx.test(eventString)) {
-    ;[, eventName, filterString, selector] =
+    [, eventName, filterString, selector] =
       wrappedHandlerRegEx.exec(eventString)!
     filters = filterString.split(',').map((o: string) => o.trim())
   } else {
@@ -71,7 +71,7 @@ const makeChecks = function (
     // spec, but would be trimmed here)
     const keys = filters.map(
       // (replace null value)
-      key => <string>keyValues[key] ?? key,
+      key => keyValues[key] ?? key,
     )
 
     // Wrap the handler only if we pre-select events

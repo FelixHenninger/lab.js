@@ -346,7 +346,7 @@ type BaseItem = {
   name: string
   label?: string
   help?: string
-  required: Boolean
+  required: boolean
   attributes: { [attr: string]: any }
 }
 
