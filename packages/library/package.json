@@ -50,7 +50,6 @@
   "main": "dist/es6/index.js",
   "types": "dist/es6/index.d.ts",
   "scripts": {
-    "analyze": "NODE_ENV=analysis webpack --profile --json > bundleStats.json",
     "build:css": "postcss --local-plugins -u postcss-preset-env -o dist/css/lab.css src/starterkit/lib/lab.css",
     "build:js": "yarn run build:js:development && yarn run build:js:production && yarn run build:js:esm && yarn run build:js:tsc",
     "build:js:base": "webpack -c webpack.base.js",
