@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import App from './'
 
 import { Provider } from 'react-redux'
@@ -18,7 +18,8 @@ it('renders without crashing', async () => {
   const div = document.createElement('div')
   document.body.appendChild(div)
 
-  ReactDOM.render(
+  const root = ReactDOM.createRoot(div)
+  root.render(
     <Provider store={ store }>
       <DndProvider backend={ HTML5Backend }>
         <App />

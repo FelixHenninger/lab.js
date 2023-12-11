@@ -13,10 +13,8 @@ export default defineConfig({
     target: 'es2022',
   },
   esbuild: {
-    loader: 'jsx',
-    include: /src\/.*\.jsx?$/,
-    // loader: "tsx",
-    // include: /src\/.*\.[tj]sx?$/,
+    loader: "tsx",
+    include: /src\/.*\.[tj]sx?$/,
     exclude: [],
   },
   optimizeDeps: {

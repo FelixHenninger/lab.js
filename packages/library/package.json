@@ -106,7 +106,6 @@
     "postcss": "^8.4.16",
     "postcss-cli": "^10.0.0",
     "postcss-preset-env": "^7.7.2",
-    "prettier": "^2.5.1",
     "requirejs": "^2.3.3",
     "shelljs": "^0.8.4",
     "shx": "^0.3.3",
