@@ -12,7 +12,8 @@ export default class Logger implements Plugin {
     this.title = title
   }
 
-  async handle(context: Component, event: string) {
+  async handle(_: Component, event: string) {
     console.log(`Component ${this.title} received ${event}`)
+    return Promise.resolve()
   }
 }

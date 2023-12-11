@@ -1,4 +1,3 @@
-import { toRadians } from '../geometry'
 import { Random } from './index'
 
 let rng_alea: Random, rng_random: Random

@@ -1,5 +1,5 @@
 import { CustomIterable } from '../flow/util/iterable'
-import { Component, ComponentOptions } from './component'
+import { Component, type ComponentOptions } from './component'
 import { Controller } from './controller'
 
 const makeShimSequence = (

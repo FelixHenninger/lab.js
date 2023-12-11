@@ -3,7 +3,6 @@ import { Plugin } from '../base/plugin'
 import {
   launch as launchFullscreen,
   exit as exitFullscreen,
-  launch,
 } from '../util/fullscreen'
 
 export type FullscreenPluginOptions = {
@@ -23,7 +22,7 @@ export default class FullscreenPlugin implements Plugin {
     this.close = close ?? true
   }
 
-  async handle(context: Component, event: string) {
+  async handle(_: Component, event: string) {
     if (event === 'before:run' && !document.fullscreenElement) {
       // Create and show overlay (sorry Merle, no Alpacas here :-/ )
       const overlay = document.createElement('div')
@@ -52,10 +51,11 @@ export default class FullscreenPlugin implements Plugin {
       await new Promise(resolve => {
         overlay.addEventListener(
           'click',
-          async e => {
-            await launchFullscreen(document.documentElement)
-            document.body.removeChild(overlay)
-            resolve(null)
+          () => {
+            launchFullscreen(document.documentElement).then(() => {
+              document.body.removeChild(overlay)
+              resolve(null)
+            })
           },
           { once: true },
         )

@@ -1,4 +1,4 @@
-import { FlipIterable, FlipIterator } from './util/iterators/flipIterable'
+import { FlipIterable, type FlipIterator } from './util/iterators/flipIterable'
 import { Component } from './component'
 import { Lock } from './util/lock'
 import { Emitter } from './util/emitter'

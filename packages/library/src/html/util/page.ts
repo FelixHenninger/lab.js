@@ -72,6 +72,7 @@ const makeOptionRow = (
       </tr>
     `
   }
+  return null
 }
 
 const makeLikertHead = ({ width, anchors }: LikertItem) => {
@@ -164,8 +165,8 @@ export const processItem = (
           <img
             src="${i.src}"
             style="${i.width && 'max-width: ' + i.width} ${
-        i.height && 'max-height: ' + i.height
-      }"
+              i.height && 'max-height: ' + i.height
+            }"
           >
         </div>
       `
@@ -302,6 +303,7 @@ export const processItem = (
       `
     default:
       console.error('Unknown page item type')
+      return null
   }
 }
 

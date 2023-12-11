@@ -12,7 +12,8 @@
       "@/*": ["./src/*"]
     },
     "rootDir": "src",
-    "sourceMap": true
+    "sourceMap": true,
+    "verbatimModuleSyntax": false
   },
   "extends": "../../tsconfig.base.json",
   "include": ["src/**/*"]

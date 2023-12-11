@@ -203,6 +203,7 @@ const parseCell = (contents: any) => {
       if (isPlainObject(contents)) {
         return truncate(JSON.stringify(contents))
       }
+      break
     default:
       return contents
   }
@@ -500,8 +501,8 @@ export default class Debug {
       datastore.on('update', throttledRender)
 
       if (window.sessionStorage.getItem('labjs-debug-snapshot')) {
-        const { target, data, state, keep } = JSON.parse(
-          //@ts-ignore TODO
+        const { target, data, state } = JSON.parse(
+          //@ts-expect-error TODO
           window.sessionStorage.getItem('labjs-debug-snapshot'),
         )
         await hydrate(this.#context!, { target, data, state })

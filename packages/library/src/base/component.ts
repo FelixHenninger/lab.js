@@ -1,13 +1,13 @@
 import { Controller } from './controller'
-import { Emitter, EventHandler } from './util/emitter'
+import { Emitter, type EventHandler } from './util/emitter'
 import { Plugin, PluginAPI } from './plugin'
 
 import { makeOptionProxy } from './util/options'
 import { AbortFlip } from './util/iterators/flipIterable'
-import { CustomIterator } from './util/iterators/interface'
+import { type CustomIterator } from './util/iterators/interface'
 import { aggregateParentOption } from './util/hierarchy'
 import { rwProxy } from './util/proxy'
-import { Row } from '../data/store'
+import { type Row } from '../data/store'
 
 // TODO: Browser switching is a leaky abstraction that assumes
 // a client context, and should be revisited
@@ -78,7 +78,7 @@ type CoercionType = 'object' | 'array' | 'string' | 'number' | 'boolean'
 export type ParsableOption = {
   type?: CoercionType
   content?: {
-    '*'?: CoercionType | {}
+    '*'?: CoercionType | Record<string, never>
     [key: string]: ParsableOption | string | undefined
   }
   [key: string]: any
@@ -128,7 +128,7 @@ export class Component {
 
     // Expose some private properties via internals
     this.internals = {
-      //@ts-ignore The controller is added at the prepare stage
+      // @ts-expect-error The controller is added at the prepare stage
       controller: undefined,
       emitter: this.#emitter,
       plugins,
@@ -165,7 +165,7 @@ export class Component {
     }
 
     if (!this.internals.controller) {
-      //@ts-ignore
+      // @ts-expect-error - bad legacy code, to be rewritten properly in the future
       this.#controller = new Controller({ root: this })
       this.internals.controller = this.#controller
     } else if (this.internals.controller && !this.#controller) {
@@ -365,6 +365,7 @@ export class Component {
 
   get parents() {
     let output: Array<Component> = []
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     let currentComponent: Component = this
 
     // Traverse hierarchy upwards
@@ -383,7 +384,7 @@ export class Component {
 
   get type() {
     return [
-      //@ts-ignore
+      // @ts-expect-error - legacy code to be rewritten
       ...this.constructor.metadata.module,
       this.constructor.name,
     ].join('.')

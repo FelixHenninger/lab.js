@@ -1,4 +1,4 @@
-import { Component, ComponentOptions } from './component'
+import { Component, type ComponentOptions } from './component'
 
 export class Dummy extends Component {
   constructor(options: Partial<ComponentOptions> = {}) {
