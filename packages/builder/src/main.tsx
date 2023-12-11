@@ -73,6 +73,7 @@ try {
       }}
     >
       <ReduxProvider store={store}>
+        {/** @ts-expect-error - legacy library needs to be upgraded */}
         <DndProvider backend={HTML5Backend}>
           <App />
         </DndProvider>

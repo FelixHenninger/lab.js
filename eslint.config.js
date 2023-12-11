@@ -22,12 +22,14 @@ export default [
       'packages/website/*',
     ],
   },
-  jsdoc.configs['flat/recommended'],
   {
     files: ['**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
     plugins: {
       jsdoc,
     },
+    rules: {
+      ...jsdoc.configs['flat/recommended'].rules
+    }
   },
   {
     files: [
