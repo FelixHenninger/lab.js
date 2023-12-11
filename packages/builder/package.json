@@ -6,6 +6,7 @@
     "analyze": "source-map-explorer build/static/js/main.*",
     "build": "yarn run static:library && react-app-rewired build && node scripts/postprocess_build.js",
     "deploy": "node scripts/deploy.js",
+    "dev": "vite",
     "eject": "react-scripts eject",
     "start": "yarn run static:library && react-app-rewired start",
     "start:demo": "HTTPS=true PORT=443 DOMAIN=labjs.felixhenninger.com yarn start",
@@ -63,10 +64,12 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
     "babel-jest": "^26.6.0",
     "buffer": "^6.0.3",
     "glob": "^7.1.6",
     "redux-devtools-extension": "^2.13.8",
-    "shx": "^0.3.3"
+    "shx": "^0.3.3",
+    "vite": "^4.5.1"
   }
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href="https://lab.js.org/builder" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <title>Builder · lab.js</title>
+    <style type="text/css">
+      @keyframes fadein {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      #root .loading {
+        width: 100%;
+        height: 90vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+      #root .loading img {
+        opacity: 0;
+        animation: 4.5s linear 1s infinite alternate fadein;
+        filter: grayscale(75%);
+        margin: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="loading">
+        <img src="labjs_icon_192.png" class="loading-img" />
+      </div>
+    </div>
+    <script type="module" src="/src/index.js"></script>
+  </body>
+</html>
