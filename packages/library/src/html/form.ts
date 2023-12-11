@@ -97,7 +97,7 @@ export class Form extends Screen {
         Array.from(
           this.internals.context.el.querySelectorAll('form'),
         ) 
-      ).forEach(f => f.setAttribute('data-labjs-validated', ''))
+      ).forEach((f: any) => f.setAttribute('data-labjs-validated', ''))
     }
 
     // Prevent default form behavior

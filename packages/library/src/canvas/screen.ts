@@ -98,7 +98,6 @@ export class Screen extends Component {
 
     if ('canvas' in context) {
       // Re-use canvas from surrounding context
-      //@ts-expect-error - we check for the presence of a canvas above
       this.internals.canvas = context.canvas
       this.internals.canvasAdded = false
     } else {

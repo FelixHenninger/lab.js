@@ -3,11 +3,10 @@
     "allowJs": true,
     "baseUrl": ".",
     "declaration": true,
-    "declarationMap": false,
-    "emitDeclarationOnly": true,
+    "declarationMap": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "noEmit": false,
-    "outDir": "dist/types",
+    "outDir": "dist",
     "paths": {
       "@/*": ["./src/*"]
     },
