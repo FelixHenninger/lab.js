@@ -144,7 +144,7 @@ export const makeOptionProxy = function (
   }
 
   const proxy = new Proxy(rawOptions, {
-    get: (obj, prop) => Reflect.get(parsedOptions, prop),
+    get: (_, prop) => Reflect.get(parsedOptions, prop),
     set: (obj, key, value) => {
       // Set raw option
       Reflect.set(obj, key, value)

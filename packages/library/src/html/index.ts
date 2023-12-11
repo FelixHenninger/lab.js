@@ -1,4 +1,4 @@
-export { Screen, ScreenOptions } from './screen'
-export { Form, FormOptions } from './form'
-export { Frame, FrameOptions } from './frame'
-export { Page, PageOptions } from './page'
+export { Screen, type ScreenOptions } from './screen'
+export { Form, type FormOptions } from './form'
+export { Frame, type FrameOptions } from './frame'
+export { Page, type PageOptions } from './page'

@@ -1,2 +1,2 @@
-export { Sequence, SequenceOptions } from './sequence'
-export { Loop, LoopOptions } from './loop'
+export { Sequence, type SequenceOptions } from './sequence'
+export { Loop, type LoopOptions } from './loop'

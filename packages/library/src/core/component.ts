@@ -74,14 +74,22 @@ export type ComponentOptions = Omit<BaseComponentOptions, 'plugins'> &
  * contains much of the behavior shown by other components.
  */
 export class Component extends BaseComponent {
-  options!: ComponentOptions
-  internals!: ComponentInternals<Component>
+  declare options: ComponentOptions
+  declare internals: ComponentInternals<Component>
 
-  state: any
-  events!: EventMap
-  random!: Random
+  /**
+   * WARNING - I have no idea if this actually exists. I just need to get rid of the TypeErrors
+   * to be able to check if we are making things even worse than they actually are
+   */
+  declare events: EventMap
 
-  parent?: Component
+  /**
+   * WARNING - I have no idea if this actually exists. I just need to get rid of the TypeErrors
+   * to be able to check if we are making things even worse than they actually are
+   */
+  declare random: Random
+
+  declare parent?: Component
 
   constructor(options: Partial<ComponentOptions> = {}) {
     super({

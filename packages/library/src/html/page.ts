@@ -14,7 +14,7 @@ const pageDefaults = {
 export type PageOptions = FormOptions & typeof pageDefaults
 
 export class Page extends Form {
-  options!: PageOptions
+  declare options: PageOptions
 
   constructor(options: Partial<PageOptions> = {}) {
     super({

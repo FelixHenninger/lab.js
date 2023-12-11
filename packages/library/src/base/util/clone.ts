@@ -39,12 +39,15 @@ export const clone = <T extends Component>(
           return clone(v)
         }
       }
+      throw new Error(
+        'Did not match any of expected conditions. This is legacy code and not throwing this error would likely cause more chaos in the future. Please rewrite this function.',
+      )
     }),
     // Overwrite existing options, if so instructed
     ...options,
   }
 
   // Construct a new component of the same type
-  //@ts-ignore
+  // @ts-expect-error = legacy code, needs rewrite
   return new component.constructor(cloneOptions)
 }

@@ -3,7 +3,6 @@ import { range } from 'lodash'
 import { Component } from '../core'
 import { Sequence } from './sequence'
 import { Screen as HTMLScreen } from '../html'
-import { Screen as CanvasScreen } from '../canvas'
 
 import { setupTestingContext } from '../core/test/helpers'
 
@@ -21,8 +20,9 @@ it('Can rerun content multiple times', async () => {
 
   await s.run()
 
-  for (const i in range(10)) {
-    // Run as ususal
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  for (const _ of range(10)) {
+    // Run as usual
     expect(s.internals.controller.currentLeaf).toEqual(b)
     await b.end()
     expect(s.internals.controller.currentLeaf).toEqual(c)
@@ -114,8 +114,9 @@ it('Can rerun HTML content multiple times', async () => {
 
   await s.run()
 
-  for (const i in range(10)) {
-    // Run as ususal
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  for (const _ of range(10)) {
+    // Run as usual
     expect(s.internals.controller.currentLeaf).toEqual(b)
     await b.end()
     expect(s.internals.controller.currentLeaf).toEqual(c)

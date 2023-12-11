@@ -22,7 +22,7 @@ export type SequenceOptions = ComponentOptions & typeof sequenceDefaults
  * A sequence combines an array of other components and runs them sequentially
  */
 export class Sequence extends Component {
-  options!: SequenceOptions
+  declare options: SequenceOptions
 
   constructor(options: Partial<SequenceOptions> = {}) {
     super({
@@ -30,7 +30,7 @@ export class Sequence extends Component {
       ...options,
     })
 
-    // Stand-in interator
+    // Stand-in iterator
     this.internals.iterator = CustomIterable.emptyIterator()
   }
 

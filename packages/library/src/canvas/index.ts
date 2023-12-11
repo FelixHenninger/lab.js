@@ -1,2 +1,2 @@
-export { Screen, ScreenOptions } from './screen'
-export { Frame, FrameOptions } from './frame'
+export { Screen, type ScreenOptions } from './screen'
+export { Frame, type FrameOptions } from './frame'

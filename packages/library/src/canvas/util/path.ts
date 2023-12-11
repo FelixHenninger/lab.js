@@ -7,7 +7,7 @@ import { CanvasContent, AOI } from './render'
 const MatrixReadOnly = new window.DOMMatrixReadOnly()
 
 export const makePath = (
-  ctx: CanvasRenderingContext2D,
+  _: CanvasRenderingContext2D,
   content: CanvasContent,
 ) => {
   const rawPath = new Path2D()
@@ -39,7 +39,7 @@ export const makePath = (
 
 export const makePathFunction =
   (content: AOI[] = []) =>
-  (ts: number, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) =>
+  (_: number, __: HTMLCanvasElement, ctx: CanvasRenderingContext2D) =>
     fromPairs(
       content
         .filter(c => c.label && ['aoi'].includes(c.type)) // Supported objects

@@ -4,7 +4,8 @@ import { clone } from './clone'
 // Shim class with arbitrary options
 type CustomOptions = { [key: string]: any }
 class CustomComponent extends Component {
-  options!: CustomOptions
+  
+  declare options: CustomOptions
 
   constructor(options: Partial<CustomOptions> = {}) {
     super(options)

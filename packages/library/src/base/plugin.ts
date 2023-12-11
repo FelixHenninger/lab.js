@@ -4,7 +4,12 @@ import { Component, EventName } from './component'
 type PluginEvent = 'plugin:add' | 'plugin:remove'
 
 export class Plugin<C extends Component = Component, E = string> {
-  async handle(context: C, event: E | PluginEvent, data?: any) {}
+  handle(context: C, event: E | PluginEvent, data?: any): any
+  // eslint-disable-next-line no-dupe-class-members
+  handle(...args: any[]) {
+    console.error(`Handler called with args: ${JSON.stringify(args, null, 2)}`)
+    return
+  }
 }
 
 export class PluginAPI<C extends Component = Component, E = string> {
@@ -20,7 +25,7 @@ export class PluginAPI<C extends Component = Component, E = string> {
 
     // Setup event handlers
     this.handle = this.handle.bind(this)
-    this.#context.on(EventName.any, this.handle)
+    this.#context.on(EventName.any, (event: any) => void this.handle(event))
   }
 
   add(plugin: Plugin<C, E>) {
@@ -33,7 +38,7 @@ export class PluginAPI<C extends Component = Component, E = string> {
     this.plugins = without(this.plugins, plugin)
   }
 
-  async handle(event: E, data: any) {
+  async handle(event: E, data?: any) {
     await Promise.all(
       this.plugins.map(p => p.handle(this.#context, event, data)),
     )

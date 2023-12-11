@@ -133,7 +133,7 @@ const renderElement = (
 
 export const makeRenderFunction =
   (content: CanvasContent[] = [], cache: any) =>
-  (ts: number, canvas: HTMLCanvasElement, ctx: RenderingContext) => {
+  (_: number, canvas: HTMLCanvasElement, ctx: RenderingContext) => {
     // Ensure that the context is of the 2d type
     const context =
       ctx instanceof CanvasRenderingContext2D ? ctx : canvas.getContext('2d')

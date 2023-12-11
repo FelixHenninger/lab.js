@@ -103,7 +103,7 @@ export class Controller<C extends Component = Component> extends Emitter {
     await this.emit('end', flipData)
   }
 
-  continue(sender: Component, flipData: any) {
+  continue(_: Component, flipData: any) {
     // Continue loop
     const p = this.waitFor('flip')
     this.lock.release(flipData)

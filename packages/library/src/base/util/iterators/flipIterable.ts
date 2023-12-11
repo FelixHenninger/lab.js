@@ -96,9 +96,9 @@ export class FlipIterable {
 
         // Components can abort a flip. We keep on going until we have performed
         // one full flip.
+        // eslint-disable-next-line no-constant-condition
         flipLoop: while (true) {
           // Keep track of success (unreasonably optimistically)
-          let success = true
 
           // Compute the next stack
           let { value: nextStack } = await sliceIterator.next()

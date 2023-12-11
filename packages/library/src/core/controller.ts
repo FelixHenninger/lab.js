@@ -37,7 +37,7 @@ export interface ControllerGlobal {
  * @internal
  */
 export class Controller extends BaseController<Component> {
-  global!: ControllerGlobal
+  declare global: ControllerGlobal
 
   /**
    * Create a new controller

@@ -283,7 +283,7 @@ export class BufferSourceItem extends AudioNodeItem {
     ...defaultPayload,
     ...defaultBufferSourcePayload,
   }
-  payload!: typeof defaultPayload & typeof defaultBufferSourcePayload
+  declare payload: typeof defaultPayload & typeof defaultBufferSourcePayload
 
   async prepare() {
     // Populate buffer from cache, if possible
@@ -309,7 +309,7 @@ export class OscillatorItem extends AudioNodeItem {
     ...defaultPayload,
     ...defaultOscillatorPayload,
   }
-  payload!: typeof defaultPayload & typeof defaultOscillatorPayload
+  declare payload: typeof defaultPayload & typeof defaultOscillatorPayload
 
   prepare() {
     const { type, frequency, detune } = this.payload

@@ -115,7 +115,7 @@ it('uses a template function to generate content', async () => {
 it('issues warning if templateParameters are empty or invalid', async () => {
   const spy = jest //
     .spyOn(console, 'warn')
-    .mockImplementationOnce(msg => null)
+    .mockImplementationOnce(() => null)
 
   const l = new Loop({
     template: new Dummy(),
@@ -135,7 +135,7 @@ it('issues warning if templateParameters are empty or invalid', async () => {
 it('issues warning if no template, or an invalid one, is provided', async () => {
   const spy = jest //
     .spyOn(console, 'warn')
-    .mockImplementationOnce(msg => null)
+    .mockImplementationOnce(() => null)
 
   const l = new Loop({
     template: undefined,
@@ -239,7 +239,7 @@ it("doesn't choke when parameters are empty", async () => {
   // Catch the warning that is thrown
   const spy = jest //
     .spyOn(console, 'warn')
-    .mockImplementationOnce(msg => null)
+    .mockImplementationOnce(() => null)
 
   const l = new Loop({
     template: new Component(),

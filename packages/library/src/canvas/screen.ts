@@ -45,7 +45,7 @@ export type ScreenOptions = ComponentOptions &
   typeof canvasDefaults
 
 export class Screen extends Component {
-  options!: ScreenOptions
+  declare options: ScreenOptions
 
   constructor(options: Partial<ScreenOptions> = {}) {
     super({

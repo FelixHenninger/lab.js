@@ -1,18 +1,18 @@
-export { Component, ComponentOptions } from './component'
-export { Controller, ControllerGlobal } from './controller'
+export { Component, type ComponentOptions } from './component'
+export { Controller, type ControllerGlobal } from './controller'
 export { Dummy } from './dummy'
 
 export {
   default as deserialize,
-  SerializedComponent,
-  SerializedPlugin,
+  type SerializedComponent,
+  type SerializedPlugin,
 } from './deserialize'
 
 export {
   PublicEventName as EventName, //
-  ParsableOption,
+  type ParsableOption,
 } from '../base/component'
 
 export {
-  stackSummary, //
+  type stackSummary, //
 } from '../base/util/iterators/interface'

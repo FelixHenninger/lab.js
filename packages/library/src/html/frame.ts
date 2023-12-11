@@ -17,7 +17,7 @@ export type FrameOptions = ComponentOptions &
   }
 
 export class Frame extends Component {
-  options!: FrameOptions
+  declare options: FrameOptions
 
   constructor(options: Partial<FrameOptions> = {}) {
     super({

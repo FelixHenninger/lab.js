@@ -64,7 +64,7 @@ export interface LoopOptions<T> extends SequenceOptions {
  * mapping the data onto the factory function.
  */
 export class Loop<T extends Record<string, any>> extends Sequence {
-  options!: LoopOptions<T>
+  declare options: LoopOptions<T>
 
   constructor(options: Partial<LoopOptions<T>> = {}) {
     super({

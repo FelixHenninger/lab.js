@@ -7,12 +7,12 @@ export const rwProxy = (
     {},
     {
       // Read from the source
-      get: (obj, prop) => Reflect.get(source(), prop),
+      get: (_, prop) => Reflect.get(source(), prop),
       // Redirect writes to the target
-      set: (obj, prop, value) => Reflect.set(target, prop, value),
-      has: (obj, prop) => Reflect.has(source(), prop),
-      ownKeys: obj => Reflect.ownKeys(source()),
-      getOwnPropertyDescriptor: (obj, prop) =>
+      set: (_, prop, value) => Reflect.set(target, prop, value),
+      has: (_, prop) => Reflect.has(source(), prop),
+      ownKeys: () => Reflect.ownKeys(source()),
+      getOwnPropertyDescriptor: (_, prop) =>
         Reflect.getOwnPropertyDescriptor(source(), prop),
       ...handler,
     },

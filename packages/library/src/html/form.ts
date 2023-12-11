@@ -6,13 +6,13 @@ import { serialize } from './util/form'
 // An html.Form can show, validate and serialize a form
 
 const formDefaults = {
-  validator: <(data: object) => Boolean>(() => true),
+  validator: <(data: object) => boolean>(() => true),
 }
 
 export type FormOptions = ScreenOptions & typeof formDefaults
 
 export class Form extends Screen {
-  options!: FormOptions
+  declare options: FormOptions
 
   constructor(options: Partial<FormOptions> = {}) {
     super({
