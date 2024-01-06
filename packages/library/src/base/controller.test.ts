@@ -219,10 +219,11 @@ it('reruns doubly nested sequences', async () => {
   const a = new Component({ id: 'a', skip: true })
   const b = new Component({ id: 'b' })
   const c = new Component({ id: 'c' })
+  const d = new Component({ id: 'd' })
 
   // Add second middle level
   const t = new Component({ id: 't' })
-  const s_nested = makeShimSequence([a, b, c], { id: 's_nested' })
+  const s_nested = makeShimSequence([a, b, c, d], { id: 's_nested' })
 
   // Top-level sequence
   const s = makeShimSequence([t, s_nested], { id: 's' })
@@ -240,5 +241,12 @@ it('reruns doubly nested sequences', async () => {
   expect(s.internals.controller.currentLeaf).toEqual(t)
 
   await t.end('end')
+  expect(s.internals.controller.currentLeaf).toEqual(b)
+
+  await b.end('end')
+  expect(s.internals.controller.currentLeaf).toEqual(c)
+
+  // Now restart nested component
+  await s.internals.controller.jump('rerun', { sender: s_nested })
   expect(s.internals.controller.currentLeaf).toEqual(b)
 })
