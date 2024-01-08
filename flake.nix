@@ -21,6 +21,7 @@
           # Set the major version of Node.js
           pkgs.nodejs-18_x
           pkgs.nodePackages.yarn
+          pkgs.yarn
           pkgs.python310
           # node-gyp dependencies
           pkgs.pkg-config
