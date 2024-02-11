@@ -1,11 +1,11 @@
 /* Basic configuration */
 :root {
   /* Layout */
-  --width-labjs-container: 900px;
-  --width-min-labjs-container: 320px;
+  --width-container: 900px;
+  --width-min-container: 320px;
   --height-min-header-footer: 8vh;
   --padding-internal: 24px;
-  --border-radius-labjs-container: 5px;
+  --border-radius-container: 5px;
   --border-radius-content: 4px;
   /* Typography */
   --font-family: 'Arial', sans-serif;
@@ -43,11 +43,11 @@ body {
 }
 
 .labjs-container {
-  min-width: var(--width-min-labjs-container);
+  min-width: var(--width-min-container);
   min-height: var(--height-min-header-footer);
   /* Use page-style layout by default */
   margin: var(--padding-internal) auto;
-  width: var(--width-labjs-container);
+  width: var(--width-container);
 }
 .overlay {
   position: fixed;
@@ -125,7 +125,7 @@ main {
 /* Borders and backgrounds */
 .labjs-container {
   border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-labjs-container);
+  border-radius: var(--border-radius-container);
 }
 header {
   border-bottom: 1px solid var(--color-border-internal);
@@ -189,15 +189,15 @@ kbd.big {
 }
 .w-s {
   width: 100%;
-  max-width: var(--width-min-labjs-container);
+  max-width: var(--width-min-container);
 }
 .w-m {
   width: 100%;
-  max-width: calc(1.5 * var(--width-min-labjs-container));
+  max-width: calc(1.5 * var(--width-min-container));
 }
 .w-l {
   width: 100%;
-  max-width: calc(2 * var(--width-min-labjs-container));
+  max-width: calc(2 * var(--width-min-container));
 }
 /* Block alignment based on flexbox */
 .content-vertical-top,
@@ -491,7 +491,7 @@ table .sticky-top {
 }
 
 .labjs-container:not(.fullscreen) .popover {
-  width: var(--width-labjs-container);
+  width: var(--width-container);
 }
 
 /* Slide in from the top */
