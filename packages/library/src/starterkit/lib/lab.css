@@ -1,11 +1,11 @@
 /* Basic configuration */
 :root {
   /* Layout */
-  --width-container: 900px;
-  --width-min-container: 320px;
+  --width-labjs-container: 900px;
+  --width-min-labjs-container: 320px;
   --height-min-header-footer: 8vh;
   --padding-internal: 24px;
-  --border-radius-container: 5px;
+  --border-radius-labjs-container: 5px;
   --border-radius-content: 4px;
   /* Typography */
   --font-family: 'Arial', sans-serif;
@@ -42,12 +42,12 @@ body {
   background: var(--color-background);
 }
 
-.container {
-  min-width: var(--width-min-container);
+.labjs-container {
+  min-width: var(--width-min-labjs-container);
   min-height: var(--height-min-header-footer);
   /* Use page-style layout by default */
   margin: var(--padding-internal) auto;
-  width: var(--width-container);
+  width: var(--width-labjs-container);
 }
 .overlay {
   position: fixed;
@@ -85,7 +85,7 @@ main {
 }
 
 /* Fullscreen layout */
-.container.fullscreen {
+.labjs-container.fullscreen {
   /* Full screen minus margins */
   margin: var(--padding-internal);
   min-height: calc(100vh - 2 * var(--padding-internal));
@@ -94,18 +94,18 @@ main {
   display: flex;
   flex-direction: column;
 }
-.container.fullscreen main {
+.labjs-container.fullscreen main {
   /* Flex positioning */
   flex: 1;
 }
 
 /* Frameless layout */
-.container.frameless {
+.labjs-container.frameless {
   margin: 0 auto;
   border: none;
   border-radius: 0;
 }
-.container.fullscreen.frameless {
+.labjs-container.fullscreen.frameless {
   margin: 0;
   width: 100%;
   min-height: 100vh;
@@ -113,7 +113,7 @@ main {
 
 /* Remove frame on small screens */
 @media (max-width: 600px), (max-height: 600px) {
-  .container.fullscreen {
+  .labjs-container.fullscreen {
     margin: 0;
     border: none;
     border-radius: 0;
@@ -123,9 +123,9 @@ main {
 }
 
 /* Borders and backgrounds */
-.container {
+.labjs-container {
   border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-container);
+  border-radius: var(--border-radius-labjs-container);
 }
 header {
   border-bottom: 1px solid var(--color-border-internal);
@@ -189,15 +189,15 @@ kbd.big {
 }
 .w-s {
   width: 100%;
-  max-width: var(--width-min-container);
+  max-width: var(--width-min-labjs-container);
 }
 .w-m {
   width: 100%;
-  max-width: calc(1.5 * var(--width-min-container));
+  max-width: calc(1.5 * var(--width-min-labjs-container));
 }
 .w-l {
   width: 100%;
-  max-width: calc(2 * var(--width-min-container));
+  max-width: calc(2 * var(--width-min-labjs-container));
 }
 /* Block alignment based on flexbox */
 .content-vertical-top,
@@ -475,12 +475,12 @@ table .sticky-top {
 }
 
 /* Width, for some reason, needs to be set explicitly */
-.container.fullscreen .popover {
+.labjs-container.fullscreen .popover {
   width: calc(100vw - 2 * var(--padding-internal));
 }
 /* Repeated for frameless mode on small screens */
 @media (max-width: 600px), (max-height: 600px) {
-  .container.fullscreen .popover {
+  .labjs-container.fullscreen .popover {
     width: 100vw;
   }
 }
@@ -490,8 +490,8 @@ table .sticky-top {
   margin: 0 auto;
 }
 
-.container:not(.fullscreen) .popover {
-  width: var(--width-container);
+.labjs-container:not(.fullscreen) .popover {
+  width: var(--width-labjs-container);
 }
 
 /* Slide in from the top */
