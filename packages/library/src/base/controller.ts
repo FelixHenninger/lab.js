@@ -123,10 +123,33 @@ export class Controller<C extends Component = Component> extends Emitter {
         await data.sender.end('aborted')
         break
       case 'rerun':
-        // Reset iterator state
-        await this.iterator?.findReset(data.sender)
-        // Continue from there
-        await this.continue(data.sender, {})
+        // The timeline iterator does not keep track of the current
+        // leaf component, and consequently its reset method does not
+        // find and cannot access it.
+        // Because a reset does not affect the overall experiment
+        // state, we (currently) trigger it directly from here.
+        if (data.sender === this.currentLeaf) {
+          //@ts-ignore
+          await this.currentLeaf._reset()
+        } else {
+          // Reset iterator state
+          await this.iterator?.findReset(data.sender)
+          // Continue from there
+          await this.continue(data.sender, {})
+        }
+        break
+      case 'reset':
+        // As above, there needs to be an exception for the current
+        // leaf component
+        if (data.level === this.currentStack.length) {
+          //@ts-ignore
+          await this.currentLeaf._reset()
+        } else {
+          // Reset iterator state
+          await this.iterator?.reset(data.level)
+          // Continue from there
+          await this.continue(data.sender, {})
+        }
         break
       case 'fastforward':
         await this.iterator?.fastForward(data.target)
