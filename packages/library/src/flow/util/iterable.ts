@@ -1,19 +1,28 @@
-import { CustomIterator } from '../../base/util/iterators/interface'
+import { Component } from '../../base'
+import { CustomIterator, componentSummary } from '../../base/util/iterators/interface'
 
-export class CustomIterable<T> {
+type Summarizer<From, To> = (input: From) => To
+
+export class CustomIterable<T, S = componentSummary> {
   #iterable: Iterable<T>
   #running: boolean
+  #peekMap: Summarizer<T, S>
 
-  constructor(iterable: Iterable<T>) {
+  constructor(
+    iterable: Iterable<T>,
+    //@ts-ignore
+    peekMap: Summarizer<T, S> = (c: Component) => ([c.id, c.options.title, c.type] as unknown as componentSummary),
+  ) {
     this.#iterable = iterable
     this.#running = true
+    this.#peekMap = peekMap
   }
 
   flush() {
     this.#running = false
   }
 
-  [Symbol.iterator](): CustomIterator<T> {
+  [Symbol.iterator](): CustomIterator<T, S> {
     // Extract iterator from iterable
     let iterator = this.#iterable[Symbol.iterator]()
 
@@ -25,9 +34,8 @@ export class CustomIterable<T> {
           return { done: true, value: null }
         }
       },
-      peek: () =>
-        //@ts-ignore
-        Array.from(this.#iterable).map(c => [c.id, c.options.title, c.type]),
+      //@ts-ignore
+      peek: (): S[] => Array.from(this.#iterable).map(this.#peekMap),
       reset: () => {
         iterator = this.#iterable[Symbol.iterator]()
         this.#running = true

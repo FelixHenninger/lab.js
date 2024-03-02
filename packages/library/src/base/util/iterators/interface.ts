@@ -32,7 +32,7 @@ export type componentSummary = [string[], string, string]
  * ],
  * ```
  */
-type levelSummary = componentSummary[]
+export type levelSummary = componentSummary[]
 
 /**
  * Represent the current study stack, with adjacent components at all levels
@@ -84,8 +84,8 @@ export type stackSummary = levelSummary[]
  * in sequence). These additional interfaces are summarized in the
  * `CustomIterator`.
  */
-export interface CustomIterator<T, TReturn = any, TNext = undefined>
+export interface CustomIterator<T, TReturn = any, TNext = undefined, S = componentSummary>
   extends Iterator<T, TReturn, TNext> {
-  peek: () => levelSummary
+  peek: () => S[]
   reset: () => void
 }
