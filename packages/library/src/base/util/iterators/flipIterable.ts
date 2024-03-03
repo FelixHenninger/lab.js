@@ -45,7 +45,7 @@ export interface FlipIterator<T>
   findReset: (value: T) => Promise<void>
   // NOTE: We index by id here, which is inconsistent
   // with the remainder of the interface.
-  fastForward: (targetStack: String[]) => Promise<void>
+  fastForward: (targetStack: String[], spliceLevel?: number) => Promise<void>
   peek: () => stackSummary
 }
 
@@ -197,7 +197,7 @@ export class FlipIterable {
       findSplice: sliceIterator.findSplice,
       reset: sliceIterator.reset,
       findReset: sliceIterator.findReset,
-      fastForward: async (targetStack: String[]) => {
+      fastForward: async (targetStack: String[], spliceLevel = 0) => {
         // Note that the level here is shifted, in that we never
         // fast-forward on the level of the root node.
         // Instead, we search inside the top-level iterator
@@ -221,6 +221,7 @@ export class FlipIterable {
               return targetStack[level] === c.id
             }
           },
+          spliceLevel,
         )
       },
       peek: sliceIterator.peek,

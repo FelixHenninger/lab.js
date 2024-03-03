@@ -13,6 +13,7 @@ interface TimelineIterator<T> extends AsyncIterator<(T | NestedIterable<T>)[]> {
   findReset: (value: T | NestedIterable<T>) => Promise<void>
   fastForward: (
     consume: (value: T | NestedIterable<T>, level: number) => boolean,
+    spliceLevel?: number,
   ) => Promise<void>
   peek: () => stackSummary
 }
@@ -136,17 +137,18 @@ export class SliceIterable<T extends Object> {
       },
       fastForward: async (
         consume: (value: T | NestedIterable<T>, level: number) => boolean,
+        spliceLevel = 0,
       ) => {
         // Starting from the root node ...
         // Note that, working on the first level (index 0)
         // means looking (in that iterator) for the entry
         // on the second level.
-        let currentLevel = 0
+        let currentLevel = spliceLevel
 
         // Starting from the root node, which is always
         // included in the output ...
-        iteratorStack.splice(1)
-        outputStack.splice(1)
+        iteratorStack.splice(spliceLevel + 1)
+        outputStack.splice(spliceLevel + 1)
 
         // ... rebuild the iterator stack and output level by level
         while (true) {

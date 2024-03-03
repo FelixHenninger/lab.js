@@ -152,7 +152,8 @@ export class Controller<C extends Component = Component> extends Emitter {
         }
         break
       case 'fastforward':
-        await this.iterator?.fastForward(data.target)
+        await this.iterator?.fastForward(data.target, data.spliceLevel ?? 0)
+        await this.continue(this.currentLeaf, {})
         break
       default:
         console.error(`Unknown jump instruction ${instruction}`)
