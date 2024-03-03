@@ -155,6 +155,32 @@ export class Controller<C extends Component = Component> extends Emitter {
         await this.iterator?.fastForward(data.target, data.spliceLevel ?? 0)
         await this.continue(this.currentLeaf, {})
         break
+      case 'jump':
+        // Compute common stack
+        const commonStack = []
+        const [_, ...currentStackIds] = this.currentStack.map(c => c.id)
+
+        for (const [index, id] of data.targetStack.entries()) {
+          if (id === currentStackIds[index]) {
+            commonStack.push(id)
+          } else {
+            break
+          }
+        }
+
+        // Rerun that stack
+        if (commonStack.length == 0) {
+          //@ts-ignore
+          await this.root?._reset?.()
+        } else {
+          await commonStack.at(-1)?._reset?.()
+        }
+        await this.iterator?.reset(commonStack.length)
+        await this.jump('fastforward', { target: data.targetStack, spliceLevel: commonStack.length })
+
+        // Continue removed as it moves on too quickly
+        //await this.continue(this.currentLeaf, {})
+        break
       default:
         console.error(`Unknown jump instruction ${instruction}`)
     }
