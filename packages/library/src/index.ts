@@ -1,4 +1,4 @@
-export const version = '23.0.0-alpha2'
+export const version = '23.0.0-alpha3'
 export const build = {
   //@ts-ignore Injected during build
   flavor: <string>BUILD_FLAVOR,
