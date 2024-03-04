@@ -176,7 +176,10 @@ export class Controller<C extends Component = Component> extends Emitter {
           await commonStack.at(-1)?._reset?.()
         }
         await this.iterator?.reset(commonStack.length)
-        await this.jump('fastforward', { target: data.targetStack, spliceLevel: commonStack.length })
+        await this.jump('fastforward', {
+          target: data.targetStack,
+          spliceLevel: commonStack.length,
+        })
 
         // Continue removed as it moves on too quickly
         //await this.continue(this.currentLeaf, {})
