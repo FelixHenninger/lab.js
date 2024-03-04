@@ -1,5 +1,8 @@
 import { Component } from '../../base'
-import { CustomIterator, componentSummary } from '../../base/util/iterators/interface'
+import {
+  CustomIterator,
+  componentSummary,
+} from '../../base/util/iterators/interface'
 
 type Summarizer<From, To> = (input: From) => To
 
@@ -11,7 +14,8 @@ export class CustomIterable<T, S = componentSummary> {
   constructor(
     iterable: Iterable<T>,
     //@ts-ignore
-    peekMap: Summarizer<T, S> = (c: Component) => ([c.id, c.options.title, c.type] as unknown as componentSummary),
+    peekMap: Summarizer<T, S> = (c: Component) =>
+      [c.id, c.options.title, c.type] as unknown as componentSummary,
   ) {
     this.#iterable = iterable
     this.#running = true
