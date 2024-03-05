@@ -14,7 +14,7 @@ const makeShimSequence = (
       c.internals.controller = s.internals.controller
     })
   })
-  s.on('reset', function() {
+  s.on('reset', function () {
     content.forEach(c => {
       //@ts-ignore TS2341
       c._reset()
@@ -287,7 +287,7 @@ it('can fast-forward to a given id stack', async () => {
 
   // Now fast-forward to a later component
   await s.internals.controller.jump('fastforward', {
-    target: ['d']
+    target: ['d'],
   })
 
   expect(s.internals.controller.currentLeaf).toEqual(d)
@@ -309,7 +309,8 @@ it('can fast-forward to a given nested id stack in a running study', async () =>
   expect(s.internals.controller.currentLeaf).toEqual(b)
 
   await s.internals.controller.jump('fastforward', {
-    target: ['s_nested', 'd'], spliceLevel: 1
+    target: ['s_nested', 'd'],
+    spliceLevel: 1,
   })
 
   expect(s.internals.controller.currentLeaf).toEqual(d)
@@ -344,10 +345,7 @@ it('can reset a component at a given (intermediate) level', async () => {
   const c = new Component({ id: 'c' })
   const d = new Component({ id: 'd' })
 
-  const s_nested = makeShimSequence(
-    [a, b, c, d],
-    { id: 's_nested' },
-  )
+  const s_nested = makeShimSequence([a, b, c, d], { id: 's_nested' })
   const t = new Component({ id: 't' })
 
   const s = makeShimSequence([s_nested, t], { id: 's' })
@@ -368,10 +366,7 @@ it('can reset at a given (intermediate) component', async () => {
   const c = new Component({ id: 'c' })
   const d = new Component({ id: 'd' })
 
-  const s_nested = makeShimSequence(
-    [a, b, c, d],
-    { id: 's_nested' },
-  )
+  const s_nested = makeShimSequence([a, b, c, d], { id: 's_nested' })
   const t = new Component({ id: 't' })
 
   const s = makeShimSequence([s_nested, t], { id: 's' })
@@ -402,7 +397,7 @@ it('can jump forward to a new component', async () => {
 
   // Now fast-forward to a later component
   await s.internals.controller.jump('jump', {
-    targetStack: ['d']
+    targetStack: ['d'],
   })
 
   expect(s.internals.controller.currentLeaf).toEqual(d)
@@ -424,10 +419,9 @@ it('can jump backward to an old component', async () => {
   await b.end()
   expect(s.internals.controller.currentLeaf).toEqual(c)
 
-
   // Now fast-forward to a component already visited
   await s.internals.controller.jump('jump', {
-    targetStack: ['b']
+    targetStack: ['b'],
   })
 
   expect(s.internals.controller.currentLeaf).toEqual(b)
@@ -440,10 +434,7 @@ it('can jump up, jump up and get down', async () => {
   const d = new Component({ id: 'd' })
 
   // Create an intermediate level
-  const s_nested = makeShimSequence(
-    [a, b, c, d],
-    { id: 's_nested' },
-  )
+  const s_nested = makeShimSequence([a, b, c, d], { id: 's_nested' })
   const t = new Component({ id: 't' })
   const s = makeShimSequence([s_nested, t], { id: 's' })
 
