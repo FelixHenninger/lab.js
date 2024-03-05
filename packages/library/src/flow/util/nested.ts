@@ -10,12 +10,14 @@ export const prepareNested = function (nested: Component[], parent: Component) {
 
   // Set ids on nested components
   nested.forEach((c, i) => {
-    // For each child, use this component's id
-    // and append a counter
-    if (parent.id == null) {
-      c.id = String(i)
-    } else {
-      c.id = [parent.id, i].join('_')
+    if (c.id === undefined) {
+      // For each child, use this component's id
+      // and append a counter
+      if (parent.id == null) {
+        c.id = String(i)
+      } else {
+        c.id = [parent.id, i].join('_')
+      }
     }
   })
 
