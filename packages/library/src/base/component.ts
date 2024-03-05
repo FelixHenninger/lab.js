@@ -17,6 +17,7 @@ export enum Status {
   initialized,
   prepared,
   running,
+  rendered,
   done,
   locked,
 }
@@ -251,6 +252,7 @@ export class Component {
 
   async render(data: object) {
     await this.#emitter.trigger(EventName.render, data, this.#controller.global)
+    this.status = Status.rendered
   }
   async show(data: object) {
     await this.#emitter.trigger(EventName.show, data, this.#controller.global)

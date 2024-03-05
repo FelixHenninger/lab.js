@@ -320,6 +320,7 @@ export class Component extends BaseComponent {
 
     switch (this.status) {
       case Status.running:
+      case Status.rendered:
         return performance.now() - (timestamps.show || timestamps.render)
       case Status.done:
       case Status.locked:

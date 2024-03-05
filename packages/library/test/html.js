@@ -240,7 +240,7 @@ describe('HTML-based components', () => {
 
       return f.run().then(() => {
         f.submit()
-        assert.equal(f.status, 3)
+        assert.equal(f.status, 4)
         assert.ok(spy.calledOnce)
       })
     })
@@ -291,7 +291,7 @@ describe('HTML-based components', () => {
 
       return f.run().then(() => {
         f.submit()
-        assert.equal(f.status, 2) // Still running
+        assert.equal(f.status, 3) // Still running
       })
     })
 

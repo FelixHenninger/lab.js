@@ -173,10 +173,10 @@ describe('Core', () => {
         assert.equal(b.status, 1)
 
         await b.run()
-        assert.equal(b.status, 2)
+        assert.equal(b.status, 3)
 
         await b.end()
-        assert.equal(b.status, 3)
+        assert.equal(b.status, 4)
       })
 
       it('updates the progress property', async () => {

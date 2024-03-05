@@ -559,7 +559,7 @@ describe('Canvas-based components', () => {
       ).then(() => {
         assert.equal(
           f.status,
-          3 // done
+          4 // done
         )
       })
     )
