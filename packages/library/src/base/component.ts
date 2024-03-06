@@ -334,8 +334,8 @@ export class Component {
 
   private async _reset() {
     this.internals.iterator?.reset()
-    this.status = Status.initialized
     await this.#emitter.trigger(EventName.reset)
+    this.status = Status.initialized
   }
 
   async reset() {
