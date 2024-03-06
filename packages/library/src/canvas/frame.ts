@@ -6,7 +6,7 @@ import { reduce } from '../base/util/tree'
 import { Screen, canvasDefaults } from './screen'
 import { Sequence } from '../flow/sequence'
 import { Loop } from '../flow/loop'
-import { prepareNested } from '../flow/util/nested'
+import { prepareNested, resetNested } from '../flow/util/nested'
 import { createFragment } from '../html/util/dom'
 import { setupCanvas } from './util/dom'
 import { CustomIterable } from '../flow/util/iterable'
@@ -105,6 +105,15 @@ export class Frame extends Component {
     delete context.canvas
     delete this.internals.canvas
     return super.leaveContext(context)
+  }
+
+  async onReset() {
+    await resetNested(
+      this.options.content instanceof Array
+        ? this.options.content
+        : [this.options.content],
+      this,
+    )
   }
 }
 

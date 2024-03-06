@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash'
 import { ComponentOptions } from '../core/component'
 import { Component } from '../core/component'
 import { CustomIterable } from '../flow/util/iterable'
-import { prepareNested } from '../flow/util/nested'
+import { prepareNested, resetNested } from '../flow/util/nested'
 import { createFragment } from './util/dom'
 
 const frameDefaults = {
@@ -73,6 +73,15 @@ export class Frame extends Component {
     // Insert context
     outerEl.innerHTML = ''
     outerEl.appendChild(this.internals.parsedContext)
+  }
+
+  async onReset() {
+    await resetNested(
+      this.options.content instanceof Array
+        ? this.options.content
+        : [this.options.content],
+      this,
+    )
   }
 
   get progress() {

@@ -26,3 +26,10 @@ export const prepareNested = function (nested: Component[], parent: Component) {
     nested.map(c => c.prepare(false)), // indicate automated call
   )
 }
+
+export const resetNested = function (nested: Component[], parent: Component) {
+  return Promise.all(
+    //@ts-expect-error 2341
+    nested.map(c => c._reset()),
+  )
+}
