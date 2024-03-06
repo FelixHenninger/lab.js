@@ -464,7 +464,7 @@ it('can jump up, jump up and get down', async () => {
   expect(s.internals.controller.currentLeaf).toEqual(a)
 
   // Jump to the end (t), out of the nested component
-  await jumpTo(['s_nested', 't'])
+  await jumpTo(['t'])
   expect(s.internals.controller.currentLeaf).toEqual(t)
 
   // Jump backwards again, to b
