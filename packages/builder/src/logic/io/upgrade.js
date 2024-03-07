@@ -608,6 +608,10 @@ const updates = {
       ...data,
       version: [23, 'alpha', 3],
     }),
+    '23.alpha.3': data => ({
+      ...data,
+      version: [23, 'alpha', 4],
+    }),
     // TODO: Add shortcut for folks upgrading from v21 stable to v23
   })
 }
