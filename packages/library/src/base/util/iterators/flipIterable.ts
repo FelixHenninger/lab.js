@@ -1,4 +1,4 @@
-import { range } from 'lodash'
+import { last, range } from 'lodash'
 
 import { Component, Status } from '../../component'
 import { requestAnimationFrameMaybe } from '../rAF'
@@ -47,6 +47,7 @@ export interface FlipIterator<T>
   // with the remainder of the interface.
   fastForward: (targetStack: String[], spliceLevel?: number) => Promise<void>
   peek: () => stackSummary
+  tempSplice: (level: number, input: IteratorInput) => Promise<any>
 }
 
 export class FlipIterable {
@@ -76,6 +77,7 @@ export class FlipIterable {
     const sliceIterator = this.timelineIterable[Symbol.asyncIterator]()
     let currentStack: Component[] = []
     let lockPromises: Promise<any>[] = []
+    let restartLeaf = false
 
     return {
       initialize: async () => {
@@ -112,22 +114,20 @@ export class FlipIterable {
           // the current and future stacks
           ;({ incoming, outgoing } = resolveFlip(currentStack, nextStack))
 
-          // End all outgoing components, starting from the leaf
-          for (const c of [...outgoing].reverse()) {
-            try {
-              c.internals.emitter.off(
-                EventName.endUncontrolled,
-                triggerContinue,
-              )
-              currentStack.pop()
-              cancelled.push(c)
-              await c.end(flipData.reason, { ...flipData, controlled: true })
-              context = c.leaveContext(context)
-            } catch (error) {
-              console.error(`Error ending`, c)
-              throw error
-            }
+          if (restartLeaf && currentStack.length > 0) {
+            //@ts-ignore
+            incoming.unshift(currentStack.pop())
+            restartLeaf = false
           }
+
+          // End all outgoing components, starting from the leaf
+          context = await stopOutgoing(
+            outgoing,
+            currentStack,
+            cancelled,
+            flipData,
+            context,
+          )
 
           // Start all incoming components, starting from the top of the stack
           for (const c of incoming) {
@@ -193,6 +193,34 @@ export class FlipIterable {
           },
         }
       },
+      tempSplice: async (
+        level: number,
+        [flipData, context]: [any, object] = [{}, {}],
+      ) => {
+        const oldStack = currentStack
+        const newStack = currentStack.slice(0, level)
+
+        // There are no incoming components in this flip
+        const { outgoing } = resolveFlip(oldStack, newStack)
+
+        // Stop outgoing components
+        const newContext = await stopOutgoing(
+          outgoing,
+          currentStack,
+          [],
+          flipData,
+          context,
+        )
+
+        // Reset nested slice iterator
+        sliceIterator.splice(level)
+
+        return newContext
+      },
+      //@ts-ignore
+      restartLeaf: () => {
+        restartLeaf = true
+      },
       splice: sliceIterator.splice,
       findSplice: sliceIterator.findSplice,
       reset: sliceIterator.reset,
@@ -227,4 +255,26 @@ export class FlipIterable {
       peek: sliceIterator.peek,
     }
   }
+}
+
+const stopOutgoing = async function (
+  outgoing: Component[],
+  currentStack: Component[],
+  cancelled: Component[],
+  flipData: any,
+  context: object,
+) {
+  for (const c of [...outgoing].reverse()) {
+    try {
+      c.internals.emitter.off(EventName.endUncontrolled, triggerContinue)
+      currentStack.pop()
+      cancelled.push(c)
+      await c.end(flipData.reason, { ...flipData, controlled: true })
+      context = c.leaveContext(context)
+    } catch (error) {
+      console.error(`Error ending`, c)
+      throw error
+    }
+  }
+  return context
 }

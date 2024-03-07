@@ -168,21 +168,28 @@ export class Controller<C extends Component = Component> extends Emitter {
           }
         }
 
-        // Rerun that stack
-        if (commonStack.length == 0) {
+        this.context = await this.iterator?.tempSplice(commonStack.length + 1, [
+          {}, // flipData
+          this.context,
+        ])
+
+        // Having torn down the larger part of the current component stack,
+        // issue a reset to the remaining part.
+        //@ts-ignore
+        await last(this.currentStack)?._reset?.()
+
+        // Don't re-mount the root component
+        if (this.currentStack.length > 1) {
           //@ts-ignore
-          await this.root?._reset?.()
-        } else {
-          await commonStack.at(-1)?._reset?.()
+          this.iterator?.restartLeaf()
         }
-        await this.iterator?.reset(commonStack.length)
+
+        // The fastforward call will also trigger continue
         await this.jump('fastforward', {
           target: data.targetStack,
           spliceLevel: commonStack.length,
         })
 
-        // Continue removed as it moves on too quickly
-        //await this.continue(this.currentLeaf, {})
         break
       default:
         console.error(`Unknown jump instruction ${instruction}`)
