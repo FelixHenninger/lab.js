@@ -1218,6 +1218,49 @@ describe('Core', () => {
       )
     })
   })
+
+  describe('jumping', () => {
+    let demoElement
+    beforeEach(() => {
+      demoElement = document.createElement('div')
+      demoElement.dataset.labjsSection = 'main'
+      document.body.appendChild(demoElement)
+    })
+
+    afterEach(() => {
+      document.body.removeChild(demoElement)
+    })
+
+    it('can jump around', async () => {
+      const a = new lab.html.Screen({ content: 'a', id: 'a' })
+      const b = new lab.html.Screen({ content: 'b', id: 'b' })
+      const c = new lab.html.Screen({ content: 'c', id: 'c' })
+      const d = new lab.html.Screen({ content: 'd', id: 'd' })
+
+      const s_nested = new lab.flow.Sequence({ content: [a, b, c, d], id: 's_nested' })
+      const t = new lab.html.Screen({ content: 't', id: 't' })
+      const s = new lab.flow.Sequence({ content: [s_nested, t], el: demoElement, id: 's' })
+
+      const jumpTo = async (targetStack) => {
+        await s.internals.controller.jump('jump', { targetStack })
+      }
+
+      await s.run()
+      assert.equal(demoElement.innerText, 'a')
+
+      await jumpTo(['s_nested', 'b'])
+      assert.equal(demoElement.innerText, 'b')
+
+      await b.end()
+      assert.equal(demoElement.innerText, 'c')
+
+      await jumpTo(['t'])
+      assert.equal(demoElement.innerText, 't')
+
+      await jumpTo(['s_nested', 'b'])
+      assert.equal(demoElement.innerText, 'b')
+    })
+  })
 })
 
 })
