@@ -42,7 +42,7 @@ body {
   background: var(--color-background);
 }
 
-.container {
+.labjs-container {
   min-width: var(--width-min-container);
   min-height: var(--height-min-header-footer);
   /* Use page-style layout by default */
@@ -85,7 +85,7 @@ main {
 }
 
 /* Fullscreen layout */
-.container.fullscreen {
+.labjs-container.fullscreen {
   /* Full screen minus margins */
   margin: var(--padding-internal);
   min-height: calc(100vh - 2 * var(--padding-internal));
@@ -94,18 +94,18 @@ main {
   display: flex;
   flex-direction: column;
 }
-.container.fullscreen main {
+.labjs-container.fullscreen main {
   /* Flex positioning */
   flex: 1;
 }
 
 /* Frameless layout */
-.container.frameless {
+.labjs-container.frameless {
   margin: 0 auto;
   border: none;
   border-radius: 0;
 }
-.container.fullscreen.frameless {
+.labjs-container.fullscreen.frameless {
   margin: 0;
   width: 100%;
   min-height: 100vh;
@@ -113,7 +113,7 @@ main {
 
 /* Remove frame on small screens */
 @media (max-width: 600px), (max-height: 600px) {
-  .container.fullscreen {
+  .labjs-container.fullscreen {
     margin: 0;
     border: none;
     border-radius: 0;
@@ -123,7 +123,7 @@ main {
 }
 
 /* Borders and backgrounds */
-.container {
+.labjs-container {
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-container);
 }
@@ -475,12 +475,12 @@ table .sticky-top {
 }
 
 /* Width, for some reason, needs to be set explicitly */
-.container.fullscreen .popover {
+.labjs-container.fullscreen .popover {
   width: calc(100vw - 2 * var(--padding-internal));
 }
 /* Repeated for frameless mode on small screens */
 @media (max-width: 600px), (max-height: 600px) {
-  .container.fullscreen .popover {
+  .labjs-container.fullscreen .popover {
     width: 100vw;
   }
 }
@@ -490,7 +490,7 @@ table .sticky-top {
   margin: 0 auto;
 }
 
-.container:not(.fullscreen) .popover {
+.labjs-container:not(.fullscreen) .popover {
   width: var(--width-container);
 }
 
