@@ -12,7 +12,7 @@
   </small>
 </p>
 
-**`lab.js` makes it easy to build, run and share studies that help understand the mind.** It allows everyone to construct and construct experiments and surveys within the browser; the graphical builder makes it easy to get started without writing code.
+**`lab.js` makes it easy to build, run and share studies that help understand the mind.** It allows everyone to create experiments and surveys that run in the browser; the graphical builder app makes possible to get started without writing code.
 
 [![Slack Status](https://img.shields.io/badge/support-online-brightgreen.svg)](https://lab.js.org/resources/support/)
 [![Build Status](https://github.com/FelixHenninger/lab.js/workflows/Build/badge.svg)](https://github.com/FelixHenninger/lab.js/actions?query=workflow%3ABuild)
@@ -30,16 +30,24 @@
 
 ### Get started 🚀
 
+#### Builder
+
 The [**graphical builder interface**](https://lab.js.org/builder) is the
 easiest way to create studies, and the best place to start. The tutorial
 will walk you through [building your first study, step by
 step](https://labjs.readthedocs.io/en/latest/learn/builder/).
 
+#### npm
+
 If you prefer working directly with code, you can build studies using the
-[**JavaScript library**](https://lab.js.org/docs/en/latest/reference/).
-Everything you need is bundled in the *starter kit*, which is [provided with
-every release](https://github.com/FelixHenninger/lab.js/releases/latest).
-There is also a tutorial to [help you get started](https://lab.js.org/docs/en/latest/learn/code/).
+[**JavaScript library**](https://lab.js.org/docs/en/latest/reference/), which is available from [npm](https://www.npmjs.com/package/lab.js)
+
+`npm install lab.js`
+
+#### Starter Kit
+
+If you'd like guidance on starting a new code project using `lab.js`, check out the *starter kit*, which is [provided with
+every release](https://github.com/FelixHenninger/lab.js/releases/latest). There is also a tutorial to [help you get started](https://lab.js.org/docs/en/latest/learn/code/).
 
 If you get stuck or things don't make sense, please don't hesitate to reach out!
 
@@ -52,7 +60,7 @@ join and say hello, we'd love to have you around!
 
 ### Keep up-to-date 📮
 
-If you'd like to keep in the loop regarding the development, please [subscribe
+If you'd like to keep in the loop regarding development, please [subscribe
 to our **newsletter**](http://eepurl.com/co0K9r) to receive very occasional
 updates and release notifications.
 
