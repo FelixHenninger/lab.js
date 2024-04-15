@@ -2,6 +2,8 @@ import { Component } from './component'
 import { Controller as BaseController } from '../base/controller'
 import { Row, Store } from '../data/store'
 import { ImageCache, AudioCache } from './cache'
+import { RNGOptions, Random } from '../util/random'
+import { autoSeed } from '../util/random/seed'
 
 declare global {
   interface Window {
@@ -38,6 +40,7 @@ export interface ControllerGlobal {
  */
 export class Controller extends BaseController<Component> {
   global!: ControllerGlobal
+  #seed: String
 
   /**
    * Create a new controller
@@ -71,5 +74,18 @@ export class Controller extends BaseController<Component> {
     }
 
     super({ root, global, initialContext })
+
+    // Generate random seed
+    this.#seed = autoSeed()
+  }
+
+  createRNG(seedFragment: String, options: RNGOptions = {}) {
+    // Auto-generate seed by combining controller seed + component ID
+    const seed = `${this.#seed}-${seedFragment}`
+
+    return new Random({
+      seed,
+      ...options, // Allow manual override of component seed
+    })
   }
 }

@@ -132,7 +132,10 @@ export class Component extends BaseComponent {
 
     // Hook up state from controller
     this.state = this.internals.controller.global.datastore?.state
-    this.random = new Random(this.options.random)
+    this.random = this.internals.controller.createRNG(
+      this.id ?? '', // ID is defined only on base.Component ATM
+      this.options.random,
+    )
     // Create timeline
     this.internals.timeline = new Timeline(
       this.internals.controller,
