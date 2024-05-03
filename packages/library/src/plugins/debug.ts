@@ -470,11 +470,10 @@ export default class Debug {
           // Pull target id stack from data attribute
           const target = JSON.parse(jumpLink.dataset['labjsDebugJumpId']!)
 
-          // Create snapshot with this target
-          snapshot(this.#context!, target)
-
-          // Reload page to rehydrate
-          window.location.reload()
+          // Jump to target
+          this.#context?.internals.controller.jump('jump', {
+            targetStack: target,
+          })
         }
       })
 
