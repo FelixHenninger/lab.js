@@ -24,6 +24,8 @@
           pkgs.yarn
           pkgs.python310
           # node-gyp dependencies
+          pkgs.nodePackages.node-gyp
+          pkgs.python311Packages.gyp
           pkgs.pkg-config
           pkgs.pixman
           pkgs.libffi
