@@ -1,6 +1,7 @@
 import { isPlainObject, throttle } from 'lodash'
 import { Controller } from '../core'
 import { Component } from '../core/component'
+import { requestIdleCallback } from '../core/timing/shims'
 import { Store } from '../data/store'
 import { stackSummary } from '../base/util/iterators/interface'
 
@@ -330,8 +331,14 @@ const snapshot = (context: Component, target?: string[]) => {
 
 const hydrate = async (component: Component, data: any) => {
   component.global.datastore._hydrate({ data: data.data, state: data.state })
-  await component.internals.controller.jump('fastforward', {
-    target: data.target,
+  // This is a hack, designed to hide the fact that jumping
+  // doesn't work before the study root component is fully prepared.
+  // The idea is that preparation should be complete before
+  // this fires.
+  requestIdleCallback(async () => {
+    await component.internals.controller.jump('fastforward', {
+      target: data.target,
+    })
   })
 }
 
