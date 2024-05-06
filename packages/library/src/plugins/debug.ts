@@ -336,8 +336,8 @@ const hydrate = async (component: Component, data: any) => {
   // The idea is that preparation should be complete before
   // this fires.
   requestIdleCallback(async () => {
-    await component.internals.controller.jump('fastforward', {
-      target: data.target,
+    await component.internals.controller.jump('jump', {
+      targetStack: data.target,
     })
   })
 }
