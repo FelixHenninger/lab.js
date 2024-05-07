@@ -151,6 +151,10 @@ export class Component {
       this.options.parameters,
     )
     this.internals.armOptions = arm
+
+    // Setup plugins
+    //@ts-ignore Use not-for-public-consumption method
+    plugins.init()
   }
 
   log(message: string) {

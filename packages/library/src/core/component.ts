@@ -127,6 +127,7 @@ export class Component extends BaseComponent {
       this.internals.controller = new Controller({
         root: this,
         el: this.options.el,
+        random: this.options.random,
       })
     }
 

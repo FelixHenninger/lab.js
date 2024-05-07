@@ -40,12 +40,20 @@ export interface ControllerGlobal {
  */
 export class Controller extends BaseController<Component> {
   global!: ControllerGlobal
-  #seed: String
+  #random?: RNGOptions
 
   /**
    * Create a new controller
    */
-  constructor({ root, el }: { root: Component; el?: Element }) {
+  constructor({
+    root,
+    el,
+    random,
+  }: {
+    root: Component
+    el?: Element
+    random?: RNGOptions
+  }) {
     const audioContext = new (window.AudioContext ??
       window.webkitAudioContext)()
 
@@ -75,17 +83,20 @@ export class Controller extends BaseController<Component> {
 
     super({ root, global, initialContext })
 
-    // Generate random seed
-    this.#seed = autoSeed()
+    // Setup RNG options
+    this.#random = random
   }
 
   createRNG(seedFragment: String, options: RNGOptions = {}) {
     // Auto-generate seed by combining controller seed + component ID
-    const seed = `${this.#seed}-${seedFragment}`
+    const seed = this.#random?.seed
+      ? `${this.#random?.seed}-${seedFragment}`
+      : undefined
 
     return new Random({
       seed,
-      ...options, // Allow manual override of component seed
+      ...this.#random,
+      ...options, // Allow manual override of global options
     })
   }
 }

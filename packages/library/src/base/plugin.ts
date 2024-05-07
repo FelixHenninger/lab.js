@@ -14,7 +14,9 @@ export class PluginAPI<C extends Component = Component, E = string> {
   constructor(context: C, plugins: Array<Plugin<C, E>> = []) {
     this.#context = context
     this.plugins = plugins
+  }
 
+  private init() {
     // Initialize existing plugins
     this.plugins.forEach(p => p.handle(this.#context, 'plugin:add'))
 
