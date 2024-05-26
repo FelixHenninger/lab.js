@@ -346,7 +346,9 @@ const renderBreadcrumbs = (controller: Controller) => {
 
 const snapshot = (context: Component, seed: string) => {
   // Calculate set of current ids
-  const targetId = context.internals.controller.currentStack.slice(1).map(c => c.id)
+  const targetId = context.internals.controller.currentStack
+    .slice(1)
+    .map(c => c.id)
 
   // Get data and state
   const data = context.global.datastore.data
