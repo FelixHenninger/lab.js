@@ -185,6 +185,13 @@ const payload = `<style type="text/css">
           <path d="M13 2.75v7.775L4.475 2h7.775a.75.75 0 0 1 .75.75ZM3 13.25V5.475l4.793 4.793L4.28 13.78A.75.75 0 0 1 3 13.25ZM2.22 2.22a.75.75 0 0 1 1.06 0l10.5 10.5a.75.75 0 1 1-1.06 1.06L2.22 3.28a.75.75 0 0 1 0-1.06Z" />
         </svg>
       </a>&nbsp;
+      <a href="#" class="labjs-debug-snapshot-copy">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" style="width: 1rem">
+          <title>Copy link to current screen</title>
+          <path fill-rule="evenodd" d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+          <path fill-rule="evenodd" d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+        </svg>
+      </a>&nbsp;
       <a href="#" class="labjs-debug-alignment-toggle">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" style="width: 1rem">
           <title>Toggle horizontal and vertical display</title>
@@ -402,7 +409,10 @@ export default class Debug {
       (window.sessionStorage.getItem(
         'labjs-debug-alignment',
       ) as DebugPluginAlignment) ?? 'horizontal'
-    this.#seed = window.sessionStorage.getItem('labjs-debug-seed') ?? autoSeed()
+    this.#seed =
+      new URL(document.location.href).searchParams?.get('seed') ??
+      window.sessionStorage.getItem('labjs-debug-seed') ??
+      autoSeed()
   }
 
   async handle(context: Component, event: string) {
@@ -469,6 +479,33 @@ export default class Debug {
         e.preventDefault()
         window.sessionStorage.removeItem('labjs-debug-snapshot')
         window.sessionStorage.removeItem('labjs-debug-seed')
+
+        // Reset page URL
+        const url = new URL(document.location.href)
+        url.searchParams.delete('target')
+        url.searchParams.delete('seed')
+        window.history.replaceState({}, '', url.href)
+      })
+
+    this.#container
+      .querySelector('.labjs-debug-snapshot-copy')!
+      .addEventListener('click', async e => {
+        e.preventDefault()
+
+        // Construct URL that points to current state ...
+        const url = new URL(document.location.href)
+        url.searchParams.set(
+          'target',
+          JSON.stringify(
+            this.#context!.internals?.controller?.currentStack.slice(1).map(
+              c => c.id,
+            ),
+          ),
+        )
+        url.searchParams.set('seed', this.#seed)
+
+        // Copy to clipboard
+        await navigator.clipboard.writeText(url.href)
       })
 
     this.#container
@@ -553,12 +590,23 @@ export default class Debug {
       datastore.on('commit', throttledRender)
       datastore.on('update', throttledRender)
 
-      if (window.sessionStorage.getItem('labjs-debug-snapshot')) {
+      const url = new URL(document.location.href)
+
+      if (
+        window.sessionStorage.getItem('labjs-debug-snapshot') ||
+        url.searchParams.get('target')
+      ) {
         const { target, data, state, keep } = JSON.parse(
           //@ts-ignore TODO
-          window.sessionStorage.getItem('labjs-debug-snapshot'),
+          window.sessionStorage.getItem('labjs-debug-snapshot') ?? '{}',
         )
-        await hydrate(this.#context!, { target, data, state })
+        await hydrate(this.#context!, {
+          //@ts-ignore
+          target: JSON.parse(url.searchParams.get('target')) ?? target,
+          data,
+          state,
+        })
+
         if (!this.#isVisible) {
           this.toggle()
         }
