@@ -120,7 +120,7 @@ export class Component {
     this.data = options.data ?? {}
 
     // Setup emitter
-    this.#emitter = new Emitter(id, { debug, context: this })
+    this.#emitter = new Emitter(this, { debug, context: this })
     this.on = (...args) => this.#emitter.on(...args)
     this.off = (...args) => this.#emitter.off(...args)
 
