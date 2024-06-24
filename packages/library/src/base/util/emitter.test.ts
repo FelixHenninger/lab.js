@@ -1,23 +1,31 @@
+import { Component } from '../component'
 import { Emitter } from './emitter'
 
+let defaultEmitter;
+
+beforeEach(() => {
+  const component = new Component()
+  defaultEmitter = new Emitter(component)
+})
+
 it('runs handlers in emitter context by default', async () => {
-  const e = new Emitter()
   let observedContext: any = undefined
   const handler = function () {
     //@ts-ignore
     observedContext = this
   }
 
-  e.on('event', handler)
-  await e.trigger('event')
+  defaultEmitter.on('event', handler)
+  await defaultEmitter.trigger('event')
 
-  expect(observedContext).toEqual(e)
+  expect(observedContext).toEqual(defaultEmitter)
 })
 
 it('can run handlers in custom context', async () => {
   let observedContext: any = undefined
   const customContext = {}
-  const e = new Emitter('id', { context: customContext })
+  const component = new Component()
+  const e = new Emitter(component, { context: customContext })
 
   const handler = function () {
     //@ts-ignore
@@ -33,18 +41,17 @@ it('can run handlers in custom context', async () => {
 it('runs internal event handlers only once if requested', () => {
   const spy = jest.fn()
   const spyOnce = jest.fn()
-  const e = new Emitter()
 
-  e.on('event', spy)
-  e.once('event', spyOnce)
+  defaultEmitter.on('event', spy)
+  defaultEmitter.once('event', spyOnce)
 
   // First event: Should trigger both spies
-  e.trigger('event')
+  defaultEmitter.trigger('event')
   expect(spy).toBeCalledTimes(1)
   expect(spyOnce).toBeCalledTimes(1)
 
   // Second event: Single-call spy should not be called
-  e.trigger('event')
+  defaultEmitter.trigger('event')
   expect(spy).toBeCalledTimes(2)
   expect(spyOnce).toBeCalledTimes(1)
 })
@@ -52,27 +59,25 @@ it('runs internal event handlers only once if requested', () => {
 it('runs wildcard handlers on every event', () => {
   const spy = jest.fn()
   const spyWildcard = jest.fn()
-  const e = new Emitter()
 
-  e.on('event', spy)
-  e.on('*', spyWildcard)
+  defaultEmitter.on('event', spy)
+  defaultEmitter.on('*', spyWildcard)
 
   // First event: Should trigger both spies
-  e.trigger('event')
+  defaultEmitter.trigger('event')
   expect(spy).toBeCalledTimes(1)
   expect(spyWildcard).toBeCalledTimes(1)
 
   // Second event: Single-call spy should not be called
-  e.trigger('novel-event')
+  defaultEmitter.trigger('novel-event')
   expect(spy).toBeCalledTimes(1)
   expect(spyWildcard).toBeCalledTimes(2)
 })
 
 it('waits for async event handlers to resolve', async () => {
   let done = false
-  const e = new Emitter()
 
-  e.on(
+  defaultEmitter.on(
     'event',
     () =>
       new Promise<void>(resolve => {
@@ -83,16 +88,15 @@ it('waits for async event handlers to resolve', async () => {
       }),
   )
 
-  await e.trigger('event')
+  await defaultEmitter.trigger('event')
   expect(done).toEqual(true)
 })
 
 it('waits for one-shot async event handlers to resolve', async () => {
   // ... as above, except for the call to once below
   let done = false
-  const e = new Emitter()
 
-  e.once(
+  defaultEmitter.once(
     'event',
     () =>
       new Promise<void>(resolve => {
@@ -103,18 +107,17 @@ it('waits for one-shot async event handlers to resolve', async () => {
       }),
   )
 
-  await e.trigger('event')
+  await defaultEmitter.trigger('event')
   expect(done).toEqual(true)
 })
 
 it('resolves promises via waitFor', async () => {
   let done = false
-  const e = new Emitter()
 
-  const p = e.waitFor('event').then(() => {
+  const p = defaultEmitter.waitFor('event').then(() => {
     done = true
   })
-  e.trigger('event')
+  defaultEmitter.trigger('event')
 
   await p
   expect(done).toEqual(true)

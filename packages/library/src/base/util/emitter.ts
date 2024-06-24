@@ -2,6 +2,8 @@
 // by Jason Miller, see https://github.com/developit/mitt .
 // Any mistakes, of course, are entirely my own.
 
+import { Component } from "../component"
+
 export type EventHandler = (...payload: any[]) => void
 type WildCardEventHandler<T> = (event: T, ...payload: any[]) => void
 
@@ -31,16 +33,16 @@ const getMethodName = function (event: string) {
 }
 
 export class Emitter<T extends string = string> {
-  id?: string
+  component: Component
   options: EmitterOptions
   #context: object
   #hooks: EventHandlerMap<T>
 
   constructor(
-    id?: string,
+    component: Component,
     options: EmitterOptions = { debug: false, context: undefined },
   ) {
-    this.id = id
+    this.component = component
     this.options = options
     this.#hooks = new Map()
     this.#context = options.context ?? this
@@ -48,7 +50,7 @@ export class Emitter<T extends string = string> {
 
   async trigger(event: T, ...payload: any[]) {
     if (this.options.debug) {
-      console.info(`Caught ${event} on ${this.id}, data`, payload)
+      console.info(`Caught ${event} on ${this.component.id}, data`, payload)
     }
 
     // Trigger local method, if available
