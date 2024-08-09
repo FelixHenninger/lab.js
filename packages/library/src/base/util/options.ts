@@ -1,4 +1,4 @@
-import { parse as parseDefault, parseAll as parseAllDefault, parsableOptions } from './parse'
+import { Parser, defaultParser, parsableOptions } from './parse'
 
 import { Component } from '../component'
 
@@ -7,18 +7,7 @@ import { Component } from '../component'
 export const makeOptionProxy = function (
   context: Component,
   rawOptions: any = {},
-  parse: (
-    options: Object,
-    context: Object,
-    metadata: Map<string, any>,
-    that: any,
-  ) => any = parseDefault,
-  parseAll: (
-    options: Object,
-    context: Object,
-    metadata: Map<string, any>,
-    that: any,
-  ) => any = parseAllDefault,
+  parser: Parser = defaultParser,
 ) {
   const parsedOptions = Object.create(rawOptions)
 
@@ -33,7 +22,7 @@ export const makeOptionProxy = function (
       }
       Object.assign(
         parsedOptions,
-        parseAll(
+        parser.parseAll(
           rawOptions,
           templateContext,
           parsableOptions(context),
@@ -52,7 +41,7 @@ export const makeOptionProxy = function (
 
       if (armed) {
         // Set parsed option
-        const candidate = parse(
+        const candidate = parser.parseOne(
           value,
           {
             parameters: context.parameters,

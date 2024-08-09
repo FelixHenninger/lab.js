@@ -27,7 +27,7 @@ export const parsableOptions = (component: Component) =>
 
 // Option parsing --------------------------------------------------------------
 
-export const parse = (
+const parseOne = (
   raw: any,
   context: any,
   metadata: { [option: string]: any },
@@ -60,16 +60,16 @@ export const parse = (
     }
   } else if (isArray(raw)) {
     // Recursively parse array
-    return raw.map(o => parse(o, context, metadata.content, that))
+    return raw.map(o => parseOne(o, context, metadata.content, that))
   } else if (isPlainObject(raw)) {
     // Parse individual key/value pairs
     // and construct a new object from results
     return Object.fromEntries(
       Object.entries(raw).map(([k, v]) => [
         // Parse keys only if the appropriate flag is set
-        metadata.keys ? parse(k, context, {}, that) : k,
+        metadata.keys ? parseOne(k, context, {}, that) : k,
         // Parse values
-        parse(
+        parseOne(
           v,
           context,
           // Try the key-specific metadata settings,
@@ -86,7 +86,7 @@ export const parse = (
   }
 }
 
-export const parseAll = (
+const parseAll = (
   rawOptions: any,
   context: any,
   metadata: { [option: string]: any },
@@ -101,7 +101,7 @@ export const parseAll = (
     Object.entries(metadata)
       .map(([k, v]) => {
         if (rawOptions[k]) {
-          const candidate = parse(rawOptions[k], context, v, that)
+          const candidate = parseOne(rawOptions[k], context, v, that)
 
           if (candidate !== rawOptions[k]) {
             return [k, candidate]
@@ -112,3 +112,23 @@ export const parseAll = (
       })
       .filter(e => e !== undefined) as [string, any][],
   )
+
+export type Parser = {
+  parseOne: (
+    rawOption: any,
+    context: Object,
+    metadata: Map<string, any>,
+    that: any,
+  ) => any
+  parseAll: (
+    options: Object,
+    context: Object,
+    metadata: Map<string, any>,
+    that: any,
+  ) => any
+}
+
+export const defaultParser: Parser = {
+  parseOne,
+  parseAll,
+}
