@@ -12,6 +12,7 @@ import { Row } from '../data/store'
 // TODO: Browser switching is a leaky abstraction that assumes
 // a client context, and should be revisited
 import { browserName } from '../util/browser'
+import { Parser } from './util/parse'
 
 export enum Status {
   initialized,
@@ -69,7 +70,7 @@ export type ComponentInternals<C extends Component> = {
   // Logging
   timestamps: Record<string, number>
   // More esoteric members
-  armOptions?: () => void
+  armOptions?: (p: Parser) => void
   logIndex?: number
   [key: string]: any
 }
@@ -191,7 +192,7 @@ export class Component {
       undefined,
       this.#controller.global,
     )
-    this.internals.armOptions!()
+    this.internals.armOptions!(this.#controller.optionParser)
 
     // TODO: The preemptive status update is a band-aid fix for
     // underlying logic issues: In combination with the fast-forward

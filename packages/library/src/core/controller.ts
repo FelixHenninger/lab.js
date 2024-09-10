@@ -3,7 +3,7 @@ import { Controller as BaseController } from '../base/controller'
 import { Row, Store } from '../data/store'
 import { ImageCache, AudioCache } from './cache'
 import { RNGOptions, Random } from '../util/random'
-import { autoSeed } from '../util/random/seed'
+import { Parser } from '../base/util/parse'
 
 declare global {
   interface Window {
@@ -49,10 +49,12 @@ export class Controller extends BaseController<Component> {
     root,
     el,
     random,
+    optionParser,
   }: {
     root: Component
     el?: Element
     random?: RNGOptions
+    optionParser?: Parser
   }) {
     const audioContext = new (window.AudioContext ??
       window.webkitAudioContext)()
@@ -81,7 +83,7 @@ export class Controller extends BaseController<Component> {
       audioContext: audioContext,
     }
 
-    super({ root, global, initialContext })
+    super({ root, global, initialContext, optionParser })
 
     // Setup RNG options
     this.#random = random

@@ -4,12 +4,14 @@ import { Lock } from './util/lock'
 import { Emitter } from './util/emitter'
 
 import { last } from 'lodash'
+import { Parser, defaultParser } from './util/parse'
 
 export class Controller<C extends Component = Component> extends Emitter {
   root!: C
   iterable: FlipIterable
   iterator: FlipIterator<C>
   currentStack: Array<C>
+  optionParser: Parser
 
   global: Record<string, any>
   context: Record<string, any>
@@ -21,10 +23,12 @@ export class Controller<C extends Component = Component> extends Emitter {
     root,
     global = {},
     initialContext = {},
+    optionParser = defaultParser,
   }: {
     root: C
     global?: Record<string, any>
     initialContext?: Record<string, any>
+    optionParser?: Parser
   }) {
     super('controller')
 
@@ -73,6 +77,7 @@ export class Controller<C extends Component = Component> extends Emitter {
 
     // Setup leaf context
     this.context = initialContext
+    this.optionParser = optionParser
   }
 
   async loop() {

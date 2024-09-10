@@ -7,13 +7,14 @@ import { Component } from '../component'
 export const makeOptionProxy = function (
   context: Component,
   rawOptions: any = {},
-  parser: Parser = defaultParser,
 ) {
   const parsedOptions = Object.create(rawOptions)
 
   let armed = false
-  const arm = function (newState: boolean = true) {
+  let parser: Parser | undefined = undefined
+  const arm = function (newParser: Parser, newState: boolean = true) {
     if (newState === true) {
+      parser = newParser
       const templateContext = {
         parameters: context.parameters,
         state: (context as any).state,
@@ -41,7 +42,7 @@ export const makeOptionProxy = function (
 
       if (armed) {
         // Set parsed option
-        const candidate = parser.parseOne(
+        const candidate = parser!.parseOne(
           value,
           {
             parameters: context.parameters,
