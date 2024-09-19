@@ -1,6 +1,7 @@
 import { CustomIterable } from '../flow/util/iterable'
 import { Component, ComponentOptions } from './component'
 import { Controller } from './controller'
+import { Parser } from './util/parse'
 
 const makeShimSequence = (
   content: Component[],
@@ -470,4 +471,24 @@ it('can jump up, jump up and get down', async () => {
   // Jump backwards again, to b
   await jumpTo(['s_nested', 'b'])
   expect(s.internals.controller.currentLeaf).toEqual(b)
+})
+
+it('can define custom option parsing', async () => {
+  const study = new Component({
+    //@ts-ignore
+    myOption: 'Some value',
+    myUnparsedOption: 'Some other value',
+  })
+
+  // Shim option parser -- inject bogus data
+  const parser: Parser = {
+    parseOne: rawOption => rawOption,
+    parseAll: () => ({ myOption: 'Hello from custom parser!' }),
+    parsableOptions: () => ({} as Map<string | symbol, any>),
+  }
+  const c = new Controller({ root: study, optionParser: parser })
+
+  await c.run()
+  expect(study.options.myOption).toEqual('Hello from custom parser!')
+  expect(study.options.myUnparsedOption).toEqual('Some other value')
 })

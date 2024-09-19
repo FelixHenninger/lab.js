@@ -117,18 +117,20 @@ export type Parser = {
   parseOne: (
     rawOption: any,
     context: Object,
-    metadata: Map<string, any>,
+    metadata: Map<string | symbol, any>,
     that: any,
   ) => any
   parseAll: (
     options: Object,
     context: Object,
-    metadata: Map<string, any>,
+    metadata: Map<string | symbol, any>,
     that: any,
   ) => any
+  parsableOptions: (component: Component) => Map<string | symbol, any>
 }
 
 export const defaultParser: Parser = {
   parseOne,
   parseAll,
+  parsableOptions,
 }

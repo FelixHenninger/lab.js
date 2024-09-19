@@ -1,4 +1,4 @@
-import { Parser, defaultParser, parsableOptions } from './parse'
+import { Parser, defaultParser } from './parse'
 
 import { Component } from '../component'
 
@@ -26,7 +26,7 @@ export const makeOptionProxy = function (
         parser.parseAll(
           rawOptions,
           templateContext,
-          parsableOptions(context),
+          parser.parsableOptions(context),
           templateContext,
         ),
       )
@@ -50,7 +50,8 @@ export const makeOptionProxy = function (
             files: context.files,
             random: (context as any).random,
           },
-          parsableOptions(context)[key],
+          //@ts-ignore
+          parser!.parsableOptions(context)[key],
           context,
         )
 
