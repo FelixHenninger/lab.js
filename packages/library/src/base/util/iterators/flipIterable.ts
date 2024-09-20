@@ -148,7 +148,7 @@ export class FlipIterable {
 
                 // TODO: Ensure that .lock() is called on aborted components
               } else {
-                console.error(`Error running`, c)
+                console.error('Error running component', c, ':', error)
                 throw error
               }
             }
@@ -272,7 +272,7 @@ const stopOutgoing = async function (
       await c.end(flipData.reason, { ...flipData, controlled: true })
       context = c.leaveContext(context)
     } catch (error) {
-      console.error(`Error ending`, c)
+      console.error('Error ending component', c, ':', error)
       throw error
     }
   }
