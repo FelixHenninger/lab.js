@@ -168,7 +168,7 @@ export class Component {
     return this.#id
   }
 
-  set id(v: string) {
+  set id(v: string | undefined) {
     this.#id = v
 
     // Pass through ID to emitter
