@@ -95,7 +95,7 @@ type Metadata = {
 }
 
 export class Component {
-  id?: string
+  #id?: string
   options: any
   data: any
   static metadata: Metadata
@@ -116,7 +116,7 @@ export class Component {
   constructor(options: Partial<ComponentOptions> = {}) {
     const { id, debug } = options
 
-    this.id = id
+    this.#id = id
     this.status = Status.initialized
     this.data = options.data ?? {}
 
@@ -162,6 +162,17 @@ export class Component {
     if (this.options.debug) {
       console.info(`${this.id} (${this.type}): \t ${message}`)
     }
+  }
+
+  get id(): string | undefined {
+    return this.#id
+  }
+
+  set id(v: string) {
+    this.#id = v
+
+    // Pass through ID to emitter
+    this.#emitter.id = this.id
   }
 
   async prepare(directCall = true) {
