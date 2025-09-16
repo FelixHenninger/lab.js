@@ -259,7 +259,11 @@ export class Component extends BaseComponent {
    */
   async end(reason?: string, flipData: any = {}) {
     if (this.status < Status.running) {
-      throw new Error("Trying to end component that's not running yet")
+      throw new Error(
+        `Trying to end component (${
+          this.options?.id ?? 'undefined id'
+        }) that's not running yet`,
+      )
     } else if (this.status > Status.done) {
       throw new Error("Can't end completed component (again)")
     }
