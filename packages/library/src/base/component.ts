@@ -220,7 +220,7 @@ export class Component {
 
   // Attach and detach context
   enterContext(context: object) {
-    this.internals.context = context
+    this.internals.context = { ...context }
     return context
   }
 
