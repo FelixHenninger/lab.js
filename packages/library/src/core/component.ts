@@ -166,11 +166,11 @@ export class Component extends BaseComponent {
 
     const responseEvents = mapValues(
       this.options.responses,
-      (response: string, eventString: string) => (e: Event) => {
+      (response: string, eventString: string) => async (e: Event) => {
         // Prevent default browser response
         e.preventDefault()
         // Trigger internal response handling
-        this.respond(response, {
+        await this.respond(response, {
           timestamp: e.timeStamp,
           action: eventString,
         })
@@ -270,7 +270,7 @@ export class Component extends BaseComponent {
     this.internals.timeout?.cancel()
 
     // End the timeline (without waiting)
-    this.internals.timeline.end(
+    await this.internals.timeline.end(
       flipData.timestamp + timingParameters.frameInterval,
     )
 
@@ -297,7 +297,7 @@ export class Component extends BaseComponent {
    */
   async lock({ timestamp }: { timestamp: number }) {
     this.internals.timestamps.lock = timestamp
-    this.internals.timeline.teardown()
+    await this.internals.timeline.teardown()
     this.internals.domConnection.teardown()
     this.internals.timeout = undefined
     await super.lock({ timestamp })

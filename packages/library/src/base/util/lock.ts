@@ -3,7 +3,7 @@ export class Lock {
   #resolve!: Function
 
   constructor() {
-    this.acquire()
+    void this.acquire()
   }
 
   wait() {

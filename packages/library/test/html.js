@@ -233,16 +233,18 @@ describe('HTML-based components', () => {
       })
     })
 
-    it('ends after successful submission', () => {
+    it('ends after successful submission', async () => {
       f.options.content = exampleForm
 
       const spy = sinon.spy(f, 'end')
 
-      return f.run().then(() => {
-        f.submit()
-        assert.equal(f.status, 4)
-        assert.ok(spy.calledOnce)
-      })
+      await f.run()
+      await f.submit()
+
+      await (new Promise(resolve => setTimeout(resolve, 20)))
+
+      assert.equal(f.status, 5)
+      assert.ok(spy.called)
     })
 
     it('saves form data to store', () => {

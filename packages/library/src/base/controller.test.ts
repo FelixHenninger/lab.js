@@ -15,11 +15,11 @@ const makeShimSequence = (
       c.internals.controller = s.internals.controller
     })
   })
-  s.on('reset', function () {
-    content.forEach(c => {
+  s.on('reset', async function () {
+    await Promise.all(content.map(c =>
       //@ts-ignore TS2341
       c._reset()
-    })
+    ))
   })
   return s
 }

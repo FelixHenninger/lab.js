@@ -631,7 +631,7 @@ describe('Core', () => {
         await b.run()
 
         // Trigger a response
-        b.respond('foo', { timestamp: 123, action: 'test' })
+        await b.respond('foo', { timestamp: 123, action: 'test' })
 
         // Check the classification
         assert.equal(b.data.correct, true)
@@ -646,7 +646,7 @@ describe('Core', () => {
 
         await b.run()
 
-        b.respond('bar', { timestamp: 123, action: 'test' })
+        await b.respond('bar', { timestamp: 123, action: 'test' })
 
         // Check classification
         assert.equal(b.data.correct, false)
@@ -657,7 +657,7 @@ describe('Core', () => {
 
       it('accepts timestamp for response', async () => {
         await b.run()
-        b.respond('bar', { timestamp: 123 })
+        await b.respond('bar', { timestamp: 123 })
 
         assert.equal(b.internals.timestamps.end, 123)
       })
@@ -679,15 +679,14 @@ describe('Core', () => {
         await b.run()
 
         const b_pressed = simulateKeyPress('a', b.options.el)
+        clock.restore()
+
+        // Wait briefly for event to be caught
+        await (new Promise(resolve => setTimeout(resolve, 5)))
 
         assert.ok(
-          b.internals.timestamps.end === b_pressed.timeStamp ||
-          // If the event does not provide a high-res timeStamp,
-          // we measure the time in the library as a fall-back.
-          b.internals.timestamps.end === performance.now()
+          b.internals.timestamps.end === b_pressed.timeStamp
         )
-
-        clock.restore()
       })
     })
 

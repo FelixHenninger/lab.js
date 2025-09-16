@@ -122,7 +122,7 @@ export class SliceIterable<T extends Object> {
         //@ts-ignore
         if (iteratorStack[level] && 'reset' in iteratorStack[level]) {
           //@ts-ignore
-          iteratorStack[level].reset()
+          await iteratorStack[level].reset()
         } else {
           throw new Error('No reset method on current iterator')
         }

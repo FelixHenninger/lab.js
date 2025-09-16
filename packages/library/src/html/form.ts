@@ -72,7 +72,7 @@ export class Form extends Screen {
     }
   }
 
-  submit(e?: Event) {
+  async submit(e?: Event) {
     // Suppress default form behavior
     if (e && e.preventDefault) {
       e.preventDefault()
@@ -86,7 +86,7 @@ export class Form extends Screen {
       Object.assign(this.data, this.serialize())
 
       // Bye!
-      this.end('form submission')
+      await this.end('form submission')
     } else {
       // Mark form(s) as validated, but leave
       // the display unchanged otherwise
