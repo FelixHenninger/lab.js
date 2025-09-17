@@ -9,17 +9,21 @@ const makeShimSequence = (
 ) => {
   const s = new Component(options)
   s.internals.iterator = new CustomIterable(content)[Symbol.iterator]()
-  s.on('prepare', function () {
-    content.forEach(c => {
+  s.on('prepare', async function () {
+    for (let c of content) {
       c.parent = s
       c.internals.controller = s.internals.controller
-    })
+
+      await c.prepare(false)
+    }
   })
   s.on('reset', async function () {
-    await Promise.all(content.map(c =>
-      //@ts-ignore TS2341
-      c._reset()
-    ))
+    await Promise.all(
+      content.map(c =>
+        //@ts-ignore TS2341
+        c._reset(),
+      ),
+    )
   })
   return s
 }
@@ -451,26 +455,38 @@ it('can jump up, jump up and get down', async () => {
   // Now run a
   await s.run()
   expect(s.internals.controller.currentLeaf).toEqual(a)
+  expect(s.internals.controller.currentStack.map(c => c.id)) //
+    .toStrictEqual(['s', 's_nested', 'a'])
 
   // Jump to b
   await jumpTo(['s_nested', 'b'])
   expect(s.internals.controller.currentLeaf).toEqual(b)
+  expect(s.internals.controller.currentStack.map(c => c.id)) //
+    .toStrictEqual(['s', 's_nested', 'b'])
 
   // Move to c naturally
   await b.end()
   expect(s.internals.controller.currentLeaf).toEqual(c)
+  expect(s.internals.controller.currentStack.map(c => c.id)) //
+    .toStrictEqual(['s', 's_nested', 'c'])
 
   // Jump back to a (on the same level)
   await jumpTo(['s_nested', 'a'])
   expect(s.internals.controller.currentLeaf).toEqual(a)
+  expect(s.internals.controller.currentStack.map(c => c.id)) //
+    .toStrictEqual(['s', 's_nested', 'a'])
 
   // Jump to the end (t), out of the nested component
   await jumpTo(['t'])
   expect(s.internals.controller.currentLeaf).toEqual(t)
+  expect(s.internals.controller.currentStack.map(c => c.id)) //
+    .toStrictEqual(['s', 't'])
 
   // Jump backwards again, to b
   await jumpTo(['s_nested', 'b'])
   expect(s.internals.controller.currentLeaf).toEqual(b)
+  expect(s.internals.controller.currentStack.map(c => c.id)) //
+    .toStrictEqual(['s', 's_nested', 'b'])
 })
 
 it('can define custom option parsing', async () => {

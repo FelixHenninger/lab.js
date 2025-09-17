@@ -1259,7 +1259,65 @@ describe('Core', () => {
       await jumpTo(['s_nested', 'b'])
       assert.equal(demoElement.innerText, 'b')
     })
+
+    it('jumps up, jumps up and gets down', async () => {
+      const debug = true
+
+      const a = new lab.html.Screen({ id: 'a', debug })
+      const b = new lab.html.Screen({ id: 'b', debug })
+      const c = new lab.html.Screen({ id: 'c', debug })
+      const d = new lab.html.Screen({ id: 'd', debug })
+
+      // Create an intermediate level
+      const s_nested = new lab.flow.Sequence({
+        id: 's_nested',
+        content: [a, b, c, d],
+        debug,
+      })
+      const t = new lab.html.Screen({ id: 't', debug })
+      const s = new lab.flow.Sequence({
+        id: 's',
+        content: [s_nested, t],
+        debug
+      })
+
+      const jumpTo = async (targetStack) => {
+        await s.internals.controller.jump('jump', { targetStack })
+      }
+
+      // Structure is as follows
+      // ------------- s -------------
+      // - s_nested --   ---- t ------
+      // a - b - c - d
+
+      // Now run a
+      await s.run()
+      assert.equal(s.internals.controller.currentLeaf, a)
+
+      // Jump to b
+      await jumpTo(['s_nested', 'b'])
+      assert.equal(s.internals.controller.currentLeaf, b)
+
+      // Move to c naturally
+      await b.end()
+      assert.equal(s.internals.controller.currentLeaf, c)
+
+      // Jump to the end (t), out of the nested component
+      await jumpTo(['t'])
+      assert.equal(s.internals.controller.currentLeaf, t)
+
+      // Jump back to a (on the same level)
+      await jumpTo(['s_nested', 'a'])
+      assert.equal(s.internals.controller.currentLeaf, a)
+
+      // Jump to the end (t), out of the nested component
+      await jumpTo(['t'])
+      assert.equal(s.internals.controller.currentLeaf, t)
+
+      // Jump backwards again, to b
+      await jumpTo(['s_nested', 'b'])
+      assert.equal(s.internals.controller.currentLeaf, b)
+    })
   })
 })
-
 })
