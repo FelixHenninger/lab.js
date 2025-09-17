@@ -89,7 +89,7 @@ export class Controller<C extends Component = Component> extends Emitter {
 
     // Flip iterator go brrr
     while (!done) {
-      const output = await this.iterator.next([flipData, this.context])
+      const output = await this.iterator.next({flipData, context: this.context})
       const lockPromise = this.lock.acquire()
       done = output.done ?? true
       this.context = output.value.context
@@ -173,10 +173,10 @@ export class Controller<C extends Component = Component> extends Emitter {
           }
         }
 
-        this.context = await this.iterator?.tempSplice(commonStack.length + 1, [
-          {}, // flipData
-          this.context,
-        ])
+        this.context = await this.iterator?.tempSplice(commonStack.length + 1, {
+          flipData: {},
+          context: this.context,
+        })
 
         // Having torn down the larger part of the current component stack,
         // issue a reset to the remaining part.

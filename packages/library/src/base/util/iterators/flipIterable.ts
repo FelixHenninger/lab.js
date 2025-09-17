@@ -34,7 +34,10 @@ type IteratorOutput = {
   stack: Component[]
   context: object
 }
-type IteratorInput = [any, object]
+type IteratorInput = {
+  flipData: any
+  context: object
+}
 
 export interface FlipIterator<T>
   extends AsyncIterator<IteratorOutput, any, IteratorInput> {
@@ -83,7 +86,7 @@ export class FlipIterable {
       initialize: async () => {
         await sliceIterator.initialize()
       },
-      next: async ([flipData, context]: [any, object]) => {
+      next: async ({ flipData, context = {} }: IteratorInput) => {
         // Cancel any outstanding frame requests
         this.renderFrameRequest && cancelAnimationFrame(this.renderFrameRequest)
         this.showFrameRequest && cancelAnimationFrame(this.showFrameRequest)
@@ -195,7 +198,7 @@ export class FlipIterable {
       },
       tempSplice: async (
         level: number,
-        [flipData, context]: [any, object] = [{}, {}],
+        { flipData, context }: IteratorInput = { flipData: {}, context: {} },
       ) => {
         const oldStack = currentStack
         const newStack = currentStack.slice(0, level)
