@@ -1318,6 +1318,69 @@ describe('Core', () => {
       await jumpTo(['s_nested', 'b'])
       assert.equal(s.internals.controller.currentLeaf, b)
     })
+
+    it('can jump from and to tardy components', async () => {
+      const a = new lab.html.Screen({ id: 'a' })
+      const b = new lab.html.Screen({ id: 'b' })
+      const c = new lab.html.Screen({ id: 'c', tardy: true })
+      const d = new lab.html.Screen({ id: 'd' })
+      const e = new lab.html.Screen({ id: 'e', tardy: true })
+
+      const f = new lab.html.Screen({ id: 'f' })
+      const g = new lab.html.Screen({ id: 'g', tardy: true })
+      const h = new lab.html.Screen({ id: 'h' })
+
+      // Create an intermediate level
+      const s_nested_a = new lab.flow.Sequence({ content: [a, b, c, d, e], id: 's_nested_a' })
+      const s_nested_b = new lab.flow.Sequence({ content: [f, g, h], id: 's_nested_b', tardy: true})
+      const t = new lab.html.Screen({ id: 't', tardy: true })
+      const s = new lab.flow.Sequence({ content: [s_nested_a, t, s_nested_b], id: 's' })
+
+      const jumpTo = async (targetStack) => {
+        await s.internals.controller.jump('jump', { targetStack })
+      }
+
+      await s.run()
+      assert.deepEqual(
+        s.internals.controller.currentStack.map(c => c.id),
+        ['s', 's_nested_a', 'a']
+      )
+
+      // Jump to tardy component c
+      assert.equal(c.status, 0)
+      await jumpTo (['s_nested_a', 'c'])
+      assert.deepEqual(
+        s.internals.controller.currentStack.map(c => c.id),
+        ['s', 's_nested_a', 'c']
+      )
+      assert.equal(c.status, 3)
+
+      // Move on to d
+      await c.end()
+      assert.deepEqual(
+        s.internals.controller.currentStack.map(c => c.id),
+        ['s', 's_nested_a', 'd']
+      )
+
+      // Jump into tardy sequence, onto tardy component
+      assert.equal(s_nested_b.status, 0)
+      assert.equal(g.status, 0)
+      await jumpTo(['s_nested_b', 'g'])
+      assert.deepEqual(
+        s.internals.controller.currentStack.map(c => c.id),
+        ['s', 's_nested_b', 'g']
+      )
+      assert.equal(g.status, 3)
+
+      // Jump back into partially run sequence, onto tardy component
+      assert.equal(e.status, 0)
+      await jumpTo (['s_nested_a', 'e'])
+      assert.deepEqual(
+        s.internals.controller.currentStack.map(c => c.id),
+        ['s', 's_nested_a', 'e']
+      )
+      assert.equal(e.status, 3)
+    })
   })
 })
 })

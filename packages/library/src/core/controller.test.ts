@@ -13,6 +13,66 @@ it('can initialize controller', async () => {
   expect(c instanceof Controller).toBeTruthy()
 })
 
+it('can jump from and to tardy components', async () => {
+  const a = new Screen({ id: 'a' })
+  const b = new Screen({ id: 'b' })
+  const c = new Screen({ id: 'c', tardy: true })
+  const d = new Screen({ id: 'd' })
+  const e = new Screen({ id: 'e', tardy: true })
+
+  const f = new Screen({ id: 'f' })
+  const g = new Screen({ id: 'g', tardy: true })
+  const h = new Screen({ id: 'h' })
+
+  // Create an intermediate level
+  const s_nested_a = new Sequence({
+    content: [a, b, c, d, e],
+    id: 's_nested_a',
+  })
+  const s_nested_b = new Sequence({
+    content: [f, g, h],
+    id: 's_nested_b',
+    tardy: true,
+  })
+  const t = new Screen({ id: 't', tardy: true })
+  const s = new Sequence({ content: [s_nested_a, t, s_nested_b], id: 's' })
+
+  const jumpTo = async (targetStack: string[]) => {
+    await s.internals.controller.jump('jump', { targetStack })
+  }
+
+  await s.run()
+  expect(s.internals.controller.currentStack.map(c => c.id)) //
+    .toStrictEqual(['s', 's_nested_a', 'a'])
+
+  // Jump to tardy component c
+  expect(c.status).toEqual(Status.initialized)
+  await jumpTo(['s_nested_a', 'c'])
+  expect(s.internals.controller.currentStack.map(c => c.id)) //
+    .toStrictEqual(['s', 's_nested_a', 'c'])
+  expect(c.status).toEqual(Status.rendered)
+
+  // Move on to d
+  await c.end()
+  expect(s.internals.controller.currentStack.map(c => c.id)) //
+    .toStrictEqual(['s', 's_nested_a', 'd'])
+
+  // Jump into tardy sequence, onto tardy component
+  expect(s_nested_b.status).toEqual(Status.initialized)
+  expect(g.status).toEqual(Status.initialized)
+  await jumpTo(['s_nested_b', 'g'])
+  expect(s.internals.controller.currentStack.map(c => c.id)) //
+    .toStrictEqual(['s', 's_nested_b', 'g'])
+  expect(g.status).toEqual(Status.rendered)
+
+  // Jump back into partially run sequence, onto tardy component
+  expect(e.status).toEqual(Status.initialized)
+  await jumpTo(['s_nested_a', 'e'])
+  expect(s.internals.controller.currentStack.map(c => c.id)) //
+    .toStrictEqual(['s', 's_nested_a', 'e'])
+  expect(e.status).toEqual(Status.rendered)
+})
+
 it('can jump up, jump up and get down', async () => {
   const a = new Screen({ id: 'a' }) // No longer skips
   const b = new Screen({ id: 'b' })
