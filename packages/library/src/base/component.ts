@@ -351,7 +351,17 @@ export class Component {
   private async _reset() {
     this.internals.iterator?.reset()
     await this.#emitter.trigger(EventName.reset)
-    this.status = Status.initialized
+
+    // Reset the component status if it was previously shown (and prepare if
+    // necessary) -- if it is currently being shown, it will be torn down
+    // via the flip logic; if it hasn't been shown yet, it will already be ready.
+    if (this.status >= Status.done) {
+      this.status = Status.initialized
+
+      if (!this.options.tardy) {
+        await this.prepare(false)
+      }
+    }
   }
 
   async reset() {

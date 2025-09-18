@@ -117,9 +117,9 @@ export class FlipIterable {
           // the current and future stacks
           ;({ incoming, outgoing } = resolveFlip(currentStack, nextStack))
 
-          if (restartLeaf && currentStack.length > 0) {
-            //@ts-ignore
-            incoming.unshift(currentStack.pop())
+          const currentLeaf = last(currentStack)
+          if (restartLeaf && currentLeaf!.status < Status.running) {
+            currentLeaf!.status = Status.running
             restartLeaf = false
           }
 
@@ -181,9 +181,9 @@ export class FlipIterable {
               this.showFrameRequest = undefined
             })
             // Treat locks independently so they aren't cancelled
-            window.requestAnimationFrame(t => {
+            //window.requestAnimationFrame(t => {
               cancelled.map(c => c.lock?.({ timestamp: t }))
-            })
+            //})
             this.renderFrameRequest = undefined
           },
         )

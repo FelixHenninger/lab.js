@@ -1,5 +1,5 @@
 import { FlipIterable, FlipIterator } from './util/iterators/flipIterable'
-import { Component } from './component'
+import { Component, Status } from './component'
 import { Lock } from './util/lock'
 import { Emitter } from './util/emitter'
 
@@ -89,7 +89,10 @@ export class Controller<C extends Component = Component> extends Emitter {
 
     // Flip iterator go brrr
     while (!done) {
-      const output = await this.iterator.next({flipData, context: this.context})
+      const output = await this.iterator.next({
+        flipData,
+        context: this.context,
+      })
       const lockPromise = this.lock.acquire()
       done = output.done ?? true
       this.context = output.value.context
@@ -180,11 +183,15 @@ export class Controller<C extends Component = Component> extends Emitter {
 
         // Having torn down the larger part of the current component stack,
         // issue a reset to the remaining part.
+        const last_c = last(this.currentStack)
         //@ts-ignore
-        await last(this.currentStack)?._reset?.()
+        await last_c?._reset?.()
 
         // Don't re-mount the root component
-        if (this.currentStack.length > 1) {
+        if (
+          this.currentStack.length > 1 &&
+          (last_c?.status ?? Status.running) < Status.running
+        ) {
           //@ts-ignore
           this.iterator?.restartLeaf()
         }
