@@ -181,9 +181,11 @@ export class FlipIterable {
               this.showFrameRequest = undefined
             })
             // Treat locks independently so they aren't cancelled
-            //window.requestAnimationFrame(t => {
+            window.requestAnimationFrame(t => {
               cancelled.map(c => c.lock?.({ timestamp: t }))
-            //})
+              // TODO: Lock outgoing
+              //outgoing.map(c => c.lock?.({ timestamp: t }))
+            })
             this.renderFrameRequest = undefined
           },
         )
