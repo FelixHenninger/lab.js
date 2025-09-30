@@ -1261,24 +1261,20 @@ describe('Core', () => {
     })
 
     it('jumps up, jumps up and gets down', async () => {
-      const debug = true
-
-      const a = new lab.html.Screen({ id: 'a', debug })
-      const b = new lab.html.Screen({ id: 'b', debug })
-      const c = new lab.html.Screen({ id: 'c', debug })
-      const d = new lab.html.Screen({ id: 'd', debug })
+      const a = new lab.html.Screen({ id: 'a' })
+      const b = new lab.html.Screen({ id: 'b' })
+      const c = new lab.html.Screen({ id: 'c' })
+      const d = new lab.html.Screen({ id: 'd' })
 
       // Create an intermediate level
       const s_nested = new lab.flow.Sequence({
         id: 's_nested',
         content: [a, b, c, d],
-        debug,
       })
-      const t = new lab.html.Screen({ id: 't', debug })
+      const t = new lab.html.Screen({ id: 't' })
       const s = new lab.flow.Sequence({
         id: 's',
         content: [s_nested, t],
-        debug
       })
 
       const jumpTo = async (targetStack) => {
