@@ -94,6 +94,8 @@ const customLaunchers = {
     deviceOrientation: 'portrait'
   },
   */
+  /*
+  iOS browsers are (temporarily) disabled pending SauceLabs support response
   sl_ios_latest: {
     base: 'SauceLabs',
     browserName: 'Safari',
@@ -110,6 +112,7 @@ const customLaunchers = {
     deviceName: 'iPhone Simulator',
     deviceOrientation: 'portrait'
   },
+  */
 }
 
 module.exports = (config) => {
