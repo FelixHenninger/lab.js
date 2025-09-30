@@ -53,13 +53,13 @@ const customLaunchers = {
   sl_safari_last: {
     base: 'SauceLabs',
     browserName: 'safari',
-    platform: 'macOS 10.15',
+    platform: 'macOS 15',
     version: 'latest',
   },
   sl_safari_latest: {
     base: 'SauceLabs',
     browserName: 'safari',
-    platform: 'macOS 11.00',
+    platform: 'macOS 14',
     version: 'latest',
   },
   // Safari beta is not available (yet?)
@@ -92,20 +92,20 @@ const customLaunchers = {
     deviceOrientation: 'portrait'
   },
   */
-  sl_ios_13: {
+  sl_ios_latest: {
     base: 'SauceLabs',
     browserName: 'Safari',
     platform: 'iOS',
-    version: '13.4',
-    deviceName: 'iPhone 11 Simulator',
+    version: 'current_major',
+    deviceName: 'iPhone Simulator',
     deviceOrientation: 'portrait'
   },
-  sl_ios_14: {
+  sl_ios_last: {
     base: 'SauceLabs',
     browserName: 'Safari',
     platform: 'iOS',
-    version: '14.5',
-    deviceName: 'iPhone 12 Simulator',
+    version: 'previous_major',
+    deviceName: 'iPhone Simulator',
     deviceOrientation: 'portrait'
   },
 }
