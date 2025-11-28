@@ -10,9 +10,9 @@
           "originX": "center",
           "originY": "center",
           "left": 0,
-          "top": 0,
-          "width": 607.2,
-          "height": 36.16,
+          "top": -75,
+          "width": 649.02,
+          "height": 245.89,
           "fill": "black",
           "stroke": null,
           "strokeWidth": 1,
@@ -56,8 +56,8 @@
           "version": "4.3.1",
           "originX": "center",
           "originY": "center",
-          "left": 0,
-          "top": 100,
+          "left": 12,
+          "top": 165,
           "width": 361.06,
           "height": 36.16,
           "fill": "black",
@@ -157,7 +157,7 @@
         }
       ],
       "title": "jsQUEST initialization",
-      "content": "<h1>This is a <a href=\"https://kurokida.github.io/jsQUEST/\">jsQUEST</a> demo.</h1>\r\n<p>Using adaptive psychometric procedures, the experimenter can estimate the threshold efficiently based on the outcome of the preceding trials. <a href=\"https://link.springer.com/article/10.3758/BF03202828\">Watson and Pelli (1983)</a> reported an adaptive psychometric method named as QUEST which uses a Bayesian method. jsQUEST is a translation of the MATLAB-based QUEST into JavaScript for online experiments. </p>\r\n\r\n<h2>Press any key to start.</h2>",
+      "content": "<h1>This is a <a href=\"https://kurokida.github.io/jsQUEST/\">jsQUEST</a> demo.</h1>\r\n<p>Using adaptive psychometric procedures, the experimenter can estimate the threshold efficiently based on the outcome of the preceding trials. <a href=\"https://link.springer.com/article/10.3758/BF03202828\">Watson and Pelli (1983)</a> reported an adaptive psychometric method named QUEST which uses a Bayesian method. jsQUEST is a JavaScript library for the QUEST method. </p>\r\n\r\n<h2>NOTE</h2>\r\n<p><a href=\"https://jov.arvojournals.org/article.aspx?articleid=2611972\">Watson (2017)</a> reported an adaptive psychometric method named QUEST+, which is an extension of QUEST. If you don't have any special reason, we recommend using jsQuestPlus instead of jsQUEST. A template for jsQuestPlus is also available.</p>\r\n\r\n<h2>Press any key to start.</h2>",
       "_tab": "Content"
     },
     "6": {
@@ -362,7 +362,7 @@
           "originY": "center",
           "left": 0,
           "top": -225,
-          "width": 505.05,
+          "width": 590.96,
           "height": 22.6,
           "fill": "black",
           "stroke": null,
@@ -387,7 +387,7 @@
           "globalCompositeOperation": "source-over",
           "skewX": 0,
           "skewY": 0,
-          "text": "The width of the rectangle is calculated by jsQUEST",
+          "text": "The width of the rectangle have been calculated by jsQUEST",
           "fontSize": "20",
           "fontWeight": "normal",
           "fontFamily": "sans-serif",
@@ -707,7 +707,7 @@
         }
       ],
       "title": "Screen",
-      "_tab": "Scripts",
+      "_tab": "Content",
       "tardy": true
     },
     "root": {
@@ -736,7 +736,7 @@
   "version": [
     20,
     2,
-    2
+    4
   ],
   "files": {
     "files": {
