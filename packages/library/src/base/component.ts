@@ -54,7 +54,7 @@ export type ComponentOptions = {
   correctResponse: string
   progressWeight?: number
   plugins?: Plugin[]
-  hooks?: { [N in EventName]: EventHandler }
+  hooks?: { [N in EventName]?: EventHandler }
   data: any
 }
 
