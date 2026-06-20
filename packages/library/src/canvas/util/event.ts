@@ -8,10 +8,14 @@ export const makeProcessEvent =
   ) => {
     // TODO: Split multiple selectors
     if (selector && selector.startsWith('@')) {
-      // Calculate applied pixel ratio
-      const pixelRatio = component.options.devicePixelScaling
-        ? window.devicePixelRatio
-        : 1
+      // Calculate applied pixel ratio. devicePixelScaling defaults to
+      // undefined, which means on (matching dom.ts canvas sizing); only an
+      // explicit `false` disables it. A raw truthiness check would wrongly
+      // treat the default as off, leaving AOI hit-testing unscaled on HiDPI.
+      const pixelRatio =
+        component.options.devicePixelScaling === false
+          ? 1
+          : window.devicePixelRatio
 
       if (['mouseenter', 'mouseleave'].includes(eventName)) {
         const makeCheckFunc = function (initial = true, rising = true) {
