@@ -195,6 +195,9 @@ export class Component {
     // fixed at initialization time; later changes won't be reflected in
     // component behavior at this point
     for (const [e, handler] of Object.entries(this.options.hooks ?? {})) {
+      // Remove first in case prepare runs again (e.g. when a loop repeats),
+      // so hook registrations don't accumulate
+      this.#emitter.off(e as EventName, handler as EventHandler)
       this.#emitter.on(e as EventName, handler as EventHandler)
     }
 

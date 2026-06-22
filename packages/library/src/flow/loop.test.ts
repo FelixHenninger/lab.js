@@ -1,6 +1,7 @@
 import { Component, Dummy } from '../core'
 import { makeController } from '../core/test/helpers'
 import { Loop } from './loop'
+import { Sequence } from './sequence'
 
 import { assignIn } from 'lodash'
 
@@ -297,4 +298,24 @@ it('parses template parameter content', async () => {
     .toEqual('1')
   expect(l.options.content[1].parameters.customParameter) //
     .toEqual('2')
+})
+
+it('does not accumulate hook registrations when prepare runs again', async () => {
+  const spy = jest.fn()
+  // The dummy carries the hook; a trailing plain component renders and
+  // pauses the study so we can rewind it via rerun.
+  const l = new Loop({
+    template: new Sequence({
+      content: [new Dummy({ hooks: { prepare: spy } as any }), new Component()],
+    }),
+    templateParameters: [{ customParameter: 'one' }],
+  })
+
+  await makeController(l).run()
+  // Re-run the loop, which prepares its content a second time
+  await l.internals.controller.jump('rerun', { sender: l })
+
+  // Without removing prior registrations, the hook would fire an extra
+  // time per repetition (twice on the second run, three total)
+  expect(spy).toHaveBeenCalledTimes(2)
 })
